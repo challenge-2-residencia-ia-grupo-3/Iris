@@ -1,12 +1,13 @@
 site_name: "Íris — Plataforma Inteligente de Adaptação Pedagógica"
 site_description: "Documentação oficial do Projeto Íris (Challenge 2 - Residência em IA: UnB / Lab Livre / Eldorado / Softex / MCTI)"
 site_author: "Grupo 3 - Residência em IA"
+site_url: "https://challenge-2-residencia-ia-grupo-3.github.io/iris/"
 
 theme:
   name: material
   language: pt-BR
-  logo: material/eye-circle-outline
-  favicon: material/eye-circle-outline
+  icon:
+    logo: material/eye-circle-outline
   font:
     text: Plus Jakarta Sans
     code: JetBrains Mono
@@ -26,6 +27,8 @@ theme:
   features:
     - navigation.instant
     - navigation.tracking
+    - navigation.tabs          # Barra de navegacao horizontal no topo
+    - navigation.tabs.sticky   # Mantem a barra horizontal visivel ao rolar
     - navigation.sections
     - navigation.expand
     - navigation.top
@@ -71,11 +74,11 @@ extra_javascript:
 
 nav:
   - Início: index.md
-  - Entrega da Semana (Definição): definicao_projeto_entrega.md
+  - Entrega Semanal: definicao_projeto_entrega.md
   - Visão do Produto: visao_produto.md
   - Requisitos:
       - Requisitos Funcionais: requisitos_funcionais.md
       - Requisitos Não Funcionais: requisitos_nao_funcionais.md
-  - Arquitetura & Decisões: arquitetura.md
+  - Arquitetura: arquitetura.md
   - Metodologia CBL: cbl.md
   - Catálogo de Skills: skills.md
