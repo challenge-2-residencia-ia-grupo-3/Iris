@@ -1,0 +1,1537 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação oficial do Projeto Íris (Challenge 2 - Residência em IA: UnB / Lab Livre / Eldorado / Softex / MCTI)">
+      
+      
+        <meta name="author" content="Grupo 3 - Residência em IA">
+      
+      
+        <link rel="canonical" href="https://challenge-2-residencia-ia-grupo-3.github.io/iris/requisitos_funcionais/">
+      
+      
+        <link rel="prev" href="../visao_produto/">
+      
+      
+        <link rel="next" href="../requisitos_nao_funcionais/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Requisitos Funcionais - Íris — Plataforma Inteligente de Adaptação Pedagógica</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#requisitos-funcionais-rf-iris" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-header__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10m0-2a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-9a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m0-3c2.63 0 5 1.57 6 4a6.505 6.505 0 0 1-8.5 3.5A6.52 6.52 0 0 1 6 12c1-2.43 3.37-4 6-4m0 1.5A2.5 2.5 0 0 0 9.5 12a2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 12 9.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Íris — Plataforma Inteligente de Adaptação Pedagógica
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Requisitos Funcionais
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../definicao_projeto_entrega/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Entrega Semanal
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../visao_produto/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Visão do Produto
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Requisitos
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitetura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../cbl/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Metodologia CBL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../skills/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Catálogo de Skills
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-nav__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10m0-2a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-9a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m0-3c2.63 0 5 1.57 6 4a6.505 6.505 0 0 1-8.5 3.5A6.52 6.52 0 0 1 6 12c1-2.43 3.37-4 6-4m0 1.5A2.5 2.5 0 0 0 9.5 12a2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 12 9.5"/></svg>
+
+    </a>
+    Íris — Plataforma Inteligente de Adaptação Pedagógica
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../definicao_projeto_entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrega Semanal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visao_produto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão do Produto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-1-entrada-e-gestao-de-insumos-pedagogicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 1: Entrada e Gestão de Insumos Pedagógicos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 1: Entrada e Gestão de Insumos Pedagógicos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-01-insercao-de-conteudo-pedagogico-via-texto-e-documentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-01: Inserção de Conteúdo Pedagógico via Texto e Documentos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-02-decomposicao-estrutural-automatica-do-material" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-02: Decomposição Estrutural Automática do Material
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-03-entrada-multimodal-de-provas-e-imagens-semana-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-03: Entrada Multimodal de Provas e Imagens (Semana 5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-2-parametrizacao-pedagogica-mapeamento-funcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 2: Parametrização Pedagógica &amp; Mapeamento Funcional
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 2: Parametrização Pedagógica &amp; Mapeamento Funcional">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-04-selecao-modular-de-barreiras-funcionais-observadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-04: Seleção Modular de Barreiras Funcionais Observadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-05-registro-de-potencialidades-e-estilos-de-engajamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-05: Registro de Potencialidades e Estilos de Engajamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-06-extensibilidade-de-catalogos-de-perfis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-06: Extensibilidade de Catálogos de Perfis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-3-calibragem-de-andaimes-e-travas-curriculares" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 3: Calibragem de Andaimes e Travas Curriculares
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 3: Calibragem de Andaimes e Travas Curriculares">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-07-calibragem-do-nivel-de-andaime-cognitivo-scaffolding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-07: Calibragem do Nível de Andaime Cognitivo (Scaffolding)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-08-definicao-explicita-de-travas-curriculares-inegociaveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-08: Definição Explícita de Travas Curriculares Inegociáveis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-09-validador-preventivo-de-perda-cognitiva-anti-muleta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-09: Validador Preventivo de Perda Cognitiva (Anti-Muleta)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-4-motor-de-adaptacao-inteligente-e-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 4: Motor de Adaptação Inteligente e Auditoria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 4: Motor de Adaptação Inteligente e Auditoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-10-recuperacao-de-estrategias-pedagogicas-baseadas-em-evidencias-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-10: Recuperação de Estratégias Pedagógicas Baseadas em Evidências (RAG)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-11-orquestracao-multiagentes-de-adaptacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-11: Orquestração Multiagentes de Adaptação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nivel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-12: Auditoria Automatizada de Preservação Curricular e Nível
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-5-revisao-humana-exportacao-e-portabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 5: Revisão Humana, Exportação e Portabilidade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 5: Revisão Humana, Exportação e Portabilidade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-13-interface-de-revisao-e-edicao-lado-a-lado-human-in-the-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-13: Interface de Revisão e Edição Lado a Lado (Human-in-the-Loop)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-14-exportacao-em-formatos-prontos-para-impressao-e-uso-digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-14: Exportação em Formatos Prontos para Impressão e Uso Digital
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-15-exportacao-e-importacao-do-perfil-pedagogico-portatil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-15: Exportação e Importação do Perfil Pedagógico Portátil
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requisitos_nao_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Não Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cbl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia CBL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-1-entrada-e-gestao-de-insumos-pedagogicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 1: Entrada e Gestão de Insumos Pedagógicos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 1: Entrada e Gestão de Insumos Pedagógicos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-01-insercao-de-conteudo-pedagogico-via-texto-e-documentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-01: Inserção de Conteúdo Pedagógico via Texto e Documentos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-02-decomposicao-estrutural-automatica-do-material" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-02: Decomposição Estrutural Automática do Material
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-03-entrada-multimodal-de-provas-e-imagens-semana-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-03: Entrada Multimodal de Provas e Imagens (Semana 5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-2-parametrizacao-pedagogica-mapeamento-funcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 2: Parametrização Pedagógica &amp; Mapeamento Funcional
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 2: Parametrização Pedagógica &amp; Mapeamento Funcional">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-04-selecao-modular-de-barreiras-funcionais-observadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-04: Seleção Modular de Barreiras Funcionais Observadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-05-registro-de-potencialidades-e-estilos-de-engajamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-05: Registro de Potencialidades e Estilos de Engajamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-06-extensibilidade-de-catalogos-de-perfis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-06: Extensibilidade de Catálogos de Perfis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-3-calibragem-de-andaimes-e-travas-curriculares" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 3: Calibragem de Andaimes e Travas Curriculares
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 3: Calibragem de Andaimes e Travas Curriculares">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-07-calibragem-do-nivel-de-andaime-cognitivo-scaffolding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-07: Calibragem do Nível de Andaime Cognitivo (Scaffolding)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-08-definicao-explicita-de-travas-curriculares-inegociaveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-08: Definição Explícita de Travas Curriculares Inegociáveis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-09-validador-preventivo-de-perda-cognitiva-anti-muleta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-09: Validador Preventivo de Perda Cognitiva (Anti-Muleta)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-4-motor-de-adaptacao-inteligente-e-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 4: Motor de Adaptação Inteligente e Auditoria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 4: Motor de Adaptação Inteligente e Auditoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-10-recuperacao-de-estrategias-pedagogicas-baseadas-em-evidencias-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-10: Recuperação de Estratégias Pedagógicas Baseadas em Evidências (RAG)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-11-orquestracao-multiagentes-de-adaptacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-11: Orquestração Multiagentes de Adaptação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nivel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-12: Auditoria Automatizada de Preservação Curricular e Nível
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulo-5-revisao-humana-exportacao-e-portabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Módulo 5: Revisão Humana, Exportação e Portabilidade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Módulo 5: Revisão Humana, Exportação e Portabilidade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf-13-interface-de-revisao-e-edicao-lado-a-lado-human-in-the-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-13: Interface de Revisão e Edição Lado a Lado (Human-in-the-Loop)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-14-exportacao-em-formatos-prontos-para-impressao-e-uso-digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-14: Exportação em Formatos Prontos para Impressão e Uso Digital
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf-15-exportacao-e-importacao-do-perfil-pedagogico-portatil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF-15: Exportação e Importação do Perfil Pedagógico Portátil
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegação" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Início
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Requisitos
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="requisitos-funcionais-rf-iris">Requisitos Funcionais (RF) — Íris<a class="headerlink" href="#requisitos-funcionais-rf-iris" title="Permanent link">&para;</a></h1>
+<p>Este documento especifica os <strong>Requisitos Funcionais</strong> da plataforma Íris. Em estrita conformidade com as diretrizes do projeto, os requisitos são apresentados em formato de especificação de engenharia de software (entradas, regras de processamento e saídas), sem utilização de histórias de usuário nesta etapa.</p>
+<hr />
+<h2 id="modulo-1-entrada-e-gestao-de-insumos-pedagogicos">Módulo 1: Entrada e Gestão de Insumos Pedagógicos<a class="headerlink" href="#modulo-1-entrada-e-gestao-de-insumos-pedagogicos" title="Permanent link">&para;</a></h2>
+<h3 id="rf-01-insercao-de-conteudo-pedagogico-via-texto-e-documentos">RF-01: Inserção de Conteúdo Pedagógico via Texto e Documentos<a class="headerlink" href="#rf-01-insercao-de-conteudo-pedagogico-via-texto-e-documentos" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve permitir que o professor insira o material didático original (avaliações, listas de exercícios, textos de apoio ou roteiros de aula) por digitação direta em campo de texto ou por upload de arquivos nos formatos <code>.pdf</code>, <code>.docx</code> e <code>.txt</code>.</li>
+<li><strong>Entradas:</strong> Texto livre ou arquivo digital contendo questões, enunciados e textos-base.</li>
+<li><strong>Processamento:</strong></li>
+<li>Extração do texto bruto e sanitização de formatação indesejada.</li>
+<li>Validação do tamanho do texto (mínimo de 50 caracteres e limite seguro de tokens da janela de contexto).</li>
+<li><strong>Saída:</strong> Objeto estruturado em memória contendo o material pedagógico bruto.</li>
+</ul>
+<h3 id="rf-02-decomposicao-estrutural-automatica-do-material">RF-02: Decomposição Estrutural Automática do Material<a class="headerlink" href="#rf-02-decomposicao-estrutural-automatica-do-material" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve identificar e segmentar deterministicamente os componentes estruturais da atividade pedagógica submetida.</li>
+<li><strong>Entradas:</strong> Texto do material validado no RF-01.</li>
+<li><strong>Processamento:</strong></li>
+<li>Identificação de cabeçalhos contextuais, textos de apoio/leitura obrigatória.</li>
+<li>Isolamento de cada questão individual, segmentando enunciado, alternativas (quando múltipla escolha) e linhas de resposta esperadas.</li>
+<li><strong>Saída:</strong> Estrutura de dados hierárquica dividida em blocos de conteúdo e questões isoladas.</li>
+</ul>
+<h3 id="rf-03-entrada-multimodal-de-provas-e-imagens-semana-5">RF-03: Entrada Multimodal de Provas e Imagens (Semana 5)<a class="headerlink" href="#rf-03-entrada-multimodal-de-provas-e-imagens-semana-5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve permitir o upload de fotos ou digitalizações de materiais impressos e imagens auxiliares associadas às questões.</li>
+<li><strong>Entradas:</strong> Arquivos de imagem (<code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>).</li>
+<li><strong>Processamento:</strong></li>
+<li>Execução de pipeline OCR/Visão Computacional para transcrição fidedigna do texto.</li>
+<li>Análise da imagem associada para identificar densidade de informação e potencial poluição visual.</li>
+<li><strong>Saída:</strong> Texto transcrito integrado à decomposição estrutural e indicadores de poluição visual.</li>
+</ul>
+<hr />
+<h2 id="modulo-2-parametrizacao-pedagogica-mapeamento-funcional">Módulo 2: Parametrização Pedagógica &amp; Mapeamento Funcional<a class="headerlink" href="#modulo-2-parametrizacao-pedagogica-mapeamento-funcional" title="Permanent link">&para;</a></h2>
+<h3 id="rf-04-selecao-modular-de-barreiras-funcionais-observadas">RF-04: Seleção Modular de Barreiras Funcionais Observadas<a class="headerlink" href="#rf-04-selecao-modular-de-barreiras-funcionais-observadas" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve fornecer uma interface de seleção baseada em barreiras funcionais executivas observadas em sala de aula, impedindo o tratamento homogêneo do diagnóstico de TDAH.</li>
+<li><strong>Entradas:</strong> Seleção do professor sobre o catálogo modular de barreiras.</li>
+<li><strong>Processamento:</strong></li>
+<li>Carregamento do catálogo oficial de barreiras funcionais (<code>tdah_barreiras_funcionais.json</code>).</li>
+<li>Registro das opções selecionadas (ex.: <em>Atenção sustentada a textos longos</em>, <em>Sobrecarga de memória de trabalho</em>, <em>Iniciação/organização sequencial de respostas</em>, <em>Vulnerabilidade a poluição visual</em>).</li>
+<li><strong>Saída:</strong> Vetor de restrições funcionais associado à sessão atual de adaptação.</li>
+</ul>
+<h3 id="rf-05-registro-de-potencialidades-e-estilos-de-engajamento">RF-05: Registro de Potencialidades e Estilos de Engajamento<a class="headerlink" href="#rf-05-registro-de-potencialidades-e-estilos-de-engajamento" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve coletar as potencialidades, interesses temáticos e canais preferenciais de demonstração de conhecimento do aluno para orientar a contextualização da adaptação.</li>
+<li><strong>Entradas:</strong> Campos de seleção e texto livre (ex.: interesse em ciências práticas, preferência por esquemas visuais, narrativa histórica).</li>
+<li><strong>Processamento:</strong></li>
+<li>Associação das potencialidades às diretrizes do Princípio I do DUA (Múltiplas Formas de Engajamento).</li>
+<li><strong>Saída:</strong> Metadados de potencialidades anexados ao perfil da sessão.</li>
+</ul>
+<h3 id="rf-06-extensibilidade-de-catalogos-de-perfis">RF-06: Extensibilidade de Catálogos de Perfis<a class="headerlink" href="#rf-06-extensibilidade-de-catalogos-de-perfis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> A arquitetura do sistema deve permitir a inclusão de novos catálogos de barreiras funcionais (para futura expansão: Dislexia, Discalculia, TEA) por meio de esquemas padronizados em JSON/YAML, sem necessidade de alteração no núcleo do código.</li>
+<li><strong>Entradas:</strong> Arquivo de definição de perfil com metadados científicos e mapeamento de barreiras.</li>
+<li><strong>Processamento:</strong></li>
+<li>Validação do schema contra o modelo Pydantic do catálogo de perfis.</li>
+<li>Disponibilização imediata das novas barreiras na interface de seleção.</li>
+<li><strong>Saída:</strong> Catálogo validado e registrado no pool de perfis do sistema.</li>
+</ul>
+<hr />
+<h2 id="modulo-3-calibragem-de-andaimes-e-travas-curriculares">Módulo 3: Calibragem de Andaimes e Travas Curriculares<a class="headerlink" href="#modulo-3-calibragem-de-andaimes-e-travas-curriculares" title="Permanent link">&para;</a></h2>
+<h3 id="rf-07-calibragem-do-nivel-de-andaime-cognitivo-scaffolding">RF-07: Calibragem do Nível de Andaime Cognitivo (<em>Scaffolding</em>)<a class="headerlink" href="#rf-07-calibragem-do-nivel-de-andaime-cognitivo-scaffolding" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve permitir que o professor selecione a intensidade de suporte necessária para a atividade entre três níveis pré-estabelecidos.</li>
+<li><strong>Entradas:</strong> Seleção de nível (Nível 1 — Leve, Nível 2 — Moderado, Nível 3 — Intensivo).</li>
+<li><strong>Processamento:</strong></li>
+<li>Configuração dos parâmetros de transformação conforme as regras de negócio:<ul>
+<li><strong>Nível 1 (Leve):</strong> Reestruturação tipográfica, espaçamento generoso, destaque em negrito de palavras de comando e vocabulário-chave. Preserva 100% da estrutura frasal original.</li>
+<li><strong>Nível 2 (Moderado):</strong> <em>Chunking</em> de parágrafos extensos, divisão do enunciado em <em>checklists</em> de execução passo a passo, inserção de caixas de apoio conceitual.</li>
+<li><strong>Nível 3 (Intensivo):</strong> Decomposição da questão em sub-etapas com checagem intermediária, indicação de pausas estratégicas de autorregulação e organizadores visuais gráficos.</li>
+</ul>
+</li>
+<li><strong>Saída:</strong> Diretiva de transformação de andaime atribuída ao pipeline da sessão.</li>
+</ul>
+<h3 id="rf-08-definicao-explicita-de-travas-curriculares-inegociaveis">RF-08: Definição Explícita de Travas Curriculares Inegociáveis<a class="headerlink" href="#rf-08-definicao-explicita-de-travas-curriculares-inegociaveis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve exigir ou capturar do professor quais habilidades curriculares, conceitos e objetivos avaliativos não podem sofrer qualquer redução de rigor cognitivo.</li>
+<li><strong>Entradas:</strong> Campo de texto estruturado ou seleção de códigos da BNCC e conceitos inegociáveis (ex.: <em>"Avalia a capacidade de deduzir o conceito de fotossíntese a partir do experimento"</em>).</li>
+<li><strong>Processamento:</strong></li>
+<li>Extração dos conceitos-chave da trava curricular.</li>
+<li>Geração de invariantes de avaliação para envio ao Agente Auditor.</li>
+<li><strong>Saída:</strong> Lista de invariantes curriculares inalteráveis.</li>
+</ul>
+<h3 id="rf-09-validador-preventivo-de-perda-cognitiva-anti-muleta">RF-09: Validador Preventivo de Perda Cognitiva (<em>Anti-Muleta</em>)<a class="headerlink" href="#rf-09-validador-preventivo-de-perda-cognitiva-anti-muleta" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve verificar preventivamente se a trava curricular definida entra em conflito com o nível de andaime selecionado (ex.: pedir Nível 3 com remoção de interpretação numa questão cuja trava é interpretação de texto).</li>
+<li><strong>Entradas:</strong> Nível de andaime e declaração da trava curricular.</li>
+<li><strong>Processamento:</strong></li>
+<li>Execução de regras de verificação lógica de incompatibilidade pedagógica.</li>
+<li>Emissão de alerta ao professor caso o andaime pretendido ameace o objetivo avaliado.</li>
+<li><strong>Saída:</strong> Liberação do fluxo ou alerta orientador com sugestão de calibração.</li>
+</ul>
+<hr />
+<h2 id="modulo-4-motor-de-adaptacao-inteligente-e-auditoria">Módulo 4: Motor de Adaptação Inteligente e Auditoria<a class="headerlink" href="#modulo-4-motor-de-adaptacao-inteligente-e-auditoria" title="Permanent link">&para;</a></h2>
+<h3 id="rf-10-recuperacao-de-estrategias-pedagogicas-baseadas-em-evidencias-rag">RF-10: Recuperação de Estratégias Pedagógicas Baseadas em Evidências (RAG)<a class="headerlink" href="#rf-10-recuperacao-de-estrategias-pedagogicas-baseadas-em-evidencias-rag" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve consultar uma base de conhecimento vetorial indexada contendo referenciais do DUA, diretrizes do MEC e literatura científica sobre Funções Executivas no TDAH, recuperando apenas estratégias validadas para as barreiras selecionadas.</li>
+<li><strong>Entradas:</strong> Vetor de barreiras funcionais + Nível de andaime + Tipo de questão.</li>
+<li><strong>Processamento:</strong></li>
+<li>Geração de embedding da consulta de parametrização.</li>
+<li>Busca semântica e filtragem por metadados na base vetorial.</li>
+<li>Recuperação de trechos normativos e orientações práticas de adaptação com citações da fonte.</li>
+<li><strong>Saída:</strong> Contexto de evidências científicas anexado ao prompt de adaptação.</li>
+</ul>
+<h3 id="rf-11-orquestracao-multiagentes-de-adaptacao">RF-11: Orquestração Multiagentes de Adaptação<a class="headerlink" href="#rf-11-orquestracao-multiagentes-de-adaptacao" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> A geração da adaptação deve ser dividida entre agentes de IA com responsabilidades segregadas, executados em sequência coordenada:</li>
+<li><strong>Agente Extrator Curricular:</strong> Isola os conceitos centrais e objetivos da questão.</li>
+<li><strong>Agente Estrategista RAG:</strong> Seleciona as intervenções pedagógicas adequadas à barreira funcional e nível.</li>
+<li><strong>Agente Adaptador:</strong> Reescreve e formata o material aplicando os andaimes aprovados.</li>
+<li><strong>Agente Auditor:</strong> Realiza a conferência de qualidade e fidelidade antes da entrega ao professor.</li>
+<li><strong>Entradas:</strong> Material estruturado, barreiras, travas e contexto RAG recuperado.</li>
+<li><strong>Processamento:</strong> Execução ordenada do pipeline com passagem de estado em memória.</li>
+<li><strong>Saída:</strong> Versão adaptada acompanhada das justificativas técnicas de cada alteração.</li>
+</ul>
+<h3 id="rf-12-auditoria-automatizada-de-preservacao-curricular-e-nivel">RF-12: Auditoria Automatizada de Preservação Curricular e Nível<a class="headerlink" href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nivel" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O Agente Auditor deve submeter o material gerado a um crivo rigoroso antes de exibi-lo ao professor.</li>
+<li><strong>Entradas:</strong> Material original, material adaptado, travas curriculares e nível solicitado.</li>
+<li><strong>Processamento:</strong></li>
+<li>Cálculo determinístico da Taxa de Retenção de Conceitos-Chave (TRCC).</li>
+<li>Verificação de conformidade estrutural com as regras do nível solicitado (SAEN).</li>
+<li>Detecção de resoluções indevidas (verificar se a IA respondeu à pergunta no próprio enunciado).</li>
+<li>Disparo de auto-correção (<em>self-refinement</em>) pelo Agente Adaptador se <span class="arithmatex">\(\text{TRCC} &lt; 95\%\)</span>.</li>
+<li><strong>Saída:</strong> Relatório de auditoria (Aprovado ou Refinado com métricas de validação).</li>
+</ul>
+<hr />
+<h2 id="modulo-5-revisao-humana-exportacao-e-portabilidade">Módulo 5: Revisão Humana, Exportação e Portabilidade<a class="headerlink" href="#modulo-5-revisao-humana-exportacao-e-portabilidade" title="Permanent link">&para;</a></h2>
+<h3 id="rf-13-interface-de-revisao-e-edicao-lado-a-lado-human-in-the-loop">RF-13: Interface de Revisão e Edição Lado a Lado (<em>Human-in-the-Loop</em>)<a class="headerlink" href="#rf-13-interface-de-revisao-e-edicao-lado-a-lado-human-in-the-loop" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve apresentar ao professor uma interface comparativa dividida em duas colunas: à esquerda o material original e à direita a versão adaptada sugerida, permitindo edição direta pelo docente.</li>
+<li><strong>Entradas:</strong> Material original e material adaptado auditado.</li>
+<li><strong>Processamento:</strong></li>
+<li>Alinhamento síncrono das questões correspondentes nas duas colunas.</li>
+<li>Exibição de painel retrátil de justificativas pedagógicas vinculadas a cada alteração (indicando qual barreira e qual referência científica justificou a intervenção).</li>
+<li>Habilitação de campos de texto editáveis para que o professor faça ajustes manuais finais.</li>
+<li><strong>Saída:</strong> Material didático final revisado e homologado pelo professor.</li>
+</ul>
+<h3 id="rf-14-exportacao-em-formatos-prontos-para-impressao-e-uso-digital">RF-14: Exportação em Formatos Prontos para Impressão e Uso Digital<a class="headerlink" href="#rf-14-exportacao-em-formatos-prontos-para-impressao-e-uso-digital" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve exportar a versão final aprovada em formatos diretamente aplicáveis na rotina escolar.</li>
+<li><strong>Entradas:</strong> Material adaptado aprovado pelo professor.</li>
+<li><strong>Processamento:</strong></li>
+<li>Compilação para formato <code>.pdf</code> diagramado com tipografia amigável (fontes sem serifa, espaçamento entre linhas de 1,5, caixas delimitadoras de questões).</li>
+<li>Opção de exportação em <code>.docx</code> para edições futuras pelo professor.</li>
+<li><strong>Saída:</strong> Arquivo compilado disponibilizado para download imediato.</li>
+</ul>
+<h3 id="rf-15-exportacao-e-importacao-do-perfil-pedagogico-portatil">RF-15: Exportação e Importação do Perfil Pedagógico Portátil<a class="headerlink" href="#rf-15-exportacao-e-importacao-do-perfil-pedagogico-portatil" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Descrição:</strong> O sistema deve permitir gerar e consumir localmente o Perfil Pedagógico Portátil do estudante, garantindo continuidade pedagógica sem armazenamento centralizado.</li>
+<li><strong>Entradas:</strong> Registros da sessão (código anônimo, barreiras observadas, histórico de estratégias eficazes/ineficazes e anotações pedagógicas).</li>
+<li><strong>Processamento:</strong></li>
+<li>Geração de arquivo estruturado <code>.json</code> para reimportação em sessões futuras na plataforma.</li>
+<li>Geração de documento <code>.pdf</code> de síntese pedagógica para arquivamento no dossiê escolar do estudante.</li>
+<li>Parsing e validação de schema na reimportação de arquivo <code>.json</code> existente.</li>
+<li><strong>Saída:</strong> Arquivo de perfil portátil baixado localmente ou perfil recarregado na sessão.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.tabs.link", "content.action.view"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

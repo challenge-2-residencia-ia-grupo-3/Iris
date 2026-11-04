@@ -1,0 +1,1483 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação oficial do Projeto Íris (Challenge 2 - Residência em IA: UnB / Lab Livre / Eldorado / Softex / MCTI)">
+      
+      
+        <meta name="author" content="Grupo 3 - Residência em IA">
+      
+      
+        <link rel="canonical" href="https://challenge-2-residencia-ia-grupo-3.github.io/iris/cbl/">
+      
+      
+        <link rel="prev" href="../arquitetura/">
+      
+      
+        <link rel="next" href="../skills/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Metodologia CBL - Íris — Plataforma Inteligente de Adaptação Pedagógica</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#metodologia-cbl-challenge-2" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-header__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10m0-2a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-9a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m0-3c2.63 0 5 1.57 6 4a6.505 6.505 0 0 1-8.5 3.5A6.52 6.52 0 0 1 6 12c1-2.43 3.37-4 6-4m0 1.5A2.5 2.5 0 0 0 9.5 12a2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 12 9.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Íris — Plataforma Inteligente de Adaptação Pedagógica
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Metodologia CBL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../definicao_projeto_entrega/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Entrega Semanal
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../visao_produto/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Visão do Produto
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../requisitos_funcionais/" class="md-tabs__link">
+          
+  
+  
+  Requisitos
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitetura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Metodologia CBL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../skills/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Catálogo de Skills
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-nav__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10m0-2a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-9a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m0-3c2.63 0 5 1.57 6 4a6.505 6.505 0 0 1-8.5 3.5A6.52 6.52 0 0 1 6 12c1-2.43 3.37-4 6-4m0 1.5A2.5 2.5 0 0 0 9.5 12a2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 12 9.5"/></svg>
+
+    </a>
+    Íris — Plataforma Inteligente de Adaptação Pedagógica
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../definicao_projeto_entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrega Semanal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visao_produto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão do Produto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requisitos_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requisitos_nao_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Não Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia CBL
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia CBL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-concepcao-cbl-semana-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Concepção CBL (Semana 1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Concepção CBL (Semana 1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#big-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Big Idea
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#essential-question-pergunta-essencial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Essential Question (Pergunta Essencial)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contexto-e-formulacao-do-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contexto e Formulação do Problema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impactos-principais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impactos Principais
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-guiding-questions-perguntas-norteadoras-e-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Guiding Questions (Perguntas Norteadoras e Diagnóstico)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Guiding Questions (Perguntas Norteadoras e Diagnóstico)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-quais-etapas-da-adaptacao-de-materiais-consomem-mais-tempo-dos-professores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Quais etapas da adaptação de materiais consomem mais tempo dos professores?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-como-transformar-as-dificuldades-de-aprendizagem-em-criterios-de-adaptacao-sem-exigir-laudos-clinicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Como transformar as dificuldades de aprendizagem em critérios de adaptação sem exigir laudos clínicos?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-como-simplificar-o-material-sem-prejudicar-o-conteudo-curricular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Como simplificar o material sem prejudicar o conteúdo curricular?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-como-definir-o-nivel-de-ajuda-adequado-para-cada-atividade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Como definir o nível de ajuda adequado para cada atividade?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-mapeamento-de-stakeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Mapeamento de Stakeholders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-premissas-e-matriz-de-riscos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Premissas e Matriz de Riscos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Premissas e Matriz de Riscos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-premissas-do-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Premissas do Projeto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-matriz-de-riscos-e-mitigacoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Matriz de Riscos e Mitigações
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-indicadores-e-metricas-de-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Indicadores e Métricas de Sucesso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Indicadores e Métricas de Sucesso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metricas-de-negocio-e-impacto-docente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métricas de Negócio e Impacto Docente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metricas-tecnicas-de-ia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métricas Técnicas de IA
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-roadmap-de-7-semanas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Roadmap de 7 Semanas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-concepcao-cbl-semana-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Concepção CBL (Semana 1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Concepção CBL (Semana 1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#big-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Big Idea
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#essential-question-pergunta-essencial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Essential Question (Pergunta Essencial)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contexto-e-formulacao-do-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contexto e Formulação do Problema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impactos-principais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Impactos Principais
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-guiding-questions-perguntas-norteadoras-e-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Guiding Questions (Perguntas Norteadoras e Diagnóstico)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Guiding Questions (Perguntas Norteadoras e Diagnóstico)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-quais-etapas-da-adaptacao-de-materiais-consomem-mais-tempo-dos-professores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Quais etapas da adaptação de materiais consomem mais tempo dos professores?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-como-transformar-as-dificuldades-de-aprendizagem-em-criterios-de-adaptacao-sem-exigir-laudos-clinicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Como transformar as dificuldades de aprendizagem em critérios de adaptação sem exigir laudos clínicos?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-como-simplificar-o-material-sem-prejudicar-o-conteudo-curricular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Como simplificar o material sem prejudicar o conteúdo curricular?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-como-definir-o-nivel-de-ajuda-adequado-para-cada-atividade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Como definir o nível de ajuda adequado para cada atividade?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-mapeamento-de-stakeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Mapeamento de Stakeholders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-premissas-e-matriz-de-riscos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Premissas e Matriz de Riscos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Premissas e Matriz de Riscos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-premissas-do-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Premissas do Projeto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-matriz-de-riscos-e-mitigacoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Matriz de Riscos e Mitigações
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-indicadores-e-metricas-de-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Indicadores e Métricas de Sucesso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Indicadores e Métricas de Sucesso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metricas-de-negocio-e-impacto-docente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métricas de Negócio e Impacto Docente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metricas-tecnicas-de-ia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métricas Técnicas de IA
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-roadmap-de-7-semanas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Roadmap de 7 Semanas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="metodologia-cbl-challenge-2">Metodologia CBL — Challenge 2<a class="headerlink" href="#metodologia-cbl-challenge-2" title="Permanent link">&para;</a></h1>
+<p>O projeto <strong>Íris</strong> é desenvolvido no âmbito da <strong>Residência em IA (UnB / Lab Livre / Eldorado / Softex / MCTI)</strong>, orientado pelo framework pedagógico <strong>Challenge Based Learning (CBL)</strong>.</p>
+<hr />
+<h2 id="1-concepcao-cbl-semana-1">1. Concepção CBL (Semana 1)<a class="headerlink" href="#1-concepcao-cbl-semana-1" title="Permanent link">&para;</a></h2>
+<h3 id="big-idea">Big Idea<a class="headerlink" href="#big-idea" title="Permanent link">&para;</a></h3>
+<p><strong>Qualidade de Vida</strong>  </p>
+<blockquote>
+<p><em>"Empoderando pessoas com IA para compreender melhor, decidir melhor e viver melhor."</em></p>
+</blockquote>
+<h3 id="essential-question-pergunta-essencial">Essential Question (Pergunta Essencial)<a class="headerlink" href="#essential-question-pergunta-essencial" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><em>"Como podemos ajudar professores a adaptar materiais didáticos para alunos com diferentes necessidades de aprendizagem, reduzindo o trabalho docente sem prejudicar o aprendizado?"</em></p>
+</blockquote>
+<h3 id="contexto-e-formulacao-do-problema">Contexto e Formulação do Problema<a class="headerlink" href="#contexto-e-formulacao-do-problema" title="Permanent link">&para;</a></h3>
+<p>Professores encontram-se sobrecarregados com demandas burocráticas, aulas e correções, sem tempo hábil para planejar e elaborar versões customizadas de materiais didáticos para estudantes com perfis atípicos de aprendizagem (com foco prioritário no <strong>TDAH</strong> e arquitetura modular preparada para expansão em <strong>TEA</strong> e <strong>Dislexia</strong>). Como consequência:</p>
+<ul>
+<li><strong>Acompanhamento comprometido:</strong> O professor tem dificuldade de manter o ritmo coletivo da turma e, simultaneamente, oferecer a atenção individualizada demandada pelo aluno neurodivergente.</li>
+<li><strong>Sobrecarga cognitiva do aluno:</strong> Estudantes enfrentam enunciados excessivamente longos, estruturas textuais densas e carência de apoios visuais ou escalonamento de instruções.</li>
+<li><strong>Prejuízo educacional:</strong> O estudante atípico tem seu aprendizado bloqueado pela barreira de acessibilidade e pelo formato da atividade, não por falta de capacidade intelectual.</li>
+</ul>
+<h3 id="impactos-principais">Impactos Principais<a class="headerlink" href="#impactos-principais" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Sobrecarga docente:</strong> Gargalo operacional no trabalho manual de reescrita, síntese, diagramação e busca avulsa de adaptações.</li>
+<li><strong>Risco de desmotivação:</strong> Estudantes neurodivergentes sentem-se frustrados ou expostos diante de materiais inacessíveis ou de simplificações infantilizadas (<em>efeito muleta</em>).</li>
+<li><strong>Insegurança curricular:</strong> Dificuldade docente em flexibilizar enunciados mantendo o rigor conceitual exigido pelas matrizes curriculares e competências da BNCC.</li>
+</ul>
+<hr />
+<h2 id="2-guiding-questions-perguntas-norteadoras-e-diagnostico">2. Guiding Questions (Perguntas Norteadoras e Diagnóstico)<a class="headerlink" href="#2-guiding-questions-perguntas-norteadoras-e-diagnostico" title="Permanent link">&para;</a></h2>
+<h3 id="1-quais-etapas-da-adaptacao-de-materiais-consomem-mais-tempo-dos-professores">1. Quais etapas da adaptação de materiais consomem mais tempo dos professores?<a class="headerlink" href="#1-quais-etapas-da-adaptacao-de-materiais-consomem-mais-tempo-dos-professores" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Diagnóstico e resposta:</strong> Identificar as dificuldades dos alunos, reescrever textos extensos, estruturar instruções por etapas, buscar recursos visuais e revisar para garantir que o rigor conceitual não foi perdido.</li>
+</ul>
+<h3 id="2-como-transformar-as-dificuldades-de-aprendizagem-em-criterios-de-adaptacao-sem-exigir-laudos-clinicos">2. Como transformar as dificuldades de aprendizagem em critérios de adaptação sem exigir laudos clínicos?<a class="headerlink" href="#2-como-transformar-as-dificuldades-de-aprendizagem-em-criterios-de-adaptacao-sem-exigir-laudos-clinicos" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Diagnóstico e resposta:</strong> Oferecer filtros funcionais e pedagógicos diretamente ligados a necessidades práticas (textos mais curtos, linguagem simplificada, passos sequenciais, recursos visuais e destaque de palavras-chave), sem burocracia médica.</li>
+</ul>
+<h3 id="3-como-simplificar-o-material-sem-prejudicar-o-conteudo-curricular">3. Como simplificar o material sem prejudicar o conteúdo curricular?<a class="headerlink" href="#3-como-simplificar-o-material-sem-prejudicar-o-conteudo-curricular" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Diagnóstico e resposta:</strong> Preservar rigorosamente os conceitos essenciais e os objetivos da atividade (por meio de Travas Curriculares), transformando exclusivamente a carga de leitura, a diagramação e a estratégia de explicação dos conteúdos.</li>
+</ul>
+<h3 id="4-como-definir-o-nivel-de-ajuda-adequado-para-cada-atividade">4. Como definir o nível de ajuda adequado para cada atividade?<a class="headerlink" href="#4-como-definir-o-nivel-de-ajuda-adequado-para-cada-atividade" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Diagnóstico e resposta:</strong> Permitir que o professor calibre o suporte entre adaptações leves, moderadas ou intensivas (andaimes cognitivos em 3 níveis), preservando sua autonomia conforme a necessidade pedagógica e a meta da aula.</li>
+</ul>
+<hr />
+<h2 id="3-mapeamento-de-stakeholders">3. Mapeamento de Stakeholders<a class="headerlink" href="#3-mapeamento-de-stakeholders" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Stakeholder</th>
+<th style="text-align: left;">Papel no Ecossistema</th>
+<th style="text-align: left;">Interesses e Necessidades</th>
+<th style="text-align: left;">Influência / Impacto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Professores Regentes</strong></td>
+<td style="text-align: left;">Usuários primários da solução</td>
+<td style="text-align: left;">Economizar tempo hábil, preservar a autonomia pedagógica e gerar materiais inclusivos com rapidez.</td>
+<td style="text-align: left;">Alta / Alto</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Alunos Neurodivergentes</strong></td>
+<td style="text-align: left;">Beneficiários finais diretos</td>
+<td style="text-align: left;">Receber materiais didáticos claros, acessíveis, sem sobrecarga cognitiva e em paridade com a turma.</td>
+<td style="text-align: left;">Alta / Alto</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Equipe de AEE / Salas de Recursos</strong></td>
+<td style="text-align: left;">Co-avaliadores pedagógicos</td>
+<td style="text-align: left;">Validar critérios técnicos de acessibilidade e alinhar práticas ao Plano de Desenvolvimento Individual (PDI).</td>
+<td style="text-align: left;">Média / Alto</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Coordenação Pedagógica e Direção</strong></td>
+<td style="text-align: left;">Gestão educacional</td>
+<td style="text-align: left;">Garantir equidade no processo de ensino, cumprimento legal das diretrizes de inclusão e desempenho.</td>
+<td style="text-align: left;">Alta / Médio</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Famílias dos Estudantes</strong></td>
+<td style="text-align: left;">Comunidade escolar</td>
+<td style="text-align: left;">Assegurar que o estudante receba estímulo pedagógico digno, sem exclusão ou desamparo acadêmico.</td>
+<td style="text-align: left;">Média / Médio</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Equipe Técnica e IA</strong></td>
+<td style="text-align: left;">Desenvolvimento do produto</td>
+<td style="text-align: left;">Entregar interface intuitiva, tempos rápidos de resposta, conformidade estrita com a LGPD e precisão nos prompts.</td>
+<td style="text-align: left;">Alta / Médio</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-premissas-e-matriz-de-riscos">4. Premissas e Matriz de Riscos<a class="headerlink" href="#4-premissas-e-matriz-de-riscos" title="Permanent link">&para;</a></h2>
+<h3 id="41-premissas-do-projeto">4.1. Premissas do Projeto<a class="headerlink" href="#41-premissas-do-projeto" title="Permanent link">&para;</a></h3>
+<ol>
+<li>O professor possui o material curricular original em formato de texto digital ou passível de cópia/digitalização.</li>
+<li>A tomada de decisão final é sempre humana: a IA atua como copiloto de apoio, mantendo o professor como mediador e autoridade pedagógica (<em>Human-in-the-Loop</em>).</li>
+<li>Os professores possuem capacidade de observação empírica para mapear barreiras de aprendizado dos alunos sem depender exclusivamente de diagnósticos clínicos formais.</li>
+<li>Modelos de linguagem modernos (LLMs) possuem capacidade semântica para reestruturar sintaxe e diagramação sem comprometer a precisão dos conteúdos conceituais, desde que guiados por RAG e travas curriculares.</li>
+</ol>
+<h3 id="42-matriz-de-riscos-e-mitigacoes">4.2. Matriz de Riscos e Mitigações<a class="headerlink" href="#42-matriz-de-riscos-e-mitigacoes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Risco Identificado</th>
+<th style="text-align: center;">Probabilidade</th>
+<th style="text-align: center;">Impacto</th>
+<th style="text-align: left;">Estratégia de Mitigação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Alucinação ou simplificação excessiva do conteúdo curricular</strong></td>
+<td style="text-align: center;">Média</td>
+<td style="text-align: center;">Alto</td>
+<td style="text-align: left;">Arquitetura de prompts estruturada com few-shot learning, ancoragem RAG em literatura confiável (DUA/MEC), Travas Curriculares inegociáveis e auditoria automatizada de TRCC.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Resistência ou desconfiança docente quanto ao uso de IA</strong></td>
+<td style="text-align: center;">Alta</td>
+<td style="text-align: center;">Médio</td>
+<td style="text-align: left;">Transparência algorítmica: exibição clara da justificativa pedagógica de cada adaptação, interface lado a lado para revisão livre e posicionamento da ferramenta como copiloto do professor.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Limitações técnicas e escassez de infraestrutura na escola</strong></td>
+<td style="text-align: center;">Média</td>
+<td style="text-align: center;">Alto</td>
+<td style="text-align: left;">Layout de exportação econômico para impressão (tons de cinza, padrão A4, sem preenchimentos densos de tinta), processamento em nuvem e interface compatível com dispositivos móveis.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Vazamento ou armazenamento indevido de dados de estudantes</strong></td>
+<td style="text-align: center;">Baixa</td>
+<td style="text-align: center;">Crítico</td>
+<td style="text-align: left;">Arquitetura estritamente <em>stateless</em> (<em>Zero-Database</em> de alunos); detector local de PII; nenhuma informação cadastral ou histórico médico do aluno é requisitado ou registrado.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-indicadores-e-metricas-de-sucesso">5. Indicadores e Métricas de Sucesso<a class="headerlink" href="#5-indicadores-e-metricas-de-sucesso" title="Permanent link">&para;</a></h2>
+<h3 id="metricas-de-negocio-e-impacto-docente">Métricas de Negócio e Impacto Docente<a class="headerlink" href="#metricas-de-negocio-e-impacto-docente" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Redução de tempo docente:</strong> Redução mínima de <strong>60%</strong> no tempo despendido pelos professores no preparo e formatação de avaliações adaptadas, medido em testes controlados pré e pós-adoção.</li>
+<li><strong>Taxa de aceitação e confiabilidade:</strong> Mais de <strong>80%</strong> das sugestões de adaptação geradas pelo copiloto mantidas ou aproveitadas pelos professores com ajustes mínimos, demonstrando alta assertividade pedagógica.</li>
+<li><strong>Engajamento e autonomia do aluno:</strong> Índice favorável superior a <strong>75%</strong> nos relatos de professores sobre melhora na autonomia, concentração e resolução autônoma das atividades pelos estudantes beneficiados.</li>
+</ul>
+<h3 id="metricas-tecnicas-de-ia">Métricas Técnicas de IA<a class="headerlink" href="#metricas-tecnicas-de-ia" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Taxa de Retenção de Conceitos-Chave (TRCC):</strong> <span class="arithmatex">\(\ge 95\%\)</span> dos conceitos da trava curricular preservados.</li>
+<li><strong>Índice de Facilidade de Leitura Flesch (PT-BR):</strong> Redução controlada do comprimento médio de frases (<span class="arithmatex">\(\text{ASL}\)</span>) sem remoção do vocabulário técnico curricular.</li>
+<li><strong>Métricas RAGAS:</strong> <em>Faithfulness</em> <span class="arithmatex">\(\ge 0.90\)</span>, <em>Context Precision</em> <span class="arithmatex">\(\ge 0.85\)</span> e <em>Answer Relevancy</em> <span class="arithmatex">\(\ge 0.88\)</span>.</li>
+</ul>
+<hr />
+<h2 id="6-roadmap-de-7-semanas">6. Roadmap de 7 Semanas<a class="headerlink" href="#6-roadmap-de-7-semanas" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Semana</th>
+<th style="text-align: left;">Foco Temático do Challenge</th>
+<th style="text-align: left;">Entregável Técnico no Íris</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>Semana 1</strong></td>
+<td style="text-align: left;">Problema, stakeholders, riscos e métricas</td>
+<td style="text-align: left;">Documentação CBL, visão do produto, levantamento de RF/RNF, governança LGPD, personas nominais e configuração do projeto com UV e MkDocs.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Semana 2</strong></td>
+<td style="text-align: left;">Base de conhecimento e recuperação</td>
+<td style="text-align: left;">Curadoria de corpus científico (MEC, DUA, Funções Executivas), pipeline de chunking semântico e primeiro mecanismo <strong>RAG</strong>.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Semana 3</strong></td>
+<td style="text-align: left;">Comparação LLM vs. RAG</td>
+<td style="text-align: left;">Estudo experimental comparativo quantitativo (LLM Puro vs. RAG) validando a retenção curricular e aplicação de evidências.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Semana 4</strong></td>
+<td style="text-align: left;">Sistema Multiagentes</td>
+<td style="text-align: left;">Orquestração do time de agentes especializados (Extrator Curricular, Estrategista RAG, Adaptador e Auditor de Fidelidade).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Semana 5</strong></td>
+<td style="text-align: left;">Multimodalidade</td>
+<td style="text-align: left;">Processamento multimodal: OCR de provas impressas/manuscritas, detecção de poluição visual e transcrição de áudio docente.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Semana 6</strong></td>
+<td style="text-align: left;">Integração Completa</td>
+<td style="text-align: left;">Aplicação web funcional integrada de ponta a ponta (Fluxo guiado de 5 etapas + Edição Lado a Lado + Perfil Portátil).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Semana 7</strong></td>
+<td style="text-align: left;">Testes e Refinamento</td>
+<td style="text-align: left;">Bateria completa de testes automatizados, coleta das métricas objetivas (TRCC, Flesch PT-BR, RAGAS), relatório final e apresentação.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.tabs.link", "content.action.view"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

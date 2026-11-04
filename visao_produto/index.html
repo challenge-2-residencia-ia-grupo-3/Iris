@@ -1,0 +1,1304 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação oficial do Projeto Íris (Challenge 2 - Residência em IA: UnB / Lab Livre / Eldorado / Softex / MCTI)">
+      
+      
+        <meta name="author" content="Grupo 3 - Residência em IA">
+      
+      
+        <link rel="canonical" href="https://challenge-2-residencia-ia-grupo-3.github.io/iris/visao_produto/">
+      
+      
+        <link rel="prev" href="../definicao_projeto_entrega/">
+      
+      
+        <link rel="next" href="../requisitos_funcionais/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Visão do Produto - Íris — Plataforma Inteligente de Adaptação Pedagógica</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#visao-do-produto-iris" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-header__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10m0-2a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-9a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m0-3c2.63 0 5 1.57 6 4a6.505 6.505 0 0 1-8.5 3.5A6.52 6.52 0 0 1 6 12c1-2.43 3.37-4 6-4m0 1.5A2.5 2.5 0 0 0 9.5 12a2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 12 9.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Íris — Plataforma Inteligente de Adaptação Pedagógica
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Visão do Produto
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../definicao_projeto_entrega/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Entrega Semanal
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Visão do Produto
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../requisitos_funcionais/" class="md-tabs__link">
+          
+  
+  
+  Requisitos
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitetura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../cbl/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Metodologia CBL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../skills/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Catálogo de Skills
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-nav__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10m0-2a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-9a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m0-3c2.63 0 5 1.57 6 4a6.505 6.505 0 0 1-8.5 3.5A6.52 6.52 0 0 1 6 12c1-2.43 3.37-4 6-4m0 1.5A2.5 2.5 0 0 0 9.5 12a2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 12 9.5"/></svg>
+
+    </a>
+    Íris — Plataforma Inteligente de Adaptação Pedagógica
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../definicao_projeto_entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrega Semanal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão do Produto
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão do Produto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-declaracao-de-visao-do-produto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Declaração de Visão do Produto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-o-cenario-escolhido-e-o-problema-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. O Cenário Escolhido e o Problema Real
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. O Cenário Escolhido e o Problema Real">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-o-cenario-educacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. O Cenário Educacional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-a-falacia-dos-modelos-genericos-e-o-efeito-muleta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. A Falácia dos Modelos Genéricos e o Efeito Muleta
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-proposta-de-valor-e-diferenciais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Proposta de Valor e Diferenciais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-personas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Personas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Personas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persona-1-o-professor-carlos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persona 1: O Professor (Carlos)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persona-2-a-estudante-com-barreiras-beatriz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persona 2: A Estudante com Barreiras (Beatriz)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-escopo-do-mvp-e-evolucao-por-neurodivergencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Escopo do MVP e Evolução por Neurodivergência
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Escopo do MVP e Evolução por Neurodivergência">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-recorte-prioritario-do-mvp-tdah" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Recorte Prioritário do MVP: TDAH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-arquitetura-modular-e-expansao-para-tea-e-dislexia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Arquitetura Modular e Expansão para TEA e Dislexia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-limites-do-mvp-o-que-entra-vs-o-que-nao-entra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Limites do MVP (O que entra vs. O que não entra)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Limites do MVP (O que entra vs. O que não entra)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-escopo-do-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No Escopo do MVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fora-do-escopo-do-mvp-limites-eticos-inegociaveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fora do Escopo do MVP (Limites Éticos Inegociáveis)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requisitos_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requisitos_nao_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Não Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cbl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia CBL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-declaracao-de-visao-do-produto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Declaração de Visão do Produto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-o-cenario-escolhido-e-o-problema-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. O Cenário Escolhido e o Problema Real
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. O Cenário Escolhido e o Problema Real">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-o-cenario-educacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. O Cenário Educacional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-a-falacia-dos-modelos-genericos-e-o-efeito-muleta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. A Falácia dos Modelos Genéricos e o Efeito Muleta
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-proposta-de-valor-e-diferenciais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Proposta de Valor e Diferenciais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-personas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Personas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Personas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persona-1-o-professor-carlos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persona 1: O Professor (Carlos)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persona-2-a-estudante-com-barreiras-beatriz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persona 2: A Estudante com Barreiras (Beatriz)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-escopo-do-mvp-e-evolucao-por-neurodivergencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Escopo do MVP e Evolução por Neurodivergência
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Escopo do MVP e Evolução por Neurodivergência">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-recorte-prioritario-do-mvp-tdah" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Recorte Prioritário do MVP: TDAH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-arquitetura-modular-e-expansao-para-tea-e-dislexia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Arquitetura Modular e Expansão para TEA e Dislexia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-limites-do-mvp-o-que-entra-vs-o-que-nao-entra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Limites do MVP (O que entra vs. O que não entra)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Limites do MVP (O que entra vs. O que não entra)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-escopo-do-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No Escopo do MVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fora-do-escopo-do-mvp-limites-eticos-inegociaveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fora do Escopo do MVP (Limites Éticos Inegociáveis)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="visao-do-produto-iris">Visão do Produto — Íris<a class="headerlink" href="#visao-do-produto-iris" title="Permanent link">&para;</a></h1>
+<h2 id="1-declaracao-de-visao-do-produto">1. Declaração de Visão do Produto<a class="headerlink" href="#1-declaracao-de-visao-do-produto" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>Para</strong> professores da educação básica e especialistas em Atendimento Educacional Especializado (AEE),<br />
+<strong>que</strong> enfrentam alta sobrecarga de trabalho e escassez de tempo para adaptar materiais didáticos para estudantes com necessidades atípicas de aprendizagem,<br />
+<strong>o Íris</strong> é uma plataforma inteligente de apoio à decisão pedagógica e adaptação de atividades didáticas,<br />
+<strong>que</strong> atua como copiloto pedagógico aplicando andaimes cognitivos (<em>scaffolding</em>) graduados baseados em evidências científicas (DUA e Funções Executivas) e barreiras funcionais observadas em sala de aula, preservando integralmente o núcleo curricular avaliado.<br />
+<strong>Diferente de</strong> ferramentas de LLM genéricas (que resumem superficialmente o texto, eliminam a complexidade conceitual e geram subexposição cognitiva),<br />
+<strong>o nosso produto</strong> garante a integridade curricular por meio de <strong>travas avaliativas inegociáveis</strong>, conformidade estrita com a <strong>LGPD (Zero-Database)</strong> e rastreabilidade pedagógica com supervisão docente contínua (<em>Human-in-the-Loop</em>).</p>
+</blockquote>
+<hr />
+<h2 id="2-o-cenario-escolhido-e-o-problema-real">2. O Cenário Escolhido e o Problema Real<a class="headerlink" href="#2-o-cenario-escolhido-e-o-problema-real" title="Permanent link">&para;</a></h2>
+<h3 id="21-o-cenario-educacional">2.1. O Cenário Educacional<a class="headerlink" href="#21-o-cenario-educacional" title="Permanent link">&para;</a></h3>
+<p>O cenário educacional brasileiro reflete uma crescente e indispensável inclusão de estudantes neurodivergentes, abrangendo indivíduos no Espectro Autista (TEA), com Transtorno do Déficit de Atenção com Hiperatividade (TDAH) e Dislexia no ensino regular. Contudo, essa ampliação no número de matrículas não veio acompanhada de suporte estrutural e operacional suficiente ao corpo docente.</p>
+<p>Professores da educação básica lidam rotineiramente com jornadas exaustivas, turmas numerosas e escassez de recursos de apoio pedagógico. Embora possuam preparo e sensibilidade diagnóstica para mapear as barreiras de aprendizagem presentes na sala de aula, a execução prática, que exige converter atividades genéricas em múltiplos materiais customizados, torna-se inviável pela falta crônica de tempo hábil.</p>
+<h3 id="22-a-falacia-dos-modelos-genericos-e-o-efeito-muleta">2.2. A Falácia dos Modelos Genéricos e o Efeito Muleta<a class="headerlink" href="#22-a-falacia-dos-modelos-genericos-e-o-efeito-muleta" title="Permanent link">&para;</a></h3>
+<p>Ao tentarem utilizar modelos de linguagem comerciais genéricos com prompts simples (<em>"Adapte esta prova para um aluno com TDAH"</em>), os professores recebem resultados danosos:
+* <strong>Empobrecimento Curricular:</strong> A IA costuma apenas encurtar textos, substituir termos técnicos por analogias excessivamente infantis e remover alternativas de raciocínio.
+* <strong>Subexposição Cognitiva (<em>Efeito Muleta</em>):</strong> A IA frequentemente responde a pergunta ou faz a inferência crítica no próprio enunciado modificado, retirando do aluno a oportunidade de desenvolver a habilidade cognitiva-alvo.
+* <strong>Homogeneização Clínica:</strong> Tratam todo diagnóstico como idêntico, ignorando que cada estudante manifesta perfis executivos e potencialidades singulares.</p>
+<hr />
+<h2 id="3-proposta-de-valor-e-diferenciais">3. Proposta de Valor e Diferenciais<a class="headerlink" href="#3-proposta-de-valor-e-diferenciais" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Dimensão</th>
+<th style="text-align: left;">Soluções Comerciais Genéricas</th>
+<th style="text-align: left;">Plataforma Íris</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Abordagem de Perfil</strong></td>
+<td style="text-align: left;">Rótulo diagnóstico genérico e estereotipado</td>
+<td style="text-align: left;"><strong>Barreiras Funcionais Observadas</strong> + Potencialidades do Aluno</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Intensidade do Suporte</strong></td>
+<td style="text-align: left;">Binária (ou simplifica tudo ou não muda nada)</td>
+<td style="text-align: left;"><strong>Andaime Cognitivo em 3 Níveis</strong> (Leve, Moderado, Intensivo)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Preservação Curricular</strong></td>
+<td style="text-align: left;">Alto risco de eliminação de habilidades da BNCC</td>
+<td style="text-align: left;"><strong>Trava Curricular Inegociável</strong> monitorada por Agente Auditor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Fundamentação Pedagógica</strong></td>
+<td style="text-align: left;">Alucinação probabilística de estratégias</td>
+<td style="text-align: left;"><strong>RAG Científico</strong> ancorado no DUA, MEC e literatura de Funções Executivas</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Privacidade de Menores</strong></td>
+<td style="text-align: left;">Coleta e armazenamento de dados em nuvem</td>
+<td style="text-align: left;"><strong>Zero-Database de Estudantes</strong> + Sanitização local de PII</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Continuidade Pedagógica</strong></td>
+<td style="text-align: left;">Inexistente ou dependente de banco central</td>
+<td style="text-align: left;"><strong>Perfil Pedagógico Portátil</strong> (<code>.json</code>/<code>.pdf</code>) local e anônimo</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-personas">4. Personas<a class="headerlink" href="#4-personas" title="Permanent link">&para;</a></h2>
+<h3 id="persona-1-o-professor-carlos">Persona 1: O Professor (Carlos)<a class="headerlink" href="#persona-1-o-professor-carlos" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Perfil:</strong> Carlos, 38 anos, professor de Biologia no Ensino Fundamental II (redes pública e privada, 35 horas semanais em sala de aula).</li>
+<li><strong>Contexto da sala de aula:</strong> Leciona para 6 turmas com média de 32 alunos. Em uma mesma sala, tem dois alunos autistas (nível 1 de suporte) e uma aluna com dislexia.</li>
+<li><strong>Dores:</strong> Dedica finais de semana ao planejamento e correção. Sente frustração e culpa por não conseguir produzir adaptações a tempo, recorrendo a simplificações de última hora sem embasamento formal.</li>
+<li><strong>Objetivo no sistema:</strong> Colar o texto de sua avaliação bimestral, selecionar critérios funcionais (enunciados curtos, vocabulário simplificado e suporte visual) e receber a versão pronta com a justificativa de cada alteração à luz do DUA.</li>
+</ul>
+<h3 id="persona-2-a-estudante-com-barreiras-beatriz">Persona 2: A Estudante com Barreiras (Beatriz)<a class="headerlink" href="#persona-2-a-estudante-com-barreiras-beatriz" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Perfil:</strong> Beatriz, 13 anos, aluna do 8º ano com TDAH e histórico de bloqueio diante de avaliações extensas.</li>
+<li><strong>Contexto escolar:</strong> Demonstra bom raciocínio em discussões orais, mas paralisa diante de provas com blocos contínuos de texto e múltiplos comandos na mesma questão.</li>
+<li><strong>Dores:</strong> Comete erros recorrentes em conteúdos que domina unicamente devido à sobrecarga de leitura e desatenção na interpretação de enunciados complexos.</li>
+<li><strong>Necessidades pedagógicas:</strong> Atividades diagramadas com espaçamento limpo, instruções divididas em tópicos (<em>bullet points</em>), palavras de comando em negrito e suporte imagético explicativo.</li>
+</ul>
+<hr />
+<h2 id="5-escopo-do-mvp-e-evolucao-por-neurodivergencia">5. Escopo do MVP e Evolução por Neurodivergência<a class="headerlink" href="#5-escopo-do-mvp-e-evolucao-por-neurodivergencia" title="Permanent link">&para;</a></h2>
+<h3 id="51-recorte-prioritario-do-mvp-tdah">5.1. Recorte Prioritário do MVP: TDAH<a class="headerlink" href="#51-recorte-prioritario-do-mvp-tdah" title="Permanent link">&para;</a></h3>
+<p>O MVP do Challenge 2 tem como foco prioritário a validação com <strong>estudantes com TDAH</strong>, atacando as seguintes barreiras funcionais executivas:
+1. Sustentação de atenção em textos longos;
+2. Sobrecarga de memória de trabalho;
+3. Iniciação e organização sequencial de tarefas;
+4. Vulnerabilidade a concorrência de estímulos visuais;
+5. Necessidade de instruções diretas e unívocas.</p>
+<h3 id="52-arquitetura-modular-e-expansao-para-tea-e-dislexia">5.2. Arquitetura Modular e Expansão para TEA e Dislexia<a class="headerlink" href="#52-arquitetura-modular-e-expansao-para-tea-e-dislexia" title="Permanent link">&para;</a></h3>
+<p>Embora o MVP priorize o TDAH para validação experimental rigorosa nas Semanas 3 e 7, o sistema foi concebido desde o Dia 1 com catálogo modular de barreiras (<code>catalogs/</code>), permitindo atender progressivamente às dores de professores como Carlos:
+* <strong>Para Alunos no Espectro Autista (TEA):</strong> Redução de ambiguidades linguísticas, literalidade nas instruções, antecipação estrutural da prova e remoção de linguagem metafórica não essencial.
+* <strong>Para Alunos com Dislexia:</strong> Apoio na decodificação leitora (tipografia específica, maior espaçamento entre caracteres e linhas, suporte imagético para vocabulário incomum e fragmentação sintática).</p>
+<hr />
+<h2 id="6-limites-do-mvp-o-que-entra-vs-o-que-nao-entra">6. Limites do MVP (O que entra vs. O que não entra)<a class="headerlink" href="#6-limites-do-mvp-o-que-entra-vs-o-que-nao-entra" title="Permanent link">&para;</a></h2>
+<h3 id="no-escopo-do-mvp">No Escopo do MVP<a class="headerlink" href="#no-escopo-do-mvp" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Entrada de Materiais Didáticos:</strong> Inserção direta de texto ou upload (.pdf, .docx, .txt).</li>
+<li><strong>Seleção de Critérios Funcionais:</strong> Filtros práticos baseados em necessidades observáveis, sem burocracia de laudos.</li>
+<li><strong>Calibragem em 3 Níveis:</strong> Leve, Moderado e Intensivo.</li>
+<li><strong>Travas Curriculares Inegociáveis:</strong> Garantia de que a habilidade avaliada não seja simplificada.</li>
+<li><strong>Geração com Justificativas DUA:</strong> Explicações transparentes de cada intervenção pedagógica.</li>
+<li><strong>Editor Comparativo Lado a Lado:</strong> Revisão livre e supervisão docente obrigatória (<em>Human-in-the-Loop</em>).</li>
+<li><strong>Exportação Pronta:</strong> PDF formatado e DOCX editável.</li>
+<li><strong>Privacidade e Portabilidade:</strong> Zero-Database, detector local de PII e Perfil Portátil local.</li>
+</ol>
+<h3 id="fora-do-escopo-do-mvp-limites-eticos-inegociaveis">Fora do Escopo do MVP (Limites Éticos Inegociáveis)<a class="headerlink" href="#fora-do-escopo-do-mvp-limites-eticos-inegociaveis" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Diagnóstico ou Triagem Clínica:</strong> O Íris não realiza testes psicológicos, não emite laudos e não rotula clinicamente os estudantes.</li>
+<li><strong>Armazenamento Centralizado de Menores:</strong> Proibido qualquer banco de dados cadastral de estudantes.</li>
+<li><strong>Geração sem Validação Humana:</strong> O material nunca é enviado para aplicação com alunos sem a revisão e aprovação explícita do professor regente.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.tabs.link", "content.action.view"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
