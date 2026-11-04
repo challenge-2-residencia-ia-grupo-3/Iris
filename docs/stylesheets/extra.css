@@ -155,6 +155,21 @@
 }
 
 /* --------------------------------------------------------------------------
+   3.2. Cabeçalho e Menu Lateral
+   -------------------------------------------------------------------------- */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 2.5rem;
+  width: auto;
+}
+
+.md-nav__title .md-logo img,
+.md-nav__title .md-logo svg {
+  height: 3rem;
+  width: auto;
+}
+
+/* --------------------------------------------------------------------------
    4. Barra de Busca com Tecla de Atalho
    -------------------------------------------------------------------------- */
 .md-search__inner {
