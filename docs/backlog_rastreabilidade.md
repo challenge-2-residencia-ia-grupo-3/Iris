@@ -58,12 +58,12 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | `#28` | **História 3.1.3** | Bloqueio de inserção de dados clínicos e diagnósticos formais no perfil | Épico 3.1 / Tema 3 | **RF-15**, RNF-03 | **História 3.1.1** (RF-15) | `priority: must` | `scope: privacy-lgpd`, `scope: api` |
 | `#30` | **História 3.2.1** | Exportação local do Perfil Pedagógico Portátil em JSON e PDF | Épico 3.2 / Tema 3 | **RF-15**, RNF-01 | **História 3.1.2** (RF-15), **História 3.1.3** (RNF-03) | `priority: should` | `scope: privacy-lgpd`, `scope: api` |
 | `#31` | **História 3.2.2** | Importação e restauração de sessão a partir de arquivo JSON portátil | Épico 3.2 / Tema 3 | **RF-15**, RNF-10 | **História 3.2.1** (RF-15), **História 1.2.1** (RF-04) | `priority: should` | `scope: privacy-lgpd`, `scope: front-web` |
-| `#34` | **História 4.1.1** | Detecção e anonimização local de PII na entrada de materiais | Épico 4.1 / Tema 4 | **RNF-02**, RF-01 | **História 1.1.1** (RF-01) | `priority: must` | `scope: privacy-lgpd`, `scope: api` |
+| `#34` | **História 4.1.1** | Detecção e descarte preventivo de PII na entrada de materiais | Épico 4.1 / Tema 4 | **RNF-02**, RF-01 | **História 1.1.1** (RF-01) | `priority: must` | `scope: privacy-lgpd`, `scope: api` |
 | `#35` | **História 4.1.2** | Execução em arquitetura stateless Zero-Database sem persistência de alunos | Épico 4.1 / Tema 4 | **RNF-01**, RNF-12 | *Nenhuma (Restrição Arquitetural Base)* | `priority: must` | `scope: privacy-lgpd`, `scope: infra-eval` |
-| `#36` | **História 4.1.3** | Re-hidratação local de marcadores anonimizados antes da exportação | Épico 4.1 / Tema 4 | **RNF-02**, **RF-14** | **História 4.1.1** (RNF-02), **História 2.2.3** (RF-14) | `priority: could` | `scope: privacy-lgpd`, `scope: front-web` |
+| `#36` | **História 4.1.3** | Descarte preventivo de PII acidental e formatação de cabeçalho escolar neutro | Épico 4.1 / Tema 4 | **RNF-02**, **RF-14** | **História 4.1.1** (RNF-02), **História 2.2.3** (RF-14) | `priority: must` | `scope: privacy-lgpd`, `scope: front-web` |
 | `#37` | **História 4.1.4** | Auditoria de não-retenção de payloads sensíveis em logs de execução | Épico 4.1 / Tema 4 | **RNF-01**, **RNF-02** | **História 4.1.1** (RNF-02), **História 4.1.2** (RNF-01) | `priority: must` | `scope: privacy-lgpd`, `scope: infra-eval` |
 | `#39` | **História 4.2.1** | Estruturação de schema modular JSON/YAML para catálogos de características | Épico 4.2 / Tema 4 | **RF-06**, RNF-11, RNF-12 | *Nenhuma (Fundação do Catálogo)* | `priority: must` | `scope: rag`, `scope: api` |
-| `#40` | **História 4.2.2** | Validação automatizada de rastreabilidade bibliográfica e métricas RAGAS | Épico 4.2 / Tema 4 | **RF-10**, **RNF-04**, **RNF-05**, **RNF-06** | **História 2.1.1** (RF-10), **História 2.1.4** (RF-12) | `priority: must` | `scope: infra-eval`, `scope: rag` |
+| `#40` | **História 4.2.2** | Análise exploratória de dados (EDA do corpus e benchmark) e validação RAGAS | Épico 4.2 / Tema 4 | **RF-10**, **RNF-04**, **RNF-05**, **RNF-06** | **História 2.1.1** (RF-10), **História 2.1.4** (RF-12) | `priority: must` | `scope: infra-eval`, `scope: rag` |
 
 ---
 
@@ -87,7 +87,7 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | **RF-14** | Exportação em Formatos Prontos para Impressão e Uso Digital | Tema 2, Tema 4 | Épico 2.2, Épico 4.1 | **História 2.2.3** (`#23`), **História 4.1.3** (`#36`) |
 | **RF-15** | Exportação e Importação do Perfil Pedagógico Portátil | Tema 3 | Épico 3.1, Épico 3.2 | **História 3.1.1** (`#26`), **História 3.1.2** (`#27`), **História 3.1.3** (`#28`), **História 3.2.1** (`#30`), **História 3.2.2** (`#31`) |
 | **RNF-01** | Arquitetura Stateless de Dados de Estudantes (*Zero-Database*) | Tema 3, Tema 4 | Épico 3.1, Épico 3.2, Épico 4.1 | **História 3.1.1** (`#26`), **História 3.2.1** (`#30`), **História 4.1.2** (`#35`), **História 4.1.4** (`#37`) |
-| **RNF-02** | Sanitização Local e Detecção Automatizada de PII | Tema 4 | Épico 4.1 | **História 4.1.1** (`#34`), **História 4.1.3** (`#36`), **História 4.1.4** (`#37`) |
+| **RNF-02** | Sanitização Preventiva e Descarte Imediato de PII (Zero-Retention) | Tema 4 | Épico 4.1 | **História 4.1.1** (`#34`), **História 4.1.3** (`#36`), **História 4.1.4** (`#37`) |
 | **RNF-03** | Desacoplamento entre Dados Pedagógicos e Dados Clínicos | Tema 3 | Épico 3.1 | **História 3.1.3** (`#28`) |
 | **RNF-04** | Taxa de Retenção de Conceitos-Chave ($\text{TRCC} \ge 95\%$) | Tema 2, Tema 4 | Épico 2.1, Épico 4.2 | **História 2.1.4** (`#19`), **História 4.2.2** (`#40`) |
 | **RNF-05** | Monitoramento de Complexidade Sintática (Flesch-Kincaid PT-BR) | Tema 2, Tema 4 | Épico 2.1, Épico 4.2 | **História 2.1.4** (`#19`), **História 4.2.2** (`#40`) |
@@ -400,16 +400,16 @@ Como professor regente iniciando um novo bimestre, quero fazer o upload do arqui
 * **Tipo:** `type: epic` | **Pai:** Tema 4
 * **Descrição:** Sanitização local de informações identificáveis (PII) e garantia de execução *stateless*.
 
-##### História 4.1.1: Detecção e anonimização local de PII na entrada de materiais
+##### História 4.1.1: Detecção e descarte preventivo de PII na entrada de materiais
 **História de Usuário**
-Como responsável pela conformidade LGPD da instituição, quero que um filtro local detecte e mascare automaticamente nomes próprios, CPFs, e-mails, telefones e nomes de escolas presentes no cabeçalho das provas antes de qualquer envio a APIs externas de LLM, para impedir o vazamento de dados pessoais de menores.
+Como responsável pela conformidade LGPD da instituição, quero que um filtro local detecte e remova preventivamente quaisquer dados de identificação pessoal (nomes próprios de docentes/estudantes, menções institucionais ou contatos) inseridos acidentalmente no material ou nas notas antes de qualquer envio a provedores externos de LLM, para impedir o tráfego de dados pessoais de menores.
 
 **Requisito Base:** RNF-02
 **Critérios de Aceitação:**
-* **Dado que** o professor insere um texto de prova contendo cabeçalho com nome de aluno, escola ou CPF,
+* **Dado que** o professor insere um texto de prova contendo cabeçalho antigo com nome de estudante ou escola,
 * **Quando** o texto passar pelo gateway local de privacidade antes da chamada aos agentes de IA,
-* **Então** o sanitizador deve substituir 100% dos padrões estruturados (CPF, e-mail, telefone) e nomes identificados por tokens anônimos (`[ALUNO_01]`, `[ESCOLA_01]`).
-* **E** o payload enviado ao provedor externo de LLM não deve conter os dados originais identificados.
+* **Então** o sanitizador deve substituir imediatamente os dados identificados por marcadores anônimos (`[ESTUDANTE]`, `[ESCOLA]`).
+* **E** o payload enviado aos agentes de linguagem não deve conter os dados pessoais originais.
 
 ##### História 4.1.2: Execução em arquitetura stateless Zero-Database sem persistência de alunos
 **História de Usuário**
@@ -422,15 +422,17 @@ Como arquiteto de software, quero garantir que o backend da plataforma opere de 
 * **Então** nenhum dado do material submetido ou do perfil funcional do estudante deve permanecer gravado em disco ou banco de dados no servidor.
 * **E** o único armazenamento persistente permitido no backend deve ser a base vetorial somente-leitura de artigos científicos e manuais públicos (RAG).
 
-##### História 4.1.3: Re-hidratação local de marcadores anonimizados antes da exportação
+##### História 4.1.3: Descarte preventivo de PII acidental e formatação de cabeçalho escolar neutro
 **História de Usuário**
-Como professor, quero que os cabeçalhos institucionais que foram mascarados durante o processamento na nuvem sejam restaurados localmente no meu navegador na hora de gerar o PDF final, para que a prova impressa saia pronta para uso.
+Como professor, quero que quaisquer dados de identificação pessoal inseridos acidentalmente no material didático (nomes de alunos em cabeçalhos antigos ou menções orais) sejam descartados imediatamente pelo sistema sem gerar mapeamento em memória, e que o material adaptado receba um cabeçalho escolar neutro em branco para preenchimento manual em sala de aula, garantindo privacidade absoluta (Zero-Retention) e prontidão para impressão.
 
 **Requisito Base:** RNF-02, RF-14
 **Critérios de Aceitação:**
-* **Dado que** o sanitizador substituiu o nome da escola por `[ESCOLA_01]` antes de enviar ao LLM,
-* **Quando** o texto adaptado retornar para a interface de revisão do professor,
-* **Então** o mapa local em memória deve restaurar o termo original exclusivamente para a visualização e exportação local pelo docente.
+* **Dado que** uma avaliação contendo nome de estudante ou cabeçalho identificado é inserida no sistema,
+* **Quando** passar pela camada de sanitização preventiva,
+* **Então** o sistema deve descartar irreversivelmente os dados identificadores substituindo-os por marcadores genéricos (`[ESTUDANTE]`, `[ESCOLA]`).
+* **E** o sistema não deve armazenar nenhum dicionário ou mapa de restauração em memória (*Zero-Retention*).
+* **E** na exportação para impressão (.pdf/.docx), o documento deve ser formatado com cabeçalho escolar neutro padronizado com linhas para preenchimento manual do estudante.
 
 ##### História 4.1.4: Auditoria de não-retenção de payloads sensíveis em logs de execução
 **História de Usuário**
@@ -446,7 +448,7 @@ Como engenheiro de segurança e IA, quero que os logs de telemetria e depuraçã
 
 #### Épico 4.2: Curadoria e Validação Científica do Catálogo e Métricas
 * **Tipo:** `type: epic` | **Pai:** Tema 4
-* **Descrição:** Governança científica dos catálogos modulares de características neurodivergentes e protocolo automatizado de avaliação quantitativa (Semana 3 e Semana 7).
+* **Descrição:** Governança científica dos catálogos modulares de características neurodivergentes, análise exploratória de dados (EDA) e protocolo automatizado de avaliação quantitativa (Semana 2, Semana 3 e Semana 7).
 
 ##### História 4.2.1: Estruturação de schema modular JSON/YAML para catálogos de características
 **História de Usuário**
@@ -459,13 +461,18 @@ Como pesquisador e desenvolvedor da plataforma, quero que o catálogo de caracte
 * **Então** o modelo Pydantic deve validar a presença obrigatória do identificador da característica, descrição prática observável, diretrizes de andaime para os Níveis 1, 2 e 3 e referências bibliográficas (DUA/MEC/artigos).
 * **E** catálogos sem referência bibliográfica válida devem ser rejeitados na validação.
 
-##### História 4.2.2: Validação automatizada de rastreabilidade bibliográfica e métricas RAGAS
+##### História 4.2.2: Análise exploratória de dados (EDA do corpus e benchmark) e validação RAGAS
 **História de Usuário**
-Como avaliador técnico da Residência em IA, quero executar uma suíte automatizada de benchmark que compare o LLM Puro contra o pipeline RAG do Íris medindo TRCC, legibilidade Flesch-Kincaid PT-BR e métricas RAGAS (*Faithfulness*, *Context Precision* e *Answer Relevancy*), para comprovar quantitativamente a eficácia e segurança pedagógica da solução.
+Como pesquisador e avaliador técnico da Residência em IA, quero conduzir a análise exploratória de dados (EDA) sobre o corpus científico e o dataset de avaliações escolares (*Golden Benchmark*), além de executar a suíte automatizada de benchmark comparando LLM Puro vs. Íris (RAG + Multiagentes), para justificar empiricamente as decisões técnicas de chunking/modelos e comprovar retenção curricular (TRCC >= 95%) e conformidade RAGAS.
 
 **Requisito Base:** RF-10, RNF-04, RNF-05, RNF-06
 **Critérios de Aceitação:**
-* **Dado que** o dataset de testes contendo questões curriculares padronizadas é executado na suíte de avaliação (`evaluations/`),
-* **Quando** o script de benchmark comparar as saídas do LLM Puro vs. Íris (RAG + Multiagentes),
-* **Então** o sistema deve gerar um relatório quantitativo comprovando $\text{TRCC} \ge 95\%$, *Faithfulness* $\ge 0.90$ e superioridade estatística na preservação curricular frente ao modelo genérico.
+* **Dado que** o corpus de documentos científicos (DUA, MEC, Funções Executivas) é carregado na Semana 2,
+* **Quando** a EDA do corpus for executada,
+* **Então** o sistema deve gerar gráficos de balanceamento temático por característica atômica e histograma de tokens por seção para fundamentar empiricamente o `chunk_size`.
+* **E** dado o dataset de avaliações escolares (*Golden Benchmark* de 30 a 50 questões),
+* **Quando** for realizada a EDA inicial das questões,
+* **Então** o sistema deve mapear a distribuição de baseline do Flesch-Kincaid PT-BR e densidade de comandos conjugados.
+* **E** quando o script de benchmark da Semana 3 comparar LLM Puro vs. Íris,
+* **Então** deve gerar relatório estatístico comprovando $\text{TRCC} \ge 95\%$, *Faithfulness* $\ge 0.90$ e preservação curricular estrita.
 

@@ -72,7 +72,7 @@ STORY_METADATA = {
     "3.2.2": {"priority": "priority: should", "scopes": ["scope: privacy-lgpd", "scope: front-web"]},
     "4.1.1": {"priority": "priority: must", "scopes": ["scope: privacy-lgpd", "scope: api"]},
     "4.1.2": {"priority": "priority: must", "scopes": ["scope: privacy-lgpd", "scope: infra-eval"]},
-    "4.1.3": {"priority": "priority: could", "scopes": ["scope: privacy-lgpd", "scope: front-web"]},
+    "4.1.3": {"priority": "priority: must", "scopes": ["scope: privacy-lgpd", "scope: front-web"]},
     "4.1.4": {"priority": "priority: must", "scopes": ["scope: privacy-lgpd", "scope: infra-eval"]},
     "4.2.1": {"priority": "priority: must", "scopes": ["scope: rag", "scope: api"]},
     "4.2.2": {"priority": "priority: must", "scopes": ["scope: infra-eval", "scope: rag"]},
@@ -231,9 +231,9 @@ def link_sub_issue_graphql(token: str, parent_node_id: str, child_node_id: str) 
         return False
 
 
-def get_existing_issues(token: str) -> dict[str, dict]:
-    """Retorna um dicionário {titulo: issue_obj} de todas as issues abertas do repositório."""
-    issues_map = {}
+def get_existing_issues(token: str) -> list[dict]:
+    """Retorna uma lista de todas as issues do repositório."""
+    all_issues = []
     page = 1
     while True:
         items = github_request("GET", f"{API_BASE}/issues?state=all&per_page=100&page={page}", token)
@@ -241,18 +241,40 @@ def get_existing_issues(token: str) -> dict[str, dict]:
             break
         for it in items:
             if "pull_request" not in it:
-                issues_map[it["title"].strip()] = it
+                all_issues.append(it)
         page += 1
-    return issues_map
+    return all_issues
 
 
-def create_or_get_issue(token: str, existing_map: dict, title: str, body: str, labels: list[str]) -> dict:
-    """Cria uma issue se não existir, ou atualiza suas labels se já existir."""
-    if title in existing_map:
-        issue = existing_map[title]
-        github_request("PATCH", f"{API_BASE}/issues/{issue['number']}", token, {"body": body, "labels": labels})
-        print(f"  [EXISTENTE #{issue['number']}] {title}")
-        return issue
+def find_existing_issue(existing_issues: list[dict], prefix: str) -> dict | None:
+    """Busca uma issue existente cujo título comece com o prefixo (ex: 'Tema 1:', 'História 4.1.3:')."""
+    clean_prefix = prefix.strip().lower()
+    for issue in existing_issues:
+        issue_title = issue["title"].strip().lower()
+        if issue_title.startswith(clean_prefix):
+            return issue
+    return None
+
+
+def create_or_update_issue(
+    token: str,
+    all_issues: list[dict],
+    prefix: str,
+    title: str,
+    body: str,
+    labels: list[str],
+) -> dict:
+    """Cria uma issue se não existir, ou atualiza título, body e labels se já existir."""
+    existing = find_existing_issue(all_issues, prefix)
+    if existing:
+        github_request(
+            "PATCH",
+            f"{API_BASE}/issues/{existing['number']}",
+            token,
+            {"title": title, "body": body, "labels": labels},
+        )
+        print(f"  [ATUALIZADA #{existing['number']}] {title}")
+        return existing
 
     issue = github_request(
         "POST",
@@ -260,20 +282,23 @@ def create_or_get_issue(token: str, existing_map: dict, title: str, body: str, l
         token,
         {"title": title, "body": body, "labels": labels},
     )
-    print(f"  [CRIADA    #{issue['number']}] {title}")
-    time.sleep(0.6)  # Evita rate-limit secundário do GitHub
+    print(f"  [CRIADA     #{issue['number']}] {title}")
+    all_issues.append(issue)
+    time.sleep(0.6)
     return issue
 
 
 def sync_issues(token: str, themes: list[dict]) -> None:
-    """Cria Temas, Épicos e Histórias e constrói os vínculos de Sub-issues."""
+    """Cria ou atualiza Temas, Épicos e Histórias e reconstrói os vínculos de Sub-issues."""
     print("\n=== 2. Sincronizando Issues e Hierarquia (Tema -> Épico -> História) ===")
-    existing_map = get_existing_issues(token)
+    all_issues = get_existing_issues(token)
 
     for theme in themes:
-        theme_issue = create_or_get_issue(
+        theme_prefix = f"{theme['code']}:"
+        theme_issue = create_or_update_issue(
             token,
-            existing_map,
+            all_issues,
+            theme_prefix,
             theme["title"],
             theme["body"],
             labels=["type: theme"],
@@ -281,10 +306,12 @@ def sync_issues(token: str, themes: list[dict]) -> None:
         epic_numbers = []
 
         for epic in theme["epics"]:
+            epic_prefix = f"{epic['code']}:"
             epic_body_with_parent = f"**Tema Pai:** #{theme_issue['number']}\n\n{epic['body']}"
-            epic_issue = create_or_get_issue(
+            epic_issue = create_or_update_issue(
                 token,
-                existing_map,
+                all_issues,
+                epic_prefix,
                 epic["title"],
                 epic_body_with_parent,
                 labels=["type: epic"],
@@ -296,13 +323,15 @@ def sync_issues(token: str, themes: list[dict]) -> None:
 
             story_numbers = []
             for story in epic["stories"]:
+                story_prefix = f"História {story['id']}:"
                 meta = STORY_METADATA.get(story["id"], {"priority": "priority: must", "scopes": ["scope: api"]})
                 story_labels = ["type: story", meta["priority"]] + meta["scopes"]
                 story_body_with_parent = f"**Épico Pai:** #{epic_issue['number']} ({epic['code']})\n\n{story['body']}"
 
-                story_issue = create_or_get_issue(
+                story_issue = create_or_update_issue(
                     token,
-                    existing_map,
+                    all_issues,
+                    story_prefix,
                     story["title"],
                     story_body_with_parent,
                     labels=story_labels,
