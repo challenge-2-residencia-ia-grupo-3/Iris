@@ -654,10 +654,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#rf-04-selecao-modular-de-barreiras-funcionais-observadas" class="md-nav__link">
+  <a href="#rf-04-selecao-cirurgica-de-caracteristicas-neurodivergentes-especificas" class="md-nav__link">
     <span class="md-ellipsis">
       
-        RF-04: Seleção Modular de Barreiras Funcionais Observadas
+        RF-04: Seleção Cirúrgica de Características Neurodivergentes Específicas
       
     </span>
   </a>
@@ -765,10 +765,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rf-11-orquestracao-multiagentes-de-adaptacao" class="md-nav__link">
+  <a href="#rf-11-orquestracao-multiagentes-com-isolamento-de-escopo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        RF-11: Orquestração Multiagentes de Adaptação
+        RF-11: Orquestração Multiagentes com Isolamento de Escopo
       
     </span>
   </a>
@@ -776,10 +776,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nivel" class="md-nav__link">
+  <a href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nao-intrusividade" class="md-nav__link">
     <span class="md-ellipsis">
       
-        RF-12: Auditoria Automatizada de Preservação Curricular e Nível
+        RF-12: Auditoria Automatizada de Preservação Curricular e Não-Intrusividade
       
     </span>
   </a>
@@ -1055,10 +1055,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#rf-04-selecao-modular-de-barreiras-funcionais-observadas" class="md-nav__link">
+  <a href="#rf-04-selecao-cirurgica-de-caracteristicas-neurodivergentes-especificas" class="md-nav__link">
     <span class="md-ellipsis">
       
-        RF-04: Seleção Modular de Barreiras Funcionais Observadas
+        RF-04: Seleção Cirúrgica de Características Neurodivergentes Específicas
       
     </span>
   </a>
@@ -1166,10 +1166,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rf-11-orquestracao-multiagentes-de-adaptacao" class="md-nav__link">
+  <a href="#rf-11-orquestracao-multiagentes-com-isolamento-de-escopo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        RF-11: Orquestração Multiagentes de Adaptação
+        RF-11: Orquestração Multiagentes com Isolamento de Escopo
       
     </span>
   </a>
@@ -1177,10 +1177,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nivel" class="md-nav__link">
+  <a href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nao-intrusividade" class="md-nav__link">
     <span class="md-ellipsis">
       
-        RF-12: Auditoria Automatizada de Preservação Curricular e Nível
+        RF-12: Auditoria Automatizada de Preservação Curricular e Não-Intrusividade
       
     </span>
   </a>
@@ -1340,14 +1340,15 @@
 </ul>
 <hr />
 <h2 id="modulo-2-parametrizacao-pedagogica-mapeamento-funcional">Módulo 2: Parametrização Pedagógica &amp; Mapeamento Funcional<a class="headerlink" href="#modulo-2-parametrizacao-pedagogica-mapeamento-funcional" title="Permanent link">&para;</a></h2>
-<h3 id="rf-04-selecao-modular-de-barreiras-funcionais-observadas">RF-04: Seleção Modular de Barreiras Funcionais Observadas<a class="headerlink" href="#rf-04-selecao-modular-de-barreiras-funcionais-observadas" title="Permanent link">&para;</a></h3>
+<h3 id="rf-04-selecao-cirurgica-de-caracteristicas-neurodivergentes-especificas">RF-04: Seleção Cirúrgica de Características Neurodivergentes Específicas<a class="headerlink" href="#rf-04-selecao-cirurgica-de-caracteristicas-neurodivergentes-especificas" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Descrição:</strong> O sistema deve fornecer uma interface de seleção baseada em barreiras funcionais executivas observadas em sala de aula, impedindo o tratamento homogêneo do diagnóstico de TDAH.</li>
-<li><strong>Entradas:</strong> Seleção do professor sobre o catálogo modular de barreiras.</li>
+<li><strong>Descrição:</strong> O sistema deve fornecer uma interface de seleção atômica de características e dificuldades funcionais observáveis em sala de aula, rejeitando a abordagem de pacotes diagnósticos fechados. O foco operacional é tratar a característica ativada, e não a condição médica em bloco.</li>
+<li><strong>Entradas:</strong> Seleção do professor sobre o catálogo atômico de características (ex.: se o TDAH apresenta 15 características possíveis, o professor pode selecionar apenas 1 ou um subconjunto específico).</li>
 <li><strong>Processamento:</strong></li>
-<li>Carregamento do catálogo oficial de barreiras funcionais (<code>tdah_barreiras_funcionais.json</code>).</li>
-<li>Registro das opções selecionadas (ex.: <em>Atenção sustentada a textos longos</em>, <em>Sobrecarga de memória de trabalho</em>, <em>Iniciação/organização sequencial de respostas</em>, <em>Vulnerabilidade a poluição visual</em>).</li>
-<li><strong>Saída:</strong> Vetor de restrições funcionais associado à sessão atual de adaptação.</li>
+<li>Carregamento do catálogo oficial de características atômicas (<code>catalogs/tdah_caracteristicas_funcionais.json</code>).</li>
+<li>Isolamento estrito das opções marcadas (ex.: apenas <em>Dificuldade de processamento de comandos múltiplos na mesma frase</em>).</li>
+<li>Bloqueio automático de intervenções associadas às características não marcadas pelo professor.</li>
+<li><strong>Saída:</strong> Vetor cirúrgico de características ativadas associado à sessão atual.</li>
 </ul>
 <h3 id="rf-05-registro-de-potencialidades-e-estilos-de-engajamento">RF-05: Registro de Potencialidades e Estilos de Engajamento<a class="headerlink" href="#rf-05-registro-de-potencialidades-e-estilos-de-engajamento" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1411,26 +1412,27 @@
 <li>Recuperação de trechos normativos e orientações práticas de adaptação com citações da fonte.</li>
 <li><strong>Saída:</strong> Contexto de evidências científicas anexado ao prompt de adaptação.</li>
 </ul>
-<h3 id="rf-11-orquestracao-multiagentes-de-adaptacao">RF-11: Orquestração Multiagentes de Adaptação<a class="headerlink" href="#rf-11-orquestracao-multiagentes-de-adaptacao" title="Permanent link">&para;</a></h3>
+<h3 id="rf-11-orquestracao-multiagentes-com-isolamento-de-escopo">RF-11: Orquestração Multiagentes com Isolamento de Escopo<a class="headerlink" href="#rf-11-orquestracao-multiagentes-com-isolamento-de-escopo" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Descrição:</strong> A geração da adaptação deve ser dividida entre agentes de IA com responsabilidades segregadas, executados em sequência coordenada:</li>
-<li><strong>Agente Extrator Curricular:</strong> Isola os conceitos centrais e objetivos da questão.</li>
-<li><strong>Agente Estrategista RAG:</strong> Seleciona as intervenções pedagógicas adequadas à barreira funcional e nível.</li>
-<li><strong>Agente Adaptador:</strong> Reescreve e formata o material aplicando os andaimes aprovados.</li>
-<li><strong>Agente Auditor:</strong> Realiza a conferência de qualidade e fidelidade antes da entrega ao professor.</li>
-<li><strong>Entradas:</strong> Material estruturado, barreiras, travas e contexto RAG recuperado.</li>
-<li><strong>Processamento:</strong> Execução ordenada do pipeline com passagem de estado em memória.</li>
-<li><strong>Saída:</strong> Versão adaptada acompanhada das justificativas técnicas de cada alteração.</li>
+<li><strong>Descrição:</strong> A geração da adaptação deve ser dividida entre agentes de IA com responsabilidades segregadas, operando sob uma estrita <strong>Regra de Isolamento de Escopo</strong>:</li>
+<li><strong>Agente Extrator Curricular:</strong> Isola os conceitos centrais, vocabulário técnico e objetivos da questão (invariantes da Trava Curricular).</li>
+<li><strong>Agente Estrategista RAG:</strong> Consulta a base vetorial e recupera intervenções pedagógicas <em>exclusivamente</em> para as características neurodivergentes ativadas no RF-04. Se apenas uma característica foi selecionada, o agente recupera intervenções somente para ela.</li>
+<li><strong>Agente Adaptador:</strong> Reescreve e formata o material aplicando os andaimes aprovados, sendo terminantemente proibido de modificar dimensões textuais ou cognitivas não cobertas pelas características ativadas.</li>
+<li><strong>Agente Auditor:</strong> Realiza a conferência de qualidade, integridade curricular e não-intrusividade antes da entrega ao docente.</li>
+<li><strong>Entradas:</strong> Material estruturado, características ativadas, travas curriculares e contexto RAG recuperado.</li>
+<li><strong>Processamento:</strong> Execução ordenada do pipeline com passagem de estado em memória e validação de escopo.</li>
+<li><strong>Saída:</strong> Versão adaptada minimalista e cirúrgica acompanhada das justificativas técnicas de cada alteração.</li>
 </ul>
-<h3 id="rf-12-auditoria-automatizada-de-preservacao-curricular-e-nivel">RF-12: Auditoria Automatizada de Preservação Curricular e Nível<a class="headerlink" href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nivel" title="Permanent link">&para;</a></h3>
+<h3 id="rf-12-auditoria-automatizada-de-preservacao-curricular-e-nao-intrusividade">RF-12: Auditoria Automatizada de Preservação Curricular e Não-Intrusividade<a class="headerlink" href="#rf-12-auditoria-automatizada-de-preservacao-curricular-e-nao-intrusividade" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Descrição:</strong> O Agente Auditor deve submeter o material gerado a um crivo rigoroso antes de exibi-lo ao professor.</li>
-<li><strong>Entradas:</strong> Material original, material adaptado, travas curriculares e nível solicitado.</li>
+<li><strong>Descrição:</strong> O Agente Auditor deve submeter o material gerado a uma validação dupla: integridade curricular e não-intrusividade da adaptação.</li>
+<li><strong>Entradas:</strong> Material original, material adaptado, travas curriculares, nível solicitado e características ativadas.</li>
 <li><strong>Processamento:</strong></li>
-<li>Cálculo determinístico da Taxa de Retenção de Conceitos-Chave (TRCC).</li>
+<li>Cálculo determinístico da Taxa de Retenção de Conceitos-Chave (TRCC &gt;= 95%).</li>
 <li>Verificação de conformidade estrutural com as regras do nível solicitado (SAEN).</li>
+<li>Checagem de Não-Intrusividade: verificação se o modelo não inseriu modificações pedagógicas desnecessárias para características que não foram assinaladas pelo professor.</li>
 <li>Detecção de resoluções indevidas (verificar se a IA respondeu à pergunta no próprio enunciado).</li>
-<li>Disparo de auto-correção (<em>self-refinement</em>) pelo Agente Adaptador se <span class="arithmatex">\(\text{TRCC} &lt; 95\%\)</span>.</li>
+<li>Disparo de auto-correção (<em>self-refinement</em>) pelo Agente Adaptador se <span class="arithmatex">\(\text{TRCC} &lt; 95\%\)</span> ou se for detectada intrusividade indevida.</li>
 <li><strong>Saída:</strong> Relatório de auditoria (Aprovado ou Refinado com métricas de validação).</li>
 </ul>
 <hr />
