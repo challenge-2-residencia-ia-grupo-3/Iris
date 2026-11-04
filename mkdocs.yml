@@ -1,7 +1,7 @@
 site_name: "Íris — Plataforma Inteligente de Adaptação Pedagógica"
 site_description: "Documentação oficial do Projeto Íris (Challenge 2 - Residência em IA: UnB / Lab Livre / Eldorado / Softex / MCTI)"
 site_author: "Grupo 3 - Residência em IA"
-site_url: "https://challenge-2-residencia-ia-grupo-3.github.io/iris/"
+site_url: "https://challenge-2-residencia-ia-grupo-3.github.io/Iris/"
 
 theme:
   name: material
