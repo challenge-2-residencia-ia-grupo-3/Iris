@@ -16,7 +16,7 @@ Professores da educação básica lidam rotineiramente com jornadas exaustivas, 
 
 Nesse contexto insere-se o **Desenho Universal para a Aprendizagem (DUA)**: em vez de esperar que o estudante se adapte à rigidez do material, o currículo e as atividades didáticas devem oferecer múltiplos meios de representação, ação, expressão e engajamento. 
 
-A solução concebida — **Íris** — é uma ferramenta web potencializada por Inteligência Artificial Generativa e recuperação de evidências científicas (RAG), estruturada para atuar como **copiloto pedagógico**: o professor fornece a atividade base e seleciona critérios de adaptação fundamentados em **barreiras funcionais observáveis** (com foco prioritário de validação no **TDAH** e catálogo modular expansível para **TEA** e **Dislexia**). A aplicação devolve a versão adaptada em até 3 níveis de andaime cognitivo, acompanhada das respectivas justificativas pedagógicas à luz do DUA e garantindo a preservação integral da habilidade avaliada por meio de **Travas Curriculares Inegociáveis**.
+A solução concebida — **Íris** — é uma ferramenta web potencializada por Inteligência Artificial Generativa e recuperação de evidências científicas (RAG), estruturada para atuar como **copiloto pedagógico**: o professor fornece a atividade base e seleciona critérios de adaptação fundamentados em **características funcionais observáveis** (com foco na desconstrução de condições como o TDAH em traços atômicos, e catálogo expansível para TEA e Dislexia). A grande inovação consiste na **intervenção cirúrgica**: se o aluno manifesta apenas 1 dificuldade específica dentro de um espectro amplo, o sistema adapta estritamente essa dimensão e preserva integralmente o restante do material, acompanhada das justificativas do DUA e garantindo a preservação da habilidade avaliada por meio de **Travas Curriculares Inegociáveis**.
 
 ---
 
@@ -47,7 +47,7 @@ Professores encontram-se sobrecarregados com demandas burocráticas, aulas e cor
 * **Diagnóstico e resposta:** Identificar as dificuldades dos alunos, reescrever textos extensos, estruturar instruções por etapas, buscar recursos visuais e revisar para garantir que o rigor conceitual não foi perdido.
 
 #### 2. Como transformar as dificuldades de aprendizagem em critérios de adaptação sem exigir laudos clínicos?
-* **Diagnóstico e resposta:** Oferecer filtros funcionais e pedagógicos diretamente ligados a necessidades práticas (textos mais curtos, linguagem simplificada, passos sequenciais, recursos visuais e destaque de palavras-chave), sem burocracia médica e com parametrização modular baseada no DUA.
+* **Diagnóstico e resposta:** Oferecer filtros atômicos baseados em características e necessidades práticas observáveis (ex.: textos longos contínuos, múltiplos comandos conjugados, retenção de dados intermediários), permitindo ao docente atuar cirurgicamente sobre a dificuldade manifestada pelo estudante, sem burocracia médica e sem aplicar pacotes clínicos genéricos.
 
 #### 3. Como simplificar o material sem prejudicar o conteúdo curricular?
 * **Diagnóstico e resposta:** Preservar rigorosamente os conceitos essenciais e os objetivos da atividade por meio de **Travas Curriculares**, transformando exclusivamente a carga de leitura, a diagramação e a estratégia de explicação dos conteúdos.
@@ -93,7 +93,7 @@ O mapeamento a seguir sintetiza os grupos de interesse diretamente envolvidos ou
 ### 6.1. Requisitos Funcionais (RF)
 
 * **RF01 - Inserção de conteúdo:** O sistema deve permitir a entrada de enunciados e atividades didáticas via inserção direta de texto ou upload de arquivos (`.docx`, `.pdf` e `.txt`). *(Equivalente a RF-01 e RF-02 da especificação técnica).*
-* **RF02 - Seleção de critérios:** O sistema deve disponibilizar filtros baseados em necessidades observáveis (ex.: textos curtos, segmentação de comandos, linguagem direta, glossário, apoios visuais) sem exigir laudos clínicos formais, com foco prioritário em barreiras do TDAH e catálogo extensível para TEA e Dislexia. *(Equivalente a RF-04, RF-05 e RF-06).*
+* **RF02 - Seleção de critérios atômicos:** O sistema deve disponibilizar filtros baseados em características atômicas observáveis (ex.: comandos conjugados, saturação atencional visual, segmentação sequencial) sem exigir laudos clínicos. O professor seleciona apenas as características manifestadas e a IA atua estritamente sobre elas, proibindo adaptações em pacote para traços não selecionados. *(Equivalente a RF-04, RF-05 e RF-06).*
 * **RF03 - Calibração de nível de suporte:** O professor deve poder parametrizar a intensidade da intervenção pedagógica entre os níveis Leve (Nível 1), Moderado (Nível 2) e Intensivo (Nível 3), com aplicação de Travas Curriculares inegociáveis. *(Equivalente a RF-07 e RF-08).*
 * **RF04 - Geração com justificativas DUA:** O motor de IA (potencializado por RAG e arquitetura multiagentes) deve gerar a versão adaptada acompanhada de explicações pedagógicas pontuais justificando as modificações feitas à luz dos princípios do DUA. *(Equivalente a RF-10 e RF-11).*
 * **RF05 - Editor comparativo:** A plataforma deve disponibilizar visualização comparativa (lado a lado) entre a versão original e a adaptada, permitindo edição livre e revisão pelo docente (*Human-in-the-Loop*). *(Equivalente a RF-13).*

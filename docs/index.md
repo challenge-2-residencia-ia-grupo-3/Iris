@@ -26,9 +26,9 @@ Em vez de atuar como um gerador genérico de texto que simplesmente resume ou di
 
 <div class="iris-grid">
   <div class="iris-card">
-    <h4>1. Barreiras > Rótulo</h4>
-    <p>O sistema não trata o TDAH de forma homogênea. O professor parametriza a adaptação com base em <strong>barreiras executivas observadas em sala</strong> (atenção sustentada, memória de trabalho, organização sequencial) e potencialidades do estudante.</p>
-    <span class="badge badge-rf">Modular & Extensível</span>
+    <h4>1. Características Singulares > Pacote Clínico</h4>
+    <p>O sistema não trata o aluno por pacote clínico homogêneo. Se uma condição como TDAH reúne 15 características possíveis, o professor seleciona <strong>apenas a dificuldade atômica observada</strong> e a IA atua cirurgicamente sobre ela, preservando 100% da autonomia do estudante.</p>
+    <span class="badge badge-rf">Intervenção Cirúrgica</span>
   </div>
 
   <div class="iris-card">
