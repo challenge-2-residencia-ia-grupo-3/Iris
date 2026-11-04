@@ -125,6 +125,13 @@ Como professor da educação básica, quero inserir o conteúdo da minha ativida
 * **E** o sistema deve validar que o texto possui no mínimo 50 caracteres e no máximo 2.000 palavras.
 * **E** a extração não deve falhar ou corromper acentuações da língua portuguesa (UTF-8).
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Endpoint FastAPI `POST /api/v1/materials/upload` com suporte a multipart/form-data e extração de texto bruto (`.txt`, `.pdf`, `.docx`).
+- [ ] **[Backend]** Validação de tamanho (mínimo 50 caracteres e limite seguro de 2.000 palavras) com mensagens de erro estruturadas.
+- [ ] **[Frontend]** Componente da Etapa 1 com área de colagem de texto (textarea acessível) e contador de caracteres/palavras em tempo real.
+- [ ] **[Frontend]** Componente drag-and-drop de arquivos com feedback visual de formato aceito/rejeitado (WCAG 2.1 AA).
+- [ ] **[Testes]** Testes unitários de extração de arquivos em `tests/api/test_materials.py` com mocks de PDF e DOCX.
+
 ##### História 1.1.2: Decomposição estrutural automática de questões e enunciados
 **História de Usuário**
 Como professor regente, quero que a plataforma identifique e separe automaticamente os textos-base, os enunciados de cada questão e as alternativas, para que a adaptação preserve a numeração e a organização original da prova.
@@ -136,6 +143,12 @@ Como professor regente, quero que a plataforma identifique e separe automaticame
 * **Então** o sistema deve segmentar cada questão em um bloco estruturado independente (texto de apoio, comando da questão e opções de resposta).
 * **E** o sistema deve manter a ordem sequencial exata das questões originais.
 * **E** o processamento não deve fundir questões distintas mesmo quando a formatação original não possuir quebras de página explícitas.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Módulo `src/iris/parsers/structural_decomposer.py` para isolar cabeçalho institucional, enunciados e alternativas.
+- [ ] **[Backend]** Schema Pydantic `MaterialStructure` contendo blocos de contexto e lista de `QuestionItem`.
+- [ ] **[RAG / IA]** Heurísticas e expressões regulares com fallback para modelo leve de NLP para identificar numeração de questões.
+- [ ] **[Testes]** Testes com dataset sintético de 10 provas com layouts variados comprovando preservação sequencial.
 
 ##### História 1.1.3: Extração multimodal de provas digitalizadas via OCR e análise visual
 **História de Usuário**
@@ -155,6 +168,13 @@ Como professor, quero enviar fotos ou digitalizações de atividades impressas (
 * **Tipo:** `type: epic` | **Pai:** Tema 1
 * **Descrição:** Parametrização centrada nas características neurodivergentes específicas observadas em sala de aula, eliminando pacotes diagnósticos homogêneos.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Endpoint `POST /api/v1/materials/ocr` para upload de imagens de provas (`.png`, `.jpg`).
+- [ ] **[RAG / IA]** Integração com pipeline OCR / modelo de visão computacional (VLM) para transcrição fidedigna.
+- [ ] **[RAG / IA]** Módulo de análise heurística de poluição visual (densidade de bordas e contraste da imagem).
+- [ ] **[Frontend]** Exibição de preview da imagem digitalizada com indicador de densidade visual na tela do docente.
+- [ ] **[Testes]** Testes de acurácia de OCR sobre amostra de provas escaneadas em diferentes resoluções.
+
 ##### História 1.2.1: Seleção cirúrgica de características funcionais atômicas observadas
 **História de Usuário**
 Como professor, quero selecionar especificamente a característica funcional em que o aluno sente dificuldade (ex.: apenas dificuldade com comandos múltiplos na mesma frase, dentre as várias características associadas ao TDAH), para que a aplicação adapte estritamente esse ponto sem alterar o restante da atividade.
@@ -167,6 +187,12 @@ Como professor, quero selecionar especificamente a característica funcional em 
 * **E** as demais características não assinaladas do catálogo devem permanecer bloqueadas para intervenção.
 * **E** o sistema deve impedir o avanço caso nenhuma característica funcional seja selecionada.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Endpoint `GET /api/v1/catalogs/characteristics` retornando o catálogo oficial de barreiras atômicas.
+- [ ] **[Frontend]** Componente de seleção cirúrgica (Etapa 2) com filtros atômicos desacoplados de rótulo clínico.
+- [ ] **[Frontend]** Bloqueio de avanço de fluxo com alerta acessível caso nenhuma característica seja selecionada.
+- [ ] **[Testes]** Teste de renderização do catálogo e persistência do vetor de seleção no estado da sessão do cliente.
+
 ##### História 1.2.2: Registro de potencialidades, interesses e canais de engajamento
 **História de Usuário**
 Como professor, quero informar as potencialidades e áreas de interesse do estudante (ex.: facilidade com esquemas visuais, interesse por esportes ou natureza), para que os apoios pedagógicos utilizem âncoras motivacionais alinhadas à rede de engajamento do DUA.
@@ -177,6 +203,12 @@ Como professor, quero informar as potencialidades e áreas de interesse do estud
 * **Quando** ele preencher os seletores opcionais de potencialidades e interesses temáticos,
 * **Então** o sistema deve anexar esses metadados ao contexto de geração vinculado ao Princípio I do DUA.
 * **E** o uso de interesses não deve substituir os conceitos obrigatórios exigidos na avaliação.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Schema Pydantic para metadados de potencialidades, interesses e canais preferenciais (Princípio I DUA).
+- [ ] **[Frontend]** Seletor de interesses temáticos (esportes, natureza, tecnologia) e campo de potencialidades na Etapa 2.
+- [ ] **[RAG / IA]** Mapeamento dos metadados de potencialidade para injeção de contexto motivacional no prompt de adaptação.
+- [ ] **[Testes]** Teste unitário verificando que a injeção de potencialidades não substitui os conceitos da trava curricular.
 
 ##### História 1.2.3: Transcrição de observações pedagógicas docentes via entrada de áudio
 **História de Usuário**
@@ -195,6 +227,13 @@ Como professor com rotina sobrecarregada, quero gravar ou enviar um breve áudio
 * **Tipo:** `type: epic` | **Pai:** Tema 1
 * **Descrição:** Controle docente sobre a intensidade do andaime cognitivo (*scaffolding*) e blindagem das habilidades curriculares avaliadas.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Endpoint `POST /api/v1/audio/transcribe` para recepção de áudio docente (formato WAV/WebM até 60s).
+- [ ] **[RAG / IA]** Pipeline de transcrição de áudio para texto (Speech-to-Text) com descarte imediato de PII.
+- [ ] **[RAG / IA]** Mapeador semântico de fala para sugestão de checkboxes correspondentes do catálogo funcional.
+- [ ] **[Frontend]** Componente de gravação de áudio no navegador com botão de confirmação das sugestões identificadas.
+- [ ] **[Testes]** Testes de transcrição em amostra de áudios simulados de relatos docentes em português.
+
 ##### História 1.3.1: Calibragem do nível de andaime cognitivo em 3 níveis (Leve, Moderado, Intensivo)
 **História de Usuário**
 Como professor, quero calibrar a intensidade de suporte da adaptação entre Nível 1 (Leve), Nível 2 (Moderado) e Nível 3 (Intensivo), para que eu possa dosar a ajuda proporcionalmente à necessidade do aluno sem comprometer o desenvolvimento da sua autonomia.
@@ -205,6 +244,12 @@ Como professor, quero calibrar a intensidade de suporte da adaptação entre Ní
 * **Quando** ele escolher entre o Nível 1, Nível 2 ou Nível 3 de andaime cognitivo,
 * **Então** o sistema deve configurar as diretrizes estruturais correspondentes (Nível 1: tipografia e destaque; Nível 2: chunking e checklists; Nível 3: passo a passo guiado e pausas).
 * **E** a seleção de nível deve atuar unicamente sobre as características funcionais ativadas na História 1.2.1.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Definição das diretrizes de andaime nos schemas de configuração de sessão (Nível 1, 2 e 3).
+- [ ] **[Frontend]** Componente visual de calibração de suporte na Etapa 3 com cards explicativos de cada nível.
+- [ ] **[Frontend]** Feedback visual detalhando as transformações estruturais de cada intensidade (Leve, Moderada, Intensiva).
+- [ ] **[Testes]** Teste de validação garantindo que a diretiva de nível seja atribuída estritamente às características ativadas.
 
 ##### História 1.3.2: Definição de Travas Curriculares Inegociáveis e alerta preventivo anti-muleta
 **História de Usuário**
@@ -230,6 +275,12 @@ Como professor, quero definir explicitamente quais conceitos técnicos e habilid
 * **Tipo:** `type: epic` | **Pai:** Tema 2
 * **Descrição:** Pipeline RAG e sistema multiagentes para adaptação cirúrgica fundamentada no DUA, manuais do MEC e literatura sobre Funções Executivas.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Schema Pydantic para invariantes da Trava Curricular (conceitos obrigatórios, habilidades BNCC).
+- [ ] **[Frontend]** Campo de texto estruturado na Etapa 3 com exemplos de travas e aviso de validação cognitiva.
+- [ ] **[RAG / IA]** Validador preventivo de perda cognitiva (alerta anti-muleta) cruzando nível solicitado com trava definida.
+- [ ] **[Testes]** Teste automatizado de detecção de incompatibilidade pedagógica (ex.: trava de inferência vs. andaime simplificador).
+
 ##### História 2.1.1: Recuperação de estratégias psicopedagógicas baseadas em evidências (RAG)
 **História de Usuário**
 Como especialista em educação inclusiva, quero que as regras de adaptação aplicadas pelo sistema sejam recuperadas de uma base científica curada (DUA, MEC e artigos sobre Funções Executivas), para que nenhuma intervenção seja fruto de alucinação ou senso comum.
@@ -240,6 +291,12 @@ Como especialista em educação inclusiva, quero que as regras de adaptação ap
 * **Quando** o Agente Estrategista consultar o banco vetorial RAG,
 * **Então** o sistema deve retornar os trechos normativos e estratégias científicas mais relevantes com metadados de fonte e citação.
 * **E** a busca vetorial deve filtrar estritamente os documentos correspondentes às características selecionadas pelo professor.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[RAG / IA]** Ingestão do corpus curado (DUA/CAST, MEC, Funções Executivas) no ChromaDB com metadados por característica.
+- [ ] **[RAG / IA]** Função de busca vetorial filtrada deterministicamente pelo `id_caracteristica` selecionado.
+- [ ] **[RAG / IA]** Mapeador de contexto injetando trechos normativos e citações bibliográficas no prompt do Agente Estrategista.
+- [ ] **[Testes]** Teste automatizado com RAGAS avaliando Context Precision e Faithfulness do trecho recuperado.
 
 ##### História 2.1.2: Extração de invariantes curriculares pelo Agente Extrator
 **História de Usuário**
@@ -252,6 +309,12 @@ Como professor, quero que o sistema analise a questão original antes de adaptá
 * **Então** ele deve produzir uma lista estruturada de conceitos obrigatórios, termos técnicos intocáveis e o verbo de comando cognitivo (ex.: inferir, calcular, relacionar).
 * **E** essa lista deve ser repassada como restrição rígida para os agentes subsequentes.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[RAG / IA]** Prompt e contrato Pydantic do Agente Extrator Curricular em `src/iris/agents/curriculum_extractor.py`.
+- [ ] **[RAG / IA]** Extração determinística de vocabulário técnico, conceitos centrais e verbos de comando taxonômicos.
+- [ ] **[Backend]** Estrutura de passagem de estado em memória com a lista de invariantes intocáveis.
+- [ ] **[Testes]** Teste com 10 questões padrão aferindo a integridade dos conceitos extraídos pelo agente.
+
 ##### História 2.1.3: Adaptação com isolamento estrito de escopo à característica selecionada
 **História de Usuário**
 Como professor, quero que o Agente Adaptador modifique exclusivamente os aspectos ligados à característica que selecionei para o aluno, para evitar que a prova sofra super-adaptação ou infantilização em áreas onde o estudante tem plena autonomia.
@@ -263,6 +326,12 @@ Como professor, quero que o Agente Adaptador modifique exclusivamente os aspecto
 * **Então** ele deve aplicar o andaime estritamente na separação dos comandos em etapas/checklists.
 * **E** deve manter 100% do vocabulário, densidade conceitual e demais estruturas não relacionadas à característica marcada.
 * **E** o tempo total de processamento não deve exceder 15 segundos para Nível 1 e 40 segundos para Níveis 2 e 3.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[RAG / IA]** Prompt e lógica de execução do Agente Adaptador em `src/iris/agents/adapter_agent.py`.
+- [ ] **[RAG / IA]** Implementação da Regra de Isolamento de Escopo: restrição estrita das transformações à característica ativa.
+- [ ] **[Backend]** Telemetria de latência e consumo de tokens por ciclo de geração multiagentes.
+- [ ] **[Testes]** Teste de não-modificação de dimensões textuais não associadas à dificuldade selecionada.
 
 ##### História 2.1.4: Auditoria automatizada de retenção curricular (TRCC) e não-intrusividade
 **História de Usuário**
@@ -282,6 +351,12 @@ Como professor, quero que um Agente Auditor verifique automaticamente se a quest
 * **Tipo:** `type: epic` | **Pai:** Tema 2
 * **Descrição:** Interface de revisão docente obrigatória (*Human-in-the-Loop*), transparência algorítmica das justificativas DUA e geração de arquivos finais para impressão.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[RAG / IA]** Prompt e motor de auditoria do Agente Auditor em `src/iris/agents/auditor_agent.py`.
+- [ ] **[Backend]** Implementação do cálculo da Taxa de Retenção de Conceitos-Chave (TRCC) e validação de nível (SAEN).
+- [ ] **[Backend]** Mecanismo de Circuit Breaker (`max_retries = 2`) para auto-correção sem loop infinito.
+- [ ] **[Testes]** Teste de rejeição automática e disparo de refinamento quando TRCC < 95%.
+
 ##### História 2.2.1: Visualização comparativa lado a lado com justificativas pedagógicas do DUA
 **História de Usuário**
 Como professor, quero visualizar na tela a questão original ao lado da questão adaptada, acompanhada da justificativa pedagógica de cada modificação feita com base no DUA, para que eu compreenda e valide tecnicamente a sugestão da IA.
@@ -293,6 +368,12 @@ Como professor, quero visualizar na tela a questão original ao lado da questão
 * **Então** o sistema deve exibir o material original na coluna da esquerda e a versão adaptada sincronizada na coluna da direita.
 * **E** cada questão adaptada deve apresentar um cartão explicativo citando qual característica funcional foi tratada e qual diretriz do DUA/MEC fundamentou a alteração.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Frontend]** Componente da Etapa 5 com layout comparativo sincronizado lado a lado (Original vs. Adaptado).
+- [ ] **[Frontend]** Cartões retráteis de justificativas pedagógicas com referências ao DUA e ao catálogo funcional.
+- [ ] **[Frontend]** Indicadores visuais acessíveis destacando os andaimes cognitivos aplicados em cada questão.
+- [ ] **[Testes]** Teste de responsividade e acessibilidade (WCAG 2.1 AA) em diferentes tamanhos de tela.
+
 ##### História 2.2.2: Edição livre docente em tempo real e aprovação Human-in-the-Loop
 **História de Usuário**
 Como professor autoridade pedagógica da turma, quero editar livremente qualquer palavra, formatação ou etapa da versão sugerida pela IA antes de finalizar, para garantir que o material reflita meu julgamento profissional.
@@ -303,6 +384,12 @@ Como professor autoridade pedagógica da turma, quero editar livremente qualquer
 * **Quando** ele alterar o texto da coluna adaptada ou clicar em aprovar questão,
 * **Então** o sistema deve atualizar imediatamente a versão final em memória.
 * **E** o botão de exportação final só deve ser liberado após a revisão/confirmação explícita do professor (*Human-in-the-Loop* obrigatório).
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Frontend]** Editor de texto inline em tempo real na coluna da atividade adaptada.
+- [ ] **[Frontend]** Botão de aprovação formal por questão e confirmação final do docente (Human-in-the-Loop).
+- [ ] **[Backend]** Endpoint `PUT /api/v1/sessions/{id}/review` persistindo em memória as edições manuais feitas pelo professor.
+- [ ] **[Testes]** Teste garantindo que a exportação final permanece bloqueada até homologação explícita do docente.
 
 ##### História 2.2.3: Exportação do material adaptado em PDF diagramado econômico e DOCX editável
 **História de Usuário**
@@ -328,6 +415,12 @@ Como professor de escola com recursos limitados de impressão, quero exportar a 
 * **Tipo:** `type: epic` | **Pai:** Tema 3
 * **Descrição:** Estruturação local de metadados anônimos sobre características funcionais observadas e histórico de eficácia das intervenções pedagógicas.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Compilador de PDF econômico em tons de cinza com tipografia sem serifa e cabeçalho neutro escolar.
+- [ ] **[Backend]** Exportador para formato `.docx` com formatação limpa e editável via `python-docx`.
+- [ ] **[Frontend]** Botões de download direto para PDF e DOCX com feedback visual de geração de arquivo.
+- [ ] **[Testes]** Teste de validação estética do PDF gerado verificando ausência de rótulos clínicos ou estigmas no cabeçalho.
+
 ##### História 3.1.1: Geração de Perfil Pedagógico Portátil com identificador anônimo aleatório
 **História de Usuário**
 Como professor ou profissional do AEE, quero gerar um perfil portátil identificado apenas por um código aleatório anônimo (ex.: `aluno-8f7a2c1b`), para registrar os parâmetros funcionais que deram certo sem armazenar o nome ou dados pessoais do estudante na plataforma.
@@ -339,6 +432,12 @@ Como professor ou profissional do AEE, quero gerar um perfil portátil identific
 * **Então** o sistema deve criar uma estrutura em memória contendo um hash/código aleatório único, a data e as características funcionais selecionadas.
 * **E** nenhum dado criado deve ser salvo em banco de dados no servidor da aplicação.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Gerador de identificador aleatório anônimo (hash UUID desvinculado de nomes).
+- [ ] **[Backend]** Schema Pydantic oficial para o Perfil Pedagógico Portátil em `src/iris/schemas/portable_profile.py`.
+- [ ] **[Frontend]** Opção na interface para inicializar e nomear anonimamente uma ficha de perfil portátil.
+- [ ] **[Testes]** Inspeção em código e testes automatizados comprovando ausência de persistência em banco de dados central.
+
 ##### História 3.1.2: Registro de histórico de eficácia das intervenções por característica
 **História de Usuário**
 Como professor, quero registrar no perfil portátil se uma estratégia específica funcionou ou não para o aluno (ex.: "fragmentação em checklist teve alta eficácia"), para que nas próximas provas eu ou outros professores possamos evoluir a calibragem pedagógica.
@@ -348,6 +447,12 @@ Como professor, quero registrar no perfil portátil se uma estratégia específi
 * **Dado que** um Perfil Pedagógico Portátil está carregado na sessão,
 * **Quando** o professor adicionar uma anotação de eficácia (`alta`, `média`, `baixa`) e observação pedagógica para a estratégia utilizada,
 * **Então** o sistema deve anexar o registro ao histórico de intervenções do perfil.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Frontend]** Componente de registro de feedback pedagógico com seletores de eficácia (`alta`, `média`, `baixa`).
+- [ ] **[Frontend]** Campo de texto livre para anotação de observações pedagógicas contextuais sobre a intervenção.
+- [ ] **[Backend]** Estruturação do registro no array `historico_intervencoes` do perfil portátil em memória.
+- [ ] **[Testes]** Teste unitário de inclusão e histórico ordenado de estratégias no objeto de perfil.
 
 ##### História 3.1.3: Bloqueio de inserção de dados clínicos e diagnósticos formais no perfil
 **História de Usuário**
@@ -365,6 +470,12 @@ Como gestor escolar comprometido com a ética e a LGPD, quero que o sistema vali
 * **Tipo:** `type: epic` | **Pai:** Tema 3
 * **Descrição:** Interoperabilidade local via arquivos `.json` (sistema) e `.pdf` (leitura humana para dossiê escolar).
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Validador estrito de schema Pydantic com `extra = "forbid"` rejeitando campos não declarados.
+- [ ] **[Backend]** Filtro de termos clínicos restritos bloqueando padrões de CID médicos, remédios ou laudos médicos.
+- [ ] **[Frontend]** Mensagem orientadora explicando que o perfil é estritamente pedagógico caso haja tentativa de inserção clínica.
+- [ ] **[Testes]** Testes com dataset de dados clínicos sintéticos garantindo 100% de rejeição pelo validador.
+
 ##### História 3.2.1: Exportação local do Perfil Pedagógico Portátil em JSON e PDF
 **História de Usuário**
 Como professor do AEE, quero baixar o Perfil Pedagógico Portátil tanto em formato `.json` (para reuso futuro no sistema) quanto em `.pdf` (para anexar ao Plano de Desenvolvimento Individual na escola), para compartilhar as estratégias com os professores regentes.
@@ -375,6 +486,12 @@ Como professor do AEE, quero baixar o Perfil Pedagógico Portátil tanto em form
 * **Quando** ele clicar em exportar perfil,
 * **Então** o navegador deve baixar o arquivo `.json` validado pelo schema oficial e/ou o relatório síntese em `.pdf`.
 * **E** toda a sessão temporária no servidor deve poder ser encerrada sem perda dos dados baixados localmente pelo professor.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Serializador para download local do arquivo estruturado `.json` e do relatório de síntese `.pdf`.
+- [ ] **[Frontend]** Ação de exportação com acionamento de download nativo do arquivo no dispositivo do professor.
+- [ ] **[Backend]** Destruição da sessão em memória logo após a finalização do download pelo cliente.
+- [ ] **[Testes]** Teste de validação do arquivo JSON baixado contra o schema oficial do Perfil Portátil.
 
 ##### História 3.2.2: Importação e restauração de sessão a partir de arquivo JSON portátil
 **História de Usuário**
@@ -400,6 +517,12 @@ Como professor regente iniciando um novo bimestre, quero fazer o upload do arqui
 * **Tipo:** `type: epic` | **Pai:** Tema 4
 * **Descrição:** Sanitização local de informações identificáveis (PII) e garantia de execução *stateless*.
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Frontend]** Componente de upload e parsing do arquivo `.json` do Perfil Pedagógico Portátil no início do fluxo.
+- [ ] **[Frontend]** Pré-seleção automática das características funcionais e do nível de andaime recomendados no arquivo.
+- [ ] **[Backend]** Validação de schema no upload com tratamento de arquivos corrompidos ou com formato inválido.
+- [ ] **[Testes]** Teste ponta a ponta de restauração de parâmetros da sessão a partir de arquivo JSON válido.
+
 ##### História 4.1.1: Detecção e descarte preventivo de PII na entrada de materiais
 **História de Usuário**
 Como responsável pela conformidade LGPD da instituição, quero que um filtro local detecte e remova preventivamente quaisquer dados de identificação pessoal (nomes próprios de docentes/estudantes, menções institucionais ou contatos) inseridos acidentalmente no material ou nas notas antes de qualquer envio a provedores externos de LLM, para impedir o tráfego de dados pessoais de menores.
@@ -410,6 +533,12 @@ Como responsável pela conformidade LGPD da instituição, quero que um filtro l
 * **Quando** o texto passar pelo gateway local de privacidade antes da chamada aos agentes de IA,
 * **Então** o sanitizador deve substituir imediatamente os dados identificados por marcadores anônimos (`[ESTUDANTE]`, `[ESCOLA]`).
 * **E** o payload enviado aos agentes de linguagem não deve conter os dados pessoais originais.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Módulo `src/iris/security/pii_scrubber.py` utilizando regex e modelo NER leve (ex.: spaCy pt-core-news-sm).
+- [ ] **[Backend]** Substituição imediata e irreversível de nomes próprios e menções institucionais por marcadores genéricos.
+- [ ] **[Testes]** Bateria de testes unitários com dataset de 50 cabeçalhos sintéticos de provas comprovando detecção >= 98%.
+- [ ] **[Testes]** Teste de integridade comprovando que o payload enviado aos LLMs não possui dados identificáveis.
 
 ##### História 4.1.2: Execução em arquitetura stateless Zero-Database sem persistência de alunos
 **História de Usuário**
@@ -422,6 +551,11 @@ Como arquiteto de software, quero garantir que o backend da plataforma opere de 
 * **Então** nenhum dado do material submetido ou do perfil funcional do estudante deve permanecer gravado em disco ou banco de dados no servidor.
 * **E** o único armazenamento persistente permitido no backend deve ser a base vetorial somente-leitura de artigos científicos e manuais públicos (RAG).
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Arquitetura stateless no FastAPI com ciclo de vida de dados restrito à sessão em memória.
+- [ ] **[Backend]** Configuração da aplicação sem tabelas de cadastro de alunos em banco central.
+- [ ] **[Testes]** Script de auditoria em CI/CD inspecionando o repositório para certificar ausência de modelos ORM de estudantes.
+
 ##### História 4.1.3: Descarte preventivo de PII acidental e formatação de cabeçalho escolar neutro
 **História de Usuário**
 Como professor, quero que quaisquer dados de identificação pessoal inseridos acidentalmente no material didático (nomes de alunos em cabeçalhos antigos ou menções orais) sejam descartados imediatamente pelo sistema sem gerar mapeamento em memória, e que o material adaptado receba um cabeçalho escolar neutro em branco para preenchimento manual em sala de aula, garantindo privacidade absoluta (Zero-Retention) e prontidão para impressão.
@@ -433,6 +567,12 @@ Como professor, quero que quaisquer dados de identificação pessoal inseridos a
 * **Então** o sistema deve descartar irreversivelmente os dados identificadores substituindo-os por marcadores genéricos (`[ESTUDANTE]`, `[ESCOLA]`).
 * **E** o sistema não deve armazenar nenhum dicionário ou mapa de restauração em memória (*Zero-Retention*).
 * **E** na exportação para impressão (.pdf/.docx), o documento deve ser formatado com cabeçalho escolar neutro padronizado com linhas para preenchimento manual do estudante.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Gerador de cabeçalho escolar neutro padrão em branco para inserção automática nos exports.
+- [ ] **[Backend]** Descarte preventivo de marcadores acidentais no fechamento da sessão sem dicionário de memória.
+- [ ] **[Frontend]** Pré-visualização do cabeçalho limpo com linhas pontilhadas na tela de exportação de material.
+- [ ] **[Testes]** Teste comprovando que o documento gerado sai formatado para preenchimento manual em sala de aula.
 
 ##### História 4.1.4: Auditoria de não-retenção de payloads sensíveis em logs de execução
 **História de Usuário**
@@ -450,6 +590,11 @@ Como engenheiro de segurança e IA, quero que os logs de telemetria e depuraçã
 * **Tipo:** `type: epic` | **Pai:** Tema 4
 * **Descrição:** Governança científica dos catálogos modulares de características neurodivergentes, análise exploratória de dados (EDA) e protocolo automatizado de avaliação quantitativa (Semana 2, Semana 3 e Semana 7).
 
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Configuração de formatadores de log (Loguru / Logging Python) filtrando payloads de requisições.
+- [ ] **[Backend]** Registro exclusivo de metadados operacionais (status HTTP, latência em segundos, contagem de tokens, score TRCC).
+- [ ] **[Testes]** Teste automatizado de inspeção de saída de logs assegurando ausência de textos de questões ou observações.
+
 ##### História 4.2.1: Estruturação de schema modular JSON/YAML para catálogos de características
 **História de Usuário**
 Como pesquisador e desenvolvedor da plataforma, quero que o catálogo de características funcionais seja carregado a partir de arquivos estruturados e validados por schema (`.json`), para que possamos expandir o suporte do TDAH para TEA e Dislexia adicionando novos catálogos baseados em evidências sem alterar o código-fonte do motor.
@@ -460,6 +605,11 @@ Como pesquisador e desenvolvedor da plataforma, quero que o catálogo de caracte
 * **Quando** a aplicação inicializar ou carregar os perfis disponíveis,
 * **Então** o modelo Pydantic deve validar a presença obrigatória do identificador da característica, descrição prática observável, diretrizes de andaime para os Níveis 1, 2 e 3 e referências bibliográficas (DUA/MEC/artigos).
 * **E** catálogos sem referência bibliográfica válida devem ser rejeitados na validação.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Modelo Pydantic `CharacteristicCatalog` e `CharacteristicItem` com validação de campos obrigatórios.
+- [ ] **[RAG / IA]** Criação do catálogo oficial `catalogs/tdah_caracteristicas_funcionais.json` estruturado por evidências.
+- [ ] **[Testes]** Testes de carga e validação garantindo que novos catálogos (TEA, Dislexia) sejam carregados sem alterar código.
 
 ##### História 4.2.2: Análise exploratória de dados (EDA do corpus e benchmark) e validação RAGAS
 **História de Usuário**
@@ -475,4 +625,10 @@ Como pesquisador e avaliador técnico da Residência em IA, quero conduzir a an�
 * **Então** o sistema deve mapear a distribuição de baseline do Flesch-Kincaid PT-BR e densidade de comandos conjugados.
 * **E** quando o script de benchmark da Semana 3 comparar LLM Puro vs. Íris,
 * **Então** deve gerar relatório estatístico comprovando $\text{TRCC} \ge 95\%$, *Faithfulness* $\ge 0.90$ e preservação curricular estrita.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[RAG / IA]** Notebook e scripts da EDA 1 (corpus científico RAG: balanceamento por característica e tokens).
+- [ ] **[RAG / IA]** Dataset de 30 a 50 questões escolares (Golden Benchmark) e scripts da EDA 2 (baseline Flesch PT-BR e comandos).
+- [ ] **[RAG / IA]** Script do benchmark comparativo da Semana 3 comparando LLM Puro vs. Íris (RAG + Multiagentes).
+- [ ] **[Testes]** Relatório automatizado de validação comprovando TRCC >= 95% e métricas RAGAS (Faithfulness >= 0.90).
 
