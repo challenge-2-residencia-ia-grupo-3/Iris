@@ -6,8 +6,8 @@ site_url: "https://challenge-2-residencia-ia-grupo-3.github.io/Iris/"
 theme:
   name: material
   language: pt-BR
-  icon:
-    logo: material/eye-circle-outline
+  logo: assets/logo.jpg
+  favicon: assets/favicon.png
   font:
     text: Plus Jakarta Sans
     code: JetBrains Mono
