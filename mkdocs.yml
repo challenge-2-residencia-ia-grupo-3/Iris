@@ -79,6 +79,7 @@ nav:
   - Requisitos:
       - Requisitos Funcionais: requisitos_funcionais.md
       - Requisitos Não Funcionais: requisitos_nao_funcionais.md
+      - Backlog & Rastreabilidade: backlog_rastreabilidade.md
   - Arquitetura: arquitetura.md
   - Metodologia CBL: cbl.md
   - Catálogo de Skills: skills.md
