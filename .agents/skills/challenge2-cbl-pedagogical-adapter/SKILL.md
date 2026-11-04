@@ -53,10 +53,11 @@ Antes de implementar qualquer funcionalidade, valide os 5 critérios obrigatóri
 
 ## 3. Escopo Técnico do MVP e Três Pilares Inegociáveis
 
-### Pilar 1: Barreiras Funcionais > Rótulo Clínico
-* **Proibição de Estereótipo Clínico:** O sistema jamás aplica um "template único para TDAH".
-* **Parametrização Funcional:** O professor seleciona **barreiras funcionais observadas em sala** (ex: dificuldade em sustentar atenção, organizar etapas, iniciar/concluir tarefas, excesso de estímulos visuais, necessidade de instruções curtas, sobrecarga de memória de trabalho) combinadas com as **potencialidades e interesses do aluno**.
-* **Modularidade:** Os perfis e barreiras devem ser armazenados em catálogos estruturados (`.json` / `.yaml`) desacoplados do código-fonte, permitindo cadastrar novos perfis (Dislexia, Discalculia, TEA) futuramente com base em evidências.
+### Pilar 1: Características Singulares > Pacote Clínico (Intervenção Cirúrgica)
+* **Proibição de Estereótipo Clínico em Bloco:** O sistema jamás aplica um "template fechado para a condição".
+* **Intervenção Cirúrgica por Característica:** Se uma condição como o TDAH possui 15 características hipotéticas e o professor assinala apenas 1 dificuldade observada em sala, a IA atua estritamente sobre essa dimensão, preservando 100% da autonomia e do formato original nas outras 14.
+* **Regra de Isolamento de Escopo:** O pipeline multiagentes é estritamente proibido de introduzir andaimes ou simplificações não solicitadas para traços que o professor não selecionou.
+* **Modularidade:** Catálogo atômico modular (`.json` / `.yaml`) desacoplado do código-fonte para expansão progressiva a outros perfis (TEA, Dislexia).
 
 ### Pilar 2: Andaime Cognitivo (Scaffolding) em 3 Níveis + Trava Curricular
 * **Nível 1 (Adaptação Leve):** Ajustes de formatação, organização visual, destaque de palavras-chave (negrito/marcadores) e clareza das instruções, preservando **100% da estrutura e complexidade** original.

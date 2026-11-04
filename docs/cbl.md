@@ -33,7 +33,7 @@ Professores encontram-se sobrecarregados com demandas burocráticas, aulas e cor
 * **Diagnóstico e resposta:** Identificar as dificuldades dos alunos, reescrever textos extensos, estruturar instruções por etapas, buscar recursos visuais e revisar para garantir que o rigor conceitual não foi perdido.
 
 ### 2. Como transformar as dificuldades de aprendizagem em critérios de adaptação sem exigir laudos clínicos?
-* **Diagnóstico e resposta:** Oferecer filtros funcionais e pedagógicos diretamente ligados a necessidades práticas (textos mais curtos, linguagem simplificada, passos sequenciais, recursos visuais e destaque de palavras-chave), sem burocracia médica.
+* **Diagnóstico e resposta:** Oferecer filtros atômicos baseados em características funcionais observáveis (ex.: comandos múltiplos, sobrecarga de memória de trabalho, fadiga em textos contínuos), permitindo que o professor atue cirurgicamente sobre a dificuldade manifestada pelo aluno em sala, sem burocracia médica e sem aplicar super-adaptações em bloco.
 
 ### 3. Como simplificar o material sem prejudicar o conteúdo curricular?
 * **Diagnóstico e resposta:** Preservar rigorosamente os conceitos essenciais e os objetivos da atividade (por meio de Travas Curriculares), transformando exclusivamente a carga de leitura, a diagramação e a estratégia de explicação dos conteúdos.

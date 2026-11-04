@@ -34,13 +34,14 @@ Este documento especifica os **Requisitos Funcionais** da plataforma Íris. Em e
 
 ## Módulo 2: Parametrização Pedagógica & Mapeamento Funcional
 
-### RF-04: Seleção Modular de Barreiras Funcionais Observadas
-* **Descrição:** O sistema deve fornecer uma interface de seleção baseada em barreiras funcionais executivas observadas em sala de aula, impedindo o tratamento homogêneo do diagnóstico de TDAH.
-* **Entradas:** Seleção do professor sobre o catálogo modular de barreiras.
+### RF-04: Seleção Cirúrgica de Características Neurodivergentes Específicas
+* **Descrição:** O sistema deve fornecer uma interface de seleção atômica de características e dificuldades funcionais observáveis em sala de aula, rejeitando a abordagem de pacotes diagnósticos fechados. O foco operacional é tratar a característica ativada, e não a condição médica em bloco.
+* **Entradas:** Seleção do professor sobre o catálogo atômico de características (ex.: se o TDAH apresenta 15 características possíveis, o professor pode selecionar apenas 1 ou um subconjunto específico).
 * **Processamento:**
-  1. Carregamento do catálogo oficial de barreiras funcionais (`tdah_barreiras_funcionais.json`).
-  2. Registro das opções selecionadas (ex.: *Atenção sustentada a textos longos*, *Sobrecarga de memória de trabalho*, *Iniciação/organização sequencial de respostas*, *Vulnerabilidade a poluição visual*).
-* **Saída:** Vetor de restrições funcionais associado à sessão atual de adaptação.
+  1. Carregamento do catálogo oficial de características atômicas (`catalogs/tdah_caracteristicas_funcionais.json`).
+  2. Isolamento estrito das opções marcadas (ex.: apenas *Dificuldade de processamento de comandos múltiplos na mesma frase*).
+  3. Bloqueio automático de intervenções associadas às características não marcadas pelo professor.
+* **Saída:** Vetor cirúrgico de características ativadas associado à sessão atual.
 
 ### RF-05: Registro de Potencialidades e Estilos de Engajamento
 * **Descrição:** O sistema deve coletar as potencialidades, interesses temáticos e canais preferenciais de demonstração de conhecimento do aluno para orientar a contextualização da adaptação.
@@ -100,24 +101,25 @@ Este documento especifica os **Requisitos Funcionais** da plataforma Íris. Em e
   3. Recuperação de trechos normativos e orientações práticas de adaptação com citações da fonte.
 * **Saída:** Contexto de evidências científicas anexado ao prompt de adaptação.
 
-### RF-11: Orquestração Multiagentes de Adaptação
-* **Descrição:** A geração da adaptação deve ser dividida entre agentes de IA com responsabilidades segregadas, executados em sequência coordenada:
-  1. **Agente Extrator Curricular:** Isola os conceitos centrais e objetivos da questão.
-  2. **Agente Estrategista RAG:** Seleciona as intervenções pedagógicas adequadas à barreira funcional e nível.
-  3. **Agente Adaptador:** Reescreve e formata o material aplicando os andaimes aprovados.
-  4. **Agente Auditor:** Realiza a conferência de qualidade e fidelidade antes da entrega ao professor.
-* **Entradas:** Material estruturado, barreiras, travas e contexto RAG recuperado.
-* **Processamento:** Execução ordenada do pipeline com passagem de estado em memória.
-* **Saída:** Versão adaptada acompanhada das justificativas técnicas de cada alteração.
+### RF-11: Orquestração Multiagentes com Isolamento de Escopo
+* **Descrição:** A geração da adaptação deve ser dividida entre agentes de IA com responsabilidades segregadas, operando sob uma estrita **Regra de Isolamento de Escopo**:
+  1. **Agente Extrator Curricular:** Isola os conceitos centrais, vocabulário técnico e objetivos da questão (invariantes da Trava Curricular).
+  2. **Agente Estrategista RAG:** Consulta a base vetorial e recupera intervenções pedagógicas *exclusivamente* para as características neurodivergentes ativadas no RF-04. Se apenas uma característica foi selecionada, o agente recupera intervenções somente para ela.
+  3. **Agente Adaptador:** Reescreve e formata o material aplicando os andaimes aprovados, sendo terminantemente proibido de modificar dimensões textuais ou cognitivas não cobertas pelas características ativadas.
+  4. **Agente Auditor:** Realiza a conferência de qualidade, integridade curricular e não-intrusividade antes da entrega ao docente.
+* **Entradas:** Material estruturado, características ativadas, travas curriculares e contexto RAG recuperado.
+* **Processamento:** Execução ordenada do pipeline com passagem de estado em memória e validação de escopo.
+* **Saída:** Versão adaptada minimalista e cirúrgica acompanhada das justificativas técnicas de cada alteração.
 
-### RF-12: Auditoria Automatizada de Preservação Curricular e Nível
-* **Descrição:** O Agente Auditor deve submeter o material gerado a um crivo rigoroso antes de exibi-lo ao professor.
-* **Entradas:** Material original, material adaptado, travas curriculares e nível solicitado.
+### RF-12: Auditoria Automatizada de Preservação Curricular e Não-Intrusividade
+* **Descrição:** O Agente Auditor deve submeter o material gerado a uma validação dupla: integridade curricular e não-intrusividade da adaptação.
+* **Entradas:** Material original, material adaptado, travas curriculares, nível solicitado e características ativadas.
 * **Processamento:**
-  1. Cálculo determinístico da Taxa de Retenção de Conceitos-Chave (TRCC).
+  1. Cálculo determinístico da Taxa de Retenção de Conceitos-Chave (TRCC >= 95%).
   2. Verificação de conformidade estrutural com as regras do nível solicitado (SAEN).
-  3. Detecção de resoluções indevidas (verificar se a IA respondeu à pergunta no próprio enunciado).
-  4. Disparo de auto-correção (*self-refinement*) pelo Agente Adaptador se $\text{TRCC} < 95\%$.
+  3. Checagem de Não-Intrusividade: verificação se o modelo não inseriu modificações pedagógicas desnecessárias para características que não foram assinaladas pelo professor.
+  4. Detecção de resoluções indevidas (verificar se a IA respondeu à pergunta no próprio enunciado).
+  5. Disparo de auto-correção (*self-refinement*) pelo Agente Adaptador se $\text{TRCC} < 95\%$ ou se for detectada intrusividade indevida.
 * **Saída:** Relatório de auditoria (Aprovado ou Refinado com métricas de validação).
 
 ---

@@ -41,10 +41,11 @@ description: >-
 5. **Utilizar evidências confiáveis:** Base curada em Desenho Universal para a Aprendizagem (DUA / CAST), manuais do MEC e literatura revisada por pares sobre Funções Executivas no TDAH.
 
 ### 1.3. Regras de Negócio do MVP (Três Pilares Inegociáveis)
-1. **Barreiras Funcionais > Rótulo Clínico:**
-   * Proibido estereotipar o TDAH com "template único".
-   * Parametrização por barreiras observadas (atenção sustentada, memória de trabalho, organização sequencial, estímulos visuais concorrentes) e potencialidades do aluno.
-   * Catálogo modular extensível para futuros perfis (Dislexia, Discalculia, TEA).
+1. **Características Singulares > Pacote Clínico (Intervenção Cirúrgica):**
+   * Proibido estereotipar diagnósticos com "templates únicos em bloco".
+   * O foco está na **característica neurodivergente específica**: se uma condição reúne 15 traços e o aluno manifesta apenas 1 em sala, o sistema intervém exclusivamente nessa dificuldade e mantém 100% das outras dimensões originais intactas.
+   * Regra de Isolamento de Escopo: o pipeline multiagentes é proibido de aplicar andaimes não solicitados para características que não foram marcadas pelo professor.
+   * Catálogo atômico modular extensível para futuros perfis (Dislexia, Discalculia, TEA).
 2. **Andaime Cognitivo (*Scaffolding*) em 3 Níveis + Trava Curricular:**
    * *Nível 1 (Leve):* Ajustes de formatação, hierarquia visual, negrito em palavras-chave e clareza de enunciados (100% da estrutura e complexidade preservadas).
    * *Nível 2 (Moderada):* Divisão em etapas com *checklists*, *chunking* de enunciados longos e suporte conceitual pontual.
