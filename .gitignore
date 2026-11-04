@@ -1,0 +1,36 @@
+# Ambientes Virtuais e Gerenciadores de Pacotes
+.venv/
+venv/
+ENV/
+env/
+.uv/
+
+# Caches e Compilação Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.ruff_cache/
+
+# MkDocs Build
+site/
+
+# Variáveis de Ambiente e Segredos
+.env
+.env.local
+*.env
+
+# IDEs e Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Dados e Bancos Locais
+*.sqlite3
+*.db
+/data/raw/*
+!/data/raw/.gitkeep
+
