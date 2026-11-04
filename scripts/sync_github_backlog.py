@@ -161,8 +161,8 @@ def parse_backlog_markdown(md_path: Path) -> list[dict]:
     current_theme = None
     current_epic = None
 
-    # Divide por cabeçalhos de nível 3, 4 e 5
-    pattern = re.compile(r"^(#{3,5})\s+(.+)$", re.MULTILINE)
+    # Divide apenas por cabeçalhos de Tema, Épico e História (ignorando subtítulos internos das histórias)
+    pattern = re.compile(r"^(#{3,5})\s+((?:Tema|Épico|História)\s+.+)$", re.MULTILINE)
     matches = list(pattern.finditer(spec_section))
 
     for i, match in enumerate(matches):
