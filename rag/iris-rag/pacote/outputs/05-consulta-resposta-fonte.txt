@@ -1,0 +1,381 @@
+ÍRIS - DEMONSTRAÇÃO DO FLUXO COMPLETO DO PROTÓTIPO DE RAG
+consulta -> trechos recuperados -> resposta fundamentada -> evidência das fontes
+
+Consultas: 7 de 40 (primeira consulta de cada tipo), elaboradas antes da execução da busca.
+Recuperação: qwen3+rerank50 (50 candidatos por busca vetorial; reordenação por cross-encoder; 5 trechos entregues).
+Banco: PostgreSQL 17.11 com pgvector 0.8.7, tabela iris_trechos, 1368 trechos.
+Respostas: registradas em 05/11/2026; modelo gerador claude-haiku-5-5; instruções de gerar.py.
+           O modelo configurado no protótipo (Qwen, via Groq) não foi utilizado; a opção --ao-vivo executa a geração
+           com esse modelo.
+Avaliadores: duas instâncias independentes de modelo de linguagem (Claude Sonnet); regra em regra_juiz_respostas_v2.md;
+             sem validação humana. A classificação exige a transcrição da passagem do trecho, conferida literalmente.
+Recuperação reproduzida nesta execução: lista de 5 trechos idêntica à utilizada na geração em 6 de 7 consultas.
+Texto de documento sem licença aberta não é reproduzido; são indicados documento, seção, página e endereço de origem.
+Resultados do conjunto completo: ../../outputs/23-respostas-conferencia.txt e ../../outputs/26-respostas-juizes-v2.txt.
+Nenhum modelo foi treinado.
+
+RESUMO
+sustentadas: frases classificadas como sustentadas pelos dois avaliadores
+demais: parcialmente sustentadas, classificações divergentes ou classificação descartada
+
+consulta  tipo                                    frases  sustentadas   demais  comentário  citação de trecho  frases sem  recuperação
+                                                                                  da fonte        inexistente     citação  reproduzida
+Q01       prática docente                              6            2        3           1                  0           0       4 de 5
+Q11       Desenho Universal para a Aprendizagem        4            2        1           1                  0           0     idêntica
+Q19       norma                                        5            5        0           0                  0           0     idêntica
+Q27       evidência de pesquisa                        6            4        1           1                  0           0     idêntica
+Q33       neuromito                                    6            5        1           0                  0           0     idêntica
+Q37       resposta disponível apenas em inglês         6            2        4           0                  0           0     idêntica
+Q39       sem resposta na base                    recusa            -        -           -                  0           -     idêntica
+
+Frases classificadas como não sustentadas por ao menos um avaliador: 0 de 33.
+
+==============================================================================================================
+CONSULTA Q01 (prática docente)
+
+1. CONSULTA SUBMETIDA
+   Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?
+
+2. TRECHOS RECUPERADOS (método qwen3+rerank50; 5 trechos entregues ao modelo gerador)
+   [T1] ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR | p. 7-8 | Introdução [pt-BR]
+        https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+        "Antes de dar a resposta, permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico ou que com..."
+   [T2] RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA | p. 4 | 2.2 Os três princípios [pt-BR]
+        https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+        AVISO DE USO: VERSÃO 2.0: não usar para citar número/nome de ponto de verificação (numeração difere da 3.0); usar como fonte de exemplos práticos. Tradução das Diretrizes DUA versão 2.0 (2018). Para a numeração e o
+        "2.2 Os três princípios Existem três princípios fundamentais baseados na investigação neurocientifica que orientam o DUA e fundamentam estas Diretrizes: Principio I: Proporcionar Modos Múltiplos de Apresentação (o o que d..."
+   [T3] RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA | p. 20-21 | 2.4.3 Diretriz 3 - Oferecer opções para comprender e entende [pt-BR]
+        https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+        AVISO DE USO: VERSÃO 2.0: não usar para citar número/nome de ponto de verificação (numeração difere da 3.0); usar como fonte de exemplos práticos. Tradução das Diretrizes DUA versão 2.0 (2018). Para a numeração e o
+        "Enquanto alguns alunos podem ter um repertório completo desse tipo de estratégias e o conhecimento sobre quando aplicá-las, muitos outros não as possuem. Os materiais bem planejados podem oferecer modelos, suportes e dev..."
+   [T4] RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA | p. 17-18 | 2.4.1 Diretriz 1 - Oferecer opções diferentes para a percepç [pt-BR]
+        https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+        AVISO DE USO: VERSÃO 2.0: não usar para citar número/nome de ponto de verificação (numeração difere da 3.0); usar como fonte de exemplos práticos. Tradução das Diretrizes DUA versão 2.0 (2018). Para a numeração e o
+        "Os alunos precisam de práticas consistentes e significativas com os símbolos para que possam entendê-los e usá-los de maneira eficaz. A falta de fluência ou naturalidade aumenta a carga cognitiva no processo de decodific..."
+   [T5] RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA | p. 15-16 | 2.4.1 Diretriz 1 - Oferecer opções diferentes para a percepç [pt-BR]
+        https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+        AVISO DE USO: VERSÃO 2.0: não usar para citar número/nome de ponto de verificação (numeração difere da 3.0); usar como fonte de exemplos práticos. Tradução das Diretrizes DUA versão 2.0 (2018). Para a numeração e o
+        "• prover acesso ao software de conversão de texto em fala. 2.4.2 Diretriz 2 - Fornecer várias opções para linguagem, expressões matemáticas e símbolos Os estudantes diferem em suas capacidades de lidar com modos distinto..."
+   Recuperação reproduzida nesta execução: 4 de 5 trechos coincidem. Ausente: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0028; incluído: CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0036.
+   A resposta registrada foi gerada a partir dos 5 trechos listados acima.
+
+3. RESPOSTA FUNDAMENTADA (modelo gerador: claude-haiku-5-5; entrada: consulta e 5 trechos)
+   1) Ofereça indicações explícitas para cada etapa de um processo sequencial, como uma questão de várias etapas, para que o aluno possa retomar o caminho [T3].
+   2) Agrupe as informações em unidades menores e mostre-as progressivamente, por exemplo, apresentando a sequência principal aos poucos [T3].
+   3) Forneça listas de verificação, organizadores, notas ou lembretes eletrônicos, que ajudam a ativar a memória e a recuperação de informações [T3].
+   4) Antes de dar a resposta, dê tempo para o aluno formular sua resposta ou peça que ele registre suas respostas em papel ou dispositivo eletrônico, ou que as compartilhe com um colega [T1].
+   5) Enquanto os alunos trabalham, verifique regularmente e de forma individualizada o progresso dos que têm mais dificuldade e responda às perguntas que tiverem [T1].
+   6) Essas são sugestões práticas, pois a fonte as apresenta como exemplos práticos das Diretrizes DUA versão 2.0 [T3].
+
+4. EVIDÊNCIA DAS FONTES
+   frase 1: citação T3 = RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 20-21
+            avaliador A: parcialmente sustentada | avaliador B: sustentada
+            passagem no T3: "Oferecer indicações explícitas para cada etapa em qualquer processo sequencial;"
+   frase 2: citação T3 = RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 20-21
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T3: "agrupar as informações em unidades menores;"
+   frase 3: citação T3 = RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 20-21
+            avaliador A: parcialmente sustentada | avaliador B: parcialmente sustentada
+            passagem no T3: "Fornecer listas de verificação, organizadores, notas, lembretes eletrônicos etc.;"
+   frase 4: citação T1 = ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR, p. 7-8
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T1: "permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico ou que compartilhem respostas com seu colega"
+   frase 5: citação T1 = ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR, p. 7-8
+            avaliador A: parcialmente sustentada | avaliador B: sustentada
+            passagem no T1: "verificar, regularmente e de forma individualizada, o progresso dos alunos com deficiência e responder às perguntas que possam ter."
+   frase 6: citação T3 = RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 20-21
+            avaliador A: comentário correto sobre a fonte | avaliador B: comentário correto sobre a fonte
+   Trechos citados na resposta: T1, T3; entregues e não citados: T2, T4, T5.
+   Verificação automática: citações de trecho inexistente: 0; frases sem citação: 0 de 6; trechos com aviso de uso citados: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA.
+
+==============================================================================================================
+CONSULTA Q11 (Desenho Universal para a Aprendizagem)
+
+1. CONSULTA SUBMETIDA
+   Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?
+
+2. TRECHOS RECUPERADOS (método qwen3+rerank50; 5 trechos entregues ao modelo gerador)
+   [T1] ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR | p. 6 | Introdução [pt-BR]
+        https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+        "Para Nelson (2013), o princípio da Ação e Expressão encoraja os professores a incluírem interações físicas, usando tanto a alta tecnologia quanto ferramentas não tecnológicas e estruturas que guiem o aluno para sua auto ..."
+   [T2] RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA | p. 4 | 2.2 Os três princípios [pt-BR]
+        https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+        AVISO DE USO: VERSÃO 2.0: não usar para citar número/nome de ponto de verificação (numeração difere da 3.0); usar como fonte de exemplos práticos. Tradução das Diretrizes DUA versão 2.0 (2018). Para a numeração e o
+        "2.2 Os três princípios Existem três princípios fundamentais baseados na investigação neurocientifica que orientam o DUA e fundamentam estas Diretrizes: Principio I: Proporcionar Modos Múltiplos de Apresentação (o o que d..."
+   [T3] ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR | p. 4 | Introdução [pt-BR]
+        https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+        "Princípios orientadores do desenho universal para aprendizagem De acordo com Nelson (2013), o DUA está fundamentado em pesquisas científicas sobre a aprendizagem, apontando que: (i) A aprendizagem está relacionada tanto ..."
+   [T4] CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024 | p. - | PRINCÍPIO – PROPOR MULTIPLAS FORMAS PARA O ENGAJAMENTO. Prop [pt-BR]
+        https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+        (texto não reproduzido por restrição de licença; consultar o endereço de origem)
+   [T5] CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024 | p. - | ESTRUTURA DAS DIRETRIZES DO DUA 3.0 [pt-BR]
+        https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+        (texto não reproduzido por restrição de licença; consultar o endereço de origem)
+   Recuperação reproduzida nesta execução: lista idêntica.
+
+3. RESPOSTA FUNDAMENTADA (modelo gerador: claude-haiku-5-5; entrada: consulta e 5 trechos)
+   Os três princípios do DUA são: proporcionar modos múltiplos de apresentação (o "o quê" da aprendizagem), proporcionar modos múltiplos de ação e expressão (o "como") e proporcionar modos múltiplos de implicação, engajamento e envolvimento (o "porquê") [T2].
+   Segundo a fonte, esses princípios são baseados em investigação neurocientífica [T2].
+   Como este trecho é da versão 2.0, não cite a numeração dos pontos de verificação a partir dele, pois prevalece a versão 3.0 [T2].
+   Na versão 3.0, o primeiro princípio aparece como Princípio da Representação [T5].
+
+4. EVIDÊNCIA DAS FONTES
+   frase 1: citação T2 = RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 4
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T2: "Principio III: Proporcionar Modos Múltiplos de Implicação, Engajamento e Envolvimento (o porquê da Aprendizagem)."
+   frase 2: citação T2 = RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 4
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T2: "Existem três princípios fundamentais baseados na investigação neurocientifica que orientam o DUA e fundamentam estas Diretrizes:"
+   frase 3: citação T2 = RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 4
+            avaliador A: comentário correto sobre a fonte | avaliador B: comentário correto sobre a fonte
+   frase 4: citação T5 = CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024, p. -
+            avaliador A: classificação descartada (passagem transcrita não consta no trecho) | avaliador B: classificação descartada (passagem transcrita não consta no trecho)
+   Trechos citados na resposta: T2, T5; entregues e não citados: T1, T3, T4.
+   Verificação automática: citações de trecho inexistente: 0; frases sem citação: 0 de 4; trechos com aviso de uso citados: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA.
+
+==============================================================================================================
+CONSULTA Q19 (norma)
+
+1. CONSULTA SUBMETIDA
+   O que a Lei 14.254/2021 garante aos alunos com TDAH e dislexia na escola?
+
+2. TRECHOS RECUPERADOS (método qwen3+rerank50; 5 trechos entregues ao modelo gerador)
+   [T1] LEI-14254-2021-DISLEXIA-TDAH | p. - | Art. 2º [pt-BR, vigente]
+        https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm
+        "Art. 2º As escolas da educação básica das redes pública e privada, com o apoio da família e dos serviços de saúde existentes, devem garantir o cuidado e a proteção ao educando com dislexia, TDAH ou outro transtorno de ap..."
+   [T2] LEI-14254-2021-DISLEXIA-TDAH | p. - | Art. 5º [pt-BR, vigente]
+        https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm
+        "Art. 5º No âmbito do programa estabelecido no art. 1º desta Lei, os sistemas de ensino devem garantir aos professores da educação básica amplo acesso à informação, inclusive quanto aos encaminhamentos possíveis para aten..."
+   [T3] LEI-14254-2021-DISLEXIA-TDAH | p. - | Art. 3º [pt-BR, vigente]
+        https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm
+        "Art. 3º Educandos com dislexia, TDAH ou outro transtorno de aprendizagem que apresentam alterações no desenvolvimento da leitura e da escrita, ou instabilidade na atenção, que repercutam na aprendizagem devem ter assegur..."
+   [T4] LEI-14254-2021-DISLEXIA-TDAH | p. - | L14254 [pt-BR, vigente]
+        https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm
+        "L14254 L14254 Presidência da República Secretaria-Geral Subchefia para Assuntos Jurídicos LEI Nº 14.254, DE 30 DE NOVEMBRO DE 2021 Dispõe sobre o acompanhamento integral para educandos com dislexia ou Transtorno do Defic..."
+   [T5] LEI-14254-2021-DISLEXIA-TDAH | p. - | Art. 1º [pt-BR, vigente]
+        https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm
+        "Art. 1º O poder público deve desenvolver e manter programa de acompanhamento integral para educandos com dislexia, Transtorno do Deficit de Atenção com Hiperatividade (TDAH) ou outro transtorno de aprendizagem. Parágrafo..."
+   Recuperação reproduzida nesta execução: lista idêntica.
+
+3. RESPOSTA FUNDAMENTADA (modelo gerador: claude-haiku-5-5; entrada: consulta e 5 trechos)
+   Pela lei vigente, as escolas da educação básica, públicas e privadas, devem garantir cuidado e proteção ao educando com dislexia ou TDAH, com apoio da família e dos serviços de saúde [T1].
+   Esses educandos têm direito a acompanhamento específico para sua dificuldade, da forma mais precoce possível, feito pelos educadores da própria escola, quando há alterações na leitura e na escrita ou instabilidade na atenção que afetem a aprendizagem [T3].
+   Também podem contar com apoio e orientação da saúde, da assistência social e de outras políticas públicas do território [T3].
+   O poder público deve manter um programa de acompanhamento integral, que inclui identificação precoce, encaminhamento para diagnóstico, apoio educacional na rede de ensino e apoio terapêutico especializado na rede de saúde [T5].
+   Para isso, os sistemas de ensino devem garantir aos professores amplo acesso à informação e formação continuada, para identificar sinais precoces e oferecer o atendimento educacional escolar [T2].
+
+4. EVIDÊNCIA DAS FONTES
+   frase 1: citação T1 = LEI-14254-2021-DISLEXIA-TDAH, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T1: "As escolas da educação básica das redes pública e privada, com o apoio da família e dos serviços de saúde existentes, devem garantir o cuidado e a proteção ao educando com dislexia, TDAH ou outro transtorno de aprendizagem"
+   frase 2: citação T3 = LEI-14254-2021-DISLEXIA-TDAH, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T3: "devem ter assegurado o acompanhamento específico direcionado à sua dificuldade, da forma mais precoce possível, pelos seus educadores no âmbito da escola na qual estão matriculados"
+   frase 3: citação T3 = LEI-14254-2021-DISLEXIA-TDAH, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T3: "podem contar com apoio e orientação da área de saúde, de assistência social e de outras políticas públicas existentes no território"
+   frase 4: citação T5 = LEI-14254-2021-DISLEXIA-TDAH, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T5: "compreende a identificação precoce do transtorno, o encaminhamento do educando para diagnóstico, o apoio educacional na rede de ensino, bem como o apoio terapêutico especializado na rede de saúde"
+   frase 5: citação T2 = LEI-14254-2021-DISLEXIA-TDAH, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T2: "os sistemas de ensino devem garantir aos professores da educação básica amplo acesso à informação"
+   Trechos citados na resposta: T1, T2, T3, T5; entregues e não citados: T4.
+   Verificação automática: citações de trecho inexistente: 0; frases sem citação: 0 de 5; trechos com aviso de uso citados: nenhum.
+
+==============================================================================================================
+CONSULTA Q27 (evidência de pesquisa)
+
+1. CONSULTA SUBMETIDA
+   Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?
+
+2. TRECHOS RECUPERADOS (método qwen3+rerank50; 5 trechos entregues ao modelo gerador)
+   [T1] NCEO-TOOLKIT-TEMPO-EXTRA-2026 | p. - | Extended Time: Research [en, revisao_narrativa]
+        https://publications.ici.umn.edu/nceo/accommodations-toolkit/extended-time-research
+        "- Three studies showed the positive effects of extended time for high school students with attention-deficit/hyperactivity disorder (ADHD). In one study, some students’ scores were somewhat higher on a reading test when ..."
+   [T2] NCEO-TOOLKIT-TEMPO-EXTRA-2026 | p. - | Extended Time: Research [en, revisao_narrativa]
+        https://publications.ici.umn.edu/nceo/accommodations-toolkit/extended-time-research
+        "- Four studies found that extended time did not impact student performance of students with LD. One study found that students with LD in grades K-5 did not use significantly more time than general education students to f..."
+   [T3] NCEO-TOOLKIT-TEMPO-EXTRA-2026 | p. - | Extended Time: Research [en, revisao_narrativa]
+        https://publications.ici.umn.edu/nceo/accommodations-toolkit/extended-time-research
+        "- Teachers supported the use of extended time and believed its use was fair and valid (Marquart, 2000). What have we learned overall? The research on the effects of extended time is inconclusive. Some studies found benef..."
+   [T4] NCEO-TOOLKIT-TEMPO-EXTRA-2026 | p. - | Extended Time: Research [en, revisao_narrativa]
+        https://publications.ici.umn.edu/nceo/accommodations-toolkit/extended-time-research
+        "- Four studies involving students with various disabilities found no differential impact of extended time on students’ scores. One study of high school students with disabilities who used extended time, alone or bundled,..."
+   [T5] ABDA-GUIA-PROFESSORES-2012 | p. - | TDAH - Guia para Professores - Associação Brasileira do Défi [pt-BR, cartilha]
+        https://tdah.org.br/tdah-guia-para-professores/
+        AVISO DE USO: Cartilha sem referências: serve para linguagem com o professor, não como evidência de eficácia.
+        (texto não reproduzido por restrição de licença; consultar o endereço de origem)
+   Recuperação reproduzida nesta execução: lista idêntica.
+
+3. RESPOSTA FUNDAMENTADA (modelo gerador: claude-haiku-5-5; entrada: consulta e 5 trechos)
+   Três estudos com alunos do ensino médio com TDAH mostraram efeitos positivos do tempo estendido [T1], enquanto outros três não encontraram impacto significativo no desempenho desses alunos [T2].
+   Para alunos com dificuldades de aprendizagem (LD), os resultados também se dividem: quatro estudos apontaram efeitos positivos [T1] e quatro não encontraram benefício [T2].
+   Na síntese da revisão, a pesquisa sobre tempo estendido é considerada inconclusiva, com benefício para alguns alunos com TDAH ou LD em avaliações de conteúdo [T3].
+   Menos da metade dos alunos com TDAH que tinham acesso ao tempo estendido de fato o utilizou [T1].
+   Como orientação prática, uma cartilha sugere permitir tempo extra para responder perguntas em aula ou em prova [T5].
+   Essa cartilha não tem referências e não serve como evidência de eficácia [T5].
+
+4. EVIDÊNCIA DAS FONTES
+   frase 1: citação T1 = NCEO-TOOLKIT-TEMPO-EXTRA-2026, p. -; T2 = NCEO-TOOLKIT-TEMPO-EXTRA-2026, p. -
+            avaliador A: sustentada | avaliador B: parcialmente sustentada
+            passagem no T1: "Three studies showed the positive effects of extended time for high school students with attention-deficit/hyperactivity disorder (ADHD)."
+   frase 2: citação T1 = NCEO-TOOLKIT-TEMPO-EXTRA-2026, p. -; T2 = NCEO-TOOLKIT-TEMPO-EXTRA-2026, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T1: "Four studies involved students with LD and resulted in positive effects."
+   frase 3: citação T3 = NCEO-TOOLKIT-TEMPO-EXTRA-2026, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T3: "The research on the effects of extended time is inconclusive. Some studies found benefit while others found mixed effects, or no effect."
+   frase 4: citação T1 = NCEO-TOOLKIT-TEMPO-EXTRA-2026, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T1: "However, less than half of the students with ADHD with access to extended time actually used it."
+   frase 5: citação T5 = ABDA-GUIA-PROFESSORES-2012, p. -
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem (verificada no T5; não reproduzida por restrição de licença)
+   frase 6: citação T5 = ABDA-GUIA-PROFESSORES-2012, p. -
+            avaliador A: comentário correto sobre a fonte | avaliador B: comentário correto sobre a fonte
+   Trechos citados na resposta: T1, T2, T3, T5; entregues e não citados: T4.
+   Verificação automática: citações de trecho inexistente: 0; frases sem citação: 0 de 6; trechos com aviso de uso citados: ABDA-GUIA-PROFESSORES-2012.
+
+==============================================================================================================
+CONSULTA Q33 (neuromito)
+
+1. CONSULTA SUBMETIDA
+   Vale a pena ensinar de acordo com o estilo de aprendizagem do aluno (visual, auditivo, cinestésico)?
+
+2. TRECHOS RECUPERADOS (método qwen3+rerank50; 5 trechos entregues ao modelo gerador)
+   [T1] ROGOWSKY-2020-ESTILOS-APRENDIZAGEM | p. 6 | DISCUSSION [en, estudo_primario]
+        https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+        "DISCUSSION It makes sense that visual learners would perform better when instruction is presented visually rather than auditorily. Likewise, it makes sense that auditory learners would perform better when instruction is ..."
+   [T2] ROGOWSKY-2020-ESTILOS-APRENDIZAGEM | p. 6-7 | DISCUSSION [en, estudo_primario]
+        https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+        "2015). That is, both 5th graders and adults with a visual learning style had superior comprehension, regardless of instruction, while those with an auditory learning style scored significantly below their peers on both c..."
+   [T3] ROGOWSKY-2020-ESTILOS-APRENDIZAGEM | p. 2 | INTRODUCTION [en, estudo_primario]
+        https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+        "(2009) published a comprehensive and influential review of the learning styles literature, specifically as it pertains to teaching. They called this interaction the meshing hypothesis which states that an individual lear..."
+   [T4] ROGOWSKY-2020-ESTILOS-APRENDIZAGEM | p. 4 | RESULTS [en, estudo_primario]
+        https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+        "RESULTS The goal of this study was to determine whether there was an interaction between learning style preference (auditory, visual) and the modality of the most effective instruction. Support for the learning styles hy..."
+   [T5] ROGOWSKY-2020-ESTILOS-APRENDIZAGEM | p. 1-2 | INTRODUCTION [en, estudo_primario]
+        https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+        "INTRODUCTION Learning styles-based education, specifically targeting auditory and visual learners, is common practice from kindergarten through post-secondary education (Lynch, 2015; Newton, 2015). The underlying premise..."
+   Recuperação reproduzida nesta execução: lista idêntica.
+
+3. RESPOSTA FUNDAMENTADA (modelo gerador: claude-haiku-5-5; entrada: consulta e 5 trechos)
+   Evidência: em um estudo com alunos do 5º ano, adaptar a instrução ao estilo preferido (visual ou auditivo) não melhorou o desempenho em compreensão [T1].
+   Evidência: a revisão de Pashler et al. (2009) não encontrou apoio empírico para a hipótese de que aprender pelo modo preferido gera melhor aprendizagem [T3].
+   Evidência: 68% dos alunos do estudo não têm uma preferência clara de estilo de aprendizagem [T1].
+   Ter preferências de aprendizagem nunca foi questionado; o que está em debate é se aprender no estilo preferido gera maior rendimento acadêmico [T3].
+   Orientação prática: alunos auditivos podem se beneficiar mais de instrução na modalidade não preferida, e o foco deve ser fortalecer as habilidades de leitura de todos os alunos [T2].
+   Orientação prática: professores e escolas não devem dedicar tempo e recursos ao ensino baseado em estilos de aprendizagem [T1].
+
+4. EVIDÊNCIA DAS FONTES
+   frase 1: citação T1 = ROGOWSKY-2020-ESTILOS-APRENDIZAGEM, p. 6
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T1: "Overall, matching instruction to meet a student’s auditory or visual learning style had no effect on student achievement."
+   frase 2: citação T3 = ROGOWSKY-2020-ESTILOS-APRENDIZAGEM, p. 2
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T3: "Their review found no empirical evidence to support the meshing hypothesis."
+   frase 3: citação T1 = ROGOWSKY-2020-ESTILOS-APRENDIZAGEM, p. 6
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T1: "Most students, 68%, do not even have a clear learning style preference."
+   frase 4: citação T3 = ROGOWSKY-2020-ESTILOS-APRENDIZAGEM, p. 2
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T3: "It is important to note that having learning preferences has never been called into question."
+   frase 5: citação T2 = ROGOWSKY-2020-ESTILOS-APRENDIZAGEM, p. 6-7
+            avaliador A: parcialmente sustentada | avaliador B: sustentada
+            passagem no T2: "auditory learners may actually benefit more from additional instruction in their non-preferred modality."
+   frase 6: citação T1 = ROGOWSKY-2020-ESTILOS-APRENDIZAGEM, p. 6
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T1: "Teachers and schools should not devote time and resources to learning styles-based instruction."
+   Trechos citados na resposta: T1, T2, T3; entregues e não citados: T4, T5.
+   Verificação automática: citações de trecho inexistente: 0; frases sem citação: 0 de 6; trechos com aviso de uso citados: nenhum.
+
+==============================================================================================================
+CONSULTA Q37 (resposta disponível apenas em inglês)
+
+1. CONSULTA SUBMETIDA
+   Sistemas automáticos de simplificação de texto preservam o sentido original? Dá para confiar que o texto simplificado mantém a informação?
+
+2. TRECHOS RECUPERADOS (método qwen3+rerank50; 5 trechos entregues ao modelo gerador)
+   [T1] AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE | p. 1 | (início do documento) [en, estudo_primario]
+        https://aclanthology.org/2024.tacl-1.24.pdf
+        "to understand by K-12 students, English speakers with limited proficiency, and lay people seeking to understand medical literature, respectively. This has motivated a wealth of Natural Language Processing research on tex..."
+   [T2] AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE | p. 12 | Conclusion [en, estudo_primario]
+        https://aclanthology.org/2024.tacl-1.24.pdf
+        "Conclusion We introduced an evaluation framework based on reading comprehension to directly assess whether TS systems correctly convey salient information from the original texts to readers. This framework lets us conduc..."
+   [T3] AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE | p. 1-2 | (início do documento) [en, estudo_primario]
+        https://aclanthology.org/2024.tacl-1.24.pdf
+        "c⃝2024 Association for Computational Linguistics. Distributed under a CC-BY 4.0 license. guide model development, they do not address whether readers get information from the simplified text that is consistent with the o..."
+   [T4] AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE | p. 3 | Background [en, estudo_primario]
+        https://aclanthology.org/2024.tacl-1.24.pdf
+        "All these studies are conducted at the paragraph or the document level based on human-written simplifications which are implicitly assumed to be correct. The use of reading comprehension for the evaluation of automatical..."
+   [T5] AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE | p. 1 | (início do documento) [en, estudo_primario]
+        https://aclanthology.org/2024.tacl-1.24.pdf
+        "Do Text Simplification Systems Preserve Meaning? A Human Evaluation via Reading Comprehension Sweta Agrawal∗ Instituto de Telecomunicac¸˜oes swetaagrawal20@gmail.com Marine Carpuat University of Maryland, USA marine@umd...."
+   Recuperação reproduzida nesta execução: lista idêntica.
+
+3. RESPOSTA FUNDAMENTADA (modelo gerador: claude-haiku-5-5; entrada: consulta e 5 trechos)
+   O estudo indica que não se deve presumir que o texto simplificado mantenha a informação original, pois mesmo os sistemas com melhor desempenho não preservam o sentido do texto [T2].
+   Ao menos 14% das perguntas ficaram sem resposta, com base no texto gerado pelo melhor sistema, por causa de erros introduzidos por ele [T3][T5].
+   Esses erros incluem supressões de conteúdo e reescritas imprecisas, que podem mudar a forma como o texto é entendido [T1].
+   Sistemas supervisionados com conhecimento pré-treinado e o ChatGPT tiveram bons resultados, mas todos os sistemas avaliados cometeram erros críticos [T2].
+   Alguns sistemas estão corretos o suficiente para justificar estudos de usabilidade, mas a verificação do conteúdo simplificado continua necessária [T2].
+   Os autores ainda não avaliaram se saídas corretas desses sistemas melhoram a compreensão de pessoas com dificuldade para entender textos complexos, o que pretendem investigar em trabalhos futuros [T2].
+
+4. EVIDÊNCIA DAS FONTES
+   frase 1: citação T2 = AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE, p. 12
+            avaliador A: sustentada | avaliador B: parcialmente sustentada
+            passagem no T2: "we find that even those systems do not preserve the meaning of the original text"
+   frase 2: citação T3 = AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE, p. 1-2; T5 = AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE, p. 1
+            avaliador A: sustentada | avaliador B: parcialmente sustentada
+            passagem no T3: "at least 14% of the questions remain unanswerable even for the best-performing system due to the errors introduced by these systems"
+   frase 3: citação T1 = AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE, p. 1
+            avaliador A: parcialmente sustentada | avaliador B: parcialmente sustentada
+            passagem no T1: "deletions or inaccurate rewrites can change how a text is understood"
+   frase 4: citação T2 = AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE, p. 12
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T2: "Prompted LLMs (ChatGPT) perform well but are not as accurate as supervised systems."
+   frase 5: citação T2 = AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE, p. 12
+            avaliador A: parcialmente sustentada | avaliador B: parcialmente sustentada
+            passagem no T2: "some systems are overall correct enough to warrant usability studies"
+   frase 6: citação T2 = AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE, p. 12
+            avaliador A: sustentada | avaliador B: sustentada
+            passagem no T2: "whether correct TS outputs improve reading comprehension for people who have difficulty understanding complex texts, which we intend to investigate in future work"
+   Trechos citados na resposta: T1, T2, T3, T5; entregues e não citados: T4.
+   Verificação automática: citações de trecho inexistente: 0; frases sem citação: 0 de 6; trechos com aviso de uso citados: nenhum.
+
+==============================================================================================================
+CONSULTA Q39 (sem resposta na base)
+
+1. CONSULTA SUBMETIDA
+   Qual a dose inicial de metilfenidato para uma criança de 6 anos com TDAH e como ajustar?
+
+2. TRECHOS RECUPERADOS (método qwen3+rerank50; 5 trechos entregues ao modelo gerador)
+   [T1] AAP-CPG-ADHD-2019 | p. - | TABLE 6. [en, diretriz]
+        https://pmc.ncbi.nlm.nih.gov/articles/PMC7067282/
+        (texto não reproduzido por restrição de licença; consultar o endereço de origem)
+   [T2] AAP-CPG-ADHD-2019 | p. - | TABLE 1. [en, diretriz]
+        https://pmc.ncbi.nlm.nih.gov/articles/PMC7067282/
+        (texto não reproduzido por restrição de licença; consultar o endereço de origem)
+   [T3] AAP-CPG-ADHD-2019 | p. - | Special Circumstances: Preschool-Aged Children (Age 4 Years  [en, diretriz]
+        https://pmc.ncbi.nlm.nih.gov/articles/PMC7067282/
+        (texto não reproduzido por restrição de licença; consultar o endereço de origem)
+   [T4] AAP-CPG-ADHD-2019 | p. - | KAS 5a [en, diretriz]
+        https://pmc.ncbi.nlm.nih.gov/articles/PMC7067282/
+        (texto não reproduzido por restrição de licença; consultar o endereço de origem)
+   [T5] NICE-NG87-ADHD-2018 | p. 26-28 | 1.7 Medication [en, diretriz]
+        https://www.nice.org.uk/guidance/ng87/resources/attention-deficit-hyperactivity-disorder-diagnosis-and-management-pdf-1837699732933
+        (texto não reproduzido por restrição de licença; consultar o endereço de origem)
+   Recuperação reproduzida nesta execução: lista idêntica.
+
+3. RESPOSTA FUNDAMENTADA (modelo gerador: claude-haiku-5-5; entrada: consulta e 5 trechos)
+   Não encontrei nos documentos da base informação suficiente para responder.
+
+4. EVIDÊNCIA DAS FONTES
+   Recusa: o modelo gerador declarou insuficiência de informação nos trechos.
+   Avaliador A: recusa classificada como indevida (T2 responde parcialmente à consulta).
+   Avaliador B: recusa classificada como indevida (T2 responde parcialmente à consulta).
+   Trechos citados na resposta: nenhuma; entregues e não citados: T1, T2, T3, T4, T5.
+   Verificação automática: citações de trecho inexistente: 0; frases sem citação: 0 de 0; trechos com aviso de uso citados: nenhum.
+

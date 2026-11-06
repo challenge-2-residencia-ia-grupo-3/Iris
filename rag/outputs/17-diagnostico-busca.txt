@@ -1,0 +1,72 @@
+DIAGNÓSTICO DA BUSCA (Qwen3 sozinho) NOS DOIS GABARITOS DE MODELO. Sem conferência humana. Nenhum modelo treinado.
+Técnica: contagem sobre as listas do Qwen3-Embedding (modelo pronto) até a posição 100.
+Gabarito do Opus lido de f1fae96, sha256 23e8e86517f08f74. Rascunho: ampliado com os trechos novos.
+Acaso: 5 de 1368 trechos = recall@5 de 0.004 (fórmula, para pergunta com 1 trecho certo).
+
+===== OPUS: 38 perguntas, 167 trechos certos (4.4 por pergunta) =====
+
+1. Até onde é preciso olhar para achar o que é certo
+ primeiros  recall   perguntas com ao menos 1 certo
+         5    0.28                    26 de 38
+        10    0.41                    28 de 38
+        20    0.54                    31 de 38
+        50    0.77                    36 de 38
+       100    0.88                    38 de 38
+
+2. Por tipo de pergunta
+tipo           n  certos/perg.  recall@5  recall@20   posição do 1º certo (mediana)
+estrategia    10           4.3      0.09       0.24                              20
+dua            8           5.1      0.36       0.71                               1
+norma          8           3.9      0.52       0.77                               2
+evidencia      6           4.3      0.11       0.38                              27
+mito           4           4.5      0.34       0.69                               2
+so_ingles      2           4.0      0.37       0.67                               3
+(posição 101 = não apareceu entre os 100 primeiros)
+
+3. Repetição entre os 5 primeiros
+documentos diferentes entre os 5 primeiros, em média: 2.08
+perguntas com trechos vizinhos (um logo depois do outro no documento) entre os 5 primeiros: 22 de 38
+pares de vizinhos: 32; os dois certos: 5; um certo: 12; nenhum certo: 15
+cartilha da ABDA (aviso: não usar como evidência de eficácia) entre os 5 primeiros: 24 de 190; marcada como certa no gabarito: 6 de 167 trechos certos
+
+4. Idioma
+inglês na base: 914 de 1368
+inglês entre os trechos certos: 69 de 167
+inglês entre os 5 primeiros: 38 de 190
+trechos certos que ficaram fora dos 5 primeiros: 127; em inglês: 58
+
+5. Teto de cada variação (o máximo que ela pode dar, contado antes de rodar)
+A  o reranker só reordena o que recebe: recall entre os 20 primeiros 0.54; entre os 50 primeiros 0.77
+B  teto do recall@5 sem limite 0.96; com no máximo 2 por documento 0.78; perguntas com 3 ou mais trechos certos no mesmo documento: 17 de 38
+C  ver o item 4: trechos certos em inglês fora dos 5 primeiros
+
+===== RASCUNHO: 19 perguntas, 73 trechos certos (3.8 por pergunta) =====
+
+1. Até onde é preciso olhar para achar o que é certo
+ primeiros  recall   perguntas com ao menos 1 certo
+         5    0.58                    16 de 19
+        10    0.77                    19 de 19
+        20    0.88                    19 de 19
+        50    0.95                    19 de 19
+       100    0.96                    19 de 19
+
+3. Repetição entre os 5 primeiros
+documentos diferentes entre os 5 primeiros, em média: 2.37
+perguntas com trechos vizinhos (um logo depois do outro no documento) entre os 5 primeiros: 12 de 19
+pares de vizinhos: 16; os dois certos: 1; um certo: 6; nenhum certo: 9
+cartilha da ABDA (aviso: não usar como evidência de eficácia) entre os 5 primeiros: 13 de 95; marcada como certa no gabarito: 6 de 73 trechos certos
+
+4. Idioma
+inglês na base: 914 de 1368
+inglês entre os trechos certos: 20 de 73
+inglês entre os 5 primeiros: 16 de 95
+trechos certos que ficaram fora dos 5 primeiros: 38; em inglês: 12
+
+5. Teto de cada variação (o máximo que ela pode dar, contado antes de rodar)
+A  o reranker só reordena o que recebe: recall entre os 20 primeiros 0.88; entre os 50 primeiros 0.95
+B  teto do recall@5 sem limite 0.94; com no máximo 2 por documento 0.90; perguntas com 3 ou mais trechos certos no mesmo documento: 4 de 19
+C  ver o item 4: trechos certos em inglês fora dos 5 primeiros
+
+6. Trechos que passam do limite de leitura de cada modelo (contagem de tokens, com a etiqueta)
+mpnet  limite   512: cortados 267 de 1368; mediana 362 tokens, maior 839
+qwen3  limite  1024: cortados 4 de 1368; mediana 364 tokens, maior 1085

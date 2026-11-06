@@ -1,0 +1,3989 @@
+{
+ "haiku": {
+  "Q01": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "parcial",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "parcial",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q02": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "parcial",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q03": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q04": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 2,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 3,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 4,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q05": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    }
+   ]
+  },
+  "Q06": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "parcial",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 2,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q07": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 5,
+     "A": "comentario_correto",
+     "B": "parcial",
+     "tipo": "tipo_divergente",
+     "comum": "divergem"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q08": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q09": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    }
+   ]
+  },
+  "Q10": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q11": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 4,
+     "A": "rejeitado",
+     "B": "rejeitado",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    }
+   ]
+  },
+  "Q12": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q13": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q14": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q15": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q16": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q17": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q18": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 4,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q19": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q20": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q21": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q22": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q23": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q24": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "sim",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q25": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q26": {
+   "recusou": false,
+   "caixa": "C",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "comentario_errado",
+     "B": "comentario_errado",
+     "tipo": "comentario",
+     "comum": "comentario_errado"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 7,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q27": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q28": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q29": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q30": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    }
+   ]
+  },
+  "Q31": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    }
+   ]
+  },
+  "Q32": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "parcial",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 5,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    }
+   ]
+  },
+  "Q33": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "parcial",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q34": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q35": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q36": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q37": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 3,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q38": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    }
+   ]
+  },
+  "Q39": {
+   "recusou": true,
+   "caixa": "E",
+   "responde": {
+    "A": "nao",
+    "B": "nao"
+   },
+   "abstencao": {
+    "A": "indevida",
+    "B": "indevida"
+   },
+   "frases": []
+  },
+  "Q40": {
+   "recusou": true,
+   "caixa": "E",
+   "responde": {
+    "A": "nao",
+    "B": "nao"
+   },
+   "abstencao": {
+    "A": "indevida",
+    "B": "indevida"
+   },
+   "frases": []
+  }
+ },
+ "opus": {
+  "Q01": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q02": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "sim",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "parcial",
+     "tipo": "tipo_divergente",
+     "comum": "divergem"
+    }
+   ]
+  },
+  "Q03": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q04": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "sim",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 5,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q05": {
+   "recusou": true,
+   "caixa": "E",
+   "responde": {
+    "A": "nao",
+    "B": "nao"
+   },
+   "abstencao": {
+    "A": "correta",
+    "B": "correta"
+   },
+   "frases": []
+  },
+  "Q06": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q07": {
+   "recusou": true,
+   "caixa": "E",
+   "responde": {
+    "A": "nao",
+    "B": "nao"
+   },
+   "abstencao": {
+    "A": "indevida",
+    "B": "indevida"
+   },
+   "frases": []
+  },
+  "Q08": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q09": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q10": {
+   "recusou": true,
+   "caixa": "E",
+   "responde": {
+    "A": "nao",
+    "B": "nao"
+   },
+   "abstencao": {
+    "A": "indevida",
+    "B": "indevida"
+   },
+   "frases": []
+  },
+  "Q11": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "parcial",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 2,
+     "A": "rejeitado",
+     "B": "rejeitado",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q12": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_errado",
+     "B": "parcial",
+     "tipo": "tipo_divergente",
+     "comum": "divergem"
+    }
+   ]
+  },
+  "Q13": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_errado",
+     "tipo": "comentario",
+     "comum": "divergem"
+    }
+   ]
+  },
+  "Q14": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q15": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q16": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q17": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q18": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "comentario_correto",
+     "tipo": "tipo_divergente",
+     "comum": "divergem"
+    }
+   ]
+  },
+  "Q19": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q20": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "parcial",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q21": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q22": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q23": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q24": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q25": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q26": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 3,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q27": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q28": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q29": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "comentario_correto",
+     "B": "comentario_correto",
+     "tipo": "comentario",
+     "comum": "comentario_correto"
+    }
+   ]
+  },
+  "Q30": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "em_parte"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q31": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q32": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q33": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "comentario_correto",
+     "tipo": "tipo_divergente",
+     "comum": "divergem"
+    }
+   ]
+  },
+  "Q34": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "nao_apoiada",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "divergem"
+    },
+    {
+     "n": 5,
+     "A": "comentario_correto",
+     "B": "comentario_errado",
+     "tipo": "comentario",
+     "comum": "divergem"
+    },
+    {
+     "n": 6,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    }
+   ]
+  },
+  "Q35": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q36": {
+   "recusou": false,
+   "caixa": "D",
+   "responde": {
+    "A": "em_parte",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q37": {
+   "recusou": false,
+   "caixa": "A",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q38": {
+   "recusou": false,
+   "caixa": "B",
+   "responde": {
+    "A": "sim",
+    "B": "sim"
+   },
+   "abstencao": {
+    "A": null,
+    "B": null
+   },
+   "frases": [
+    {
+     "n": 1,
+     "A": "parcial",
+     "B": "parcial",
+     "tipo": "conteudo",
+     "comum": "parcial"
+    },
+    {
+     "n": 2,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 3,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 4,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 5,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    },
+    {
+     "n": 6,
+     "A": "apoiada",
+     "B": "apoiada",
+     "tipo": "conteudo",
+     "comum": "apoiada"
+    }
+   ]
+  },
+  "Q39": {
+   "recusou": true,
+   "caixa": "E",
+   "responde": {
+    "A": "nao",
+    "B": "nao"
+   },
+   "abstencao": {
+    "A": "indevida",
+    "B": "indevida"
+   },
+   "frases": []
+  },
+  "Q40": {
+   "recusou": true,
+   "caixa": "E",
+   "responde": {
+    "A": "nao",
+    "B": "nao"
+   },
+   "abstencao": {
+    "A": "indevida",
+    "B": "indevida"
+   },
+   "frases": []
+  }
+ }
+}

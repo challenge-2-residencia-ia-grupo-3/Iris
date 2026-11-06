@@ -1,0 +1,494 @@
+{
+  "parte": "B-FE-TDAH",
+  "documentos": [
+    {
+      "id": "NICE-NG87-ADHD-2018",
+      "titulo": "Attention deficit hyperactivity disorder: diagnosis and management (NICE guideline NG87)",
+      "orgao": "National Institute for Health and Care Excellence (NICE, Reino Unido)",
+      "autores": "NICE",
+      "ano_edicao": "2018 (publicado 14/03/2018; última atualização 13/09/2019, conforme p. 1 do PDF)",
+      "url": "https://www.nice.org.uk/guidance/ng87/resources/attention-deficit-hyperactivity-disorder-diagnosis-and-management-pdf-1837699732933",
+      "doi": null,
+      "data_acesso": "2026-11-04",
+      "licenca": "sem licença aberta declarada (© NICE 2026. All rights reserved. Subject to Notice of rights)",
+      "idioma": "en",
+      "tipo": "pdf",
+      "paginas": 61,
+      "caracteres_extraidos": 109161,
+      "sha256_bruto": "3447a94328ac01c1425d369898585fd9074c89601c66cc00981ca42af9ca4023",
+      "bytes_bruto": 316722,
+      "arquivo_bruto": "raw/fe_nice_ng87.pdf",
+      "arquivo_texto": "texto/fe_nice_ng87.txt",
+      "tema": [
+        "tdah",
+        "diretriz_clinica",
+        "intervencao_escolar"
+      ],
+      "barreiras": [
+        "atencao_sustentada",
+        "organizacao_sequencial",
+        "controle_inibitorio"
+      ],
+      "tipo_evidencia": "diretriz",
+      "publico": "norma",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Abri p. 21 (rec. 1.5.14, CBT) e p. 41 (pergunta de pesquisa sobre medicação): texto corrido limpo, uma coluna, numeração das recomendações preservada. Rodapé '© NICE ... Page X of 61' se repete em cada página. Conteúdo escolar é curto: 1.2.3 (sem triagem universal em escolas), 1.4.12 (contatar escola: 'reasonable adjustments and environmental modifications'), formação de professores (p. 7).",
+      "por_que_entra": "Diretriz clínica de referência que manda a escola fazer ajustes razoáveis e modificações ambientais; dá respaldo normativo, mas não detalha estratégias por barreira.",
+      "status": "aceito"
+    },
+    {
+      "id": "AAP-CPG-ADHD-2019",
+      "titulo": "Clinical Practice Guideline for the Diagnosis, Evaluation, and Treatment of Attention-Deficit/Hyperactivity Disorder in Children and Adolescents",
+      "orgao": "American Academy of Pediatrics (AAP), Subcommittee on Children and Adolescents with ADHD",
+      "autores": "Wolraich ML, Hagan JF Jr, Allan C, Chan E, Davison D, Earls M, Evans SW, et al.",
+      "ano_edicao": "2019 (Pediatrics 2019;144(4):e20192528; versão manuscrito do autor no PMC, PMC7067282)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7067282/",
+      "doi": "10.1542/peds.2019-2528",
+      "data_acesso": "2026-11-04",
+      "licenca": "sem licença aberta declarada (manuscrito do autor no PMC; 'This document is copyrighted and is property of the American Academy of Pediatrics'; permissões em aappublications.org)",
+      "idioma": "en",
+      "tipo": "html",
+      "paginas": null,
+      "caracteres_extraidos": 133757,
+      "sha256_bruto": "4d0a2b92860c04f5ea99bec34bd64efbf49abef12b9491f8a8a4f7c7cca252d0",
+      "bytes_bruto": 425296,
+      "arquivo_bruto": "raw/fe_aap2019.html",
+      "arquivo_texto": "texto/fe_aap2019.md",
+      "tema": [
+        "tdah",
+        "diretriz_clinica",
+        "intervencao_escolar",
+        "acomodacao_avaliacao",
+        "acomodacao_vs_modificacao",
+        "evidencia_contraria"
+      ],
+      "barreiras": [
+        "atencao_sustentada",
+        "controle_inibitorio",
+        "organizacao_sequencial",
+        "velocidade_processamento"
+      ],
+      "tipo_evidencia": "diretriz",
+      "publico": "norma",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "HTML do PMC baixado via navegador (curl recebe desafio JS). Trechos a 35% (tabela KAS com Strength/Key references) e 70% (declaração de copyright) legíveis; tabelas viraram linhas '| a | b |'. Sem marcador de página (HTML). Lista de autores virou títulos '###' — cosmético.",
+      "por_que_entra": "KAS 5b/5c: intervenção comportamental em sala e suportes instrucionais individualizados são 'parte necessária' do tratamento; e alerta que acomodações de longo prazo sem intervenção de habilidade 'may lead to reduced expectations' — base direta para o detector de efeito muleta.",
+      "status": "aceito"
+    },
+    {
+      "id": "CDC-ADHD-CLASSROOM-2026",
+      "titulo": "ADHD in the Classroom",
+      "orgao": "Centers for Disease Control and Prevention (CDC, EUA)",
+      "autores": "CDC (sem autor individual; revisado por especialistas)",
+      "ano_edicao": "página revisada em 21/10/2026 (metadado 'Reviewed: October 21, 2026' no HTML)",
+      "url": "https://www.cdc.gov/adhd/treatment/classroom.html",
+      "doi": null,
+      "data_acesso": "2026-11-04",
+      "licenca": "sem licença aberta declarada (página de agência federal dos EUA; não achei declaração explícita de domínio público na página)",
+      "idioma": "en",
+      "tipo": "html",
+      "paginas": null,
+      "caracteres_extraidos": 11563,
+      "sha256_bruto": "0a03a4c459b5cdfd6fa78346ecec83ad7f6901c0771c9073ccc505481dc49dd5",
+      "bytes_bruto": 103346,
+      "arquivo_bruto": "raw/fe_cdc_classroom.html",
+      "arquivo_texto": "texto/fe_cdc_classroom.md",
+      "tema": [
+        "tdah",
+        "intervencao_escolar",
+        "adaptacao_atividade",
+        "acomodacao_avaliacao",
+        "evidencia_contraria"
+      ],
+      "barreiras": [
+        "atencao_sustentada",
+        "iniciacao_tarefa",
+        "organizacao_sequencial",
+        "sobrecarga_visual",
+        "controle_inibitorio",
+        "flexibilidade_cognitiva"
+      ],
+      "tipo_evidencia": "cartilha",
+      "publico": "professor",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "curl recebeu 403 (Akamai); HTML salvo pelo navegador. Trechos a 35% (IEP x 504) e 70% (referências) limpos. Dois blocos 'Did you know?' ficaram com título vazio (conteúdo era imagem/caixa). Sem paginação.",
+      "por_que_entra": "Lista prática para professor (enunciado claro e checagem de entendimento, tarefas curtas, pausas, menos distração, aviso antes de transição, ferramentas de organização) e diz explicitamente que 'There is limited information on which types of accommodations are effective'.",
+      "status": "aceito"
+    },
+    {
+      "id": "MS-PCDT-TDAH-2022",
+      "titulo": "Protocolo Clínico e Diretrizes Terapêuticas do Transtorno do Déficit de Atenção com Hiperatividade (Portaria Conjunta SAES/SCTIE nº 14, de 29/07/2022)",
+      "orgao": "Ministério da Saúde / CONITEC",
+      "autores": "Ministério da Saúde — SAES e SCTIE",
+      "ano_edicao": "2022",
+      "url": "https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file",
+      "doi": null,
+      "data_acesso": "2026-11-04",
+      "licenca": "sem licença aberta declarada",
+      "idioma": "pt-BR",
+      "tipo": "pdf",
+      "paginas": 199,
+      "caracteres_extraidos": 274236,
+      "sha256_bruto": "0c2a84c36df163ec07f21642fc60987b3b4bcee51757a2dd266a8bf37053b70c",
+      "bytes_bruto": 5736177,
+      "arquivo_bruto": "raw/fe_pcdt_tdah_2022.pdf",
+      "arquivo_texto": "texto/fe_pcdt_tdah_2022.txt",
+      "tema": [
+        "tdah",
+        "diretriz_clinica",
+        "intervencao_escolar"
+      ],
+      "barreiras": [
+        "controle_inibitorio",
+        "atencao_sustentada",
+        "organizacao_sequencial",
+        "iniciacao_tarefa"
+      ],
+      "tipo_evidencia": "diretriz",
+      "publico": "norma",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "199 páginas (PCDT + relatórios de evidência anexos). p. 67 e p. 133 são tabelas de estudos: células saem uma por linha, legível mas sem estrutura. p. 185-187 são só imagem (sem texto). Seção escolar útil está nas p. 10-11 (7.3.1 Ambiente escolar; 7.3.2 Intervenções escolares), texto corrido limpo.",
+      "por_que_entra": "Documento oficial brasileiro com seção sobre escola: regras claras, dicas e avisos, elogio imediato e específico, redirecionamento breve, reforço por fichas — base em PT-BR para controle_inibitorio e feedback imediato.",
+      "status": "aceito"
+    },
+    {
+      "id": "ABDA-GUIA-PROFESSORES-2012",
+      "titulo": "TDAH – Guia para Professores",
+      "orgao": "Associação Brasileira do Déficit de Atenção (ABDA)",
+      "autores": "ABDA (postado por 'ABDA'; sem autor individual identificado)",
+      "ano_edicao": "2012 (data de postagem 01/09/2012)",
+      "url": "https://tdah.org.br/tdah-guia-para-professores/",
+      "doi": null,
+      "data_acesso": "2026-11-04",
+      "licenca": "sem licença aberta declarada ('Todos os direitos reservados')",
+      "idioma": "pt-BR",
+      "tipo": "html",
+      "paginas": null,
+      "caracteres_extraidos": 9843,
+      "sha256_bruto": "6364a53fed89c1157a4ef2be4256a986ccdbb9b3fa9d7202ad81f5b6146b7c44",
+      "bytes_bruto": 523754,
+      "arquivo_bruto": "raw/fe_abda_guia_professores.html",
+      "arquivo_texto": "texto/fe_abda_guia_professores.md",
+      "tema": [
+        "tdah",
+        "adaptacao_atividade",
+        "acomodacao_avaliacao",
+        "intervencao_escolar"
+      ],
+      "barreiras": [
+        "atencao_sustentada",
+        "organizacao_sequencial",
+        "controle_inibitorio",
+        "velocidade_processamento"
+      ],
+      "tipo_evidencia": "cartilha",
+      "publico": "professor",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Extraído só o corpo do post (.entry-content), sem menu e comentários. Trechos a 35% (dica 8 tempo extra, 9) e 70% (dica 17) limpos. Texto sem referências bibliográficas; tom de capítulo de livro ('vou comentar').",
+      "por_que_entra": "Única cartilha brasileira para professor da associação de referência; linguagem próxima do usuário do Íris. Usar só como apoio de redação: as dicas (sentar na frente, pausas, tempo extra) não trazem evidência citada.",
+      "status": "aceito"
+    },
+    {
+      "id": "DIAMOND-2013-FUNCOES-EXECUTIVAS",
+      "titulo": "Executive Functions",
+      "orgao": "Annual Review of Psychology (manuscrito do autor no PMC)",
+      "autores": "Diamond A",
+      "ano_edicao": "2013 (Annu Rev Psychol 64:135–168)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4084861/",
+      "doi": "10.1146/annurev-psych-113011-143750",
+      "data_acesso": "2026-11-04",
+      "licenca": "sem licença aberta declarada (© 2013 by Annual Reviews. All rights reserved; manuscrito do autor de acesso livre no PMC)",
+      "idioma": "en",
+      "tipo": "html",
+      "paginas": null,
+      "caracteres_extraidos": 145200,
+      "sha256_bruto": "c27ce9426789d95ee18d102cf073385935696fe66b3ab09a8b15ec4e3c98f19f",
+      "bytes_bruto": 472360,
+      "arquivo_bruto": "raw/fe_diamond2013.html",
+      "arquivo_texto": "texto/fe_diamond2013.md",
+      "tema": [
+        "funcoes_executivas",
+        "tdah"
+      ],
+      "barreiras": [
+        "controle_inibitorio",
+        "memoria_trabalho",
+        "flexibilidade_cognitiva",
+        "atencao_sustentada",
+        "organizacao_sequencial"
+      ],
+      "tipo_evidencia": "revisao_narrativa",
+      "publico": "pesquisa",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "HTML do PMC via navegador. Trecho a 35% (fluência verbal/flexibilidade) limpo; a 70% já está na lista de referências (texto corrido termina antes de ~60%). Figuras ausentes (só legenda).",
+      "por_que_entra": "Define o modelo das três FE nucleares (inibição/controle de interferência, memória de trabalho, flexibilidade) que sustenta a taxonomia de barreiras do Íris.",
+      "status": "aceito"
+    },
+    {
+      "id": "GAASTRA-2016-META-INTERVENCOES-SALA",
+      "titulo": "The Effects of Classroom Interventions on Off-Task and Disruptive Classroom Behavior in Children with Symptoms of Attention-Deficit/Hyperactivity Disorder: A Meta-Analytic Review",
+      "orgao": "PLOS ONE",
+      "autores": "Gaastra GF, Groen Y, Tucha L, Tucha O",
+      "ano_edicao": "2016",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0148841",
+      "doi": "10.1371/journal.pone.0148841",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "pdf",
+      "paginas": 19,
+      "caracteres_extraidos": 65920,
+      "sha256_bruto": "6ca83faf36bc25e0dc10f9b412c9ba917ddca1c0bbbc5ba2435964daa424cf73",
+      "bytes_bruto": 769072,
+      "arquivo_bruto": "raw/fe_gaastra2016_plos.pdf",
+      "arquivo_texto": "texto/fe_gaastra2016_plos.txt",
+      "tema": [
+        "tdah",
+        "intervencao_escolar",
+        "adaptacao_atividade"
+      ],
+      "barreiras": [
+        "atencao_sustentada",
+        "controle_inibitorio",
+        "iniciacao_tarefa"
+      ],
+      "tipo_evidencia": "meta-analise",
+      "publico": "pesquisa",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "PDF de uma coluna. p. 7 (métodos/resultados) e p. 13 (discussão) com texto corrido limpo, sem mistura de colunas. Números de linha do PLOS não aparecem.",
+      "por_que_entra": "Meta-análise de intervenções que o professor aplica: efeito grande para estratégias de consequência (feedback/reforço) e de autorregulação (automonitoramento); antecedentes (mudar tarefa/ambiente) com efeito menor — calibra o que o Íris recomenda para atenção sustentada e controle inibitório.",
+      "status": "aceito"
+    },
+    {
+      "id": "YEGENCIK-2025-META-RCT-ESCOLA",
+      "titulo": "School-based randomized controlled trials for ADHD and accompanying impairments: a systematic review and meta-analysis",
+      "orgao": "Frontiers in Psychology",
+      "autores": "Yegencik B, Bell BT, Deniz E",
+      "ano_edicao": "2025",
+      "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1611145/pdf",
+      "doi": "10.3389/fpsyg.2025.1611145",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY (Creative Commons Attribution License, conforme XML do Europe PMC)",
+      "idioma": "en",
+      "tipo": "pdf",
+      "paginas": 28,
+      "caracteres_extraidos": 107135,
+      "sha256_bruto": "de0112ec3a9a0222f1b5285a6937dc328fc093c4840137b30e3faaee14658ec7",
+      "bytes_bruto": 3754856,
+      "arquivo_bruto": "raw/fe_frontiers_school_rct2025.pdf",
+      "arquivo_texto": "texto/fe_frontiers_school_rct2025.txt",
+      "tema": [
+        "tdah",
+        "intervencao_escolar",
+        "evidencia_contraria"
+      ],
+      "barreiras": [
+        "atencao_sustentada",
+        "organizacao_sequencial",
+        "controle_inibitorio"
+      ],
+      "tipo_evidencia": "meta-analise",
+      "publico": "pesquisa",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "PDF de 28 páginas (o arquivo bruto tem 33 segundo 'file'; PyMuPDF leu 28). p. 10 é tabela de estudos: células uma por linha, legível. p. 19 (resultados hiperatividade) em texto corrido limpo, sem mistura de colunas. Cabeçalho 'Yegencik et al. / 10.3389/...' repete em cada página.",
+      "por_que_entra": "Síntese mais recente de ECRs escolares: efeito pequeno a moderado em desatenção (d=-0,33) e desempenho acadêmico (d=0,37) e nulo em hiperatividade/impulsividade (d=-0,09) — dá o tamanho real do que adaptação escolar consegue.",
+      "status": "aceito"
+    },
+    {
+      "id": "CORTESE-2015-META-TREINO-COGNITIVO",
+      "titulo": "Cognitive Training for Attention-Deficit/Hyperactivity Disorder: Meta-Analysis of Clinical and Neuropsychological Outcomes From Randomized Controlled Trials",
+      "orgao": "Journal of the American Academy of Child and Adolescent Psychiatry (European ADHD Guidelines Group)",
+      "autores": "Cortese S, Ferrin M, Brandeis D, Buitelaar J, Daley D, Dittmann RW, Holtmann M, Santosh P, Stevenson J, Stringaris A, Zuddas A, Sonuga-Barke EJS",
+      "ano_edicao": "2015 (54(3):164–174)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4382075/",
+      "doi": "10.1016/j.jaac.2014.12.010",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "html",
+      "paginas": null,
+      "caracteres_extraidos": 58338,
+      "sha256_bruto": "72523d3e06ee892e10c97ed27600ea570b214ad6c058fc5cdc76a941cde2308b",
+      "bytes_bruto": 235278,
+      "arquivo_bruto": "raw/fe_cortese2015.html",
+      "arquivo_texto": "texto/fe_cortese2015.md",
+      "tema": [
+        "tdah",
+        "funcoes_executivas",
+        "evidencia_contraria"
+      ],
+      "barreiras": [
+        "memoria_trabalho",
+        "atencao_sustentada",
+        "controle_inibitorio"
+      ],
+      "tipo_evidencia": "meta-analise",
+      "publico": "pesquisa",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "PDF do PMC bloqueado (403); salvo o HTML do PMC via navegador. Trecho a 35% é tabela de estudos (linhas '|'), a 70% é a conclusão em texto limpo.",
+      "por_que_entra": "Evidência contrária: treino de memória de trabalho melhora testes de laboratório mas não sintomas de TDAH (avaliadores cegos) nem desempenho acadêmico — o Íris não deve sugerir 'treinar a FE' no lugar de adaptar a tarefa.",
+      "status": "aceito"
+    },
+    {
+      "id": "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES",
+      "titulo": "Intervenções escolares para o TDAH: uma revisão da literatura (2000-2018)",
+      "orgao": "Psicologia: Teoria e Prática (Universidade Presbiteriana Mackenzie)",
+      "autores": "Santos WM, Albuquerque AR",
+      "ano_edicao": "2019 (21(3):182-204)",
+      "url": "https://editorarevistas.mackenzie.br/ptp/article/view/11463",
+      "doi": null,
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY (página do artigo: CC BY 4.0; rodapé do PDF: 'Licença Creative Commons CC – By 3.0')",
+      "idioma": "pt-BR",
+      "tipo": "pdf",
+      "paginas": 23,
+      "caracteres_extraidos": 51635,
+      "sha256_bruto": "a5b4b99e6e372347c99e0bec4e42a3388904e9ab41fc499de855e2a8cfdc02b9",
+      "bytes_bruto": 731748,
+      "arquivo_bruto": "raw/fe_santos2019_intervencoes.pdf",
+      "arquivo_texto": "texto/fe_santos2019_intervencoes.txt",
+      "tema": [
+        "tdah",
+        "intervencao_escolar",
+        "adaptacao_atividade"
+      ],
+      "barreiras": [
+        "atencao_sustentada",
+        "controle_inibitorio",
+        "iniciacao_tarefa",
+        "organizacao_sequencial"
+      ],
+      "tipo_evidencia": "revisao_narrativa",
+      "publico": "pesquisa",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "PDF da versão em português (download 11463/10334). p. 8 é tabela-síntese (Estudo/Intervenção/Contexto/N/Mediação) com células uma por linha; p. 16 texto corrido limpo. DOI no metadado da revista ('10.5935/1980-6906/psicologia.v21n3p205-227') é da versão em inglês; o DOI da versão PT não foi conferido, por isso ficou vazio.",
+      "por_que_entra": "Revisão em PT-BR de 33 estudos de intervenção em sala (relatório diário, automonitoramento, tutoria por pares, instrução por computador, análise funcional), com quem aplica cada uma — boa fonte em português para o Estrategista citar.",
+      "status": "aceito"
+    },
+    {
+      "id": "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024",
+      "titulo": "The Basics of Accommodations and Modifications (NCEO Brief #33)",
+      "orgao": "National Center on Educational Outcomes (NCEO), University of Minnesota",
+      "autores": "Hinkle AR, Lazarus SS, Fleming K, Thurlow ML",
+      "ano_edicao": "2024 (janeiro)",
+      "url": "https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf",
+      "doi": null,
+      "data_acesso": "2026-11-04",
+      "licenca": "sem licença aberta declarada; uso aberto declarado: 'Any or all portions of this document may be reproduced and distributed without prior permission, provided the source is cited'",
+      "idioma": "en",
+      "tipo": "pdf",
+      "paginas": 6,
+      "caracteres_extraidos": 16748,
+      "sha256_bruto": "37fe4d45e096aeb3d4521673b1ca3137cf5272807b9f7fd916458cb43fb0d5e1",
+      "bytes_bruto": 993913,
+      "arquivo_bruto": "raw/fe_nceo_brief33.pdf",
+      "arquivo_texto": "texto/fe_nceo_brief33.txt",
+      "tema": [
+        "acomodacao_vs_modificacao",
+        "acomodacao_avaliacao",
+        "adaptacao_atividade"
+      ],
+      "barreiras": [],
+      "tipo_evidencia": "revisao_narrativa",
+      "publico": "professor",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "6 páginas, diagramação em colunas; conferi p. 2-4: a ordem de leitura saiu correta, mas um quadro lateral (AA-AAAS) aparece no meio do texto da p. 3. Figura 1 só com título.",
+      "por_que_entra": "Define acomodação (muda procedimento/material sem reduzir a expectativa de aprendizagem) x modificação (reduz a expectativa; invalida a nota em avaliação), com base no CCSSO e nos Standards AERA/APA/NCME — sustenta a trava curricular do Íris.",
+      "status": "aceito"
+    },
+    {
+      "id": "NCEO-TOOLKIT-TEMPO-EXTRA-2026",
+      "titulo": "Extended Time: Research (NCEO Accommodations Toolkit #6a)",
+      "orgao": "National Center on Educational Outcomes (NCEO), University of Minnesota",
+      "autores": "Goldstone L, Ressa V, Lazarus SS, Hinkle AR, Rogers C, Liu KK",
+      "ano_edicao": "2026",
+      "url": "https://publications.ici.umn.edu/nceo/accommodations-toolkit/extended-time-research",
+      "doi": null,
+      "data_acesso": "2026-11-04",
+      "licenca": "sem licença aberta declarada; uso aberto declarado: 'Any or all portions of this document may be reproduced and distributed without prior permission, provided the source is cited'",
+      "idioma": "en",
+      "tipo": "html",
+      "paginas": null,
+      "caracteres_extraidos": 19673,
+      "sha256_bruto": "347c15222a2d9f378d90a39fe53331b340e31daed267ca110134b029b8556022",
+      "bytes_bruto": 68079,
+      "arquivo_bruto": "raw/fe_nceo_tempo_extra.html",
+      "arquivo_texto": "texto/fe_nceo_tempo_extra.md",
+      "tema": [
+        "acomodacao_avaliacao",
+        "tdah",
+        "evidencia_contraria"
+      ],
+      "barreiras": [
+        "velocidade_processamento",
+        "atencao_sustentada",
+        "leitura_texto_longo"
+      ],
+      "tipo_evidencia": "revisao_narrativa",
+      "publico": "professor",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Extraído o <article>; trecho a 35% (estudos com TDAH sem efeito) limpo, a 70% já são referências. Itens de compartilhamento ('Share this page') ficaram no topo — ruído pequeno.",
+      "por_que_entra": "Revisão de 26 estudos: 11 com efeito positivo, 3 mistos e 12 sem efeito; para TDAH, 3 positivos e 3 nulos, e menos da metade dos alunos com TDAH usou o tempo extra — base para o Íris não tratar tempo adicional como solução padrão.",
+      "status": "aceito"
+    }
+  ],
+  "recusados": [
+    {
+      "id": "SANTOS-ALBUQUERQUE-2019-EN",
+      "url": "https://editorarevistas.mackenzie.br/ptp/article/download/11463/10335",
+      "motivo": "Versão em inglês do mesmo artigo já aceito em PT-BR (duplicata). Bruto movido para raw/_recusados/fe_santos2019_b.pdf."
+    },
+    {
+      "id": "LISBOA-2023-ACOMODACOES-UNIVERSITARIO",
+      "url": "https://www.scielo.br/j/rbp/a/mRLxZKT7mNkFH3XXFqV8kMs/?lang=en",
+      "motivo": "Fora do escopo: trata de documentação e elegibilidade para acomodação de universitários (não da educação básica nem de que estratégia funciona); CC BY-NC. Bruto em raw/_recusados/fe_lisboa2023_acomod.pdf."
+    },
+    {
+      "id": "PAIANO-2019-REVSIST-PROGRAMAS",
+      "url": "https://periodicos.ufsm.br/educacaoespecial/article/view/28255",
+      "motivo": "Revisão sistemática em PT (CC BY-NC 4.0) com só 9 estudos, focada em programas multicomponentes clínicos (CLS etc.); redundante com Santos & Albuquerque 2019 (33 estudos, CC BY). Bruto em raw/_recusados/fe_paiano2019_revsist.pdf."
+    },
+    {
+      "id": "NCEO-TOOLKIT-LEITURA-VOZ-ALTA-2022",
+      "url": "https://publications.ici.umn.edu/nceo/accommodations-toolkit/human-read-aloud-research",
+      "motivo": "Foco em dislexia/transtorno de aprendizagem e surdez, não em TDAH; sugerido para a fase dislexia. Bruto em raw/_recusados/fe_nceo_leitura_voz_alta.html."
+    },
+    {
+      "id": "SCIELO-PREPRINT-TDAH-GAMIFICACAO-2025",
+      "url": "https://preprints.scielo.org/index.php/scielo/preprint/download/11241/20424/21041",
+      "motivo": "Preprint sem revisão por pares (não baixado)."
+    }
+  ],
+  "nao_obtidos": [
+    {
+      "o_que": "IRIS Center (Vanderbilt), módulo 'Accommodations: Instructional and Testing Supports' — páginas 'Accommodations' e 'Practices Confused with Accommodations'",
+      "url": "https://iris.peabody.vanderbilt.edu/module/acc/cresource/q1/p02/",
+      "erro": "Desafio Cloudflare ('Executando verificação de segurança') no navegador e no curl; licença não conferida. Substituído pelo NCEO Brief #33."
+    },
+    {
+      "o_que": "Richardson et al. 2015, HTA 19(45): Non-pharmacological interventions for ADHD delivered in school settings (revisão sistemática NIHR)",
+      "url": "https://www.journalslibrary.nihr.ac.uk/hta/hta19450",
+      "erro": "NIHR Journals Library: 'The request could not be satisfied' (CloudFront); NCBI Bookshelf (NBK304052) pediu reCAPTCHA."
+    },
+    {
+      "o_que": "Harrison JR et al. 2021, Systematic Review: Educational Accommodations for Children and Adolescents With ADHD (JAACAP)",
+      "url": "https://doi.org/10.1016/j.jaac.2020.07.891",
+      "erro": "Sem versão de acesso aberto no Europe PMC (sem PMCID/licença); artigo pago. Não baixado."
+    },
+    {
+      "o_que": "PDF do AAP 2019, Diamond 2013 e Cortese 2015 no PMC",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7067282/pdf/nihms-1552301.pdf",
+      "erro": "PMC e Europe PMC devolveram 403/HTML ao baixar PDF; usado o HTML do PMC (sem números de página)."
+    },
+    {
+      "o_que": "Texto completo AAP 2019 e Diamond 2013 via API Europe PMC (fullTextXML)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4084861/fullTextXML",
+      "erro": "HTTP 500 (manuscritos do autor não estão no subconjunto OA)."
+    },
+    {
+      "o_que": "Evidência específica sobre quando o apoio remove a demanda cognitiva avaliada (ex.: entregar os dados já separados num problema de interpretação)",
+      "url": null,
+      "erro": "Não achei fonte aberta e revisada por pares sobre esse caso exato. O mais próximo: NCEO Brief #33 (modificação muda o que é medido e invalida a nota) e AAP 2019 (acomodação de longo prazo sem intervenção pode reduzir expectativas)."
+    }
+  ]
+}

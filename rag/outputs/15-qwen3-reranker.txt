@@ -1,0 +1,63 @@
+QWEN3 + RERANKER NO RASCUNHO DE GABARITO. Sem conferência humana. Nenhum modelo treinado.
+Bootstrap de 95%: 2000 sorteios de perguntas, semente 20261105.
+Trechos novos levados aos dois juízes cegos: 32. Marcados pelos dois: 7. Por um só: 3. Citações rejeitadas: 0.
+
+GABARITO COMO ESTAVA: 19 perguntas
+método                      recall@5           recall@10                 MRR
+bm25                0.33 [0.19-0.48]    0.43 [0.26-0.60]    0.51 [0.31-0.70]
+mpnet               0.09 [0.04-0.15]    0.17 [0.08-0.26]    0.22 [0.07-0.39]
+qwen3               0.63 [0.46-0.79]    0.81 [0.72-0.90]    0.64 [0.47-0.81]
+hibrido             0.46 [0.29-0.61]    0.57 [0.40-0.73]    0.59 [0.39-0.77]
+hibrido+rerank      0.42 [0.27-0.56]    0.61 [0.45-0.76]    0.71 [0.51-0.89]
+qwen3+rerank        0.43 [0.29-0.57]    0.67 [0.51-0.80]    0.80 [0.64-0.93]
+
+Diferença pareada (primeiro menos segundo), IC 95%, perguntas em que ganhou/empatou/perdeu:
+qwen3+rerank - qwen3           recall@5  -0.20 [-0.37 a -0.05]  3/6/10
+qwen3+rerank - qwen3           MRR       +0.15 [-0.03 a +0.35]  6/10/3
+qwen3+rerank - hibrido+rerank  recall@5  +0.02 [-0.07 a +0.10]  4/11/4
+qwen3+rerank - hibrido+rerank  MRR       +0.09 [+0.01 a +0.20]  5/14/0
+
+GABARITO AMPLIADO COM OS TRECHOS NOVOS: 19 perguntas
+método                      recall@5           recall@10                 MRR
+bm25                0.29 [0.16-0.42]    0.38 [0.23-0.55]    0.51 [0.31-0.70]
+mpnet               0.09 [0.04-0.15]    0.16 [0.07-0.25]    0.22 [0.07-0.39]
+qwen3               0.58 [0.42-0.74]    0.77 [0.67-0.86]    0.64 [0.47-0.81]
+hibrido             0.40 [0.26-0.56]    0.51 [0.35-0.65]    0.59 [0.39-0.77]
+hibrido+rerank      0.37 [0.24-0.51]    0.56 [0.41-0.70]    0.71 [0.51-0.89]
+qwen3+rerank        0.44 [0.31-0.56]    0.69 [0.55-0.81]    0.80 [0.64-0.93]
+
+Diferença pareada (primeiro menos segundo), IC 95%, perguntas em que ganhou/empatou/perdeu:
+qwen3+rerank - qwen3           recall@5  -0.14 [-0.32 a +0.02]  4/6/9
+qwen3+rerank - qwen3           MRR       +0.15 [-0.03 a +0.35]  6/10/3
+qwen3+rerank - hibrido+rerank  recall@5  +0.07 [-0.03 a +0.16]  5/12/2
+qwen3+rerank - hibrido+rerank  MRR       +0.09 [+0.01 a +0.20]  5/14/0
+
+Posição do primeiro trecho relevante ('-' = fora do top-10):
+pergunta                                                       qwen3    novo
+aluno com TDAH não sustenta a atenção em lista longa de ex         1       1
+aluno se distrai depois de poucos minutos numa leitura em          3       3
+aluno esquece a segunda parte da instrução em atividade de         4       7
+o que é memória de trabalho e por que excesso de informaçã         1       1
+aluno olha para a folha da redação e não consegue começar:         1       3
+exemplo resolvido ajuda aluno que não sabe por onde começa         3       1
+aluno com TDAH se perde na ordem dos passos num experiment         1       1
+como ensinar o aluno a planejar e organizar tarefas longas         1       1
+folha de prova com muitas imagens e caixas confunde o alun         6       3
+imagens decorativas no material atrapalham a aprendizagem?         3       -
+aluno responde por impulso sem ler o enunciado até o fim:          6       1
+reforço positivo e sistema de recompensas funcionam para c         1       1
+aluno trava quando precisa mudar de estratégia em uma ativ         1       1
+treino cognitivo por computador melhora funções executivas         1       1
+quais recursos de acessibilidade em avaliação a legislação         4       1
+aluno com dislexia cansa em texto longo de história: como          6       1
+ouvir o texto em áudio ajuda a compreensão de quem tem dif         4       1
+o que é adaptação curricular e até onde o professor pode f         1       1
+como o Plano Educacional Individualizado deve registrar ba         1       1
+
+método           mediana ms  ABDA no top-5  ABDA em 1º  inglês no top-5
+bm25                      1              7           1                0
+mpnet                    11              1           0               31
+qwen3                    31             13           4               16
+hibrido                  33             12           3                1
+hibrido+rerank          236             14           4               12
+qwen3+rerank            226             14           4               24

@@ -1,0 +1,39 @@
+CONFERÊNCIA MECÂNICA DAS RESPOSTAS (sem modelo julgando: só contagem sobre o texto das respostas).
+40 perguntas de perguntas_v0.json; busca qwen3+rerank50, 5 trechos; prompt do pacote (gerar.montar_prompt).
+ATENÇÃO: os geradores são modelos Claude, não o modelo configurado no protótipo (Qwen, via Groq), que não pôde ser chamado.
+Nenhum modelo treinado. Esta conferência não diz se o conteúdo está certo; isso é o juiz e a pessoa.
+
+===== GERADOR HAIKU (claude-haiku-5-5) =====
+recusas nas 2 perguntas sem resposta de propósito: 2 de 2 (Q39=recusou, Q40=recusou)
+recusas nas 38 perguntas com resposta na base: 0 de 38 (nenhuma)
+respostas dadas: 38; frases: 211 (média 5.6 por resposta; respostas com mais de 6 frases, o limite do prompt: 1)
+palavras por resposta: mediana 143, maior 208
+frases sem citação nenhuma: 1 de 211 (0.5%)
+frases com citação de trecho que não existe: 0 de 211
+trechos diferentes citados por resposta, dos 5 entregues: média 3.5
+respostas que citam trecho com aviso de uso: 17 de 38
+
+Cruzamento com a busca (gabarito do Opus, de modelo), nas perguntas com resposta na base:
+                                                respondeu  recusou
+recebeu ao menos 1 trecho certo nos 5                  33        0
+não recebeu nenhum trecho certo                         5        0
+respostas que citam ao menos 1 trecho certo: 33 de 38
+tokens gastos na geração: entrada 202354, saída 84082
+
+===== GERADOR OPUS (claude-opus-5-5) =====
+recusas nas 2 perguntas sem resposta de propósito: 2 de 2 (Q39=recusou, Q40=recusou)
+recusas nas 38 perguntas com resposta na base: 3 de 38 (Q05, Q07, Q10)
+respostas dadas: 35; frases: 199 (média 5.7 por resposta; respostas com mais de 6 frases, o limite do prompt: 0)
+palavras por resposta: mediana 183, maior 237
+frases sem citação nenhuma: 0 de 199 (0.0%)
+frases com citação de trecho que não existe: 0 de 199
+trechos diferentes citados por resposta, dos 5 entregues: média 3.9
+respostas que citam trecho com aviso de uso: 15 de 35
+
+Cruzamento com a busca (gabarito do Opus, de modelo), nas perguntas com resposta na base:
+                                                respondeu  recusou
+recebeu ao menos 1 trecho certo nos 5                  32        1
+não recebeu nenhum trecho certo                         3        2
+respostas que citam ao menos 1 trecho certo: 32 de 35
+tokens gastos na geração: entrada 201307, saída 42090
+

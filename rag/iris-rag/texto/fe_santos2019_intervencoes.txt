@@ -1,0 +1,1117 @@
+=== p. 1 ===
+182
+Psicologia
+e
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019.
+ISSN 1516-3687 (impresso), ISSN 1980-6906 (on-line). v21n3p182-204. Sistema de avaliação: às
+cegas por pares (double blind review).
+Universidade Presbiteriana Mackenzie.
+Psicologia e
+Educação
+Psicologia e Educação
+Intervenções escolares para o TDAH:
+Uma revisão da literatura (2000-2018)
+Waleska M. dos Santos1
+ http://orcid.org/0000-0003-3339-4053
+Alessandra R. de Albuquerque¹
+ https://orcid.org/0000-0003-2890-0214
+Para citar este artigo: Santos, W. M., & Albuquerque, A. R. (2019). Intervenções escolares para o TDAH: Uma revisão da literatura (2000-2018). Psicologia: Teoria e Prática,
+21(3), 182-204.
+Submissão: 08/05/2019
+Aceite: 03/06/2019
+Todo o conteúdo da Psicologia: Teoria e Prática está licenciado sob Licença Creative Commons CC – By 3.0
+1 Universidade Católica de Brasília (UCB), Brasília, DF, Brasil.
+
+=== p. 2 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+183
+Intervenções escolares para o TDAH
+Resumo
+O Transtorno de Déficit de Atenção/Hiperatividade (TDAH) acomete entre 3% e 6%
+da população infantil a qual apresenta índices elevados de fracasso e evasão escolar.
+Nessa perspectiva, intervenções realizadas no contexto escolar e, principalmente, em
+sala de aula são relevantes para o processo educacional dos estudantes com TDAH. O
+objetivo do presente estudo foi recuperar publicações relativas a intervenções escolares com crianças e jovens com TDAH por meio da revisão da literatura no período
+entre 2000 e 2018. Estudos em português ou inglês, empíricos e revisados por pares,
+foram selecionados na base de dados Portal de Periódicos Capes. Trinta e três artigos
+atendiam aos critérios de inclusão, apenas dois brasileiros. Os resultados evidenciaram efeitos positivos de diferentes estratégias interventivas sobre repertórios acadêmicos e típicos do TDAH incentivando novas investigações e aplicações.
+Palavras-chave: TDAH; intervenções escolares; revisão da literatura; crianças;
+adolescentes.
+SCHOOL INTERVENTIONS FOR ADHD: A LITERATURE
+REVIEW (2000-2018)
+Abstract
+Attention-Deficit Hyperactivity Disorder (ADHD) affects between 3% and 6% of the
+child population, which presents high rates of failure and school dropout. In this
+perspective, interventions implemented in the school context, especially in the classroom, are relevant for the educational process of students with ADHD. The objective
+of the present study was to retrieve publications about school interventions carried
+out with children and adolescents with ADHD through a literature review in the period between 2000 and 2018. Empirical peer-reviewed studies, written in Portuguese
+or English were selected in the data base Portal de Periódicos Capes. Thirty three
+articles met the inclusion criteria, only two Brazilian studies. The results showed
+positive effects of different intervention strategies on typical ADHD and academic
+repertoires encouraging new investigations and applications.
+Keywords: ADHD; school interventions; literature review; children; adolescents.
+INTERVENCIONES ESCOLARES PARA TDAH: UNA
+REVISIÓN DE LA LITERATURA (2000-2018)
+Resumen
+El Trastorno de Déficit de Atención/Hiperactividad (TDAH) acomete entre el 3% y el
+6% de la población infantil la cual presenta índices elevados de fracaso y evasión
+
+=== p. 3 ===
+184
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+escolar. En esta perspectiva, intervenciones realizadas en el contexto escolar y, principalmente, en el aula, son relevantes para el proceso educativo de los estudiantes
+com TDAH. El presente estudio tuvo como objetivo recuperar las publicaciones relativas a intervenciones escolares realizadas con niños y jóvenes con TDAH, por medio
+de la revisión de la literatura em el período compreendido entre 2000 y 2018. Fueron
+selecionados los estudios en portugués o inglés, empíricos y revisados por pares en la
+base de datos Portal de Periódicos Capes. Treinta y tres artículos atendían a los criterios de inclusión, apenas dos brasileños. Los resultados evidenciaron efectos positivos de diferentes estrategias interventivas sobre el repertorio típico del TDAH y
+académicos incentivando nuevas investigaciones y aplicaciones.
+Palabras clave: TDAH; intervenciones escolares; revisión de la literatura; niños;
+jóvenes.
+1. Introdução
+O Transtorno de Déficit de Atenção/Hiperatividade (TDAH) é um distúrbio
+do neurodesenvolvimento caracterizado por padrão persistente de uma tríade de
+sintomas de desatenção, hiperatividade e impulsividade. O TDAH acomete entre 3%
+e 6% da população infantil mundial (American Psychiatric Association, 2014), sendo considerado um dos distúrbios mais comuns da infância.
+Há consenso de que o TDAH é um transtorno multifatorial, que requer uma
+abordagem interventiva multimodal (Benczik, 2014; Costa, Moreira, & Seabra,
+2015), envolvendo diferentes agentes sociais e contextos (DuPaul & Stoner, 2015;
+Mattos, 2015). Diversos estudos (por exemplo, Murray, Arnold et al., 2008; So,
+Leung, & Hung, 2008) evidenciam a superioridade do uso combinado, comparativamente ao isolado, de intervenções medicamentosas e comportamentais.
+A despeito dessas evidências, o uso de intervenções farmacológicas tem predominado, o que é ilustrado pela diversidade de medicamentos disponíveis no mercado e pelo aumento do consumo destes. Na América do Norte, por exemplo, o número de medicamentos voltados para o tratamento do TDAH quadruplicou em dez
+anos (Schachar et al., 2004). Entre as alternativas de intervenção farmacológica para
+o transtorno, há diretrizes clínicas de diferentes de países que recomendam os psicoestimulantes metilfenidato e o dimesilato de lisdexanfetamina como fármacos de
+primeira linha (por exemplo, Canadian ADHD Resource Alliance, 2018; National Institute for Health and Care Excellence [NICE], 2013). A atomoxetina e guanfacina,
+fármacos não estimulantes, são citadas como alternativas de segunda linha.
+
+=== p. 4 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+185
+Intervenções escolares para o TDAH
+O aumento da variedade de medicamentos é acompanhado pelo incremento
+dos índices de consumo. No Brasil, a venda de metilfenidato aumentou 1.616%
+entre 2000 e 2008 (Moyses & Collares, 2013). Na Inglaterra, o uso de estimulantes
+para tratamento do TDAH cresceu de 220 mil prescrições para 418.300 entre 1998
+e 2004 (NICE, 2013).
+Apesar de evidências da eficácia das intervenções farmacológicas, há restrições ao uso delas relacionadas a potenciais efeitos colaterais ou intolerância, à
+baixa responsividade, ao efeito apenas em curto prazo e a impedimentos quanto à
+faixa etária (Moreno-García, Meneres-Sancho, Camacho-Vara de Rey, & Servera,
+2019; NICE, 2013). De acordo com o subcomitê sobre TDAH da American Academy
+of Pediatrics (American Academy of Pediatrics, Subcommittee on Attention-Deficit/Hyperactivity Disorder, & Steering Committee on Quality Improvement and Management, 2011), crianças pré-escolares devem ser tratadas exclusivamente com
+terapias não farmacológicas; o uso de fármacos é recomendado para crianças acima
+dos 6 anos e adolescentes.
+Somam-se às restrições apontadas críticas relativas às explicações de natureza eminentemente orgânica para o TDAH. Essas explicações, coerentes com o
+contexto da saúde, têm sido descolocadas para outros campos, como o educacional.
+Tal fenômeno, conhecido como medicalização escolar, tem como desdobramento a
+patologização de problemas educacionais. Desse modo, patologias consideradas
+inerentes às crianças tendem a ser usadas como justificativa de dificuldades e fracasso escolar destas (Signor, Berberian, & Santana, 2017). Nesse processo, muitas
+vezes a escola é desresponsabilizada pelas dificuldades apresentadas pela criança,
+bem como de seu importante papel como um dos contextos de intervenção voltada
+para o TDAH.
+Sob uma perspectiva multimodal, considera-se que intervenções na escola são
+particularmente importantes, pois é nesse contexto que os comportamentos típicos
+do TDAH são especialmente disfuncionais, além de contribuírem para índices alarmantes de fracasso e evasão escolar, que chegam a 35% no ensino médio (Dorneles
+et al., 2014). Dado que o campo de atuação de agentes educacionais extrapola o biológico, intervenções comportamentais têm sido apontadas como estratégia alternativa ou complementar à farmacológica no contexto escolar (DuPaul & Stoner, 2015).
+Tendo em vista a importância de se intervir em casos de TDAH no contexto
+escolar, de modo a promover repertórios comportamentais mais adaptativos e pre-
+
+=== p. 5 ===
+186
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+venir fracasso e evasão escolar, o presente estudo, de natureza exploratória/descritiva, tem por objetivo: levantar intervenções não farmacológicas, utilizadas com
+crianças e jovens com TDAH, no contexto escolar, por meio de uma revisão da literatura no período entre 2000 e 2018.
+2. Método
+Realizou-se uma busca de artigos indexados no Portal de Periódicos da
+Coordenação de Aperfeiçoamento de Pessoal de Nível Superior (Capes), o qual reúne e disponibiliza 127 bases de dados (por exemplo, Eric, Ebsco, Lilacs, MEDLINE/
+PubMed, PsycINFO, SciELO, Web of Science). A busca foi realizada no período entre
+março e abril de 2016 (para referências entre 2000 e 2015) e entre fevereiro e
+março de 2018 (para referências entre 2016 e 2018).
+Para a busca inicial, foram utilizados nove diferentes descritores, quatro
+deles referentes a denominações do transtorno (hyperactiveness, hiperactivity, attention deficit e ADHD) e os demais a intervenções (psychopedagogy, psychopedagogical, school intervention, classroom intervention e classroom strategies). Os descritores foram combinados dois a dois (uma denominação e uma de intervenção)
+formando 20 pares de palavras. A partir da análise das palavras-chave dos artigos
+que retornaram, restringiu-se a busca aos descritores ADHD e school intervention.
+Fez-se essa escolha porque o descritor school intervention foi o que se mostrou
+mais efetivo no retorno de artigos relacionados ao objetivo. A busca inicial com os
+descritores psychopedagogy e psychopedagogical retornava muitos artigos de intervenções clínicas realizadas fora da escola. Os descritores classroom restringiam
+a busca, deixando de fora intervenções realizadas na escola, mas fora da
+sala de aula.
+A seleção dos artigos foi realizada a partir da leitura dos resumos, com base
+nos seguintes critérios de inclusão: 1. publicado em revistas científicas, 2. relato de
+pesquisas empíricas, 3. publicado no período entre 2000 e 2018, 4. escrito na língua inglesa ou portuguesa e 5. revisado por pares. Como critérios de exclusão, foram aplicados: 1. estudos realizados com outra população que não a de crianças e/
+ou adolescentes inseridas no contexto escolar, 2. estudos realizados com crianças e
+adolescentes com comorbidades e 3. estudos que não descreviam os procedimentos
+interventivos empiricamente investigados; foram excluídos também os artigos repetidos (n = 9) e os que não tinham os textos completos para leitura na base de
+
+=== p. 6 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+187
+Intervenções escolares para o TDAH
+dados (n = 4). Selecionados os artigos, realizou-se a leitura completa e minuciosa
+daqueles que atendiam aos critérios de inclusão.
+Foram encontrados, inicialmente, a partir dos descritores finais (ADHD e
+school intervention), 762 artigos (Figura 2.1). A partir da leitura do título e resumo
+destes, 102 estudos foram selecionados com base nos critérios de inclusão/exclusão
+descritos. Destes, nove foram excluídos por serem repetidos, restando 93 artigos
+para leitura na íntegra. Após a leitura minuciosa, restaram 33 artigos, os quais
+compõem a amostra deste estudo.
+Busca no
+Portal Capes
+Leitura de
+títulos e resumos
+Leitura completa
+dos artigos
+•	Descritores
+TDAH e
+Intervenção
+Escolar
+•	N = 762
+•	Seleção de
+referências
+potencialmente
+relevantes
+•	Exclusão de
+nove resumos
+duplicados
+•	N = 102
+•	Seleção de
+referências
+seguramente
+relevantes
+•	Exclusão de
+58 artigos que
+não atenderam
+aos critérios
+de inclusão
+•	N = 93
+Seleção
+final
+N = 33
+Figura 2.1. Fluxograma do processo de levantamento e seleção dos artigos.
+3. Resultados
+Foram identificados 33 artigos sobre intervenções não farmacológicas, no
+contexto escolar, com crianças e jovens com TDAH (tabelas 3.1 e 3.2); 31 artigos em
+língua inglesa e dois em língua portuguesa, publicados em 27 diferentes revistas.
+Não foram identificadas publicações entre 2000 e 2004. Do total de artigos, 18
+descrevem pesquisas desenvolvidas no contexto de sala de aula e 15 em contextos
+diversos no âmbito escolar.
+
+=== p. 7 ===
+188
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+Tabela 3.1. Síntese das pesquisas relativas a intervenções para o TDAH no
+contexto escolar (2000-2008).
+Estudo
+Intervenção
+Contexto
+N
+Comportamento(s)-
+alvo
+Mediação
+Clarfield
+e Stoner
+(2005)
+Headsprout Reding
+Basic (Programa de instrução
+computadorizada)
+Sala de
+informática
+3
+Fluência em leitura
+oral e engajamento
+na tarefa
+Computador
+Peck,
+Kehle,
+Bray e
+Theodore
+(2005)
+Ioga
+Quadra,
+sala de
+aula
+10
+Atenção
+Professor
+de Educação
+Física
+Plumer
+e Stoner
+(2005)
+Classwide Peer Tutoring – CWPT e
+Peer Coaching – PC
+(Tutoria entre pares
+e treinamento dos
+pares)
+Sala de
+aula
+3
+Comportamentos
+sociais
+Pares
+Mautone,
+DuPaul e
+Jitendra
+(2005)
+Math Blasteré –
+Computer Assisted
+Instruction – CAI
+(Programa de instrução assistida por
+computador)
+Sala de
+recursos
+3
+Desempenho
+matemático
+Computador
+Stahr,
+Cushing
+e Lane
+(2006)
+Automonitoramento
+Sala de
+aula
+1
+Engajamento nas
+tarefas escolares,
+comportamentos
+sociais
+Terapeuta
+Gumpel
+(2007)
+Automonito-
+ramento com
+reforçamento
+não contingente
+e contingente
+Recreio
+3
+Habilidades sociais
+Terapeuta
+Murray et
+al. (2008)
+DailyBehaviorReportCard – DBR (Relatório de Comportamento Diário)
+Sala de
+aula
+24
+Habilidades
+acadêmicas
+Professor
+
+=== p. 8 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+189
+Intervenções escolares para o TDAH
+Tabela 3.2. Síntese das pesquisas relativas a intervenções para o TDAH no
+contexto escolar (2009-2018).
+Estudo
+Intervenção
+Contexto
+N
+Comportamento(s)-
+alvo
+Mediação
+Fabiano,
+Vujnovic,
+Naylor,
+Pariseau
+e Robins
+(2009)
+Daily Behavior Report Card – DBR
+(Relatório de Comportamento Diário)
+Sala de
+aula
+63
+Comportamentos
+típicos do TDAH
+Professor
+Schottelkorb
+e Ray
+(2009)
+Terapia Centrada na
+Criança e Consulta
+Centrada na Pessoa
+para professores
+Sala de
+jogos
+4
+Comportamentos
+típicos do TDAH
+Terapeuta/
+orientador
+Volpe,
+DuPaul,
+Jitendra
+e Tresco
+(2009)
+Traditional Data-
+-Base Academic
+Intervention –TDAI
+e Intensive Data-
+-Base Academic
+Intervention – IDAI
+(Modelos de ensino
+baseados em consultas intensivas
+ou tradicionais a
+professores)
+Sala de
+aula
+175
+Engajamento
+acadêmico
+Professor
+Cihak,
+Kirk e
+Boon
+(2009)
+Tootling (Comunicação entre pares)
+Sala de
+aula
+19
+Comportamentos
+disruptivos em sala
+de aula e comunicação com pares
+Pares
+Fabiano
+et al.
+(2010)
+Daily Behavior Report Card – DBR
+(Relatório de Comportamento Diário)
+Sala de
+aula
+63
+Desempenho
+acadêmico
+Professor
+Brady e
+Kubina
+(2010)
+Endurance of Multiplication Fact Fluency
+(Estratégia de concentração nas tarefas escolares)
+Sala de
+experimento
+3
+Habilidades
+matemáticas
+Computador
+Pina et al.
+(2010)
+Ludomotricidade e Estimulação
+Cortical
+Sala de
+recursos
+10
+Lectoescrita
+Professor
+da sala de
+recursos
+(continua)
+
+=== p. 9 ===
+190
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+Tabela 3.2. Síntese das pesquisas relativas a intervenções para o TDAH no
+contexto escolar (2009-2018).
+Estudo
+Intervenção
+Contexto
+N
+Comportamento(s)-
+alvo
+Mediação
+Rabiner,
+Murray e
+Skinner
+(2010)
+Computerized Attention Training – CAT
+e Computer Assisted
+Instruction – CAI
+(Treino de Atenção
+Computadorizado e
+Instrução Assistida
+por Computador)
+Sala de
+informática
+77
+Atenção em sala de
+aula e desempenho
+escolar
+Computador
+Leflot,
+Lier, ,
+Onghena
+e Colpin
+(2010)
+Good Behavior Game
+– GBG (Estratégias de gestão de
+sala de aula pelo
+professor)
+Sala de
+aula
+570
+Comportamento
+disruptivo
+Terapeuta/
+orientador
+Erbey,
+Mc-
+Laughlin,
+Derby e
+Everson
+(2011)
+Flashcards Racetrack
+flashcards (Jogo de
+pista de corrida e
+cartões)
+Sala de
+recurso
+3
+Leitura e habilidades
+matemáticas
+Professor
+Ozdemir
+(2011)
+First Step to Success
+Program on
+Academic – FSS
+Sala de
+apoio,
+Sala de
+aula
+4
+Engajamento
+acadêmico
+Terapeuta/
+orientador
+Smith,
+Marchand-Martella e
+Martella
+(2011)
+Rocket Math
+(Programa de
+matemática)
+Sala de
+aula
+1
+Desempenho
+matemático
+Computador
+Young
+(2012)
+Terapia cognitivo-
+-comportamental
+em grupo
+Não
+indica
+48
+Aceitação da
+intervenção
+Terapeuta/
+orientador
+(continua)
+
+=== p. 10 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+191
+Intervenções escolares para o TDAH
+Tabela 3.2. Síntese das pesquisas relativas a intervenções para o TDAH no
+contexto escolar (2009-2018).
+Estudo
+Intervenção
+Contexto
+N
+Comportamento(s)-
+alvo
+Mediação
+Kercood,
+Zentall,
+Vinh e
+Tom-
+Wright
+(2012)
+Palavras em
+destaque
+Sala de
+experimento
+10
+Desempenho
+matemático
+Professor
+Cole,
+Treadwell,
+Dosani
+e Frederickson
+(2012)
+Programa cognitivo-comportamental de controle da
+raiva
+Sala de
+apoio
+70
+Compreensão e autopercepção de raiva
+Terapeuta/
+orientador
+Nolan
+e Filter
+(2012)
+Reforçamento não
+contingente (NCR)
+e custo de resposta
+(RC)
+Sala de
+aula
+1
+Comportamentos
+problema
+Terapeuta/
+orientador
+Vujnovic,
+Fabiano,
+Pariseau
+e Naylor
+(2013)
+Daily Behavior
+Report Card – DBR
+(Relatório de Comportamento Diário)
+Sala de
+aula, casa
+33
+Adesão dos pais e
+professores
+Professor
+Wells e
+Sheehey
+(2013)
+Positive Behavior Support (Incorporação
+de interesses dos
+alunos ao currículo)
+Sala de
+recursos,
+sala de
+aula
+3
+Comportamentos
+“positivos” – engajamento nas tarefas
+escolares
+Computador
+Costa et
+al. (2015)
+Atividades ludomotoras e jogos de
+estratégias
+Quadra,
+sala de
+aula
+4
+Memória, atenção e
+concentração
+Professor
+de Educação
+Física
+Muratori
+et al.
+(2015)
+Coping Power
+Program
+Sala de
+aula
+184
+Comportamentos
+problema e comportamento pró-social
+Professor
+Cirelli,
+Sidener,
+Reeve e
+Reeve
+(2016)
+Cronograma de
+atividades
+Sala de
+aula
+2
+Desempenho
+acadêmico
+Professor
+(continua)
+
+=== p. 11 ===
+192
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+Tabela 3.2. Síntese das pesquisas relativas a intervenções para o TDAH no
+contexto escolar (2009-2018).
+Estudo
+Intervenção
+Contexto
+N
+Comportamento(s)-
+alvo
+Mediação
+Dawson,
+Wymbs,
+Marshall,
+Mautone
+e Power
+(2016)
+Intervenção psicossocial, multimodal colaborativa
+família-escola
+Sala de
+recursos
+139
+Déficit de atenção,;
+hiperatividade,
+impulsividade
+Terapeuta/
+orientador
+Feil et al.
+(2016)
+Preschool First
+Step – PFS (Intervenção conjunta
+família-escola
+com feedback para
+comportamentos
+do aluno em sala e
+orientação dos pais
+a respeito de habilidades escolares
+em casa)
+Sala de
+aula, casa
+45
+Déficit de atenção, hiperatividade,
+impulsividade
+Treinador/
+professor
+Langberg
+et al.
+(2016)
+The Challenging
+Horizons After School
+Program (Intervenção psicossocial
+para adolescentes)
+Sala de
+aula, casa
+112
+Atenção, funções
+executivas
+Treinador
+Leckey et
+al. (2016)
+The Incredible Years-
+Teacher Programme
+(Programa de gestão de sala de aula
+pelo professor)
+Sala de
+aula
+217
+Comportamento
+disruptivo
+Professor
+Chou e
+Huang
+(2017)
+Ioga
+Quadra
+49
+Atenção, funções
+executivas
+Professor
+de Educação
+Física
+O número de participantes (um a 570) e os comportamentos de interesse são
+tão variáveis quanto os tipos de intervenção. Algumas pesquisas tiveram como foco o
+desempenho acadêmico, outras a redução de comportamentos característicos do TDAH.
+Dada a variabilidade encontrada, optou-se por agrupar as pesquisas, inicialmente, a partir do principal agente mediador da intervenção – professor, pares,
+
+=== p. 12 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+193
+Intervenções escolares para o TDAH
+computador ou outros profissionais. Adicionalmente, identificou-se um conjunto
+de estudos cujo foco recaía em intervenções baseadas em análises funcionais e uso
+de princípios de condicionamento. Os estudos são apresentados a partir dessas
+cinco categorias.
+3.1 Intervenções mediadas pelo professor
+Treze estudos foram levantados nessa categoria, quatro deles sobre intervenções de natureza física/psicomotora. Incrementos na atenção e discriminação
+foram observados com o uso da ioga (Chou & Huang, 2017; Peck, Kehle, Bray, &
+Theodore, 2005). Melhoras na aprendizagem de leitura e escrita foram relatadas
+com o uso de atividades ludomotoras e jogos educacionais (Pina et al., 2010). Um
+programa de estimulação de memória, atenção e concentração, baseado em atividades psicomotoras, lúdicas e jogos de estratégias, adaptadas de recursos pedagógicos utilizados em aulas de Educação Física, foi proposto (Costa et al., 2015).
+Os nove estudos restantes tratam de cinco diferentes intervenções mediadas
+por professores: Relatório Diário de Comportamento (DBR) ou Cartão de Registro
+Diário (DRC), Intervenção Acadêmica Tradicional Baseada em Dados (TDAI), Intervenção Acadêmica Intensiva Baseada em Dados (IDAI), Cronograma de Atividades,
+Programa de Treino de Manejo de Sala e Flashcards Racetrack.
+O DBR/DRC (Fabiano et al., 2009, 2010; Murray, Rabiner, Schulte, & Newitt,
+2008; Vujnovic et al., 2013) envolve: o uso de protocolo de registro com uma lista
+de comportamentos-alvo dos estudantes, a exigência de preenchimento diário
+desse protocolo e o fornecimento de feedback quando os comportamentos especificados são apresentados. De modo geral, os estudos com o uso do DBR/DRC apontam efeitos positivos da intervenção no que se refere às habilidades acadêmicas
+(Murray, Rabiner et al., 2008), aos comportamentos antissociais, à hiperatividade/
+impulsividade (Fabiano et al., 2009, 2010) e à adesão dos pais e professores à intervenção (Murray, Rabiner et al., 2008; Vujnovic et al., 2013).
+A TDAI e IDAI diferem, basicamente, em relação ao nível de acompanhamento e feedback dado aos alunos, que é maior e mais sistemático na IDAI. Ambas
+as intervenções promoveram melhora do engajamento acadêmico (Volpe et
+al., 2009).
+Efeitos de manipulações no material didático foram investigados por Kercood et al. (2012), que observaram o aumento no número de acertos em problemas
+
+=== p. 13 ===
+194
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+matemáticos quando palavras-chave eram destacadas. Erbey et al. (2011) utilizaram um jogo de pista de corrida e cartões com palavras ou objetos de interesse das
+crianças (flashcards) para ensinar fonética, palavras e fatos de adição a um estudante com TDAH; o uso combinado dos dois instrumentos promoveu melhora das
+habilidades matemáticas e de leitura.
+Estratégias voltadas para a organização do trabalho pedagógico, em sala de
+aula, com foco nos comportamentos dos professores (Leckey et al., 2016) ou alunos
+(Cirelli et al., 2016), foram investigadas. Com o objetivo de fortalecer as competências de manejo de sala de aula, Leckey et al. (2016) realizaram um treinamento (The
+Incredible Years Teacher Programme – IYTP) com professores com foco no relacionamento positivo com os alunos, na prevenção de comportamentos-problema, na
+motivação, entre outros; dados apontam incrementos do manejo de sala de aula.
+Similarmente, Cirelli et al. (2016) observaram o aumento no tempo de trabalho
+dedicado a tarefas em sala de aula, de forma independente, em dois meninos com
+TDAH, com o uso de cronograma de atividades.
+3.2 Intervenções mediadas pelos pares
+Três estudos descreveram intervenções nas quais dois estudantes trabalham
+juntos e um oferece auxílio e feedback ao outro. Plumer e Stoner (2005) avaliaram
+o efeito da Tutoria entre Pares com Toda a Classe (CWPT); os pares forneciam comandos para os colegas resolverem os exercícios e feedback para acertos; foi observado o envolvimento ativo e positivo dos pares durante a execução das tarefas.
+Cihak et al. (2009) evidenciaram o decréscimo de comportamentos disruptivos de
+todos os participantes com o uso de observação e registro de comportamentos
+pró-sociais entre pares. Muratori et al. (2015) usaram a mediação pelos pares, por
+meio da implementação de um programa de negociação e cooperação, com o objetivo de prevenir comportamentos agressivos em crianças com TDAH. Resultados
+indicaram o aumento no índice de comportamentos pró-sociais, redução de índices
+de estresse e de hiperatividade/déficit de atenção.
+3.3 Intervenções mediadas por computador
+O uso do computador como ferramenta instrucional tem sido recomendado
+quando se objetiva produzir incrementos no desempenho acadêmico de estudantes. Defende-se que as características dos exercícios e a possibilidade de prática
+
+=== p. 14 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+195
+Intervenções escolares para o TDAH
+contínua, inerentes ao computador, favorecem a atenção e concentração aos estímulos acadêmicos (DuPaul & Stoner, 2015).
+Foram identificadas seis pesquisas com mediação por computador, quatro
+delas com o objetivo de promover melhoras no desempenho matemático (Brady &
+Kubina, 2010; Mautone et al., 2005; Rabiner et al., 2010; Smith et al., 2011).
+Smith et al. (2011) utilizaram um programa informatizado (Rocket Math),
+composto por folhas de cálculo, com um estudante com TDAH; poucos erros na
+realização dos cálculos passaram a ocorrer após seis meses de uso do programa.
+Mautone et al. (2005) avaliaram o efeito de um programa de Instrução Assistida
+pelo Computador (CAI), o qual apresentava as atividades e os resultados delas, com
+três estudantes com TDAH. Os estudantes avaliaram positivamente o CAI. Resultados positivos em tarefas de multiplicação mediadas pelo computador foram também apresentados por Brady e Kubina (2010) com três estudantes com TDAH. Rabiner et al. (2010) utilizaram dois programas computadorizados (CAT e CAI) com
+foco na promoção de atenção em tarefas de matemática e leitura. O Treino Computadorizado de Atenção (CAT) envolvia uma lista de exercícios voltados para habilidades cognitivas, audição e visão. A Instrução Assistida por Computador (CAI) trabalhava a fluência em matemática e leitura com uso das habilidades cognitivas já
+treinadas. Ambas as intervenções produziram declínios nas dificuldades atencionais.
+Clarfield e Stoner (2005) utilizaram o CAI com três estudantes com TDAH,
+os quais apresentaram melhora na fluência em leitura oral e no engajamento nas
+atividades acadêmicas. Wells e Sheehey (2013) investigaram o efeito do uso do
+computador no engajamento nas tarefas acadêmicas com resultados positivos.
+3.4 Intervenções mediadas por outros profissionais
+Identificaram-se sete pesquisas nas quais as intervenções foram realizadas
+por outros profissionais (terapeutas, orientadores, treinadores). Estas, todavia,
+eram articuladas com o contexto escolar e incluíram o acompanhamento dos estudantes na escola, bem como a participação de professores, família e/ou equipe
+destinada para esse fim.
+Em dois estudos, o foco recaiu sobre a expressão (Schottelkorb & Ray, 2009)
+ou controle de sentimentos (Cole et al., 2012), com o uso de programas de base
+Centrada na Pessoa e Cognitivo-Comportamental, respectivamente. Redução de
+comportamentos típicos do TDAH e controle da raiva foram relatados.
+
+=== p. 15 ===
+196
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+A prevenção de comportamentos antissociais por meio de intervenções implementadas por pais, professores ou equipe específica a partir do treinamento por
+um terapeuta foi o objetivo de dois estudos. Ozdemir (2011) avaliou a eficácia de
+um programa que visava prevenir os primeiros sinais de comportamentos antissociais. Este foi aplicado pela família e escola em quatro crianças com TDAH em fase
+escolar inicial. O aumento dos níveis de engajamento acadêmico foi observado.
+Leflotet al. (2010) designaram uma equipe para apoiar o professor, em sala de aula,
+com ferramentas para reforçar o comportamento pró-social e desempenho nas
+tarefas acadêmicas, bem como para reduzir o comportamento antissocial dos estudantes. Resultados explicitaram a redução de comportamentos disruptivos dos
+estudantes.
+Outros dois estudos investigaram o efeito de intervenções conjuntas família-escola (Dawson et al., 2016; Feil et al., 2016). Dawson et al. (2016) compararam
+condições de intervenção e controle, com crianças com TDAH cujos pais também
+tinham TDAH. Na condição controle foram realizadas 11 sessões de psicoeducação
+a respeito do TDAH, com pais e crianças, separadamente. A condição de intervenção consistiu em um tratamento integrativo, psicossocial, desenvolvido em 12 sessões: duas de consulta conjunta família-escola, seis de grupos de pais concorrentemente a grupo de crianças e quatro sessões de terapia familiar. O efeito das duas
+condições sobre comportamentos disruptivos foi semelhante.
+Feil et al. (2016) realizaram um treino (Preschool First Step – PFS) com o objetivo de diminuir e prevenir a ocorrência de comportamentos disruptivos na fase
+inicial da vida escolar de crianças com TDAH. O treino ocorria em sala de aula e em
+casa. Em sala de aula, o professor e um instrutor forneciam feedback para comportamentos considerados adequados ou não das crianças. Em casa, pais e responsáveis faziam leituras e demonstrações a respeito de habilidades como comunicação
+e cooperação. Foram observados incrementos das habilidades sociais e redução de
+comportamentos disruptivos.
+Langberg et al. (2016) avaliaram o efeito de um programa de intervenção
+psicossocial voltado para adolescentes com TDAH (The Challenging Horizons After
+School Program – CHP-AS). Encontros de aproximadamente duas horas de duração, que tinham como foco o ensino de habilidades acadêmicas, eram realizados
+duas vezes por semana. Apenas 28% dos participantes apresentaram melhoras significativas das habilidades acadêmicas.
+
+=== p. 16 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+197
+Intervenções escolares para o TDAH
+A última pesquisa inserida nesse grupo teve como objetivo avaliar um programa de terapia cognitivo-comportamental em grupo, voltado para crianças com
+déficits de atenção na escola (Young, 2012). O programa incluía a intervenção direta com as crianças e indireta com os pais, os quais eram orientados a atuar como
+treinadores de seus filhos. Pais e professores apontaram melhoras na atenção e nas
+emoções das crianças.
+3.5 Intervenções baseadas em análises funcionais e uso
+de princípios de condicionamento
+Identificar os eventos ambientais que mantêm comportamentos disruptivos
+típicos do TDAH é o ponto de partida para o planejamento de intervenções baseadas em análises funcionais. Três dos estudos selecionados descreviam intervenções
+desse tipo e que envolviam o uso conjugado de princípios de fortalecimento e enfraquecimento de comportamentos.
+Stahr et al. (2006) verificaram que os comportamentos de não fazer a tarefa e de movimentar-se continuamente de uma garota com TDAH eram mantidos,
+respectivamente, pela atenção recebida da professora e dos colegas e por conseguir
+escapar das tarefas. Intervenções planejadas a partir dessa análise, envolvendo um
+sistema de comunicação, automonitoramento e extinção, produziram melhora nos
+comportamentos-alvo.
+Outras duas investigações utilizaram reforçamento contingente (RC) ou
+não contingente (NCR) com crianças com TDAH. Nolan e Filter (2012) aplicaram
+uma combinação de NCR associado ao custo de resposta (RC), em um estudo de
+caso, com um estudante com TDAH. O NCR consistiu no livre acesso à música e o
+RC envolvia a remoção contingente da música quando o comportamento-problema ocorria. Observou-se a redução expressiva na duração de ocorrência dos
+comportamentos-problema. Gumpel (2007) utilizou uma combinação de autocontrole associado ao RC. O autocontrole envolvia automonitoramento de comportamentos sociais durante o recreio. O RC consistira no uso de reforço positivo
+(elogios, ícone de sorriso, outros) quando comportamentos pró-sociais ocorriam.
+Os dois procedimentos afetaram os comportamentos de interesse, todavia, os
+resultados com o uso de RC foram mais sistemáticos que os observados com o
+automonitoramento.
+
+=== p. 17 ===
+198
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+4. Discussão
+Foi possível, por meio do presente estudo, identificar uma diversidade de
+intervenções não farmacológicas, utilizadas com crianças e jovens com TDAH, no
+contexto escolar. Em termos quantitativos, observa-se que, na primeira metade
+(de 2000 a 2008) do período de 19 anos abrangido pelo presente estudo, há uma
+quantidade inexpressiva de pesquisas a respeito do tema de interesse (sete estudos). Em contrapartida, no segundo momento, que abrange o período de 2009 a
+2018, percebe-se um aumento substancial no número de pesquisas sobre intervenções escolares voltadas para o TDAH. Esse aumento no número de publicações
+sucede o incremento de 66% no número de diagnósticos de TDAH ocorrido nos
+Estados Unidos entre 2000 e 2010 (Garfield et al., 2012) e sugere um interesse
+crescente na temática, especialmente no contexto norte-americano, de onde provém o maior número de pesquisas identificadas.
+Apesar do aumento no número de publicações que tratam de intervenções
+escolares, considera-se este ainda baixo, especialmente quando comparado a publicações a respeito de intervenções farmacológicas. Nos 33 artigos selecionados,
+29 diferentes denominações de intervenções foram identificadas, e apenas uma
+delas (DBR) foi investigada em mais de um estudo. Esse dado indica um baixo número de replicações, as quais são imprescindíveis para aumentar a validade externa
+dos resultados e da generalidade das descobertas. Entretanto, percebe-se uma
+mudança metodológica nos delineamentos dos estudos a partir de 2009, comparativamente àqueles desenvolvidos até 2008. O conjunto de estudos compreendidos até 2008 envolviam pequeno número de participantes e consistiam basicamente em estudos de caso; apenas dois dos sete estudos nesse período (28,6%)
+incluíam dez ou mais participantes. Entre os estudos desenvolvidos entre 2009 e
+2018, predominam aqueles com grande número de participantes (65,4%). Esse
+dado sugere uma preocupação com a busca de maior generalidade das descobertas
+nos estudos mais recentes.
+De modo geral, todas as intervenções investigadas promoveram incrementos
+nos repertórios de estudantes com TDAH que são ilustrados pelo enfraquecimento
+dos comportamentos característicos do transtorno, fortalecimento de padrões comportamentais de atenção e concentração, aumento na compreensão e número de
+acertos em tarefas acadêmicas, entre outros. Esses resultados são importantes em
+pelo menos quatro aspectos. Primeiro, as intervenções investigadas constituem-se
+
+=== p. 18 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+199
+Intervenções escolares para o TDAH
+como estratégias alternativas ou complementares à farmacológica. Adicionalmente,
+tais intervenções contribuem para “tirar” dos estudantes a responsabilidade exclusiva por suas dificuldades, na medida em que evidenciam que pequenas adaptações no
+contexto escolar e atividades acadêmicas, com diferentes mediadores, são eficazes
+para a promoção de comportamentos mais adequados. As intervenções mostraram-
+-se potencialmente relevantes para a prevenção de fracasso escolar. Finalmente, o
+conjunto de informações levantadas pode auxiliar na tomada de decisão a respeito de
+como lidar com crianças e jovens com TDAH (Langberg et al., 2016).
+Esses resultados, contudo, devem ser considerados com cautela. Além da
+pouca replicação já apontada, a busca por literatura exclusivamente em inglês e
+português levou à recuperação de textos predominantemente norte-americanos.
+Nesse sentido, devem ser consideradas as diferenças culturais que impactam o
+contexto escolar. Ademais, os critérios de inclusão e exclusão utilizados previram
+como único critério indireto de qualidade dos artigos a revisão por pares e a postagem em portal científico. A análise posterior de outras medidas indiretas de qualidade (número de citações dos artigos e fator de impacto das revistas) da amostra
+final mostrou-se pouco confiável, dada a grande variabilidade dessas métricas e a
+ausência de correlação entre as diferentes medidas (por exemplo, artigos muito
+citados publicados em revista de pouco impacto).
+Outro aspecto positivo a ser destacado no conjunto de intervenções levantadas refere-se ao fato de todas elas serem econômicas, uma vez que podem ser
+implementadas enquanto outras atividades estão em curso, não exigem tempo e
+dedicação exclusivos e necessitam de poucos recursos materiais específicos. Nesse
+sentido, demonstram vantagem adicional às intervenções medicamentosas, as
+quais são onerosas e apresentam efeitos adversos (Moreno-García et al., 2019;
+NICE, 2013).
+Conclui-se, portanto, que o conjunto de dados apresentados é promissor,
+todavia mais investigações sobre novas modalidades de intervenções escolares,
+bem como replicações das intervenções já investigadas, são necessárias.
+Referências
+American Academy of Pediatrics, Subcommittee on Attention-Deficit/Hyperactivity Disorder, & Steering Committee on Quality Improvement and Management (2011).
+ADHD: Clinical practice guideline for the diagnosis, evaluation, and treatment of
+
+=== p. 19 ===
+200
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+attention-deficit/hyperactivity disorder in children and adolescents.  Pediatrics,
+128(5), 1007–1022. doi:10.1542/peds.2011-2654
+American Psychiatric Association (2014). Manual diagnóstico e estatístico de transtornos
+mentais – DSM-5. Porto Alegre: Artmed.
+Benczik, E. B. P. (2014). Transtorno de déficit de atenção/hiperatividade: Atualização diagnóstica e terapêutica (5a ed.) São Paulo: Casa do Psicólogo.
+Brady, K. K., & Kubina, R. M., Jr. (2010). Endurance of multiplication fact fluency for
+students with Attention Deficit Hyperactivity Disorder. Behavior Modification, 38,
+79-93. doi:10.1177/0145445510361331
+Canadian ADHD Resource Alliance (2018). Canadian ADHD Practice Guidelines (4th ed.).
+Toronto: CADDRA.
+Chou, C., & Huang, C. (2017). Effects of an 8-week yoga program on sustained attention
+and discrimination function in children with attention deficit hyperactivity disorder. PeerJ, 5, e2883. doi:10.7717/peerj.2883
+Cihak, D. F., Kirk, E. R., & Boon, R. T. (2009). Effects of classwide positive peer “tootling”
+to reduce the disruptive classroom behaviors of elementary students with and without disabilities. Journal of Behavioral Education, 18, 267–278. doi:10.1007/
+s10864-009-9091-8
+Cirelli, C. A., Sidener, T. M., Reeve, K. F., & Reeve, S. A. (2016). Using activity schedules
+to increase on-task behavior in children at risk for attention-deficit/hyperactivity
+disorder. Education & Treatment of Children, 39(3), 283–318. doi:10.1353/etc.2016.0013
+Clarfield, J., & Stoner, G. (2005). The effects of computerized reading instruction on the
+academic perfomance of students identified with ADHD. School Psychology Review,
+34, 246–254.
+Cole, R. L., Treadwell, S., Dosani, S., & Frederickson, N. (2012). Evaluation of a short-term,
+cognitive-behavioral intervention for primary age children with anger-related difficulties. School Psychology International, 34(01), 82–100. doi:10.1177/0143034312451062
+Costa, C. R., Moreira, J. C. C., & Seabra, M. O., Júnior (2015). Estratégias de ensino e
+recursos pedagógicos para o ensino de alunos com TDAH em aulas de educação
+física. Revista Brasileira de Educação Especial, 21(1), 126–126. doi:10.1590/
+S1413-65382115000100008
+Dawson, A. E., Wymbs, B. T., Marshall, S. A., Mautone, J. A., & Power, T. J. (2016). The
+role of parental ADHD in sustaining the effects of a family-school interventionfor
+ADHD. Journal of Clinical Child and Adolescent Psychology, 45(3), 305–319. doi:10.1080
+/15374416.2014.963858
+
+=== p. 20 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+201
+Intervenções escolares para o TDAH
+Dorneles, B. V., Corso, L. V., Costa, A. C., Pisacco, N. M. T., Sperafico, Y. L. S., & Rohde, L.
+A. P. (2014). The impact of DSM-5 on the diagnosis of learning disorder in ADHD
+children and adolescents: A prevalence study. Psicologia: Reflexão e Crítica, 27(4),
+759–767. doi:10.1590/1678-7153.2014274167
+DuPaul, G. J., & Stoner, G. (2015). ADHD in the schools: Assessment and intervention strategies. New York: Guilford Press.
+Erbey, R., McLaughlin, T. F., Derby, K. M., & Everson, M. (2011). The effects of using
+flashcards with reading racetrack to teach letter sounds, sight words, and math
+facts to elementary students with learning disabilities. International Electronic Journal of Elementary Education, 3(3), 213–226.
+Fabiano, G. A., Vujnovic, R., Naylor, J., Pariseau, M., & Robins, M. (2009). An investigation of the technical adequacy of a daily behavior report card (DBRC) for monitoring progress of students with attention-deficit/hyperactivity disorder in special
+education placement. Assessment for Effective Intervention, 34(4), 231–241.
+doi:10.1177/1534508409333344
+Fabiano, G. A., Vujnovic, R. K., Pelham, W. E., Waschbusch, D. A., Massetti, G. M., Pariseau, M. E., Naylor, J., Yu, J., Robins, M., Carnefix, T., Greiner, A. R., & Volker, M.
+(2010). Enhancing the effectiveness of special education programming for children
+with attention deficit hyperactivity disorder using a daily report card. School Psychology Review, 39(2), 219–239.
+Feil, E. G., Small, J. M., Seeley, J. R., Walker, H. M., Frey, A., & Forness, S. R. (2016). Early
+intervention for preschoolers at risk for attention-deficit/hyperactiviy disorder:
+Preschool
+first
+step
+to
+success.
+Behavioral
+Disorders,
+41(2),
+95–106.
+doi:10.17988/0198-7429-41.2.95
+Garfield, G. F., Dorsey, E. R., Zhu, S., Huskamp, H. A., Conti, R., Dusetzina, S. B., Higashi,
+A., Perrin, J. M., Kornfield, R., & Alexander, G. C. (2012). Trends in attention deficit
+hyperactivity disorder (ADHD) ambulatory diagnosis and medical treatment in the
+United States, 2000-2010. Academic Pediatrics, 12(2), 110–116. doi:10.1016/j.
+acap.2012.01.003
+Gumpel, T.P. (2007). Are social competence difficulties caused by performance or acquisition deficits? The importance of self-regulatory mechanisms. Psychology in the
+Schools, 44(4), 351–372. doi:10.1002/pits.20229
+Kercood, S., Zentall, S., Vinh, M., & Tom-Wright, K. (2012). Attentional cuing in math
+word problems for girls at-risk for ADHD and their peers in general education settings.
+Contemporary Educational Psychology, 37(2),
+106–112.
+doi:10.1016/j.
+cedpsych.2012.02.001
+
+=== p. 21 ===
+202
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+Langberg, J. M., Evans, S.W., Schultz, B. K., Becker, S. P., Altaye, M., & Girio-Herrera.
+(2016). Trajectories and predictors of response to the challenging horizons program for adolescents with ADHD. Behavior Therapy, 47(3), 339–354. doi:10.1016/j.
+beth.2016.01.001
+Leckey, Y., Hyland, L., Hickey, G., Lodge, A., Kelly, P., Bywater, T., Comiskey, C., Donnelly, M.,
+McGilloway, S. (2016). A mixed-methods evaluation of the longer-term implementation and utility of a teacher classroom management training programme in Irish primary schools. Irish Educational Studies, 35(1), 35–55. doi:10.1080/03323315.2016.1147974
+Leflot, G., Lier, P. A. C., Onghena, P., & Colpin, H. (2010). The role of teacher behavior
+management in the development of disruptive behaviors: An intervention study
+with the good behavior game. Journal of Abnormal Child Psychology, 38, 869–880.
+doi:10.1007/s10802-010-9411-4
+Mattos, P. (2015). No mundo da lua: Perguntas e respostas sobre transtorno do déficit de atenção
+com hiperatividade em crianças, adolescentes e adultos (16a ed.). Rio de Janeiro: ABDA.
+Mautone, J. A., DuPaul, G. J., & Jitendra, A. K. (2005). The effects of computer-assisted
+instruction on the mathematics performance and classroom behavior of children
+with ADHD. Journal of Attention Disorders, 9, 301–312. doi:10.1177/1087054705278832
+Moreno-García, I., Meneres-Sancho, S., Camacho-Vara de Rey, C., & Servera, M. (2019).
+A randomized controlled trial to examine the posttreatment efficacy of neurofeedback, behavior therapy, and pharmacology on ADHD measures. Journal of Attention
+Disorders, 23(4), 374–383. doi:10.1177/1087054717693371
+Moyses, M. A. A., & Collares, C. A. L. (2013). O lado escuro da dislexia e do TDAH. In M.
+G. D. Facci & M. E. E. M. Meira (Orgs.), A exclusão dos incluídos. Maringá: Eduem.
+Muratori, P., Bertacchi, I., Giuli, C., Lombardi, L., Bonetti, S., Nocentini, A., Manfredi, A.,
+Polidori, L., Ruglioni, L., Milone, A., & Lochman, J. E. (2015). First adaptation of
+coping power program as a classroom-based prevention intervention on aggressive
+behaviors among elementary school children. Prevention Science, 16, 432–439.
+doi:10.1007/s11121-014-0501-3
+Murray, D. W., Arnold, J., Swanson, J., Wells, K., Burns, K., Jensen, P., … Strauss, T.
+(2008). A clinical review of outcomes of the multimodal treatment study of children with attention-deficit/hyperactivity disorder. Current Psychiatry Report, 10,
+424–431. doi:10.1007/s12618-009-0007-2
+Murray, D. W., Rabiner, D., Schulte, A., & Newitt, K. (2008). Feasibility and integrity of a
+parent-teacher consultation intervention for ADHD students. Child Youth Care Forum, 37, 111–126. doi:10.1007/s10566-008-9054-6
+
+=== p. 22 ===
+Psicologia: Teoria e Prática, 21(3), 182-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+203
+Intervenções escolares para o TDAH
+National Institute for Health and Care Excellence (2013). Attention deficit hyperactivity
+disorder. (NICE Quality Standard, n. 39). Recuperado de https://www.nice.org.uk/
+guidance/qs39
+Nolan, J. D., & Filter, K. J. (2012). A function-based classroom behavior intervention
+using-non-contingent reinforcement plus response cost. Education and Treatment of
+Children, 35, p. 419–430. doi:10.1353/etc.2012.0017
+Ozdemir, S. (2011). The effects of the first step to success program on academic engagement behaviors of Turkish students with attention-deficit/hyperactivity disorder.
+Journal of Positive Behavior Interventions, 13(3), 168–177. doi:10.1177/1098300710373503
+Peck, H. L., Kehle, T. J., Bray, M. A., & Theodore, L. A. (2005). Yoga as intervention for
+children with attention problems. School Psychology Review, 34(3), 415–424.
+Pina, I. L., Macedo, L. S., Sequeira, M. E. A., Silva, I. L., Cardoso, F., Pinto, F. C., & Beresford, H. (2010). Avaliação de uma intervenção pedagógica na aprendizagem de
+crianças com transtorno de déficit de atenção e hiperatividade TDAH – no âmbito
+das políticas públicas do estado do Pará. Ensaio: Avaliação e Políticas Públicas em Educação, 18(66), 65–84. doi:10.1590/s0104-40362010000100005
+Plumer, P.J., & Stoner, G. (2005). The relative effects of classwide peer tutoring and peer
+coaching on the positive social behaviors of children with ADHD. Journal of Attention
+Disorders, 9, 290–300. doi:10.1177/1087054705280796
+Rabiner, D. L., Murray, D. W., & Skinner, A. T. (2010). A randomized trial of two promising computer-based interventions for students with attention difficulties. Journal of
+Abnormal Child Psychology, 38, 131–142. doi:10.1007/s10802-009-9353-x
+Schachar, R. J., Chin, S., Logan, G. D., Ornstein, T. J., Crosbie, J., Ickowicz, A., & Pakulak,
+A. (2004). Evidence for an error monitoring deficit in attention deficit hyperactivity
+disorder.
+Journal
+of
+Abnormal
+Child
+Psychology,
+32(3),
+285–293.
+doi:
+10.1023/B:JACP.0000026142.11217.f2
+Schottelkorb A. A., & Ray, D.C. (2009). ADHD symptom reduction in elementary students: A single-case effectiveness design. Professional School Counseling, 13(1), 11.
+doi:10.5330/PSC.n.2010-13.11
+Signor, R. C. F., Berberian, A. P., & Santana, A. P. (2017). A medicalização da educação:
+Implicações para a constituição do sujeito/aprendiz. Educação e Pesquisa, 43(3),
+743–763. doi:10.1590/S1517-9702201610146773
+Smith, C. R., Marchand-Martella, N. E., & Martella, R. C. (2011). Assessing the effects of
+the rocket math program with a primary elementary school student at risk for
+
+=== p. 23 ===
+204
+Psicologia: Teoria e Prática, 21(3), 183-204. São Paulo, SP, set.-dez. 2019. ISSN 1980-6906 (on-line).
+Waleska M. dos Santos, Alessandra R. de Albuquerque
+school failure: A case study. Education and Treatment of Children, 34(2), 247–258.
+doi:10.1353/etc.2011.0011
+So, C. Y., Leung, P. W., & Hung, S. F. (2008). Treatment effective- ness of combined
+medication/behavioural treatment with Chinese ADHD children in routine practice.
+Behaviour Research and Therapy, 46, 983–992. doi:10.1016/j.brat.2008.06.007
+Stahr, B., Cushing, K., & Lane, K. (2006). Efficacy of a function-based intervention in
+decreasing off-task behavior exhibited by a student with ADHD. Journal of Positive
+Behavior Interventions, 8(4), 201–211. doi:10.1177/10983007060080040301
+Volpe, R. J., DuPaul, G. J., Jitendra, A. K., & Tresco, K. E. (2009). Consultation-based
+academic interventions for children with attetion deficit hyperactivity disorder: Effects on reading and mathematics outcomes at 1-year follow-up. School Psychology
+Review, 38, 5–13.
+Vujnovic, R., Fabiano, G. A., Pariseau, M. E., & Naylor, J. (2013). Parameters of adherence
+to a yearlong daily report card intervention for students with attention-deficit/
+hyperactivity disorder. Journal of Educational and Psychological Consultation, 23, 140–
+163. doi:10.1080/10474412.2013.785182
+Wells, J., & Sheehey, M. (2013). Harnessing the power of technology: Increasing academic engagement of elementary students’ with learning disabilities and ADHD. Insights on Learning Disabilities, 10(1), 73–86.
+Young, S. (2012). The “RAPID” cognitive-behavioral therapy program for inattentive
+children: Preliminary finding. Journal of Attention Disorders, 17(6), 519–526.
+doi:10.1177/1087054711428074
+Nota dos autores
+Alessandra R. de Albuquerque, Programa de Pós-Graduação Stricto Sensu em Psicologia, Universidade Católica de Brasília (UCB); Waleska M. dos Santos, Programa de
+Pós-Graduação Stricto Sensu em Psicologia, Universidade Católica de Brasília (UCB).
+Correspondências referentes a este artigo devem ser encaminhadas para Waleska Mascarenhas dos Santos, Subsecretaria de Formação Continuada dos Profissionais da Educação (Eape) – Gerência de Pesquisa e Formação Continuada para Modalidades da
+Educação básica (Gemeb) – SGAS 907, conjunto A, sala 82, Asa Sul, Brasília, DF, Brasil.
+CEP 70390-070.
+E-mail: waleskanathalia@gmail.com

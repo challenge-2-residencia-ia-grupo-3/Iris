@@ -1,0 +1,65 @@
+{
+ "_instrucoes": "Trechos novos trazidos por Qwen3 + reranker e julgados por dois juizes de IA cegos em 05/11/2026, com a regra do rascunho. Entram na revisao humana junto com gabarito_rascunho.json. Sem conferencia humana.",
+ "itens": [
+  {
+   "n": 2,
+   "pergunta": "aluno se distrai depois de poucos minutos numa leitura em sala: que estratégias mantêm o engajamento sem encurtar o texto?",
+   "marcados_pelos_dois": [],
+   "a_conferir": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007"
+   ]
+  },
+  {
+   "n": 4,
+   "pergunta": "o que é memória de trabalho e por que excesso de informação simultânea atrapalha a aprendizagem?",
+   "marcados_pelos_dois": [
+    "SWELLER-2019-CARGA-COGNITIVA#0001",
+    "SWELLER-2019-CARGA-COGNITIVA#0033"
+   ],
+   "a_conferir": []
+  },
+  {
+   "n": 8,
+   "pergunta": "como ensinar o aluno a planejar e organizar tarefas longas em vez de o professor organizar tudo por ele?",
+   "marcados_pelos_dois": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041"
+   ],
+   "a_conferir": []
+  },
+  {
+   "n": 9,
+   "pergunta": "folha de prova com muitas imagens e caixas confunde o aluno: o que retirar para reduzir a sobrecarga visual?",
+   "marcados_pelos_dois": [
+    "SWELLER-2019-CARGA-COGNITIVA#0019"
+   ],
+   "a_conferir": [
+    "SWELLER-2019-CARGA-COGNITIVA#0020"
+   ]
+  },
+  {
+   "n": 14,
+   "pergunta": "treino cognitivo por computador melhora funções executivas e desempenho escolar em crianças com TDAH?",
+   "marcados_pelos_dois": [
+    "CORTESE-2015-META-TREINO-COGNITIVO#0002",
+    "CORTESE-2015-META-TREINO-COGNITIVO#0027"
+   ],
+   "a_conferir": []
+  },
+  {
+   "n": 18,
+   "pergunta": "ouvir o texto em áudio ajuda a compreensão de quem tem dificuldade de leitura?",
+   "marcados_pelos_dois": [
+    "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0010"
+   ],
+   "a_conferir": []
+  },
+  {
+   "n": 19,
+   "pergunta": "o que é adaptação curricular e até onde o professor pode flexibilizar sem esvaziar o currículo?",
+   "marcados_pelos_dois": [],
+   "a_conferir": [
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0001"
+   ]
+  }
+ ]
+}

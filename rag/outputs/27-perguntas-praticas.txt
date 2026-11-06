@@ -1,0 +1,122 @@
+AS 10 PERGUNTAS PRÁTICAS DE PROFESSOR (tipo 'estrategia'), EM TRÊS CAMADAS: a base, a busca, o gerador.
+Técnica: contagem. 'Trecho certo' = marcado com nota 2 (responde direto) no gabarito do Opus; 'parcial' = nota 1.
+O gabarito é de modelo, sem conferência humana, e avisa que pode ter deixado passar trechos. Nenhum modelo treinado.
+Busca: qwen3+rerank50 (chroma): o Qwen3 traz 50 candidatos, o reranker reordena, os 5 primeiros vão ao gerador.
+Caixas da segunda rodada dos juízes: A inteira, B responde com frase além do trecho, C frase reprovada, D responde só em parte, E recusou.
+
+===== Q01 (memória de trabalho; confiança de quem marcou: alta) =====
+pergunta: Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?
+1. BASE: 6 trechos certos e 5 parciais; em inglês: 1 de 6; documentos: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA (2), CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024 (2), ABDA-GUIA-PROFESSORES-2012 (1), NICE-NG87-ADHD-2018 (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 2 de 6 (posições [18, 21]); depois do reranker: posições [3, 10]; entre os 5 entregues: 1 de 6
+   os 5 entregues: ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016 [não marcado, pt-BR]; RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007 [não marcado, pt-BR]; RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034 [CERTO, pt-BR]; RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0030 [não marcado, pt-BR]; RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0028 [não marcado, pt-BR]
+3. GERADOR haiku: caixa D; responde: em_parte/sim; citou 1 trecho(s) certo(s), 0 parcial(is) e 1 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 2 de 5
+   causa pela regra: entregou pouco
+3. GERADOR opus: caixa A; responde: sim/sim; citou 1 trecho(s) certo(s), 0 parcial(is) e 1 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 5 de 5
+
+===== Q02 (atenção sustentada; confiança de quem marcou: alta) =====
+pergunta: Meu aluno com TDAH perde o foco depois de uns 10 minutos de tarefa. Como dividir a atividade para ele manter a atenção até o fim?
+1. BASE: 5 trechos certos e 4 parciais; em inglês: 2 de 5; documentos: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA (1), ABDA-GUIA-PROFESSORES-2012 (1), CDC-ADHD-CLASSROOM-2026 (1), CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024 (1), NICE-NG87-ADHD-2018 (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 4 de 5 (posições [2, 11, 36, 48]); depois do reranker: posições [2, 3, 17, 21]; entre os 5 entregues: 2 de 5
+   os 5 entregues: ABDA-GUIA-PROFESSORES-2012#0003 [parcial, pt-BR]; CDC-ADHD-CLASSROOM-2026#0010 [CERTO, en]; ABDA-GUIA-PROFESSORES-2012#0001 [CERTO, pt-BR]; YEGENCIK-2025-META-RCT-ESCOLA#0049 [não marcado, en]; SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030 [não marcado, pt-BR]
+3. GERADOR haiku: caixa B; responde: sim/sim; citou 2 trecho(s) certo(s), 1 parcial(is) e 0 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 3 de 4
+3. GERADOR opus: caixa D; responde: sim/em_parte; citou 2 trecho(s) certo(s), 1 parcial(is) e 2 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 5 de 5
+   causa pela regra: entregou pouco
+
+===== Q03 (organização sequencial; confiança de quem marcou: alta) =====
+pergunta: Como ajudar um aluno com TDAH que se perde na ordem dos passos de um problema, sem saber o que vem primeiro e o que vem depois?
+1. BASE: 6 trechos certos e 5 parciais; em inglês: 1 de 6; documentos: CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024 (2), RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA (2), NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024 (1), ABDA-GUIA-PROFESSORES-2012 (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 2 de 6 (posições [1, 45]); depois do reranker: posições [2, 27]; entre os 5 entregues: 1 de 6
+   os 5 entregues: ABDA-GUIA-PROFESSORES-2012#0000 [não marcado, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0003 [CERTO, pt-BR]; MS-PCDT-TDAH-2022#0020 [não marcado, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0001 [não marcado, pt-BR]; MS-PCDT-TDAH-2022#0021 [não marcado, pt-BR]
+3. GERADOR haiku: caixa D; responde: em_parte/em_parte; citou 1 trecho(s) certo(s), 0 parcial(is) e 2 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 3 de 3
+   causa pela regra: entregou pouco
+3. GERADOR opus: caixa D; responde: em_parte/em_parte; citou 1 trecho(s) certo(s), 0 parcial(is) e 4 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 4 de 4
+   causa pela regra: entregou pouco
+
+===== Q04 (iniciação de tarefa; confiança de quem marcou: baixa) =====
+pergunta: O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?
+1. BASE: 2 trechos certos e 5 parciais; em inglês: 1 de 2; documentos: CDC-ADHD-CLASSROOM-2026 (1), ABDA-GUIA-PROFESSORES-2012 (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 1 de 2 (posições [27]); depois do reranker: posições [7]; entre os 5 entregues: 0 de 2
+   os 5 entregues: ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0010 [não marcado, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0000 [não marcado, pt-BR]; RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034 [não marcado, pt-BR]; ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015 [não marcado, pt-BR]; ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016 [não marcado, pt-BR]
+3. GERADOR haiku: caixa D; responde: em_parte/em_parte; citou 0 trecho(s) certo(s), 0 parcial(is) e 4 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 2 de 5
+   causa pela regra: a busca não entregou (segunda etapa: reranker)
+3. GERADOR opus: caixa D; responde: sim/em_parte; citou 0 trecho(s) certo(s), 0 parcial(is) e 3 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 3 de 4
+   causa pela regra: a busca não entregou (segunda etapa: reranker)
+
+===== Q05 (sobrecarga visual; confiança de quem marcou: media) =====
+pergunta: A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?
+1. BASE: 4 trechos certos e 5 parciais; em inglês: 0 de 4; documentos: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA (2), CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024 (2)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 0 de 4 (posições -); depois do reranker: posições -; entre os 5 entregues: 0 de 4
+   os 5 entregues: ABDA-GUIA-PROFESSORES-2012#0003 [não marcado, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0000 [não marcado, pt-BR]; MS-PCDT-TDAH-2022#0020 [não marcado, pt-BR]; SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035 [não marcado, pt-BR]; SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0027 [não marcado, pt-BR]
+3. GERADOR haiku: caixa D; responde: em_parte/em_parte; citou 0 trecho(s) certo(s), 0 parcial(is) e 4 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 4 de 5
+   causa pela regra: a busca não entregou (primeira etapa: Qwen3)
+3. GERADOR opus: caixa E; responde: nao/nao; recusou
+   causa pela regra: a busca não entregou (primeira etapa: Qwen3)
+
+===== Q06 (controle inibitório; confiança de quem marcou: media) =====
+pergunta: Aluno responde por impulso antes de terminar de ler a pergunta. O que posso fazer em sala para ele parar e conferir?
+1. BASE: 2 trechos certos e 5 parciais; em inglês: 1 de 2; documentos: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA (1), DIAMOND-2013-FUNCOES-EXECUTIVAS (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 2 de 2 (posições [20, 31]); depois do reranker: posições [2, 10]; entre os 5 entregues: 1 de 2
+   os 5 entregues: ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016 [não marcado, pt-BR]; DIAMOND-2013-FUNCOES-EXECUTIVAS#0005 [CERTO, en]; DIAMOND-2013-FUNCOES-EXECUTIVAS#0006 [parcial, en]; ABDA-GUIA-PROFESSORES-2012#0001 [não marcado, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0000 [não marcado, pt-BR]
+3. GERADOR haiku: caixa B; responde: sim/sim; citou 1 trecho(s) certo(s), 1 parcial(is) e 3 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 4 de 5
+3. GERADOR opus: caixa D; responde: em_parte/sim; citou 1 trecho(s) certo(s), 1 parcial(is) e 2 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 4 de 5
+   causa pela regra: entregou e não bastou
+
+===== Q07 (leitura de texto longo; confiança de quem marcou: media) =====
+pergunta: Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?
+1. BASE: 5 trechos certos e 5 parciais; em inglês: 4 de 5; documentos: NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024 (4), CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024 (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 1 de 5 (posições [42]); depois do reranker: posições [2]; entre os 5 entregues: 1 de 5
+   os 5 entregues: INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002 [parcial, pt-BR]; NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0010 [CERTO, en]; INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0009 [não marcado, pt-BR]; WERY-2017-FONTE-OPENDYSLEXIC#0025 [não marcado, en]; INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001 [não marcado, pt-BR]
+3. GERADOR haiku: caixa D; responde: em_parte/em_parte; citou 1 trecho(s) certo(s), 1 parcial(is) e 1 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 2 de 3
+   causa pela regra: entregou pouco
+3. GERADOR opus: caixa E; responde: nao/nao; recusou
+   causa pela regra: entregou pouco
+
+===== Q08 (comportamento fora da tarefa; confiança de quem marcou: alta) =====
+pergunta: Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?
+1. BASE: 6 trechos certos e 5 parciais; em inglês: 2 de 6; documentos: MS-PCDT-TDAH-2022 (2), CDC-ADHD-CLASSROOM-2026 (2), SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES (1), ABDA-GUIA-PROFESSORES-2012 (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 4 de 6 (posições [2, 6, 10, 23]); depois do reranker: posições [2, 7, 8, 9]; entre os 5 entregues: 1 de 6
+   os 5 entregues: ABDA-GUIA-PROFESSORES-2012#0000 [parcial, pt-BR]; MS-PCDT-TDAH-2022#0021 [CERTO, pt-BR]; SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028 [não marcado, pt-BR]; SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033 [não marcado, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0003 [não marcado, pt-BR]
+3. GERADOR haiku: caixa A; responde: sim/sim; citou 1 trecho(s) certo(s), 1 parcial(is) e 3 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 6 de 6
+3. GERADOR opus: caixa A; responde: sim/sim; citou 1 trecho(s) certo(s), 1 parcial(is) e 2 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 6 de 6
+
+===== Q09 (distração ambiental; confiança de quem marcou: alta) =====
+pergunta: Onde devo sentar o aluno com TDAH e que ajustes no ambiente da sala ajudam a reduzir a distração?
+1. BASE: 3 trechos certos e 5 parciais; em inglês: 2 de 3; documentos: CDC-ADHD-CLASSROOM-2026 (1), NICE-NG87-ADHD-2018 (1), ABDA-GUIA-PROFESSORES-2012 (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 3 de 3 (posições [1, 8, 28]); depois do reranker: posições [2, 3, 4]; entre os 5 entregues: 3 de 3
+   os 5 entregues: CDC-ADHD-CLASSROOM-2026#0008 [parcial, en]; ABDA-GUIA-PROFESSORES-2012#0000 [CERTO, pt-BR]; CDC-ADHD-CLASSROOM-2026#0010 [CERTO, en]; NICE-NG87-ADHD-2018#0031 [CERTO, en]; ABDA-GUIA-PROFESSORES-2012#0004 [não marcado, pt-BR]
+3. GERADOR haiku: caixa B; responde: sim/sim; citou 3 trecho(s) certo(s), 1 parcial(is) e 0 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 5 de 6
+3. GERADOR opus: caixa A; responde: sim/sim; citou 3 trecho(s) certo(s), 1 parcial(is) e 0 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 5 de 5
+
+===== Q10 (memória de trabalho / instruções; confiança de quem marcou: media) =====
+pergunta: Como dar instruções para um aluno com TDAH: falo tudo de uma vez ou em partes? Devo pedir para ele repetir o que entendeu?
+1. BASE: 4 trechos certos e 5 parciais; em inglês: 2 de 4; documentos: CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024 (2), CDC-ADHD-CLASSROOM-2026 (1), NICE-NG87-ADHD-2018 (1)
+2. BUSCA: trechos certos entre os 50 do Qwen3: 0 de 4 (posições -); depois do reranker: posições -; entre os 5 entregues: 0 de 4
+   os 5 entregues: ABDA-GUIA-PROFESSORES-2012#0003 [não marcado, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0000 [não marcado, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0002 [não marcado, pt-BR]; MS-PCDT-TDAH-2022#0020 [parcial, pt-BR]; ABDA-GUIA-PROFESSORES-2012#0001 [parcial, pt-BR]
+3. GERADOR haiku: caixa D; responde: em_parte/em_parte; citou 0 trecho(s) certo(s), 2 parcial(is) e 1 não marcado(s); frases de conteúdo apoiadas para os dois juízes: 5 de 5
+   causa pela regra: a busca não entregou (primeira etapa: Qwen3)
+3. GERADOR opus: caixa E; responde: nao/nao; recusou
+   causa pela regra: a busca não entregou (primeira etapa: Qwen3)
+
+===== RESUMO =====
+pergunta   confiança  certos  nos 50  nos 5  haiku  opus
+Q01             alta       6       2      1      D     A
+Q02             alta       5       4      2      B     D
+Q03             alta       6       2      1      D     D
+Q04            baixa       2       1      0      D     D
+Q05            media       4       0      0      D     E
+Q06            media       2       2      1      B     D
+Q07            media       5       1      1      D     E
+Q08             alta       6       4      1      A     A
+Q09             alta       3       3      3      B     A
+Q10            media       4       0      0      D     E
+
+perguntas sem nenhum trecho certo entre os 5 entregues: 3 de 10 (Q04, Q05, Q10); dessas, com trecho certo entre os 50 que o reranker lê: 1 (Q04)
+vagas dos 5 entregues (50): trecho certo 10; parcial 7; não marcado 33 (66%); da cartilha da ABDA 18 (36%); em inglês 9 (18%)
+trechos certos das 10 perguntas que estão em inglês: 16 de 43 (37%)
+trechos certos que estão entre os 50 do Qwen3: 19 de 43; entre os 5 entregues: 10 de 43
+
+CAUSAS, pela regra escrita antes, das 13 respostas em D ou E (2 geradores × 10 perguntas):
+    6  entregou pouco
+    4  a busca não entregou (primeira etapa: Qwen3)
+    2  a busca não entregou (segunda etapa: reranker)
+    1  entregou e não bastou
