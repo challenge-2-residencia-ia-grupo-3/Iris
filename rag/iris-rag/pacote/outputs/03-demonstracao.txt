@@ -1,0 +1,709 @@
+DEMONSTRAÇÃO (SMOKE TEST) - Íris: base de conhecimento (semana 2)
+ATENÇÃO: isto NÃO é avaliação. São 8 consultas escritas por quem montou a base,
+sem gabarito e sem conferência do grupo. Serve para ver a busca funcionando de ponta a ponta.
+Banco vetorial: pgvector. Métodos: bm25, mpnet, qwen3, hibrido, hibrido+rerank (híbrido = BM25 + qwen3 por RRF, k=60). Top-5. Sinônimos: desligados. Sem filtro.
+
+==============================================================================================================
+PERGUNTA: aluno com TDAH perde o fio em enunciados longos com vários comandos na mesma questão: como reorganizar a questão sem mudar a habilidade avaliada?
+
+[bm25]  (4 ms)
+  1. 23.9154  MS-PCDT-TDAH-2022  p. 11  [pt-BR] | 7.3.2. Intervenções escolares
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "O reforço simbólico é uma estratégia reativa que fornece aos alunos um reforço imediato (por exemplo, um adesivo) para atingir uma expectativa comportamental específica (por exemplo, preencher uma planilha). Esses reforç..."
+  2. 19.0575  MS-PCDT-TDAH-2022  p. 12  [pt-BR] | Orientações para familiares
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "Orientações para familiares Os pais precisam ser informados sobre como o quadro clínico do TDAH possivelmente afetará a criança/adolescente. Também é importante informar que todos os aspectos da vida da pessoa devem ser ..."
+  3. 18.8378  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 11  [pt-BR] | Figura 3
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Figura 3 Questão do questionário aplicado aos docentes Nota. A questão refere-se a: “Em que medida você promove ou promovia adaptações ou acessibilidade curricular no processo de ensino durante o período da aula para pot..."
+  4. 18.7358  MS-PCDT-TDAH-2022  p. 11-12  [pt-BR] | Orientação para pacientes
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "Orientação para pacientes Após um diagnóstico de TDAH, é aconselhável que o profissional de saúde proporcione uma discussão estruturada com os pacientes (na presença de seus familiares ou cuidadores, conforme apropriado)..."
+  5. 16.1685  MS-PCDT-TDAH-2022  p. 12  [pt-BR] | MONITORAMENTO
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "MONITORAMENTO O acompanhamento de pessoas com TDAH em tratamento, o monitoramento dos efeitos das medidas terapêuticas instituídas e o acompanhamento das condições de saúde associadas são aspectos muito importantes e nec..."
+
+[mpnet]  (194 ms)
+  1. 0.7445  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 8-9  [pt-BR] | Brady e
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "Professor Brady e Kubina (2010) Endurance of Multiplication Fact Fluency (Estratégia de concentração nas tarefas escolares) Sala de experimento 3 Habilidades matemáticas Computador Pina et al. (2010) Ludomotricidade e Es..."
+  2. 0.7402  YEGENCIK-2025-META-RCT-ESCOLA  p. 16-17  [en] | CTRS
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1611145/pdf
+       "CTRS T CTRS T CTRS T Lan et al. (2018) ADHD- RS-IV/ CPT-II: Conners’ Continuous performance tasks- II-omissions C, O ADHD- RS-IV/CPT-II: Conners’ Continuous performance tasks- II-commissions C, O Working memory capacity ..."
+  3. 0.7399  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 10  [pt-BR] | Computador
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "Computador Costa et al. (2015) Atividades ludomotoras e jogos de estratégias Quadra, sala de aula 4 Memória, atenção e concentração Professor de Educação Física Muratori et al. (2015) Coping Power Program Sala de aula 18..."
+  4. 0.7364  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 9  [pt-BR] | Murray e
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "Estudo Intervenção Contexto N Comportamento(s)- alvo Mediação Rabiner, Murray e Skinner (2010) Computerized Attention Training – CAT e Computer Assisted Instruction – CAI (Treino de Atenção Computadorizado e Instrução As..."
+  5. 0.7364  YEGENCIK-2025-META-RCT-ESCOLA  p. 15-16  [en] | Cognitive training
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1611145/pdf
+       "Cognitive Training Cognitive training No Yes Researcher 30 Intervention used a standardised protocol of 14 ageappropriate auditory and visual exercises targeting attention, working memory, visual tracking, reaction time,..."
+
+[qwen3]  (321 ms)
+  1. 0.6404  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  2. 0.6249  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  3. 0.6233  MS-PCDT-TDAH-2022  p. 8  [pt-BR] | Outros problemas
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "Outros problemas Transtornos de aprendizado  O tratamento do TDAH pode melhorar a atenção, permitindo a melhora nas habilidades de aprendizagem.  Adaptações escolares, estudo e habilidades organizacionais acadêmicas de..."
+  4. 0.6011  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença] ..."
+  5. 0.5850  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 10-11  [pt-BR] | DURANTE A PROVA DE REDAÇÃO DO ENEM
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "DURANTE A PROVA DE REDAÇÃO DO ENEM Os desafios que os(as) participantes com dislexia enfrentam não constituem obstáculos intransponíveis. Por isso, sugerimos ações que poderão auxiliar você durante a prova de redação, co..."
+
+[hibrido]  (37 ms)
+  1. 0.0303  MS-PCDT-TDAH-2022  p. 11-12  [pt-BR] | Orientação para pacientes
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "Orientação para pacientes Após um diagnóstico de TDAH, é aconselhável que o profissional de saúde proporcione uma discussão estruturada com os pacientes (na presença de seus familiares ou cuidadores, conforme apropriado)..."
+  2. 0.0269  MS-PCDT-TDAH-2022  p. 12  [pt-BR] | Orientações para familiares
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "Orientações para familiares Os pais precisam ser informados sobre como o quadro clínico do TDAH possivelmente afetará a criança/adolescente. Também é importante informar que todos os aspectos da vida da pessoa devem ser ..."
+  3. 0.0267  MS-PCDT-TDAH-2022  p. 11  [pt-BR] | 7.3.2. Intervenções escolares
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "O reforço simbólico é uma estratégia reativa que fornece aos alunos um reforço imediato (por exemplo, um adesivo) para atingir uma expectativa comportamental específica (por exemplo, preencher uma planilha). Esses reforç..."
+  4. 0.0255  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 12-13  [pt-BR] | 3.1 Intervenções mediadas pelo professor
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "A TDAI e IDAI diferem, basicamente, em relação ao nível de acompanhamento e feedback dado aos alunos, que é maior e mais sistemático na IDAI. Ambas as intervenções promoveram melhora do engajamento acadêmico (Volpe et al..."
+  5. 0.0250  MS-PCDT-TDAH-2022  p. 10  [pt-BR] | 7.3.1. Ambiente escolar
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "7.3.1. Ambiente escolar Crianças com diagnóstico de TDAH, com frequência, apresentam piores resultados educacionais: deixam a escola mais cedo, têm mais faltas não justificadas e são mais propensas a serem excluídas entr..."
+
+[hibrido+rerank]  (164 ms)
+  1. -2.4288  MS-PCDT-TDAH-2022  p. 11  [pt-BR] | 7.3.2. Intervenções escolares
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "O reforço simbólico é uma estratégia reativa que fornece aos alunos um reforço imediato (por exemplo, um adesivo) para atingir uma expectativa comportamental específica (por exemplo, preencher uma planilha). Esses reforç..."
+  2. -2.4787  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença] ..."
+  3. -2.9454  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  4. -3.2940  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  5. -4.0515  MS-PCDT-TDAH-2022  p. 10  [pt-BR] | 7.3.1. Ambiente escolar
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "7.3.1. Ambiente escolar Crianças com diagnóstico de TDAH, com frequência, apresentam piores resultados educacionais: deixam a escola mais cedo, têm mais faltas não justificadas e são mais propensas a serem excluídas entr..."
+
+==============================================================================================================
+PERGUNTA: dificuldade de memória de trabalho em problema de matemática de várias etapas: que apoio dar sem resolver o problema por ele?
+
+[bm25]  (2 ms)
+  1. 26.6262  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 6  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "As orientações do princípio da representação auxiliam na resposta a todos esses questionamentos. De acordo com os autores supracitados, o princípio da representação é estruturado em torno de três orientações: • Dar opçõe..."
+  2. 25.9740  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 25-26  [pt-BR] | 2.4.6 Diretriz 6 - Fornecer opções para funções executi  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• Fornecer avisos e apoios para que o estudante estime os esforços, os recursos e as dificuldades necessárias; • oferecer modelos ou exemplos do processo e do resultado da definição de metas; • facilitar diretrizes e lis..."
+  3. 23.2265  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  4. 22.0944  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 26-27  [pt-BR] | 2.4.6 Diretriz 6 - Fornecer opções para funções executi  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• fornecer diretrizes para dividir as metas de longo prazo em objetivos atingíveis de curto prazo. Ponto de verificação 6.3 - Facilitar o gerenciamento de informações e recursos Um dos limites das funções executivas é im..."
+  5. 21.3192  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 21  [pt-BR] | 2.4.3 Diretriz 3 - Oferecer opções para comprender e en  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• Fornecer listas de verificação, organizadores, notas, lembretes eletrônicos etc.; • incentivar o uso de dispositivos e estratégias (por exemplo, imagens visuais, estratégias de similitude, método dos lugares etc.); • i..."
+
+[mpnet]  (64 ms)
+  1. 0.5599  SWELLER-2019-CARGA-COGNITIVA  p. 24  [en] | Working Memory Resource Depletion
+       https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf
+       "The results of the Chen et al. (2018) study suggest that working memory capacity can be variable depending not just on previous information stored via the information store, the borrowing and reorganising, and the random..."
+  2. 0.5416  DIAMOND-2013-FUNCOES-EXECUTIVAS  p. -  [en] | INHIBITORY CONTROL
+       https://pmc.ncbi.nlm.nih.gov/articles/PMC4084861/
+       "[texto não reproduzido por restrição de licença]..."
+  3. 0.5395  SWELLER-2019-CARGA-COGNITIVA  p. 7  [en] | Compound
+       https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf
+       "Compound Guidance-fading effect 2003 Renkl and Atkinson (2003). Structuring the transition from example study to problem solving in cognitive skill acquisition: a cognitive load perspective. Educational Psychologist, 38,..."
+  4. 0.5215  SWELLER-2019-CARGA-COGNITIVA  p. 17  [en] | Compound
+       https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf
+       "Expertise Reversal Effect The expertise reversal effect is, in essence, a variant of the more general element interactivity effect (Chen et al. 2017). The pre-1998 cognitive load effects can be obtained using novice lear..."
+  5. 0.4984  SWELLER-2019-CARGA-COGNITIVA  p. 25-26  [en] | Cognitive Load Theory and Self-Regulated Learning
+       https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf
+       "If emotions, stress and uncertainty are seen as undesirable states for learning, one might say that they cause extraneous load that should be decreased by preventing these states. But if emotion, stress and uncertainty a..."
+
+[qwen3]  (32 ms)
+  1. 0.5052  SWELLER-2019-CARGA-COGNITIVA  p. 7  [en] | Compound
+       https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf
+       "Compound Guidance-fading effect 2003 Renkl and Atkinson (2003). Structuring the transition from example study to problem solving in cognitive skill acquisition: a cognitive load perspective. Educational Psychologist, 38,..."
+  2. 0.4901  SWELLER-2019-CARGA-COGNITIVA  p. 7-8  [en] | Compound
+       https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf
+       "Compound Self-management effect 2012 Roodenrys et al. (2012). Managing one’s own cognitive load when evidence of split attention is present, Applied Cognitive Psychology, 26, 878–886. Cognitive load effects that are foun..."
+  3. 0.4879  DIAMOND-2013-FUNCOES-EXECUTIVAS  p. -  [en] | Inhibitory control supports working memory
+       https://pmc.ncbi.nlm.nih.gov/articles/PMC4084861/
+       "[texto não reproduzido por restrição de licença]..."
+  4. 0.4836  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 26-27  [pt-BR] | 2.4.6 Diretriz 6 - Fornecer opções para funções executi  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• fornecer diretrizes para dividir as metas de longo prazo em objetivos atingíveis de curto prazo. Ponto de verificação 6.3 - Facilitar o gerenciamento de informações e recursos Um dos limites das funções executivas é im..."
+  5. 0.4653  SWELLER-2019-CARGA-COGNITIVA  p. 5-6  [en] | Categories of Cognitive Load
+       https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf
+       "Worked Example Effect Like goal-free problems, worked examples aim to reduce the cognitive load caused by conventional problems and to facilitate knowledge construction. Worked examples provide a full problem solution th..."
+
+[hibrido]  (34 ms)
+  1. 0.0312  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 26-27  [pt-BR] | 2.4.6 Diretriz 6 - Fornecer opções para funções executi  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• fornecer diretrizes para dividir as metas de longo prazo em objetivos atingíveis de curto prazo. Ponto de verificação 6.3 - Facilitar o gerenciamento de informações e recursos Um dos limites das funções executivas é im..."
+  2. 0.0283  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 20-21  [pt-BR] | 2.4.3 Diretriz 3 - Oferecer opções para comprender e en  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "Enquanto alguns alunos podem ter um repertório completo desse tipo de estratégias e o conhecimento sobre quando aplicá-las, muitos outros não as possuem. Os materiais bem planejados podem oferecer modelos, suportes e dev..."
+  3. 0.0279  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 25-26  [pt-BR] | 2.4.6 Diretriz 6 - Fornecer opções para funções executi  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• Fornecer avisos e apoios para que o estudante estime os esforços, os recursos e as dificuldades necessárias; • oferecer modelos ou exemplos do processo e do resultado da definição de metas; • facilitar diretrizes e lis..."
+  4. 0.0279  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 21  [pt-BR] | 2.4.3 Diretriz 3 - Oferecer opções para comprender e en  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• Fornecer listas de verificação, organizadores, notas, lembretes eletrônicos etc.; • incentivar o uso de dispositivos e estratégias (por exemplo, imagens visuais, estratégias de similitude, método dos lugares etc.); • i..."
+  5. 0.0260  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 12-13  [pt-BR] | 3.1 Intervenções mediadas pelo professor
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "A TDAI e IDAI diferem, basicamente, em relação ao nível de acompanhamento e feedback dado aos alunos, que é maior e mais sistemático na IDAI. Ambas as intervenções promoveram melhora do engajamento acadêmico (Volpe et al..."
+
+[hibrido+rerank]  (159 ms)
+  1. -0.6618  DIAMOND-2013-FUNCOES-EXECUTIVAS  p. -  [en] | Inhibitory control supports working memory
+       https://pmc.ncbi.nlm.nih.gov/articles/PMC4084861/
+       "[texto não reproduzido por restrição de licença]..."
+  2. -1.0770  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  3. -2.3712  SWELLER-2019-CARGA-COGNITIVA  p. 7-8  [en] | Compound
+       https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf
+       "Compound Self-management effect 2012 Roodenrys et al. (2012). Managing one’s own cognitive load when evidence of split attention is present, Applied Cognitive Psychology, 26, 878–886. Cognitive load effects that are foun..."
+  4. -2.8627  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 26-27  [pt-BR] | 2.4.6 Diretriz 6 - Fornecer opções para funções executi  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• fornecer diretrizes para dividir as metas de longo prazo em objetivos atingíveis de curto prazo. Ponto de verificação 6.3 - Facilitar o gerenciamento de informações e recursos Um dos limites das funções executivas é im..."
+  5. -3.1541  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+
+==============================================================================================================
+PERGUNTA: tempo adicional na prova ajuda alunos com TDAH?
+
+[bm25]  (1 ms)
+  1. 18.3976  MS-PCDT-TDAH-2022  p. 11  [pt-BR] | 7.3.2. Intervenções escolares
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "O reforço simbólico é uma estratégia reativa que fornece aos alunos um reforço imediato (por exemplo, um adesivo) para atingir uma expectativa comportamental específica (por exemplo, preencher uma planilha). Esses reforç..."
+  2. 17.6296  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  3. 17.2866  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 7-9  [pt-BR] | COM DISLEXIA
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "o acompanhamento integral para educandos com dislexia, Transtorno do Déficit de Atenção com Hiperatividade (TDAH) ou outro transtorno de aprendizagem.2 O texto dessa lei assegura critérios adequados de avaliação das prov..."
+  4. 12.4864  MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026  p. 18-19  [pt-BR] | Informações adicionais
+       https://www.ufpb.br/cia/wp-content/uploads/sites/79/sites/236/2026/08/Volume-4-Praticas-pedagogicas-inclusivas-em-salas-de-aula.pdf
+       "[texto não reproduzido por restrição de licença]..."
+  5. 12.4252  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 30-31  [pt-BR] | 2.4.6 Diretriz 6 - Fornecer opções para funções executi  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• modalizar o ritmo de trabalho, a duração das sessões, a disponibilidade de pausas, os tempos de espera, a temporização ou a sequência de atividades; • modificar as demandas sociais necessárias para aprender ou realizar..."
+
+[mpnet]  (11 ms)
+  1. 0.7926  YEGENCIK-2025-META-RCT-ESCOLA  p. 15-16  [en] | Cognitive training
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1611145/pdf
+       "Cognitive Training Cognitive training No Yes Researcher 30 Intervention used a standardised protocol of 14 ageappropriate auditory and visual exercises targeting attention, working memory, visual tracking, reaction time,..."
+  2. 0.7871  YEGENCIK-2025-META-RCT-ESCOLA  p. 9-10  [en] | Study Skills
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1611145/pdf
+       "Study Skills Challenging horizons program– mentoring No No Teacher 5.46 Mentors built supportive relationships while delivering interventions targeting academic (organisation, study skills, problem-solving) and social im..."
+  3. 0.7852  YEGENCIK-2025-META-RCT-ESCOLA  p. 8  [en] | Teacher
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1611145/pdf
+       "Self- monitoring Self-monitoring No Yes Teacher NR Two self-monitoring treatment groups responded to random beeps (10–80s apart) by marking whether they were on-task. Students were trained in task awareness, self-recordi..."
+  4. 0.7778  YEGENCIK-2025-META-RCT-ESCOLA  p. 16-17  [en] | CTRS
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1611145/pdf
+       "CTRS T CTRS T CTRS T Lan et al. (2018) ADHD- RS-IV/ CPT-II: Conners’ Continuous performance tasks- II-omissions C, O ADHD- RS-IV/CPT-II: Conners’ Continuous performance tasks- II-commissions C, O Working memory capacity ..."
+  5. 0.7766  YEGENCIK-2025-META-RCT-ESCOLA  p. 7  [en] | Study outcomes
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1611145/pdf
+       "Study outcomes All included studies reported core ADHD outcomes; ADHD (k = 22), inattention (k = 16), and hyperactivity/impulsivity (k = 16). Some studies also reported ADHD-accompanying impairments such as difficulties ..."
+
+[qwen3]  (28 ms)
+  1. 0.7091  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  2. 0.6445  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 8-9  [pt-BR] | Brady e
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "Professor Brady e Kubina (2010) Endurance of Multiplication Fact Fluency (Estratégia de concentração nas tarefas escolares) Sala de experimento 3 Habilidades matemáticas Computador Pina et al. (2010) Ludomotricidade e Es..."
+  3. 0.6423  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  4. 0.6419  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença] ..."
+  5. 0.6374  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+
+[hibrido]  (32 ms)
+  1. 0.0325  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  2. 0.0308  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  3. 0.0299  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  4. 0.0292  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 12-13  [pt-BR] | 3.1 Intervenções mediadas pelo professor
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "A TDAI e IDAI diferem, basicamente, em relação ao nível de acompanhamento e feedback dado aos alunos, que é maior e mais sistemático na IDAI. Ambas as intervenções promoveram melhora do engajamento acadêmico (Volpe et al..."
+  5. 0.0291  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença] ..."
+
+[hibrido+rerank]  (157 ms)
+  1. 2.6676  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+  2. 2.0102  MS-PCDT-TDAH-2022  p. 11  [pt-BR] | 7.3.2. Intervenções escolares
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "O reforço simbólico é uma estratégia reativa que fornece aos alunos um reforço imediato (por exemplo, um adesivo) para atingir uma expectativa comportamental específica (por exemplo, preencher uma planilha). Esses reforç..."
+  3. 1.9265  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 7-9  [pt-BR] | COM DISLEXIA
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "o acompanhamento integral para educandos com dislexia, Transtorno do Déficit de Atenção com Hiperatividade (TDAH) ou outro transtorno de aprendizagem.2 O texto dessa lei assegura critérios adequados de avaliação das prov..."
+  4. 0.0453  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença] ..."
+  5. -1.0290  ABDA-GUIA-PROFESSORES-2012  p. -  [pt-BR] | TDAH - Guia para Professores - Associação Brasileira do  [AVISO não usar para: evidencia_de_eficacia]
+       https://tdah.org.br/tdah-guia-para-professores/
+       "[texto não reproduzido por restrição de licença]..."
+
+==============================================================================================================
+PERGUNTA: a escola pode exigir laudo médico para fazer adaptação ou oferecer atendimento educacional especializado?
+
+[bm25]  (1 ms)
+  1. 30.4757  MEC-SECADI-NT-04-2014-LAUDO  p. 56-57  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "Para realizar o AEE, cabe ao professor que atua nesta área, elaborar o Plano de Atendimento Educacional Especializado – Plano de AEE, documento comprobatório de que a escola, institucionalmente, reconhece a matricula do ..."
+  2. 27.2676  MEC-SECADI-NT-04-2014-LAUDO  p. 55-57  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "VII - oferta de educação especial preferencialmente na rede regular de ensino. § 1º - Para fins deste Decreto, considera-se público-alvo da educação especial as pessoas com deficiência, com transtornos globais do desenvo..."
+  3. 26.1200  MEC-SECADI-NT-04-2014-LAUDO  p. 57-58  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "II – Alunos com transtornos globais do desenvolvimento: aqueles que apresentam um quadro de alterações no desenvolvimento neuropsicomotor, comprometimento nas relações sociais, na comunicação ou estereotipias motoras. In..."
+  4. 20.9951  MEC-SECADI-NT-04-2014-LAUDO  p. 54-55  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "Para efetivar o direito da pessoa com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação, conforme marcos legais supracitados, faz-se necessária a definição, formulação e implementação d..."
+  5. 20.7898  LEI-13146-2015-LBI-RECORTE-EDUCACAO  p. -  [pt-BR] | CAPÍTULO IV DO DIREITO À EDUCAÇÃO | Art. 28
+       https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm
+       "Art. 28. Incumbe ao poder público assegurar, criar, desenvolver, implementar, incentivar, acompanhar e avaliar: I - sistema educacional inclusivo em todos os níveis e modalidades, bem como o aprendizado ao longo de toda ..."
+
+[mpnet]  (38 ms)
+  1. 0.6630  LEI-14254-2021-DISLEXIA-TDAH  p. -  [pt-BR] | Art. 4º
+       https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm
+       "Art. 4º Necessidades específicas no desenvolvimento do educando serão atendidas pelos profissionais da rede de ensino em parceria com profissionais da rede de saúde. Parágrafo único. Caso seja verificada a necessidade de..."
+  2. 0.6488  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 11-12  [pt-BR] | Figura 3
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "o uso de uma terminalidade específica. Isso implica dizermos, em absoluto, que a certificação diferenciada é sempre excludente, pois entendemos que, em algumas situações, pode se tornar um expediente legítimo e inclusivo..."
+  3. 0.6371  LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL  p. -  [pt-BR] | CAPÍTULO V DA EDUCAÇÃO ESPECIAL | Art. 58
+       https://www.planalto.gov.br/ccivil_03/leis/l9394.htm
+       "CAPÍTULO V DA EDUCAÇÃO ESPECIAL Art. 58. Entende-se por educação especial, para os efeitos desta Lei, a modalidade de educação escolar oferecida preferencialmente na rede regular de ensino, para educandos com deficiência..."
+  4. 0.6323  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 9  [pt-BR] | 3.3 Resultados da pesquisa
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "3.3 Resultados da pesquisa O questionário distribuído foi respondido por 65 docentes, os quais foram separados em relação à disciplina que ministravam na área técnica ou propedêutica. Tivemos, na área técnica, 36 contrib..."
+  5. 0.6322  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 14  [pt-BR] | Subcategoria
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Igualmente, há de destacarmos na posição dos docentes da área técnica o fato de não considerarem o currículo como estático, como podemos observar no relato a seguir, o que vai ao encontro do que Capellini (2018) pontua. ..."
+
+[qwen3]  (61 ms)
+  1. 0.6893  MEC-SECADI-NT-04-2014-LAUDO  p. 56-57  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "Para realizar o AEE, cabe ao professor que atua nesta área, elaborar o Plano de Atendimento Educacional Especializado – Plano de AEE, documento comprobatório de que a escola, institucionalmente, reconhece a matricula do ..."
+  2. 0.6396  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 11-12  [pt-BR] | Figura 3
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "o uso de uma terminalidade específica. Isso implica dizermos, em absoluto, que a certificação diferenciada é sempre excludente, pois entendemos que, em algumas situações, pode se tornar um expediente legítimo e inclusivo..."
+  3. 0.6218  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 7-8  [pt-BR] | Figura 2
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Figura 2 Matrícu las da Educação Especial nas classes comuns e exclusivas Nota. Compilação a partir das Sinopses Estatísticas da Educação Básica do INEP/MEC de 2007 a 2021, números expressos em milhares (https://www.gov...."
+  4. 0.6098  MEC-SECADI-NT-04-2014-LAUDO  p. 55-57  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "VII - oferta de educação especial preferencialmente na rede regular de ensino. § 1º - Para fins deste Decreto, considera-se público-alvo da educação especial as pessoas com deficiência, com transtornos globais do desenvo..."
+  5. 0.6034  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 17  [pt-BR] | IFSUL.
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "gov.br/arquivos/pdf/politicaeducespecial.pdf Projeto Escola Viva - Garantindo o acesso e permanência de todos os alunos na escola - Alunos com necessidades educacionais especiais: Adaptações curriculares de pequeno porte..."
+
+[hibrido]  (36 ms)
+  1. 0.0328  MEC-SECADI-NT-04-2014-LAUDO  p. 56-57  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "Para realizar o AEE, cabe ao professor que atua nesta área, elaborar o Plano de Atendimento Educacional Especializado – Plano de AEE, documento comprobatório de que a escola, institucionalmente, reconhece a matricula do ..."
+  2. 0.0318  MEC-SECADI-NT-04-2014-LAUDO  p. 55-57  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "VII - oferta de educação especial preferencialmente na rede regular de ensino. § 1º - Para fins deste Decreto, considera-se público-alvo da educação especial as pessoas com deficiência, com transtornos globais do desenvo..."
+  3. 0.0284  MEC-SECADI-NT-04-2014-LAUDO  p. 54-55  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "Para efetivar o direito da pessoa com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação, conforme marcos legais supracitados, faz-se necessária a definição, formulação e implementação d..."
+  4. 0.0284  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 7-8  [pt-BR] | Figura 2
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Figura 2 Matrícu las da Educação Especial nas classes comuns e exclusivas Nota. Compilação a partir das Sinopses Estatísticas da Educação Básica do INEP/MEC de 2007 a 2021, números expressos em milhares (https://www.gov...."
+  5. 0.0281  MEC-SECADI-NT-04-2014-LAUDO  p. 53-54  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE Data: 23 de janeiro de 2014. Assunto: Orientação quanto a documentos comprobatórios do cadastro de alunos com deficiência, transtornos globais do desenvolvimento e altas ha..."
+
+[hibrido+rerank]  (161 ms)
+  1. 4.1703  MEC-SECADI-NT-04-2014-LAUDO  p. 56-57  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "Para realizar o AEE, cabe ao professor que atua nesta área, elaborar o Plano de Atendimento Educacional Especializado – Plano de AEE, documento comprobatório de que a escola, institucionalmente, reconhece a matricula do ..."
+  2. 2.7807  MEC-SECADI-NT-04-2014-LAUDO  p. 55-57  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "VII - oferta de educação especial preferencialmente na rede regular de ensino. § 1º - Para fins deste Decreto, considera-se público-alvo da educação especial as pessoas com deficiência, com transtornos globais do desenvo..."
+  3. 0.7154  MEC-SECADI-NT-04-2014-LAUDO  p. 53-54  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE Data: 23 de janeiro de 2014. Assunto: Orientação quanto a documentos comprobatórios do cadastro de alunos com deficiência, transtornos globais do desenvolvimento e altas ha..."
+  4. 0.5689  MEC-SECADI-NT-04-2014-LAUDO  p. 54-55  [pt-BR] | NOTA TÉCNICA Nº 04 / 2014 / MEC / SECADI / DPEE
+       https://www.gov.br/mec/pt-br/media/publicacoes/semesp/secadi_documento_subsidiario_2015.pdf (coletânea "Orientações para implementação da Política de Educação Especial na Perspectiva da Educação Inclusiva", MEC/SECADI 2015; obtido via Web Archive, captura 20250501115701)
+       "Para efetivar o direito da pessoa com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação, conforme marcos legais supracitados, faz-se necessária a definição, formulação e implementação d..."
+  5. -0.9905  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 11-12  [pt-BR] | Figura 3
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "o uso de uma terminalidade específica. Isso implica dizermos, em absoluto, que a certificação diferenciada é sempre excludente, pois entendemos que, em algumas situações, pode se tornar um expediente legítimo e inclusivo..."
+
+==============================================================================================================
+PERGUNTA: diferença entre acomodação e modificação: o que pode mudar na avaliação sem reduzir o objetivo?
+
+[bm25]  (1 ms)
+  1. 14.6653  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 6-7  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "Práticas pedagógicas baseadas na estrutura do desenho universal para aprendizagem Não há uma receita que possa ser seguida para o ensino de todos os alunos - afinal isso implicaria na homogeneização do ensino e um retorn..."
+  2. 13.4653  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 8-9  [pt-BR] | 2.3.5 Como trabalhar o DUA e as deficiências curricular  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "2.3.5 Como trabalhar o DUA e as deficiências curriculares? O processo usual para tornar os currículos existentes mais acessíveis é fazer adaptações que os tornem mais praticáveis para todos os estudantes. Frequentemente,..."
+  3. 11.8162  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 33-34  [pt-BR] | 2.4.9 Diretriz 9 - Proporcionar opções para a autorregu  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• incrementar o tempo de concentração em uma tarefa, mesmo que ocorram distrações. • aumentar a frequência com que a autorreflexão e os autorreforços ocorrem; • facilitar a orientação, o aconselhamento, ou o apoio a esse..."
+  4. 11.1910  MS-PCDT-TDAH-2022  p. 11-12  [pt-BR] | Orientação para pacientes
+       https://www.gov.br/conitec/pt-br/midias/protocolos/portariaconjuntan14pcdttranstornododeficitdeatencaocomhiperatividadetdah.pdf/@@display-file/file
+       "Orientação para pacientes Após um diagnóstico de TDAH, é aconselhável que o profissional de saúde proporcione uma discussão estruturada com os pacientes (na presença de seus familiares ou cuidadores, conforme apropriado)..."
+  5. 10.8353  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 6-7  [pt-BR] | Componentes do currículo do DUA  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "Componentes do currículo do DUA Quatro são os componentes altamente inter-relacionados que compõem o currículo do DUA: objetivos, métodos, materiais e avaliação. Em seguida, explicaremos as diferenças entre as definições..."
+
+[mpnet]  (14 ms)
+  1. 0.6846  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 15  [pt-BR] | Subcategoria
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Tabela 5 Categorização dos dados – área propedêutica Categoria Subcategoria Frequência % Tipo de adaptação realizada Adaptação de conteúdo 4 10,5% Adaptação nas atividades 4 10,5% Supressão de conteúdo 11 28,9% Adaptação..."
+  2. 0.6736  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 8  [pt-BR] | Figura 2
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Logicamente, a deficiência intelectual poderá acabar requerendo uma diminuição na profundidade de alguns temas ou a supressão de alguns assuntos cuja abstração se colocará além das possibilidades do estudante. Nesse caso..."
+  3. 0.6600  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 11  [pt-BR] | Figura 3
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Figura 3 Questão do questionário aplicado aos docentes Nota. A questão refere-se a: “Em que medida você promove ou promovia adaptações ou acessibilidade curricular no processo de ensino durante o período da aula para pot..."
+  4. 0.6593  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 8-9  [pt-BR] | 2.3.5 Como trabalhar o DUA e as deficiências curricular  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "2.3.5 Como trabalhar o DUA e as deficiências curriculares? O processo usual para tornar os currículos existentes mais acessíveis é fazer adaptações que os tornem mais praticáveis para todos os estudantes. Frequentemente,..."
+  5. 0.6322  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 17-18  [pt-BR] | 4. Discussão
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "De modo geral, todas as intervenções investigadas promoveram incrementos nos repertórios de estudantes com TDAH que são ilustrados pelo enfraquecimento dos comportamentos característicos do transtorno, fortalecimento de ..."
+
+[qwen3]  (31 ms)
+  1. 0.7336  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 4  [en] | Summary
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "Summary The primary purpose of accommodations and modifications is to provide access to learning for students with disabilities. The major difference between accommodations and modifications is that accommodations provid..."
+  2. 0.6824  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 3  [en] | Modifications
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "Modifications The CCSSO Accessibility Manual (Lazarus et al., 2021) indicates that modifications are changes in practices or materials that lower state-required learning expectations. IEP teams determine whether a studen..."
+  3. 0.6324  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 1-2  [en] | (início do documento)
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "NCEO Brief Number 33 • January 2024 The Basics of Accommodations and Modifications There continues to be confusion among some educators and staff in State Education Agencies (SEAs) and Local Education Agencies (LEAs) abo..."
+  4. 0.6234  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 4-5  [en] | Recommendations
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "Recommendations IEP teams, including students who participate in them, need to understand the differences between accommodations and modifications. Specifically, • IEP teams should know which accommodations are allowable..."
+  5. 0.6153  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 2-3  [en] | Accommodations
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "Assessment Accommodations The Council of Chief State School Officers’ (CCSSO) Accessibility Manual defines accommodations as changes in procedures or materials that: (a) ensure a student has equitable access to instructi..."
+
+[hibrido]  (32 ms)
+  1. 0.0267  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 8  [pt-BR] | Figura 2
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Logicamente, a deficiência intelectual poderá acabar requerendo uma diminuição na profundidade de alguns temas ou a supressão de alguns assuntos cuja abstração se colocará além das possibilidades do estudante. Nesse caso..."
+  2. 0.0262  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 8-9  [pt-BR] | 2.3.5 Como trabalhar o DUA e as deficiências curricular  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "2.3.5 Como trabalhar o DUA e as deficiências curriculares? O processo usual para tornar os currículos existentes mais acessíveis é fazer adaptações que os tornem mais praticáveis para todos os estudantes. Frequentemente,..."
+  3. 0.0245  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 12  [pt-BR] | Figura 3
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "– UFPel [Universidade Federal de Pelotas]) e ENEM, por exemplo, não preveem esse tipo de alteração, caso o professor realize, pois, a meu ver, sempre algum tópico pode ser retirado... então [...] caso esses alunos queira..."
+  4. 0.0242  DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE  p. 5-6  [pt-BR] | 3.1 Avanços nas possibilidades de acesso ao currículo
+       https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt
+       "Em 2000, o MEC produziu duas cartilhas versando sobre adaptações curriculares de pequeno e de grande porte. Segundo uma das cartilhas, chamada Projeto Escola Viva - Garantindo o acesso e permanência de todos os alunos na..."
+  5. 0.0195  LEI-13146-2015-LBI-RECORTE-EDUCACAO  p. -  [pt-BR] | Art. 3º
+       https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm
+       "Art. 3º Para fins de aplicação desta Lei, consideram-se: V - comunicação: forma de interação dos cidadãos que abrange, entre outras opções, as línguas, inclusive a Língua Brasileira de Sinais (Libras), a visualização de ..."
+
+[hibrido+rerank]  (159 ms)
+  1. 5.8063  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 4  [en] | Summary
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "Summary The primary purpose of accommodations and modifications is to provide access to learning for students with disabilities. The major difference between accommodations and modifications is that accommodations provid..."
+  2. 5.6043  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 3  [en] | Modifications
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "Modifications The CCSSO Accessibility Manual (Lazarus et al., 2021) indicates that modifications are changes in practices or materials that lower state-required learning expectations. IEP teams determine whether a studen..."
+  3. 4.0940  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 2-3  [en] | Accommodations
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "Assessment Accommodations The Council of Chief State School Officers’ (CCSSO) Accessibility Manual defines accommodations as changes in procedures or materials that: (a) ensure a student has equitable access to instructi..."
+  4. 3.5564  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 4-5  [en] | Recommendations
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "Recommendations IEP teams, including students who participate in them, need to understand the differences between accommodations and modifications. Specifically, • IEP teams should know which accommodations are allowable..."
+  5. -0.4302  NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024  p. 1-2  [en] | (início do documento)
+       https://nceo.umn.edu/docs/OnlinePubs/NCEOBrief33.pdf
+       "NCEO Brief Number 33 • January 2024 The Basics of Accommodations and Modifications There continues to be confusion among some educators and staff in State Education Agencies (SEAs) and Local Education Agencies (LEAs) abo..."
+
+==============================================================================================================
+PERGUNTA: fonte especial para dislexia melhora a leitura?
+
+[bm25]  (1 ms)
+  1. 14.2144  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 9-10  [pt-BR] | CARACTERÍSTICAS GERAIS DA DISLEXIA
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "CARACTERÍSTICAS GERAIS DA DISLEXIA Você já sabe que a dislexia é um transtorno específico de aprendizagem que leva a dificuldades de leitura e escrita. Essas dificuldades podem resultar, por exemplo, em leitura imprecisa..."
+  2. 12.8216  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 25-26  [pt-BR] | CONSIDERAÇÕES FINAIS
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "CONSIDERAÇÕES FINAIS Esta cartilha foi elaborada para os(as) participantes com dislexia, considerando-se as particularidades da escrita da pessoa disléxica. O Inep respeita essas particularidades, valoriza o potencial, o..."
+  3. 12.4435  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES  p. 13-14  [pt-BR] | 3.3 Intervenções mediadas por computador
+       https://editorarevistas.mackenzie.br/ptp/article/view/11463
+       "3.3 Intervenções mediadas por computador O uso do computador como ferramenta instrucional tem sido recomendado quando se objetiva produzir incrementos no desempenho acadêmico de estudantes. Defende-se que as característi..."
+  4. 12.4148  LEI-14254-2021-DISLEXIA-TDAH  p. -  [pt-BR] | Art. 3º
+       https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm
+       "Art. 3º Educandos com dislexia, TDAH ou outro transtorno de aprendizagem que apresentam alterações no desenvolvimento da leitura e da escrita, ou instabilidade na atenção, que repercutam na aprendizagem devem ter assegur..."
+  5. 11.9858  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 7-9  [pt-BR] | COM DISLEXIA
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "o acompanhamento integral para educandos com dislexia, Transtorno do Déficit de Atenção com Hiperatividade (TDAH) ou outro transtorno de aprendizagem.2 O texto dessa lei assegura critérios adequados de avaliação das prov..."
+
+[mpnet]  (11 ms)
+  1. 0.7602  KUSTER-2018-FONTE-DYSLEXIE  p. 9  [en] | Experiment 2
+       https://link.springer.com/content/pdf/10.1007/s11881-017-0154-6.pdf
+       "Experiment 2 In Experiments 2, the claim was tested that the font Dyslexie would benefit reading at the word level. The serif font Times New Roman was added, because of its widespread use in books. The same questions tha..."
+  2. 0.7541  WERY-2017-FONTE-OPENDYSLEXIC  p. 7  [en] | Results
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Results Eleven of the 12 students completed each of the three reading task probes (i.e., letter-naming, word reading, and nonsense word reading). One male student was removed from the nonsense word reading on the second ..."
+  3. 0.7493  KUSTER-2018-FONTE-DYSLEXIE  p. 3  [en] | Font characteristics and dyslexia
+       https://link.springer.com/content/pdf/10.1007/s11881-017-0154-6.pdf
+       "Font characteristics and dyslexia Only a few studies have focused on the effects of adjusting texts for people with dyslexia. A first conclusion that can be drawn from these studies is that font size matters. O’Brien, Ma..."
+  4. 0.7318  KUSTER-2018-FONTE-DYSLEXIE  p. 9  [en] | Dyslexie
+       https://link.springer.com/content/pdf/10.1007/s11881-017-0154-6.pdf
+       "Preference Dyslexie Arial None F-test n 49 90 30 Time 1: Reading speed Font Dyslexie 90.2 (8.4) 85.9 (4.8) 114.5 (9.0) F (2, 80) = 3.95, p = .02*, η2 = .09 Font Arial 89.6 (7.7) 92.3 (7.1) 114.0 (11.5) F (2, 81) = 1.67, ..."
+  5. 0.7217  WERY-2017-FONTE-OPENDYSLEXIC  p. 9  [en] | Discussion
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Discussion The development of the OD font may have been developed as the result of a common misunderstanding of dyslexia. Many new teachers believe dyslexia is caused by a deficit in visual perception (Allington, 1982; B..."
+
+[qwen3]  (30 ms)
+  1. 0.7430  WERY-2017-FONTE-OPENDYSLEXIC  p. 2-3  [en] | (início do documento)
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Recently, two specialized typefaces or fonts BOpenDyslexic^ (OD; Gonzalez, 2012) and BDyslexie^ (Boer, 2008) have been developed that purport to increase readability for those with dyslexia. These fonts differ from the o..."
+  2. 0.7309  WERY-2017-FONTE-OPENDYSLEXIC  p. 1-2  [en] | (início do documento)
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "The effect of a specialized dyslexia font, OpenDyslexic, on reading rate and accuracy Jessica J. Wery1 & Jennifer A. Diliberto2 Received: 21 October 2015 /Accepted: 19 February 2016 /Published online: 18 March 2016 # The..."
+  3. 0.7300  WERY-2017-FONTE-OPENDYSLEXIC  p. 3  [en] | Extant research
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Extant research Two studies have investigated the effect of specialized fonts used with students with dyslexia. Rello and Baeza-Yates (2013) measured eye-tracking recordings of Spanish readers with dyslexia (aged 11–50) ..."
+  4. 0.7275  WERY-2017-FONTE-OPENDYSLEXIC  p. 10-11  [en] | Dyslexie
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Session Overall Nonsense Word Reading Accuracy Arial Dyslexie Times New Roman Fig. 8 Overall average nonsense word reading accuracy (pseudo-words correct/total attempts) who struggle to learn to read, they need to be pro..."
+  5. 0.7046  WERY-2017-FONTE-OPENDYSLEXIC  p. 11-12  [en] | Nonsense word reading
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Word reading Arial vs OD −53.89 % −67.52, −36.70 TNR vs OD −73.53 % −83.38, −59.28 Nonsense word reading Arial vs OD −67.19 % −78.28, −52.02 TNR vs OD −75.81 % −85.09, −61.90 OD OpenDyslexic, TNR Times New Roman failure ..."
+
+[hibrido]  (31 ms)
+  1. 0.0298  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 25-26  [pt-BR] | CONSIDERAÇÕES FINAIS
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "CONSIDERAÇÕES FINAIS Esta cartilha foi elaborada para os(as) participantes com dislexia, considerando-se as particularidades da escrita da pessoa disléxica. O Inep respeita essas particularidades, valoriza o potencial, o..."
+  2. 0.0288  LEI-14254-2021-DISLEXIA-TDAH  p. -  [pt-BR] | Art. 3º
+       https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm
+       "Art. 3º Educandos com dislexia, TDAH ou outro transtorno de aprendizagem que apresentam alterações no desenvolvimento da leitura e da escrita, ou instabilidade na atenção, que repercutam na aprendizagem devem ter assegur..."
+  3. 0.0279  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 9-10  [pt-BR] | CARACTERÍSTICAS GERAIS DA DISLEXIA
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "CARACTERÍSTICAS GERAIS DA DISLEXIA Você já sabe que a dislexia é um transtorno específico de aprendizagem que leva a dificuldades de leitura e escrita. Essas dificuldades podem resultar, por exemplo, em leitura imprecisa..."
+  4. 0.0266  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 7-9  [pt-BR] | COM DISLEXIA
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "o acompanhamento integral para educandos com dislexia, Transtorno do Déficit de Atenção com Hiperatividade (TDAH) ou outro transtorno de aprendizagem.2 O texto dessa lei assegura critérios adequados de avaliação das prov..."
+  5. 0.0260  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA  p. 1-7  [pt-BR] | COM DISLEXIA
+       https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/cartilha_enem_2026_dislexia.pdf
+       "DA EDUCAÇÃO BÁSICA DAEB 20 26 A REDAÇÃO DO ENEM CARTILHA DO(A) PARTICIPANTE COM DISLEXIA 2026 Brasília-DF Inep/MEC 2026 DA EDUCAÇÃO BÁSICA DAEB 20 26 A REDAÇÃO DO ENEM CARTILHA DO(A) PARTICIPANTE COM DISLEXIA INFORMAÇÕES..."
+
+[hibrido+rerank]  (150 ms)
+  1. 10.0570  WERY-2017-FONTE-OPENDYSLEXIC  p. 3  [en] | Extant research
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Extant research Two studies have investigated the effect of specialized fonts used with students with dyslexia. Rello and Baeza-Yates (2013) measured eye-tracking recordings of Spanish readers with dyslexia (aged 11–50) ..."
+  2. 8.2059  KUSTER-2018-FONTE-DYSLEXIE  p. 15  [en] | Preference
+       https://link.springer.com/content/pdf/10.1007/s11881-017-0154-6.pdf
+       "In sum, the adaptations made to create the font Dyslexie have been disputed and the empirical findings also challenge the claim that Dyslexie is a better font for dyslectics. We haste to add that Dyslexie does not affect..."
+  3. 6.8152  WERY-2017-FONTE-OPENDYSLEXIC  p. 10-11  [en] | Dyslexie
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Session Overall Nonsense Word Reading Accuracy Arial Dyslexie Times New Roman Fig. 8 Overall average nonsense word reading accuracy (pseudo-words correct/total attempts) who struggle to learn to read, they need to be pro..."
+  4. 6.7983  WERY-2017-FONTE-OPENDYSLEXIC  p. 1-2  [en] | (início do documento)
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "The effect of a specialized dyslexia font, OpenDyslexic, on reading rate and accuracy Jessica J. Wery1 & Jennifer A. Diliberto2 Received: 21 October 2015 /Accepted: 19 February 2016 /Published online: 18 March 2016 # The..."
+  5. 5.9432  WERY-2017-FONTE-OPENDYSLEXIC  p. 3  [en] | (início do documento)
+       https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf
+       "Today, the U.S. Department of Education places an increased emphasis on greater rigor in educational research (Institute of Educational Sciences, 2010), and legislative mandates call for the use of research-based practic..."
+
+==============================================================================================================
+PERGUNTA: o aluno aprende melhor com imagem porque é visual: adaptar ao estilo de aprendizagem funciona?
+
+[bm25]  (1 ms)
+  1. 19.2949  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 4  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "Princípios orientadores do desenho universal para aprendizagem De acordo com Nelson (2013), o DUA está fundamentado em pesquisas científicas sobre a aprendizagem, apontando que: (i) A aprendizagem está relacionada tanto ..."
+  2. 17.0082  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 1.1: Oferecer oportunidades de sup
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  3. 16.9145  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 5-6  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "O princípio da representação aponta os caminhos que podem ser oferecidos aos estudantes para que acessem conhecimentos prévios, ideias, conceitos e temas atuais a partir de informações apresentadas e, ao mesmo tempo, pod..."
+  4. 15.2562  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 1.2: Fornecer múltiplas maneiras d
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  5. 14.1008  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 1.2: Fornecer múltiplas maneiras d
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+
+[mpnet]  (12 ms)
+  1. 0.6195  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 18  [pt-BR] | 2.4.1 Diretriz 1 - Oferecer opções diferentes para a pe  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• fornecer ferramentas eletrônicas para tradução ou links para glossários multilíngues na web; • inserir recursos visuais não linguísticos para esclarecer o vocabulário (imagens, vídeos etc.). Ponto de verificação 2.5 - ..."
+  2. 0.5928  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 2.5: Ilustrar por meio de formas v
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença] ..."
+  3. 0.5811  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 13-14  [pt-BR] | 2.4.1 Diretriz 1 - Oferecer opções diferentes para a pe  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "2.4.1 Diretriz 1 - Oferecer opções diferentes para a percepção O aprendizado é impossível se a informação não puder ser percebida pelo estudante; é difícil quando a informação é apresentada em formatos cujo uso requer aj..."
+  4. 0.5791  ROGOWSKY-2020-ESTILOS-APRENDIZAGEM  p. 4  [en] | RESULTS
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+       "RESULTS The goal of this study was to determine whether there was an interaction between learning style preference (auditory, visual) and the modality of the most effective instruction. Support for the learning styles hy..."
+  5. 0.5722  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 5.1: Usar várias alternativas para
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+
+[qwen3]  (30 ms)
+  1. 0.5647  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | PRINCÍPIO - PROPORCIONAR OPÇÕES MÚLTIPLAS DE REPRESENT
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  2. 0.5641  ROGOWSKY-2020-ESTILOS-APRENDIZAGEM  p. 3  [en] | Learning Styles Assessment
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+       "The LSCY provides personalized reports to convert an individual’s numerical score into instructional prescriptions. For example, participants who score preference or strong preference (4 or 5) on the “Learns by Seeing” a..."
+  3. 0.5570  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 2.5: Ilustrar por meio de formas v
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença] ..."
+  4. 0.5491  ROGOWSKY-2020-ESTILOS-APRENDIZAGEM  p. 6  [en] | DISCUSSION
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+       "DISCUSSION It makes sense that visual learners would perform better when instruction is presented visually rather than auditorily. Likewise, it makes sense that auditory learners would perform better when instruction is ..."
+  5. 0.5479  ROGOWSKY-2020-ESTILOS-APRENDIZAGEM  p. 1  [en] | (início do documento)
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+       "Front. Psychol. 11:164. doi: 10.3389/fpsyg.2020.00164 Providing Instruction Based on Students’ Learning Style Preferences Does Not Improve Learning Beth A. Rogowsky1*, Barbara M. Calhoun2 and Paula Tallal3,4 1 Department..."
+
+[hibrido]  (32 ms)
+  1. 0.0296  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 13-14  [pt-BR] | 2.4.1 Diretriz 1 - Oferecer opções diferentes para a pe  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "2.4.1 Diretriz 1 - Oferecer opções diferentes para a percepção O aprendizado é impossível se a informação não puder ser percebida pelo estudante; é difícil quando a informação é apresentada em formatos cujo uso requer aj..."
+  2. 0.0286  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 18  [pt-BR] | 2.4.1 Diretriz 1 - Oferecer opções diferentes para a pe  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• fornecer ferramentas eletrônicas para tradução ou links para glossários multilíngues na web; • inserir recursos visuais não linguísticos para esclarecer o vocabulário (imagens, vídeos etc.). Ponto de verificação 2.5 - ..."
+  3. 0.0284  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 1.2: Fornecer múltiplas maneiras d
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  4. 0.0275  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 2.5: Ilustrar por meio de formas v
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença] ..."
+  5. 0.0274  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 1.1: Oferecer oportunidades de sup
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+
+[hibrido+rerank]  (159 ms)
+  1. 1.6465  ROGOWSKY-2020-ESTILOS-APRENDIZAGEM  p. 3  [en] | Learning Styles Assessment
+       https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf
+       "The LSCY provides personalized reports to convert an individual’s numerical score into instructional prescriptions. For example, participants who score preference or strong preference (4 or 5) on the “Learns by Seeing” a..."
+  2. 0.7864  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 14  [pt-BR] | 2.4.1 Diretriz 1 - Oferecer opções diferentes para a pe  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• o volume ou a velocidade da fala e do som; • a velocidade da sincronização de vídeo, animações, sons, simulações etc.; • o formato da apresentação visual e de outros elementos; • a fonte da letra usada para materiais i..."
+  3. 0.3212  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 1.2: Fornecer múltiplas maneiras d
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  4. -0.3741  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 14-15  [pt-BR] | 2.4.1 Diretriz 1 - Oferecer opções diferentes para a pe  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "A informação visual pode ser bastante densa, principalmente nas artes visuais, podendo ter significados múltiplos e complexos e sua interpretação depender de fatores contex- 747 tuais e do conhecimento prévio do espectad..."
+  5. -1.3086  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 21  [pt-BR] | 2.4.3 Diretriz 3 - Oferecer opções para comprender e en  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• Fornecer listas de verificação, organizadores, notas, lembretes eletrônicos etc.; • incentivar o uso de dispositivos e estratégias (por exemplo, imagens visuais, estratégias de similitude, método dos lugares etc.); • i..."
+
+==============================================================================================================
+PERGUNTA: como o desenho universal para a aprendizagem orienta oferecer várias formas de o aluno mostrar o que aprendeu?
+
+[bm25]  (1 ms)
+  1. 21.8832  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 20-21  [pt-BR] | 2.4.3 Diretriz 3 - Oferecer opções para comprender e en  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "Enquanto alguns alunos podem ter um repertório completo desse tipo de estratégias e o conhecimento sobre quando aplicá-las, muitos outros não as possuem. Os materiais bem planejados podem oferecer modelos, suportes e dev..."
+  2. 21.3118  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 31-32  [pt-BR] | 2.4.6 Diretriz 6 - Fornecer opções para funções executi  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• enfatizar o processo, o esforço e a melhoria na obtenção dos objetivos como alternativas à avaliação externa e à concorrência. Ponto de verificação 8.3 - Fomentar a colaboração e a cooperação No século XXI, todos os al..."
+  3. 20.2972  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 3.3: Trabalhar múltiplas maneiras 
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  4. 19.3972  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 7-8  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "Antes de dar a resposta, permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico ou que com..."
+  5. 18.2307  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 5.1: Usar várias alternativas para
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+
+[mpnet]  (13 ms)
+  1. 0.7016  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Diretriz 1 de acesso. Interagir com conteúdos flexíveis
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  2. 0.6668  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Diretriz 2 de apoio: Facilitar o acesso ao idioma e sím
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença] ..."
+  3. 0.6657  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Diretriz 4: Promover a interação. Oferecer interações c
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  4. 0.6597  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Diretriz 5: Promover a expressão e comunicação. Criar e
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  5. 0.6556  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 6  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "Para Nelson (2013), o princípio da Ação e Expressão encoraja os professores a incluírem interações físicas, usando tanto a alta tecnologia quanto ferramentas não tecnológicas e estruturas que guiem o aluno para sua auto ..."
+
+[qwen3]  (31 ms)
+  1. 0.7663  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 5-6  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "O princípio da representação aponta os caminhos que podem ser oferecidos aos estudantes para que acessem conhecimentos prévios, ideias, conceitos e temas atuais a partir de informações apresentadas e, ao mesmo tempo, pod..."
+  2. 0.7445  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 21  [pt-BR] | 2.4.3 Diretriz 3 - Oferecer opções para comprender e en  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "• Fornecer listas de verificação, organizadores, notas, lembretes eletrônicos etc.; • incentivar o uso de dispositivos e estratégias (por exemplo, imagens visuais, estratégias de similitude, método dos lugares etc.); • i..."
+  3. 0.7318  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | DIRETRIZES DESENHO UNIVERSAL PARA APRENDIZAGEM. VERSÃO 
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  4. 0.7316  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Diretriz 1 de acesso. Interagir com conteúdos flexíveis
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+  5. 0.7272  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 12-13  [pt-BR] | Sobre esta apresentação  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "Como as Diretrizes são utilizadas? As Diretrizes devem ser cuidadosamente selecionadas e aplicadas ao currículo, conforme as particularidades de cada caso. As Diretrizes do DUA não são uma receita; poderíamos dizer que s..."
+
+[hibrido]  (32 ms)
+  1. 0.0311  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 20-21  [pt-BR] | 2.4.3 Diretriz 3 - Oferecer opções para comprender e en  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "Enquanto alguns alunos podem ter um repertório completo desse tipo de estratégias e o conhecimento sobre quando aplicá-las, muitos outros não as possuem. Os materiais bem planejados podem oferecer modelos, suportes e dev..."
+  2. 0.0305  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 12-13  [pt-BR] | Sobre esta apresentação  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "Como as Diretrizes são utilizadas? As Diretrizes devem ser cuidadosamente selecionadas e aplicadas ao currículo, conforme as particularidades de cada caso. As Diretrizes do DUA não são uma receita; poderíamos dizer que s..."
+  3. 0.0278  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 2.5: Ilustrar por meio de formas v
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença] ..."
+  4. 0.0270  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 7-8  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "Antes de dar a resposta, permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico ou que com..."
+  5. 0.0265  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | ESTRUTURA DAS DIRETRIZES DO DUA 3.0
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+
+[hibrido+rerank]  (159 ms)
+  1. 8.5041  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR  p. 7-8  [pt-BR] | Introdução
+       https://revistas.unisinos.br/index.php/educacao/article/download/edu.2018.222.04/60746207/60747396
+       "Antes de dar a resposta, permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico ou que com..."
+  2. 7.3797  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 7  [pt-BR] | Componentes do currículo do DUA  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "Os materiais são considerados, habitualmente, como os meios utilizados para apresentar os conteúdos de aprendizagem e o que os estudantes usam para demonstrar seus conhecimentos. No âmbito do DUA, a marca diferencial dos..."
+  3. 7.2649  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 23  [pt-BR] | 2.4.4 Diretriz 4 - Fornecer opções para a interação fís  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "É importante proporcionar modalidades alternativas para se expressar, tanto no nível da interação entre colegas quanto para permitir que o estudante expresse apropriadamente (ou facilmente) seus conhecimentos, ideias e c..."
+  4. 7.2518  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA  p. 24-25  [pt-BR] | 2.4.4 Diretriz 4 - Fornecer opções para a interação fís  [AVISO não usar para: numeracao_dua_3_0]
+       https://www.scielo.br/j/rbee/a/F5g6rWB3wTZwyBN4LpLgv5C/?format=pdf&lang=pt
+       "A fluência ou o domínio da fala é algo que também pode ser aprendido, dando aos alunos a oportunidade de atuar ou executar tarefas, como o ensaio ou a produção dramática. O fato de fazer isso, ajuda-os, pois permite que ..."
+  5. 6.9247  CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024  p. -  [pt-BR] | Ponto de verificação 5.1: Usar várias alternativas para
+       https://udlguidelines.cast.org/static/cast-diretrizes-do-desenho-universal-para-a-aprendizagem.docx
+       "[texto não reproduzido por restrição de licença]..."
+

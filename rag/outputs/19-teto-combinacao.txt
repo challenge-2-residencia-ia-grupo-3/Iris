@@ -1,0 +1,23 @@
+TETO DA COMBINAÇÃO (D): reranker sobre os 50 primeiros da lista junta (português + inglês). Contado ANTES de rodar.
+Técnica: contagem sobre as listas do Qwen3-Embedding (modelo pronto) já guardadas. Nenhum modelo treinado, e o
+reranker não foi chamado. O reranker só reordena o que recebe: o recall entre os 50 que ele lê é o teto dele.
+Gabarito do Opus: sha256 23e8e86517f08f74. Os dois gabaritos são de modelo, sem conferência humana.
+
+===== OPUS: 38 perguntas, 167 trechos certos =====
+o reranker lê                                recall (teto)   perguntas com ao menos 1 certo
+A: 50 primeiros da busca em português                 0.77                    36 de 38
+D: 50 primeiros da lista junta                        0.83                    37 de 38
+(lista junta inteira, até 100 trechos)                0.87
+tamanho da lista junta: mediana 67 trechos (50 = as duas buscas trouxeram os mesmos; 100 = nenhum em comum)
+perguntas em que os 50 da lista junta têm mais trechos certos que os 50 do português: 7; menos: 2; igual: 29
+
+===== RASCUNHO: 19 perguntas, 73 trechos certos =====
+o reranker lê                                recall (teto)   perguntas com ao menos 1 certo
+A: 50 primeiros da busca em português                 0.95                    19 de 19
+D: 50 primeiros da lista junta                        0.96                    19 de 19
+(lista junta inteira, até 100 trechos)                0.96
+tamanho da lista junta: mediana 74 trechos (50 = as duas buscas trouxeram os mesmos; 100 = nenhum em comum)
+perguntas em que os 50 da lista junta têm mais trechos certos que os 50 do português: 1; menos: 0; igual: 18
+trechos nunca julgados entre os 50 que o reranker lê em A: 610 de 950 (64%)
+trechos nunca julgados entre os 50 que o reranker lê em D: 624 de 950 (66%)
+

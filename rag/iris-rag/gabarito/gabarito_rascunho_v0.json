@@ -1,0 +1,841 @@
+{
+ "versao": "0-rascunho",
+ "autor": "agente (Claude Opus), não conferido por humano",
+ "chunking_congelado": "1b517d249bef1873f3cf94b23a643fd4783754ed0389d295811dd8c558da5509",
+ "protocolo": "perguntas escritas antes de abrir os trechos; marcação por leitura e grep, sem usar o buscador do sistema",
+ "itens": [
+  {
+   "id": "Q01",
+   "pergunta": "Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?",
+   "tipo": "estrategia",
+   "barreira": "memória de trabalho",
+   "parte_esperada": "varias",
+   "trechos_relevantes": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0063",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0047",
+    "NICE-NG87-ADHD-2018#0031",
+    "ABDA-GUIA-PROFESSORES-2012#0003"
+   ],
+   "trechos_parciais": [
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0017",
+    "SWELLER-2019-CARGA-COGNITIVA#0007",
+    "SWELLER-2019-CARGA-COGNITIVA#0038",
+    "CDC-ADHD-CLASSROOM-2026#0010",
+    "MS-PCDT-TDAH-2022#0019"
+   ],
+   "justificativa": "RBEE#0043 e CAST#0063 (ponto 6.3): quando a memória de trabalho não é o alvo, oferecer organizadores externos para manter a informação em mente; CAST#0047/RBEE#0034: instruções explícitas para cada etapa e dividir em unidades menores; NICE#0031: reforçar instruções orais com escritas.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q02",
+   "pergunta": "Meu aluno com TDAH perde o foco depois de uns 10 minutos de tarefa. Como dividir a atividade para ele manter a atenção até o fim?",
+   "tipo": "estrategia",
+   "barreira": "atenção sustentada",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "CDC-ADHD-CLASSROOM-2026#0010",
+    "ABDA-GUIA-PROFESSORES-2012#0001",
+    "NICE-NG87-ADHD-2018#0031",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0014",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0048"
+   ],
+   "trechos_parciais": [
+    "ABDA-GUIA-PROFESSORES-2012#0003",
+    "CDC-ADHD-CLASSROOM-2026#0008",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0053",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0016"
+   ],
+   "justificativa": "CDC#0010: tarefas mais curtas e não repetitivas, permitir pausas; ABDA#0001: pausas regulares e matérias difíceis no início; NICE#0031: períodos mais curtos de foco com pausas de movimento; CAST#0014/RBEE#0048: variar ritmo, duração das sessões e pausas.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q03",
+   "pergunta": "Como ajudar um aluno com TDAH que se perde na ordem dos passos de um problema, sem saber o que vem primeiro e o que vem depois?",
+   "tipo": "estrategia",
+   "barreira": "organização sequencial",
+   "parte_esperada": "varias",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0047",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0062",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+    "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0009",
+    "ABDA-GUIA-PROFESSORES-2012#0003"
+   ],
+   "trechos_parciais": [
+    "CDC-ADHD-CLASSROOM-2026#0004",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0063",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+    "AAP-CPG-ADHD-2019#0045",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0020"
+   ],
+   "justificativa": "CAST#0047/RBEE#0034: indicações explícitas para cada etapa de processo sequencial e dividir/sequenciar; CAST#0062/RBEE#0042: listas de verificação e modelos para definir prioridades e sequência de etapas; NCEO Brief#0009: organizadores gráficos para acompanhar os passos do problema.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q04",
+   "pergunta": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+   "tipo": "estrategia",
+   "barreira": "iniciação de tarefa",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "ABDA-GUIA-PROFESSORES-2012#0003",
+    "CDC-ADHD-CLASSROOM-2026#0010"
+   ],
+   "trechos_parciais": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0062",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+    "MS-PCDT-TDAH-2022#0020",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0016"
+   ],
+   "justificativa": "Não há trecho que trate 'iniciação de tarefa' pelo nome. ABDA#0003 (dividir trabalho em etapas, agenda/lista) e CDC#0010 (tarefas claras, conferir se o aluno entendeu o que fazer, tarefas curtas com pouco desafio) são o mais próximo; CAST#0062 e SANTOS#0028 (cronograma de atividades aumentou o trabalho independente) ajudam.",
+   "confianca": "baixa"
+  },
+  {
+   "id": "Q05",
+   "pergunta": "A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?",
+   "tipo": "estrategia",
+   "barreira": "sobrecarga visual",
+   "parte_esperada": "varias",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0047",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0014",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0047"
+   ],
+   "trechos_parciais": [
+    "SWELLER-2019-CARGA-COGNITIVA#0018",
+    "SWELLER-2019-CARGA-COGNITIVA#0019",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0046",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0032"
+   ],
+   "justificativa": "CAST#0047/RBEE#0034: divulgar informação progressivamente e eliminar distrações desnecessárias; CAST#0014/RBEE#0047: reduzir estimulação visual e o número de itens apresentados por vez. Sweller (atenção dividida, redundância) e destaque de palavras-chave (SANTOS#0028) ajudam no desenho da página.",
+   "confianca": "media"
+  },
+  {
+   "id": "Q06",
+   "pergunta": "Aluno responde por impulso antes de terminar de ler a pergunta. O que posso fazer em sala para ele parar e conferir?",
+   "tipo": "estrategia",
+   "barreira": "controle inibitório",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0005"
+   ],
+   "trechos_parciais": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0062",
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0006",
+    "MS-PCDT-TDAH-2022#0019",
+    "MS-PCDT-TDAH-2022#0020",
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0032"
+   ],
+   "justificativa": "RBEE#0042 (ponto 6.2 da versão anterior): integrar avisos para que parem e pensem antes de agir ('freios cognitivos'); DIAMOND#0005: erros de impulsividade são erros de não conseguir esperar, e ajudar a esperar melhora o desempenho.",
+   "confianca": "media"
+  },
+  {
+   "id": "Q07",
+   "pergunta": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+   "tipo": "estrategia",
+   "barreira": "leitura de texto longo",
+   "parte_esperada": "varias",
+   "trechos_relevantes": [
+    "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0002",
+    "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0003",
+    "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0007",
+    "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0010",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0039"
+   ],
+   "trechos_parciais": [
+    "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0000",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+    "HUANG-2024-LLM-NIVEIS-LEITURA#0013",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0034",
+    "AAP-CPG-ADHD-2019#0056"
+   ],
+   "justificativa": "NCEO Brief#0003/#0007: acomodação não muda o que é medido, modificação muda e não deve ser usada em avaliação; CAST#0039 (ponto 2.2): texto para fala quando decodificar não é o foco; NCEO Brief#0010: adaptar texto 'não mais diferente que o necessário', passagem sempre visível. Se a habilidade avaliada é a leitura/decodificação, ler em voz alta deixa de ser acomodação.",
+   "confianca": "media"
+  },
+  {
+   "id": "Q08",
+   "pergunta": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+   "tipo": "estrategia",
+   "barreira": "comportamento fora da tarefa",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "MS-PCDT-TDAH-2022#0020",
+    "MS-PCDT-TDAH-2022#0021",
+    "CDC-ADHD-CLASSROOM-2026#0003",
+    "CDC-ADHD-CLASSROOM-2026#0008",
+    "ABDA-GUIA-PROFESSORES-2012#0002",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0027"
+   ],
+   "trechos_parciais": [
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0032",
+    "AAP-CPG-ADHD-2019#0044",
+    "YEGENCIK-2025-META-RCT-ESCOLA#0041",
+    "ABDA-GUIA-PROFESSORES-2012#0000",
+    "CDC-ADHD-CLASSROOM-2026#0010"
+   ],
+   "justificativa": "MS-PCDT#0020/#0021: elogio específico e imediato, regras claras, redirecionamento breve, reforço com fichas; CDC#0003/#0008: manejo comportamental com sistema de recompensas e relatório diário com os pais; ABDA#0002: economia de fichas; SANTOS#0027: DRC com efeitos positivos.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q09",
+   "pergunta": "Onde devo sentar o aluno com TDAH e que ajustes no ambiente da sala ajudam a reduzir a distração?",
+   "tipo": "estrategia",
+   "barreira": "distração ambiental",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "ABDA-GUIA-PROFESSORES-2012#0000",
+    "NICE-NG87-ADHD-2018#0031",
+    "CDC-ADHD-CLASSROOM-2026#0010"
+   ],
+   "trechos_parciais": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0053",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0014",
+    "CDC-ADHD-CLASSROOM-2026#0008",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0047",
+    "MS-PCDT-TDAH-2022#0019"
+   ],
+   "justificativa": "ABDA#0000 (dica 4): sentar na frente, perto do quadro e do professor; NICE#0031: mudar a disposição dos assentos, luz e ruído, fones; CDC#0010: minimizar distrações e observar com o aluno o que ajuda ou distrai.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q10",
+   "pergunta": "Como dar instruções para um aluno com TDAH: falo tudo de uma vez ou em partes? Devo pedir para ele repetir o que entendeu?",
+   "tipo": "estrategia",
+   "barreira": "memória de trabalho / instruções",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "CDC-ADHD-CLASSROOM-2026#0010",
+    "NICE-NG87-ADHD-2018#0031",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0034",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0047"
+   ],
+   "trechos_parciais": [
+    "ABDA-GUIA-PROFESSORES-2012#0001",
+    "SWELLER-2019-CARGA-COGNITIVA#0038",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+    "MS-PCDT-TDAH-2022#0020",
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0017"
+   ],
+   "justificativa": "CDC#0010: deixar a tarefa clara e conferir com o aluno se entendeu; NICE#0031: reforçar pedidos verbais com instruções escritas; CAST#0034: instruções só orais são barreira para quem tem dificuldade de memória; CAST#0047: instruções explícitas para cada etapa. Não há trecho que mande dar uma instrução por vez explicitamente.",
+   "confianca": "media"
+  },
+  {
+   "id": "Q11",
+   "pergunta": "Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0008",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0002",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0003",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0066"
+   ],
+   "trechos_parciais": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0028",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0049",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0019",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0011"
+   ],
+   "justificativa": "RBEE#0007/#0008 enumeram os três princípios (representação, ação e expressão, engajamento); CAST#0002/#0003 mostram a estrutura 3.0 por princípio; MC#0066 resume.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q12",
+   "pergunta": "O que mudou na versão 3.0 das diretrizes do DUA em relação às versões anteriores?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0001"
+   ],
+   "trechos_parciais": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0002",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0003",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0065",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0035",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0019"
+   ],
+   "justificativa": "Só CAST#0001 fala da mudança: a 3.0 (30/07/2024) responde ao apelo para tratar barreiras enraizadas em preconceitos e sistemas de exclusão. A comparação detalhada com a 2.2 exigiria cruzar CAST e RBEE (versão anterior); os pontos novos (ex. 6.5, 1.3) aparecem só como partes.",
+   "confianca": "media"
+  },
+  {
+   "id": "Q13",
+   "pergunta": "Dê exemplos de múltiplas formas de representação para apresentar um mesmo conteúdo aos alunos.",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0042",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0033",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0021",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0054",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0011",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0012"
+   ],
+   "trechos_parciais": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0028",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0030",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0035"
+   ],
+   "justificativa": "CAST#0042 (2.5): ilustrar com diagrama, vídeo, quadrinhos, manipulativos; CAST#0033 (1.2); MC#0021 (Quadro 2 com exemplos); MC#0054 (relato da professora Camila); ZERBATO#0011/#0012 (exemplos do princípio da representação).",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q14",
+   "pergunta": "Como oferecer múltiplos meios de ação e expressão numa avaliação, para o aluno mostrar o que sabe de outro jeito?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0056",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0022",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0056",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0013",
+    "CDC-ADHD-CLASSROOM-2026#0010",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0038"
+   ],
+   "trechos_parciais": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0049",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0055",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0039",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0028"
+   ],
+   "justificativa": "CAST#0056/RBEE#0038 (5.1): compor em várias mídias; MC#0022 (Quadro 3): avaliações em diferentes formatos preservando os objetivos; MC#0056: avaliação por diferentes meios; CDC#0010: dar opções para mostrar domínio (redação, oral, quiz, projeto).",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q15",
+   "pergunta": "O que o DUA recomenda para o engajamento: como despertar o interesse e sustentar o esforço e a persistência dos alunos?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0015",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0020",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0008",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0048"
+   ],
+   "trechos_parciais": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0016",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0017",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0010",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0055",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0010"
+   ],
+   "justificativa": "CAST#0007 (princípio do engajamento), CAST#0015 (diretriz 8, esforço e persistência), RBEE#0048 (diretriz 8 da versão anterior), MC#0020 (Quadro 1), RBEE#0008 (princípio III).",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q16",
+   "pergunta": "DUA é a mesma coisa que adaptação curricular individual? Qual a diferença entre planejar para todos e adaptar para um aluno?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0017",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0006",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0023",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0003"
+   ],
+   "trechos_parciais": [
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0014",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0053",
+    "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0002",
+    "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0003"
+   ],
+   "justificativa": "RBEE#0017: DUA é currículo projetado desde o início, e o termo é aplicado erroneamente a adaptações feitas depois; MC#0023: DUA desloca o foco das adaptações individuais para a transformação das práticas; ZERBATO#0003 discute adaptação x currículo para todos.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q17",
+   "pergunta": "Nas diretrizes do DUA, o que se recomenda sobre estabelecer metas, planejar estratégias e monitorar o próprio progresso (as antigas 'funções executivas')?",
+   "tipo": "dua",
+   "barreira": "funções executivas",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0061",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0062",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0063",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0064",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044"
+   ],
+   "trechos_parciais": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0003"
+   ],
+   "justificativa": "CAST#0060-#0064 (diretriz 6 e pontos 6.1-6.4: metas, planejamento, organização, monitoramento do progresso) e RBEE#0041-#0044 (diretriz 6 na versão anterior).",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q18",
+   "pergunta": "Como aplicar o DUA no planejamento de aula numa sala comum inclusiva da escola brasileira? Tem exemplos práticos?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0019",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0053",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0054",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0055",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0056"
+   ],
+   "trechos_parciais": [
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0026",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0028",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0029",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0030",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016"
+   ],
+   "justificativa": "MC#0019 (implementação do DUA no planejamento docente) e o relato da professora Camila (MC#0053-#0056), com os três princípios aplicados numa turma de 4º ano.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q19",
+   "pergunta": "O que a Lei 14.254/2021 garante aos alunos com TDAH e dislexia na escola?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "LEI-14254-2021-DISLEXIA-TDAH#0001",
+    "LEI-14254-2021-DISLEXIA-TDAH#0002",
+    "LEI-14254-2021-DISLEXIA-TDAH#0003",
+    "LEI-14254-2021-DISLEXIA-TDAH#0004",
+    "LEI-14254-2021-DISLEXIA-TDAH#0005"
+   ],
+   "trechos_parciais": [
+    "LEI-14254-2021-DISLEXIA-TDAH#0000",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0000"
+   ],
+   "justificativa": "Lei 14.254 arts. 1º-5º: programa de acompanhamento integral (identificação precoce, encaminhamento, apoio educacional e terapêutico), acompanhamento específico pelos educadores, parceria com saúde e formação continuada de professores.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q20",
+   "pergunta": "A escola pode exigir laudo médico para oferecer atendimento educacional ao aluno?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "MEC-SECADI-NT-04-2014-LAUDO#0004",
+    "MEC-SECADI-NT-04-2014-LAUDO#0005",
+    "DECRETO-12686-2025-PNEEI#0012",
+    "PORTARIA-MEC-421-2026-PNEEI#0005"
+   ],
+   "trechos_parciais": [
+    "DECRETO-12686-2025-PNEEI#0015",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001"
+   ],
+   "justificativa": "NT 04/2014 (#0004/#0005): laudo não é imprescindível, AEE é pedagógico e estudo de caso não depende de laudo; Decreto 12.686 art. 11 §7º (#0012) e Portaria 421 art. 7º §4º (#0005): AEE/matrícula não condicionados a laudo.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q21",
+   "pergunta": "Como a Lei Brasileira de Inclusão (LBI) define barreiras e adaptações razoáveis?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0002",
+    "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0003"
+   ],
+   "trechos_parciais": [
+    "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0000",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0007",
+    "DECRETO-12686-2025-PNEEI#0003",
+    "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0006"
+   ],
+   "justificativa": "LBI art. 3º IV (barreiras e tipos, #0002) e VI (adaptações razoáveis, #0003).",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q22",
+   "pergunta": "O que a LDB diz sobre a avaliação do aluno: contínua, cumulativa, com prevalência dos aspectos qualitativos?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0000"
+   ],
+   "trechos_parciais": [
+    "MEC-POLITICA-PEEI-2008#0017",
+    "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0001"
+   ],
+   "justificativa": "LDB art. 24 V a (#0000): avaliação contínua e cumulativa, prevalência dos aspectos qualitativos e dos resultados ao longo do período.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q23",
+   "pergunta": "O que é o AEE (atendimento educacional especializado), quem tem direito e ele substitui a sala de aula comum?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "RES-CNE-CEB-4-2009-AEE#0000",
+    "RES-CNE-CEB-4-2009-AEE#0001",
+    "DECRETO-12686-2025-PNEEI#0007",
+    "DECRETO-12686-2025-PNEEI#0009",
+    "MEC-POLITICA-PEEI-2008#0014"
+   ],
+   "trechos_parciais": [
+    "DECRETO-12686-2025-PNEEI#0008",
+    "PORTARIA-MEC-421-2026-PNEEI#0003",
+    "PORTARIA-MEC-421-2026-PNEEI#0005",
+    "MEC-SECADI-NT-04-2014-LAUDO#0003",
+    "MEC-POLITICA-PEEI-2008#0015"
+   ],
+   "justificativa": "Res. 4/2009 arts. 2º, 4º e 5º (função complementar/suplementar, público-alvo, não substitutivo); Decreto 12.686 arts. 5º e 8º; Política 2008 (#0014): AEE não substitui a escolarização.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q24",
+   "pergunta": "O que a nova Política Nacional de Educação Especial Inclusiva (Decreto 12.686/2025 e Portaria MEC 421/2026) estabelece?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "DECRETO-12686-2025-PNEEI#0001",
+    "DECRETO-12686-2025-PNEEI#0002",
+    "DECRETO-12686-2025-PNEEI#0003",
+    "DECRETO-12686-2025-PNEEI#0004",
+    "PORTARIA-MEC-421-2026-PNEEI#0001",
+    "PORTARIA-MEC-421-2026-PNEEI#0002"
+   ],
+   "trechos_parciais": [
+    "DECRETO-12686-2025-PNEEI#0012",
+    "DECRETO-12686-2025-PNEEI#0013",
+    "PORTARIA-MEC-421-2026-PNEEI#0005",
+    "PORTARIA-MEC-421-2026-PNEEI#0009",
+    "DECRETO-12686-2025-PNEEI#0000"
+   ],
+   "justificativa": "Decreto 12.686 arts. 1º-4º (finalidade, público, princípios, diretrizes, objetivos) e Portaria 421 arts. 1º-2º.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q25",
+   "pergunta": "Aluno com dislexia no ENEM: que atendimento ele tem na redação e como a correção considera a dislexia?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0000",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0005",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0017"
+   ],
+   "trechos_parciais": [
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0003",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0007",
+    "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0008"
+   ],
+   "justificativa": "INEP#0001: ledor, transcritor, 60 min adicionais e avaliação diferenciada da redação mediante documentação; INEP#0005: desvios de escrita típicos da dislexia avaliados de forma diferenciada na Competência I; INEP#0000/#0017: base legal e síntese.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q26",
+   "pergunta": "Aluno com TDAH é público-alvo da educação especial? Ele tem direito ao AEE?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "RES-CNE-CEB-4-2009-AEE#0001",
+    "DECRETO-12686-2025-PNEEI#0001",
+    "MEC-POLITICA-PEEI-2008#0013",
+    "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0002"
+   ],
+   "trechos_parciais": [
+    "LEI-14254-2021-DISLEXIA-TDAH#0003",
+    "MEC-SECADI-NT-04-2014-LAUDO#0003",
+    "MEC-POLITICA-PEEI-2008#0012"
+   ],
+   "justificativa": "Resposta por inferência: o público-alvo listado (Res. 4/2009 art. 4º; Decreto 12.686 art. 1º; LDB art. 58) não inclui TDAH; a Política 2008 (#0013) diz que nos 'transtornos funcionais específicos' a educação especial atua articulada ao ensino comum; Lei 14.254 dá acompanhamento específico. Nenhum trecho diz 'TDAH não é público-alvo' com essas palavras.",
+   "confianca": "media"
+  },
+  {
+   "id": "Q27",
+   "pergunta": "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0001",
+    "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0003",
+    "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0005"
+   ],
+   "trechos_parciais": [
+    "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0000",
+    "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0002",
+    "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0004",
+    "CDC-ADHD-CLASSROOM-2026#0008",
+    "AAP-CPG-ADHD-2019#0056"
+   ],
+   "justificativa": "NCEO Toolkit#0005: a pesquisa sobre tempo extra é inconclusiva; #0001 e #0003 trazem 3 estudos com efeito positivo e 3 sem efeito em alunos com TDAH.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q28",
+   "pergunta": "Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com TDAH? Qual o tamanho do efeito?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0000",
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0031",
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0032",
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0038",
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0039"
+   ],
+   "trechos_parciais": [
+    "YEGENCIK-2025-META-RCT-ESCOLA#0000",
+    "CDC-ADHD-CLASSROOM-2026#0003",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035",
+    "AAP-CPG-ADHD-2019#0044",
+    "MS-PCDT-TDAH-2022#0020"
+   ],
+   "justificativa": "Gaastra 2016: intervenções em sala reduzem comportamento fora da tarefa (WSD MSMD=0,92; SSD 3,08), maiores efeitos para intervenções baseadas em consequência e autorregulação e em salas regulares.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q29",
+   "pergunta": "Treino cognitivo (por exemplo, treino de memória de trabalho no computador) melhora os sintomas do TDAH?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "CORTESE-2015-META-TREINO-COGNITIVO#0002",
+    "CORTESE-2015-META-TREINO-COGNITIVO#0003",
+    "CORTESE-2015-META-TREINO-COGNITIVO#0027",
+    "AAP-CPG-ADHD-2019#0045"
+   ],
+   "trechos_parciais": [
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0048",
+    "CORTESE-2015-META-TREINO-COGNITIVO#0025",
+    "CORTESE-2015-META-TREINO-COGNITIVO#0028"
+   ],
+   "justificativa": "Cortese 2015: melhora a memória de trabalho em testes, mas efeito limitado nos sintomas com avaliadores cegos e sem efeito no desempenho acadêmico; AAP#0045: treino cognitivo tem pouca ou nenhuma evidência.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q30",
+   "pergunta": "Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o desempenho acadêmico deles?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "DALGAARD-2022-INCLUSAO-META#0004",
+    "DALGAARD-2022-INCLUSAO-META#0005",
+    "DALGAARD-2022-INCLUSAO-META#0008",
+    "DALGAARD-2022-INCLUSAO-META#0010",
+    "DALGAARD-2022-INCLUSAO-META#0102",
+    "DALGAARD-2022-INCLUSAO-META#0110"
+   ],
+   "trechos_parciais": [
+    "DALGAARD-2022-INCLUSAO-META#0084",
+    "DALGAARD-2022-INCLUSAO-META#0085",
+    "DALGAARD-2022-INCLUSAO-META#0001"
+   ],
+   "justificativa": "Dalgaard 2022: sem efeito consistente da inclusão sobre desempenho (linguagem, leitura, matemática) ou ajuste psicossocial; médias levemente a favor, não significativas, alta heterogeneidade.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q31",
+   "pergunta": "O ensino diferenciado (diferenciação) no ensino médio/secundário tem efeito comprovado no desempenho dos alunos?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0000",
+    "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0001",
+    "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0067",
+    "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0069"
+   ],
+   "trechos_parciais": [
+    "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0018",
+    "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0070"
+   ],
+   "justificativa": "Smale-Jacobse 2019: maioria dos estudos mostra efeitos pequenos a moderados (d=+0,741; +0,509 sem outlier), mas poucos estudos de qualidade e lacunas grandes.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q32",
+   "pergunta": "Intervenções escolares para TDAH testadas em ensaios randomizados melhoram o desempenho acadêmico ou só o comportamento?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "YEGENCIK-2025-META-RCT-ESCOLA#0000",
+    "YEGENCIK-2025-META-RCT-ESCOLA#0079",
+    "YEGENCIK-2025-META-RCT-ESCOLA#0082",
+    "YEGENCIK-2025-META-RCT-ESCOLA#0095"
+   ],
+   "trechos_parciais": [
+    "YEGENCIK-2025-META-RCT-ESCOLA#0061",
+    "CORTESE-2015-META-TREINO-COGNITIVO#0002",
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0039",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035"
+   ],
+   "justificativa": "Yegencik 2025: ensaios randomizados escolares melhoram desatenção, desempenho acadêmico (d=0,37) e habilidades sociais, sem efeito em hiperatividade/impulsividade; mais efeito no fundamental.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q33",
+   "pergunta": "Vale a pena ensinar de acordo com o estilo de aprendizagem do aluno (visual, auditivo, cinestésico)?",
+   "tipo": "mito",
+   "barreira": "",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0001",
+    "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0020",
+    "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0021",
+    "DEKKER-2012-NEUROMITOS#0004",
+    "DEKKER-2012-NEUROMITOS#0013"
+   ],
+   "trechos_parciais": [
+    "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0018",
+    "DEKKER-2012-NEUROMITOS#0014",
+    "DEKKER-2012-NEUROMITOS#0017"
+   ],
+   "justificativa": "Rogowsky 2020: casar instrução com estilo preferido não melhorou a aprendizagem ('professores e escolas não devem dedicar tempo...'); Dekker 2012: estilos de aprendizagem é o neuromito mais aceito pelos professores.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q34",
+   "pergunta": "Usar uma fonte especial para dislexia, como OpenDyslexic ou Dyslexie, ajuda o aluno a ler melhor?",
+   "tipo": "mito",
+   "barreira": "",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "KUSTER-2018-FONTE-DYSLEXIE#0000",
+    "KUSTER-2018-FONTE-DYSLEXIE#0028",
+    "KUSTER-2018-FONTE-DYSLEXIE#0033",
+    "WERY-2017-FONTE-OPENDYSLEXIC#0000",
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0020"
+   ],
+   "trechos_parciais": [
+    "WERY-2017-FONTE-OPENDYSLEXIC#0018",
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0000",
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0023",
+    "KUSTER-2018-FONTE-DYSLEXIE#0031"
+   ],
+   "justificativa": "Kuster 2018 (Dyslexie) e Wery 2017 (OpenDyslexic): sem melhora em velocidade ou precisão; Galliussi 2020: o formato das letras 'dyslexia-friendly' não traz vantagem.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q35",
+   "pergunta": "Aumentar o espaçamento entre as letras ajuda a leitura de quem tem dislexia?",
+   "tipo": "mito",
+   "barreira": "",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0000",
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0020",
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0021",
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0022"
+   ],
+   "trechos_parciais": [
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0002",
+    "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0023",
+    "KUSTER-2018-FONTE-DYSLEXIE#0033"
+   ],
+   "justificativa": "Galliussi 2020: aumentar só o espaço entre letras sem aumentar o espaço entre palavras piora a velocidade; efeitos de espaçamento pequenos e sem significado prático; estudos anteriores (Zorzi) com resultado positivo citados em #0002.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q36",
+   "pergunta": "Quantos professores acreditam em neuromitos? E como é isso entre educadores no Brasil?",
+   "tipo": "mito",
+   "barreira": "",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "DEKKER-2012-NEUROMITOS#0000",
+    "DEKKER-2012-NEUROMITOS#0013",
+    "SIMOES-2022-NEUROMITOS-BRASIL#0001",
+    "SIMOES-2022-NEUROMITOS-BRASIL#0030"
+   ],
+   "trechos_parciais": [
+    "DEKKER-2012-NEUROMITOS#0001",
+    "DEKKER-2012-NEUROMITOS#0018",
+    "SIMOES-2022-NEUROMITOS-BRASIL#0024",
+    "SIMOES-2022-NEUROMITOS-BRASIL#0036"
+   ],
+   "justificativa": "Dekker 2012: professores concordaram com 49% dos neuromitos; Simoes 2022: educadores brasileiros (n=1634) com alta adesão a neuromitos, comparação com outros países em #0030.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q37",
+   "pergunta": "Sistemas automáticos de simplificação de texto preservam o sentido original? Dá para confiar que o texto simplificado mantém a informação?",
+   "tipo": "so_ingles",
+   "barreira": "",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0000",
+    "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0025",
+    "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0034"
+   ],
+   "trechos_parciais": [
+    "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0027",
+    "HUANG-2024-LLM-NIVEIS-LEITURA#0001"
+   ],
+   "justificativa": "Agrawal 2024: até o melhor sistema deixa ao menos 14% das perguntas sem resposta no texto simplificado; apagar conteúdo é o principal erro (#0027).",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q38",
+   "pergunta": "Modelos de linguagem (LLMs) conseguem reescrever um material didático em diferentes níveis de leitura mantendo o conteúdo correto?",
+   "tipo": "so_ingles",
+   "barreira": "",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "HUANG-2024-LLM-NIVEIS-LEITURA#0001",
+    "HUANG-2024-LLM-NIVEIS-LEITURA#0010",
+    "HUANG-2024-LLM-NIVEIS-LEITURA#0012",
+    "HUANG-2024-LLM-NIVEIS-LEITURA#0013",
+    "HUANG-2024-LLM-NIVEIS-LEITURA#0014"
+   ],
+   "trechos_parciais": [
+    "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0034",
+    "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0025"
+   ],
+   "justificativa": "Huang 2024: few-shot melhora; LLaMA-2 ajusta melhor a dificuldade, GPT-3.5 preserva mais o sentido; inspeção manual achou informação errada introduzida, citações alteradas e edição desigual.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q39",
+   "pergunta": "Qual a dose inicial de metilfenidato para uma criança de 6 anos com TDAH e como ajustar?",
+   "tipo": "sem_resposta",
+   "barreira": "",
+   "parte_esperada": "nenhuma",
+   "trechos_relevantes": [],
+   "trechos_parciais": [],
+   "justificativa": "Sem resposta: a base não traz doses. AAP#0057/#0058 e NICE (seção 1.7) só dizem para titular a partir de dose baixa, sem número; MS-PCDT#0018 diz que metilfenidato não é preconizado no SUS. Nenhum responde a dose para 6 anos.",
+   "confianca": "alta"
+  },
+  {
+   "id": "Q40",
+   "pergunta": "Como montar uma prancha de comunicação alternativa (CAA) para um aluno com TEA nível 3, não verbal, na aula de matemática?",
+   "tipo": "sem_resposta",
+   "barreira": "",
+   "parte_esperada": "nenhuma",
+   "trechos_relevantes": [],
+   "trechos_parciais": [],
+   "justificativa": "Sem resposta: nenhum trecho ensina montar prancha de CAA para TEA nível 3 em matemática. Há só menções genéricas a CAA (MC#0022, MC#0034, LBI#0007 inciso XIX).",
+   "confianca": "alta"
+  }
+ ]
+}

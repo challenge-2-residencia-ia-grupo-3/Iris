@@ -1,0 +1,136 @@
+SEGUNDA RODADA DOS JUÍZES (regra versão 2: regra_juiz_respostas_v2.md). Mesmas 80 respostas da primeira rodada.
+Dois juízes de modelo (Claude Sonnet, duas chamadas que não se veem). Sem conferência humana: a nota é prata.
+40 perguntas; busca qwen3+rerank50, 5 trechos; prompt do pacote. Geradores Claude, não o modelo configurado no protótipo.
+Técnica: modelos prontos geram e julgam; contagem; sorteio de perguntas (2000 sorteios, semente 20261105). Nenhum modelo treinado.
+O que mudou da versão 1: o juiz diz primeiro se a frase é conteúdo ou comentário sobre as fontes; cabeçalho e aviso de uso
+contam como trecho; basta um trecho citado sustentar; e a resposta cai em uma de cinco caixas.
+A regra foi corrigida depois de ver a primeira rodada nas mesmas respostas: não é medida independente.
+
+===== GERADOR HAIKU =====
+
+1. Tipo das 211 frases
+conteúdo para os dois juízes: 187 (88.6%); comentário para os dois: 23 (10.9%); juízes não concordam no tipo: 1 (0.5%)
+juízes concordam no tipo: 210 de 211 (99.5%)
+
+2. Frases de conteúdo (187): o trecho citado sustenta a frase?
+veredito comum dos dois juízes      frases      %
+apoiada                                161   86.1
+parcial                                 14    7.5
+nao_apoiada                              0    0.0
+divergem                                12    6.4
+
+Matriz de concordância entre os juízes nas frases de conteúdo (linhas = juiz A, colunas = juiz B):
+                    apoiada      parcial  nao_apoiada    rejeitado
+apoiada                 161            5            0            0
+parcial                   6           14            0            0
+nao_apoiada               0            0            0            0
+rejeitado                 0            0            0            1
+mesmo veredito: 176 de 187 (94.1%); kappa de Cohen 0.70
+apoiada para ao menos um juiz: 172 de 187 (92.0%)
+vereditos rejeitados por passagem que não existe no bloco do trecho citado: juiz A 1, juiz B 1, de 211 cada
+frases de conteúdo sem citação nenhuma: 0; erro de citação para os dois (está em outro trecho): 0; rótulo errado para os dois: 4
+frases de conteúdo que os dois juízes reprovam (não apoiada):
+   nenhuma
+
+3. Frases de comentário (23): o que a frase diz das fontes confere?
+correto para os dois: 22; errado para os dois: 1; juízes divergem: 0
+comentários que os dois juízes consideram errados:
+   Q26 S1: Os trechos não mencionam TDAH, então não confirmam se o aluno é público-alvo da educação especial.
+
+4. AS CINCO CAIXAS (as 38 perguntas com resposta na base)
+caixa                                                      respostas
+A. responde e está inteira                                        17
+B. responde, com frase que vai além do trecho ou em dúvida        12
+C. tem frase que os dois juízes dizem não estar no trecho          1
+D. responde só em parte, para ao menos um juiz                     8
+E. recusou                                                         0
+NOTA (A + B): 29 de 38 (76%; intervalo de 95% de 63% a 89%); só A: 17 de 38 (45%; de 29% a 61%)
+caixa C: Q26
+caixa E: nenhuma
+perguntas fora da base: Q39 recusou (juízes: indevida/indevida), Q40 recusou (juízes: indevida/indevida)
+
+5. Caixas por tipo de pergunta e por ter recebido trecho certo (gabarito do Opus, de modelo)
+recorte                                       A    B    C    D    E
+tipo estrategia                               1    3    0    6    0
+tipo dua                                      5    2    0    1    0
+tipo norma                                    6    0    1    1    0
+tipo evidencia                                2    4    0    0    0
+tipo mito                                     3    1    0    0    0
+tipo so_ingles                                0    2    0    0    0
+recebeu ao menos 1 trecho certo nos 5        17   10    1    5    0
+não recebeu nenhum trecho certo               0    2    0    3    0
+
+6. Da primeira para a segunda rodada
+frases aprovadas pelos dois juízes: versão 1, 138 de 211 (apoiada); versão 2, 183 de 211 (161 de conteúdo apoiadas e 22 comentários corretos)
+tokens gastos pelos juízes: juiz A entrada 314361, saída 76405; juiz B entrada 314345, saída 74461
+
+===== GERADOR OPUS =====
+
+1. Tipo das 199 frases
+conteúdo para os dois juízes: 175 (87.9%); comentário para os dois: 20 (10.1%); juízes não concordam no tipo: 4 (2.0%)
+juízes concordam no tipo: 195 de 199 (98.0%)
+
+2. Frases de conteúdo (175): o trecho citado sustenta a frase?
+veredito comum dos dois juízes      frases      %
+apoiada                                160   91.4
+parcial                                  7    4.0
+nao_apoiada                              0    0.0
+divergem                                 8    4.6
+
+Matriz de concordância entre os juízes nas frases de conteúdo (linhas = juiz A, colunas = juiz B):
+                    apoiada      parcial  nao_apoiada    rejeitado
+apoiada                 160            4            1            0
+parcial                   2            7            0            0
+nao_apoiada               0            0            0            0
+rejeitado                 0            0            0            1
+mesmo veredito: 168 de 175 (96.0%); kappa de Cohen 0.68
+apoiada para ao menos um juiz: 167 de 175 (95.4%)
+vereditos rejeitados por passagem que não existe no bloco do trecho citado: juiz A 1, juiz B 1, de 199 cada
+frases de conteúdo sem citação nenhuma: 0; erro de citação para os dois (está em outro trecho): 0; rótulo errado para os dois: 0
+frases de conteúdo que os dois juízes reprovam (não apoiada):
+   nenhuma
+
+3. Frases de comentário (20): o que a frase diz das fontes confere?
+correto para os dois: 18; errado para os dois: 0; juízes divergem: 2
+comentários que os dois juízes consideram errados:
+   nenhum
+
+4. AS CINCO CAIXAS (as 38 perguntas com resposta na base)
+caixa                                                      respostas
+A. responde e está inteira                                        17
+B. responde, com frase que vai além do trecho ou em dúvida        10
+C. tem frase que os dois juízes dizem não estar no trecho          0
+D. responde só em parte, para ao menos um juiz                     8
+E. recusou                                                         3
+NOTA (A + B): 27 de 38 (71%; intervalo de 95% de 55% a 84%); só A: 17 de 38 (45%; de 29% a 61%)
+caixa C: nenhuma
+caixa E: Q05 (juízes: correta/correta), Q07 (juízes: indevida/indevida), Q10 (juízes: indevida/indevida)
+perguntas fora da base: Q39 recusou (juízes: indevida/indevida), Q40 recusou (juízes: indevida/indevida)
+
+5. Caixas por tipo de pergunta e por ter recebido trecho certo (gabarito do Opus, de modelo)
+recorte                                       A    B    C    D    E
+tipo estrategia                               3    0    0    4    3
+tipo dua                                      2    5    0    1    0
+tipo norma                                    6    1    0    1    0
+tipo evidencia                                4    1    0    1    0
+tipo mito                                     1    2    0    1    0
+tipo so_ingles                                1    1    0    0    0
+recebeu ao menos 1 trecho certo nos 5        17    9    0    6    1
+não recebeu nenhum trecho certo               0    1    0    2    2
+
+6. Da primeira para a segunda rodada
+frases aprovadas pelos dois juízes: versão 1, 142 de 199 (apoiada); versão 2, 178 de 199 (160 de conteúdo apoiadas e 18 comentários corretos)
+tokens gastos pelos juízes: juiz A entrada 318978, saída 71124; juiz B entrada 318974, saída 76358
+
+===== OPUS MENOS HAIKU =====
+fração de frases de conteúdo apoiadas por pergunta, nas 35 perguntas que os dois responderam: haiku 0.86, opus 0.92; diferença +0.05 [-0.03 a +0.13]
+caixas A + B nas 38: haiku 29, opus 27; nos dois: 25
+
+===== TERCEIRA LEITURA (modelo Claude Fable 5.1, NÃO é pessoa) nas 24 frases da amostra =====
+Gravada antes de os juízes da segunda rodada rodarem. Linhas = terceira leitura; colunas = veredito comum dos dois juízes.
+                         apoiada     parcial nao_apoiada comentario_ comentario_    divergem
+apoiada                       15           0           0           1           0           1
+comentario_correto             0           0           0           6           0           1
+igual ao veredito comum dos juízes: 21 de 24; juízes aprovaram e o leitor não: 0; juízes reprovaram e o leitor aprovou: 0; juízes divergiram entre si: 2
+item a item (leitor | juiz A / juiz B): 1 apoiada | apoiada/apoiada; 2 apoiada | apoiada/apoiada; 3 apoiada | apoiada/apoiada; 4 apoiada | apoiada/apoiada; 5 comentario_correto | comentario_correto/comentario_correto; 6 apoiada | apoiada/apoiada; 7 comentario_correto | comentario_correto/comentario_correto; 8 apoiada | apoiada/apoiada; 9 apoiada | apoiada/apoiada; 10 apoiada | apoiada/apoiada; 11 apoiada | apoiada/apoiada; 12 apoiada | apoiada/apoiada; 13 apoiada | apoiada/apoiada; 14 comentario_correto | comentario_errado/parcial; 15 apoiada | apoiada/apoiada; 16 comentario_correto | comentario_correto/comentario_correto; 17 comentario_correto | comentario_correto/comentario_correto; 18 comentario_correto | comentario_correto/comentario_correto; 19 apoiada | apoiada/apoiada; 20 comentario_correto | comentario_correto/comentario_correto; 21 apoiada | apoiada/apoiada; 22 apoiada | comentario_correto/comentario_correto; 23 apoiada | apoiada/apoiada; 24 apoiada | apoiada/parcial
+

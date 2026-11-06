@@ -1,0 +1,863 @@
+{
+ "opus": {
+  "Q01": {
+   "hyde": "Quando o aluno esquece o enunciado no meio de uma questão de várias etapas, a primeira resposta do professor deve ser a de devolver o foco ao texto original, e não a de explicar o conteúdo. Isso pode ser feito com uma pergunta orientadora, como \"Qual era o dado que o problema pedia para encontrar antes de começar esta etapa?\", seguida de um lembrete visual, como o enunciado impresso ou projetado ao lado da carteira. Para alunos com dificuldades de memória operacional, ou com TDAH, recomenda-se dividir a questão em cartões ou fichas numeradas, de modo que cada etapa fique visível e possa ser retomada sem depender da lembrança. Assim, o aluno recupera a informação por conta própria, o que preserva a autonomia e evita a substituição do raciocínio pelo do professor. Caso a dificuldade persista, a adaptação pode incluir tempo adicional ou a possibilidade de reler o enunciado em voz alta com apoio de um colega ou do próprio docente.",
+   "reescritas": [
+    "Estratégias de andaimagem para apoiar a memória de trabalho de estudantes na resolução de problemas de múltiplas etapas sem fornecer a solução",
+    "Práticas do Desenho Universal para a Aprendizagem para apoio à retenção de instruções e enunciados durante tarefas sequenciais sem comprometer a autonomia do estudante",
+    "Intervenções pedagógicas de suporte à autorregulação e à recuperação de instruções em atividades com várias etapas, sem substituição do raciocínio do aluno"
+   ],
+   "pergunta": "Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?"
+  },
+  "Q02": {
+   "hyde": "Para estudantes com TDAH, dividir a tarefa em etapas curtas costuma favorecer a manutenção da atenção. Recomenda-se organizar a atividade em blocos de cerca de 8 a 10 minutos, cada um com um objetivo claro e concreto, seguidos de uma breve pausa ou de uma mudança de formato, como passar da leitura para a escrita ou para uma atividade manipulativa. Instruções curtas, apresentadas uma por vez, e a marcação visual do progresso, como checklists ou cartões de conclusão, ajudam o aluno a perceber avanços e a retomar o foco. Essas adaptações devem ser ajustadas ao ritmo individual do estudante e acompanhadas de conversa com a família e a equipe de apoio.",
+   "reescritas": [
+    "Estratégias de fragmentação de tarefas em etapas curtas para sustentar a atenção sustentada de estudante com TDAH",
+    "Adaptação da duração e da segmentação de atividades escolares para estudante com TDAH, conforme os princípios do Desenho Universal para a Aprendizagem",
+    "Organização de atividades em blocos com pausas programadas e metas intermediárias para manter o engajamento de estudante com TDAH"
+   ],
+   "pergunta": "Meu aluno com TDAH perde o foco depois de uns 10 minutos de tarefa. Como dividir a atividade para ele manter a atenção até o fim?"
+  },
+  "Q03": {
+   "hyde": "Quando um aluno com TDAH não consegue distinguir o que vem antes e o que vem depois, a dificuldade costuma estar na organização sequencial da tarefa, e não na compreensão do conteúdo. Recomenda-se decompor o problema em etapas numeradas e curtas, apresentadas uma de cada vez, com um cartão ou ficha que o aluno possa manter à vista. Ajuda também usar pistas visuais, como setas, cores ou um fluxograma simples, e verbos de ação no início de cada passo (“leia”, “identifique”, “calcule”). Vale verificar a compreensão após cada etapa antes de avançar, e registrar a sequência final em uma lista que o aluno possa marcar conforme avança. Esses recursos reduzem a sobrecarga da memória de trabalho e permitem que o estudante concentre sua atenção no raciocínio, não em lembrar a ordem.",
+   "reescritas": [
+    "Estratégias de sequenciamento de etapas para estudantes com TDAH em resolução de problemas matemáticos",
+    "Apoio à função executiva na organização da ordem de procedimentos em tarefas de múltiplas etapas no Desenho Universal para a Aprendizagem",
+    "Recursos de andaimento para a sequência lógica de passos e a priorização de ações em atividades escolares para alunos com transtorno do déficit de atenção e hiperatividade"
+   ],
+   "pergunta": "Como ajudar um aluno com TDAH que se perde na ordem dos passos de um problema, sem saber o que vem primeiro e o que vem depois?"
+  },
+  "Q04": {
+   "hyde": "O aluno que sabe o conteúdo, mas não inicia a atividade, pode se beneficiar de estratégias de **ativação gradual**, que reduzem a sensação de sobrecarga diante da tarefa. Uma delas é a **quebra da tarefa em etapas curtas e concretas**, com o professor pedindo apenas o primeiro passo, como “escreva o título” ou “resolva o exemplo 1”. Recomenda-se também a **verificação individual e breve** da compreensão da consigna, com a pergunta “o que você precisa fazer agora?”, para identificar bloqueios de organização ou de interpretação. Como apoio, o professor pode oferecer um **modelo de início** (exemplo resolvido ou frase inicial) e combinar um **tempo de execução curto**, seguido de checagem do progresso. Essas medidas favorecem a autorregulação e a passagem da intenção à ação, sem substituir o trabalho do aluno.",
+   "reescritas": [
+    "Ele sabe o conteúdo, mas não inicia a atividade",
+    "Dificuldade de iniciar tarefa (função executiva/ativação) em aluno que domina o conteúdo",
+    "Estratégias para desencadear o início de tarefas sem exigir conteúdo novo"
+   ],
+   "pergunta": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?"
+  },
+  "Q05": {
+   "hyde": "Ao diagramar a prova, reduza a sobrecarga visual: use uma questão por bloco, com espaçamento generoso entre elas e margens amplas. Evite textos densos e colunas múltiplas, prefira fonte sem serifa em tamanho 14 ou maior, com entrelinha de 1,5. Destaque o comando de cada questão em negrito, separado do enunciado, e marque com um quadro ou caixa a instrução principal. Divida tarefas longas em etapas numeradas, com um pequeno espaço para marcar cada uma ao concluir, o que ajuda a manter o foco. Use ícones ou marcadores simples para indicar partes diferentes da atividade e deixe um espaço em branco no fim de cada parte para respostas. Por fim, evite ilustrações decorativas que competem com o conteúdo, mantendo apenas o que é necessário para a compreensão. Essas escolhas tornam a página mais previsível e facilitam a organização do aluno.",
+   "reescritas": [
+    "Diagramação de avaliações para estudantes com TDAH: organização visual, segmentação de conteúdo e redução de sobrecarga cognitiva",
+    "Adaptação de layout de provas no Desenho Universal para a Aprendizagem: espaçamento, hierarquia visual e fragmentação de itens para estudantes com TDAH",
+    "Estratégias de acessibilidade em instrumentos avaliativos para TDAH: densidade de informação, sequenciamento de tarefas e design de página"
+   ],
+   "pergunta": "A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?"
+  },
+  "Q06": {
+   "hyde": "Para reduzir respostas impulsivas, recomenda-se ampliar o tempo de espera após cada pergunta e combinar com a turma uma pausa explícita antes de qualquer resposta, como contar até cinco ou levantar a mão somente ao final do enunciado. Sugere-se também uma rotina de checagem em três etapas: ler a pergunta por completo, identificar a palavra-chave que orienta a tarefa e reformular o enunciado com as próprias palavras. Ao estudante que responde antes de concluir a leitura, o professor pode oferecer um sinal visual combinado, como um cartão de \"pare e confira\", e reforçar positivamente cada vez que ele aguardar. Essas estratégias de autorregulação favorecem a atenção e beneficiam, de modo geral, todos os alunos da turma.",
+   "reescritas": [
+    "Estratégias de autorregulação e controle inibitório para estudantes com impulsividade na leitura de enunciados e comandos em sala de aula",
+    "Práticas do Desenho Universal para a Aprendizagem que favorecem a leitura integral de instruções e a pausa antes da resposta",
+    "Intervenções para desenvolver funções executivas e monitoramento metacognitivo na compreensão de questões por alunos com TDAH"
+   ],
+   "pergunta": "Aluno responde por impulso antes de terminar de ler a pergunta. O que posso fazer em sala para ele parar e conferir?"
+  },
+  "Q07": {
+   "hyde": "Ler em voz alta ou simplificar o texto para um aluno com TDAH altera o que está sendo avaliado quando a habilidade-alvo é a compreensão leitora. Nesse caso, a leitura autônoma faz parte do construto, e a adaptação deveria ser feita apenas se a medição for outra, como o conhecimento do conteúdo. Por isso, a decisão depende do objetivo da avaliação: se ela mede a capacidade de ler e interpretar um texto longo, a leitura em voz alta ou a simplificação excessiva descaracterizam a prova. Já uma adaptação como tempo estendido, leitura em voz alta de enunciados ou fragmentação em partes, quando o aluno precisa mostrar o raciocínio interpretativo, tende a preservar a habilidade medida, pois remove a barreira de decodificação e de atenção sustentada, sem reduzir a exigência cognitiva. Recomenda-se registrar a adaptação, comparar com o desempenho habitual do aluno e verificar se o nível de exigência da tarefa foi mantido.",
+   "reescritas": [
+    "Em uma avaliação de interpretação de texto, a leitura em voz alta ou a simplificação do texto para estudante com TDAH preserva o construto avaliado ou altera a habilidade medida?",
+    "Quais acomodações de leitura, como leitura mediada, áudio ou reformulação textual, mantêm a validade de um instrumento de avaliação de compreensão leitora para alunos com TDAH?",
+    "Até que ponto adaptações de apresentação e de linguagem em textos de interpretação para estudantes com TDAH constituem acomodação razoável que não descaracteriza o objetivo de aprendizagem avaliado?"
+   ],
+   "pergunta": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?"
+  },
+  "Q08": {
+   "hyde": "Para manter o aluno com TDAH engajado na tarefa, recomenda-se combinar reforço positivo imediato, com elogios específicos e descritivos dados logo após o comportamento desejado, em vez de elogios genéricos. Sistemas de pontos ou fichas, trocáveis por privilégios combinados previamente, tornam o progresso visível e permitem recompensas frequentes. Quando houver acordo com a família, um relatório diário possibilita alinhar expectativas e reforçar em casa os avanços observados na escola. Essas medidas funcionam melhor quando acompanhadas de instruções curtas, pausas programadas e metas graduais, já que a motivação de alunos com TDAH depende de feedback frequente e próximo ao momento da ação.",
+   "reescritas": [
+    "Quais práticas de gestão de sala de aula, como reforço positivo, economia de fichas e comunicação diária com a família, favorecem a manutenção da atenção e do engajamento em tarefas de um estudante com TDAH?",
+    "Que intervenções comportamentais e de reforço (elogio contingente, sistema de fichas, registro diário escola-família) sustentam a autorregulação e a permanência na atividade de alunos com transtorno do déficit de atenção com hiperatividade?",
+    "Como estratégias de suporte em sala, como reforço social, economia de fichas e relatório de acompanhamento compartilhado com os responsáveis, apoiam o foco e a conclusão de tarefas por estudantes com TDAH no contexto da educação inclusiva?"
+   ],
+   "pergunta": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?"
+  },
+  "Q09": {
+   "hyde": "Os alunos com TDAH costumam se beneficiar de um lugar na frente da sala, perto da mesa do professor e longe de janelas, portas e de colegas que conversam muito. Recomenda-se evitar a fileira do fundo e lugares com grande circulação. Ajustes no ambiente incluem reduzir estímulos visuais excessivos nas paredes, organizar a mesa com apenas o material necessário para a tarefa e oferecer um espaço de trabalho com pouca bagunça. Sentar o aluno ao lado de um colega com postura calma e focada também pode ajudar. Pausas de movimento programadas, possibilidade de ficar de pé em momentos pontuais e uso de fones com ruído branco, quando permitido, são estratégias complementares. Vale ainda combinar sinais discretos entre professor e aluno para redirecionar a atenção sem constranger. Cada escolha deve ser testada e ajustada conforme as necessidades individuais do estudante.",
+   "reescritas": [
+    "Posicionamento estratégico de estudante com TDAH em sala de aula e adaptações do ambiente físico para reduzir distrações",
+    "Organização espacial e ajustes ambientais para apoiar a atenção de alunos com TDAH em sala de aula",
+    "Estratégias de disposição do assento e modificações do espaço físico para minimizar estímulos distratores em estudantes com TDAH"
+   ],
+   "pergunta": "Onde devo sentar o aluno com TDAH e que ajustes no ambiente da sala ajudam a reduzir a distração?"
+  },
+  "Q10": {
+   "hyde": "Ao dar instruções para um aluno com TDAH, o mais eficaz costuma ser fragmentar a informação: apresente uma instrução por vez, de forma curta e concreta, e só passe à seguinte depois que a anterior for iniciada. Falar tudo de uma vez sobrecarrega a memória de trabalho, que já tende a ser mais limitada nesses casos, e o aluno pode perder os passos intermediários. Ajuda também escrever as instruções no quadro ou em um cartão, para que ele possa consultá-las sem depender só da escuta.\n\nSobre pedir que repita: é útil, mas o formato importa. Em vez de perguntar \"Entendeu?\", peça que ele diga com as próprias palavras o primeiro passo ou o que vai fazer em seguida. Essa checagem é rápida, revela mal-entendidos logo no início e evita que o aluno apenas concorde por constrangimento. Combine isso com uma aproximação física, como ficar ao lado da carteira, e com a confirmação de que ele começou a tarefa antes de se afastar.",
+   "reescritas": [
+    "Estratégias para apresentar instruções em etapas a alunos com TDAH na sala de aula inclusiva",
+    "Fragmentação de comandos e verificação da compreensão de instruções orais para estudantes com déficit de atenção e funções executivas",
+    "Apoio à memória de trabalho na transmissão de instruções: segmentação, recapitulação e checagem de entendimento em alunos com TDAH"
+   ],
+   "pergunta": "Como dar instruções para um aluno com TDAH: falo tudo de uma vez ou em partes? Devo pedir para ele repetir o que entendeu?"
+  },
+  "Q11": {
+   "hyde": "Os três princípios do Desenho Universal para a Aprendizagem (DUA) são: múltiplas formas de representação, que tratam do \"o quê\" da aprendizagem, oferecendo o conteúdo por meio de texto, áudio, imagens e vídeos; múltiplas formas de ação e expressão, que tratam do \"como\", permitindo que os alunos demonstrem o que aprenderam por escrita, oralidade, produções visuais ou projetos; e múltiplas formas de engajamento, que tratam do \"por quê\", estimulando o interesse por meio de escolhas, relevância, desafios adequados e autorregulação. Juntos, esses princípios, propostos pelo CAST, reduzem barreiras e ampliam a participação de todos os estudantes em sala de aula comum.",
+   "reescritas": [
+    "princípios orientadores do Desenho Universal para a Aprendizagem (DUA)",
+    "fundamentos e diretrizes do DUA para a prática pedagógica inclusiva",
+    "pilares conceituais do DUA na educação inclusiva"
+   ],
+   "pergunta": "Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?"
+  },
+  "Q12": {
+   "hyde": "Em linhas gerais, a versão 3.0 das Diretrizes do Desenho Universal para a Aprendizagem (DUA), publicada pelo CAST, mantém os três princípios fundamentais (engajamento, representação e ação e expressão), mas reorganiza o documento para torná-lo mais claro e aplicável em sala de aula. A revisão atualiza a linguagem, reforça a ideia de variabilidade entre os estudantes e dá mais destaque à autonomia do aprendiz e ao papel da motivação e do pertencimento. Também ajusta a formulação de alguns pontos de verificação e busca reduzir sobreposições entre eles. Como os detalhes específicos podem variar conforme a edição consultada, recomenda-se que o professor confira o texto oficial antes de usá-lo em planejamentos ou formações.",
+   "reescritas": [
+    "diferenças entre a versão 3.0 e as versões anteriores das Diretrizes do Desenho Universal para a Aprendizagem (DUA)",
+    "alterações introduzidas na terceira edição das Diretrizes DUA em relação às edições precedentes",
+    "revisões e novidades das Diretrizes do DUA 3.0 comparadas às versões anteriores do documento"
+   ],
+   "pergunta": "O que mudou na versão 3.0 das diretrizes do DUA em relação às versões anteriores?"
+  },
+  "Q13": {
+   "hyde": "Para apresentar um mesmo conteúdo por múltiplas formas de representação, o professor pode, por exemplo, ensinar o ciclo da água combinando recursos diversos: um texto curto com vocabulário destacado para alunos com leitura fluente; um áudio ou podcast com a narração do processo para quem tem dificuldades de decodificação; um vídeo legendado e com descrição em áudio para estudantes surdos ou cegos; um modelo concreto, como um recipiente aquecido coberto por plástico, que permite observar a evaporação e condensação; e um esquema visual com setas e legendas que organiza as etapas. Assim, cada aluno acessa a mesma ideia por um canal que lhe faz sentido, sem que o objetivo de aprendizagem seja alterado.",
+   "reescritas": [
+    "Estratégias do Desenho Universal para a Aprendizagem para apresentar um mesmo conteúdo por meio de diferentes modalidades sensoriais e formatos (visual, auditivo, tátil, textual) no Princípio I, Múltiplos Meios de Representação",
+    "Opções de representação do DUA que apresentam um mesmo conteúdo curricular em diferentes linguagens, símbolos e formatos, para ampliar a percepção e a compreensão de todos os estudantes",
+    "Práticas inclusivas que oferecem múltiplas formas de apresentar a informação (recursos perceptivos, linguagem e símbolos, compreensão), para que um mesmo conteúdo seja acessível a diferentes perfis de aprendizagem"
+   ],
+   "pergunta": "Dê exemplos de múltiplas formas de representação para apresentar um mesmo conteúdo aos alunos."
+  },
+  "Q14": {
+   "hyde": "Múltiplos meios de ação e expressão é um dos princípios centrais do Desenho Universal para a Aprendizagem (DUA). Na prática, isso significa que a avaliação deixa de exigir uma única forma de resposta, como uma prova escrita, e passa a permitir que o estudante demonstre o domínio do conteúdo por caminhos diferentes. O professor pode oferecer opções como resposta oral gravada, mapa conceitual, produção de cartaz, esquema visual, maquete, podcast ou apresentação curta, sempre vinculadas aos mesmos objetivos de aprendizagem. Para que a escolha seja justa, é essencial que os critérios de avaliação sejam claros e que se avalie o conceito demonstrado, e não a habilidade de escrita ou de fala do aluno. Recomenda-se ainda oferecer, quando necessário, apoios como roteiros, banco de palavras e prazos flexíveis, para que a variedade de formatos realmente amplie o acesso e não gere novas barreiras.",
+   "reescritas": [
+    "Quais estratégias de Desenho Universal para a Aprendizagem ampliam as opções de expressão e demonstração de aprendizagem em instrumentos avaliativos?",
+    "Como diversificar os formatos de resposta em avaliações para que os estudantes demonstrem competências por diferentes meios de comunicação?",
+    "De que forma flexibilizar os instrumentos de avaliação, oferecendo múltiplas modalidades de execução e comunicação do conhecimento pelo estudante?"
+   ],
+   "pergunta": "Como oferecer múltiplos meios de ação e expressão numa avaliação, para o aluno mostrar o que sabe de outro jeito?"
+  },
+  "Q15": {
+   "hyde": "O DUA organiza o engajamento em duas grandes frentes. Para despertar o interesse, o professor deve oferecer opções de escolha e autonomia, tornar as tarefas relevantes, autênticas e significativas para os alunos, e reduzir ameaças e distrações. Para sustentar o esforço e a persistência, deve deixar as metas e os objetivos explícitos, variar as exigências e os recursos para que o desafio seja alcançável, estimular a colaboração e a construção de uma comunidade de aprendizagem, e oferecer feedback orientado ao domínio da tarefa, e não apenas à nota.",
+   "reescritas": [
+    "Quais estratégias do Princípio III do DUA (múltiplas formas de engajamento) favorecem a mobilização do interesse e a sustentação do esforço e da persistência dos estudantes?",
+    "Como o DUA orienta a promoção do engajamento por meio de opções que ativem a motivação, a autorregulação e a persistência nas tarefas de aprendizagem?",
+    "Que diretrizes do Desenho Universal para a Aprendizagem tratam de recrutar o interesse, manter o esforço e desenvolver a perseverança dos alunos em contextos de educação inclusiva?"
+   ],
+   "pergunta": "O que o DUA recomenda para o engajamento: como despertar o interesse e sustentar o esforço e a persistência dos alunos?"
+  },
+  "Q16": {
+   "hyde": "O Desenho Universal para a Aprendizagem (DUA) não é o mesmo que adaptação curricular individual. O DUA é uma abordagem de planejamento proativo: o professor organiza o currículo desde o início com múltiplas formas de representação, de engajamento e de expressão, para reduzir barreiras para toda a turma. A adaptação curricular individual é uma intervenção pontual, planejada para as necessidades específicas de um estudante e registrada em seu plano de ensino individualizado. Planejar para todos diminui a necessidade de adaptações individuais, mas não as elimina, pois algumas situações continuam exigindo ajustes específicos que se somam ao planejamento universal.",
+   "reescritas": [
+    "Diferenças conceituais entre Desenho Universal para a Aprendizagem (DUA) e adaptação curricular individual",
+    "Planejamento curricular universal (DUA) versus adaptação curricular individualizada para estudante com deficiência",
+    "Conceitos de DUA e de adaptação curricular individual: distinção entre currículo flexível para todos e ajuste pedagógico para um estudante"
+   ],
+   "pergunta": "DUA é a mesma coisa que adaptação curricular individual? Qual a diferença entre planejar para todos e adaptar para um aluno?"
+  },
+  "Q17": {
+   "hyde": "As diretrizes do DUA recomendam oferecer apoio explícito às funções executivas, orientando os estudantes a estabelecer metas adequadas aos seus objetivos, por meio de perguntas norteadoras, modelos de definição de metas e marcos intermediários. Para o planejamento e o desenvolvimento de estratégias, sugere-se fornecer organizadores gráficos, listas de verificação e roteiros que decompõem tarefas complexas em etapas, além de modelar em voz alta como um especialista planeja. Quanto ao monitoramento, recomenda-se criar oportunidades de autoavaliação, como checklists de progresso, registros de reflexão e feedback frequente, de modo que o aluno perceba onde está e ajuste sua estratégia. Esse apoio deve ser gradualmente retirado à medida que a autorregulação se consolida.",
+   "reescritas": [
+    "Como o DUA orienta o estabelecimento de metas, o planejamento de estratégias e o monitoramento do progresso no desenvolvimento das funções executivas?",
+    "Quais recomendações das diretrizes do DUA tratam de orientar metas apropriadas, apoiar o planejamento e o desenvolvimento de estratégias e aumentar a capacidade de monitorar o progresso?",
+    "O que o Desenho Universal para a Aprendizagem propõe para fortalecer a autorregulação, com foco em metas, estratégias e autoavaliação do próprio desempenho?"
+   ],
+   "pergunta": "Nas diretrizes do DUA, o que se recomenda sobre estabelecer metas, planejar estratégias e monitorar o próprio progresso (as antigas 'funções executivas')?"
+  },
+  "Q18": {
+   "hyde": "O Desenho Universal para a Aprendizagem (DUA) orienta o planejamento para que a aula seja acessível a todos desde a origem, e não por adaptações pontuais. Na prática, o professor deve oferecer múltiplas formas de representação (texto acompanhado de imagens, vídeos com legenda, esquemas e exemplos concretos), múltiplas formas de ação e expressão (respostas orais, escritas, desenho ou maquete) e múltiplas formas de engajamento (escolhas de temas, trabalhos em duplas e metas que façam sentido para a turma). Por exemplo, ao ensinar frações, o docente pode usar barras de papel dobrado, um vídeo curto com legendas e uma tarefa em que cada aluno escolhe registrar o raciocínio por escrito ou por gravação de áudio.",
+   "reescritas": [
+    "Desenho Universal para a Aprendizagem (DUA) no planejamento didático em turmas regulares inclusivas da educação básica brasileira",
+    "Princípios do DUA na elaboração de planos de aula para escola comum com estudantes com deficiência: estratégias, recursos e acessibilidade pedagógica",
+    "Aplicação do DUA com múltiplos meios de representação, engajamento e ação e expressão no planejamento de aulas em sala de aula regular inclusiva"
+   ],
+   "pergunta": "Como aplicar o DUA no planejamento de aula numa sala comum inclusiva da escola brasileira? Tem exemplos práticos?"
+  },
+  "Q19": {
+   "hyde": "A Lei nº 14.254/2021 assegura aos educandos com dislexia, TDAH ou outro transtorno de aprendizagem o direito a acompanhamento integral, com foco na identificação precoce e na intervenção. A escola deve articular apoio pedagógico e psicopedagógico com atendimento multidisciplinar de saúde e assistência, quando necessário. O estudante tem direito a métodos de ensino e formas de avaliação adequados ao seu perfil de aprendizagem, de modo a reduzir barreiras à participação e ao desempenho escolar. A lei também prevê a formação continuada de professores para reconhecer sinais desses transtornos e atuar de forma inclusiva. O objetivo é prevenir o agravamento das dificuldades e minimizar seus efeitos ao longo da trajetória educacional.",
+   "reescritas": [
+    "Direitos e garantias de educandos com dislexia e TDAH na Lei 14.254/2021 sobre acompanhamento integral",
+    "Acompanhamento integral de estudantes com transtornos de aprendizagem, dislexia e Transtorno do Déficit de Atenção com Hiperatividade na educação básica",
+    "Previsões da Lei 14.254/2021 para adaptações curriculares e apoio pedagógico a educandos com dislexia e TDAH no ambiente escolar"
+   ],
+   "pergunta": "O que a Lei 14.254/2021 garante aos alunos com TDAH e dislexia na escola?"
+  },
+  "Q20": {
+   "hyde": "Não. Em regra, a escola não pode condicionar o atendimento educacional à apresentação de laudo médico. A matrícula de alunos com deficiência é obrigatória e não pode ser recusada (Lei nº 13.146/2015, art. 8º e art. 28; Lei nº 9.394/1996, art. 4º, III). O laudo ou relatório de profissionais da saúde pode ser útil para subsidiar o planejamento do Atendimento Educacional Especializado e a elaboração do plano de AEE, mas não é requisito para o ingresso ou para a oferta de apoios em sala comum. A exigência de laudo como condição de acesso caracteriza discriminação, sujeita a responsabilização administrativa e civil, além de contrariar a Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva (2008), que orienta a identificação das necessidades educacionais pelo próprio sistema de ensino.",
+   "reescritas": [
+    "Exigência de laudo médico para matrícula e atendimento educacional especializado (AEE) de estudante com deficiência na escola regular",
+    "Obrigatoriedade de diagnóstico clínico para acesso ao AEE e apoio a estudantes do público-alvo da educação especial",
+    "Condicionamento do atendimento educacional a documentação médica de necessidades educacionais específicas, conforme a Lei Brasileira de Inclusão e a Política Nacional de Educação Especial"
+   ],
+   "pergunta": "A escola pode exigir laudo médico para oferecer atendimento educacional ao aluno?"
+  },
+  "Q21": {
+   "hyde": "A Lei Brasileira de Inclusão (Lei nº 13.146/2015) define barreiras como qualquer entrave, obstáculo, atitude ou comportamento que limite ou impeça a participação social da pessoa com deficiência em igualdade de oportunidades com as demais pessoas. Essas barreiras podem ser urbanísticas, arquitetônicas, nos transportes, nas comunicações e na informação, atitudinais ou tecnológicas. Já as adaptações razoáveis são definidas como adaptações, modificações e ajustes necessários e adequados que não acarretem ônus desproporcional e indevido, quando requeridos em cada caso, para assegurar à pessoa com deficiência o exercício de todos os direitos e liberdades fundamentais em igualdade de condições. Na escola, isso pode significar, por exemplo, oferecer materiais em formato acessível ou ajustar avaliações, sem alterar os objetivos de aprendizagem.",
+   "reescritas": [
+    "Definição legal de barreiras e de adaptações razoáveis na Lei nº 13.146/2015 (Estatuto da Pessoa com Deficiência), art. 3º",
+    "Conceito de barreiras (arquitetônicas, comunicacionais, atitudinais, tecnológicas) e de adaptação razoável no Estatuto da Pessoa com Deficiência e na Convenção da ONU sobre os Direitos das Pessoas com Deficiência",
+    "Adaptações razoáveis como modificações e ajustes necessários e adequados, sem ônus desproporcional, para assegurar à pessoa com deficiência o exercício de direitos em igualdade de condições, segundo a Lei Brasileira de Inclusão"
+   ],
+   "pergunta": "Como a Lei Brasileira de Inclusão (LBI) define barreiras e adaptações razoáveis?"
+  },
+  "Q22": {
+   "hyde": "A Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/1996), em seu art. 24, inciso V, alínea \"a\", determina a avaliação contínua e cumulativa do desempenho do aluno, com prevalência dos aspectos qualitativos sobre os quantitativos e dos resultados ao longo do período sobre os de eventuais provas finais. Na prática, a avaliação deve acompanhar o processo de aprendizagem de forma permanente, considerando a compreensão, a participação e a evolução de cada estudante. Isso exige registros diversificados e instrumentos variados. Assim, uma nota isolada em prova final não deve, por si só, definir a trajetória escolar do aluno.",
+   "reescritas": [
+    "Avaliação contínua e cumulativa, com prevalência dos aspectos qualitativos sobre os quantitativos, segundo a Lei 9.394/1996 (LDB), art. 24, inciso V",
+    "Verificação do rendimento escolar na LDB: critérios de avaliação contínua, cumulativa e de predominância qualitativa",
+    "Previsão legal na LDB para avaliação formativa do estudante, com primazia dos aspectos qualitativos e cumulatividade do desempenho"
+   ],
+   "pergunta": "O que a LDB diz sobre a avaliação do aluno: contínua, cumulativa, com prevalência dos aspectos qualitativos?"
+  },
+  "Q23": {
+   "hyde": "O AEE (Atendimento Educacional Especializado) é um serviço da educação especial, previsto na Constituição Federal, na LDB (Lei 9.394/1996) e na Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva (2008). Consiste em atendimento pedagógico complementar ou suplementar, oferecido preferencialmente na própria escola, em Salas de Recursos Multifuncionais, no contraturno da escolarização. Tem direito ao AEE o público-alvo da educação especial: estudantes com deficiência, com transtornos globais do desenvolvimento (como o autismo) e com altas habilidades ou superdotação. O AEE não substitui a sala de aula comum: o estudante permanece matriculado e frequenta regularmente o ensino regular, e o atendimento especializado apenas complementa ou suplementa essa escolarização, com foco em recursos, estratégias e acessibilidade.",
+   "reescritas": [
+    "Atendimento Educacional Especializado (AEE): público-alvo e caráter complementar ou suplementar em relação ao ensino comum",
+    "Público-alvo do AEE para estudantes com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação, segundo a Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva",
+    "Relação entre o AEE na sala de recursos multifuncionais e a matrícula e escolarização no ensino comum, com ou sem substituição das atividades da classe regular"
+   ],
+   "pergunta": "O que é o AEE (atendimento educacional especializado), quem tem direito e ele substitui a sala de aula comum?"
+  },
+  "Q24": {
+   "hyde": "A Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva orienta os sistemas de ensino a garantir o acesso, a participação e a aprendizagem de estudantes com deficiência, transtornos globais do desenvolvimento e altas habilidades ou superdotação nas classes comuns do ensino regular, da educação infantil à superior. Para isso, prevê o Atendimento Educacional Especializado (AEE), complementar ou suplementar à escolarização, a oferta de recursos de acessibilidade, a formação inicial e continuada de professores e a articulação intersetorial. A educação especial passa a ser transversal a todas as etapas e modalidades de ensino.\n\n*Observação: não consigo confirmar a existência nem o conteúdo do Decreto 12.686/2025 e da Portaria MEC 421/2026. O trecho acima baseia-se na política de 2008, que conheço. Antes de citar esses atos, verifique o texto oficial no Diário Oficial da União ou no site do MEC.*",
+   "reescritas": [
+    "Diretrizes e objetivos da Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva, conforme o Decreto nº 12.686/2025",
+    "Princípios, público-alvo e atendimento educacional especializado previstos no Decreto nº 12.686/2025 e na Portaria MEC nº 421/2026",
+    "Disposições da Portaria MEC nº 421/2026 sobre a implementação da política de educação especial inclusiva nas redes de ensino e na sala de aula comum"
+   ],
+   "pergunta": "O que a nova Política Nacional de Educação Especial Inclusiva (Decreto 12.686/2025 e Portaria MEC 421/2026) estabelece?"
+  },
+  "Q25": {
+   "hyde": "Para o candidato com dislexia, o INEP pode oferecer atendimento especializado previsto no edital, como tempo adicional, prova em fonte ampliada e, quando solicitado e justificado, apoio de ledor ou de transcritor, que registra a redação ditada pelo candidato. Essas condições alteram a forma de realização da prova, não os critérios de correção. A redação é avaliada pela mesma matriz de cinco competências aplicada a todos os participantes. Os desvios ortográficos e de norma culta continuam sendo considerados na Competência I, sem desconto específico por dislexia, salvo previsão expressa em normativa vigente. Recomenda-se conferir o edital e a Cartilha do Participante do ano, pois os procedimentos podem mudar.",
+   "reescritas": [
+    "Quais são as condições de atendimento especializado para candidato com transtorno específico de aprendizagem (dislexia) na redação do ENEM?",
+    "Como os critérios de correção da redação do ENEM tratam candidatos com transtorno específico de aprendizagem, como a dislexia?",
+    "Quais adaptações de avaliação e recursos de acessibilidade o INEP prevê para a prova de redação de estudantes com dislexia, e de que forma elas afetam a correção?"
+   ],
+   "pergunta": "Aluno com dislexia no ENEM: que atendimento ele tem na redação e como a correção considera a dislexia?"
+  },
+  "Q26": {
+   "hyde": "O TDAH não consta, de forma explícita, entre o público-alvo da educação especial definido pela Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva (2008), que abrange pessoas com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação. Assim, o estudante com TDAH não tem, em regra, direito automático ao Atendimento Educacional Especializado (AEE). Isso não significa ausência de direitos: a Lei nº 14.254/2021 garante acompanhamento integral, com identificação precoce, apoio multidisciplinar e métodos pedagógicos adequados, e a Lei Brasileira de Inclusão (Lei nº 13.146/2015) assegura adaptações razoáveis. Quando o transtorno vier associado a deficiência ou gerar barreiras de longo prazo avaliadas pela equipe escolar, o AEE pode ser indicado.",
+   "reescritas": [
+    "Estudante com TDAH como público-alvo da educação especial e elegibilidade para o Atendimento Educacional Especializado (AEE)",
+    "Transtorno do Déficit de Atenção com Hiperatividade (TDAH) e direito ao atendimento educacional especializado na Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva",
+    "Alunos com TDAH, público-alvo da educação especial, transtornos globais do desenvolvimento e altas habilidades, e garantia de AEE na escola regular"
+   ],
+   "pergunta": "Aluno com TDAH é público-alvo da educação especial? Ele tem direito ao AEE?"
+  },
+  "Q27": {
+   "hyde": "Tempo extra em avaliações é uma das adaptações mais estudadas em avaliação inclusiva, e a pesquisa mostra que seu efeito depende do perfil do aluno. Estudos com alunos com TDAH indicam ganhos moderados em provas cronometradas, sobretudo quando a prova exige leitura extensa e processamento rápido, pois esses alunos tendem a perder tempo com a regulação da atenção. Para alunos com dificuldades de aprendizagem, como dislexia, os resultados são mais variáveis: o tempo extra ajuda principalmente quando a tarefa é de leitura, e pouco quando a dificuldade está no conteúdo ou na habilidade avaliada. Em revisões sistemáticas, o benefício para alunos sem nenhuma deficiência é pequeno ou inexistente, o que sustenta a recomendação de decidir a adaptação caso a caso, com base em avaliação individual e em documentação, e não por rótulo diagnóstico. O professor deve registrar o tempo concedido, acompanhar se a adaptação de fato reduz a lacuna de desempenho e combiná-la, quando necessário, com outras medidas, como fragmentação da prova e instruções explícitas.",
+   "reescritas": [
+    "Acomodações de tempo estendido em avaliações para estudantes com TDAH",
+    "Efeitos da ampliação de tempo em provas sobre o desempenho de alunos com dificuldades de aprendizagem",
+    "Evidências sobre adequações de tempo em avaliações para estudantes com TDAH e outras dificuldades de aprendizagem"
+   ],
+   "pergunta": "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?"
+  },
+  "Q28": {
+   "hyde": "Sim. Revisões e meta-análises de intervenções comportamentais em sala de aula, como sistemas de reforço positivo, registros diários de comportamento e manejo consistente de instruções, mostram reduções no comportamento fora da tarefa e disruptivo de estudantes com TDAH. Os tamanhos de efeito são geralmente moderados a grandes, em torno de d = 0,5 a 0,8, embora as estimativas variem conforme o desfecho medido e o desenho dos estudos. Os efeitos tendem a ser maiores quando a intervenção é aplicada com fidelidade e por tempo suficiente, e diminuem quando o apoio é retirado. Recomenda-se monitorar a resposta de cada aluno por observação direta ou registros sistemáticos.",
+   "reescritas": [
+    "Eficácia de intervenções comportamentais em sala de aula sobre comportamento fora da tarefa e disruptivo em alunos com TDAH, com estimativa do tamanho do efeito",
+    "Impacto de estratégias de manejo de sala de aula na redução de condutas off-task e de comportamentos disruptivos em estudantes com TDAH: magnitude do efeito",
+    "Evidências de metanálises e revisões sobre práticas educacionais para estudantes com TDAH na redução de comportamentos desafiadores e distratibilidade em contexto escolar, com índices de tamanho de efeito"
+   ],
+   "pergunta": "Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com TDAH? Qual o tamanho do efeito?"
+  },
+  "Q29": {
+   "hyde": "Até o momento, não há evidência consistente de que o treino cognitivo computadorizado, como o treino de memória de trabalho, melhore os sintomas centrais do TDAH na vida escolar. Estudos mostram ganhos mensuráveis apenas nas próprias tarefas treinadas e em medidas de desempenho semelhantes, um efeito de transferência próxima. Quando os sintomas são avaliados por observadores cegos ao tratamento, os efeitos desaparecem, o que sugere que melhorias relatadas por pais ou professores podem refletir expectativas. Por isso, esse tipo de treino não substitui intervenções com base empírica, como estratégias comportamentais em sala, adaptações de tarefas, rotinas estruturadas e, quando indicado, acompanhamento médico. O professor deve priorizar essas práticas, usando o treino computadorizado, se tiver, apenas como atividade complementar.",
+   "reescritas": [
+    "Eficácia de treinamento de memória de trabalho computadorizado nos sintomas de TDAH em estudantes",
+    "Intervenções cognitivas computadorizadas e funções executivas em crianças e adolescentes com TDAH no contexto escolar",
+    "Transferência de treinos de memória de trabalho para desatenção e impulsividade no TDAH: evidências e limites"
+   ],
+   "pergunta": "Treino cognitivo (por exemplo, treino de memória de trabalho no computador) melhora os sintomas do TDAH?"
+  },
+  "Q30": {
+   "hyde": "Os resultados da inclusão de alunos com necessidades educacionais especiais na sala comum variam conforme o tipo de deficiência, a severidade e, sobretudo, as condições de apoio oferecidas. Revisões sistemáticas indicam que, de modo geral, esses alunos não apresentam queda no desempenho acadêmico quando a inclusão é bem planejada e acompanhada de recursos, como professor de apoio, adaptação curricular, tecnologias assistivas e formação docente. Em alguns casos, observam-se ganhos em leitura, matemática e habilidades sociais, especialmente quando há ensino colaborativo entre professor regular e especializado. Já a inclusão sem suporte, com turmas superlotadas e sem planejamento individualizado, tende a produzir resultados menos favoráveis. Para os demais alunos da turma, a literatura geralmente não aponta prejuízo significativo no aprendizado. Assim, a inclusão tende a beneficiar o desempenho quando é acompanhada de apoio efetivo, e não quando ocorre apenas por matrícula.",
+   "reescritas": [
+    "Efeitos da escolarização em classe comum sobre o desempenho acadêmico de estudantes com necessidades educacionais especiais",
+    "Impacto da educação inclusiva em classes regulares nas aprendizagens de estudantes do público-alvo da educação especial",
+    "Resultados de aprendizagem de alunos com deficiência matriculados em classe comum em comparação com classes especiais ou escolas especializadas"
+   ],
+   "pergunta": "Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o desempenho acadêmico deles?"
+  },
+  "Q31": {
+   "hyde": "A diferenciação pedagógica no ensino médio tem respaldo empírico, mas ainda limitado e heterogêneo. Revisões de pesquisa indicam que práticas diferenciadas, sobretudo as baseadas em avaliação formativa e em agrupamentos flexíveis, podem produzir ganhos modestos de desempenho, especialmente em leitura e matemática. Os resultados variam conforme a qualidade da implementação, a formação docente e o tempo disponível para planejamento, e muitos estudos têm limitações metodológicas, como amostras pequenas e ausência de grupos de controle. Por isso, a diferenciação deve ser vista como uma abordagem promissora, e não como solução garantida, cabendo à escola acompanhar os resultados de seus próprios alunos.",
+   "reescritas": [
+    "Evidências de eficácia da diferenciação pedagógica sobre o desempenho acadêmico de estudantes do ensino médio",
+    "Impacto de estratégias de ensino diferenciado na aprendizagem e nos resultados escolares no ensino secundário",
+    "Resultados de pesquisas sobre adaptação do ensino às necessidades individuais e seu efeito no rendimento de alunos do ensino médio"
+   ],
+   "pergunta": "O ensino diferenciado (diferenciação) no ensino médio/secundário tem efeito comprovado no desempenho dos alunos?"
+  },
+  "Q32": {
+   "hyde": "Ensaios randomizados indicam que intervenções comportamentais em sala de aula, como manejo de contingências, cartões diários de avaliação e reforço positivo, produzem melhoras consistentes no comportamento e na produtividade do estudante, com efeitos moderados e relativamente estáveis. Já os ganhos em medidas padronizadas de desempenho acadêmico são menores, mais variáveis e frequentemente não se sustentam após o fim da intervenção. Estratégias que combinam ensino explícito, monitoramento sistemático do progresso e adaptação de tarefas tendem a apresentar resultados mais favoráveis na aprendizagem propriamente dita. Assim, o professor deve esperar que a mudança comportamental seja a mais previsível e planejar, em paralelo, ações voltadas diretamente ao conteúdo, avaliando o avanço acadêmico com instrumentos específicos e não apenas pela observação do comportamento.",
+   "reescritas": [
+    "Intervenções escolares para TDAH avaliadas em ensaios clínicos randomizados produziram ganhos no rendimento acadêmico ou apenas na melhora do comportamento?",
+    "Efeitos de programas escolares para TDAH em ensaios randomizados: desfechos de desempenho acadêmico versus desfechos comportamentais",
+    "Evidências de ECR sobre estratégias educacionais para estudantes com TDAH: impacto na aprendizagem e na conduta em sala de aula"
+   ],
+   "pergunta": "Intervenções escolares para TDAH testadas em ensaios randomizados melhoram o desempenho acadêmico ou só o comportamento?"
+  },
+  "Q33": {
+   "hyde": "Os estilos de aprendizagem (visual, auditivo, cinestésico) não têm respaldo empírico consistente. Revisões de pesquisa, como a de Pashler e colaboradores (2008), mostram que os alunos não aprendem melhor quando o ensino é ajustado ao \"estilo\" que lhes foi atribuído. Isso não significa que a diversidade de formas de apresentação seja irrelevante. O que a evidência apoia é usar representações múltiplas para o mesmo conteúdo, combinando texto, imagens, explicações orais e atividades práticas, porque isso aumenta a clareza e a retenção para todos. Já o princípio do Desenho Universal para a Aprendizagem (DUA) recomenda oferecer múltiplos meios de engajamento, representação e ação e expressão, escolhidos pela natureza do objetivo e não pelo perfil do aluno. Para o professor de sala comum, a recomendação prática é planejar a aula com variedade de recursos, avaliar se cada estratégia favorece o objetivo de aprendizagem e, sempre que possível, verificar a compreensão com dados reais da turma.",
+   "reescritas": [
+    "Evidências sobre o ensino adaptado às preferências sensoriais dos alunos (visual, auditivo, cinestésico) e sua eficácia na aprendizagem",
+    "Estilos de aprendizagem e neuromitos: a adequação do ensino à modalidade sensorial preferida do estudante no Desenho Universal para a Aprendizagem",
+    "Diferenciação pedagógica por modalidade perceptiva: estudos sobre o impacto da correspondência entre estilo de aprendizagem e método de ensino no desempenho escolar"
+   ],
+   "pergunta": "Vale a pena ensinar de acordo com o estilo de aprendizagem do aluno (visual, auditivo, cinestésico)?"
+  },
+  "Q34": {
+   "hyde": "A fonte especial para dislexia, como a OpenDyslexic ou a Dyslexie, não melhora de forma consistente a leitura dos alunos com dislexia. Estudos experimentais, incluindo revisões sistemáticas, mostram que os ganhos em velocidade e precisão são pequenos ou inexistentes, e que os efeitos variam bastante entre os leitores. Além disso, alguns alunos preferem essas fontes, o que pode ter valor para o conforto e a motivação. Por isso, recomenda-se que a escolha da fonte seja feita junto com o aluno e acompanhada de observação. Não deve substituir intervenções baseadas em evidências, como o ensino explícito e sistemático da correspondência entre letras e sons, a prática de decodificação e o desenvolvimento da fluência e da consciência fonológica.",
+   "reescritas": [
+    "Eficácia de fontes tipográficas específicas para dislexia (OpenDyslexic, Dyslexie) na leitura de estudantes com dislexia",
+    "Impacto da tipografia adaptada e da legibilidade na velocidade e precisão de leitura de alunos disléxicos",
+    "Evidências sobre fontes com design para dislexia versus fontes padrão na compreensão leitora de estudantes com transtorno específico de leitura"
+   ],
+   "pergunta": "Usar uma fonte especial para dislexia, como OpenDyslexic ou Dyslexie, ajuda o aluno a ler melhor?"
+  },
+  "Q35": {
+   "hyde": "Aumentar o espaçamento entre letras pode ajudar algumas pessoas com dislexia, mas o efeito é moderado e varia de um leitor para outro. Estudos como o de Zorzi e colaboradores (2012) relataram melhora na velocidade e na precisão de leitura com espaçamento maior, e diretrizes de acessibilidade costumam recomendá-lo. Ainda assim, nem todos os estudos confirmam o benefício, e a intervenção não substitui o ensino fônico sistemático. Na sala de aula, vale testar a medida com cada aluno, observar se a leitura fica mais fluida e combiná-la com fontes sem serifa, entrelinhas amplas e textos com margens generosas.",
+   "reescritas": [
+    "Qual é o efeito do aumento do espaçamento entre caracteres (tracking) na legibilidade de texto para estudantes com dislexia?",
+    "Há evidências de que a ampliação do espaçamento tipográfico entre letras melhora a leitura de alunos com dislexia?",
+    "Como o espaçamento entre grafemas influencia a decodificação e a fluência em leitores com dislexia, segundo estudos sobre acessibilidade tipográfica?"
+   ],
+   "pergunta": "Aumentar o espaçamento entre as letras ajuda a leitura de quem tem dislexia?"
+  },
+  "Q36": {
+   "hyde": "Estudos internacionais mostram que a crença em neuromitos é frequente entre professores. No levantamento de Dekker et al. (2012), cerca de metade dos docentes do Reino Unido e dos Países Baixos concordou que os alunos aprendem melhor quando recebem instrução conforme seu \"estilo de aprendizagem\", ideia sem respaldo empírico. Outros mitos, como o de que usamos apenas 10% do cérebro, também aparecem com frequência. No Brasil, pesquisas com educadores têm encontrado padrões semelhantes, o que reforça a necessidade de formação docente baseada em evidências. Esses percentuais variam conforme o país, o instrumento e a amostra, devendo ser interpretados com cautela.",
+   "reescritas": [
+    "Prevalência de neuromitos entre professores e educadores",
+    "Crenças equivocadas sobre o funcionamento do cérebro na formação e na prática docente",
+    "Concepções errôneas sobre neurociência educacional entre docentes da educação básica no Brasil"
+   ],
+   "pergunta": "Quantos professores acreditam em neuromitos? E como é isso entre educadores no Brasil?"
+  },
+  "Q37": {
+   "hyde": "Os sistemas automáticos de simplificação textual nem sempre preservam o sentido original. Modelos de linguagem costumam manter o tema geral, mas podem omitir informações, alterar relações de causa e consequência, suavizar afirmações ou introduzir imprecisões, sobretudo em textos técnicos ou com termos específicos. Por isso, o texto simplificado não deve ser usado sem revisão. Recomenda-se que um especialista, como o professor da disciplina ou um profissional de apoio pedagógico, compare a versão simplificada com a original, verifique datas, números, nomes e conceitos centrais e confirme que as informações essenciais foram mantidas. Em materiais avaliativos ou documentos oficiais, essa revisão humana é indispensável.",
+   "reescritas": [
+    "Simplificação automática de texto: fidelidade semântica e preservação da informação",
+    "Avaliação de sistemas de simplificação textual quanto à perda de conteúdo e ao sentido original",
+    "Confiabilidade de textos simplificados por IA: acessibilidade, linguagem simples e integridade da informação"
+   ],
+   "pergunta": "Sistemas automáticos de simplificação de texto preservam o sentido original? Dá para confiar que o texto simplificado mantém a informação?"
+  },
+  "Q38": {
+   "hyde": "Sim, com ressalvas. LLMs conseguem reescrever um material didático em diferentes níveis de leitura, simplificando frases, substituindo termos técnicos por equivalentes mais acessíveis e reorganizando a estrutura do texto, e isso pode ser útil para alunos com dificuldades de leitura ou com deficiência intelectual. Contudo, a simplificação costuma introduzir erros sutis: conceitos podem ser generalizados demais, condições ou exceções podem desaparecer e termos técnicos podem ser trocados por aproximações imprecisas. Por isso, a revisão humana por um especialista da área e, quando possível, por um profissional de educação especial é indispensável. Recomenda-se comparar a versão adaptada com a original, checar os pontos-chave do conteúdo e testar a compreensão dos alunos antes de usar o material em sala.",
+   "reescritas": [
+    "Uso de modelos de linguagem grandes (LLMs) para adaptar materiais didáticos a diferentes níveis de legibilidade sem perda de precisão do conteúdo",
+    "Adaptação automatizada de textos educacionais por simplificação textual e níveis de leitura, com preservação da fidelidade conceitual",
+    "Reescrita de conteúdo pedagógico em linguagem simples por inteligência artificial, com verificação de exatidão e acessibilidade cognitiva segundo o DUA"
+   ],
+   "pergunta": "Modelos de linguagem (LLMs) conseguem reescrever um material didático em diferentes níveis de leitura mantendo o conteúdo correto?"
+  }
+ },
+ "rascunho": {
+  "R01": {
+   "hyde": "Para o aluno com TDAH, a lista pode ser organizada em blocos curtos de três a cinco questões, cada um com um objetivo claro e uma pausa breve ao final. O total de exercícios previsto para a turma se mantém, mas o estudante os realiza em etapas, com marcação visual do progresso, como uma folha com caixas para cada bloco. Recomenda-se ainda fixar um tempo por bloco, alternar tipos de atividade (cálculo, problema e verificação) e permitir que o aluno peça uma checagem pontual do professor antes de avançar. Dessa forma, preservam-se o conteúdo e o nível de exigência, ajustando-se apenas a apresentação da tarefa e o ritmo de execução.",
+   "reescritas": [
+    "Dividir a tarefa sem cortar exercícios",
+    "Organizar a lista em blocos curtos com pausas entre eles para um aluno com TDAH",
+    "Fragmentar a atividade de matemática do 6º ano em etapas menores mantendo todos os itens"
+   ],
+   "pergunta": "aluno com TDAH não sustenta a atenção em lista longa de exercícios de matemática do 6º ano: como dividir a tarefa sem reduzir os exercícios?"
+  },
+  "R02": {
+   "hyde": "Ao notar que um aluno se distrai após poucos minutos de leitura em sala, as estratégias que mais ajudam são as que mudam o modo de interação sem reduzir o texto. Pausas breves e planejadas, com perguntas de checagem a cada trecho, reativam a atenção e permitem verificar a compreensão. Leituras em voz alta alternadas entre professor e alunos, ou em duplas, também quebram a monotonia. Guias de leitura com tarefas curtas, como marcar ideias-chave, anotar dúvidas ou prever o que vem a seguir, dão ao aluno um objetivo concreto para cada parte. Recursos visuais, como esquemas ou linhas do tempo produzidos em conjunto, ajudam a organizar o conteúdo. Vale ainda oferecer escolhas, por exemplo sobre qual parágrafo discutir primeiro, o que aumenta a sensação de controle. Por fim, a avaliação formativa contínua, feita por meio de sinais rápidos como cartões de resposta, indica quando ajustar o ritmo.",
+   "reescritas": [
+    "Estratégias de engajamento e manutenção da atenção durante a leitura em sala de aula, sem redução do texto original",
+    "Práticas do Desenho Universal para a Aprendizagem para sustentar a atenção de estudantes em atividades de leitura coletiva, preservando a extensão do texto",
+    "Recursos de engajamento para leitura integral em turma, com dispersão de atenção após poucos minutos de atividade"
+   ],
+   "pergunta": "aluno se distrai depois de poucos minutos numa leitura em sala: que estratégias mantêm o engajamento sem encurtar o texto?"
+  },
+  "R03": {
+   "hyde": "Quando uma atividade tem várias instruções, o aluno pode executar a primeira e esquecer a segunda. Para evitar isso, apresente os comandos em uma lista numerada, com um verbo de ação por item, e mantenha cada comando em uma linha separada. Em vez de entregar o enunciado de uma vez, peça que o aluno leia cada comando e marque o que já cumpriu antes de passar ao seguinte. Também é útil oferecer uma versão visual, como um cartão com ícones ou um quadro de etapas, que fique à vista durante toda a tarefa. Ao final, peça que o estudante explique com suas palavras o que deve fazer, sem fornecer a resposta da atividade.",
+   "reescritas": [
+    "Como organizar as consignas de múltiplas etapas em atividades de Ciências para que o estudante acesse todos os comandos, sem que o apoio antecipe a resposta?",
+    "Estratégias de apoio à memória de trabalho e à compreensão de instruções sequenciais em tarefas científicas com três comandos, preservando a demanda cognitiva da atividade?",
+    "Formas de apresentar comandos encadeados (sinalização visual, lista de verificação, segmentação da consigna) em aulas de Ciências sem reduzir o desafio nem revelar o resultado?"
+   ],
+   "pergunta": "aluno esquece a segunda parte da instrução em atividade de ciências com três comandos: como apresentar os comandos sem dar a resposta?"
+  },
+  "R04": {
+   "hyde": "A memória de trabalho é o sistema cognitivo responsável por manter e manipular, por alguns segundos, a informação que o estudante está processando no momento. Sua capacidade é limitada: em adultos e crianças, costuma comportar poucos elementos simultâneos. Quando a aula apresenta muitos conteúdos, instruções ou estímulos ao mesmo tempo, a carga cognitiva excede essa capacidade, e parte da atenção é desperdiçada na organização do próprio material, e não na compreensão. Por isso, recomenda-se fragmentar informações complexas, apresentar uma tarefa por vez, usar recursos visuais coerentes e reduzir distrações, especialmente para estudantes com dificuldades de atenção, TDAH ou dificuldades de linguagem, cuja memória de trabalho pode ser ainda mais restrita.",
+   "reescritas": [
+    "Memória de trabalho e sobrecarga cognitiva na aprendizagem escolar",
+    "Limites da capacidade de processamento simultâneo e carga cognitiva em sala de aula",
+    "Como o excesso de estímulos simultâneos compromete a memória de trabalho e a aprendizagem, segundo o Desenho Universal para a Aprendizagem"
+   ],
+   "pergunta": "o que é memória de trabalho e por que excesso de informação simultânea atrapalha a aprendizagem?"
+  },
+  "R05": {
+   "hyde": "Quando o aluno não consegue iniciar a redação, o apoio mais eficaz é oferecer andaimes que destravem a escrita sem substituí-la. O professor pode retomar o tema com perguntas orientadoras, como \"O que você pensa sobre isso?\" ou \"Já viveu algo parecido?\", e propor um esquema simples com três campos (tese, argumentos e exemplos). Também ajuda deixar que o estudante explique a ideia oralmente e depois registre, por escrito, as próprias palavras. Frases de partida, como \"Na minha opinião...\" ou \"Um exemplo disso é...\", servem de modelo, desde que ele as adapte. Já ditar trechos ou reescrever o rascunho transfere a autoria. Esse suporte preserva a voz do estudante e cria confiança para que ele avance sozinho.",
+   "reescritas": [
+    "Quais estratégias de apoio ajudam o aluno a iniciar a redação sem que o professor escreva por ele?",
+    "Que recursos de andaime favorecem o início da produção textual sem substituir a autoria do estudante?",
+    "Como oferecer suporte ao início da escrita, em um aluno com bloqueio diante da folha, sem comprometer sua autonomia na produção do texto?"
+   ],
+   "pergunta": "aluno olha para a folha da redação e não consegue começar: que apoio ajuda a iniciar sem escrever por ele?"
+  },
+  "R06": {
+   "hyde": "Exemplo resolvido ajuda o aluno que não sabe por onde começar, porque mostra o caminho do raciocínio, e não apenas a resposta final. Ao acompanhar cada passo, ele percebe como identificar os dados do problema, qual conceito aplicar e em que ordem agir. Para alunos com dificuldades de organização, de linguagem ou de memória de trabalho, esse modelo reduz a carga cognitiva e oferece um ponto de partida concreto. Recomenda-se, porém, que o exemplo seja seguido de problemas semelhantes, em que o próprio aluno execute as etapas com gradual retirada de apoio (esmaecimento). Assim, ele deixa de depender do modelo e passa a aplicar a estratégia de forma autônoma.",
+   "reescritas": [
+    "Uso de exemplos resolvidos como apoio para estudantes com dificuldade em iniciar a resolução de problemas",
+    "Exemplos trabalhados e modelagem de estratégias para alunos com dificuldade de iniciar tarefas matemáticas ou de resolução de problemas",
+    "Andaimes didáticos com exemplos resolvidos para estudantes que não conseguem identificar o ponto de partida de uma tarefa"
+   ],
+   "pergunta": "exemplo resolvido ajuda aluno que não sabe por onde começar um problema?"
+  },
+  "R07": {
+   "hyde": "Para um aluno com TDAH que se perde na sequência de um experimento de ciências, a estratégia mais eficaz é transformar o procedimento em uma sequência visual e fracionada. Recomenda-se apresentar os passos numerados em um cartaz ou cartão de bancada, com ícones e uma frase curta por etapa, e entregar uma etapa de cada vez, em vez de toda a instrução de uma só vez. Um \"checklist\" com caixas para marcar cada passo concluído ajuda o estudante a acompanhar seu progresso e a retomar a atividade após interrupções. Vale também indicar, em cada etapa, o resultado esperado, para que o aluno saiba se está no caminho certo antes de avançar. Pode-se ainda designar um colega como apoio para conferir a sequência, sem assumir a tarefa. Essas estratégias reduzem a sobrecarga da memória de trabalho e tornam a ordem dos procedimentos explícita e previsível.",
+   "reescritas": [
+    "Estratégias de apoio à sequenciação de tarefas para estudantes com TDAH em atividades práticas de Ciências, com foco em funções executivas e no princípio do DUA de múltiplas formas de ação e expressão",
+    "Adaptação de procedimentos experimentais por meio de representação visual, fragmentação de etapas e andaimes para a organização sequencial de tarefas em alunos com déficit de atenção e funções executivas",
+    "Recursos de planejamento e monitoramento da sequência de passos em aulas práticas de Ciências para estudantes com TDAH, conforme as diretrizes do Desenho Universal para a Aprendizagem"
+   ],
+   "pergunta": "aluno com TDAH se perde na ordem dos passos num experimento de ciências: como organizar a sequência da atividade?"
+  },
+  "R08": {
+   "hyde": "Ensinar o aluno a planejar tarefas longas exige transferir gradualmente a responsabilidade do professor para ele. Comece com modelagem explícita: o professor pensa em voz alta ao decompor um projeto em etapas, estimar prazos e definir marcos. Em seguida, use andaimes decrescentes, como cronogramas parcialmente preenchidos que o aluno completa, depois listas de verificação que ele mesmo elabora. Ensine a dividir o trabalho em partes menores com datas intermediárias, a estimar o tempo de cada uma e a revisar o plano ao longo do caminho. Registros de acompanhamento semanais, em que o aluno avalia o que cumpriu e o que precisa ajustar, favorecem a autorregulação. Combine esse processo com feedback orientado a perguntas, como \"o que você fará na próxima etapa?\", em vez de dar as soluções prontas. Assim, o professor deixa de organizar tudo e passa a orientar o aluno a organizar sozinho.",
+   "reescritas": [
+    "Como desenvolver a autorregulação e o planejamento de projetos de longa duração nos estudantes, com transferência gradual da responsabilidade do professor para o aluno?",
+    "Estratégias de metacognição e de andaimes para que o estudante planeje, organize e monitore tarefas extensas com autonomia, no contexto do Desenho Universal para a Aprendizagem?",
+    "Práticas de ensino para desenvolver funções executivas e gestão do tempo em atividades complexas, promovendo a autonomia do estudante em vez da organização prévia pelo docente?"
+   ],
+   "pergunta": "como ensinar o aluno a planejar e organizar tarefas longas em vez de o professor organizar tudo por ele?"
+  },
+  "R09": {
+   "hyde": "Para reduzir a sobrecarga visual numa prova destinada a alunos com dificuldades de atenção, processamento ou leitura, o primeiro passo é retirar elementos decorativos que não contribuem para a resposta: imagens ilustrativas sem função de conteúdo, molduras, fundos coloridos e caixas de destaque repetidas. Mantenha apenas a imagem indispensável para a questão, posicionada logo ao lado do enunciado a que se refere. Reduza também o número de caixas, deixando uma única área de resposta por item, com espaço amplo e linhas simples. Evite textos em colunas estreitas, use fonte sans-serif de tamanho adequado, espaçamento generoso entre questões e, sempre que possível, uma questão por página ou por bloco visualmente separado. Por fim, use títulos e numeração consistentes para que o aluno saiba onde começa e termina cada item.",
+   "reescritas": [
+    "Sobrecarga visual em folha de prova",
+    "Redução de estímulos irrelevantes em materiais de avaliação",
+    "Simplificação do layout de itens com excesso de elementos gráficos e caixas"
+   ],
+   "pergunta": "folha de prova com muitas imagens e caixas confunde o aluno: o que retirar para reduzir a sobrecarga visual?"
+  },
+  "R10": {
+   "hyde": "Imagens decorativas em materiais didáticos tendem a prejudicar a aprendizagem quando não têm relação direta com o conteúdo. Pesquisas sobre o efeito de sedução (seductive details) mostram que ilustrações atraentes, mas irrelevantes, desviam a atenção dos alunos para elementos secundários e aumentam a carga cognitiva, o que dificulta a compreensão e a retenção das ideias centrais. Esse problema é ainda mais sensível para estudantes com dificuldades de atenção, com deficiência intelectual ou com transtornos de processamento, para quem cada elemento visual extra exige esforço adicional de filtragem. Já imagens que representam conceitos, processos ou relações do conteúdo, como diagramas, esquemas e figuras rotuladas, costumam apoiar a aprendizagem, sobretudo quando acompanhadas de texto explicativo. Recomenda-se, portanto, avaliar cada imagem pela sua função pedagógica, reduzir ornamentos e manter apenas os recursos visuais que contribuam diretamente para o objetivo da aula.",
+   "reescritas": [
+    "Imagens decorativas, que não carregam informação, podem atrapalhar a aprendizagem. Isso é o que a pesquisa chama de efeito de sedução (seductive details) e de carga cognitiva estranha (extraneous load): o estudante gasta atenção com elementos que não ajudam a compreender o conteúdo.",
+    "Elementos ilustrativos sem função didática, quando competem com o texto ou a explicação, tendem a reduzir a retenção. Já imagens que representam o conteúdo (diagramas, esquemas, gráficos) costumam ajudar.",
+    "Para o Desenho Universal para a Aprendizagem, o ponto é outro: toda imagem precisa de uma função clara e de descrição textual ou alternativa acessível para estudantes com deficiência visual."
+   ],
+   "pergunta": "imagens decorativas no material atrapalham a aprendizagem?"
+  },
+  "R11": {
+   "hyde": "A impulsividade na resposta costuma ser reduzida com uma rotina previsível de leitura antes da ação. Recomenda-se que o professor leia o enunciado em voz alta, pedindo que o aluno acompanhe com o dedo ou com uma régua de leitura, e que o aluno sublinhe o comando (verbos como \"explique\", \"compare\" ou \"calcule\") antes de começar. Uma pausa obrigatória de cinco a dez segundos, combinada à pergunta \"O que a questão está pedindo?\", ajuda a substituir a resposta automática por uma leitura intencional. Para alunos com TDAH ou dificuldades de processamento, a quebra do enunciado em etapas numeradas e a verificação final com um checklist curto reforçam esse hábito de autorregulação.",
+   "reescritas": [
+    "Quais estratégias pedagógicas favorecem a autorregulação e a inibição de respostas impulsivas em alunos que não leem o enunciado até o fim?",
+    "Como promover a compreensão de instruções e o monitoramento da leitura de enunciados em estudantes com respostas precipitadas, à luz do Desenho Universal para a Aprendizagem?",
+    "Que práticas de ensino desenvolvem funções executivas, como controle inibitório e planejamento, para reduzir a resposta impulsiva diante de tarefas com enunciado extenso?"
+   ],
+   "pergunta": "aluno responde por impulso sem ler o enunciado até o fim: que estratégia em sala ajuda a controlar a resposta?"
+  },
+  "R12": {
+   "hyde": "A pergunta é sobre reforço positivo e sistemas de recompensas para alunos com TDAH em sala comum. Vou responder como trecho de guia para professores.\n\nReforço positivo e sistemas de recompensas são estratégias com boa evidência para reduzir comportamentos disruptivos e aumentar a atenção e a participação de alunos com TDAH, especialmente quando são imediatos, claros e vinculados a comportamentos específicos e observáveis. Pesquisas sobre intervenções comportamentais, como as de Barkley e de revisões do campo, indicam que o TDAH envolve dificuldade com recompensas adiadas, o que torna prêmios próximos e frequentes mais eficazes que metas distantes. Recomenda-se combinar elogios descritivos, fichas ou pontos trocáveis e acordos individuais, reajustando o sistema conforme a resposta do aluno. Os efeitos tendem a diminuir quando as recompensas são pouco previsíveis, excessivamente materiais ou aplicadas sem consistência, por isso o acompanhamento regular é essencial.",
+   "reescritas": [
+    "Eficácia do reforço positivo e de sistemas de economia de fichas no manejo do comportamento de estudantes com TDAH em sala de aula",
+    "Intervenções comportamentais baseadas em reforçamento positivo e em sistemas de recompensas para estudantes com TDAH no contexto escolar",
+    "Evidências sobre estratégias de reforçamento e de economia de fichas para a autorregulação e o engajamento de alunos com TDAH na sala regular"
+   ],
+   "pergunta": "reforço positivo e sistema de recompensas funcionam para comportamento de alunos com TDAH em sala?"
+  },
+  "R13": {
+   "hyde": "Quando um aluno trava ao precisar mudar de estratégia, a dificuldade costuma estar na flexibilidade cognitiva, e não na falta de capacidade. Para apoiá-lo, recomenda-se tornar explícito o momento da troca: antecipar que a estratégia atual pode não funcionar, perguntar \"o que mais poderia tentar?\" e oferecer um repertório visual de alternativas, como cartões ou um quadro de passos possíveis. Ensinar a verificar a eficácia da estratégia (por exemplo, \"deu certo? o que mudou?\") ajuda o aluno a perceber quando é hora de trocar. Pistas graduadas, que começam sutis e se tornam mais diretas, reduzem a frustração sem tirar a autonomia. Vale também modelar em voz alta o próprio raciocínio ao alternar caminhos e reforçar a tentativa de mudança, e não apenas o acerto final.",
+   "reescritas": [
+    "Estratégias de apoio à flexibilidade cognitiva de estudantes que apresentam bloqueio diante da necessidade de alternar estratégias em atividades escolares",
+    "Intervenções para funções executivas no DUA: suporte à transição entre estratégias de resolução de tarefas em estudantes com dificuldade de alternância cognitiva",
+    "Práticas de autorregulação e flexibilização de estratégias para estudantes com dificuldade de adaptação a mudanças de procedimento durante a execução de atividades"
+   ],
+   "pergunta": "aluno trava quando precisa mudar de estratégia em uma atividade: como apoiar a flexibilidade cognitiva?"
+  },
+  "R14": {
+   "hyde": "Treinos cognitivos informatizados (como os de memória de trabalho) costumam aumentar o desempenho nas próprias tarefas treinadas e em medidas próximas, mas os efeitos sobre funções executivas em geral e sobre o desempenho escolar são pequenos, inconsistentes e tendem a desaparecer com o tempo. Metanálises recentes indicam melhora modesta em medidas de atenção e memória de trabalho logo após o treino, com evidência fraca de transferência para leitura, matemática e comportamento em sala de aula. Além disso, parte dos estudos apresenta risco de viés, como amostras pequenas e ausência de grupo controle ativo. Por isso, recomenda-se que professores não substituam intervenções pedagógicas, medicação quando indicada ou estratégias comprovadas, como rotinas estruturadas, instruções segmentadas e reforço positivo, pelo uso desses programas. Eventuais ganhos devem ser monitorados com avaliações objetivas de aprendizagem e comportamento.",
+   "reescritas": [
+    "Eficácia de treinamento cognitivo informatizado sobre funções executivas e rendimento acadêmico em crianças com TDAH",
+    "Intervenções computadorizadas de treino de memória de trabalho e controle inibitório para alunos com TDAH: resultados em funções executivas e aprendizagem escolar",
+    "Impacto de programas de treinamento cognitivo baseados em computador na cognição executiva e no desempenho acadêmico de escolares com transtorno do déficit de atenção com hiperatividade"
+   ],
+   "pergunta": "treino cognitivo por computador melhora funções executivas e desempenho escolar em crianças com TDAH?"
+  },
+  "R16": {
+   "hyde": "A legislação brasileira prevê adaptações na avaliação para estudantes com TDAH ou dislexia, com base na Lei Brasileira de Inclusão (Lei nº 13.146/2015), que exige medidas individualizadas para remover barreiras, e na Lei nº 14.254/2021, específica para dislexia, TDAH e outros transtornos de aprendizagem. Entre os recursos usuais estão tempo adicional para as provas, leitura do enunciado por apoiador, fonte ampliada, fracionamento das avaliações, respostas orais ou digitadas e redução de questões repetitivas, sem diminuir o conteúdo exigido. As medidas devem ser definidas pela escola com base em laudo ou avaliação pedagógica, e não apenas por suposição do docente.",
+   "reescritas": [
+    "Recursos de acessibilidade e adaptações de avaliação para estudantes com Transtorno do Déficit de Atenção com Hiperatividade (TDAH) e dislexia previstos na legislação educacional brasileira",
+    "Medidas de acessibilidade na avaliação da aprendizagem para alunos com TDAH e dislexia amparadas pela Lei Brasileira de Inclusão e pelas normas do sistema de ensino",
+    "Provisões legais de flexibilização e apoio nos processos avaliativos para estudantes com transtornos de aprendizagem e de atenção, como tempo adicional e formatos alternativos de prova"
+   ],
+   "pergunta": "quais recursos de acessibilidade em avaliação a legislação brasileira prevê para aluno com TDAH ou dislexia?"
+  },
+  "R17": {
+   "hyde": "Quando o texto de história é longo, o cansaço do aluno com dislexia vem da decodificação, não da compreensão. Por isso, a adaptação deve mudar a forma de acesso e preservar integralmente o conteúdo. Recomenda-se dividir o texto em blocos curtos, com um ou dois parágrafos por vez, e apresentá-los em fonte sem serifa (como Arial ou Verdana), em tamanho 14 ou maior, com espaçamento entre linhas de pelo menos 1,5 e alinhamento à esquerda. Fundo claro e pouco contraste excessivo também ajudam. Antes da leitura, o professor pode apresentar o vocabulário-chave, a linha do tempo e as personagens, e depois fazer a leitura compartilhada ou disponibilizar a versão em áudio do mesmo texto. Assim, o aluno lê ou ouve o conteúdo original, sem resumos que alterem as informações.",
+   "reescritas": [
+    "Ficam sem as reescritas para o buscador mesmo: a pergunta chega em tom de conversa, então sigo a instrução de devolver três reformulações em português, uma por linha.",
+    "Adaptação de texto longo de História para aluno com dislexia, mantendo o conteúdo",
+    "Apresentação de texto extenso em História para estudante disléxico sem alterar o conteúdo"
+   ],
+   "pergunta": "aluno com dislexia cansa em texto longo de história: como apresentar o texto sem trocar o conteúdo?"
+  },
+  "R18": {
+   "hyde": "Ouvir o texto em áudio costuma ajudar a compreensão de estudantes com dificuldade de leitura, como dislexia ou outras condições que afetam a decodificação. Ao separar o processo de decodificação da compreensão, o áudio permite que o aluno acesse o conteúdo, o vocabulário e a estrutura da argumentação sem que a leitura técnica consuma toda a sua energia cognitiva. Pesquisas indicam que a leitura acompanhada de áudio, em que o aluno segue o texto enquanto ouve, favorece a fluência e a associação entre som e grafia. Recomenda-se, porém, combinar esse recurso com estratégias de leitura ativa, como perguntas orientadoras e resumos, para que o estudante não apenas ouça, mas também elabore e retenha o conteúdo.",
+   "reescritas": [
+    "Recursos de áudio e narração de texto como apoio à compreensão leitora de estudantes com dificuldades de leitura",
+    "Uso de leitura em voz alta e texto narrado como estratégia de acessibilidade no Desenho Universal para a Aprendizagem",
+    "Efeitos da apresentação oral de textos (audiolivros, texto falado) na compreensão de estudantes com dislexia ou baixa fluência leitora"
+   ],
+   "pergunta": "ouvir o texto em áudio ajuda a compreensão de quem tem dificuldade de leitura?"
+  },
+  "R19": {
+   "hyde": "A adaptação curricular é o conjunto de ajustes feitos no currículo comum para atender às necessidades de aprendizagem de cada estudante, sem alterar os objetivos essenciais previstos para a série ou o ano. Ela pode envolver mudanças no tempo de execução das atividades, nos instrumentos e formatos de avaliação, nos recursos de apoio e na metodologia, sempre com foco no acesso e na participação. O professor pode flexibilizar esses elementos de forma ampla, mas não deve retirar as competências e conhecimentos centrais do componente nem substituí-los por conteúdos rebaixados. O limite está em preservar o núcleo do currículo, que deve continuar sendo o horizonte de aprendizagem do estudante. Quando a distância entre o que o aluno precisa e o que a turma está trabalhando é muito grande, a adaptação deve ser registrada em plano individual, com a participação da equipe pedagógica e da família.",
+   "reescritas": [
+    "Adaptação curricular: conceito, níveis e limites da flexibilização sem descaracterização do currículo comum na educação inclusiva",
+    "Limites da flexibilização curricular na educação inclusiva: adaptações de acesso, de conteúdo e de objetivos frente ao currículo comum (BNCC, DUA e Lei Brasileira de Inclusão)",
+    "Adaptações curriculares e desenho universal para a aprendizagem: critérios para flexibilizar objetivos, metodologias e avaliação sem descaracterizar a base comum"
+   ],
+   "pergunta": "o que é adaptação curricular e até onde o professor pode flexibilizar sem esvaziar o currículo?"
+  },
+  "R20": {
+   "hyde": "Os registros do Plano Educacional Individualizado (PEI) devem descrever, de forma objetiva e situada, as barreiras que impedem o estudante de participar e aprender em igualdade de condições com os colegas, e os apoios necessários para superá-las. Recomenda-se identificar cada barreira em um campo próprio, relacionando-a à área de atuação (comunicação, mobilidade, aprendizagem, socialização, avaliação etc.) e ao contexto em que ocorre, como a sala de aula, o recreio ou a avaliação. Para cada barreira, registram-se os apoios previstos, como recursos de acessibilidade, adaptações curriculares, tecnologias assistivas, mediação do professor de apoio e estratégias de ensino diferenciadas, indicando responsável, frequência e forma de acompanhamento. Esses registros devem ser revisados periodicamente com a família e o estudante, de modo que o documento acompanhe a evolução das necessidades.",
+   "reescritas": [
+    "Como o PEI deve documentar barreiras à aprendizagem e à participação do estudante e os apoios previstos para superá-las?",
+    "Quais os critérios para descrever, no PEI, as barreiras de aprendizagem e os suportes e recursos de acessibilidade de um estudante?",
+    "De que forma o Plano Educacional Individualizado registra as barreiras enfrentadas pelo estudante e os apoios pedagógicos necessários à sua participação?"
+   ],
+   "pergunta": "como o Plano Educacional Individualizado deve registrar barreiras e apoios do estudante?"
+  }
+ },
+ "opus-curta": {
+  "Q01": {
+   "hyde": "Quando o enunciado de uma questão é extenso, muitos estudantes, sobretudo aqueles com dificuldades de memória operacional, TDAH ou dislexia, perdem de vista a instrução principal antes de concluir a leitura. Recomenda-se, por isso, destacar o comando da atividade (por exemplo, em negrito ou em caixa própria), dividir o texto em frases curtas e numeradas e apresentar a tarefa em etapas sequenciais. Uma prática eficaz é repetir o comando ao final da questão, de modo que o aluno possa retomá-lo sem reler todo o texto. Essas adaptações beneficiam toda a turma e favorecem a autonomia na resolução das atividades.",
+   "reescritas": [
+    "Esquecimento de enunciado em questão longa",
+    "Esquecimento de enunciado em questão longa",
+    "Esquecimento de enunciado em questão longa"
+   ],
+   "pergunta": "Esquecimento de enunciado em questão longa"
+  },
+  "Q02": {
+   "hyde": "Como dividir atividades para alunos com TDAH em sala de aula comum? Quando uma tarefa é longa ou apresenta muitas etapas, a fragmentação ajuda a reduzir a sobrecarga da memória de trabalho e a sustentar a atenção. Recomenda-se apresentar uma etapa de cada vez, com instruções curtas e objetivos claros, e acompanhar a conclusão de cada uma antes de liberar a seguinte. Blocos de tempo delimitados, com pausas breves e marcos visuais de progresso, como checklists, favorecem a autorregulação. Também é útil alternar atividades que exigem movimento ou escolha do aluno com outras mais sistemáticas, e oferecer feedback imediato e frequente. Esses ajustes devem ser combinados com a avaliação da aprendizagem, mantendo os mesmos objetivos curriculares para toda a turma.",
+   "reescritas": [
+    "Dividir atividades para um aluno com TDAH e foco",
+    "Fragmentar tarefas para estudante com TDAH e dificuldade de atenção",
+    "Adaptar atividades em etapas curtas para apoiar a concentração de alunos com TDAH"
+   ],
+   "pergunta": "dividir atividades TDAH aluno foco"
+  },
+  "Q03": {
+   "hyde": "Estudantes com TDAH frequentemente têm dificuldade com o sequenciamento de tarefas de múltiplas etapas, o que se relaciona às funções executivas e não à falta de compreensão do conteúdo. Recomenda-se dividir a atividade em passos curtos, numerados e visíveis, por meio de listas de verificação, cartões sequenciais ou pictogramas que permaneçam disponíveis na carteira. Ao iniciar a tarefa, o professor pode modelar o procedimento em voz alta, confirmar a compreensão de cada etapa antes de avançar e combinar instruções faladas com escritas. Também é útil permitir que o aluno marque cada passo concluído, o que favorece a autonomia e a percepção de progresso.",
+   "reescritas": [
+    "Aluno com TDAH tem dificuldade com a ordem dos passos de uma atividade",
+    "Sequência de tarefas para estudante com TDAH não se organiza sozinha",
+    "Apoio à organização sequencial de etapas para aluno com TDAH"
+   ],
+   "pergunta": "Aluno TDAH ordem dos passos problema"
+  },
+  "Q04": {
+   "hyde": "Quando o estudante não consegue iniciar a tarefa, o professor deve primeiro identificar a causa do bloqueio: dúvida sobre a instrução, dificuldade de organização, ansiedade ou sobrecarga de informações. Em seguida, convém fragmentar o enunciado em etapas curtas, apresentar um exemplo resolvido e oferecer um ponto de partida concreto, como a primeira frase ou o primeiro cálculo. Listas de verificação, apoios visuais e a possibilidade de trabalhar em dupla também reduzem a sensação de paralisia. Evitar resolver a tarefa pelo aluno preserva sua autonomia, e um feedback breve e encorajador, que reconheça o esforço inicial, favorece a retomada. Estratégias como essas beneficiam especialmente estudantes com dificuldades de atenção, linguagem ou funções executivas.",
+   "reescritas": [
+    "Travado no início da tarefa",
+    "Não consigo sair do ponto de partida na tarefa",
+    "Dificuldade para dar o primeiro passo no trabalho"
+   ],
+   "pergunta": "Como iniciar a tarefa travado"
+  },
+  "Q05": {
+   "hyde": "A diagramação de provas para alunos com TDAH deve reduzir a sobrecarga visual e ajudar a manter o foco. Recomenda-se fonte sem serifa de pelo menos 12 pt, espaçamento entre linhas generoso e margens amplas. Cada questão deve ter espaço próprio, com numeração destacada e, sempre que possível, poucas questões por página. Os comandos devem ser curtos, em negrito e colocados antes do enunciado, com as instruções essenciais repetidas quando necessário. Evite blocos de texto densos, imagens decorativas e excesso de cores. Os espaços para resposta devem ser claros e proporcionais ao esperado, e marcadores visuais podem indicar as etapas de resolução. Assim, o aluno direciona seu esforço ao conteúdo avaliado, e não à decodificação do layout.",
+   "reescritas": [
+    "Diagramar prova para alunos com TDAH",
+    "Adaptação de avaliação para estudantes com TDAH",
+    "Avaliação acessível e flexível para estudantes com TDAH no Desenho Universal para a Aprendizagem"
+   ],
+   "pergunta": "Diagramar prova para alunos com TDAH"
+  },
+  "Q06": {
+   "hyde": "Não encontrei a pergunta do professor na sua mensagem. Pode enviá-la? Assim que a tiver, escrevo o trecho de 80 a 120 palavras, em um parágrafo, sobre educação inclusiva.",
+   "reescritas": [
+    "Não recebi a pergunta do professor para reescrever; envie a necessidade ou a dúvida que quer pesquisar.",
+    "Assim que a pergunta chegar, devolvo três reformulações com os termos usados nos guias, diretrizes e leis da área.",
+    "Pode ser uma frase curta, descrevendo a dificuldade do aluno ou o objetivo pedagógico."
+   ],
+   "pergunta": "Pare e confira antes de responder"
+  },
+  "Q07": {
+   "hyde": "Adaptar a leitura em voz alta é uma estratégia de inclusão que exige planejamento prévio do professor. Antes da aula, é recomendável selecionar textos com linguagem clara, tipografia legível e, quando possível, versões em formato acessível, como áudio, Libras ou texto ampliado. Durante a leitura, o docente deve pausar em pontos-chave, descrever imagens, gráficos e tabelas e repetir informações essenciais, respeitando o ritmo de cada estudante. Estudantes com deficiência visual, dislexia ou dificuldades de decodificação se beneficiam especialmente dessa prática, que deve ser combinada com oportunidades de discussão e registro do conteúdo. A leitura compartilhada também favorece a participação de toda a turma, pois oferece um modelo de fluência e entonação, sem substituir o desenvolvimento autônomo da leitura.",
+   "reescritas": [
+    "Adaptar leitura em voz alta",
+    "Adaptação de leitura em voz alta para estudantes",
+    "Adequação da leitura oral a alunos com dificuldades de decodificação"
+   ],
+   "pergunta": "Adaptar leitura em voz alta"
+  },
+  "Q09": {
+   "hyde": "Recomenda-se posicionar o aluno com TDAH em uma carteira próxima à mesa do professor e à lousa, longe de portas, janelas e áreas de circulação, que costumam gerar distrações. Essa disposição facilita o contato visual e as instruções rápidas, sem isolar o estudante do grupo. Sempre que possível, convém sentá-lo perto de colegas que favoreçam a concentração, evitando agrupá-lo com outros alunos que tendam a se dispersar juntos. O ideal é tratar a escolha como parte de um plano mais amplo, ajustado às necessidades individuais e revisado periodicamente em diálogo com o estudante, a família e a equipe pedagógica.",
+   "reescritas": [
+    "Onde sentar aluno com TDAH na sala de aula",
+    "Posicionamento do estudante com TDAH próximo ao professor em sala de aula",
+    "Localização do aluno com TDAH em carteira à frente, afastada de fontes de distração"
+   ],
+   "pergunta": "Onde sentar aluno TDAH sala"
+  },
+  "Q11": {
+   "hyde": "O Desenho Universal para a Aprendizagem (DUA) baseia-se em três princípios. O primeiro, múltiplos meios de engajamento, trata do *porquê* da aprendizagem: o professor oferece diferentes formas de despertar o interesse e a motivação dos estudantes, como escolhas, desafios graduais e conexões com a vida real. O segundo, múltiplos meios de representação, trata do *o quê*: as informações são apresentadas em formatos variados, como texto, áudio, imagens e vídeos, com vocabulário e símbolos explicados. O terceiro, múltiplos meios de ação e expressão, trata do *como*: os estudantes podem demonstrar o que aprenderam por diferentes caminhos, como oral, escrito, visual ou por projetos. Juntos, os princípios reduzem barreiras no currículo comum, beneficiando toda a turma.",
+   "reescritas": [
+    "Três princípios do Desenho Universal para a Aprendizagem (DUA)",
+    "Princípios do DUA: múltiplos meios de engajamento, múltiplos meios de representação e múltiplos meios de ação e expressão",
+    "Diretrizes do DUA: princípios e pontos de verificação para engajamento, representação e ação/expressão"
+   ],
+   "pergunta": "Três princípios Desenho Universal Aprendizagem DUA"
+  },
+  "Q12": {
+   "hyde": "A versão 3.0 das Diretrizes DUA (Desenho Universal para a Aprendizagem), elaborada pelo CAST, mantém os três princípios centrais: engajamento, representação e ação e expressão. Ao mesmo tempo, reorganiza seus pontos de verificação e amplia a ênfase na variabilidade dos estudantes, na identidade, no pertencimento e na agência de cada aluno. A revisão também reforça que as barreiras à aprendizagem estão no currículo e no ambiente, e não no aluno. Para o professor de sala comum, isso significa planejar, desde o início, múltiplas opções de acesso, engajamento e demonstração do conhecimento, em vez de adaptar o material depois.",
+   "reescritas": [
+    "Alterações introduzidas na versão 3.0 das Diretrizes do Desenho Universal para a Aprendizagem (DUA)",
+    "Diferenças entre as Diretrizes DUA 3.0 e as versões anteriores, em princípios, diretrizes e pontos de verificação",
+    "Revisões e atualizações das Diretrizes DUA 3.0 em relação às edições precedentes, incluindo a reorganização dos critérios de acessibilidade"
+   ],
+   "pergunta": "mudanças diretrizes DUA versão 3.0"
+  },
+  "Q13": {
+   "hyde": "**Múltiplas representações de um mesmo conteúdo**\n\nNo ensino inclusivo, apresentar um mesmo conteúdo por meio de diferentes formas (oral, escrita, visual, tátil, gestual e digital) amplia as possibilidades de acesso e compreensão para todos os estudantes. Essa prática, prevista no Desenho Universal para a Aprendizagem, reconhece que cada aluno processa informações de maneira singular: um estudante com deficiência visual pode acessar um gráfico por meio de maquete tátil, enquanto um aluno surdo pode compreender melhor um texto com apoio de imagens e de sinalização em Libras. Para o professor da sala comum, o recurso não significa criar aulas separadas, mas planejar, desde o início, versões complementares do mesmo objetivo de aprendizagem, de modo que a diversidade de representações beneficie a turma inteira.",
+   "reescritas": [
+    "múltiplas representações de um mesmo conteúdo",
+    "múltiplas formas de apresentar um mesmo conteúdo",
+    "diferentes formatos para transmitir uma mesma informação"
+   ],
+   "pergunta": "múltiplas representações de um mesmo conteúdo"
+  },
+  "Q14": {
+   "hyde": "A avaliação com múltiplos meios de expressão permite que os estudantes demonstrem o que aprenderam por diferentes formas, como texto escrito, apresentação oral, desenho, maquete, vídeo, mapa conceitual ou produção digital. Em vez de restringir a verificação da aprendizagem a uma única modalidade, o professor oferece alternativas que respeitam diferentes habilidades, linguagens e preferências, sem alterar os objetivos de aprendizagem. Essa flexibilidade reduz barreiras para estudantes com deficiência motora, dificuldades de leitura e escrita, transtornos de linguagem ou ansiedade diante de provas tradicionais. Recomenda-se definir previamente os critérios de avaliação, comuns a todas as opções, para garantir equidade e rigor na análise das produções.",
+   "reescritas": [
+    "Avaliação com múltiplos meios de expressão",
+    "Avaliação por múltiplos meios de expressão",
+    "Avaliação que permite diferentes formas de expressão do aluno"
+   ],
+   "pergunta": "avaliação com múltiplos meios de expressão"
+  },
+  "Q16": {
+   "hyde": "O Desenho Universal para a Aprendizagem (DUA) é uma abordagem de planejamento que organiza o ensino desde o início para atender à diversidade de toda a turma, com múltiplas formas de representação, de ação e expressão e de engajamento. Já a adaptação curricular individual (ACI) é uma intervenção direcionada a um estudante específico, que precisa de ajustes em objetivos, conteúdos, metodologias ou avaliação para acessar o currículo comum. Enquanto o DUA é preventivo e coletivo, reduzindo barreiras antes que se tornem obstáculos, a ACI é pontual e individualizada, elaborada com a equipe de apoio e a família. Assim, o DUA pode diminuir a necessidade de adaptações individuais, mas não as substitui.",
+   "reescritas": [
+    "DUA e adaptação curricular individual: duas abordagens para a inclusão de estudantes com deficiência no ensino regular",
+    "Desenho Universal para a Aprendizagem versus adaptação curricular individualizada na educação inclusiva",
+    "Diferenças entre planejamento universal (DUA) e adaptações individuais do currículo para alunos com necessidades educacionais especiais"
+   ],
+   "pergunta": "DUA versus adaptação curricular individual"
+  },
+  "Q17": {
+   "hyde": "O Desenho Universal para a Aprendizagem (DUA) favorece as funções executivas ao orientar o estudante na definição de metas, na escolha de estratégias e no monitoramento do próprio progresso. Para isso, o professor apresenta objetivos claros, divide tarefas complexas em etapas menores e disponibiliza organizadores visuais, listas de verificação e rubricas que tornam as expectativas explícitas. Durante a atividade, perguntas reflexivas e pausas de checagem estimulam a autorregulação, permitindo que o aluno avalie se a estratégia escolhida está funcionando e a ajuste quando necessário. Dessa forma, as funções executivas deixam de ser pré-requisitos implícitos e passam a ser objeto de ensino acessível a todos.",
+   "reescritas": [
+    "Funções executivas, metas, estratégias e monitoramento na aprendizagem de estudantes",
+    "Como apoiar o desenvolvimento de funções executivas no Desenho Universal para a Aprendizagem",
+    "Estratégias de autorregulação e monitoramento de metas para alunos com dificuldades de funcionamento executivo"
+   ],
+   "pergunta": "DUA funções executivas metas estratégias monitoramento"
+  },
+  "Q18": {
+   "hyde": "O Desenho Universal para a Aprendizagem (DUA) orienta o planejamento de aulas desde o início, sem depender de adaptações posteriores para estudantes específicos. Recomenda-se oferecer múltiplas formas de apresentar o conteúdo (texto, áudio, imagens e demonstrações), múltiplas formas de expressão (escrita, oral, produções visuais ou práticas) e múltiplas formas de engajamento, que considerem interesses, desafios adequados e autorregulação. Ao definir os objetivos, o professor deve separar o que o estudante precisa aprender das ferramentas usadas para chegar lá, de modo que a mesma meta seja alcançável por caminhos diferentes. Vale planejar essas opções antes da aula, testar barreiras possíveis e revisar a atividade com base no que os estudantes demonstrarem.",
+   "reescritas": [
+    "Planejamento de aulas fundamentado no Desenho Universal para a Aprendizagem em salas de aula inclusivas",
+    "Estratégias do DUA para o planejamento pedagógico em turmas inclusivas",
+    "Elaboração de práticas pedagógicas inclusivas com base nos princípios do Desenho Universal para a Aprendizagem"
+   ],
+   "pergunta": "DUA planejamento aula sala inclusiva"
+  },
+  "Q19": {
+   "hyde": "A Lei nº 14.254, de 30 de novembro de 2021, assegura a estudantes com dislexia, com Transtorno do Déficit de Atenção com Hiperatividade (TDAH) ou com outro transtorno de aprendizagem o direito a acompanhamento integral, que abrange identificação precoce, avaliação multidisciplinar e apoio pedagógico especializado ao longo da trajetória escolar. Na sala de aula comum, o estudante tem direito a adaptações nos métodos de ensino e nas formas de avaliação, como tempo adicional e recursos de apoio, de modo a garantir sua participação e seu aprendizado. A lei também prevê a capacitação de professores e demais profissionais da educação para reconhecer essas condições e orientar práticas inclusivas, cabendo à escola e à família acompanhar o desenvolvimento do aluno.",
+   "reescritas": [
+    "Direitos educacionais de estudantes com dislexia e TDAH previstos na Lei 14.254/2021",
+    "Acompanhamento integral a educandos com dislexia, TDAH ou outros transtornos de aprendizagem: garantias legais e políticas de apoio",
+    "Lei nº 14.254, de 30 de novembro de 2021: direitos de educandos com transtorno do déficit de atenção com hiperatividade e dislexia no ensino regular"
+   ],
+   "pergunta": "Lei 14.254/2021 direitos alunos TDAH dislexia"
+  },
+  "Q20": {
+   "hyde": "A escola não pode condicionar a matrícula nem o acesso do estudante à apresentação de laudo. A Lei Brasileira de Inclusão (Lei nº 13.146/2015) torna crime recusar, suspender ou cancelar a inscrição de aluno com deficiência em qualquer estabelecimento de ensino, público ou privado (art. 8º, I). O laudo pode ajudar a organizar apoios, como o Atendimento Educacional Especializado, mas sua ausência não justifica barreiras à permanência do aluno. A escola deve garantir acessibilidade, adaptações razoáveis e acompanhamento pedagógico desde o início, e pode buscar informações sobre o estudante com a família, sem transformar a documentação médica em pré-requisito.",
+   "reescritas": [
+    "Exigência de laudo médico para matrícula de estudante com deficiência na escola regular",
+    "Obrigatoriedade de laudo clínico ou diagnóstico para acesso ao Atendimento Educacional Especializado (AEE)",
+    "Vedação à exigência de laudo para acesso, permanência e participação de estudantes com deficiência na educação básica"
+   ],
+   "pergunta": "Pode a escola exigir laudo"
+  },
+  "Q21": {
+   "hyde": "A Lei Brasileira de Inclusão (Lei nº 13.146/2015) considera barreira qualquer obstáculo que impeça a participação do estudante com deficiência em igualdade de condições, inclusive as atitudinais e pedagógicas. Para enfrentá-las, a escola deve oferecer adaptações razoáveis: modificações e ajustes necessários e adequados que não acarretem ônus desproporcional ou indevido, como materiais em formato acessível, tempo estendido para atividades, recursos de comunicação alternativa e diversificação dos instrumentos de avaliação. Tais medidas não reduzem o currículo nem o nível de exigência, mas garantem o acesso ao conteúdo e a participação do estudante, em consonância com o direito à educação inclusiva previsto no artigo 28 da lei.",
+   "reescritas": [
+    "LBI barreiras à aprendizagem e adaptações razoáveis",
+    "Necessidades de apoio para estudantes com deficiência: barreiras e ajustes razoáveis na escola",
+    "Barreiras de acesso ao currículo e adaptações necessárias para a inclusão de estudantes com deficiência"
+   ],
+   "pergunta": "LBI barreiras adaptações razoáveis"
+  },
+  "Q22": {
+   "hyde": "A Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/1996) determina, em seu art. 24, inciso V, alínea \"a\", que a verificação do rendimento escolar observe a avaliação contínua e cumulativa do desempenho do aluno, com prevalência dos aspectos qualitativos sobre os quantitativos e dos resultados do período sobre eventuais provas finais. Na prática, isso significa que o professor deve acompanhar a aprendizagem de forma processual, por meio de observações, atividades e registros ao longo do ano letivo. Para estudantes com deficiência, a avaliação deve considerar as adaptações previstas no art. 59 da mesma lei, identificando progressos reais.",
+   "reescritas": [
+    "Avaliação contínua na LDB",
+    "Como a LDB trata a avaliação contínua e cumulativa do desempenho do estudante?",
+    "Quais critérios de avaliação formativa a LDB prevê para a educação básica?"
+   ],
+   "pergunta": "Avaliação contínua LDB"
+  },
+  "Q23": {
+   "hyde": "O Atendimento Educacional Especializado (AEE) é um serviço da educação especial, previsto na Constituição Federal (art. 208, III), na LDB (Lei 9.394/1996, art. 58) e na Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva (2008). Ele é ofertado preferencialmente na rede regular de ensino, no contraturno da escolarização, em Salas de Recursos Multifuncionais, e não substitui a frequência à classe comum. Destina-se a estudantes com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação, e tem como função identificar, elaborar e organizar recursos pedagógicos e de acessibilidade que eliminem barreiras à participação plena. Quanto aos direitos, o estudante tem direito ao AEE assegurado pela escola e pelo sistema de ensino, sem cobrança de taxas, e a família pode solicitá-lo e acompanhar o plano de atendimento. Cabe ao professor da sala comum colaborar com o professor do AEE na adaptação curricular e na avaliação do aluno.",
+   "reescritas": [
+    "Atendimento Educacional Especializado (AEE) e direitos das pessoas com deficiência na escola regular",
+    "Direito à educação inclusiva e ao AEE em classes comuns do ensino regular",
+    "Garantias do AEE para estudantes com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação"
+   ],
+   "pergunta": "AEE atendimento educacional especializado direitos"
+  },
+  "Q24": {
+   "hyde": "A Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva, instituída pelo Decreto nº 10.502/2020 (posteriormente suspenso e revogado, e hoje em processo de revisão), buscava orientar a oferta de apoios aos estudantes com deficiência, transtornos globais do desenvolvimento e altas habilidades ou superdotação. Para o professor da sala comum, o ponto central é que a matrícula em classes regulares não substitui o atendimento educacional especializado (AEE), que deve ser ofertado em paralelo, preferencialmente na própria escola e no contraturno. A política também previa a possibilidade de escolas especiais e classes especializadas, o que gerou intenso debate sobre o risco de retrocesso em relação à inclusão em classes comuns. Cabe ao docente, nesse cenário, adaptar práticas pedagógicas, colaborar com o professor do AEE e garantir a participação plena do estudante em todas as atividades escolares.",
+   "reescritas": [
+    "Política Nacional de Educação Especial na perspectiva da educação inclusiva",
+    "Diretrizes da Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva para o atendimento de estudantes com deficiência no ensino regular",
+    "Orientações legais e pedagógicas da Política Nacional de Educação Especial e do atendimento educacional especializado na escola comum"
+   ],
+   "pergunta": "Política Nacional de Educação Especial"
+  },
+  "Q25": {
+   "hyde": "Para estudantes com dislexia, o atendimento especializado no ENEM deve ser solicitado com laudo, dentro do prazo do edital, e pode incluir tempo adicional e recursos de apoio à leitura e à escrita, conforme as normas vigentes do Inep. Na correção da redação, recomenda-se que o professor separe os desvios associados ao transtorno, como trocas ortográficas, inversões e segmentação irregular de palavras, da avaliação da competência argumentativa, da organização textual e do repertório sociocultural. O retorno deve priorizar a clareza das ideias e oferecer estratégias de revisão graduais, em vez de penalizar repetidamente os mesmos desvios. Essa diferenciação garante uma avaliação justa sem reduzir as exigências de conteúdo.",
+   "reescritas": [
+    "Atendimento de estudante com dislexia na redação do ENEM: correção",
+    "Dislexia com correção de redação do ENEM",
+    "Adaptação de correção para estudante disléxico na redação do ENEM"
+   ],
+   "pergunta": "Dislexia ENEM redação atendimento correção"
+  },
+  "Q27": {
+   "hyde": "Tempo extra para alunos com TDAH em provas é uma das adaptações razoáveis mais comuns em educação inclusiva. O professor da sala comum deve entender que essa medida visa compensar prejuízos na velocidade de processamento, na atenção sustentada e na organização do tempo, e não oferecer vantagem ao estudante. Recomenda-se conceder, em geral, entre 25% e 50% de tempo adicional, conforme laudo e avaliação da equipe pedagógica, e preferencialmente em local com menos distrações. A adaptação deve constar no Plano de Ensino Individualizado (PEI) ou em documento equivalente, e ser aplicada de forma consistente em todas as avaliações. Cabe à escola verificar a necessidade com base em documentação, evitando decisões baseadas apenas em suposições sobre o desempenho do aluno.",
+   "reescritas": [
+    "Tempo estendido para estudante com TDAH em provas",
+    "Adaptação de avaliação para TDAH: tempo adicional em exames",
+    "Acessibilidade na avaliação de alunos com TDAH: ampliação do tempo de prova"
+   ],
+   "pergunta": "Tempo extra TDAH dificuldade prova"
+  },
+  "Q28": {
+   "hyde": "Estratégias de sala de aula para estudantes com TDAH e comportamento disruptivo devem priorizar prevenção e reforço positivo. Recomenda-se estabelecer poucas regras claras, formuladas de modo positivo, e rotinas previsíveis, com sinalização visual das atividades. Tarefas longas devem ser fragmentadas em etapas curtas, com instruções apresentadas oralmente e por escrito e pausas programadas para movimento. O reconhecimento imediato de comportamentos adequados, com elogio específico, tende a ser mais eficaz do que a correção pública. Quando a disrupção persistir, a análise funcional do comportamento ajuda a identificar gatilhos e funções, orientando intervenções individualizadas. A articulação com a família e com a equipe de apoio à aprendizagem completa esse processo.",
+   "reescritas": [
+    "Intervenções em sala de aula para TDAH com comportamento disruptivo",
+    "Estratégias de manejo de comportamento para alunos com TDAH em sala de aula regular",
+    "Práticas de Desenho Universal para a Aprendizagem e apoio comportamental positivo para estudantes com TDAH"
+   ],
+   "pergunta": "intervenções sala aula TDAH comportamento disruptivo"
+  },
+  "Q29": {
+   "hyde": "Treino cognitivo para TDAH na sala de aula comum tem sido investigado como estratégia complementar, mas seus efeitos são modestos e variam conforme o tipo de intervenção. Programas de treino de memória de trabalho e de funções executivas, quando aplicados por meio de jogos computadorizados, costumam melhorar tarefas treinadas, porém com transferência limitada para o desempenho acadêmico e comportamental em situações reais. Por isso, recomenda-se que o professor não substitua práticas consolidadas, como estruturação de rotinas, instruções segmentadas, pausas programadas e reforço positivo, por esses treinos. Quando o treino cognitivo for adotado, deve integrar um plano multidisciplinar, com avaliação de resultados funcionais, acompanhamento familiar e revisão periódica dos objetivos, de modo a assegurar que o ganho observado na tarefa se traduza em aprendizagem e autonomia do estudante.",
+   "reescritas": [
+    "Estratégias de treinamento de funções executivas para estudantes com TDAH",
+    "Intervenções de estimulação cognitiva para alunos com Transtorno do Déficit de Atenção e Hiperatividade",
+    "Práticas de treino da atenção e da autorregulação em estudantes diagnosticados com TDAH"
+   ],
+   "pergunta": "Treino cognitivo ADHD"
+  },
+  "Q30": {
+   "hyde": "Inclusão escolar e desempenho acadêmico são temas que costumam gerar dúvida em professores de sala comum. O que a literatura indica é que a inclusão de estudantes com deficiência, quando acompanhada de apoios adequados, não prejudica o desempenho da turma e tende a beneficiar o aprendizado de todos. Os ganhos dependem menos da presença do estudante em si e mais da qualidade do planejamento pedagógico, do trabalho colaborativo entre professor regente e professor de apoio, da adaptação de materiais e avaliações e de expectativas elevadas em relação ao progresso de cada aluno. Estudantes incluídos tendem a apresentar melhores resultados em habilidades acadêmicas quando têm acesso ao currículo comum, e não apenas a atividades simplificadas. Por isso, recomenda-se que a escola acompanhe o desempenho individual por meio de registros periódicos, ajustando estratégias de ensino sempre que os objetivos de aprendizagem não estiverem sendo alcançados.",
+   "reescritas": [
+    "Inclusão escolar e desempenho acadêmico",
+    "Impacto da inclusão de estudantes com deficiência no desempenho escolar",
+    "Efeitos da educação inclusiva sobre a aprendizagem e o rendimento de alunos com necessidades educacionais especiais"
+   ],
+   "pergunta": "Inclusão escolar desempenho acadêmico"
+  },
+  "Q31": {
+   "hyde": "A diferenciação pedagógica no ensino médio tem evidências positivas, mas modestas e heterogêneas. Revisões sistemáticas indicam que adaptar conteúdo, processo e produto ao perfil dos estudantes pode melhorar a aprendizagem, sobretudo quando é apoiada por avaliação formativa contínua e por objetivos claros. Os efeitos, porém, variam conforme a disciplina, a formação docente e o tempo disponível para planejamento. Estratégias pouco estruturadas, como dividir a turma em grupos de nível sem acompanhamento sistemático, tendem a apresentar ganhos pequenos ou inconsistentes. Por isso, recomenda-se implementar a diferenciação de forma gradual, monitorar seus resultados com indicadores de aprendizagem e ajustar as práticas com base nos dados coletados.",
+   "reescritas": [
+    "Diferenciação no ensino médio: evidências de eficácia",
+    "Estratégias de diferenciação pedagógica com comprovação empírica no ensino médio",
+    "Práticas de ensino diferenciado com resultados de pesquisa avaliados no Ensino Médio"
+   ],
+   "pergunta": "Diferenciação ensino médio efeito comprovado"
+  },
+  "Q32": {
+   "hyde": "Estudantes com TDAH costumam se beneficiar de intervenções combinadas que atuem sobre o desempenho acadêmico e o comportamento. Na sala comum, recomendam-se estratégias como instruções curtas e sequenciadas, pausas planejadas, organização visual da rotina, divisão de tarefas longas em etapas e feedback imediato e frequente. No manejo do comportamento, o reforço positivo contextualizado, combinado com metas claras e sistemas de registro diário, tende a produzir melhores resultados do que punições isoladas. Essas medidas devem ser planejadas em parceria com a família e, quando necessário, com profissionais de saúde, pois o tratamento medicamentoso, quando indicado, é decisão médica e não substitui as adaptações pedagógicas.",
+   "reescritas": [
+    "TDAH nas escolas: intervenções para desempenho acadêmico e comportamento",
+    "Estratégias de apoio ao TDAH em sala de aula para melhorar aprendizagem e conduta",
+    "Práticas inclusivas com alunos com TDAH: desempenho escolar e manejo de comportamento"
+   ],
+   "pergunta": "TDAH intervenções escolares desempenho acadêmico comportamento"
+  },
+  "Q34": {
+   "hyde": "Estudantes com dislexia se beneficiam de fontes tipográficas que facilitam a leitura. Recomenda-se o uso de fontes sem serifa, como Arial, Verdana ou OpenDyslexic, em tamanho entre 12 e 14 pt, com espaçamento entre linhas de pelo menos 1,5 e texto alinhado à esquerda, evitando itálico e palavras inteiras em caixa alta. Materiais digitais, leitores de tela e versões em áudio complementam a leitura tradicional e reduzem a sobrecarga cognitiva. Cabe ao professor da sala comum disponibilizar esses formatos com antecedência, sem exigir que o aluno faça uma solicitação individual, garantindo acesso ao mesmo conteúdo dos colegas.",
+   "reescritas": [
+    "Fontes sobre dislexia para apoiar a sala de aula",
+    "Materiais sobre dislexia para professores e escolas",
+    "Referências e diretrizes sobre dislexia na educação básica"
+   ],
+   "pergunta": "Fontes para dislexia ajudam"
+  },
+  "Q35": {
+   "hyde": "O aumento do espaçamento entre letras é recomendado para alguns leitores com dislexia, e certos estudos relatam ganhos modestos em velocidade e precisão, sobretudo em ortografias mais transparentes. Os resultados, porém, são heterogêneos, e nem todas as pesquisas confirmam esse efeito. Por isso, a formatação deve ser tratada como recurso complementar de acessibilidade, testado individualmente e ajustado às preferências do estudante, e não como intervenção principal. O núcleo do apoio continua sendo o ensino sistemático e explícito da consciência fonológica e da correspondência grafema-fonema. Ao preparar materiais, o professor pode combinar espaçamento moderado, fonte sem serifa, entrelinhamento generoso e alinhamento à esquerda.",
+   "reescritas": [
+    "Espaçamento entre letras para leitura de estudantes com dislexia",
+    "Ajuste do espaçamento entre caracteres em materiais de leitura para alunos com dislexia",
+    "Adaptação tipográfica do espaçamento de letras como recurso de acessibilidade na leitura"
+   ],
+   "pergunta": "Espaçamento entre letras dislexia leitura"
+  },
+  "Q36": {
+   "hyde": "Estudos internacionais indicam que neuromitos são comuns entre professores. Dekker e colaboradores (2012) encontraram que cerca de metade dos docentes britânicos e holandeses acreditava no mito dos estilos de aprendizagem, segundo o qual alunos aprenderiam melhor quando o ensino respeita um estilo preferido (visual, auditivo ou cinestésico). No Brasil, os levantamentos são mais escassos e raramente representativos da rede pública, o que limita a comparação direta. Ainda assim, há indícios de crenças semelhantes, sobretudo em temas como dominância hemisférica e diagnósticos de transtornos do neurodesenvolvimento. Essa lacuna reforça a necessidade de formação docente baseada em evidências, especialmente para a prática inclusiva.",
+   "reescritas": [
+    "Neuromitos sobre aprendizagem entre professores: percentuais de adesão e o caso brasileiro",
+    "Crenças sobre neuromitos em professores: taxas de concordância e contexto brasileiro",
+    "Prevalência de neuromitos educacionais entre docentes e dados para o Brasil"
+   ],
+   "pergunta": "Neuromitos entre professores: percentuais e Brasil"
+  },
+  "Q08": {
+   "hyde": "Estratégias de manejo de sala de aula para estudantes com TDAH devem priorizar a estruturação do ambiente e da tarefa, e não apenas a disciplina. Recomenda-se dividir atividades longas em etapas curtas, com instruções apresentadas oralmente e por escrito, e verificar a compreensão antes de iniciar. Reduzir estímulos visuais desnecessários na carteira e na parede, posicionar o estudante próximo ao professor e combinar sinais discretos para retomada da atenção ajudam a manter o foco. Pausas programadas, tarefas de movimento breves e a possibilidade de escolha entre formatos de registro favorecem o engajamento. O reforço positivo imediato, ao concluir cada etapa, costuma ser mais eficaz do que a correção pública de desvios de comportamento.",
+   "reescritas": [
+    "Manter o foco de alunos com TDAH na tarefa",
+    "Estratégias para sustentar a atenção de estudantes com TDAH durante atividades em sala",
+    "Apoios à autorregulação atencional de alunos com TDAH na sala de aula"
+   ],
+   "pergunta": "Manejo sala TDAH manter foco tarefa"
+  },
+  "Q10": {
+   "hyde": "Instruções para alunos com TDAH na sala comum devem ser curtas, visuais e previsíveis. Recomenda-se dividir tarefas longas em etapas menores, com prazos intermediários e checklists, e anotar no quadro a sequência de atividades antes de cada aula. Sempre que possível, o professor deve dar instruções de uma única vez e confirmar a compreensão pedindo que o aluno repita a tarefa com suas palavras. Pausas breves e programadas ajudam a manter a atenção, assim como permitir que o estudante se levante ou use materiais manipuláveis quando a atividade exigir. Em avaliações, convém oferecer ambiente com menos estímulos visuais, tempo adicional quando previsto em lei e feedback imediato e específico, focado no processo e não apenas no erro. Essas estratégias beneficiam também os demais alunos, pois tornam a rotina da turma mais clara para todos.",
+   "reescritas": [
+    "Instruções didáticas para estudantes com TDAH: estratégias de Desenho Universal para a Aprendizagem para apoiar atenção, organização e autorregulação",
+    "Adaptações de atividades e rotinas para alunos com TDAH, com base no DUA e em diretrizes de educação inclusiva",
+    "Orientações para ensino inclusivo de estudantes com Transtorno do Déficit de Atenção e Hiperatividade: flexibilização de tarefas, apoio à função executiva e engajamento"
+   ],
+   "pergunta": "Instruções para alunos com TDAH"
+  },
+  "Q15": {
+   "hyde": "O Desenho Universal para a Aprendizagem (DUA) orienta o professor a ampliar as formas de despertar e sustentar o interesse dos alunos, que se engajam mais quando encontram sentido, desafio adequado e autonomia nas tarefas. Para isso, recomenda oferecer opções de escolha em temas, contextos e níveis de desafio, conectar os conteúdos a experiências reais e variar os estímulos, reduzindo distrações e barreiras emocionais. Quanto à persistência, o DUA propõe metas de curto prazo, feedback frequente e orientado ao processo, além de estratégias de autorregulação que ajudem o estudante a retomar a tarefa diante das dificuldades. Assim, o engajamento deixa de depender apenas da motivação individual e passa a ser construído intencionalmente pelo design da aula.",
+   "reescritas": [
+    "DUA ou engajamento para alunos com interesse persistente",
+    "Como manter o engajamento e a persistência de estudantes por meio do Desenho Universal para a Aprendizagem",
+    "Estratégias de DUA que sustentam o interesse e a perseverança dos alunos na aprendizagem"
+   ],
+   "pergunta": "DUA engajamento interesse persistência alunos"
+  },
+  "Q26": {
+   "hyde": "Os estudantes com Transtorno do Déficit de Atenção com Hiperatividade (TDAH) não constam, de forma explícita, entre os públicos-alvo do Atendimento Educacional Especializado (AEE) definidos pela Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva (2008) e pela Resolução CNE/CEB nº 4/2009, que contemplam pessoas com deficiência, com transtornos globais do desenvolvimento e com altas habilidades ou superdotação. Esses estudantes têm direito à escolarização na classe comum, com adaptações curriculares, metodológicas e avaliativas. A Lei nº 14.254/2021 prevê acompanhamento integral a estudantes com dislexia, TDAH ou outros transtornos de aprendizagem. Quando o TDAH estiver associado a outra condição elegível ou gerar barreiras significativas à aprendizagem, o AEE pode ser indicado de forma complementar, por decisão fundamentada em avaliação multidisciplinar.",
+   "reescritas": [
+    "TDAH no público-alvo da educação especial e no AEE",
+    "Estudantes com TDAH na educação especial e no atendimento educacional especializado",
+    "Alunos com Transtorno do Déficit de Atenção e Hiperatividade no AEE e na educação especial"
+   ],
+   "pergunta": "TDAH público-alvo educação especial AEE"
+  },
+  "Q33": {
+   "hyde": "Estilos de aprendizagem e ensino são frequentemente tratados como se cada aluno tivesse um modo preferido de aprender, como visual, auditivo ou cinestésico, e como se o ensino devesse ser adaptado a esse perfil. Contudo, revisões de pesquisa em educação cognitiva têm mostrado que não há evidência consistente de que combinar o estilo do aluno ao método de ensino melhore o desempenho escolar. O que a pesquisa sustenta com mais força é a escolha de estratégias conforme o conteúdo e o objetivo da aula: explicações com imagens ajudam na compreensão de estruturas espaciais, enquanto a prática de recuperação da informação e o feedback imediato fortalecem a memória de conceitos. Recomenda-se, portanto, que o professor de sala comum diversifique as representações e atividades para todos os alunos, em vez de organizar o ensino em torno de rótulos de estilo.",
+   "reescritas": [
+    "Estilos de aprendizagem e ensino: como o professor adapta a instrução aos perfis de seus alunos?",
+    "Diferenças individuais nas preferências de aprendizagem e estratégias de ensino diferenciado no Desenho Universal para a Aprendizagem",
+    "Práticas pedagógicas que atendem às variadas formas de processar, representar e expressar o conhecimento dos estudantes em sala de aula inclusiva"
+   ],
+   "pergunta": "Estilos de aprendizagem e ensino"
+  },
+  "Q37": {
+   "hyde": "Simplificação automática de textos é um recurso que reescreve materiais didáticos em linguagem mais acessível, reduzindo a extensão das frases, substituindo termos técnicos por equivalentes cotidianos e organizando as ideias em sequências claras. Para estudantes com deficiência intelectual, dislexia, transtornos do espectro autista ou que ainda dominam pouco a língua de instrução, essa adaptação diminui a sobrecarga de leitura e preserva o conteúdo essencial. Recomenda-se, porém, que o professor revise as versões geradas, pois a simplificação excessiva pode distorcer conceitos, suprimir nuances científicas e reduzir o desafio cognitivo. Por isso, a ferramenta deve funcionar como apoio complementar, e não como substituto do planejamento pedagógico adaptado.",
+   "reescritas": [
+    "Simplificação de textos com recursos de tecnologia assistiva para estudantes com dificuldades de leitura",
+    "Adaptação automatizada de materiais didáticos em linguagem simples, conforme os princípios do Desenho Universal para a Aprendizagem",
+    "Ferramentas de legibilidade e reescrita textual para acessibilidade curricular de alunos com deficiência intelectual ou dislexia"
+   ],
+   "pergunta": "Simplificação automática de textos"
+  },
+  "Q38": {
+   "hyde": "A adaptação de materiais em níveis de leitura permite que todos os estudantes acessem o mesmo conteúdo curricular, respeitando diferentes ritmos de decodificação e compreensão. Recomenda-se manter os objetivos de aprendizagem idênticos e alterar apenas a complexidade do texto: reduzir a extensão das frases, substituir vocabulário técnico por termos de uso cotidiano sem perder o conceito central, destacar as ideias principais e acrescentar glossário ilustrado quando necessário. Os textos reescritos devem ser revisados com o apoio do professor de apoio ou de especialista em educação especial, verificando se a informação essencial foi preservada. Assim, o nível de leitura deixa de ser barreira para a participação, sem rebaixar as expectativas sobre o que o aluno pode aprender.",
+   "reescritas": [
+    "Adaptação de textos didáticos para diferentes níveis de proficiência leitora na educação inclusiva",
+    "Diferenciação de materiais de leitura segundo os princípios do Desenho Universal para a Aprendizagem",
+    "Simplificação e reestruturação de textos escolares para estudantes com diferentes níveis de compreensão leitora"
+   ],
+   "pergunta": "Reescrever material em níveis de leitura"
+  }
+ }
+}

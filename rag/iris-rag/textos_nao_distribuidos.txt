@@ -1,0 +1,13 @@
+# Textos de documentos sem licença aberta. Não são distribuídos com o pacote.
+# A ingestão (pacote/ingestao.py) requer todos os textos de iris-rag/texto/; os listados abaixo
+# devem ser obtidos nas fontes indicadas em FONTES.md e extraídos com os scripts de scripts/.
+# Os dois primeiros e o terceiro são versões do mesmo documento; apenas o texto completo em
+# português integra o índice.
+texto/cast_dua_3_0_ptbr_organizador.txt
+texto/cast_dua_3_0_ptbr_textocompleto.md
+texto/cast_udl_3_0_en_site.md
+texto/fe_aap2019.md
+texto/fe_abda_guia_professores.md
+texto/fe_diamond2013.md
+texto/fe_nice_ng87.txt
+texto/mec_pneei_caderno4_praticas_inclusivas_2026.txt
