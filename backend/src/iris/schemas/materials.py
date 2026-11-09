@@ -152,6 +152,115 @@ class MaterialResponse:
         return self.model_dump()
 
 
+# ==============================================================================
+# Modelos de Decomposição Estrutural (História 1.1.2 - Issue #5 / RF-02)
+# ==============================================================================
+
+
+@dataclass
+class AlternativeItem:
+    """Alternativa individual de resposta em questões de múltipla escolha."""
+
+    letter: str  # ex.: "A", "B", "C", "D", "E" ou "a", "b", "c"...
+    text: str  # Texto da alternativa
+
+    def model_dump(self) -> dict[str, Any]:
+        return asdict(self)
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+@dataclass
+class QuestionItem:
+    """Bloco estruturado independente de uma questão de atividade pedagógica."""
+
+    id: str  # Identificador interno sequencial (ex.: "q_1", "q_2")
+    original_number: str  # Numeração original do material (ex.: "1", "Questão 01", "2)", "3.")
+    statement: str  # Comando ou enunciado da questão
+    question_type: str  # "multipla_escolha", "dissertativa" ou "mista"
+    options: Optional[list[AlternativeItem]] = None  # Lista de alternativas quando existente
+    answer_space: Optional[str] = None  # Espaço ou linhas destinados à resposta (linhas pontilhadas/sublinhadas)
+    context_refs: Optional[list[str]] = None  # IDs dos ContextBlocks vinculados
+    raw_text: str = ""  # Conteúdo integral bruto do bloco da questão
+
+    def __post_init__(self) -> None:
+        if self.context_refs is None:
+            self.context_refs = []
+        if self.options is None:
+            self.options = []
+
+    def model_dump(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "original_number": self.original_number,
+            "statement": self.statement,
+            "question_type": self.question_type,
+            "options": [opt.model_dump() if hasattr(opt, "model_dump") else opt for opt in self.options],
+            "answer_space": self.answer_space,
+            "context_refs": list(self.context_refs),
+            "raw_text": self.raw_text,
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+@dataclass
+class ContextBlock:
+    """Bloco de texto de apoio, leitura obrigatória ou contextualização compartilhada."""
+
+    id: str  # Identificador interno (ex.: "ctx_1")
+    text: str  # Conteúdo integral do texto de apoio
+    title: Optional[str] = None  # Título identificado (ex.: "Texto 1: A Era Vargas")
+    instruction: Optional[str] = None  # Diretiva (ex.: "Leia o texto a seguir para responder às questões 1 e 2")
+    target_questions: list[str] = None  # type: ignore[assignment]  # Numerações originais ou IDs das questões vinculadas
+
+    def __post_init__(self) -> None:
+        if self.target_questions is None:
+            self.target_questions = []
+
+    def model_dump(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "title": self.title,
+            "text": self.text,
+            "instruction": self.instruction,
+            "target_questions": list(self.target_questions),
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+@dataclass
+class MaterialStructure:
+    """Estrutura decomposta completa do material pedagógico (História 1.1.2 - RF-02)."""
+
+    header: Optional[str]  # Cabeçalho institucional e contexto inicial
+    instructions: Optional[str]  # Instruções gerais da prova
+    context_blocks: list[ContextBlock]  # Textos de apoio e leituras compartilhadas
+    questions: list[QuestionItem]  # Lista sequencial ordenada de questões
+    unclassified_blocks: list[str]  # Conteúdos não classificados (garantia de zero-loss)
+    total_questions: int  # Total de questões identificadas
+    has_shared_contexts: bool  # Indicador se há textos compartilhados entre múltiplas questões
+
+    def model_dump(self) -> dict[str, Any]:
+        return {
+            "header": self.header,
+            "instructions": self.instructions,
+            "context_blocks": [cb.model_dump() if hasattr(cb, "model_dump") else cb for cb in self.context_blocks],
+            "questions": [q.model_dump() if hasattr(q, "model_dump") else q for q in self.questions],
+            "unclassified_blocks": list(self.unclassified_blocks),
+            "total_questions": self.total_questions,
+            "has_shared_contexts": self.has_shared_contexts,
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+
 # Integração transparente com Pydantic v2 quando disponível
 try:
     from pydantic import BaseModel, Field, field_validator
