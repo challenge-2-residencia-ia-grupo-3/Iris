@@ -252,3 +252,24 @@ Para viabilizar que o professor de uma nova série ou um novo bimestre conheça 
 ```
 
 O arquivo é gravado unicamente no dispositivo do professor ou arquivado no prontuário físico/local da unidade escolar. O sistema pode reimportar esse `.json` a qualquer momento para inicializar a sessão de adaptação sem que nenhum dado persista no servidor.
+
+---
+
+## 7. Protocolo de Avaliação, Métricas e Golden Benchmark (`src/iris/eval/`)
+
+Para respaldar as decisões arquiteturais com validação empírica quantitativa (Semanas 3 e 7), o módulo `src/iris/eval/` disponibiliza o ferramental de medição objetiva e a base de questões:
+
+### 7.1. Golden Benchmark Escolar (`data/golden_benchmark.json`)
+O dataset contém **30 questões escolares reais** cobrindo Português, Matemática, Ciências, História e Geografia (4º ao 9º ano), anotadas com a presença de comandos conjugados e status de revisão:
+* **Estrutura:** Carregado via `iris.eval.benchmark.carregar_golden_benchmark()`, retornando instâncias imutáveis de `GoldenQuestion`.
+* **Propósito:** Servir de baseline experimental para avaliar se o pipeline RAG preserva as habilidades avaliadas e aplica andaimes com precisão, em comparação a LLMs puros.
+
+### 7.2. Flesch PT-BR e Densidade de Comandos (`iris.eval.readability`)
+* **Flesch PT-BR (Martins et al., 1996):**
+  $$\text{IFR} = 248.835 - 1.015 \times \left(\frac{\text{palavras}}{\text{sentenças}}\right) - 84.6 \times \left(\frac{\text{sílabas}}{\text{palavras}}\right)$$
+  Calculado com suporte a hifenização oficial (`pyphen`) e fallback algorítmico fonético baseado em núcleos vocálicos do português.
+* **Detecção de Comandos Conjugados:** Mapeia 60+ verbos imperativos e infinitivos escolares e contabiliza sentenças que acumulam 2 ou mais verbos de comando (fator crítico de saturação da memória de trabalho).
+
+### 7.3. Métricas de Fidelidade Pedagógica (`iris.eval.metrics`)
+* **TRCC (Taxa de Retenção de Conceitos-Chave):** Razão entre os conceitos obrigatórios da trava curricular retidos no material adaptado versus os conceitos originais (critério inegociável: $\ge 0.95$).
+* **SAEN (Aderência Estrutural ao Nível):** Verificador estrutural das exigências formais de cada nível (Nível 1: destaque tipográfico; Nível 2: checklists e decomposição; Nível 3: escalonamento passo a passo).
