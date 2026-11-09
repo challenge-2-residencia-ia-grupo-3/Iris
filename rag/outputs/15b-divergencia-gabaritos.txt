@@ -1,0 +1,14 @@
+DIVERGÊNCIA ENTRE RASCUNHO E GABARITO DO OPUS: contagens no rascunho ampliado. Nenhum modelo treinado.
+
+qwen3: trechos do top-5 nunca julgados: 0
+qwen3+rerank: trechos do top-5 nunca julgados: 0
+
+marcados pelos dois juízes: 19 perguntas, certos no top-5 de 95: qwen3 35, novo 30; novo ganhou/empatou/perdeu 4/6/9; diferença por pergunta -0.26 [-0.68 a +0.21]
+marcados por qualquer juiz: 20 perguntas, certos no top-5 de 100: qwen3 49, novo 47; novo ganhou/empatou/perdeu 6/7/7; diferença por pergunta -0.10 [-0.65 a +0.45]
+
+certo só em inglês: 2 perguntas, recall@5 qwen3 1.00, novo 0.75
+algum certo em inglês: 11 perguntas, recall@5 qwen3 0.44, novo 0.47
+nenhum certo em inglês: 8 perguntas, recall@5 qwen3 0.78, novo 0.40
+
+qwen3 - mpnet recall@5: +0.49 [+0.30 a +0.69]
+qwen3 - mpnet MRR: +0.43 [+0.20 a +0.64]

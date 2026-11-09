@@ -1,0 +1,142 @@
+NOTA DAS RESPOSTAS SEGUNDO DOIS JUÍZES DE MODELO (Claude Sonnet, duas chamadas que não se veem).
+40 perguntas; busca qwen3+rerank50, 5 trechos; prompt do pacote. Regra do juiz: regra_juiz_respostas.md.
+ATENÇÃO: os geradores são modelos Claude, não o modelo configurado no protótipo. Juízes e geradores são do mesmo fabricante.
+Técnica: modelos prontos geram e julgam; contagem; sorteio de perguntas para o intervalo (2000 sorteios, semente 20261105). Nenhum modelo treinado.
+Prova obrigatória: para dizer 'apoiada' ou 'parcial' o juiz copia a passagem do trecho citado; o script procura a
+passagem no trecho e marca 'rejeitado' se ela não estiver lá. Frase em que os juízes divergem não conta como apoiada.
+
+===== GERADOR HAIKU =====
+
+1. Frases (217, das 38 respostas que não recusaram)
+veredito comum dos dois juízes      frases      %
+apoiada                                138   63.6
+parcial                                 34   15.7
+nao_apoiada                             12    5.5
+divergem                                33   15.2
+
+Matriz de concordância entre os juízes, frase a frase (linhas = juiz A, colunas = juiz B):
+                       apoiada       parcial   nao_apoiada     rejeitado  sem_veredito   sem_citacao
+apoiada                    138            10             1             0             0             0
+parcial                     11            34             0             0             0             0
+nao_apoiada                  0             1             6             0             0             0
+rejeitado                    1             0             2             7             0             0
+sem_citacao                  0             0             0             0             0             6
+mesmo veredito: 191 de 217 (88.0%); kappa de Cohen 0.75
+vereditos rejeitados por passagem que não existe no trecho citado: juiz A 10, juiz B 7, de 217 cada
+frases que os dois juízes dizem estar em outro trecho, não no citado (erro de citação): 0
+frases que os dois juízes dizem desrespeitar um aviso de uso: 0
+
+2. Respostas (38 perguntas com resposta na base; 38 respondidas, 0 recusadas)
+respostas com todas as frases apoiadas pelos dois juízes: 3 de 38
+responde à pergunta? (linhas = juiz A, colunas = juiz B)
+                   sim  em_parte       nao
+sim                 26         2         0
+em_parte             2         8         0
+nao                  0         0         0
+os dois dizem 'sim': 26 de 38 respondidas (26 de 38 perguntas)
+
+3. Recusas
+perguntas sem resposta de propósito: Q39 recusou (juízes: indevida/indevida), Q40 recusou (juízes: indevida/indevida)
+recusas em perguntas com resposta na base: 0
+
+4. A NOTA (critério escrito antes: aprovada = responde, segundo os dois juízes, e todas as frases apoiadas pelos dois;
+   ou recusa que os dois consideram correta)
+aprovadas: 3 de 40 (8%; intervalo de 95% de 0% a 18%)
+só nas perguntas com resposta na base: 3 de 38 (8%; de 0% a 18%)
+por que as outras não foram aprovadas (uma resposta pode cair em mais de um motivo):
+   alguma frase não apoiada ou com juízes divergindo: 35
+   não responde, ou responde em parte, para ao menos um juiz: 12
+   recusa que ao menos um juiz não considera correta: 2
+
+4b. Sensibilidade (NÃO estava no critério; calculada depois de ver o resultado, para entender a nota)
+frases que ao menos um juiz considera apoiada: 161 de 217 (74.2%)
+frases que os dois juízes reprovam (não apoiada), tendo citação: 6 de 217: Q01 S6, Q07 S4, Q07 S6, Q12 S5, Q20 S7, Q29 S6
+frases sem citação nenhuma: 6 de 217
+respostas aprovadas se bastasse um juiz dizer 'apoiada' em cada frase e 'sim' em responde (ou 'correta' na recusa): 9 de 40
+respostas em que nenhuma frase é reprovada pelos dois juízes nem fica sem citação, e os dois dizem que responde: 20 de 40
+
+5. Aprovadas por tipo de pergunta e por ter recebido trecho certo (gabarito do Opus)
+recorte                                    aprovadas
+tipo estrategia                              0 de 10
+tipo dua                                     2 de 8
+tipo norma                                   0 de 8
+tipo evidencia                               0 de 6
+tipo mito                                    1 de 4
+tipo so_ingles                               0 de 2
+tipo sem_resposta                            0 de 2
+recebeu ao menos 1 trecho certo nos 5        3 de 33
+não recebeu nenhum trecho certo              0 de 5
+
+tokens gastos pelos juízes: juiz A entrada 277391, saída 76912; juiz B entrada 277401, saída 70176
+
+===== GERADOR OPUS =====
+
+1. Frases (207, das 35 respostas que não recusaram)
+veredito comum dos dois juízes      frases      %
+apoiada                                142   68.6
+parcial                                 22   10.6
+nao_apoiada                             14    6.8
+divergem                                29   14.0
+
+Matriz de concordância entre os juízes, frase a frase (linhas = juiz A, colunas = juiz B):
+                       apoiada       parcial   nao_apoiada     rejeitado  sem_veredito   sem_citacao
+apoiada                    142            14             0             1             0             0
+parcial                      8            22             0             1             0             0
+nao_apoiada                  0             1             7             0             0             0
+rejeitado                    1             0             1             2             0             0
+sem_citacao                  0             0             0             0             0             7
+mesmo veredito: 180 de 207 (87.0%); kappa de Cohen 0.69
+vereditos rejeitados por passagem que não existe no trecho citado: juiz A 4, juiz B 4, de 207 cada
+frases que os dois juízes dizem estar em outro trecho, não no citado (erro de citação): 0
+frases que os dois juízes dizem desrespeitar um aviso de uso: 0
+
+2. Respostas (38 perguntas com resposta na base; 35 respondidas, 3 recusadas)
+respostas com todas as frases apoiadas pelos dois juízes: 2 de 35
+responde à pergunta? (linhas = juiz A, colunas = juiz B)
+                   sim  em_parte       nao
+sim                 28         0         0
+em_parte             2         5         0
+nao                  0         0         0
+os dois dizem 'sim': 28 de 35 respondidas (28 de 38 perguntas)
+
+3. Recusas
+perguntas sem resposta de propósito: Q39 recusou (juízes: indevida/indevida), Q40 recusou (juízes: indevida/indevida)
+recusas em perguntas com resposta na base: 3
+   Q05: juízes correta/correta; recebeu trecho certo nos 5: não
+   Q07: juízes indevida/indevida; recebeu trecho certo nos 5: sim
+   Q10: juízes indevida/indevida; recebeu trecho certo nos 5: não
+
+4. A NOTA (critério escrito antes: aprovada = responde, segundo os dois juízes, e todas as frases apoiadas pelos dois;
+   ou recusa que os dois consideram correta)
+aprovadas: 3 de 40 (8%; intervalo de 95% de 0% a 18%)
+só nas perguntas com resposta na base: 3 de 38 (8%; de 0% a 18%)
+por que as outras não foram aprovadas (uma resposta pode cair em mais de um motivo):
+   alguma frase não apoiada ou com juízes divergindo: 33
+   não responde, ou responde em parte, para ao menos um juiz: 7
+   recusa que ao menos um juiz não considera correta: 4
+
+4b. Sensibilidade (NÃO estava no critério; calculada depois de ver o resultado, para entender a nota)
+frases que ao menos um juiz considera apoiada: 166 de 207 (80.2%)
+frases que os dois juízes reprovam (não apoiada), tendo citação: 7 de 207: Q01 S6, Q14 S6, Q15 S1, Q17 S6, Q19 S6, Q29 S6, Q34 S5
+frases sem citação nenhuma: 7 de 207
+respostas aprovadas se bastasse um juiz dizer 'apoiada' em cada frase e 'sim' em responde (ou 'correta' na recusa): 8 de 40
+respostas em que nenhuma frase é reprovada pelos dois juízes nem fica sem citação, e os dois dizem que responde: 16 de 40
+
+5. Aprovadas por tipo de pergunta e por ter recebido trecho certo (gabarito do Opus)
+recorte                                    aprovadas
+tipo estrategia                              1 de 10
+tipo dua                                     0 de 8
+tipo norma                                   0 de 8
+tipo evidencia                               1 de 6
+tipo mito                                    0 de 4
+tipo so_ingles                               1 de 2
+tipo sem_resposta                            0 de 2
+recebeu ao menos 1 trecho certo nos 5        2 de 33
+não recebeu nenhum trecho certo              1 de 5
+
+tokens gastos pelos juízes: juiz A entrada 281984, saída 71096; juiz B entrada 281989, saída 70049
+
+===== OPUS MENOS HAIKU =====
+fração de frases apoiadas por pergunta, nas 35 perguntas que os dois responderam: haiku 0.66, opus 0.69; diferença +0.03 [-0.07 a +0.11]
+aprovadas nas 40: haiku 3, opus 3; aprovadas nos dois: 0; só haiku: 3; só opus: 3
+

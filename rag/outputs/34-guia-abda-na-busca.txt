@@ -1,0 +1,39 @@
+O GUIA DA ABDA NA BUSCA DE HOJE: O QUE SE CONTA ANTES DE PREVER. Contagem, sem modelo treinado.
+O guia tem 5 trechos, de 1368 na base (0.4%). Palavras por trecho: 341, 336, 321, 349, 255.
+Busca de hoje: Qwen3 com a pergunta (conta exata), reranker sobre os 50, entrega 5. Gabaritos de modelo.
+
+===== OPUS, todas as perguntas: 38 perguntas, 167 trechos certos =====
+trechos certos que são do guia: 6 de 167
+vagas entre os 5 entregues ocupadas pelo guia: 19 de 190 (10%); por acaso seriam 0.4%. Perguntas com ao menos 1 trecho do guia entregue: 9 de 38
+dessas 19 vagas: 3 são de trecho que o gabarito marca como certo, 16 não
+vagas entre os 50 candidatos ocupadas pelo guia: 55 de 1900
+trechos certos entregues hoje: 62 de 167. Sem o guia, os que ainda podem ser entregues (não são do guia e estão entre os 50): 122
+
+===== OPUS, só as 10 práticas: 10 perguntas, 43 trechos certos =====
+trechos certos que são do guia: 6 de 43
+vagas entre os 5 entregues ocupadas pelo guia: 18 de 50 (36%); por acaso seriam 0.4%. Perguntas com ao menos 1 trecho do guia entregue: 8 de 10
+dessas 18 vagas: 3 são de trecho que o gabarito marca como certo, 15 não
+vagas entre os 50 candidatos ocupadas pelo guia: 45 de 500
+trechos certos entregues hoje: 10 de 43. Sem o guia, os que ainda podem ser entregues (não são do guia e estão entre os 50): 16
+
+  id    certos  certos do guia  guia nos 5  dos quais certos  certos entregues hoje
+  Q01        6               1           0                 0                      1
+  Q02        5               1           2                 1                      2
+  Q03        6               1           3                 1                      1
+  Q04        2               1           1                 0                      0
+  Q05        4               0           2                 0                      0
+  Q06        2               0           2                 0                      1
+  Q07        5               0           0                 0                      1
+  Q08        6               1           2                 0                      1
+  Q09        3               1           2                 1                      3
+  Q10        4               0           4                 0                      0
+
+===== RASCUNHO, todas as perguntas: 19 perguntas, 73 trechos certos =====
+trechos certos que são do guia: 6 de 73
+vagas entre os 5 entregues ocupadas pelo guia: 13 de 95 (14%); por acaso seriam 0.4%. Perguntas com ao menos 1 trecho do guia entregue: 7 de 19
+dessas 13 vagas: 5 são de trecho que o gabarito marca como certo, 8 não
+vagas entre os 50 candidatos ocupadas pelo guia: 34 de 950
+trechos certos entregues hoje: 27 de 73. Sem o guia, os que ainda podem ser entregues (não são do guia e estão entre os 50): 64
+
+Leitura: cada vaga do guia que não é de trecho certo é uma vaga que outro trecho pode ocupar. Cada trecho certo do guia
+que hoje é entregue é uma perda garantida ao tirar o guia.

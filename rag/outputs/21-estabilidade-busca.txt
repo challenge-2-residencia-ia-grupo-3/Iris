@@ -1,0 +1,17 @@
+ESTABILIDADE DA BUSCA DO BANCO (Chroma, HNSW) CONTRA A CONTA EXATA DO COSSENO. Qwen3, mesmas perguntas dos gabaritos.
+Técnica: contagem. Para cada pergunta, a lista que o banco devolve é comparada com a ordem exata (produto do vetor
+da pergunta por todos os vetores gravados). Nenhum modelo treinado.
+O índice HNSW é uma busca aproximada: 1368 vetores, ef_search 100. ATENÇÃO: esta contagem pode mudar
+de uma execução para outra; é isso que ela mede. A coluna 'guardada' é a lista gravada pelo diagnóstico (outputs/17).
+
+gabarito    língua   n     ≠ exata nos 5    ≠ exata nos 10    ≠ exata nos 20    ≠ exata nos 50   ≠ exata nos 100   exata = guardada nos 50
+opus            pt  38                 0                 0                 0                 2                21                  37 de 38
+opus            en  38                 0                 0                 0                 5                25                  35 de 38
+rascunho        pt  19                 0                 0                 0                 3                16                  16 de 19
+rascunho        en  19                 0                 0                 2                 8                12                  13 de 19
+
+Leitura: '≠ exata nos 50' = perguntas em que os 50 primeiros do banco não são os 50 primeiros da conta exata.
+
+Listas que não usam o reranker, refeitas agora e comparadas com as guardadas em cache/rankings-18.json (outputs/18):
+opus       Qwen3 sozinho, 10 primeiros iguais: 38 de 38 | C (pt+en), 5 primeiros iguais: 37 de 38; 10 primeiros iguais: 37 de 38
+rascunho   Qwen3 sozinho, 10 primeiros iguais: 19 de 19 | C (pt+en), 5 primeiros iguais: 19 de 19; 10 primeiros iguais: 19 de 19

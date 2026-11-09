@@ -1,0 +1,761 @@
+=== p. 1 ===
+DIRETORIA DE AVALIAÇÃO
+DA EDUCAÇÃO BÁSICA
+DAEB
+20
+26
+A REDAÇÃO DO ENEM
+CARTILHA DO(A) PARTICIPANTE
+COM DISLEXIA
+2026
+
+=== p. 2 ===
+
+
+=== p. 3 ===
+Brasília-DF
+Inep/MEC
+2026
+DIRETORIA DE AVALIAÇÃO
+DA EDUCAÇÃO BÁSICA
+DAEB
+20
+26
+A REDAÇÃO DO ENEM
+CARTILHA DO(A) PARTICIPANTE
+COM DISLEXIA
+
+=== p. 4 ===
+Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (Inep)
+É permitida a reprodução total ou parcial desta publicação, desde que citada a fonte.
+DIRETORIA DE ESTUDOS EDUCACIONAIS (DIRED)
+COORDENAÇÃO-GERAL DE EDITORAÇÃO E PUBLICAÇÕES (CGEP)
+Priscila Pereira Santos
+DIVISÃO DE PERIÓDICOS (DPE)
+Roshni Mariana de Mateus
+DIVISÃO DE PRODUÇÃO EDITORIAL (DPR)
+Daniel Fonseca e Caixeta
+APOIO EDITORIAL
+Janaina da Costa Santos
+REVISÃO GRÁFICA
+José Miguel dos Santos
+PROJETO GRÁFICO CAPA/MIOLO
+Raphael C. Freitas
+DIAGRAMAÇÃO E ARTE-FINAL
+Érika Janaína de Oliveira Saraiva
+Publicada on-line em setembro de 2026.
+Inep/MEC – Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira
+Setor de Indústrias Gráficas - Quadra 04 - Lote 327, Térreo, Ala B
+CEP 70.610-908 – Brasília-DF – Brasil
+Fones: (61) 2022-3070
+dired.publicacoes@inep.gov.br - http://publicacoes.inep.gov.br
+DIRETORIA DE AVALIAÇÃO DA EDUCAÇÃO BÁSICA  (DAEB)
+COORDENAÇÃO-GERAL DO EXAME NACIONAL
+DO ENSINO MÉDIO (CGENEM)
+Gustavo Caetano Oliveira de Faria Almeida 
+COORDENAÇÃO PEDAGÓGICA DO EXAME NACIONAL
+DO ENSINO MÉDIO (CPENEM) 
+Vanessa Cardoso Tomaz 
+COORDENAÇÃO DO BANCO NACIONAL DE ITENS
+DO EXAME NACIONAL DO ENSINO MÉDIO (BNI-ENEM) 
+Shirley Franx Silva Alexandre
+SERVIÇO DE APOIO PEDAGÓGICO AO EXAME NACIONAL
+DO ENSINO MÉDIO (SAPENEM)
+Natália Carolina Narciso Redígolo
+DIVISÃO TÉCNICA DO EXAME NACIONAL DO ENSINO MÉDIO
+(DTENEM) 
+ANDRÉ AUGUSTO FERNANDES PEDRO
+EQUIPE PEDAGÓGICA CGENEM
+Aline Pinto Barbosa
+Cleiton da Silva Dantas
+João Fonseca de Oliveira
+Renato de Mendonça
+Vitor Rogério Oliveira Rocha
+ASSISTENTE TÉCNICO ADMINISTRATIVO
+Ielva Maria Costa da Silva
+REVISÃO PEDAGÓGICA E LINGUÍSTICA
+Natália Carolina Narciso Redígolo
+Ielva Maria Costa da Silva (Apoio técnico)
+Polliana Fátima Santos Freire (Apoio técnico)
+
+=== p. 5 ===
+REDAÇÃO DO ENEM 2023
+CARTILHA DO PARTICIPANTE COM DISLEXIA
+SUMÁRIO
+ESTA PUBLICAÇÃO POSSUI SUMÁRIO INTERATIVO
+PARA RETORNAR AO SUMÁRIO, CLIQUE NO NÚMERO
+DA PÁGINA EM CADA SEÇÃO
+INFORMAÇÕES IMPORTANTES PARA PARTICIPANTES COM DISLEXIA.................................................................... 6
+CARACTERÍSTICAS GERAIS DA DISLEXIA.................................................................................................................. 9
+DURANTE A PROVA DE REDAÇÃO DO ENEM...........................................................................................................10
+VALIAÇÃO DA REDAÇÃO DE PARTICIPANTES DISLÉXICOS(AS) EM CADA UMA DAS COMPETÊNCIAS
+DA MATRIZ DE REFERÊNCIA PARA A REDAÇÃO DO ENEM .....................................................................................11
+MATRIZ DE REFERÊNCIA PARA A REDAÇÃO DO ENEM...........................................................................................13
+COMPETÊNCIA I.................................................................................................................................................14
+COMPETÊNCIA II................................................................................................................................................17
+COMPETÊNCIA III...............................................................................................................................................19
+COMPETÊNCIA IV...............................................................................................................................................21
+COMPETÊNCIA V................................................................................................................................................23
+CONSIDERAÇÕES....................................................................................................................................................25
+FINAIS......................................................................................................................................................................25
+
+=== p. 6 ===
+INFORMAÇÕES
+IMPORTANTES PARA
+PARTICIPANTES
+COM DISLEXIA
+
+=== p. 7 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+7
+Caro(a) participante com dislexia,
+Nesta cartilha apresentaremos as características da escrita de pessoas
+com dislexia e o modo como suas redações serão avaliadas. Embora a avaliação
+das redações de participantes que se declararam disléxicos(as) seja feita por
+pessoas experientes, respeitando-se as características inerentes a essa condição,
+é importante que você leia também a Cartilha do(a) Participante, direcionada a
+todas as pessoas inscritas no Enem 2026,1 porque nela há informações sobre a
+maneira como as redações serão avaliadas, como será atribuída a nota, quais são
+os critérios usados durante a avaliação e por que uma redação pode receber nota 0
+(zero).
+Você certamente sabe que pessoas com dislexia podem encontrar dificuldades
+na leitura de textos, no planejamento, na elaboração e na escrita de redações.
+Isso acontece porque existem diferentes tipos e graus de dislexia. Além disso,
+algumas pessoas apresentam outros transtornos em associação, como o Transtorno
+do Déficit de Atenção e Hiperatividade (TDAH) ou o Transtorno do Desenvolvimento
+da Linguagem (TDL).
+A partir do reconhecimento dessas características, não só as escolas devem
+se adequar para atender a participantes com esse diagnóstico, mas também os
+exames, os vestibulares e os concursos precisam se adaptar a essas necessidades.
+A obrigatoriedade de oferecer acessibilidade a pessoas consideradas disléxicas
+está prevista no inciso VI do art. 30 da Lei n.º 13.146, de 6 de julho de 2015 –
+Estatuto da Pessoa com Deficiência, observadas as normas aplicáveis ao exame
+e, no que couber, a Lei n.º 14.254, de 30 de novembro de 2021, que dispõe sobre
+o acompanhamento integral para educandos com dislexia, Transtorno do Déficit de
+Atenção com Hiperatividade (TDAH) ou outro transtorno de aprendizagem.2 O texto
+dessa lei assegura critérios adequados de avaliação das provas escritas discursivas
+ou de redação para o ingresso em cursos de nível superior, de acordo com as
+características linguísticas da pessoa com deficiência.
+Atento a isso, o Inep disponibilizou recursos de acessibilidade para os(as)
+participantes com dislexia que farão as provas do Enem 2026, a fim de garantir
+1	 Disponível em: https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/
+outros-documentos.
+2	 Disponíveis em: https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm. https://www.
+planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14254.htm.
+
+=== p. 8 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+8
+o direito à equidade e promover a inclusão por meio de medidas adaptativas
+durante todos os momentos da realização do exame. Para receber esse tratamento
+diferenciado, você precisa apresentar documentação que ateste a condição
+e a efetiva necessidade dos recursos e dos serviços profissionais solicitados.
+Esses recursos concedidos pelo Inep estão previstos no Edital do Enem 2026.
+Mesmo assim, a seguir, vamos destacá-los para você.
+a)	Auxílio para leitura: serviço especializado prestado por profissional
+capacitado(a) para realizar a leitura de textos, inclusive para pessoas com
+dislexia.
+b)	Auxílio para transcrição: serviço especializado prestado por profissional
+capacitado(a) para transcrever as respostas do(a) participante para o Cartão
+Resposta e para a Folha de Redação.
+c)	Tempo adicional: tempo adicional de 60 minutos em cada dia do exame,
+concedido caso o documento comprobatório tenha sido aprovado.
+Caso a sua solicitação de atendimento especializado tenha sido aceita, o Inep
+concederá os recursos deferidos, porque entende que o atendimento especializado
+considera as necessidades de todos(as) os(as) participantes.
+Além dessas medidas, o Inep, ainda pensando nesse processo de inclusão,
+oferecerá a avaliação diferenciada da prova de redação. Anualmente, uma equipe de
+profissionais passa por um Curso de Capacitação de Avaliadores(as) para conhecer
+e entender os critérios gerais de avaliação adotados pelo Inep. Outra capacitação
+é oferecida à equipe de avaliadores(as) que irá analisar os padrões de escrita
+de pessoas com dislexia e que considerará, na avaliação das redações do Enem,
+as dificuldades de escrita desses(as) participantes.
+A seguir, apresentaremos algumas informações gerais e outras mais pontuais
+sobre a dislexia, suas principais características e o que será considerado na avaliação
+de sua redação.
+
+=== p. 9 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+9
+CARACTERÍSTICAS GERAIS
+DA DISLEXIA
+Você já sabe que a dislexia é um transtorno específico de aprendizagem
+que leva a dificuldades de leitura e escrita. Essas dificuldades podem resultar,
+por exemplo, em leitura imprecisa e/ou não fluente, causando um impacto na
+capacidade de compreender um texto. A leitura imprecisa ou lenta de palavras,
+sendo realizada mediante muito esforço, faz o(a) participante entender um texto de
+forma diferente do que está escrito. Consequentemente, a interpretação também
+fica prejudicada. Nesse caso, chame o(a) profissional ledor(a) para ajudar você e
+peça que ele(a) leia os textos em voz alta.
+Além das dificuldades de leitura, pessoas com dislexia podem apresentar
+dificuldades de grafia, a exemplo do traçado irregular das letras, que prejudica a
+compreensão do que está escrito na redação. Quando a grafia é ilegível, isto é, não é
+possível ler e entender o que está escrito, a redação deixa de ser avaliada em todas
+as competências. Caso essa seja sua dificuldade, peça a ajuda do(a) profissional
+transcritor(a).
+Outra dificuldade de grafia, igualmente identificada em textos de disléxicos,
+diz respeito à escrita correta das palavras – a ortografia. Por isso, é comum
+encontrar “erros” de escrita em textos produzidos por pessoas com dislexia.
+A seguir, apresentaremos alguns exemplos reais encontrados em produções escritas
+de participantes com dislexia do Enem de 2025.
+A troca da letra “t” pela letra “d”.
+A grafia deveria ser: ESTATUTO.
+Hipossegmentação,  falta da letra “s”, falta do acento grave
+indicador de crase e troca da letra “e” pela letra “i”.
+A grafia deveria ser: ÀS VEZES.
+Falta da letra “N” e troca da letra “C” por “S”. A grafia
+deveria ser: PRINCIPAIS
+A troca da letra “U” pela letra “L”, pela semelhança do som.
+A grafia deveria ser: AUMENTO.
+Pseudopalavra. A grafia deveria ser: DESCREDIBILIZADA
+
+=== p. 10 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+10
+Essas e outras informações sobre o perfil de escrita dos(as) disléxicos(as) tornam
+possível a elaboração de critérios de avaliação mais justos e compatíveis com as
+características linguísticas desse grupo de participantes, garantindo acessibilidade e
+equidade. Explicaremos esses critérios a seguir.
+DURANTE A PROVA DE REDAÇÃO DO ENEM
+Os desafios que os(as) participantes com dislexia enfrentam não
+constituem obstáculos intransponíveis. Por isso, sugerimos ações que
+poderão auxiliar você durante a prova de redação, conforme exposto a
+seguir.
+
+y Analise o tema da redação e os assuntos dos textos motivadores.
+
+y Pergunte a si mesmo(a) como eles poderiam se relacionar.
+
+y Reflita sobre o que você já sabe sobre o tema da redação e sobre a relação
+com a ideia dos textos motivadores.
+
+y Liste os detalhes principais que apoiam a relação que você estabeleceu
+entre o tema e os argumentos.
+
+y Anote esses tópicos em um quadro na lateral da folha de rascunho.
+
+y Faça um quadro para as ideias da introdução, outro para as ideias do
+desenvolvimento e outro para as ideias da conclusão.
+
+y Anote os pontos principais que legitimem uma ideia e uma posição
+sobre o que você está defendendo no seu texto e coloque no quadro do
+desenvolvimento do texto.
+
+y Anote os pontos principais da proposta de intervenção e coloque no quadro
+da conclusão para que você consiga organizar melhor o seu texto.
+
+y Limite o tamanho de suas frases e evite escrever uma oração e um período
+muito longo, que faça você se perder no raciocínio.
+
+y Revise o texto dentro do tempo que você tem; para isso, o auxílio do(a)
+ledor(a) será importante.
+
+y Quando o(a) ledor(a) fizer a leitura de sua redação, verifique se o que você
+quis escrever está claro.
+
+=== p. 11 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+11
+Com a finalidade de esclarecer como as redações de participantes com dislexia
+são avaliadas, apresentaremos, a seguir, as cinco competências, as quais orientam
+o(a) avaliador(a) para a garantia de uma avaliação mais justa e condizente com as
+características comuns a pessoas com esse transtorno, considerando os princípios que
+regem o tratamento isonômico a todos(as) os(as) participantes do Enem. É importante
+que você, participante, fique atento(a) a essas informações para elaborar seu texto no
+momento da prova.
+AVALIAÇÃO DA REDAÇÃO DE PARTICIPANTES
+DISLÉXICOS(AS) EM CADA UMA DAS
+COMPETÊNCIAS DA MATRIZ DE
+REFERÊNCIA PARA A REDAÇÃO DO
+ENEM
+A escrita do texto dissertativo-argumentativo é, de acordo com a proposta da
+prova de redação do Enem, precedida por textos motivadores. Por meio da leitura
+desses textos motivadores e dos conhecimentos acumulados ao final do ensino
+médio, esperamos que você, participante com dislexia, perceba os elementos
+centrais e os relacione ao tema proposto, de forma a criar um conjunto de
+informações organizadas que irão contribuir para a apresentação do ponto de vista
+e para o desenvolvimento dos argumentos quando elaborar a sua redação.
+Recomendamos que fique atento(a) às situações que levam à nota 0 (zero) e à
+anulação. São elas:
+
+y 	prova em branco – sem texto escrito;
+
+y 	texto com, no máximo, 7 (sete) linhas;
+
+y texto de outro assunto que não diz respeito ao tema;
+
+y 	texto com impropérios – palavras ofensivas, zombarias;
+
+y 	desenhos e outras formas propositais de anulação – por exemplo, recado, bilhete,
+oração, mensagem religiosa ou opinião sobre a prova, números ou rabiscos na
+folha da prova;
+
+=== p. 12 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+12
+
+y texto ou parte dele deliberadamente desconectado com o tema proposto;
+
+y texto com o seu nome – assinado ou rubricado – ou qualquer outra forma de
+identificação;
+
+y texto em língua estrangeira;
+
+y letra ilegível (em caso de dificuldade motora com a escrita, você deverá
+solicitar antecipadamente o recurso auxílio para transcrição);
+
+y cópia de textos motivadores e/ou do caderno de questões.
+A seguir, apresentaremos alguns registros da língua escrita que ilustram as
+particularidades da escrita de pessoas com dislexia, como também explicaremos os
+objetos de avaliação nas cinco competências da redação do Enem.
+
+=== p. 13 ===
+MATRIZ DE REFERÊNCIA
+PARA A REDAÇÃO DO ENEM
+
+=== p. 14 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+14
+COMPETÊNCIA I
+DEMONSTRAR DOMÍNIO DA MODALIDADE ESCRITA FORMAL
+DA LÍNGUA PORTUGUESA.
+Esta competência analisa a habilidade de escrever de acordo com a normapadrão da língua portuguesa, incluindo o conhecimento das regras gramaticais,
+de ortografia, de acentuação, de construção adequada de frases (sintaxe) e o uso
+adequado de registro formal.
+Considerando as dificuldades linguísticas dos(as) participantes com dislexia,
+que tornam a leitura e a escrita mais trabalhosas e, consequentemente, exigem
+um esforço maior durante a elaboração de textos, serão avaliados, de forma
+diferenciada, na Competência I, os seguintes desvios de escrita, desde que o texto
+seja legível e compreensível para os(as) avaliadores(as).
+
+y Substituições de letras, sílabas ou palavras visualmente semelhantes
+(m-n, i-j, v-u, p-b, p-d, p-q, b-d, b-q e q-g).
+
+y Substituições de letras com sons semelhantes (v-f, g-c-q, d-t, p-b, s-z, j-x-ch).
+
+y Escrita espelhada (“s”, “z”, “g”, “j”, “q”, “y”) e inversão de letras (por exemplo,
+“piroidade” em vez de “prioridade”); e de sílabas (“deguasidade” em vez de
+“desigualdade”).
+
+y Hipossegmentação (“emvolta” em vez de “em volta”) e hipersegmentação
+(“pre conceito” em vez de “preconceito”).
+
+y Ocorrência de pseudopalavras, ou seja, quando o(a) participante não
+consegue escrever a palavra, mas esta é compreendida pelo contexto
+(“glalidade” em vez de “qualidade”).
+
+y Inversão de elementos do texto na escrita (“A carta primeira da Constituição
+foi escrita...” em vez de “A primeira carta da Constituição foi escrita...”).
+
+y Falhas na pontuação e na acentuação de palavras.
+
+=== p. 15 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+15
+
+y Frases construídas com o uso excessivo de voz passiva e falhas na
+concatenação das ideias ocasionadas pela dificuldade de uso do
+vocabulário.
+
+y Frases predominantemente escritas na voz passiva, com orações longas,
+desde que não fujam do tema e do estilo do texto.
+
+y Frases curtas e diretas, mas que mantêm tanto o caráter dissertativo-
+-argumentativo do texto quanto a associação com a ideia principal e o
+assunto amplo dos textos motivadores.
+Portanto, os desvios de escrita dos(as) participantes com dislexia serão
+avaliados de forma especial, considerando-se a quantidade de desvios,
+a legibilidade do texto e os critérios gerais da Competência I. Assim, se você teve o
+pedido de auxílio de um(a) transcritor(a) deferido, peça auxílio a esse(a) profissional
+na transcrição da sua redação.
+Em várias redações, é possível observar problemas relacionados à estrutura
+sintática e à organização das ideias do texto. Além dos casos mencionados,
+há redações em que se observam problemas relacionados à ausência de vocábulos,
+de conectivos e de pontuação. Essas situações também tornam o texto ou parte dele
+incompreensível, o que afeta a nota atribuída a esse texto. Por isso, participante com
+dislexia, utilize o auxílio do(a) ledor(a) e/ou do(a) transcritor(a) sempre que precisar.
+Não se esqueça de que você dispõe de tempo extra.
+Ainda que a Competência I considere aspectos característicos da escrita
+dos(as) disléxicos(as) no processo de avaliação, esse processo é sempre pautado
+na Matriz de Referência para a Redação do Enem e, pelas razões mencionadas,
+nas provas de participantes com dislexia, esses desvios serão avaliados de modo
+especial para evitar que sejam supervalorizados.
+A seguir, mostraremos o trecho de uma redação de um(a) participante
+disléxico(a) do Enem 2025 que apresentou problemas em um ou mais aspectos no
+domínio da modalidade escrita formal.
+“Com o 60 + anos e tambem chegando a apozentadoria e é uma situação bom para o individao
+com 60 + pois não é tão facil isso por calça que eles tem uma idade avançada e eles normalmente
+ficão sozinho.”
+
+=== p. 16 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+16
+No trecho em análise, podemos observar desvios relacionados à ortografia,
+como a substituição de letras com sons semelhantes: “apozentadoria”
+(aposentadoria), “por calça” (por causa); troca de letra: “individao” (indivíduo);
+falta de acento: “tambem” (também), “facil” (fácil); falha na escrita do tempo
+verbal: “ficao” (ficam); falta de concordância; falhas na pontuação. Esses desvios
+são avaliados no texto dos(as) participantes com dislexia de forma especial,
+observando sua especificidade, mas levando em consideração os critérios gerais
+da Competência I. Portanto, é importante estar atento à escrita do texto para evitar
+esses possíveis desvios.
+A seguir, apresentaremos um trecho de redação de um(a) participante
+disléxico(a) do Enem 2025 que apresenta excelente domínio da modalidade escrita
+formal da língua portuguesa.
+A inversão da pirâmide etária é um fenômeno desencadeado pela diminuição da taxa de
+natalidade e pelo aumento da expectativa de vida, o que ocasiona o predomínio de pessoas idosas
+na composição populacional. Esse fenômeno, no Brasil, apresenta-se de forma crescente na
+contemporaneidade e gera diferentes visões acerca do envelhecimento brasileiro. Nesse ínterim, a
+necessidade de reinserção no mercado de trabalho e a transformação do modo de vida da população
+idosa são fatores que impactam diferentes estratos sociais e geram perspectivas dualísticas sobre
+o envelhecimento no Brasil.”
+Podemos observar que o(a) participante demonstra excelente domínio das
+convenções de escrita, tendo construído orações e períodos completos, com
+estruturação sintática muito boa, escrita correta das palavras e adequada escolha
+vocabular, uso correto de concordância nominal e verbal e de pontuação. O domínio
+das convenções da escrita formal se estende por todo o texto e, por esse motivo,
+a redação foi avaliada com nota máxima na competência I.
+
+=== p. 17 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+17
+COMPETÊNCIA II
+COMPREENDER A PROPOSTA DE REDAÇÃO E APLICAR
+CONCEITOS DAS VÁRIAS ÁREAS DE CONHECIMENTO
+PARA DESENVOLVER O TEMA, DENTRO DOS LIMITES DO
+TEXTO DISSERTATIVO-ARGUMENTATIVO.
+A Competência II avaliará a sua capacidade de compreender o tema proposto
+e como você aplicará seu conhecimento na escrita de um texto dissertativo-
+-argumentativo. Por isso, sabendo das habilidades que pessoas com dislexia têm
+em compreender aquilo que escutam com atenção, é importante pedir o auxílio de
+um(a) ledor(a).
+O comando da prova oferecerá um tema específico. Os textos motivadores
+trazem, em seu conteúdo, o assunto ao qual o tema estará relacionado. É preciso,
+então, identificar o assunto, reconhecer a ideia principal em cada texto motivador e
+buscar entender qual é o provável objetivo dos(as) autores(as). Esses procedimentos
+vão ajudar a ter ideias e a formular um ponto de vista. Para auxiliar na compreensão
+do texto e evitar que haja falha na leitura, peça auxílio do(a) ledor(a). Você pode
+usar a folha de rascunho da prova para anotar as ideias principais ou construir, por
+exemplo, um mapa mental. Utilize as estratégias que você achar mais convenientes
+para ajudar a visualizar a relação do tema com os textos motivadores e a organizar
+as suas ideias. Tenha atenção para não fugir ao tema.
+Não se esqueça de respeitar a estrutura do texto dissertativo-argumentativo.
+Esse tipo de texto exige que você demonstre seu ponto de vista e argumente para
+convencer o(a) leitor(a) de que você está com a razão. Isso pode ser um grande
+desafio para os(as) participantes com dislexia. Por isso, lembramos que narrar
+histórias ou escrever poemas levará à anulação da sua prova.
+Pessoas com dislexia são completamente capazes de defender uma ideia e de
+superar desafios. Utilize suas habilidades para defender um ponto de vista de acordo
+com o tema e com os textos motivadores, mas tenha atenção: evite transcrever
+trechos dos textos motivadores, pois isso será considerado cópia e poderá fazer
+você perder pontos ou, até mesmo, ter a sua prova de redação anulada. É preciso ter
+cuidado, também, para que o seu ponto de vista e a defesa estejam de acordo com
+
+=== p. 18 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+18
+o tema. Para escrever as ideias de forma clara e objetiva, conte com o auxílio do(a)
+ledor(a) durante a prova. Ao escutar a própria redação, você poderá verificar se o
+texto está escrito de forma coesa, clara, objetiva e coerente.
+Outro aspecto avaliado na Competência II é a presença de repertório
+sociocultural no seu texto, ou seja, a utilização de conhecimentos adquiridos
+ao longo da sua vida escolar. Pode ser a citação de um fato, uma definição, uma
+referência a filmes, a músicas ou a personagens, uma experiência vivida que,
+de alguma forma, esteja relacionada ao tema e contribua como argumento para a
+discussão proposta.
+ATENÇÃO!
+Cuidado com repertórios prontos, memorizados, usados de forma genérica, sem
+uma conexão pertinente ao tema.
+O uso desses repertórios genéricos, de forma decorada, poderá prejudicar a
+sua nota na Competência II. O repertório será bem avaliado se houver relação com
+o assunto ou com o tema e se contribuir para a argumentação ou para a discussão
+desenvolvida no texto.
+A seguir, apresentaremos, como exemplo, um trecho de redação de um(a)
+participante com dislexia do Enem 2025, em que se pode observar tanto uma
+abordagem completa do tema quanto a presença de repertório sociocultural
+pertinente e usado de modo produtivo.
+Segundo o IBGE (Instituto Brasileiro de Geografia e Estatística), na década de 60, a maior
+parte da população brasileira era jovem, porém, após os avanços da medicina a expectativa de vida
+aumentou e a pirâmide demográfica do Brasil sofreu inversão. Visto isso, a tendência da sociedade
+brasileira é se tornar cada vez mais envelhecida, pois o número de pessoas da terceira idade cresce de
+forma rápida. Desse modo, problemas com a falta de população ativa para trabalhar e o preconceito
+enraizado em sociedade impede que os brasileiros tenham um envelhecimento de qualidade.
+Nessa redação, o tema do Enem 2025 “Perspectivas acerca do
+envelhecimento na sociedade brasileira” foi abordado pelo(a) participante de
+forma completa, o que resultou em nota máxima na Competência II. Sobre as
+perspectivas acerca do envelhecimento, o(a) participante destacou dois problemas
+
+=== p. 19 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+19
+que impactam na qualidade do envelhecimento da população brasileira: a falta de
+população ativa para trabalhar e o preconceito enraizado na sociedade, os quais
+foram discutidos no desenvolvimento do texto.
+O repertório é legitimado, pertinente e com uso produtivo, ao destacar a
+inversão da pirâmide demográfica no Brasil, comparando a idade da população
+da década de 60 com a tendência atual. Para tanto, cita como referência da
+informação o Instituto Brasileiro de Geografia e Estatística (IBGE), o que demonstra
+conhecimento sobre o tema.
+COMPETÊNCIA III
+SELECIONAR, RELACIONAR E INTERPRETAR
+INFORMAÇÕES, FATOS, OPINIÕES E ARGUMENTOS
+EM DEFESA DE UM PONTO DE VISTA.
+A Competência III avaliará como você planeja e organiza as ideias do seu texto.
+Em primeiro lugar, o conteúdo precisa estar minimamente associado ao tema, e os
+argumentos precisam ser compreendidos pelo(a) avaliador(a). Por isso, suas ideias
+devem estar organizadas, desenvolvidas e bem explicadas. Defenda seu ponto de
+vista, apresentando uma sequência de ideias e fatos de acordo com o tema proposto
+e com os textos motivadores. Não se esqueça disso!
+Como uma das características da escrita de texto por pessoas com dislexia é
+a dificuldade com a organização e com a sequenciação, sua prova será avaliada de
+forma diferenciada, desde que, na sua redação, o(a) avaliador(a) consiga identificar
+o parágrafo de introdução, os parágrafos de desenvolvimento e o parágrafo de
+conclusão.
+A seguir, listaremos para você algumas recomendações que podem
+auxiliá-lo(a) no planejamento da sua escrita.
+
+=== p. 20 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+20
+1 	 Caso tenha obtido o auxílio de um(a) ledor(a), ele(a) poderá ler para você o
+tema da redação e os textos motivadores. É importante que você mantenha
+a atenção e o interesse durante esse momento.
+2 	 Anote, na folha de rascunho, a ideia principal de cada texto motivador e
+selecione as ideias secundárias que você extraiu dos textos.
+3 	 Não copie trechos dos textos motivadores.
+4 	 Não fique explicando as ideias dos textos motivadores.
+5 	 Você pode utilizar uma citação de um(a) filósofo(a), fazer referência a um
+filme ou a um fato histórico, a um conto, a um poema, a um conceito sobre
+algo que você aprendeu ou que tenha relação com a ciência, a tecnologia ou
+a cultura, e que esteja relacionado ao tema ou que você consiga fazer essa
+relação. Utilize o seu conhecimento para enriquecer a sua argumentação.
+É assim que o repertório sociocultural é avaliado.
+6 	 Use a lateral da sua folha de rascunho para fazer uma lista em forma de
+tempestade de ideias antes de começar a escrever, mas reserve o espaço
+da folha de rascunho para redigir a redação antes de passá-la a limpo na
+Folha de Redação.
+7 	 Apresente, de forma clara, organizada, o ponto de vista sobre o tema e
+selecione informações, fatos, argumentos que o sustentem.
+8 	 Evite informações soltas, ou seja, as ideias precisam estar conectadas.
+Apresentaremos, a seguir, o fragmento do desenvolvimento de uma redação
+produzida por um(a) participante disléxico do Enem 2025.
+Dado o exposto o crescimento da velhice na conjuntura social evidênciou as diferenças no
+tratamento entre grupos que fazem parte de sua estrutura, uma vez que os preconceitos enraizados
+exercem influência sobre os cuidados aos idosos. Para fundamentar essa ideia, o conceito de capital
+cultural criado pelo sociólogo Pierre Bourdieu ganha destaque por referir-se aos conhecimentos
+valorizados dentro de uma sociedade que é reservado as elites. Sob essa ótica sociológica, justificase a empregabilidade de individuos mais velhos os quais fazem parte de associações que sofrem com
+esteriótipos negativos  pré-estabelecidos por conta de não obterem acesso à educação quando jovens
+devido a discriminação. Nesse sentido, o direito a aposentadoria digna  é negado aos indivíduos
+que pertencem a grupo minoritários. Por conseguinte, essa ação ocasiona em um agravamento da
+sobrecaraga a serviços públicos, como saúde, em razão de idosos não possuirem renda para pagar
+pelos serviços médicos.
+
+=== p. 21 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+21
+Nessa redação, o(a) participante organizou bem as ideias. No trecho em análise,
+ele(a) expõe, de forma clara, a opinião de que “o crescimento da velhice na conjuntura
+social evidênciou as diferenças no tratamento entre grupos que fazem parte de sua
+estrutura”. Para defender seu ponto de vista, apoia seus argumentos no conceito de capital
+cultural do sociólogo Pierre Bourdieu. Em seguida, o(a) participante explica como esse
+conceito se relaciona aos problemas enfrentados por idosos de determinados grupos
+sociais minoritários.
+As articulações organizadas dentro da temática demonstram que o(a) participante
+manteve-se no tema, relacionou ideias e organizou os fatos e as opiniões com clareza
+atingindo nota máxima nessa competência.
+COMPETÊNCIA IV
+DEMONSTRAR CONHECIMENTO DOS MECANISMOS
+LINGUÍSTICOS NECESSÁRIOS PARA A CONSTRUÇÃO
+DA ARGUMENTAÇÃO.
+A Competência IV tem como objetivo avaliar como você estrutura a sua redação,
+estabelecendo relações entre palavras, frases e parágrafos. Essa relação, denominada
+coesão das ideias, é feita por meio de recursos coesivos, como preposições, advérbios,
+conjunções e operadores argumentativos. Não adianta “decorar” uma lista deles; o mais
+importante é saber como e quando utilizá-los. Dependendo da intenção de quem os utiliza,
+eles ajudam a expressar diversos sentidos: causa, efeito, adição, oposição etc. Para lembrar
+desses recursos coesivos, sugerimos que você treine o uso em conversas no dia a dia e
+observe como são utilizados em diversos textos escritos. Vale destacar que, quanto maior
+for a sua frase, maior será a necessidade do uso de conectivos. Evite o excesso de repetições
+em sua redação. Para isso, você pode se valer de palavras sinônimas, pronomes, numerais
+ou outras estratégias para substituir expressões já usadas. Outro detalhe igualmente
+importante é marcar as partes do texto com a separação em parágrafos. Cuidado para não
+escrever a redação em um único parágrafo.
+
+=== p. 22 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+22
+Mesmo que treinem bastante, sabemos que, durante a prova, o esforço cognitivo
+de pessoas com dislexia poderá diminuir os mecanismos de memória e de atenção,
+provocando trocas, omissões ou inadequações no desenvolvimento do seu texto. Esses
+limites serão levados em consideração por avaliadores(as) experientes e treinados(as).
+Apresentaremos, a seguir, o trecho de uma redação do Enem 2025, em que o(a)
+participante recebeu nota máxima na Competência IV, pois demonstrou domínio sobre
+os aspectos da coesão textual (referencial e sequencial). Fez uso correto de operadores
+argumentativos e de elementos coesivos intraparágrafos (dentro dos parágrafos) e
+interparágrafos (entre os parágrafos), ligando as ideias na produção do texto.
+Nesse contexto, é relevante abordar que a partir da consolidação do capitalismo no Brasil,
+durante o século XX, o papel social do idoso foi subvertido radicalmente de um indivíduo provedor
+de conhecimento para um ser frágil, inativo e objetificado. [...]. Sendo assim, sob o viés econômico,
+que associa a jovialidade e agilidade ao lucro, o cenário midiático determina que deve-se ter menos
+filhos – o que ocasiona a inversão da pirâmide etária [...]
+Ademais, a omissão do Estado legitima e sustenta os preconceitos supracitados, provocando a
+manutenção de estruturas de desigualdade além da invisibilização da pessoa idosa. Isso se deve,
+indubitavelmente, devido a banalização de tal camada social, a qual representa parcela significativa
+da população, porém são naturalmente inferiorizados simplesmente por estarem associados ao
+obsoleto. Sob esse viés, a historiadora [...]
+Portanto, para efetivas mudanças nas perspectivas acerca do envelhecimento,  [...].
+O(A) participante demonstra, no trecho apresentado, domínio dos
+mecanismos linguísticos de coesão textual, utilizando, de forma diversificada e
+adequada, elementos coesivos tanto interparágrafos (entre os parágrafos) quanto
+intraparágrafos (dentro dos parágrafos). Como elementos coesivos interparágrafos
+destacamos: “Nesse contexto” – conectivo que se refere ao que foi exposto no
+parágrafo anterior para introduzir o primeiro argumento na sequência de ideias;
+“Ademais” – operador argumentativo que relaciona o parágrafo anterior ao que
+introduz, enfatizando o segundo argumento; e “Portanto” – conectivo conclusivo.
+Em relação aos conectivos intraparágrafos, destacamos mecanismos linguísticos
+de coesão sequencial e de coesão referencial: “Sendo assim”, “além de”, “porém”,
+“Sob esse viés”, “isso”, “a qual”, entre outros.
+Há articulação lógica entre as ideias no decorrer de todo o texto, com presença
+expressiva de conectivos e operadores argumentativos, sem repetições e sem
+inadequações, o que garante fluidez, progressão e clareza argumentativa.
+
+=== p. 23 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+23
+COMPETÊNCIA V
+ELABORAR PROPOSTA DE INTERVENÇÃO PARA O
+PROBLEMA ABORDADO, RESPEITANDO OS DIREITOS
+HUMANOS.
+A Matriz de Referência para a Redação do Enem mostra a importância da
+apresentação de uma proposta de intervenção que respeite os direitos humanos.
+Às vezes, o(a) participante conclui a redação sem apresentar estratégias de
+enfrentamento do problema.
+Os(as) avaliadores(as) devem verificar se o(a) participante apresenta uma
+sugestão para enfrentar e superar o problema discutido.
+ATENÇÃO!
+Afirmar que o problema existe e que precisa ser resolvido não é propor uma ação.
+A sugestão de intervenção deve conter a ação, o agente, o modo ou meio, o efeito
+e um detalhamento.
+Para auxiliar nessa tarefa, antes de escrever o parágrafo de conclusão do seu
+texto, pense e anote as respostas para cada uma das perguntas a seguir.
+
+y O que deve ser feito para enfrentar e superar o problema? (a ação)
+
+y Quem será responsável por executar a ação? (o agente)
+
+y Como será executada a ação? De que maneira? (o modo ou meio)
+
+y O que se pretende ou o que se espera com tal ação? (o efeito)
+
+y Quais detalhes devem ser citados, por meio de exemplos, especificações
+ou explicações, sobre a ação, o agente ou o modo? (um detalhamento)
+Depois de responder, transforme as suas anotações em um parágrafo. Cuidado
+para não fugir ao tema e ao assunto amplo ao escrever sua proposta de intervenção.
+
+=== p. 24 ===
+REDAÇÃO DO ENEM 2026
+CARTILHA DO(A) PARTICIPANTE COM DISLEXIA
+VOLTAR PARA
+O SUMÁRIO
+24
+ATENÇÃO!
+Será atribuída nota 0 (zero) à Competência V caso as ideias apresentadas possam
+ferir os princípios dos direitos humanos, como defender ideias contrárias à
+dignidade humana, à igualdade de direitos, ao reconhecimento e à valorização
+das diferenças e da diversidade, à laicidade do Estado, à democracia na educação,
+à transversalidade, vivência e globalidade, e à sustentabilidade socioambiental.
+Além de coerente com o tema, sua proposta deve ser executável, isto é,
+possível de ser realizada.
+Apresentaremos, a seguir, o parágrafo final de uma redação de um(a)
+participante com dislexia do Enem 2025, que é exemplo de construção de parágrafo
+com proposta de intervenção que atende a todos os critérios da Competência V.
+A proposta de intervenção dessa redação foi avaliada com nota máxima nesta
+competência, pois estava relacionada ao tema e à discussão desenvolvida no
+texto, com explicitação de cinco elementos válidos (ação, agente, modo/meio de
+execução, efeito e detalhamento).
+Portanto, entende-se que a desigualdade social e o preconceito são dois fatores que devem ser
+resolvidos. Para isso, é necessário que o Governo Federal – instância responsável pelo bem coletivo
+– em parceria com as escolas promova ações estruturais e de amparo social. Isso deve ocorrer
+por meio de verbas que financiem políticas públicas voltadas para pessoas idosas de baixa renda,
+como por exemplo, legitimar suas aposentadorias, além disso o Governo deve investir em melhores
+hospitais e profissionais qualificados. Outrossim, as escolas devem realizar paletras que incentivem
+e valorize indivíduos idosos. Tudo isso terá a finalidade de universializar boas perspectivas acerca
+do envelhecimento no Brasil..
+Verificamos que o(a) participante descreveu a sua proposta de intervenção
+utilizando os cinco elementos básicos exigidos como critério de nota máxima para a
+elaboração desse parágrafo, conforme exposto a seguir.
+A ação: promover ações estruturais e de amparo social.
+O agente: Governo Federal em parceria com as escolas.
+O modo/meio: por meio de verbas que financiem políticas públicas voltadas
+para pessoas idosas de baixa renda.
+O efeito: universalizar boas perspectivas acerca do envelhecimento no
+Brasil.
+O detalhamento do agente: instância responsável pelo bem coletivo.
+
+=== p. 25 ===
+CONSIDERAÇÕES
+FINAIS
+Esta cartilha foi elaborada para os(as) participantes com dislexia, considerando-se
+as particularidades da escrita da pessoa disléxica. O Inep respeita essas particularidades,
+valoriza o potencial, os dons e os talentos de cada pessoa com dislexia, assim como
+reconhece as limitações inerentes às suas dificuldades de leitura e de escrita. Por isso,
+o Inep oferece recursos diferenciados durante todas as etapas do exame, como tempo extra
+e o auxílio de um(a) ledor(a) e de um(a) transcritor(a), de forma que o processo avaliativo
+assegure o direito de equidade entre todos(as) os(as) participantes. A dislexia não impede
+o(a) participante de ingressar em uma universidade, pelo contrário, com os mecanismos
+necessários, todas as pessoas disléxicas podem alcançar esse objetivo. Ao levar em
+consideração as especificidades da escrita da pessoa com dislexia, o Inep ajuda a garantir
+uma nota mais justa e competitiva a essas pessoas, tornando o processo, de forma geral,
+mais equânime.
+
+=== p. 26 ===
+REDAÇÃO DO ENEM 2023
+CARTILHA DO PARTICIPANTE COM DISLEXIA

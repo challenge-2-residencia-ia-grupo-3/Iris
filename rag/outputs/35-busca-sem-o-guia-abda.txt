@@ -1,0 +1,70 @@
+A BUSCA DO ÍRIS SEM O GUIA DA ABDA. Gabaritos de modelo, sem conferência humana. Nenhum modelo treinado.
+HOJE: Qwen3 com a pergunta (conta exata), reranker sobre os 50, entrega 5.
+SEM: o guia fica fora da busca. MAX1: o guia continua, mas só 1 trecho dele pode ficar entre os 5 entregues.
+Técnica: modelos prontos, contagem e sorteio. Bootstrap de 95%: 2000 sorteios de perguntas, semente 20261105. Acaso no recall@5: 0.004.
+
+===== OPUS: 38 perguntas, 167 trechos certos; uma pergunta vale 2.6 pontos =====
+conferência: HOJE devolve os mesmos 5 trechos da medida anterior (outputs/29) em 38 de 38 perguntas
+busca                                   recall@5 final  ao menos 1 certo nos 5    MRR  certos entregues  vagas do guia
+a busca de hoje                       0.42 [0.32-0.52]               33 de 38   0.60                62             19
+sem o guia na busca                   0.41 [0.32-0.51]               32 de 38   0.61                61              0
+guia limitado a 1 entre os 5          0.42 [0.32-0.52]               32 de 38   0.58                61              9
+
+Diferença pareada contra HOJE (variação menos hoje), IC 95%, perguntas em que ganhou/empatou/perdeu:
+sem o guia na busca              recall@5 final -0.01 [-0.04 a +0.02] 1/34/3
+guia limitado a 1 entre os 5     recall@5 final -0.01 [-0.02 a +0.01] 1/35/2
+
+AS 10 PERGUNTAS PRÁTICAS (43 trechos certos):
+  busca                             recall@5 final  certos entregues  vagas do guia  guia e certo   perguntas sem nenhum certo nos 5
+  a busca de hoje                             0.26          10 de 43             18             3   Q04, Q05, Q10
+  sem o guia na busca                         0.22           9 de 43              0             0   Q03, Q04, Q05, Q10
+  guia limitado a 1 entre os 5                0.24           9 de 43              8             1   Q03, Q04, Q05, Q10
+  sem o guia na busca              menos hoje: -0.04 [-0.14 a +0.07] 1/6/3
+  guia limitado a 1 entre os 5     menos hoje: -0.02 [-0.08 a +0.03] 1/7/2
+
+AS OUTRAS 28 PERGUNTAS (124 trechos certos):
+  busca                             recall@5 final  certos entregues  vagas do guia  guia e certo   perguntas sem nenhum certo nos 5
+  a busca de hoje                             0.48          52 de 124              1             0   Q30, Q31
+  sem o guia na busca                         0.48          52 de 124              0             0   Q30, Q31
+  guia limitado a 1 entre os 5                0.48          52 de 124              1             0   Q30, Q31
+  sem o guia na busca              menos hoje: +0.00 [+0.00 a +0.00] 0/28/0
+  guia limitado a 1 entre os 5     menos hoje: +0.00 [+0.00 a +0.00] 0/28/0
+
+Matriz das vagas trocadas nas práticas, sem o guia na busca (o que o gabarito diz do trecho):
+                        trecho certo  não marcado
+saiu dos 5                         3           17
+entrou nos 5                       2           18
+
+Matriz das vagas trocadas nas práticas, guia limitado a 1 entre os 5 (o que o gabarito diz do trecho):
+                        trecho certo  não marcado
+saiu dos 5                         2            8
+entrou nos 5                       1            9
+
+De onde vêm os trechos que entraram no lugar do guia nas práticas (sem o guia na busca):
+  MS-PCDT-TDAH-2022                                       8  (pt-BR)
+  SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES          8  (pt-BR)
+  RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA             2  (pt-BR)
+  ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR                1  (pt-BR)
+  INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA                1  (pt-BR)
+
+===== RASCUNHO: 19 perguntas, 73 trechos certos; uma pergunta vale 5.3 pontos =====
+conferência: HOJE devolve os mesmos 5 trechos da medida anterior (outputs/29) em 19 de 19 perguntas
+busca                                   recall@5 final  ao menos 1 certo nos 5    MRR  certos entregues  vagas do guia
+a busca de hoje                       0.40 [0.27-0.54]               16 de 19   0.74                27             13
+sem o guia na busca                   0.33 [0.20-0.47]               14 de 19   0.64                26              0
+guia limitado a 1 entre os 5          0.39 [0.26-0.54]               15 de 19   0.74                27              7
+
+Diferença pareada contra HOJE (variação menos hoje), IC 95%, perguntas em que ganhou/empatou/perdeu:
+sem o guia na busca              recall@5 final -0.07 [-0.20 a +0.03] 2/14/3
+guia limitado a 1 entre os 5     recall@5 final -0.01 [-0.04 a +0.02] 1/17/1
+
+Vagas dos 5 entregues ocupadas por trecho que nenhum juiz do rascunho leu (acima de 10% a comparação não vale):
+  a busca de hoje                   23 de 95 (24%)
+  sem o guia na busca               27 de 95 (28%)
+  guia limitado a 1 entre os 5      24 de 95 (25%)
+
+CRITÉRIO (escrito antes de rodar): a variação é candidata se, no gabarito do Opus, o recall@5 final das 38 perguntas
+menos o de hoje NÃO tem o intervalo todo abaixo de zero, e nas 10 práticas os trechos certos entregues não caem.
+Com o intervalo todo acima de zero nas 38, passa. O rascunho só conta com até 10% de vagas não julgadas.
+sem o guia na busca              38 perguntas -0.01 [-0.04 a +0.02]: NÃO SE DISTINGUE DE HOJE; práticas -0.04 [-0.14 a +0.07], trechos certos entregues nas práticas de 10 para 9: NÃO É CANDIDATA
+guia limitado a 1 entre os 5     38 perguntas -0.01 [-0.02 a +0.01]: NÃO SE DISTINGUE DE HOJE; práticas -0.02 [-0.08 a +0.03], trechos certos entregues nas práticas de 10 para 9: NÃO É CANDIDATA

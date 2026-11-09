@@ -60,41 +60,61 @@ uv run mkdocs serve
 uv run mkdocs build
 ```
 
-### Gerenciamento de Dependências com UV
+### Execução do Backend (FastAPI) e Frontend (Next.js)
 
 ```bash
-# Adicionar nova dependência de produção
+# 1. Iniciar a API Backend FastAPI (porta 8000)
+uv run uvicorn iris.main:app --app-dir backend/src --reload --port 8000
+
+# 2. Em outro terminal, iniciar o Frontend Next.js (porta 3000)
+cd frontend && npm install && npm run dev
+
+# Acesse a aplicação web no navegador: http://localhost:3000
+```
+
+### Gerenciamento de Dependências e Testes com UV
+
+```bash
+# Adicionar nova dependência de produção no Backend
 uv add nome-do-pacote
 
-# Adicionar dependência ao grupo de documentação
-uv add --group docs nome-do-pacote
-
-# Executar scripts ou testes com o ambiente isolado do UV
+# Executar a bateria completa de testes unitários do Backend
 uv run pytest
+# ou diretamente via unittest:
+python3 -m unittest discover -s backend/tests -v
 ```
 
 ---
 
-## 4. Estrutura do Repositório
+## 4. Estrutura do Repositório (Separação Backend Python & Frontend Next.js)
 
 ```text
 iris/
-├── .agents/                      # Configurações e skills do agente de desenvolvimento
-│   └── skills/
-│       ├── challenge2-cbl-pedagogical-adapter/
-│       └── po-ia-educacional/
-├── docs/                         # Documentação oficial do projeto (MkDocs)
-│   ├── index.md                  # Apresentação e navegação
-│   ├── visao_produto.md          # Visão, dores, personas e proposta de valor
-│   ├── requisitos_funcionais.md  # RF-01 a RF-15 (sem user stories)
-│   ├── requisitos_nao_funcionais.md # RNF-01 a RNF-12 (LGPD, SLA, métricas)
-│   ├── arquitetura.md            # Diagramas, fluxo stateless e multiagentes
-│   ├── cbl.md                    # Big Idea, EQ, Guiding Questions e Roadmap
-│   └── skills.md                 # Catálogo das skills do projeto
+├── .env.example                  # Exemplo padronizado de variáveis de ambiente
+├── backend/                      # Camada de Backend Python (FastAPI + Agentes + RAG Bridge)
+│   ├── src/iris/
+│   │   ├── config.py             # Configurações centralizadas e guardrails Zero-Database
+│   │   ├── main.py               # Entrypoint FastAPI stateless + CORS para o Next.js
+│   │   ├── api/                  # Rotas REST stateless (/api/v1/materials/upload e /text)
+│   │   ├── core/                 # Cliente unificado de LLM (Ollama Local + API) e telemetria
+│   │   ├── schemas/              # Contratos de validação (Catálogo, Materiais, Perfil Portátil)
+│   │   ├── security/             # Sanitizador preventivo de PII (Zero-Retention Scrubber)
+│   │   ├── parsers/              # Extratores em memória (.pdf, .docx, .txt) e decompositor
+│   │   ├── agents/               # Orquestração multiagentes (Extrator, Estrategista, Adaptador, Auditor)
+│   │   └── rag/                  # Ponte (bridge.py) de integração com rag/iris-rag/pacote
+│   └── tests/                    # Suíte de testes automatizados do Backend (unittest / pytest)
+├── frontend/                     # Camada de Frontend Web Docente (Next.js 14 + TypeScript + Tailwind CSS)
+│   ├── package.json              # Dependências do Next.js, React 18 e Lucide Icons
+│   ├── next.config.mjs           # Configuração e proxy reverso para o Backend FastAPI
+│   ├── tailwind.config.ts        # Tokens visuais oficiais da Íris (#335C67, #E35336, #0D0221, #F5EDF0)
+│   └── src/
+│       ├── app/                  # App Router (Tela de Acesso Figma `/` e Etapa 1 `/etapa-1`)
+│       ├── components/           # Componentes acessíveis WCAG 2.1 AA (Step1MaterialIntake, Stepper5Etapas)
+│       └── services/             # Cliente HTTP (`materialsApi.ts`) integrado à API FastAPI
+├── docs/                         # Documentação oficial do projeto (MkDocs Material)
+├── rag/                          # Subsistemas de Conhecimento Científico e Catálogos Modulares (#39)
+├── scripts/                      # Automação de backlog e sincronização com GitHub
 ├── mkdocs.yml                    # Configuração do MkDocs Material
-├── pyproject.toml                # Especificação de dependências e metadados UV
-├── .python-version               # Versão do Python (3.12)
-├── .gitignore                    # Regras de exclusão do Git
-├── README.md                     # Visão geral rápida do repositório
-└── skills.md                     # Espelho do catálogo de skills
+├── pyproject.toml                # Especificação unificada de dependências Python (UV)
+└── README.md                     # Visão geral rápida do repositório
 ```

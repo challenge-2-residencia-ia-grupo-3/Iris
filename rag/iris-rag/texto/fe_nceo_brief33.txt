@@ -1,0 +1,374 @@
+=== p. 1 ===
+1
+NCEO Brief Number 33 • January 2024
+The Basics of
+Accommodations
+and Modifications
+There continues to be confusion
+among some educators and staff in
+State Education Agencies (SEAs) and
+Local Education Agencies (LEAs) about
+what is an accommodation and what
+is a modification. This confusion about
+accommodations and modifications
+happens in how these words are used
+in both instruction and assessment. The
+confusion is further compounded by the
+use of the term “modified curriculum”
+when describing the academic content
+taught to some students with disabilities.
+The misunderstandings of these terms
+affect how Individualized Education
+Programs (IEPs) are written and then
+implemented.
+
+=== p. 2 ===
+2
+The purpose of this Brief is to clarify what
+accommodations and modifications are for both
+instruction and assessment for students with
+disabilities. We also disentangle the use of the
+term “alternate or modified curriculum” from the
+meaning of modification used for instruction and
+assessment. Accommodations and modifications
+can also be appropriate for English learners;
+however, this Brief is focused on students with
+disabilities, including English learners with
+disabilities.
+Accommodations and Modifications in
+Instruction and Assessment
+For students with disabilities, including
+students with the most significant cognitive
+disabilities, the Individuals with Disabilities
+Education Act (IDEA) and Every Student
+Succeeds Act (ESSA) are the guiding federal
+education legislation about accommodations
+and modifications. IDEA indicates that IEP teams
+need to identify individual accommodations
+necessary for students with disabilities on state
+and districtwide assessments. Additionally,
+among other supports, IEPs must list specific
+accommodations and modifications that will
+be provided for students. ESSA requires that
+appropriate accommodations be provided during
+state assessments to students with disabilities
+identified under IDEA, as well as to students
+who are provided accommodations under an act
+other than IDEA. Neither of these laws provide a
+definition for accommodations or modifications,
+nor do they address modified curriculum.
+Rather, they emphasize that all students are to
+be provided access to and make progress in the
+grade-level general education curriculum even
+if the student is taking an alternate assessment
+based on alternate academic achievement
+standards (AA-AAAS) (Sabia et al., 2020a).
+Figure 1 shows that accommodations may be
+used for both instruction and standardized
+assessments, but modifications can only be used
+for instruction.
+Figure 1. Relationships Among Accommodations
+and Modifications for Instruction and
+Assessment
+Accommodations
+The Council of Chief State School Officers’ (CCSSO)
+Accessibility Manual defines accommodations
+as changes in procedures or materials that:
+(a) ensure a student has equitable access to
+instructional and assessment content, and
+(b) support valid assessment results for those
+students who require them (Lazarus et al., 2021).
+Accommodations do not reduce or change
+learning expectations. Generally, the same
+accommodations provided for instruction are
+provided for assessments. However, sometimes
+an accommodation provided for instruction
+may not be appropriate for an assessment. In
+some cases, this is because the accommodation
+available on the assessment is different from
+what is used in the classroom (e.g., an electronic
+highlighter is embedded in the online assessment
+but a highlighting marker is used in the
+classroom).
+There are a variety of accommodations that
+are used for both instruction and assessment.
+In regard to state assessments, all states have
+guidance on what accommodations are allowed.
+Other standardized assessments should also
+have their own accommodations policies (e.g.,
+
+=== p. 3 ===
+3
+standardized vendor assessments). Instructional
+accommodations are determined by IEP
+teams as per IDEA. A few examples of typical
+accommodations include:
+•	 American Sign Language or other sign system
+•	 Braille text and tactile graphics
+•	 Extended time
+•	 Large print
+•	 Scribe
+Accommodations should be accessible to the
+student in all required school settings and
+provided by general educators, special educators,
+support staff, and related service providers.
+Modifications
+The CCSSO Accessibility Manual (Lazarus et al.,
+2021) indicates that modifications are changes in
+practices or materials that lower state-required
+learning expectations. IEP teams determine
+whether a student needs modifications and
+identifies what those specific modifications
+are and who will be making them. Because
+modifications change expectations, they
+should be used with caution during instruction.
+Modifications used during instruction may result
+in students missing out on essential knowledge or
+skills. Modifications should never be used during
+standardized assessments because they change
+what is being measured, resulting in an invalid
+assessment score.
+Examples of instructional modifications include:
+•	 allowing a student to have fewer learning
+objectives than other peers
+•	 requiring fewer assignments
+•	 giving students easier homework than peers
+•	 providing below-grade-level curriculum or
+assignments
+The Standards for Educational and Psychological
+Testing (AERA/APA/NCME, 2014) address
+both accommodations and modifications as
+testing adaptations. They emphasize that
+accommodations are adjustments to the test
+presentation, environment, content format, or
+administration conditions that do not alter what
+is being measured by the test. Modifications
+are a change in test content, format, or
+administration conditions that alter what the
+test is measuring, resulting in scores that differ
+in meaning from scores from an unmodified
+assessment. Although the Standards refer only
+to assessment, we can apply these definitions to
+instructional accommodations and modifications.
+For instruction, use of accommodations do
+not alter the content that is being taught, but
+modifications do change (lower) the learning
+expectations.
+Alternate or Modified Curriculum
+Standards
+Part of the confusion about accommodations and
+modifications may be due to the use of the terms
+“alternate or modified curriculum” in some state
+policies. Many states’ decision-making criteria for
+AA-AAAS participation require that for a student
+to participate in the AA-AAAS substantive
+modifications to the general education curriculum
+are required (i.e., the student uses alternate or
+Alternate Assessments based on Alternate
+Academic Achievement Standards (AA-
+AAAS)
+In the early 2000s, some states considered
+AA-AAAS to be the “ultimate accommodation”
+and believed that accommodations were not
+necessary for an AA-AAAS. Since that time, the
+field has recognized that there are still barriers
+that may need to be removed for students
+who take the AA-AAAS. IEP teams can make
+accommodations available for students who take
+an alternate assessment. For example, many
+states now administer their AA-AAAS as an online
+computer-based assessment. Students who are
+unable to access the online assessment may
+need a paper version of the assessment as an
+accommodation. Other possible accommodations
+may include the use of accessibility devices, a
+braille version of the assessment, and tactile
+graphics.
+
+=== p. 4 ===
+4
+modified curriculum standards) (Quanbeck et
+al., 2023). These terms have sometimes been
+further shortened to “alternate or modified
+curriculum.” Federal law makes clear that
+students who participate in the AA-AAAS must
+have access to the general education curriculum.
+According to Bechard et al. (2021) “students with
+significant cognitive disabilities are expected
+to engage in higher thinking and operations to
+accomplish more complex academic content” (p.
+7). Additionally, ESEA requires that states’ AA-
+AAAS align with the Workforce Innovation and
+Opportunity Act (WIOA) of 2014 requirement
+that students who take the AA-AAAS are on
+track to pursue postsecondary education or
+competitive integrated employment (Thurlow et
+al., 2019). ESEA and IDEA do allow for states to
+have alternate academic achievement standards,
+aligned to grade-level academic content
+standards, for students with the most significant
+cognitive disabilities who take the AA-AAAS.
+Alternate academic achievement standards
+describe adjusted performance expectations for
+these students while still providing access to the
+general education curriculum.
+IDEA states that a student’s IEP goals are to
+be designed to enable the child to be involved
+in and make progress in the general education
+curriculum by meeting the child’s needs that
+result from the child’s disability (Sabia et al.,
+2020b). This means that the curriculum is based
+on the same grade-level academic content as for
+other students, but it can be presented in a way
+that reduces breadth, depth, and complexity. The
+curriculum is not modified because it does not
+change the academic content for the student
+(i.e., they learn the same academic content,
+but possibly with less depth, breadth, and
+complexity).
+Referring to learning the same academic content
+with less depth, breadth, or complexity does not
+mean that the curriculum is different. A different
+curriculum is suggested by the terms alternate
+curriculum standards or modified curriculum
+standards.
+Summary
+The primary purpose of accommodations and
+modifications is to provide access to learning for
+students with disabilities. The major difference
+between accommodations and modifications is
+that accommodations provide access to both
+instruction and assessment for students with
+disabilities without changing expectations
+for their learning or performance; whereas,
+modifications lower performance expectations on
+grade level content. Modifications for instruction
+are not the same as a modified curriculum.
+Recommendations
+IEP teams, including students who participate
+in them, need to understand the differences
+between accommodations and modifications.
+Specifically,
+•	 IEP teams should know which
+accommodations are allowable on
+assessments and provide students
+the opportunity to practice these
+accommodations during instruction. When
+the IEP team has determined that the
+allowable accommodation meets the student’s
+individual needs it should be provided during
+assessments.
+•	 The more aligned instruction and assessment
+accommodations are, the better students will
+be able to demonstrate what they know.
+•	 Modifications should not be used for
+assessments because they produce invalid
+results for the content being assessed.
+•	 Modifications should be used with caution for
+instruction because they change the learning
+expectations for students.
+•	 Although instructional modifications may
+be appropriate for students with the most
+significant cognitive disabilities who take
+an AA-AAAS, those students still must be
+involved in and make progress in the general
+education curriculum.
+
+=== p. 5 ===
+5
+Process for Creating Grade-Aligned Lesson Plans for Students
+Who Take the AA-AAAS
+Lee et al. (2015) identified a research-based process for creating grade-aligned lesson plans to promote
+numeracy and literacy skills for students with the most significant cognitive disabilities:
+Numeracy
+1.	 Select the content and objectives for the lesson from grade-level content targeted by the general education teacher or prioritized with content partners within and across grades.
+2.	 Identify a real-life activity for the lesson to give the content purpose.
+3.	 Use evidence-based practices with content broken into smaller objectives and sequenced.
+4.	 Use instructional supports and graphic organizers to keep track of steps to solve the problem.
+5.	 Plan methods to monitor progress (both steps used to solve and number of problems solved).
+6.	 Promote generalization through application to untaught problems and different real-life situations. (pp. 2-3)
+Literacy
+1.	 Select the target text—same as assigned grade level targets, with opportunities for inclusive
+instruction, interaction with peers.
+2.	 Adapt text as needed—look for picture supports and headings already included; some texts may
+need simplification or a summary.
+3.	 Augment the text for understanding. This may include providing picture symbols for key vocabulary, a summary sentence that is repeated, or highlighting key vocabulary. “No more different
+than necessary” is a general rule of thumb.
+4.	 Identify multiple ways (e.g., human reader, technology) that the student could access the text.
+The passage should always be in view so the student can apply his or her reading skills. During
+instruction, the student should have the opportunity to request to “read it again” if he or she is
+unsure of the answer to a comprehension question. A “reread” can be requested using either the
+symbol provided for “reread” or the student’s own communication system.
+5.	 Consider how the student will demonstrate understanding. Although some students with significant cognitive disabilities will have a speech or communication system to generate answers
+to open-ended questions, many will need to select from an array of responses (e.g., words or
+pictures). Response options should be familiar to students or pre-taught prior to being used for
+responding. (p. 5)
+Resources
+AERA, APA, & NCME (American Educational
+Research Association, American Psychological
+Association, & National Council on Measurement
+in Education). (2014). Standards for educational
+and psychological testing. AERA.
+Bechard, S., Karvonen, M., & Erickson, K. (2021).
+Opportunities and challenges of applying
+cognitive process dimensions to map-based
+learning and alternate assessment. Frontiers in
+Education, 6.
+
+=== p. 6 ===
+6
+NCEO Brief #33, January 2024
+The authors of this Brief were Andrew R. Hinkle, Sheryl S. Lazarus, Kascinda Fleming, and Martha L. Thurlow.
+NCEO Director, Sheryl Lazarus; NCEO Assistant Director, Kristin Liu
+All rights reserved. Any or all portions of this document may be reproduced and distributed without prior permission, provided the
+source is cited as:
+Hinkle, A. R., Lazarus, S. S., Fleming, K., & Thurlow, M. L. (2024, January). The basics of accommodations and modifications (NCEO
+Brief #33). National Center on Educational Outcomes.
+The Center is supported through a Cooperative Agreement (#H326G210002) with the Research to Practice Division, Office of
+Special Education Programs, U.S. Department of Education. The Center is affiliated with the Institute on Community Integration at
+the College of Education and Human Development, University of Minnesota. Consistent with EDGAR §75.62, the contents of this
+report were developed under the Cooperative Agreement from the U.S. Department of Education, but do not necessarily represent
+the policy or opinions of the U.S. Department of Education or Offices within it. Readers should not assume endorsement by the
+federal government.
+Project Officer: David Egnor
+NCEO works in collaboration with Applied Engineering Management (AEM), Center for Parent Information (CPIR), Council of Chief
+State School Officers (CCSSO), National Association of State Directors of Special Education (NASDSE), and WestEd.
+This publication is available in alternative
+formats upon request. Direct requests to:
+National Center on Educational Outcomes
+University of Minnesota
+2025 East River Parkway, Room 1-330
+Minneapolis, MN 55414
+Phone 612/626-1530
+Visit our website at www.nceo.info
+The University of Minnesota is an equal opportunity employer and educator.
+Lazarus, S., Goldstone, L., Wheeler, T., Paul,
+J., Prestridge, S., Sharp, T., Hochstetter, A., &
+Warren, S. (2021). CCSSO accessibility manual:
+How to select, administer, and evaluate use
+of accessibility supports for instruction and
+assessment of all students. Council of Chief State
+School Officers (CCSSO).
+Lee, A., Browder, D. M., Wakeman, S. Y.,
+Quenemoen, R. F., & Thurlow, M. L. (2015). AA-
+AAS: How do our students learn and show what
+they know? (NCSC Brief #3). National Center and
+State Collaborative.
+Quanbeck, M., Lazarus, S. S., & Thurlow, M.
+L. (2023). 2021-22 participation guidelines and
+definitions for alternate assessments based on
+alternate academic achievement standards (NCEO
+Report 440). National Center on Educational
+Outcomes.
+Sabia, R., Bowman, J., Thurlow, M. L., & Lazarus,
+S. S. (2020a). Providing meaningful general
+education curriculum access to students with
+significant cognitive disabilities (TIES Center Brief
+#4). TIES Center.
+Sabia, R., Thurlow, M. L., & Lazarus, S. S. (2020b).
+The general education curriculum—not an alternate
+curriculum! (TIES Center Brief #5). TIES Center.
+Thurlow, M. L., Nye-Lengerman, K., & Lazarus,
+S. S. (2019). Suggestions for aligning alternate
+achievement standards with WIOA (NCEO Brief
+#16). National Center on Educational Outcomes.

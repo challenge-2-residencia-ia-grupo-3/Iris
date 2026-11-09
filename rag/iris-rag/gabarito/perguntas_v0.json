@@ -1,0 +1,286 @@
+{
+ "versao": "perguntas-v0",
+ "nota": "escritas a partir de FONTES.md e conhecimento do tema, antes de abrir chunks.jsonl e sem buscador",
+ "itens": [
+  {
+   "id": "Q01",
+   "pergunta": "Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?",
+   "tipo": "estrategia",
+   "barreira": "memória de trabalho",
+   "parte_esperada": "varias"
+  },
+  {
+   "id": "Q02",
+   "pergunta": "Meu aluno com TDAH perde o foco depois de uns 10 minutos de tarefa. Como dividir a atividade para ele manter a atenção até o fim?",
+   "tipo": "estrategia",
+   "barreira": "atenção sustentada",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q03",
+   "pergunta": "Como ajudar um aluno com TDAH que se perde na ordem dos passos de um problema, sem saber o que vem primeiro e o que vem depois?",
+   "tipo": "estrategia",
+   "barreira": "organização sequencial",
+   "parte_esperada": "varias"
+  },
+  {
+   "id": "Q04",
+   "pergunta": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+   "tipo": "estrategia",
+   "barreira": "iniciação de tarefa",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q05",
+   "pergunta": "A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?",
+   "tipo": "estrategia",
+   "barreira": "sobrecarga visual",
+   "parte_esperada": "varias"
+  },
+  {
+   "id": "Q06",
+   "pergunta": "Aluno responde por impulso antes de terminar de ler a pergunta. O que posso fazer em sala para ele parar e conferir?",
+   "tipo": "estrategia",
+   "barreira": "controle inibitório",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q07",
+   "pergunta": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+   "tipo": "estrategia",
+   "barreira": "leitura de texto longo",
+   "parte_esperada": "varias"
+  },
+  {
+   "id": "Q08",
+   "pergunta": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+   "tipo": "estrategia",
+   "barreira": "comportamento fora da tarefa",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q09",
+   "pergunta": "Onde devo sentar o aluno com TDAH e que ajustes no ambiente da sala ajudam a reduzir a distração?",
+   "tipo": "estrategia",
+   "barreira": "distração ambiental",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q10",
+   "pergunta": "Como dar instruções para um aluno com TDAH: falo tudo de uma vez ou em partes? Devo pedir para ele repetir o que entendeu?",
+   "tipo": "estrategia",
+   "barreira": "memória de trabalho / instruções",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q11",
+   "pergunta": "Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A"
+  },
+  {
+   "id": "Q12",
+   "pergunta": "O que mudou na versão 3.0 das diretrizes do DUA em relação às versões anteriores?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A"
+  },
+  {
+   "id": "Q13",
+   "pergunta": "Dê exemplos de múltiplas formas de representação para apresentar um mesmo conteúdo aos alunos.",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A"
+  },
+  {
+   "id": "Q14",
+   "pergunta": "Como oferecer múltiplos meios de ação e expressão numa avaliação, para o aluno mostrar o que sabe de outro jeito?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A"
+  },
+  {
+   "id": "Q15",
+   "pergunta": "O que o DUA recomenda para o engajamento: como despertar o interesse e sustentar o esforço e a persistência dos alunos?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A"
+  },
+  {
+   "id": "Q16",
+   "pergunta": "DUA é a mesma coisa que adaptação curricular individual? Qual a diferença entre planejar para todos e adaptar para um aluno?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A"
+  },
+  {
+   "id": "Q17",
+   "pergunta": "Nas diretrizes do DUA, o que se recomenda sobre estabelecer metas, planejar estratégias e monitorar o próprio progresso (as antigas 'funções executivas')?",
+   "tipo": "dua",
+   "barreira": "funções executivas",
+   "parte_esperada": "A"
+  },
+  {
+   "id": "Q18",
+   "pergunta": "Como aplicar o DUA no planejamento de aula numa sala comum inclusiva da escola brasileira? Tem exemplos práticos?",
+   "tipo": "dua",
+   "barreira": "",
+   "parte_esperada": "A"
+  },
+  {
+   "id": "Q19",
+   "pergunta": "O que a Lei 14.254/2021 garante aos alunos com TDAH e dislexia na escola?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C"
+  },
+  {
+   "id": "Q20",
+   "pergunta": "A escola pode exigir laudo médico para oferecer atendimento educacional ao aluno?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C"
+  },
+  {
+   "id": "Q21",
+   "pergunta": "Como a Lei Brasileira de Inclusão (LBI) define barreiras e adaptações razoáveis?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C"
+  },
+  {
+   "id": "Q22",
+   "pergunta": "O que a LDB diz sobre a avaliação do aluno: contínua, cumulativa, com prevalência dos aspectos qualitativos?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C"
+  },
+  {
+   "id": "Q23",
+   "pergunta": "O que é o AEE (atendimento educacional especializado), quem tem direito e ele substitui a sala de aula comum?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C"
+  },
+  {
+   "id": "Q24",
+   "pergunta": "O que a nova Política Nacional de Educação Especial Inclusiva (Decreto 12.686/2025 e Portaria MEC 421/2026) estabelece?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C"
+  },
+  {
+   "id": "Q25",
+   "pergunta": "Aluno com dislexia no ENEM: que atendimento ele tem na redação e como a correção considera a dislexia?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C"
+  },
+  {
+   "id": "Q26",
+   "pergunta": "Aluno com TDAH é público-alvo da educação especial? Ele tem direito ao AEE?",
+   "tipo": "norma",
+   "barreira": "",
+   "parte_esperada": "C"
+  },
+  {
+   "id": "Q27",
+   "pergunta": "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q28",
+   "pergunta": "Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com TDAH? Qual o tamanho do efeito?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q29",
+   "pergunta": "Treino cognitivo (por exemplo, treino de memória de trabalho no computador) melhora os sintomas do TDAH?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q30",
+   "pergunta": "Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o desempenho acadêmico deles?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "D"
+  },
+  {
+   "id": "Q31",
+   "pergunta": "O ensino diferenciado (diferenciação) no ensino médio/secundário tem efeito comprovado no desempenho dos alunos?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "D"
+  },
+  {
+   "id": "Q32",
+   "pergunta": "Intervenções escolares para TDAH testadas em ensaios randomizados melhoram o desempenho acadêmico ou só o comportamento?",
+   "tipo": "evidencia",
+   "barreira": "",
+   "parte_esperada": "B"
+  },
+  {
+   "id": "Q33",
+   "pergunta": "Vale a pena ensinar de acordo com o estilo de aprendizagem do aluno (visual, auditivo, cinestésico)?",
+   "tipo": "mito",
+   "barreira": "",
+   "parte_esperada": "D"
+  },
+  {
+   "id": "Q34",
+   "pergunta": "Usar uma fonte especial para dislexia, como OpenDyslexic ou Dyslexie, ajuda o aluno a ler melhor?",
+   "tipo": "mito",
+   "barreira": "",
+   "parte_esperada": "D"
+  },
+  {
+   "id": "Q35",
+   "pergunta": "Aumentar o espaçamento entre as letras ajuda a leitura de quem tem dislexia?",
+   "tipo": "mito",
+   "barreira": "",
+   "parte_esperada": "D"
+  },
+  {
+   "id": "Q36",
+   "pergunta": "Quantos professores acreditam em neuromitos? E como é isso entre educadores no Brasil?",
+   "tipo": "mito",
+   "barreira": "",
+   "parte_esperada": "D"
+  },
+  {
+   "id": "Q37",
+   "pergunta": "Sistemas automáticos de simplificação de texto preservam o sentido original? Dá para confiar que o texto simplificado mantém a informação?",
+   "tipo": "so_ingles",
+   "barreira": "",
+   "parte_esperada": "D"
+  },
+  {
+   "id": "Q38",
+   "pergunta": "Modelos de linguagem (LLMs) conseguem reescrever um material didático em diferentes níveis de leitura mantendo o conteúdo correto?",
+   "tipo": "so_ingles",
+   "barreira": "",
+   "parte_esperada": "D"
+  },
+  {
+   "id": "Q39",
+   "pergunta": "Qual a dose inicial de metilfenidato para uma criança de 6 anos com TDAH e como ajustar?",
+   "tipo": "sem_resposta",
+   "barreira": "",
+   "parte_esperada": "nenhuma"
+  },
+  {
+   "id": "Q40",
+   "pergunta": "Como montar uma prancha de comunicação alternativa (CAA) para um aluno com TEA nível 3, não verbal, na aula de matemática?",
+   "tipo": "sem_resposta",
+   "barreira": "",
+   "parte_esperada": "nenhuma"
+  }
+ ]
+}

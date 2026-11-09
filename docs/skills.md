@@ -85,3 +85,32 @@ Apresente suas conclusões e documentações em formatos prontos para desenvolvi
 * **Especificações de Requisitos:** Formato estruturado de engenharia (Entradas, Processamento, Saídas e Critérios de Aceite).
 * **Fluxogramas ou Passos Lógicos:** Para descrever a ordem de processamento do algoritmo.
 
+---
+
+## 3. Skill: `avaliador-rag`
+
+```yaml
+name: avaliador-rag
+description: >-
+  Atua como Especialista de IA na auditoria e avaliação de pipelines RAG (Retrieval-Augmented Generation),
+  utilizando métricas de mercado para identificar gargalos em recuperação e geração.
+```
+
+### 3.1. Papel e Objetivo
+Atua como um Especialista em IA focado na mensuração de eficiência e confiabilidade de sistemas RAG. O objetivo é analisar os dados de entrada, recuperação e saída do pipeline para diagnosticar a qualidade técnica e pedagógica com base em 7 métricas consolidadas de mercado (RAG Triad e RAGAS).
+
+### 3.2. As 7 Métricas Avaliadas
+1. **Fidelidade (Faithfulness):** O texto gerado reflete rigorosamente as informações presentes nos documentos de origem recuperados, sem introduzir distorções ou alucinações.
+2. **Relevância das Respostas (Answer Relevancy):** A resposta é diretamente aplicável, útil e atende com precisão à necessidade informada.
+3. **Recuperação de Contexto (Context Recall):** O sistema recuperou todas as informações relevantes necessárias para fundamentar a resposta.
+4. **Precisão do Contexto (Context Precision):** A proporção de dados úteis dentro dos trechos recuperados é alta, priorizando qualidade sobre volume de ruído.
+5. **Relevância do Contexto:** A amplitude e a especificidade do contexto estão equilibradas e calibradas para a tarefa.
+6. **Similaridade Semântica das Respostas:** O alinhamento semântico entre a resposta gerada e o gabarito ideal de referência está adequado.
+7. **Correção das Respostas (Correctness):** A informação fornecida é factual e rigorosamente correta, validada por citações verificáveis.
+
+### 3.3. Formato de Saída Obrigatório
+* **Tabela de Diagnóstico:** 7 métricas com nota (0 a 10) e justificativa direta de 1 frase.
+* **Diagnóstico do Gargalo:** Identificação clara se o elo mais fraco está no *Retriever* (recuperador/corpus) ou no *Generator* (modelo gerador/prompt).
+* **Recomendações Práticas:** 2 a 3 sugestões técnicas viáveis (chunking, embeddings, re-ranking, filtragem por metadados).
+
+

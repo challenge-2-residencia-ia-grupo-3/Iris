@@ -6,8 +6,8 @@ site_url: "https://challenge-2-residencia-ia-grupo-3.github.io/Iris/"
 theme:
   name: material
   language: pt-BR
-  icon:
-    logo: material/eye-circle-outline
+  logo: assets/logo.jpg
+  favicon: assets/favicon.png
   font:
     text: Plus Jakarta Sans
     code: JetBrains Mono
@@ -79,6 +79,11 @@ nav:
   - Requisitos:
       - Requisitos Funcionais: requisitos_funcionais.md
       - Requisitos Não Funcionais: requisitos_nao_funcionais.md
+      - Backlog & Rastreabilidade: backlog_rastreabilidade.md
   - Arquitetura: arquitetura.md
+  - Base de Conhecimento e RAG:
+      - Relatório Técnico: rag/relatorio.md
+      - Arquitetura do RAG: rag/arquitetura.md
+      - Avaliação do RAG: rag/avaliacao.md
   - Metodologia CBL: cbl.md
   - Catálogo de Skills: skills.md

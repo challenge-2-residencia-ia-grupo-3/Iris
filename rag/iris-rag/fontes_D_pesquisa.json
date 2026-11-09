@@ -1,0 +1,547 @@
+{
+  "parte": "D-PESQUISA",
+  "documentos": [
+    {
+      "id": "DALGAARD-2022-INCLUSAO-META",
+      "titulo": "The effects of inclusion on academic achievement, socioemotional development and wellbeing of children with special educational needs",
+      "autores": [
+        "Nina T. Dalgaard",
+        "Anja Bondebjerg",
+        "Bjørn C. A. Viinholt",
+        "Trine Filges"
+      ],
+      "ano": 2022,
+      "revista": "Campbell Systematic Reviews 18(4):e1291",
+      "doi": "10.1002/cl2.1291",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9727566/fullTextXML",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "html",
+      "sha256_bruto": "46c30bded630643c45f0e5f3b7b37ec29fc3fe5451c54d81e86f823d8447adfb",
+      "bytes_bruto": 422402,
+      "arquivo_bruto": "raw/pq_dalgaard2022_campbell.xml",
+      "arquivo_texto": "texto/pq_dalgaard2022_campbell.md",
+      "paginas": null,
+      "caracteres_extraidos": 155386,
+      "bloco": "inclusao",
+      "tema": [
+        "efeitos da inclusão",
+        "NEE",
+        "meta-análise Campbell",
+        "TDAH entre as condições incluídas"
+      ],
+      "barreiras": [],
+      "tipo_evidencia": "meta-analise",
+      "achado_principal": "94 estudos elegíveis (todos não randomizados), só 15 usáveis na síntese; SMD 0,04 (IC95% −0,27 a 0,35) em linguagem/letramento, 0,05 (−0,16 a 0,26) em matemática e 0,20 (−0,01 a 0,42) em ajuste psicossocial, nenhum significativo. Conclusão: é muito improvável que a inclusão em geral aumente ou diminua aprendizagem e ajuste psicossocial.",
+      "implicacao_para_iris": "Colocar o aluno na sala comum não basta para ele aprender. O ganho depende do que se faz dentro da sala, que é o nicho do Íris (adaptar a atividade mantendo o currículo).",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Tipo marcado html, mas o bruto é XML JATS do Europe PMC (fullTextXML), convertido com scripts/pq_jats2md.py. Sem paginação (paginas=null). Referências omitidas. Tabelas viraram linhas \"|\". PDF via PMC/Wiley devolveu 403 ou página de desafio.",
+      "status": "aceito"
+    },
+    {
+      "id": "SMALEJACOBSE-2019-DIFERENCIACAO-RS",
+      "titulo": "Differentiated Instruction in Secondary Education: A Systematic Review of Research Evidence",
+      "autores": [
+        "Annemieke E. Smale-Jacobse",
+        "Anna Meijer",
+        "Michelle Helms-Lorenz",
+        "Ridwan Maulana"
+      ],
+      "ano": 2019,
+      "revista": "Frontiers in Psychology 10:2366",
+      "doi": "10.3389/fpsyg.2019.02366",
+      "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2019.02366/pdf",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "6a738a61c0ab2c89a9ab3057959092c15358ddcbdf95aa7dfef6b860dd6901ac",
+      "bytes_bruto": 579067,
+      "arquivo_bruto": "raw/pq_smalejacobse2019.pdf",
+      "arquivo_texto": "texto/pq_smalejacobse2019.txt",
+      "paginas": 23,
+      "caracteres_extraidos": 150373,
+      "bloco": "inclusao",
+      "tema": [
+        "ensino diferenciado",
+        "agrupamento por nível",
+        "tiering",
+        "mastery learning",
+        "ensino médio"
+      ],
+      "barreiras": [],
+      "tipo_evidencia": "revisao_sistematica",
+      "achado_principal": "De 2006 a 2016, só 14 artigos (12 estudos únicos) entraram. A maioria mostra efeito positivo pequeno a moderado da diferenciação no desempenho (d entre +0,741 e +0,509, sem o outlier), mas os autores apontam lacunas graves de conhecimento.",
+      "implicacao_para_iris": "Há evidência modesta a favor de diferenciar dentro da sala. O Íris deve se apresentar como ferramenta de diferenciação com fonte, sem prometer efeito grande.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Duas colunas: o texto corrido sai coerente. A Tabela 2 (p. 9 a 15) sai célula por linha, legível mas fragmentada para chunking. Conferidas p. 11 e 12.",
+      "status": "aceito"
+    },
+    {
+      "id": "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE",
+      "titulo": "A Educação Especial e os Cursos Técnicos: a Visão dos Docentes sobre os Processos de Adaptação Curricular",
+      "autores": [
+        "Marcelio Adriano Diogo",
+        "Marlise Geller"
+      ],
+      "ano": 2022,
+      "revista": "Revista Brasileira de Educação Especial v.28, e0122, p.561-578",
+      "doi": "10.1590/1980-54702022v28e0122",
+      "url": "https://www.scielo.br/j/rbee/a/C8LcZkgFR6yWYbkYVvwdFSR/?format=pdf&lang=pt",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0 (página do artigo na SciELO)",
+      "idioma": "pt",
+      "tipo": "pdf",
+      "sha256_bruto": "edd359ba0c70d61a00ae921393ab4f1f0cda6eea57a878f3719b6145a6ca8c0f",
+      "bytes_bruto": 885079,
+      "arquivo_bruto": "raw/pq_rbee2022_cursos_tecnicos.pdf",
+      "arquivo_texto": "texto/pq_rbee2022_cursos_tecnicos.txt",
+      "paginas": 18,
+      "caracteres_extraidos": 51295,
+      "bloco": "inclusao",
+      "tema": [
+        "adaptação curricular",
+        "flexibilização",
+        "supressão de conteúdo",
+        "visão docente",
+        "Brasil",
+        "Instituto Federal"
+      ],
+      "barreiras": [],
+      "tipo_evidencia": "survey",
+      "achado_principal": "81 respostas de docentes do IFSul. Na área técnica, 78,3% (37,8% + 40,5%) consideram a adaptação importante ou essencial para a aprendizagem. Docentes das duas áreas discordam igualmente de adaptações que suprimem conteúdo e temem o reflexo disso na formação.",
+      "implicacao_para_iris": "Mostra que o professor brasileiro rejeita a adaptação que corta conteúdo, o que sustenta as travas curriculares do Íris como argumento de venda.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Uma coluna, texto limpo em português. As tabelas saem em linhas. Conferidas p. 9 e 10. O público é o ensino técnico (IF) com foco em deficiência intelectual, não TDAH na educação básica. Use como evidência sobre a percepção docente.",
+      "status": "aceito"
+    },
+    {
+      "id": "DEKKER-2012-NEUROMITOS",
+      "titulo": "Neuromyths in education: Prevalence and predictors of misconceptions among teachers",
+      "autores": [
+        "Sanne Dekker",
+        "Nikki C. Lee",
+        "Paul Howard-Jones",
+        "Jelle Jolles"
+      ],
+      "ano": 2012,
+      "revista": "Frontiers in Psychology 3:429",
+      "doi": "10.3389/fpsyg.2012.00429",
+      "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2012.00429/pdf",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY (Creative Commons Attribution License)",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "f24ef619d77b9b6ed64983013826546e000419571fe8c793420eb93bf1867bd9",
+      "bytes_bruto": 509426,
+      "arquivo_bruto": "raw/pq_dekker2012.pdf",
+      "arquivo_texto": "texto/pq_dekker2012.txt",
+      "paginas": 8,
+      "caracteres_extraidos": 43136,
+      "bloco": "neuroeducacao_neuromitos",
+      "tema": [
+        "neuromitos",
+        "estilos de aprendizagem",
+        "VAK",
+        "Brain Gym",
+        "formação docente"
+      ],
+      "barreiras": [],
+      "tipo_evidencia": "survey",
+      "achado_principal": "242 professores do Reino Unido e da Holanda acreditavam em média em 49% dos neuromitos. \"Aprende-se melhor no estilo preferido (visual, auditivo, cinestésico)\" foi endossado por 93% (UK) e 96% (NL). Mais conhecimento geral sobre o cérebro previu MAIS crença em mitos (β = 0,24).",
+      "implicacao_para_iris": "O Íris não deve ter campos nem sugestões do tipo \"aluno visual\" ou \"aprende melhor com imagem\", porque esse é o neuromito mais endossado por professores.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Duas colunas, corpo coerente. As Tabelas 1 a 4 saem com um número por linha. Na Tabela 1 (p. 4) os valores seguem cada afirmação na ordem UK/NL incorreto/correto/não sabe. Conferidas p. 4 e 5.",
+      "status": "aceito"
+    },
+    {
+      "id": "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM",
+      "titulo": "Providing Instruction Based on Students' Learning Style Preferences Does Not Improve Learning",
+      "autores": [
+        "Beth A. Rogowsky",
+        "Barbara M. Calhoun",
+        "Paula Tallal"
+      ],
+      "ano": 2020,
+      "revista": "Frontiers in Psychology 11:164",
+      "doi": "10.3389/fpsyg.2020.00164",
+      "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00164/pdf",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "641c47ea04b137f26b7dd7863ee524ee87c8c910e5120224b2863788f78e0a91",
+      "bytes_bruto": 720392,
+      "arquivo_bruto": "raw/pq_rogowsky2020.pdf",
+      "arquivo_texto": "texto/pq_rogowsky2020.txt",
+      "paginas": 7,
+      "caracteres_extraidos": 38823,
+      "bloco": "neuroeducacao_neuromitos",
+      "tema": [
+        "estilos de aprendizagem",
+        "hipótese do meshing",
+        "visual x auditivo",
+        "5º ano",
+        "Pashler"
+      ],
+      "barreiras": [
+        "leitura_texto_longo"
+      ],
+      "tipo_evidencia": "estudo_primario",
+      "achado_principal": "Com alunos do 5º ano (118 com todos os dados) e o desenho proposto por Pashler et al., não houve relação significativa entre estilo preferido (visual/auditivo) e compreensão, nem interação instrução × estilo (p = 0,29). Alunos \"visuais\" foram melhores tanto lendo quanto ouvindo.",
+      "implicacao_para_iris": "Adaptar o modo de apresentação à \"preferência\" declarada do aluno não melhora a aprendizagem. Imagem e esquema devem ser justificados pelo conteúdo e pela carga cognitiva, não por um \"estilo\".",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Duas colunas, coerente. Conferidas p. 3 e 4. Substitui Pashler 2008, que não é aberto.",
+      "status": "aceito"
+    },
+    {
+      "id": "SIMOES-2022-NEUROMITOS-BRASIL",
+      "titulo": "Neuroscience Knowledge and Endorsement of Neuromyths among Educators: What Is the Scenario in Brazil?",
+      "autores": [
+        "Estefania Simoes",
+        "Adriana Foz",
+        "Fernanda Petinati",
+        "Alcione Marques",
+        "Joao Sato",
+        "Guilherme Lepski",
+        "Analía Arévalo"
+      ],
+      "ano": 2022,
+      "revista": "Brain Sciences 12(6):734",
+      "doi": "10.3390/brainsci12060734",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9221520/fullTextXML",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "html",
+      "sha256_bruto": "035cd7ee834ba8f78490c230c337a301489aa25170c433ca72101c5b780902e2",
+      "bytes_bruto": 143174,
+      "arquivo_bruto": "raw/pq_simoes2022_brasil.xml",
+      "arquivo_texto": "texto/pq_simoes2022_brasil.md",
+      "paginas": null,
+      "caracteres_extraidos": 67927,
+      "bloco": "neuroeducacao_neuromitos",
+      "tema": [
+        "neuromitos",
+        "educadores brasileiros",
+        "hemisférios",
+        "10% do cérebro",
+        "TDAH",
+        "dislexia"
+      ],
+      "barreiras": [],
+      "tipo_evidencia": "survey",
+      "achado_principal": "1634 educadores das 5 regiões, questionário de 28 itens. Só 64,0% rejeitaram \"estimular o lado direito ou esquerdo do cérebro conforme o tipo de aluno\", 52,3% rejeitaram \"usamos só 10% do cérebro\" e 31,1% acertaram o item sobre mielinização. 94,3% rejeitaram \"medicação é a única estratégia comprovada para TDAH\".",
+      "implicacao_para_iris": "O público brasileiro do Íris carrega neuromitos de \"tipos de aluno\" (hemisfério). A ferramenta pode corrigir isso com fonte, em vez de reforçar.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Tipo marcado html, mas o bruto é XML JATS do Europe PMC (convertido com scripts/pq_jats2md.py). PDF da MDPI e do PMC devolveu 403. Sem paginação. O questionário NÃO tem item explícito sobre estilos VAK: o mais próximo é o item de hemisférios/tipo de aluno. Tabela 1 legível em linhas \"|\".",
+      "status": "aceito"
+    },
+    {
+      "id": "SWELLER-2019-CARGA-COGNITIVA",
+      "titulo": "Cognitive Architecture and Instructional Design: 20 Years Later",
+      "autores": [
+        "John Sweller",
+        "Jeroen J. G. van Merriënboer",
+        "Fred Paas"
+      ],
+      "ano": 2019,
+      "revista": "Educational Psychology Review 31:261–292",
+      "doi": "10.1007/s10648-019-09465-5",
+      "url": "https://link.springer.com/content/pdf/10.1007/s10648-019-09465-5.pdf",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "47ce1d814f9b84c0a37daf7f6d81f7995a125b569acf4cf9d7d91d145c97f619",
+      "bytes_bruto": 827792,
+      "arquivo_bruto": "raw/pq_sweller2019.pdf",
+      "arquivo_texto": "texto/pq_sweller2019.txt",
+      "paginas": 32,
+      "caracteres_extraidos": 126620,
+      "bloco": "carga_cognitiva_design",
+      "tema": [
+        "teoria da carga cognitiva",
+        "atenção dividida",
+        "redundância",
+        "modalidade",
+        "exemplo resolvido",
+        "reversão por expertise",
+        "segmentação",
+        "elementos isolados",
+        "memória de trabalho"
+      ],
+      "barreiras": [
+        "memoria_trabalho",
+        "sobrecarga_visual",
+        "organizacao_sequencial",
+        "leitura_texto_longo",
+        "atencao_sustentada"
+      ],
+      "tipo_evidencia": "revisao_narrativa",
+      "achado_principal": "Revisa 20 anos da teoria da carga cognitiva, com a Tabela 1 listando os efeitos e a recomendação de design de cada um (atenção dividida: integrar as fontes; redundância: remover a fonte redundante; elementos isolados: apresentar os elementos em sequência; segmentação de informação transitória). O efeito de reversão por expertise mostra que andaimes úteis para novatos podem atrapalhar quem já sabe.",
+      "implicacao_para_iris": "Base teórica das regras de layout do Íris (integrar enunciado e figura, cortar texto redundante, fragmentar em passos). O andaime de nível 1 a 3 deve ser retirado conforme o aluno avança (reversão por expertise).",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Uma coluna, limpo. A Tabela 1 (p. 6 e 7) sai em linhas corridas, legível. Conferidas p. 16 e 17. Sinalização (signaling) NÃO é tratada nesta revisão. O PDF só baixou com User-Agent curl: Mozilla caía em desafio CAPTCHA.",
+      "status": "aceito"
+    },
+    {
+      "id": "KUSTER-2018-FONTE-DYSLEXIE",
+      "titulo": "Dyslexie font does not benefit reading in children with or without dyslexia",
+      "autores": [
+        "Sanne M. Kuster",
+        "Marjolijn van Weerdenburg",
+        "Marjolein Gompel",
+        "Anna M. T. Bosman"
+      ],
+      "ano": 2018,
+      "revista": "Annals of Dyslexia 68:25–42",
+      "doi": "10.1007/s11881-017-0154-6",
+      "url": "https://link.springer.com/content/pdf/10.1007/s11881-017-0154-6.pdf",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "0f118207de73aeb6226dfd2bf2c94f5c4abeb300d79c3414a39eab0363ba19ad",
+      "bytes_bruto": 543421,
+      "arquivo_bruto": "raw/pq_kuster2018.pdf",
+      "arquivo_texto": "texto/pq_kuster2018.txt",
+      "paginas": 18,
+      "caracteres_extraidos": 65818,
+      "bloco": "carga_cognitiva_design",
+      "tema": [
+        "tipografia",
+        "fonte Dyslexie",
+        "dislexia",
+        "legibilidade",
+        "preferência x desempenho"
+      ],
+      "barreiras": [
+        "leitura_texto_longo"
+      ],
+      "tipo_evidencia": "estudo_primario",
+      "achado_principal": "No Exp. 1, 170 crianças com dislexia não leram mais rápido nem com mais precisão em Dyslexie do que em Arial. No Exp. 2 (102 com e 45 sem dislexia), também não houve diferença frente a Arial e Times. A maioria preferiu Arial/Times, e a preferência não se relacionou ao desempenho.",
+      "implicacao_para_iris": "Trocar a fonte para uma \"fonte para dislexia\" não deve ser vendido como adaptação eficaz. Se o Íris oferecer isso, deve ser apenas preferência estética.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Uma coluna, limpo. Conferidas p. 9 e 10. Aspas tipográficas viram \"B...^\" no texto (\"BDyslexie^\"), ruído menor.",
+      "status": "aceito"
+    },
+    {
+      "id": "WERY-2017-FONTE-OPENDYSLEXIC",
+      "titulo": "The effect of a specialized dyslexia font, OpenDyslexic, on reading rate and accuracy",
+      "autores": [
+        "Jessica J. Wery",
+        "Jennifer A. Diliberto"
+      ],
+      "ano": 2017,
+      "revista": "Annals of Dyslexia 67:114–127 (online 2016)",
+      "doi": "10.1007/s11881-016-0127-1",
+      "url": "https://link.springer.com/content/pdf/10.1007/s11881-016-0127-1.pdf",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "8c37f270f9ce5f107ced1da280460cb09bbae880492471b9493299ca31cd15b1",
+      "bytes_bruto": 684503,
+      "arquivo_bruto": "raw/pq_wery2017_opendyslexic.pdf",
+      "arquivo_texto": "texto/pq_wery2017_opendyslexic.txt",
+      "paginas": 14,
+      "caracteres_extraidos": 39078,
+      "bloco": "carga_cognitiva_design",
+      "tema": [
+        "tipografia",
+        "OpenDyslexic",
+        "dislexia",
+        "caso único"
+      ],
+      "barreiras": [
+        "leitura_texto_longo"
+      ],
+      "tipo_evidencia": "estudo_primario",
+      "achado_principal": "Delineamento de caso único com tratamentos alternados (12 participantes, 11 completaram), comparando OpenDyslexic com Arial e Times. Não houve melhora em velocidade nem em precisão, nem individual nem no grupo. Na fluência, OpenDyslexic teve resultado negativo frente às duas outras fontes, e nenhum aluno disse preferir a fonte.",
+      "implicacao_para_iris": "Reforça KUSTER-2018: fonte \"para dislexia\" não é estratégia baseada em evidência.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Uma coluna, limpo. Conferidas p. 7 e 8. A amostra é pequena (n = 12) e exclui comorbidade com TDAH.",
+      "status": "aceito"
+    },
+    {
+      "id": "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA",
+      "titulo": "Inter-letter spacing, inter-word spacing, and font with dyslexia-friendly features: testing text readability in people with and without dyslexia",
+      "autores": [
+        "Jessica Galliussi",
+        "Luciano Perondi",
+        "Giuseppe Chia",
+        "Walter Gerbino",
+        "Paolo Bernardis"
+      ],
+      "ano": 2020,
+      "revista": "Annals of Dyslexia 70:141–152",
+      "doi": "10.1007/s11881-020-00194-x",
+      "url": "https://link.springer.com/content/pdf/10.1007/s11881-020-00194-x.pdf",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "263513dcf8866b56aa855376aa743d34214889b05c6b731dbdb41c1f36d99816",
+      "bytes_bruto": 600903,
+      "arquivo_bruto": "raw/pq_galliussi2020_espacamento.pdf",
+      "arquivo_texto": "texto/pq_galliussi2020_espacamento.txt",
+      "paginas": 12,
+      "caracteres_extraidos": 42324,
+      "bloco": "carga_cognitiva_design",
+      "tema": [
+        "espaçamento entre letras",
+        "espaçamento entre palavras",
+        "EasyReading",
+        "dislexia",
+        "crowding"
+      ],
+      "barreiras": [
+        "leitura_texto_longo",
+        "sobrecarga_visual"
+      ],
+      "tipo_evidencia": "estudo_primario",
+      "achado_principal": "Dois grupos de 64 crianças (com e sem dislexia) leram 8 textos. A forma das letras \"dyslexia-friendly\" não teve efeito. Aumentar o espaçamento entre letras sem aumentar o espaçamento entre palavras PREJUDICOU a velocidade de leitura.",
+      "implicacao_para_iris": "O espaçamento deve ser tratado com cuidado (entre letras e entre palavras juntos), e o desenho da fonte não deve ser vendido como ganho.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Uma coluna, limpo. Conferidas p. 6 e 7.",
+      "status": "aceito"
+    },
+    {
+      "id": "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE",
+      "titulo": "Do Text Simplification Systems Preserve Meaning? A Human Evaluation via Reading Comprehension",
+      "autores": [
+        "Sweta Agrawal",
+        "Marine Carpuat"
+      ],
+      "ano": 2024,
+      "revista": "Transactions of the Association for Computational Linguistics 12:432–448",
+      "doi": "10.1162/tacl_a_00653",
+      "url": "https://aclanthology.org/2024.tacl-1.24.pdf",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "b518065afb8f68fd6b827f149dfe41ea1fd83dd8c74806d01a274754d662efa6",
+      "bytes_bruto": 910767,
+      "arquivo_bruto": "raw/pq_agrawal2024_tacl.pdf",
+      "arquivo_texto": "texto/pq_agrawal2024_tacl.txt",
+      "paginas": 17,
+      "caracteres_extraidos": 65128,
+      "bloco": "ia_adaptacao",
+      "tema": [
+        "simplificação automática",
+        "preservação de sentido",
+        "ChatGPT",
+        "compreensão leitora",
+        "métricas SARI/BERTScore"
+      ],
+      "barreiras": [
+        "leitura_texto_longo"
+      ],
+      "tipo_evidencia": "estudo_primario",
+      "achado_principal": "Avaliação humana por perguntas de compreensão de 9 sistemas de simplificação. Mesmo o melhor sistema deixa pelo menos 14% das perguntas \"sem resposta\" a partir do texto simplificado. ChatGPT teve 74,44% de acerto, contra 78,33% no original. O artigo propõe SARI como métrica melhor que BERTScore/BLEU para ranquear adequação.",
+      "implicacao_para_iris": "Simplificar com LLM perde informação de forma mensurável. O Íris precisa de checagem de fidelidade (por exemplo, perguntas sobre o original respondíveis no texto adaptado), e BERTScore sozinho não basta.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Versão final publicada no TACL (ACL Anthology). Duas colunas, coerente. As tabelas saem um valor por linha (Tabela 2 na p. 8). Conferidas p. 8 e 9. O texto é em inglês e o ChatGPT avaliado é GPT-3.5.",
+      "status": "aceito"
+    },
+    {
+      "id": "HUANG-2024-LLM-NIVEIS-LEITURA",
+      "titulo": "Generating Educational Materials with Different Levels of Readability using LLMs",
+      "autores": [
+        "Chieh-Yang Huang",
+        "Jing Wei",
+        "Ting-Hao 'Kenneth' Huang"
+      ],
+      "ano": 2024,
+      "revista": "In2Writing 2024 (Third Workshop on Intelligent and Interactive Writing Assistants), ACM. Cópia: arXiv:2406.12787v1",
+      "doi": "10.1145/3690712.3690718 (versão ACM); arXiv 10.48550/arXiv.2406.12787",
+      "url": "https://arxiv.org/pdf/2406.12787",
+      "data_acesso": "2026-11-04",
+      "licenca": "CC BY 4.0 (licença da versão arXiv)",
+      "idioma": "en",
+      "tipo": "pdf",
+      "sha256_bruto": "aab69be686e904032c55f7201ba8c25f2070932ccc439ad61d9d149d0b3e8ec5",
+      "bytes_bruto": 2888234,
+      "arquivo_bruto": "raw/pq_huang2024_leveled.pdf",
+      "arquivo_texto": "texto/pq_huang2024_leveled.txt",
+      "paginas": 7,
+      "caracteres_extraidos": 32475,
+      "bloco": "ia_adaptacao",
+      "tema": [
+        "geração de texto nivelado",
+        "Lexile",
+        "GPT-3.5",
+        "LLaMA-2",
+        "Mixtral",
+        "few-shot",
+        "desinformação"
+      ],
+      "barreiras": [
+        "leitura_texto_longo"
+      ],
+      "tipo_evidencia": "preprint",
+      "achado_principal": "Em 100 materiais educacionais, o few-shot melhorou o ajuste de legibilidade e a preservação de informação. O GPT-3.5 few-shot preservou melhor o sentido (BERTScore F1 81,45%, similaridade semântica 0,937), mas só 15% dos textos caíram na faixa Lexile-alvo (±50). A inspeção manual achou desinformação introduzida (citações alteradas, imprecisões factuais) e edições distribuídas de forma desigual.",
+      "implicacao_para_iris": "Adaptar texto com LLM pode alterar fatos e citações. O Íris deve preservar trechos protegidos (termos-chave, enunciados, números) e mostrar ao professor o que mudou.",
+      "qualidade_extracao": "ok",
+      "obs_qualidade": "Arquivo é a versão arXiv (preprint) de artigo de workshop revisado. Os autores são da MetaMetrics (dona do Lexile), possível conflito de interesse. Duas colunas, coerente. Conferidas p. 3 e 4.",
+      "status": "aceito"
+    }
+  ],
+  "recusados": [
+    {
+      "id": "NEWTON-2015-LEARNING-STYLES-HE",
+      "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2015.01908/pdf",
+      "motivo": "Baixado (CC BY) mas não incluído: trata do ensino superior e é uma análise de literatura de opinião. ROGOWSKY-2020 cobre o mesmo ponto com experimento em crianças do 5º ano. Arquivo em raw/_recusados/pq_newton2015.pdf."
+    },
+    {
+      "id": "APORTA-LACERDA-RBEE-TEA",
+      "url": "https://www.scielo.br/j/rbee/a/D7Fwj7yXGJvCPJkwPkYGWRz/?format=pdf&lang=pt",
+      "motivo": "Baixado mas não incluído: estudo de caso único de aluno com TEA, fora do foco atual (TDAH), e não traz dados sobre flexibilização em escala. Licença não conferida. Arquivo em raw/_recusados/pq_rbee_aporta_tea.pdf."
+    },
+    {
+      "id": "DAY-2025-GENAI-SIMPLIFICACAO",
+      "url": "https://arxiv.org/pdf/2501.09158",
+      "motivo": "Preprint arXiv não revisado (CC BY-NC-SA 4.0), 64 páginas. Os 2 documentos de IA já cobrem o bloco, um deles revisado (TACL). Fica como candidato futuro. Arquivo em raw/_recusados/pq_2025_genai_simplif.pdf."
+    },
+    {
+      "id": "BACHMANN-2018-FONTS-BRAINSCI",
+      "url": "https://www.mdpi.com/2076-3425/8/5/89/pdf",
+      "motivo": "Revisão narrativa sobre fontes para dislexia (CC BY, PMC5977080). O PDF da MDPI devolveu 403, e KUSTER/WERY/GALLIUSI já cobrem o tema com dados primários. Não tentei o XML."
+    },
+    {
+      "id": "FIGSHARE-SWELLER-2019",
+      "url": "https://figshare.com/articles/journal_contribution/Cognitive_Architecture_and_Instructional_Design_20_Years_Later/27738291",
+      "motivo": "Cópia em repositório marcada \"Copyright - All rights reserved\". Usei a versão da editora (CC BY 4.0)."
+    }
+  ],
+  "nao_obtidos": [
+    {
+      "o_que": "Pashler, McDaniel, Rohrer & Bjork 2008, \"Learning Styles: Concepts and Evidence\", PSPI, DOI 10.1111/j.1539-6053.2009.01038.x",
+      "url": "https://journals.sagepub.com/doi/10.1111/j.1539-6053.2009.01038.x",
+      "erro": "Unpaywall: is_oa=False, sem cópia aberta legal. Substituído por ROGOWSKY-2020 (que aplica o desenho de Pashler) e DEKKER-2012."
+    },
+    {
+      "o_que": "Howard-Jones 2014, \"Neuroscience and education: myths and messages\", Nat Rev Neurosci, DOI 10.1038/nrn3817",
+      "url": "https://doi.org/10.1038/nrn3817",
+      "erro": "Unpaywall: is_oa=False. Coberto por DEKKER-2012 (coautoria de Howard-Jones) e SIMOES-2022."
+    },
+    {
+      "o_que": "Meta-análise de sinalização (signaling): Schneider et al. 2018 (Educ Res Rev, 10.1016/j.edurev.2017.11.001) ou Alpizar et al. 2020 (ETR&D, 10.1007/s11423-020-09748-7)",
+      "url": "https://doi.org/10.1016/j.edurev.2017.11.001",
+      "erro": "Unpaywall: is_oa=False nas duas. Sinalização segue SEM fonte no corpus. Sweller 2019 não trata do tema."
+    },
+    {
+      "o_que": "Rey et al. 2019, \"A Meta-analysis of the Segmenting Effect\", Educ Psychol Rev, DOI 10.1007/s10648-018-9456-4",
+      "url": "https://link.springer.com/content/pdf/10.1007/s10648-018-9456-4.pdf",
+      "erro": "Unpaywall: is_oa=False. Springer devolveu HTML (paywall). A segmentação aparece só via Sweller 2019 (Spanjers et al. 2011)."
+    },
+    {
+      "o_que": "PDF da editora de Dalgaard 2022 (Campbell) e de Simoes 2022 (MDPI)",
+      "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cl2.1291 ; https://www.mdpi.com/2076-3425/12/6/734/pdf",
+      "erro": "403 na Wiley, na MDPI e no PDF do PMC (página de desafio). Usei o XML JATS do Europe PMC, que tem o mesmo conteúdo e licença CC BY, mas sem paginação."
+    }
+  ]
+}

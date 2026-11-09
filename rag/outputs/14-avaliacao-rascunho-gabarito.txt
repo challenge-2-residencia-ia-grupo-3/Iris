@@ -1,0 +1,31 @@
+AVALIAÇÃO DA BUSCA: 19 perguntas com trecho relevante marcado (1 puladas sem marcação). IC 95% por bootstrap (2000 reamostras, semente 20261104).
+Com 19 perguntas, uma pergunta vale 5.3 pontos percentuais de recall.
+
+método                   recall@5              recall@10                    MRR
+bm25             0.33 [0.19-0.48]       0.43 [0.26-0.60]       0.51 [0.31-0.70]
+mpnet            0.09 [0.04-0.15]       0.17 [0.08-0.26]       0.22 [0.07-0.39]
+qwen3            0.63 [0.46-0.79]       0.81 [0.72-0.90]       0.64 [0.47-0.81]
+hibrido          0.46 [0.29-0.61]       0.57 [0.40-0.73]       0.59 [0.39-0.77]
+hibrido+rerank       0.42 [0.27-0.56]       0.61 [0.45-0.76]       0.71 [0.51-0.89]
+
+Posição do primeiro trecho relevante por pergunta ('-' = fora do top-10):
+pergunta                                                         bm25    mpnet    qwen3  hibrido hibrido+rerank
+aluno com TDAH não sustenta a atenção em lista longa de exer        2        -        1        1        1
+aluno se distrai depois de poucos minutos numa leitura em sa        -        5        3        -        5
+aluno esquece a segunda parte da instrução em atividade de c        -        -        4        3        8
+o que é memória de trabalho e por que excesso de informação         1        5        1        1        1
+aluno olha para a folha da redação e não consegue começar: q        1        6        1        1        5
+exemplo resolvido ajuda aluno que não sabe por onde começar         -        -        3        -        -
+aluno com TDAH se perde na ordem dos passos num experimento         4        -        1        2        1
+como ensinar o aluno a planejar e organizar tarefas longas e        -        1        1        2        1
+folha de prova com muitas imagens e caixas confunde o aluno:        9        -        6        2        -
+imagens decorativas no material atrapalham a aprendizagem?          -        -        3        -        -
+aluno responde por impulso sem ler o enunciado até o fim: qu        1        1        6        5        1
+reforço positivo e sistema de recompensas funcionam para com        1        1        1        1        1
+aluno trava quando precisa mudar de estratégia em uma ativid        -        -        1        -        1
+treino cognitivo por computador melhora funções executivas e        1        -        1        1        1
+quais recursos de acessibilidade em avaliação a legislação b        2        -        4        1        1
+aluno com dislexia cansa em texto longo de história: como ap        3        4        6        4        1
+ouvir o texto em áudio ajuda a compreensão de quem tem dific        1       10        4        1        1
+o que é adaptação curricular e até onde o professor pode fle        1        4        1        1        1
+como o Plano Educacional Individualizado deve registrar barr        1        -        1        1        1

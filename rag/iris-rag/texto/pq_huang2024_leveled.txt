@@ -1,0 +1,608 @@
+=== p. 1 ===
+Generating Educational Materials with Different Levels of
+Readability using LLMs
+Chieh-Yang Huang
+cyhuang@lexile.com
+MetaMetrics Inc.
+Durham, North Carolina, USA
+Jing Wei
+jwei@lexile.com
+MetaMetrics Inc.
+Durham, North Carolina, USA
+Ting-Hao Kenneth Huang
+txh710@psu.edu
+Pennsylvania State University
+University Park, Pennsylvania, USA
+Figure 1: Given (A) a source text, (B) a readability level for the source text, and (C) an intended readability level, the leveled-text
+generation aims at rewriting the source text in the intended readability level while preserving the meaning. Note that in
+this paper, we use a widely adopted readability level in the education context, the Lexile Scale. In the provided example, the
+sentences are longer and the words are less common in the resulting text.
+ABSTRACT
+This study introduces the leveled-text generation task, aiming to
+rewrite educational materials to specific readability levels while
+preserving meaning. We assess the capability of GPT-3.5, LLaMA-2
+70B, and Mixtral 8x7B, to generate content at various readability
+levels through zero-shot and few-shot prompting. Evaluating 100
+processed educational materials reveals that few-shot prompting
+significantly improves performance in readability manipulation and
+information preservation. LLaMA-2 70B performs better in achieving the desired difficulty range, while GPT-3.5 maintains original
+meaning. However, manual inspection highlights concerns such
+as misinformation introduction and inconsistent edit distribution.
+These findings emphasize the need for further research to ensure
+the quality of generated educational content.
+KEYWORDS
+Educational Material Generation, Text Readability, Text Generation,
+Large Language Model
+1
+INTRODUCTION
+Prior research has shown that students learn more effectively from
+reading materials that match their level of readability, optimally balancing improvement and cognitive load [8, 20, 28]. Consequently,
+curating educational content to meet the diverse reading abilities of
+students is a crucial step toward better learning outcomes. Platforms
+such as Newsela [2], Simple English Wikipedia [3], and Common-
+LIT [1], among others, have developed texts at different levels of
+complexity for educational purposes.
+The process of rewriting texts to different levels typically involves iterative editing to ensure that the revised texts meet the
+desired difficulty criteria. This readability assessment is based on
+various linguistic features, with sentence length and word frequency
+identified as key factors in previous studies [11]. Although this
+process appears straightforward, accurately adjusting these elements to achieve the target reading difficulty is challenging. This
+task becomes even more complex for young learners, where factors
+such as decodability [19], information load [15], and other elements
+play a significant role [10, 11].
+This paper introduces the leveled-text generation task. As
+shown in Figure 1, given (A) a source text, (B) the readability level
+of the source text, and (C) the desired readability level, the goal is
+to rewrite the given text so that the resulting text (i) is within the
+desired readability level and (ii) also preserves the original meaning.
+As our first attempt at solving the leveled text generation task, we
+assess the capability of three LLMs, including GPT-3.5 [21], LLaMA-
+2 70B [26], and Mixtral 8x7B [13], to generate content at various
+levels of readability through zero-shot and few-shot prompting
+techniques. Our evaluation involved 100 educational materials processed by GPT-3.5, LLaMA-2 70B, and Mixtral 8x7B. The findings
+indicate that providing a few examples will significantly improve
+performance in both manipulating the content readability and preserving the same information. This might also suggest that the
+arXiv:2406.12787v1  [cs.CL]  18 Jun 2024
+
+=== p. 2 ===
+In2Writing 2024, May 11, 2024, Honolulu, Hawii
+Chieh-Yang Huang, Jing Wei, and Ting-Hao Kenneth Huang
+concept of the leveled-text generation and Lexile scale does not
+inherently exist, as showing examples could help the model understand the task and realize what the texts should look like within
+the desired difficulty level. When comparing different LLMs, we
+found that LLaMA-2 70B was the most effective in achieving the
+desired difficulty range, while GPT-3.5 excelled in maintaining the
+meaning of the original text.
+We also conducted a manual quality inspection of 10 articles
+considering potential concerns if the generated texts were used
+as learning materials. Our analysis revealed a few issues: (i) the
+potential for introducing misinformation, particularly in the form of
+altered quotations and factual inaccuracies, and (ii) the inconsistent
+distribution of edits within the text, leading to an uneven readability
+level throughout the article. These findings highlight the need
+for further research and development to address these concerns
+and ensure the quality of the generated educational content. This
+preliminary survey helped us identify five critical points for future
+advances in leveled text generation tasks.
+2
+RELATED WORK
+This task is related to (i) text readability manipulation and (ii)
+educational content generation.
+Text Readability Manipulation. Most of the tasks related to manipulating text readability focus on text simplification. S. Bautista et al.
+[23] simplified texts through (i) rule-based conversion to sentence
+structures and (ii) replacing difficult words with easier synonyms.
+Bingel and Søgaard [6] introduced a structured approach to text simplification using conditional random fields on dependency graphs to
+predict compressions and paraphrases. Swain et al. [25] developed
+an efficient text simplification technique using the WordNet model
+in NLTK. Alkaldi and Inkpen [5] trained their own readability classifier and designed a reinforcement learning framework to train a
+text simplification model based on a GRU sequence-to-sequence
+model with attention. Alkaldi and Inkpen [5]’s work, however, is
+currently only trained in sentence-level simplification. Recent advancements in LLMs have shown promising results. Feng et al. [9]
+investigated zero-shot and few-shot learning capabilities of LLMs,
+demonstrating superior performance. Maddela et al. [18] introduced
+a hybrid approach combining linguistically-motivated rules with
+a neural paraphrasing model. Other studies focused on improving
+transparency and explainability. Cristina Garbacea et al. [7] proposed a structured pipeline, analyzing text complexity prediction
+and complex component identification.
+While these studies have made significant contributions, further
+research is needed on generating texts at specific readability levels
+(including both increasing and decreasing text readability) while
+preserving meaning. Our work on the leveled-text generation task
+benchmarks the LLMs performance and explores the possibility of
+this new topic.
+Educational Content Generation. Recent studies have explored
+the potential of large language models (LLMs) in generating educational content. Leiker et al. [16] investigated the use of LLMs for
+creating adult learning content at scale; MacNeil et al. [17] focused
+on automatically generating computer science learning materials;
+Gao et al. [12] specifically investigated the application of LLMs to
+spoken language learning; Jury et al. [14] evaluated LLM-generated
+worked examples in an introductory programming course; and Xiao
+et al. [27] applied LLMs to generate reading comprehension exercises. Despite the adoption of LLMs in various fields, this particular
+work focuses on leveraging their potential for language learning
+by rewriting texts to different readability levels.
+3
+BENCHMARK THE LEVELED-TEXT
+GENERATION TASK
+To establish a first benchmark for the leveled-text generation task,
+we compiled a parallel dataset comprising 30K pairs of leveled
+texts and experimented with it using three LLMs, namely GPT-3.5,
+LLaMA-2 70B, and Mixtral 8x7B. We evaluate the performance
+based on two aspects: (i) manipulating readability and (ii) content
+preservation.
+Note that we chose the Lexile scale as a tool to assess readability,
+given its wide adoption in educational settings to measure text
+complexity. The Lexile Framework evaluates a student’s reading
+skills and the complexity of reading materials on the same scale [20].
+This makes it easier for students to choose books that are just right
+for their reading level, helping them to enhance their language
+skills more effectively. Given its wide adoption in K-12 educational
+settings to measure text complexity, we decided that the Lexile
+measure was the best fit for our readability analysis.
+3.1
+Task Definition
+As shown in Figure 1, given (A) a source text, (B) a readability level
+of the source text, and (C) an intended readability level of the target
+text, the leveled-text generation task should rewrite the source text
+to meet characteristics within the intended readability level, such
+as the vocabulary used, sentence structure, sentence length, and so
+on.
+The Lexile Framework suggests that readability measures should
+rely on different features for different groups of students. For earlylevel learners (usually lower than grade 4 or a Lexile level of 750L),
+readability relies on many specific features, such as decodability [19], information load [15], phonetic features, word structure,
+sentence complexity, and so on [10, 11]. For upper-level learners,
+the readability measurement mostly relies on word frequency and
+sentence length [11]. In this task, we would like to see if LLMs can
+learn the characteristics of the target Lexile level and rewrite the
+source text accordingly.
+3.2
+Evaluation Metrics.
+We evaluate two aspects: (i) whether the model could correctly
+rewrite the texts to the intended Lexile score and (ii) whether the
+model could still preserve the same information.
+To evaluate whether the resulting texts are aligned with the
+intended Lexile score, we first used the Lexile Analyzer to measure
+the resulting texts and obtained the resulting Lexile score. Several
+metrics were then calculated based on the intended and the resulting
+Lexile score:
+(1) Mean Absolute Error (MAE), representing the absolute deviation between the intended and the resulting Lexile scores;
+
+=== p. 3 ===
+Generating Educational Materials with Different Levels of Readability using LLMs
+In2Writing 2024, May 11, 2024, Honolulu, Hawii
+(2) Match Rate, indicating the proportion of instances where
+the resulting Lexile score was within a ±50 range of the
+intended score; and
+(3) Directional Accuracy, reflecting the proportion of instances
+where the resulting Lexile score moved in the intended direction (toward easier or more difficult levels).
+To measure information preservation, we used BERTScores [29]1,
+semantic similarity [22]2, and normalized edit distance to assess
+content preservation between the source texts and the resulting
+texts.
+3.3
+Dataset
+We started with a leveled-text corpus, a collection of articles from
+various language-learning books organized into 1,690 sets. Each
+set contains articles that share the same title, meaning they cover
+the same topic but are written at different readability levels to
+suit various reading abilities. These articles range from two to six
+versions per set, with an average of 825 words per article. The
+collection can be represented as follows:
+Leveled Text Corpus = {{𝐴1
+1,𝐴1
+2}, {𝐴2
+1,𝐴2
+2, ...𝐴2
+6}, ..., {𝐴𝑛
+1, ...,𝐴𝑛
+𝑚}}
+(1)
+In this representation, 𝐴𝑖
+𝑗refers to a specific language learning
+article, where 𝑖indicates the set index and 𝑗is the article index
+within that set. Articles in the same group (𝑖) discuss the same topic
+but at different complexity levels. We assigned a readability score
+to each article by running the Lexile analyzer [20].
+The dataset was then split into three parts according to the set
+index: 90% for training (1521 sets), 5% for validation (84 sets), and 5%
+for testing (85 sets). To form a parallel dataset for the leveled-text
+generation task, we permuted all pairs of articles within each set.
+This new parallel dataset consists of the following fields:
+(1) Source text: The original article that needs to be rewritten
+to match a different readability level.
+(2) Source Lexile score: The readability score of the source text,
+used to guide the adjustment process in terms of simplifying
+or complicating the text.
+(3) Target text: The rewritten article, adjusted to the desired
+readability level.
+(4) Target Lexile score: The intended readability score for
+the rewritten article, serving as a goal for the leveled-text
+generation task.
+After preprocessing, the train, validation, and test sets comprised
+29,990, 1680, and 1700 pairs of leveled texts, respectively. Note that
+although our test set comprised 1700 instances, we only selected
+100 samples for this preliminary analysis.
+3.4
+Leveled-Text Generation with LLMs
+As the first attempt to solve the leveled-text generation task, we experimented with prompting popular LLMs, namely GPT-3.5, LLaMA-
+2 70B, and Mixtral 8x7B. The purpose of this method is to explore
+the capabilities of LLMs in generating leveled texts and to establish
+a baseline for future improvements.
+1We used the microsoft/deberta-xlarge-mnli model to obtain the embedding.
+2We used sentence transformer with the sentence-transformers/all-mpnet-base-v2
+model
+We tried prompting techniques with both zero-shot learning and
+few-shot learning. For zero-shot learning, we defined the Lexile
+score and then provided the source text, source Lexile score, and
+target Lexile score to the model (see Appendix A for the actual
+prompt used.)
+However, the definition of Lexile score can still be vague for
+LLMs. To address this, we also tried few-shot learning, where actual
+examples from the training set were presented to teach LLMs what
+the text within a particular readability level should look like.
+The few-shot learning examples for each sample were chosen
+based on the corresponding Lexile scores of the source and target
+texts. We identified training samples whose source and target Lexile
+scores were both within a 50-point range of the target sample’s
+corresponding scores:
+A training sample is qualified if:
+|𝐿𝑒𝑥𝑖𝑙𝑒𝑡𝑟𝑎𝑖𝑛−𝑠𝑜𝑢𝑟𝑐𝑒−𝐿𝑒𝑥𝑖𝑙𝑒𝑠𝑎𝑚𝑝𝑙𝑒−𝑠𝑜𝑢𝑟𝑐𝑒| ≤50
+|𝐿𝑒𝑥𝑖𝑙𝑒𝑡𝑟𝑎𝑖𝑛−𝑡𝑎𝑟𝑔𝑒𝑡−𝐿𝑒𝑥𝑖𝑙𝑒𝑠𝑎𝑚𝑝𝑙𝑒−𝑡𝑎𝑟𝑔𝑒𝑡| ≤50
+
+(2)
+From the qualifying training samples, we selected the shortest 𝑛
+samples to minimize the context size of the prompt. In the few-shot
+prompt, we included the source text, source Lexile score, target
+text, and target Lexile score as examples for in-context learning
+(see Appendix A for the actual prompt used).
+3.5
+Benchmark Results
+Table 1 shows the benchmark results. Note that for few-shot learning, we tried 1-shot, 3-shot, and 5-shot samples, but only the bestperforming one was reported.
+Our findings suggest that providing a few examples significantly
+improves performance, as few-shot learning outperforms zeroshot learning. This phenomenon also indicates that the concept of
+“leveled-text generation” with respect to the Lexile scale does not
+inherently exist in these LLMs. To fully utilize LLMs, it is necessary
+to teach them what Lexile means and what the texts would possibly
+look like at each level.
+When comparing different LLMs, we found that LLaMA-2 70B
+performs best in adjusting readability, whereas GPT-3.5 demonstrates superior performance in preserving content and meaning.
+However, a major concern is that although LLaMA-2 70B achieves
+the best Lexile Score measure (lowest MAE = 172.9; highest match
+rate = 22.22%), its normalized edit distance is also the highest, meaning that it produces the least edit to the content (see Section 4: Bias
+in Current Models for the discussion of the desired edit behavior).
+Another concern when using LLaMA-2 70B is its smaller context
+size (4K tokens), which can cause the task to fail if the prompt
+exceeds the context size limitation.
+In Figure 2 and Figure 3, we present scatter plots to illustrate
+the distribution of intended Lexile versus resulting Lexile scores
+and intended Lexile shift versus resulting Lexile shift. These figures
+provide valuable insights into the behavior of the language models.
+The red-shaded area represents the region where resulting scores
+fall within ±50 points of the intended scores. In both Figure 2 and
+Figure 3, we can clearly observe that a higher proportion of the data
+points are located above the red-shaded area, indicating that the
+generated texts are generally more complex than the intended level.
+Although this bias has been identified, more research is necessary
+
+=== p. 4 ===
+In2Writing 2024, May 11, 2024, Honolulu, Hawii
+Chieh-Yang Huang, Jing Wei, and Ting-Hao Kenneth Huang
+Method
+Model
+#Shot Support
+Lexile Score
+BERTScore
+Semantic
+Similarity↑
+Normalized
+Edit Distance
+MAE↓Match↑Direction↑Precision↑Recall↑
+F1↑
+Zero-shot
+GPT-3.5
+0
+100
+257.6
+15.00%
+80.00%
+79.87%
+76.54%
+78.03%
+0.893
+0.941
+LLaMA-2 70B
+0
+100
+206.5
+15.15%
+71.72%
+75.49%
+71.82%
+73.56%
+0.894
+0.947
+Mixtral 8x7B
+0
+100
+256.0
+11.00%
+79.00%
+74.69%
+73.74%
+74.18%
+0.894
+0.951
+Few-shot
+GPT-3.5
+3
+100
+205.3
+15.00%
+75.00%
+82.85%
+80.18%
+81.45%
+0.937
+0.934
+LLaMA-2 70B
+1
+99
+172.9
+22.22%
+86.87%
+72.96%
+71.25%
+73.01%
+0.887
+0.949
+Mixtral 8x7B
+3
+100
+210.9
+12.00%
+83.00%
+72.89%
+69.88%
+71.27%
+0.935
+0.929
+Table 1: Performance comparison for different models. In Lexile score measurements, MAE refers to the mean absolute error
+between the resulted Lexile score and the intented Lexile score; Match measures whether the resulted Lexile scores fall within
+the range of the intented Lexile score ± 50; and Direction measures whether the resulted Lexile score moves toward the intended
+direction (i.e., easier or harder).
+to understand its underlying causes and develop potential solutions
+to mitigate its effects.
+4
+DETAILED INSPECTION AND DISCUSSION
+We conducted a manual investigation of 10 samples selected from
+the test set. We reviewed the generated texts and discussed potential
+issues in using these outputs as educational materials.
+Problems with Text Shortening and Lengthening. Changing content readability may involve shortening or lengthening the given
+text. LLMs are good at shortening texts with advanced prompting
+techniques such as Chain-of-Density [4]. Expanding texts, however,
+requires the introduction of new information. While this is less
+problematic for narrative genres, it poses significant challenges for
+factual content like science and news, where maintaining accuracy
+and minimizing misinformation are crucial. In our review of 30
+generated articles, we noticed several modifications to quotations,
+which is not ideal. Recent studies suggest that Retrieval-Augmented
+Generation (RAG) can mitigate hallucinations [24], but implementing an RAG system that integrates up-to-date, external information
+remains a challenge.
+Limitations in Leveled-Text Generation. Leveled-text generation,
+particularly for scientific materials, might not be feasible for all Lexile levels, especially for younger learners. Paraphrasing sentences
+or selecting frequently appearing words have their limits in changing text difficulty. For example, explaining “photosynthesis” to kids
+might require a new explanation that involves age-appropriate
+analogies or visuals. Thus, the leveled-text generation task, which
+aims to rewrite texts, may not adequately address such needs. To
+significantly change the original content to achieve the desired
+readability, a more sophisticated LLM might be able to complete the
+task, but it is outside the scope of the current leveled-text generation
+task.
+Incorporating Educational Lessons. In educational contexts, materials usually come with learning objectives, such as grammar, vocabulary, knowledge, etc. Integration of these educational elements
+into rewritten texts remains an unresolved challenge. Moreover,
+determining the appropriate learning objectives for students at
+different levels is crucial yet challenging. We believe human involvement is essential, but more research is needed to explore how
+such involvement can be done.
+Important Information Should Remain Unchanged. There is a need
+among content creators to retain specific pieces of information,
+such as key terms (e.g., “Photosynthesis”), essential sentences (e.g.,
+a quote), or particular sections deemed more important than others.
+Current LLMs may address this requirement through prompt engineering. However, developing an intuitive interface that allows
+users to (i) highlight areas of text that should remain unchanged
+and (ii) verify whether the generated texts meet these criteria is
+essential.
+Limitations and Bias in Current Models. We identified biases in
+the three LLMs. First, we found a tendency for the models to produce
+shorter texts than the originals (Original: 825 words, Few-Shot: 350-
+500 words), regardless of whether the intention was to simplify
+or complexify the texts. This bias may have been influenced by
+the use of shorter few-shot samples. However, a similar pattern
+emerged in zero-shot scenarios (Original: 825 words, Zero-Shot:
+500-600 words), suggesting a possible bias in off-the-shelf LLMs.
+Second, the distribution of edits within articles often appeared
+uneven, with some paragraphs remaining unchanged while others
+underwent significant revisions (this appears more frequently in
+the texts generated by LLaMA-2 70B). This inconsistent editing
+pattern is unsuitable for educational materials, even if the articles
+achieve the desired readability. More research is needed to identify
+the causes and develop solutions.
+5
+CONCLUSION
+Our investigation into leveled-text generation using LLMs underscores the potential and challenges of automating educational content creation. While LLaMA-2 70B shows promise in adjusting text
+complexity, GPT-3.5 is better at maintaining content meaning. Future research should address the nuanced demands of educational
+content, including accurate representation of information, integration of learning objectives, and retention of key information, to
+enhance leveled-text generation process.
+
+=== p. 5 ===
+Generating Educational Materials with Different Levels of Readability using LLMs
+In2Writing 2024, May 11, 2024, Honolulu, Hawii
+(a) Zero-shot GPT-3.5
+(b) Zero-shot LLaMA-2 70B
+(c) Zero-shot Mixtral 8x7B
+(d) Few-shot GPT-3.5
+(e) Few-shot LLaMA-2 70B
+(f) Few-shot Mixtral 8x7B
+Figure 2: Scatter plots comparing intended and resulting Lexile scores for text generated by GPT-3.5, LLaMA-2 70B, and Mixtral
+8x7B models in zero-shot and few-shot settings. The red-shaded area represents the region where resulting scores are within
+±50 points of the intended scores. A higher proportion of data points fall above the red area, indicating that the resulting Lexile
+scores tend to skew higher than the intended scores, suggesting a tendency for the models to generate slightly more complex
+text than the target difficulty level, regardless of the specific model or prompting approach used.
+REFERENCES
+[1] [n. d.]. CommonLit. https://www.commonlit.org/en/texts/celebrating-chinesenew-year/paired-texts CommonLIT identified text pairings based on similar
+themes, topic, or writing style..
+[2] [n. d.]. Newsela. https://newsela.com/
+[3] [n. d.]. Simple English Wikipedia. https://simple.wikipedia.org/wiki/Main_Page
+The Simple English Wikipedia is a Simple English language version of Wikipedia,
+an online encyclopedia, written in a language that is easy to understand but is
+still natural and grammatical..
+[4] Griffin Adams, Alexander Fabbri, Faisal Ladhak, Eric Lehman, and Noémie Elhadad. 2023. From sparse to dense: GPT-4 summarization with chain of density
+prompting. arXiv preprint arXiv:2309.04269 (2023).
+[5] Wejdan Alkaldi and Diana Inkpen. 2023. Text Simplification to Specific Readability
+Levels. Mathematics 11, 9 (apr 26 2023), 2063.
+[6] Joachim Bingel and Anders Søgaard. 2016. Text Simplification as Tree Labeling.
+In Proceedings of the 54th Annual Meeting of the Association for Computational
+Linguistics (Volume 2: Short Papers). Association for Computational Linguistics.
+[7] Cristina Garbacea, Mengtian Guo, Samuel Carton, and Q. Mei. 2020. An Empirical
+Study on Explainable Prediction of Text Complexity: Preliminaries for Text
+Simplification. arXiv.org (2020).
+[8] Fariba Rahimi Esfahani Ehsan Namaziandost and Sheida Ahmadi. 2019.
+Varying levels of difficulty in L2 reading materials in the EFL classroom: Impact on comprehension and motivation.
+Cogent Education
+6, 1 (2019), 1615740.
+https://doi.org/10.1080/2331186X.2019.1615740
+arXiv:https://doi.org/10.1080/2331186X.2019.1615740
+[9] Yutao Feng, Jipeng Qiang, Yun Li, Yunhao Yuan, and Yi Zhu. 2023. Sentence
+Simplification via Large Language Models. (2023).
+[10] Jill Fitzgerald, Jeff Elmore, Elfrieda H Hiebert, Heather H Koons, Kimberly Bowen,
+Eleanor E Sanford-Moore, and A Jackson Stenner. 2016. Examining text complexity in the early grades. Phi Delta Kappan 97, 8 (2016), 60–65.
+[11] Jill Fitzgerald, Jeff Elmore, Heather Koons, Elfrieda H Hiebert, Kimberly Bowen,
+Eleanor E Sanford-Moore, and A Jackson Stenner. 2015. Important text characteristics for early-grades text complexity. Journal of Educational Psychology 107,
+1 (2015), 4.
+[12] Yingming Gao, Baorian Nuchged, Ya Li, and Linkai Peng. 2023. An Investigation
+of Applying Large Language Models to Spoken Language Learning. Applied
+Sciences 14, 1 (dec 26 2023), 224.
+[13] Albert Q Jiang, Alexandre Sablayrolles, Antoine Roux, Arthur Mensch, Blanche
+Savary, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Emma Bou
+Hanna, Florian Bressand, et al. 2024.
+Mixtral of experts.
+arXiv preprint
+arXiv:2401.04088 (2024).
+[14] Breanna Jury, Angela Lorusso, Juho Leinonen, Paul Denny, and Andrew Luxton-
+Reilly. 2024. Evaluating LLM-generated Worked Examples in an Introductory
+Programming Course. In Proceedings of the 26th Australasian Computing Education
+Conference. ACM.
+[15] Thomas K Landauer and Susan T Dumais. 1997. A solution to Plato’s problem:
+The latent semantic analysis theory of acquisition, induction, and representation
+of knowledge. Psychological review 104, 2 (1997), 211.
+[16] Daniel Leiker, Sara Finnigan, Ashley Ricker Gyllen, and Mutlu Cukurova. 2023.
+Prototyping the use of Large Language Models (LLMs) for adult learning content
+creation at scale. (2023).
+[17] Stephen MacNeil, Andrew Tran, Juho Leinonen, Paul Denny, Joanne Kim, Arto
+Hellas, Seth Bernstein, and Sami Sarsa. 2022. Automatically Generating CS
+Learning Materials with Large Language Models. In Proceedings of the 54th ACM
+Technical Symposium on Computer Science Education V. 2. ACM.
+[18] Mounica Maddela, Fernando Alva-Manchego, and Wei Xu. 2021. Controllable Text
+Simplification with Explicit Paraphrasing. In Proceedings of the 2021 Conference
+of the North American Chapter of the Association for Computational Linguistics:
+Human Language Technologies. Association for Computational Linguistics.
+[19] Shailaja Menton and Elfrieda H Hiebert. 1999. Literature Anthologies: The Task
+for First-Grade Readers. (1999).
+[20] MetaMetrics. 2022. Lexile Framework for Reading Development and Validity
+Evidence. https://hubsupport.lexile.com/Images/Lexile%20Framework%20for%
+
+=== p. 6 ===
+In2Writing 2024, May 11, 2024, Honolulu, Hawii
+Chieh-Yang Huang, Jing Wei, and Ting-Hao Kenneth Huang
+(a) Zero-shot GPT-3.5
+(b) Zero-shot LLaMA-2 70B
+(c) Zero-shot Mixtral 8x7B
+(d) Few-shot GPT-3.5
+(e) Few-shot LLaMA-2 70B
+(f) Few-shot Mixtral 8x7B
+Figure 3: Scatter plots comparing intended and resulting Lexile shifts for text generated by GPT-3.5, LLaMA-2 70B, and Mixtral
+8x7B models in zero-shot and few-shot settings. The Lexile shift is calculated as the difference between the intended or resulting
+Lexile score and the source Lexile score. Data points falling within the first and third quadrants indicate the correct direction
+of change in text complexity. However, the overall distribution of points still exhibits a skew towards higher difficulty levels,
+suggesting that the models tend to generate text that is slightly more complex than the intended shift, regardless of the specific
+model or prompting approach employed.
+20Reading%20Validity%20Evidence_2022.pdf
+[21] OpenAI. 2022. ChatGPT: A large language model.
+https://openai.com/blog/
+chatgpt/ Knowledge cutoff: September 2021.
+[22] Nils Reimers and Iryna Gurevych. 2019. Sentence-BERT: Sentence Embeddings
+using Siamese BERT-Networks. In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing. Association for Computational
+Linguistics. https://arxiv.org/abs/1908.10084
+[23] S. Bautista, Pablo Gervás, and R. I. Madrid. 2009. Feasibility Analysis for SemiAutomatic Conversion of Text to Improve Readability. Information and Communication
+Technologies and Accessibility (2009).
+[24] Kurt Shuster, Spencer Poff, Moya Chen, Douwe Kiela, and Jason Weston. 2021.
+Retrieval Augmentation Reduces Hallucination in Conversation. In Findings
+of the Association for Computational Linguistics: EMNLP 2021, Marie-Francine
+Moens, Xuanjing Huang, Lucia Specia, and Scott Wen-tau Yih (Eds.). Association
+for Computational Linguistics, Punta Cana, Dominican Republic, 3784–3803.
+https://doi.org/10.18653/v1/2021.findings-emnlp.320
+[25] Debabrata Swain, Mrunmayee Tambe, Preeti Ballal, Vishal Dolase, Kajol Agrawal,
+and Yogesh Rajmane. 2019. Lexical Text Simplification Using WordNet. Springer
+Singapore, 114–122.
+[26] Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al. 2023. Llama 2: Open foundation and fine-tuned chat models. arXiv
+preprint arXiv:2307.09288 (2023).
+[27] Changrong Xiao, Sean Xin Xu, Kunpeng Zhang, Yufang Wang, and Lei Xia.
+2023. Evaluating Reading Comprehension Exercises Generated by LLMs: A
+Showcase of ChatGPT in Education Applications. In Proceedings of the 18th
+Workshop on Innovative Use of NLP for Building Educational Applications (BEA
+2023). Association for Computational Linguistics.
+[28] Ya-Han Yang, Hsi-Chin Chu, and Wen-Ta Tseng. 2021. Text difficulty in extensive
+reading: Reading comprehension and reading motivation. (2021).
+[29] Tianyi Zhang*, Varsha Kishore*, Felix Wu*, Kilian Q. Weinberger, and Yoav Artzi.
+2020. BERTScore: Evaluating Text Generation with BERT. In International Conference on Learning Representations. https://openreview.net/forum?id=SkeHuCVFDr
+A
+PROMPT
+Here, we provide the prompt we used for the experiments.
+The zero-shot prompt we used is as follow. We quickly introduce the Lexile measurement and then provide (i) {SOURCE-TEXT},
+(ii) {SOURCE-LEXILE}, and (iii) {TARGET-LEXILE} as the information.
+A Lexile measure is defined as “the numeric representation
+of an individual’s reading ability or a text’s readability (or
+difficulty),” where lower scores reflect easier readability and
+higher scores indicate harder readability.
+In this task, we are trying to rewrite a given text into the
+target Lexile level and keep the original meaning and information. Given the original draft (Lexile = {SOURCE-LEXILE}):
+[TEXT START]
+{SOURCE-TEXT}
+[TEXT END]
+
+=== p. 7 ===
+Generating Educational Materials with Different Levels of Readability using LLMs
+In2Writing 2024, May 11, 2024, Honolulu, Hawii
+Rewrite the above text and {TASK} to the difficulty level of
+Lexile = {TARGET-LEXILE}.
+The few-shot prompt we used is as follow. There are three
+sections in the prompt, introduction, example, and task (separated
+by “START-INTRO” tags). The section tag will not appear in the
+final prompt. For few-shot learning with more than 1 shot, only the
+example section will be repeated several times.
+((START-INTRO))
+A Lexile measure is defined as "the numeric representation
+of an individual’s reading ability or a text’s readability (or
+difficulty)," where lower scores reflect easier readability and
+higher scores indicate harder readability.
+In this task, we are trying to rewrite a given text into the
+target Lexile level and keep the original meaning and information.
+((END-INTRO))
+((START-EXAMPLE))
+Here is an example.
+Lexile = {SOURCE-LEXILE}
+[TEXT START]
+{SOURCE-TEXT}
+[TEXT END]
+Rewritten Text of Lexile = {TARGET-LEXILE}
+[TEXT START]
+{TARGET-TEXT}
+[TEXT END]
+((END-EXAMPLE))
+((START-TASK))
+Now, given the original text (Lexile = {SOURCE-LEXILE}):
+[TEXT START]
+{SOURCE-TEXT}
+[TEXT END]
+Rewrite the above text and {TASK} to the difficulty level of
+Lexile = {TARGET-LEXILE}. Do not include [TEXT START]
+and [TEXT END] in your response. Thanks.
+((END-TASK))

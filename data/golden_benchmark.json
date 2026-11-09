@@ -1,0 +1,438 @@
+[
+  {
+    "id": "Q01",
+    "disciplina": "Português",
+    "ano": "5º",
+    "tema": "interpretação",
+    "enunciado": "Leia o texto e responda: quem encontrou o cachorro?\nO menino Pedro encontrou um cachorro perdido na rua. Ele levou o animal para casa e pediu ajuda à mãe para achar o dono.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "cachorro",
+      "encontrou|achou",
+      "Pedro"
+    ]
+  },
+  {
+    "id": "Q02",
+    "disciplina": "Português",
+    "ano": "5º",
+    "tema": "gramática",
+    "enunciado": "Circule os substantivos da frase a seguir.\nO gato dorme no sofá da sala.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "substantivos",
+      "gato",
+      "sofá",
+      "sala"
+    ]
+  },
+  {
+    "id": "Q03",
+    "disciplina": "Português",
+    "ano": "6º",
+    "tema": "gramática",
+    "enunciado": "Identifique o sujeito da oração e classifique-o como simples ou composto.\nMaria e João foram ao mercado.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "sujeito",
+      "simples",
+      "composto",
+      "Maria",
+      "João"
+    ]
+  },
+  {
+    "id": "Q04",
+    "disciplina": "Português",
+    "ano": "6º",
+    "tema": "gramática",
+    "enunciado": "Reescreva a frase trocando a palavra contente por um sinônimo.\nO menino estava muito contente com o presente.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "sinônimo",
+      "contente"
+    ]
+  },
+  {
+    "id": "Q05",
+    "disciplina": "Português",
+    "ano": "7º",
+    "tema": "interpretação",
+    "enunciado": "Leia o trecho, explique o que o autor quis dizer e justifique com uma passagem do texto.\nA biblioteca da escola era pequena, mas cada livro parecia abrir uma porta para outro mundo.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "autor",
+      "biblioteca",
+      "livro",
+      "passagem|trecho"
+    ]
+  },
+  {
+    "id": "Q06",
+    "disciplina": "Português",
+    "ano": "8º",
+    "tema": "gramática",
+    "enunciado": "Assinale a alternativa em que a vírgula foi usada corretamente.\na) Ana, venha aqui.\nb) Ana venha, aqui.\nc) Ana venha aqui,",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "vírgula",
+      "alternativa",
+      "Ana"
+    ]
+  },
+  {
+    "id": "Q07",
+    "disciplina": "Português",
+    "ano": "9º",
+    "tema": "produção textual",
+    "enunciado": "Escreva um parágrafo argumentativo sobre o uso do celular na sala de aula. Apresente pelo menos dois argumentos e conclua com uma proposta.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "argumentativo|argumentos",
+      "celular",
+      "sala de aula",
+      "proposta"
+    ]
+  },
+  {
+    "id": "Q08",
+    "disciplina": "Matemática",
+    "ano": "4º",
+    "tema": "operações",
+    "enunciado": "Calcule: 345 + 278.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "345",
+      "278",
+      "soma|somar|adição|+"
+    ]
+  },
+  {
+    "id": "Q09",
+    "disciplina": "Matemática",
+    "ano": "4º",
+    "tema": "problemas",
+    "enunciado": "Maria tem 12 balas e deu 5 para o irmão. Com quantas balas ela ficou?",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "12",
+      "5",
+      "balas",
+      "irmão"
+    ]
+  },
+  {
+    "id": "Q10",
+    "disciplina": "Matemática",
+    "ano": "5º",
+    "tema": "operações",
+    "enunciado": "Resolva a multiplicação e confira o resultado com uma divisão: 24 × 6.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "24",
+      "multiplicação|×|vezes",
+      "divisão|dividir"
+    ]
+  },
+  {
+    "id": "Q11",
+    "disciplina": "Matemática",
+    "ano": "6º",
+    "tema": "geometria",
+    "enunciado": "Calcule a área de um retângulo com 8 cm de comprimento e 5 cm de largura. Escreva a resposta em centímetros quadrados.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "área",
+      "retângulo",
+      "8",
+      "5",
+      "centímetros quadrados|cm²|cm2"
+    ]
+  },
+  {
+    "id": "Q12",
+    "disciplina": "Matemática",
+    "ano": "6º",
+    "tema": "frações",
+    "enunciado": "Observe a fração 3/4, represente-a em um desenho e escreva-a na forma decimal.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "fração",
+      "3/4|três quartos",
+      "desenho|desenhe",
+      "decimal"
+    ]
+  },
+  {
+    "id": "Q13",
+    "disciplina": "Matemática",
+    "ano": "7º",
+    "tema": "álgebra",
+    "enunciado": "Resolva a equação 2x + 6 = 14 e verifique se o valor encontrado está correto.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "equação",
+      "2x + 6 = 14|2x+6=14",
+      "verifique|verificar|confira|conferir"
+    ]
+  },
+  {
+    "id": "Q14",
+    "disciplina": "Matemática",
+    "ano": "8º",
+    "tema": "álgebra",
+    "enunciado": "Determine o valor de x na equação x² − 9 = 0.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "valor de x",
+      "x² − 9 = 0|x²-9=0|x^2 - 9 = 0|x^2-9=0"
+    ]
+  },
+  {
+    "id": "Q15",
+    "disciplina": "Matemática",
+    "ano": "9º",
+    "tema": "problemas",
+    "enunciado": "Leia o problema, monte a equação e calcule o resultado.\nA soma de dois números consecutivos é 37. Quais são esses números?",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "consecutivos",
+      "37",
+      "soma",
+      "equação",
+      "números"
+    ]
+  },
+  {
+    "id": "Q16",
+    "disciplina": "Ciências",
+    "ano": "4º",
+    "tema": "seres vivos",
+    "enunciado": "Cite dois exemplos de animais que vivem na água.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "dois exemplos|2 exemplos",
+      "animais",
+      "água"
+    ]
+  },
+  {
+    "id": "Q17",
+    "disciplina": "Ciências",
+    "ano": "5º",
+    "tema": "ciclo da água",
+    "enunciado": "Explique como a chuva se forma.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "chuva",
+      "forma|formação|formam"
+    ]
+  },
+  {
+    "id": "Q18",
+    "disciplina": "Ciências",
+    "ano": "6º",
+    "tema": "fotossíntese",
+    "enunciado": "Leia o texto e responda: por que as plantas precisam de luz?\nAs plantas produzem o próprio alimento por meio da fotossíntese, processo que usa a luz do sol.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "plantas",
+      "luz",
+      "fotossíntese",
+      "alimento"
+    ]
+  },
+  {
+    "id": "Q19",
+    "disciplina": "Ciências",
+    "ano": "7º",
+    "tema": "células",
+    "enunciado": "Compare a célula animal e a célula vegetal, indicando duas diferenças e uma semelhança.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "célula animal",
+      "célula vegetal",
+      "diferenças|diferença",
+      "semelhança"
+    ]
+  },
+  {
+    "id": "Q20",
+    "disciplina": "Ciências",
+    "ano": "8º",
+    "tema": "ecologia",
+    "enunciado": "Defina o que é um ecossistema, cite dois exemplos e explique a importância da biodiversidade.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "ecossistema",
+      "exemplos",
+      "biodiversidade",
+      "importância"
+    ]
+  },
+  {
+    "id": "Q21",
+    "disciplina": "Ciências",
+    "ano": "9º",
+    "tema": "calor",
+    "enunciado": "Analise a afirmação e justifique se ela é verdadeira ou falsa.\nTodo calor é transmitido apenas por contato direto.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "calor",
+      "contato direto",
+      "verdadeira|verdadeiro",
+      "falsa|falso"
+    ]
+  },
+  {
+    "id": "Q22",
+    "disciplina": "História",
+    "ano": "5º",
+    "tema": "Brasil colônia",
+    "enunciado": "Em que ano os portugueses chegaram ao Brasil?",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "portugueses",
+      "Brasil",
+      "ano"
+    ]
+  },
+  {
+    "id": "Q23",
+    "disciplina": "História",
+    "ano": "6º",
+    "tema": "povos originários",
+    "enunciado": "Descreva uma característica da vida dos povos indígenas antes da chegada dos europeus.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "indígenas",
+      "europeus",
+      "característica"
+    ]
+  },
+  {
+    "id": "Q24",
+    "disciplina": "História",
+    "ano": "7º",
+    "tema": "Revolução Industrial",
+    "enunciado": "Leia o texto, identifique a causa principal da Revolução Industrial e explique suas consequências para os trabalhadores.\nNo século XVIII, máquinas passaram a substituir o trabalho manual em muitas fábricas.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "Revolução Industrial",
+      "causa",
+      "consequências|consequência",
+      "trabalhadores"
+    ]
+  },
+  {
+    "id": "Q25",
+    "disciplina": "História",
+    "ano": "8º",
+    "tema": "Brasil Império",
+    "enunciado": "Relacione cada fato histórico à sua data.\n(a) Independência do Brasil\n(b) Proclamação da República\n(1) 1822\n(2) 1889",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "independência",
+      "república",
+      "1822",
+      "1889"
+    ]
+  },
+  {
+    "id": "Q26",
+    "disciplina": "História",
+    "ano": "9º",
+    "tema": "Segunda Guerra",
+    "enunciado": "Explique, com suas palavras, por que a Segunda Guerra Mundial foi chamada de guerra total. Em seguida, cite uma consequência para a população civil.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "Segunda Guerra",
+      "guerra total",
+      "consequência",
+      "população civil|civis"
+    ]
+  },
+  {
+    "id": "Q27",
+    "disciplina": "Geografia",
+    "ano": "5º",
+    "tema": "orientação",
+    "enunciado": "Cite os pontos cardeais.",
+    "comando_conjugado_esperado": false,
+    "status": "rascunho",
+    "trava_curricular": [
+      "pontos cardeais"
+    ]
+  },
+  {
+    "id": "Q28",
+    "disciplina": "Geografia",
+    "ano": "6º",
+    "tema": "coordenadas",
+    "enunciado": "Leia as coordenadas 15° S e 47° O e indique em qual hemisfério o ponto está.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "coordenadas",
+      "15° S|15°S|15 graus sul",
+      "47° O|47°O|47 graus oeste",
+      "hemisfério"
+    ]
+  },
+  {
+    "id": "Q29",
+    "disciplina": "Geografia",
+    "ano": "8º",
+    "tema": "urbanização",
+    "enunciado": "Defina urbanização, explique duas consequências do crescimento desordenado das cidades e sugira uma solução.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "urbanização",
+      "desordenado",
+      "cidades",
+      "consequências|consequência",
+      "solução"
+    ]
+  },
+  {
+    "id": "Q30",
+    "disciplina": "Geografia",
+    "ano": "9º",
+    "tema": "meio ambiente",
+    "enunciado": "Pesquise, escolha e apresente um exemplo de impacto ambiental da sua região.",
+    "comando_conjugado_esperado": true,
+    "status": "rascunho",
+    "trava_curricular": [
+      "impacto ambiental",
+      "região",
+      "exemplo"
+    ]
+  }
+]

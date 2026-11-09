@@ -1,0 +1,49 @@
+O COMPRIMENTO DO TRECHO EXPLICA O QUE A BUSCA PERDE? Contagem. Nenhum modelo treinado, nenhum modelo de linguagem chamado.
+Comprimento = tokens do reranker (mMiniLM) no trecho com o cabeçalho. Longo = mais de 508 tokens: não cabe inteiro
+no reranker, que lê 512 por par. Busca de hoje: Qwen3 com a pergunta (conta exata) e reranker sobre os 50.
+Intervalos de 95%: 2000 sorteios dos trechos de cada grupo, semente 20261105. Gabarito do Opus, de modelo.
+
+A BASE: 1368 trechos; mediana 360 tokens, de 74 a 837; longos: 274 (20%).
+Cabeçalho (Documento e Seção) que vai na frente de cada trecho: mediana 37 tokens, máximo 101.
+Tokens por palavra: português 1.86, inglês 1.82 (com o cabeçalho). Mediana de palavras por trecho: 215.
+No Qwen3, que faz os vetores e lê até 1.024 tokens dele: maior trecho 1084 tokens; acima de 1.024: 4.
+
+1. OS 167 TRECHOS CERTOS DO OPUS, PELO DESTINO NA BUSCA DE HOJE (38 perguntas como estão)
+destino                         trechos  mediana de tokens    longos  % longos  mediana de palavras
+entregue entre os 5                  62                462        24       39%                  287
+entre os 50, não entregue            63                473        22       35%                  282
+fora dos 50                          42                333         7       17%                  202
+(entre os 50, somados)              125                466        46       37%                  287
+(a base inteira)                   1368                360       274       20%                  215
+
+fora dos 50 menos entre os 50: parte de longos -20 pontos [-34 a -6]; mediana de tokens -133 [-247 a -64]
+entre os 50: não entregue menos entregue: parte de longos -4 pontos [-20 a +12]
+
+2. O RERANKER E O CORTE: trechos certos que estavam entre os 50 candidatos (matriz)
+                                    entregue entre os 5  não entregue  % entregue
+par cortado (não lê o fim)                           27            27         50%
+par não cortado (lê inteiro)                         35            36         49%
+cortado menos não cortado: +1 pontos [-18 a +18]
+
+3. CADA ETAPA PREFERE OU EVITA TRECHO LONGO? Não depende do gabarito: todas as vagas, nas 57 perguntas dos dois conjuntos
+onde                                             vagas  % longos  mediana de tokens
+a base inteira                                    1368       20%                360
+os 5 primeiros do Qwen3 (sem reranker)             285       26%                453
+os 50 candidatos do Qwen3                         2850       24%                404
+os 5 entregues (depois do reranker)                285       34%                469
+dos candidatos longos, o reranker entrega 14.2% (98 de 690); dos que cabem inteiros, 8.7% (187 de 2160); se não olhasse o comprimento, seriam 10% dos dois.
+longos menos os que cabem: +5.5 pontos [+2.8 a +8.5]
+
+4. ONDE ESTÃO OS TRECHOS LONGOS (defeito se espalha; fenômeno se concentra)
+documento                                             idioma  longos    de  % do doc
+MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026           pt-BR      23    68       34%
+SMALEJACOBSE-2019-DIFERENCIACAO-RS                        en      20    84       24%
+RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA            pt-BR      18    55       33%
+CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024                  pt-BR      17    66       26%
+DALGAARD-2022-INCLUSAO-META                               en      17   124       14%
+AAP-CPG-ADHD-2019                                         en      14    68       21%
+MS-PCDT-TDAH-2022                                      pt-BR      12    28       43%
+CORTESE-2015-META-TREINO-COGNITIVO                        en      12    31       39%
+os 3 documentos com mais trechos longos têm 61 dos 274 (22%); documentos com algum trecho longo: 34 de 38.
+por idioma: inglês 17% de longos (914 trechos); português 26% (454 trechos).
+por tipo de corte: estrutural 20% (1360); pagina_inteira 75% (8)
