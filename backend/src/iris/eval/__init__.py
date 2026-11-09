@@ -1,0 +1,85 @@
+"""Módulo de avaliação, métricas de legibilidade, Golden Benchmark e Auditoria RAG (Épico 4.2)."""
+from __future__ import annotations
+
+from typing import Any
+
+from iris.eval.benchmark import GoldenQuestion, carregar_golden_benchmark
+from iris.eval.corpus_eda import analisar_distribuicao_perguntas
+from iris.eval.metrics import calcular_flesch, calcular_trcc, verificar_aderencia_nivel
+from iris.eval.readability import (
+    COMMAND_VERBS,
+    QuestionStats,
+    analyze_benchmark,
+    analyze_question,
+    count_conjugated_commands,
+    count_syllables,
+    find_commands,
+    flesch_band,
+    flesch_ptbr,
+    load_questions,
+    split_sentences,
+    split_words,
+    summarize,
+)
+
+_RAG_METRICS_EXPORTS = {
+    "IrisReportMetrics",
+    "MarketRAGMetrics",
+    "avaliar_pipeline_ao_vivo",
+    "avaliar_pipeline_registrado",
+    "calcular_average_precision_at_k",
+    "calcular_kappa_cohen",
+    "calcular_mrr",
+    "calcular_recall_at_k",
+    "calcular_similaridade_semantica",
+    "formatar_relatorio_completo",
+    "obter_consultas_com_textos_e_metricas",
+    "verificar_sustentacao_frase_no_trecho",
+}
+
+
+def __getattr__(name: str) -> Any:
+    if name in _RAG_METRICS_EXPORTS:
+        import iris.eval.rag_metrics as _rm
+
+        return getattr(_rm, name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__() -> list[str]:
+    return sorted(list(globals().keys()) + list(_RAG_METRICS_EXPORTS))
+
+
+__all__ = [
+    "COMMAND_VERBS",
+    "GoldenQuestion",
+    "IrisReportMetrics",
+    "MarketRAGMetrics",
+    "QuestionStats",
+    "analisar_distribuicao_perguntas",
+    "analyze_benchmark",
+    "analyze_question",
+    "avaliar_pipeline_ao_vivo",
+    "avaliar_pipeline_registrado",
+    "calcular_average_precision_at_k",
+    "calcular_flesch",
+    "calcular_kappa_cohen",
+    "calcular_mrr",
+    "calcular_recall_at_k",
+    "calcular_similaridade_semantica",
+    "calcular_trcc",
+    "carregar_golden_benchmark",
+    "count_conjugated_commands",
+    "count_syllables",
+    "find_commands",
+    "flesch_band",
+    "flesch_ptbr",
+    "formatar_relatorio_completo",
+    "load_questions",
+    "obter_consultas_com_textos_e_metricas",
+    "split_sentences",
+    "split_words",
+    "summarize",
+    "verificar_aderencia_nivel",
+    "verificar_sustentacao_frase_no_trecho",
+]
