@@ -1,0 +1,17 @@
+{
+  "_instrucoes": "Modelo do gabarito de busca do Íris. O GRUPO escreve as consultas no formato do Agente Estrategista (barreira + tipo de atividade + o que preservar) ANTES de olhar o que o sistema devolve. Outra pessoa marca, para cada consulta, os chunk_id de chunks.jsonl que respondem. Copie para gabarito.json e rode: python avaliar.py gabarito.json. Marque depois de congelar o chunking (se o chunking mudar, os chunk_id mudam).",
+  "versao": "0",
+  "partes_validas": ["A", "B", "C", "D"],
+  "barreiras_validas": ["atencao_sustentada", "memoria_trabalho", "iniciacao_tarefa", "organizacao_sequencial", "sobrecarga_visual", "controle_inibitorio", "flexibilidade_cognitiva", "velocidade_processamento", "leitura_texto_longo"],
+  "itens": [
+    {
+      "pergunta": "",
+      "autor": "",
+      "barreira": "",
+      "tipo_atividade": "",
+      "parte_esperada": "",
+      "trechos_relevantes": [],
+      "marcado_por": ""
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+QUEM O RERANKER LÊ, E QUANTOS CANDIDATOS. Gabaritos de modelo, sem conferência humana. Nenhum modelo treinado.
+Candidatos: os 50 da pergunta (hoje), ou esses mais os 50 da resposta imaginária, sem repetir ('50 + 50').
+Leitor: o reranker lê a pergunta digitada (hoje), ou a resposta imaginária no lugar dela. Em todos os casos entrega 5.
+Técnica: modelos prontos (Qwen3, reranker mMiniLM; resposta imaginária escrita pelo Claude haiku, que não é o modelo do
+produto), contagem e sorteio. Bootstrap de 95%: 2000 sorteios de perguntas, semente 20261105. Acaso no recall@5: 0.004.
+
+===== OPUS: 38 perguntas, 167 trechos certos; uma pergunta vale 2.6 pontos =====
+conferência: a célula de hoje devolve os mesmos 5 trechos da medida anterior (outputs/29) em 38 de 38 perguntas
+combinação                              certos nos candidatos |        recall@5 final  ao menos 1 certo nos 5    MRR     ms
+50 da pergunta, lê a pergunta (hoje)               125 de 167 |      0.42 [0.32-0.52]               33 de 38   0.60    435
+50 da pergunta, lê a imaginária                    125 de 167 |      0.21 [0.14-0.28]               22 de 38   0.40    482
+50 + 50, lê a pergunta                             139 de 167 |      0.42 [0.33-0.52]               34 de 38   0.60    544
+50 + 50, lê a imaginária                           139 de 167 |      0.19 [0.13-0.26]               22 de 38   0.40    600
+  (ms: tempo mediano só do reranker neste Mac; para os 50 da pergunta é estimado pela proporção de pares lidos)
+
+A matriz 2 x 2 do recall@5 final:
+                                     lê a pergunta   lê a imaginária
+candidatos: 50 da pergunta                    0.42              0.21
+candidatos: 50 + 50                           0.42              0.19
+
+Diferença pareada contra a busca de hoje (combinação menos hoje), IC 95%, perguntas em que ganhou/empatou/perdeu:
+50 da pergunta, lê a imaginária        recall@5 final -0.21 [-0.32 a -0.11] 4/10/24
+50 + 50, lê a pergunta                 recall@5 final +0.00 [+0.00 a +0.01] 1/37/0
+50 + 50, lê a imaginária               recall@5 final -0.23 [-0.33 a -0.12] 4/11/23
+
+Recall@5 final por tipo de pergunta (todos os recortes que o gabarito permite):
+tipo                                P50|pergunta    P50|imaginaria    UNIAO|pergunta  UNIAO|imaginaria
+estrategia (n=10)                           0.26              0.12              0.26              0.15
+dua (n=8)                                   0.47              0.11              0.47              0.11
+norma (n=8)                                 0.61              0.33              0.61              0.31
+evidencia (n=6)                             0.38              0.41              0.41              0.31
+mito (n=4)                                  0.34              0.05              0.34              0.05
+so_ingles (n=2)                             0.53              0.27              0.53              0.27
+
+As 10 perguntas práticas de professor (43 trechos certos): certos nos 5 entregues, por combinação:
+  50 da pergunta, lê a pergunta (hoje)   10 de 43 | perguntas sem nenhum certo nos 5: Q04, Q05, Q10
+  50 da pergunta, lê a imaginária         3 de 43 | perguntas sem nenhum certo nos 5: Q01, Q02, Q05, Q07, Q08, Q09, Q10
+  50 + 50, lê a pergunta                 10 de 43 | perguntas sem nenhum certo nos 5: Q04, Q05, Q10
+  50 + 50, lê a imaginária                5 de 43 | perguntas sem nenhum certo nos 5: Q02, Q05, Q07, Q09, Q10
+
+===== RASCUNHO: 19 perguntas, 73 trechos certos; uma pergunta vale 5.3 pontos =====
+conferência: a célula de hoje devolve os mesmos 5 trechos da medida anterior (outputs/29) em 19 de 19 perguntas
+combinação                              certos nos candidatos |        recall@5 final  ao menos 1 certo nos 5    MRR     ms
+50 da pergunta, lê a pergunta (hoje)                69 de 73  |      0.40 [0.27-0.54]               16 de 19   0.74    452
+50 da pergunta, lê a imaginária                     69 de 73  |      0.20 [0.11-0.30]               10 de 19   0.30    485
+50 + 50, lê a pergunta                              70 de 73  |      0.38 [0.25-0.52]               15 de 19   0.69    593
+50 + 50, lê a imaginária                            70 de 73  |      0.13 [0.05-0.23]                7 de 19   0.20    638
+  (ms: tempo mediano só do reranker neste Mac; para os 50 da pergunta é estimado pela proporção de pares lidos)
+
+A matriz 2 x 2 do recall@5 final:
+                                     lê a pergunta   lê a imaginária
+candidatos: 50 da pergunta                    0.40              0.20
+candidatos: 50 + 50                           0.38              0.13
+
+Diferença pareada contra a busca de hoje (combinação menos hoje), IC 95%, perguntas em que ganhou/empatou/perdeu:
+50 da pergunta, lê a imaginária        recall@5 final -0.20 [-0.39 a -0.05] 4/6/9
+50 + 50, lê a pergunta                 recall@5 final -0.02 [-0.06 a +0.00] 0/17/2
+50 + 50, lê a imaginária               recall@5 final -0.27 [-0.44 a -0.12] 2/6/11
+
+Vagas dos 5 entregues ocupadas por trecho que nenhum juiz do rascunho leu (acima de 10% a comparação não vale):
+  50 da pergunta, lê a pergunta (hoje)    23 de 95 (24%)
+  50 da pergunta, lê a imaginária         53 de 95 (56%)
+  50 + 50, lê a pergunta                  31 de 95 (33%)
+  50 + 50, lê a imaginária                65 de 95 (68%)
+
+===== OPUS-CURTA: 38 perguntas, 167 trechos certos; uma pergunta vale 2.6 pontos (EXPLORATÓRIO: perguntas encurtadas por modelo) =====
+conferência: a célula de hoje devolve os mesmos 5 trechos da medida anterior (outputs/29) em 38 de 38 perguntas
+combinação                              certos nos candidatos |        recall@5 final  ao menos 1 certo nos 5    MRR     ms
+50 da pergunta, lê a pergunta (hoje)               114 de 167 |      0.28 [0.19-0.38]               26 de 38   0.43    416
+50 da pergunta, lê a imaginária                    114 de 167 |      0.20 [0.12-0.30]               20 de 38   0.37    466
+50 + 50, lê a pergunta                             125 de 167 |      0.28 [0.19-0.37]               26 de 38   0.45    572
+50 + 50, lê a imaginária                           125 de 167 |      0.18 [0.11-0.26]               20 de 38   0.32    635
+  (ms: tempo mediano só do reranker neste Mac; para os 50 da pergunta é estimado pela proporção de pares lidos)
+
+A matriz 2 x 2 do recall@5 final:
+                                     lê a pergunta   lê a imaginária
+candidatos: 50 da pergunta                    0.28              0.20
+candidatos: 50 + 50                           0.28              0.18
+
+Diferença pareada contra a busca de hoje (combinação menos hoje), IC 95%, perguntas em que ganhou/empatou/perdeu:
+50 da pergunta, lê a imaginária        recall@5 final -0.08 [-0.17 a +0.01] 9/16/13
+50 + 50, lê a pergunta                 recall@5 final -0.01 [-0.04 a +0.01] 1/36/1
+50 + 50, lê a imaginária               recall@5 final -0.10 [-0.20 a -0.01] 8/17/13
+
+Recall@5 final por tipo de pergunta (todos os recortes que o gabarito permite):
+tipo                                P50|pergunta    P50|imaginaria    UNIAO|pergunta  UNIAO|imaginaria
+estrategia (n=10)                           0.05              0.10              0.05              0.10
+dua (n=8)                                   0.48              0.20              0.48              0.17
+norma (n=8)                                 0.46              0.28              0.40              0.22
+evidencia (n=6)                             0.23              0.25              0.26              0.28
+mito (n=4)                                  0.29              0.21              0.29              0.21
+so_ingles (n=2)                             0.10              0.20              0.10              0.10
+
+As 10 perguntas práticas de professor (43 trechos certos): certos nos 5 entregues, por combinação:
+  50 da pergunta, lê a pergunta (hoje)    2 de 43 | perguntas sem nenhum certo nos 5: Q01, Q02, Q03, Q04, Q05, Q06, Q08, Q10
+  50 da pergunta, lê a imaginária         4 de 43 | perguntas sem nenhum certo nos 5: Q01, Q05, Q06, Q07, Q09, Q10
+  50 + 50, lê a pergunta                  2 de 43 | perguntas sem nenhum certo nos 5: Q01, Q02, Q03, Q04, Q05, Q06, Q08, Q10
+  50 + 50, lê a imaginária                4 de 43 | perguntas sem nenhum certo nos 5: Q01, Q05, Q06, Q07, Q09, Q10
+
+CRITÉRIO (escrito antes de rodar): passa a combinação cujo recall@5 final menos o de hoje tem o intervalo todo acima de zero
+no gabarito do Opus, com as perguntas como estão. As perguntas encurtadas têm veredito próprio, exploratório. O rascunho só
+conta com até 10% de vagas não julgadas. Passar não muda o padrão do produto.
+50 da pergunta, lê a imaginária        Opus -0.21 [-0.32 a -0.11]; rascunho -0.20 [-0.39 a -0.05], não julgados 53 de 95: NÃO PASSA (o intervalo encosta, passa pelo zero ou fica abaixo dele)
+                                       perguntas curtas -0.08 [-0.17 a +0.01]: NÃO PASSA (o intervalo encosta ou passa pelo zero)
+50 + 50, lê a pergunta                 Opus +0.00 [+0.00 a +0.01]; rascunho -0.02 [-0.06 a +0.00], não julgados 31 de 95: NÃO PASSA (o intervalo encosta, passa pelo zero ou fica abaixo dele)
+                                       perguntas curtas -0.01 [-0.04 a +0.01]: NÃO PASSA (o intervalo encosta ou passa pelo zero)
+50 + 50, lê a imaginária               Opus -0.23 [-0.33 a -0.12]; rascunho -0.27 [-0.44 a -0.12], não julgados 65 de 95: NÃO PASSA (o intervalo encosta, passa pelo zero ou fica abaixo dele)
+                                       perguntas curtas -0.10 [-0.20 a -0.01]: PIORA (o intervalo fica todo abaixo de zero)

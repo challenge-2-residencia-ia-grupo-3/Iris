@@ -1,0 +1,889 @@
+{
+ "busca": "qwen3+rerank50",
+ "geradores": {
+  "haiku": {
+   "Q01": {
+    "resposta": "1. Ofereça indicações explícitas para cada etapa de um processo sequencial, como uma questão de várias etapas, para que o aluno possa retomar o caminho [T3].\n2. Agrupe as informações em unidades menores e mostre-as progressivamente, por exemplo, apresentando a sequência principal aos poucos [T3].\n3. Forneça listas de verificação, organizadores, notas ou lembretes eletrônicos, que ajudam a ativar a memória e a recuperação de informações [T3].\n4. Antes de dar a resposta, dê tempo para o aluno formular sua resposta ou peça que ele registre suas respostas em papel ou dispositivo eletrônico, ou que as compartilhe com um colega [T1].\n5. Enquanto os alunos trabalham, verifique regularmente e de forma individualizada o progresso dos que têm mais dificuldade e responda às perguntas que tiverem [T1].\n6. Essas são sugestões práticas, pois a fonte as apresenta como exemplos práticos das Diretrizes DUA versão 2.0 [T3].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0030",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0028"
+    ]
+   },
+   "Q02": {
+    "resposta": "Ensine o aluno a dividir o trabalho em várias etapas, pois isso facilita a resolução e a conclusão e torna a tarefa menos exaustiva [T1]. Prefira tarefas curtas, que tragam um pouco de desafio sem serem difíceis demais, e evite atividades longas e repetitivas [T2]. Como a capacidade de atenção diminui muito após certo tempo, permita pausas regulares entre as etapas para que o aluno relaxe por alguns minutos [T3]. Permita também que ele se movimente durante os intervalos, já que prestar atenção exige esforço extra e pode ser muito cansativo [T2]. Estas são orientações práticas de cartilhas, e não evidência de eficácia [T1].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0003",
+     "CDC-ADHD-CLASSROOM-2026#0010",
+     "ABDA-GUIA-PROFESSORES-2012#0001",
+     "YEGENCIK-2025-META-RCT-ESCOLA#0049",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030"
+    ]
+   },
+   "Q03": {
+    "resposta": "Orientação prática (cartilha sem referências, não comprova eficácia): ensinar o aluno a dividir o trabalho em várias etapas pode facilitar a resolução e a conclusão [T2]. Orientação prática: o professor pode ajudar a estabelecer técnicas de organização, pois crianças e adolescentes costumam ter dificuldade para se organizar e planejar os estudos [T4]. Diretriz oficial: dicas e avisos aumentam a conformidade com o comportamento desejado, e os redirecionamentos devem ser breves, específicos, consistentes e feitos logo após o comportamento [T3]. Os trechos não detalham como sequenciar os passos de um problema, apenas trazem orientações gerais [T2][T3][T4].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "ABDA-GUIA-PROFESSORES-2012#0003",
+     "MS-PCDT-TDAH-2022#0020",
+     "ABDA-GUIA-PROFESSORES-2012#0001",
+     "MS-PCDT-TDAH-2022#0021"
+    ]
+   },
+   "Q04": {
+    "resposta": "Os trechos não tratam diretamente de iniciar a tarefa, então as sugestões abaixo são adaptações gerais e exemplos práticos [T3][T5]. Oferecer indicações explícitas para cada etapa de um processo sequencial deixa claro por onde começar, e agrupar as informações em unidades menores ou mostrá-las progressivamente permite começar pela primeira parte [T3]. Eliminar elementos que distraem, a menos que sejam essenciais ao objetivo, ajuda a focar a atenção no início da tarefa [T3]. Verificar o progresso do aluno de forma individualizada enquanto ele trabalha, respondendo às suas dúvidas, é um suporte adicional recomendado [T5]. Oferecer níveis ajustáveis de desafio e opções de interação, como trabalhar sozinho ou em grupo, pode ampliar o engajamento na atividade [T1][T5]. Como orientação prática, sem referências e portanto sem comprovação de eficácia, sentar o aluno próximo ao professor facilita intervenções e elogios a boas atitudes [T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0010",
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016"
+    ]
+   },
+   "Q05": {
+    "resposta": "Dividir a atividade em etapas é uma estratégia indicada, pois crianças e adolescentes com TDAH costumam ter dificuldade de organização nos trabalhos escolares [T1]. Os trechos não trazem orientações específicas sobre diagramação de provas, e a cartilha é orientação prática sem referências que comprovem eficácia [T1]. Regras claras e expectativas antecipadas podem melhorar o comportamento em sala, e os redirecionamentos devem ser breves, específicos e feitos de forma consistente [T3]. Elogios específicos dados logo após o comportamento desejado são considerados eficazes [T3]. Sentar o aluno na frente da sala facilita o monitoramento e as intervenções do professor [T2]. Essas estratégias de sala de aula são promissoras, mas a literatura ainda pede mais investigação [T4].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0003",
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "MS-PCDT-TDAH-2022#0020",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0027"
+    ]
+   },
+   "Q06": {
+    "resposta": "Evidência: ajudar as crianças a esperar melhora seu desempenho, porque erros de impulsividade são erros de não conseguir esperar [T2]. Esses estudos tratam de crianças pequenas [T2][T3]. Os resultados de um estudo sustentam que a resposta automática perde força com o tempo, o que permite à resposta correta competir melhor [T3]. Orientação prática: antes de responder, dê tempo suficiente ou uma pausa para que o aluno registre sua resposta em papel ou dispositivo, ou a compartilhe com um colega [T1]. Orientação prática (cartilha sem referências, não é evidência de eficácia): permita tempo extra para responder às perguntas feitas em aula [T4]. Regras claras e objetivas podem ser fixadas em painel de fácil visualização, com prêmios por comportamentos assertivos [T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+     "DIAMOND-2013-FUNCOES-EXECUTIVAS#0005",
+     "DIAMOND-2013-FUNCOES-EXECUTIVAS#0006",
+     "ABDA-GUIA-PROFESSORES-2012#0001",
+     "ABDA-GUIA-PROFESSORES-2012#0000"
+    ]
+   },
+   "Q07": {
+    "resposta": "Para dislexia, a cartilha do Enem indica chamar um(a) ledor(a) e pedir a leitura em voz alta quando a leitura lenta ou imprecisa faz o participante entender o texto de forma diferente do que está escrito [T1]. Para estudantes com deficiência cognitiva significativa, o NCEO recomenda selecionar o mesmo texto-alvo da série e adaptá-lo somente quando necessário, seguindo a regra de não ser mais diferente do que o necessário [T2]. Essa mesma fonte admite simplificar ou resumir o texto, mas manter o texto visível para que o aluno possa aplicar suas habilidades de leitura [T2]. Essas recomendações são orientação prática e não evidência de que a habilidade avaliada permanece a mesma no TDAH [T2][T5]. Os trechos não tratam diretamente de TDAH; mencionam apenas que a lei assegura acompanhamento integral e critérios adequados de avaliação para educandos com TDAH em provas discursivas ou de redação [T5]. Portanto, não encontro nos documentos da base informação suficiente para afirmar que ler em voz alta ou simplificar mantém a habilidade avaliada no caso do TDAH [T2][T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+     "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0010",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0009",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0025",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001"
+    ]
+   },
+   "Q08": {
+    "resposta": "Em uma revisão da literatura, o uso de cronograma de atividades aumentou o tempo que dois meninos com TDAH dedicaram a tarefas de forma independente em sala de aula [T3]. O protocolo oficial (Portaria SAES/SCTIE nº 14/2022) indica o reforço com fichas, trocadas depois por reforçadores de reserva, como particularmente útil para alunos com TDAH, que geralmente precisam de feedback imediato e recompensa, e seus critérios podem ser aumentados aos poucos [T2]. O mesmo protocolo indica que a coordenação entre escola e casa pode ampliar os efeitos do tratamento [T2], e, como orientação prática sem evidência de eficácia, a agenda escola-casa permite trocar informações sobre comportamento e execução de deveres [T1]. Em pesquisa sobre elogio, o reforço positivo com elogios foi combinado a outra estratégia e avaliado no recreio, com resultados mais sistemáticos que os do automonitoramento, sem medir a permanência em tarefas de sala [T4]. Como orientação prática, sem evidência de eficácia, a cartilha sugere preferir elogios a críticas e dividir o trabalho em etapas, o que pode tornar a conclusão menos exaustiva [T1][T5]. Essas intervenções não necessariamente resolvem o transtorno, mas auxiliam a criança a se organizar [T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "MS-PCDT-TDAH-2022#0021",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033",
+     "ABDA-GUIA-PROFESSORES-2012#0003"
+    ]
+   },
+   "Q09": {
+    "resposta": "Sentar o aluno na frente da sala, próximo ao quadro e ao professor, facilita monitorar e ajudar o aluno e intervir em comportamentos desatentos ou hiperativos, mas essa é uma orientação prática de cartilha sem referências, não evidência de eficácia [T2]. Na diretriz NICE, as modificações ambientais incluem mudanças na disposição dos assentos, na iluminação e no ruído, e a redução de distrações, como o uso de fones de ouvido [T4]. Essas modificações devem ser definidas a partir da avaliação das necessidades de cada aluno [T4]. A mesma diretriz cita períodos de foco mais curtos com pausas para movimento e instruções escritas que reforçam pedidos verbais [T4]. A cartilha *ADHD in the Classroom* afirma que há pouca informação sobre quais acomodações funcionam, mas inclui mudanças no ambiente para limitar distrações entre as opções possíveis [T1]. Vale observar com o aluno o que o ajuda ou o distrai, pois fones, música de fundo ou movimento podem ajudar ou atrapalhar conforme a criança [T3].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "CDC-ADHD-CLASSROOM-2026#0008",
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "CDC-ADHD-CLASSROOM-2026#0010",
+     "NICE-NG87-ADHD-2018#0031",
+     "ABDA-GUIA-PROFESSORES-2012#0004"
+    ]
+   },
+   "Q10": {
+    "resposta": "Não encontrei nos trechos orientação direta sobre dar instruções de uma vez ou em partes; a única referência é a de ensinar o aluno a dividir trabalhos em etapas, pois ele tem dificuldade de organização na execução de trabalhos escolares [T1]. Segundo a cartilha, essa divisão facilita a resolução e a conclusão, tornando o trabalho menos exaustivo [T1]. Para orientar os alunos, a diretriz recomenda regras adequadas à idade e não duvidosas quanto às expectativas da sala de aula [T4]. Os redirecionamentos devem ser breves, específicos e consistentes, feitos imediatamente após o comportamento negativo, de maneira calma e silenciosa [T4]. Sobre pedir que o aluno repita o que entendeu, os trechos não mencionam essa prática; recomendam apenas questioná-lo sobre dúvidas em sala, o que ajudaria na assimilação de conceitos e favoreceria a atenção [T5]. Como as cartilhas não trazem referências, servem como orientação prática e não como evidência de eficácia [T1][T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0003",
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "ABDA-GUIA-PROFESSORES-2012#0002",
+     "MS-PCDT-TDAH-2022#0020",
+     "ABDA-GUIA-PROFESSORES-2012#0001"
+    ]
+   },
+   "Q11": {
+    "resposta": "Os três princípios do DUA são: proporcionar modos múltiplos de apresentação (o \"o quê\" da aprendizagem), proporcionar modos múltiplos de ação e expressão (o \"como\") e proporcionar modos múltiplos de implicação, engajamento e envolvimento (o \"porquê\") [T2]. Segundo a fonte, esses princípios são baseados em investigação neurocientífica [T2]. Como este trecho é da versão 2.0, não cite a numeração dos pontos de verificação a partir dele, pois prevalece a versão 3.0 [T2]. Na versão 3.0, o primeiro princípio aparece como Princípio da Representação [T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0013",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0009",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0004"
+    ]
+   },
+   "Q12": {
+    "resposta": "A versão 3.0 foi publicada em 30 de julho de 2024, como nova atualização após a revisão de 2020 [T1]. Ela responde a um forte apelo de profissionais e pesquisadores para abordar barreiras enraizadas em preconceitos e sistemas de exclusão [T1]. Na Diretriz 6 (Desenvolvimento de Estratégias), a versão 3.0 organiza cinco pontos de verificação, de 6.1 a 6.5, incluindo \"Questionar práticas excludentes\" (6.5) [T4]. A numeração dos pontos de verificação da versão 3.0 difere da versão 2.0, de 2018, e, para numeração e texto, prevalece a 3.0 [T5]. Os trechos disponíveis não detalham, ponto a ponto, todas as diferenças entre as versões [T1][T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0001",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0000",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0005",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0023"
+    ]
+   },
+   "Q13": {
+    "resposta": "Os materiais podem ser apresentados em formatos além do texto, como ilustração, diagrama, tabela, modelo, vídeo, história em quadrinhos, animação ou manipulativo físico ou virtual [T2]. Também é recomendável esclarecer as conexões entre o texto e suas representações em ilustrações, equações, gráficos ou diagramas [T2]. Para elementos visuais, as diretrizes sugerem descrições ou audiodescrições, modelos táteis e explicações auditivas dos conceitos-chave [T5]. Para o texto escrito, sugerem seguir padrões de acessibilidade, permitir que um leitor competente o leia em voz alta e oferecer software de conversão de texto em fala [T5]. O documento afirma que a aprendizagem e a transferência ocorrem quando se usam múltiplas representações, porque isso apoia os alunos a estabelecer ligações dentro e entre os conceitos [T3]. Esses exemplos são orientações práticas, apresentadas como pontos de verificação das Diretrizes DUA v3.0 [T2][T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0042",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0028",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0030",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0033"
+    ]
+   },
+   "Q14": {
+    "resposta": "Segundo os Cadernos da Política Nacional de Educação Especial Inclusiva, diversificar os meios de expressão não reduz os objetivos de aprendizagem, pois oferece caminhos acessíveis e equivalentes para que todos os estudantes os alcancem [T4]. Esses caminhos podem incluir produções orais, escritas, visuais, corporais, artísticas ou multimodais, além de portfólios, relatórios, apresentações e projetos [T4]. A avaliação pode ser feita em formatos diferentes, com tempo adequado e com apoios como editores de texto e tecnologia assistiva, conforme as barreiras identificadas [T4]. As Diretrizes do DUA afirmam que não existe um meio de expressão igualmente adequado para todos os alunos, por isso é importante oferecer múltiplas modalidades para reduzir barreiras de comunicação [T2][T3]. Os exemplos de estratégias citados, como mapas conceituais, exercícios orais, pensar \"em voz alta\" e construção de objetos, são orientações práticas, e os trechos não apresentam dados de pesquisa que comprovem sua eficácia [T4][T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0049",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0055",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0022",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0013"
+    ]
+   },
+   "Q15": {
+    "resposta": "Como princípio de engajamento, o DUA recomenda oferecer múltiplas opções, porque os alunos diferem no que os motiva e não existe um meio de envolvimento ideal para todos em todos os contextos [T1]. Para acolher interesses, a Diretriz 7 orienta otimizar a escolha e a autonomia, a relevância e a autenticidade das atividades, e a alegria e a diversão no processo de aprendizagem [T4]. Para sustentar o esforço e a persistência, a Diretriz 8 indica que os planos considerem objetivos significativos e intencionais, estruturas e apoios para desafios exigentes, colaboração e feedback contínuo orientado para a ação [T3]. Entre os pontos de verificação dessa diretriz estão esclarecer o significado e o propósito dos objetivos, otimizar o desafio com suportes flexíveis, promover pertencimento e oferecer feedback que enfatize o esforço e o processo [T4]. Como exemplos práticos, e não como norma, a versão 2.0 sugere pedir que os alunos formulem explicitamente o objetivo, apresentá-lo de diferentes maneiras, dividir metas de longo prazo em metas de curto prazo e demonstrar ferramentas de gerenciamento de tempo [T5]. O ambiente deve oferecer opções acessíveis para alunos que diferem em motivação inicial e autorregulação, enquanto o objetivo educacional é desenvolver essas habilidades nos próprios alunos [T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0002",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0015",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0003",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0048"
+    ]
+   },
+   "Q16": {
+    "resposta": "O DUA não é o mesmo que adaptação curricular individual: ele é o processo em que objetivos, métodos, materiais e avaliação são planejados desde o início para lidar com diferenças individuais, enquanto o termo costuma ser aplicado de forma imprópria às adaptações feitas depois [T1]. Planejar para todos significa oferecer opções flexíveis de objetivos, métodos, materiais e avaliações, para que cada aluno progrida a partir de onde está, o que torna desnecessárias mudanças posteriores [T4]. Na prática, um mesmo objetivo pode ser trabalhado com programa individualizado, como responder cinco de dez exercícios, ou com suporte individualizado, como usar calculadora e responder todos, e ambas as estratégias são garantidas quando o ensino é baseado no DUA [T3]. Os estudantes não precisam dessas estratégias o tempo todo, por isso é importante avaliar quando precisam delas e quando aprendem junto com os demais, realizando as mesmas atividades [T3]. Como orientação, para alunos com necessidades mais complexas pode ser relevante um Planejamento Educacional Individualizado, elaborado pela equipe escolar [T5]. Como evidência, há pesquisas sobre a eficácia de práticas baseadas em evidências para estudantes nos extremos, mas essas práticas geralmente só são oferecidas depois que o aluno já fracassou no currículo regular [T1].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0017",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0003",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0006",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0014"
+    ]
+   },
+   "Q17": {
+    "resposta": "Na versão 3.0 do DUA, a Diretriz 6 trata das funções executivas com foco no desenvolvimento de estratégias, ou seja, criar estratégias e agir de acordo com os planos [T2][T4]. Como princípio da estrutura, o DUA busca desenvolver essa capacidade de duas formas: reduzindo a exigência de processamento executivo em habilidades de nível inferior e fortalecendo competências e estratégias de nível superior [T4]. Os pontos de verificação da versão 3.0 orientam a estabelecer metas significativas, prever e planejar desafios e melhorar a capacidade de monitorar o progresso ao longo do tempo [T2][T4]. Como orientação prática, o DUA sugere oferecer modelos do processo de definição de metas, listas de verificação, deixar metas e planos visíveis e dividir metas de longo prazo em objetivos de curto prazo [T3]. Para o planejamento, recomenda integrar avisos para parar e pensar antes de agir, listas e modelos de planejamento e mentores que modelem o processo pensando em voz alta [T3]. Para o monitoramento do progresso, o DUA indica usar recursos ou gráficos para que os alunos coletem e visualizem os próprios dados e adotar protocolos de reflexão individual e coletiva [T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0006",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0025"
+    ]
+   },
+   "Q18": {
+    "resposta": "**Orientação prática:** o DUA pode organizar o planejamento com múltiplas formas de representação, expressão e engajamento, para que cada estudante aprenda pelo caminho mais adequado às suas habilidades e interesses [T1]. **Exemplo prático:** uma professora diversificou as formas de apresentação e expressão do conhecimento, com relatos orais e escritos, encenações teatrais e tecnologias digitais, o que permitiu que os estudantes demonstrassem sua aprendizagem por diferentes caminhos [T3]. **Relato de experiência, não resultado de pesquisa:** esse exemplo vem da experiência da turma de uma professora, apresentada como relato para reflexão [T2]. **Orientação prática:** o planejamento deve ser construído com a professora do AEE, para identificar barreiras e definir estratégias como comunicação alternativa e materiais bilíngues [T3]. **Norma:** o AEE deve ser deslocado para a classe comum, conforme previsto na LDBEN, na LBI e no Decreto 12.686 [T5]. **Orientação prática:** também podem ser usadas tutoria entre pares, atividades em equipe e uma organização cuidadosa do espaço físico [T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0019",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0025",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0028",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0067",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0062"
+    ]
+   },
+   "Q19": {
+    "resposta": "Pela lei vigente, as escolas da educação básica, públicas e privadas, devem garantir cuidado e proteção ao educando com dislexia ou TDAH, com apoio da família e dos serviços de saúde [T1]. Esses educandos têm direito a acompanhamento específico para sua dificuldade, da forma mais precoce possível, feito pelos educadores da própria escola, quando há alterações na leitura e na escrita ou instabilidade na atenção que afetem a aprendizagem [T3]. Também podem contar com apoio e orientação da saúde, da assistência social e de outras políticas públicas do território [T3]. O poder público deve manter um programa de acompanhamento integral, que inclui identificação precoce, encaminhamento para diagnóstico, apoio educacional na rede de ensino e apoio terapêutico especializado na rede de saúde [T5]. Para isso, os sistemas de ensino devem garantir aos professores amplo acesso à informação e formação continuada, para identificar sinais precoces e oferecer o atendimento educacional escolar [T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "LEI-14254-2021-DISLEXIA-TDAH#0002",
+     "LEI-14254-2021-DISLEXIA-TDAH#0005",
+     "LEI-14254-2021-DISLEXIA-TDAH#0003",
+     "LEI-14254-2021-DISLEXIA-TDAH#0000",
+     "LEI-14254-2021-DISLEXIA-TDAH#0001"
+    ]
+   },
+   "Q20": {
+    "resposta": "A escola não pode exigir laudo médico para oferecer o AEE, pois o atendimento é pedagógico e não clínico, e o laudo é apenas complementar, quando a escola julgar necessário [T1]. Exigir diagnóstico clínico para declarar o aluno como público-alvo da educação especial e garantir seu atendimento configuraria barreira ao acesso e discriminação [T1]. Essa declaração deve seguir a Resolução CNE/CEB nº 4/2009, art. 4º, que define o público-alvo do AEE [T1]. A elaboração do estudo de caso e do Plano de AEE não está condicionada à existência de laudo médico, por ser de cunho educacional [T5]. Se necessário, o professor do AEE pode articular-se com profissionais da saúde, e o laudo fica anexo ao plano [T1]. Trata-se de orientação normativa do MEC (Nota Técnica), e não de evidência de pesquisa [T1].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "MEC-SECADI-NT-04-2014-LAUDO#0004",
+     "MEC-SECADI-NT-04-2014-LAUDO#0003",
+     "MEC-SECADI-NT-04-2014-LAUDO#0001",
+     "MEC-SECADI-NT-04-2014-LAUDO#0002",
+     "MEC-SECADI-NT-04-2014-LAUDO#0005"
+    ]
+   },
+   "Q21": {
+    "resposta": "Pela Lei Brasileira de Inclusão (norma vigente, Lei nº 13.146/2015), barreiras são qualquer entrave, obstáculo, atitude ou comportamento que limite ou impeça a participação social da pessoa e o exercício de seus direitos, como a comunicação, o acesso à informação e a compreensão [T3]. A lei as classifica em urbanísticas, arquitetônicas, nos transportes, nas comunicações e na informação, atitudinais e tecnológicas [T3]. Adaptações razoáveis são adaptações, modificações e ajustes necessários e adequados que não acarretem ônus desproporcional e indevido, quando requeridos em cada caso [T1]. Seu objetivo é assegurar que a pessoa com deficiência possa exercer, em igualdade de condições com as demais, todos os direitos e liberdades fundamentais [T1]. Para a educação, o art. 28, III, prevê um projeto pedagógico que institucionalize essas adaptações para garantir o pleno acesso ao currículo em condições de igualdade [T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0003",
+     "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0006",
+     "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0002",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0007",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0005"
+    ]
+   },
+   "Q22": {
+    "resposta": "A LDB estabelece, no art. 24, inciso V, alínea \"a\", que a verificação do rendimento escolar deve observar a avaliação contínua e cumulativa do desempenho do aluno, com prevalência dos aspectos qualitativos sobre os quantitativos e dos resultados ao longo do período sobre os de eventuais provas finais [T2].\nEssa regra é norma legal e se aplica às regras comuns da educação básica, nos níveis fundamental e médio [T2].\nO texto disponível é um recorte da lei, com os artigos citados e os trechos revogados removidos [T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0004",
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0000",
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0005",
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0002",
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0001"
+    ]
+   },
+   "Q23": {
+    "resposta": "Pela norma, o AEE é uma ação transversal a todos os níveis e modalidades de ensino, defendida pela Política Nacional de Educação Especial Inclusiva (Decreto nº 12.686/2025) [T2]. Pela Resolução CNE/CEB nº 4/2009, o AEE é parte integrante do processo educacional e é realizado prioritariamente na sala de recursos multifuncionais, no turno inverso da escolarização [T4]. Quanto ao público, os trechos citam os \"estudantes que são público da Educação Especial\", para os quais se destinam o PAEE e o PEI [T2][T3]. A Resolução de 2009 lista como público-alvo alunos com deficiência, com transtornos globais do desenvolvimento e com altas habilidades/superdotação, mas tem termos antigos, e, em conflito, prevalecem o Decreto 12.686/2025 e a Portaria MEC 421/2026 [T4]. Quanto à classe comum, o AEE \"não é substitutivo às classes comuns\" e deve atuar de forma articulada para apoiar a prática pedagógica em sala de aula [T4][T1]. Assim, os trechos não permitem confirmar a lista atual de público-alvo com termos vigentes [T4].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0057",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0049",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0050",
+     "RES-CNE-CEB-4-2009-AEE#0001",
+     "RES-CNE-CEB-4-2009-AEE#0002"
+    ]
+   },
+   "Q24": {
+    "resposta": "Pelo Decreto nº 12.686/2025 (norma), a PNEEI tem a finalidade de garantir o direito à educação em um sistema educacional inclusivo para estudantes com deficiência, com transtorno do espectro autista e com altas habilidades ou superdotação, sem discriminação e com base na igualdade de oportunidades [T5]. Também pela norma, o estudante com transtorno do espectro autista é considerado pessoa com deficiência para fins da PNEEI, e a educação especial é oferecida de forma transversal a todos os níveis, etapas e modalidades [T5]. Entre os princípios estão a educação como direito universal, público e subjetivo, a promoção da equidade, o combate ao capacitismo e à discriminação e a garantia de acessibilidade [T2]. Entre as diretrizes estão a oferta de tecnologias assistivas e adaptações razoáveis, de acordo com as necessidades individuais, e a adoção de medidas de apoio individualizadas e efetivas [T3]. A Portaria MEC nº 421/2026 (norma) regulamenta a PNEEI e a Reneei e determina que a garantia do padrão de qualidade educacional seja expressa pelo conjunto de apoios necessários ao acesso, à permanência, à participação e à aprendizagem [T1]. Os estudantes que são público da educação especial têm direito a ser incluídos em classes e escolas comuns, com o apoio necessário à sua participação, permanência e aprendizagem [T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "PORTARIA-MEC-421-2026-PNEEI#0001",
+     "DECRETO-12686-2025-PNEEI#0002",
+     "DECRETO-12686-2025-PNEEI#0003",
+     "PORTARIA-MEC-421-2026-PNEEI#0000",
+     "DECRETO-12686-2025-PNEEI#0001"
+    ]
+   },
+   "Q25": {
+    "resposta": "**Norma:** para receber atendimento diferenciado, o participante precisa apresentar documentação que ateste a condição e a efetiva necessidade dos recursos solicitados [T5].\n\nOs recursos previstos incluem auxílio para leitura, auxílio para transcrição das respostas para a Folha de Redação e tempo adicional de 60 minutos em cada dia do exame, concedido caso o documento comprobatório seja aprovado [T5].\n\n**Orientação prática:** o auxílio do ledor pode ajudar na redação, pois, ao escutar o próprio texto, o participante pode verificar se ele está coeso, claro, objetivo e coerente [T1].\n\n**Norma:** na correção, o Inep oferece avaliação diferenciada da redação, feita por equipe capacitada para analisar padrões de escrita de pessoas com dislexia e que considera, na avaliação, as dificuldades de escrita desses participantes [T5].\n\nA cartilha afirma que a dislexia não impede o ingresso em universidade e que, ao considerar as especificidades da escrita, o Inep busca uma nota mais justa e equânime [T2].\n\n**Orientação prática:** a redação deve defender um ponto de vista, pois narrar histórias ou escrever poemas leva à anulação da prova [T1].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0009",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0017",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0010",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0016",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001"
+    ]
+   },
+   "Q26": {
+    "resposta": "Os trechos não mencionam TDAH, então não confirmam se o aluno é público-alvo da educação especial. Esse público-alvo é definido como pessoas com deficiência, com transtornos globais do desenvolvimento e com altas habilidades/superdotação [T2][T3]. Para deficiência, a norma fala em impedimentos de longo prazo de natureza física, intelectual, mental ou sensorial, mas a base não diz se o TDAH se enquadra nisso [T3]. O AEE é complementar para deficiência e TGD e suplementar para AH/SD, e serve para eliminar barreiras à escolarização desses estudantes, então o direito depende do enquadramento na categoria [T2]. Segundo a Nota Técnica, o laudo médico não é exigência para essa declaração, e exigir diagnóstico clínico pode configurar barreira e discriminação [T1]. A cartilha em inglês sobre TDAH é material orientativo, não norma nem pesquisa, e descreve outro sistema de elegibilidade (IEP e Section 504), por isso não a usei como base [T4]. A Resolução de 2009 tem aviso de uso: seus termos são antigos e normas posteriores, que não estão na base, prevalecem em caso de conflito, então confira a norma vigente antes de aplicá-la [T3].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "MEC-SECADI-NT-04-2014-LAUDO#0004",
+     "MEC-SECADI-NT-04-2014-LAUDO#0003",
+     "RES-CNE-CEB-4-2009-AEE#0001",
+     "CDC-ADHD-CLASSROOM-2026#0006",
+     "RES-CNE-CEB-4-2009-AEE#0003"
+    ]
+   },
+   "Q27": {
+    "resposta": "Três estudos com alunos do ensino médio com TDAH mostraram efeitos positivos do tempo estendido [T1], enquanto outros três não encontraram impacto significativo no desempenho desses alunos [T2]. Para alunos com dificuldades de aprendizagem (LD), os resultados também se dividem: quatro estudos apontaram efeitos positivos [T1] e quatro não encontraram benefício [T2]. Na síntese da revisão, a pesquisa sobre tempo estendido é considerada inconclusiva, com benefício para alguns alunos com TDAH ou LD em avaliações de conteúdo [T3]. Menos da metade dos alunos com TDAH que tinham acesso ao tempo estendido de fato o utilizou [T1]. Como orientação prática, uma cartilha sugere permitir tempo extra para responder perguntas em aula ou em prova [T5]. Essa cartilha não tem referências e não serve como evidência de eficácia [T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0001",
+     "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0003",
+     "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0005",
+     "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0004",
+     "ABDA-GUIA-PROFESSORES-2012#0001"
+    ]
+   },
+   "Q28": {
+    "resposta": "Trata-se de evidência de pesquisa: uma meta-análise indica que intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo em crianças com sintomas de TDAH [T2][T5]. O tamanho do efeito foi MSMD = 0,92 nos estudos com delineamento intra-sujeitos (WSD) e MSMD = 3,08 nos estudos de sujeito único (SSD) [T5]. Os autores descrevem os efeitos como positivos, de pequenos a grandes, com maior destaque para intervenções baseadas em consequências (WSD, MSMD = 1,82) e de autorregulação (SSD, MSMD = 3,61) [T3]. Os efeitos foram maiores em classes de educação geral do que em outros contextos de sala de aula [T3][T5]. Os valores de WSD e SSD não podem ser comparados diretamente, pois representam unidades de medida diferentes [T1]. Para os SSD, os autores afirmam que interpretar a magnitude absoluta do efeito é difícil, porque faltam diretrizes estatísticas para isso [T1].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0031",
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0039",
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0032",
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0025",
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0000"
+    ]
+   },
+   "Q29": {
+    "resposta": "Na meta-análise, o treino de memória de trabalho melhorou o desempenho nessa função, mas não os sintomas do TDAH, e seu efeito sobre os sintomas foi negligenciável mesmo quando medido pelos avaliadores mais próximos da intervenção [T2][T4]. Efeitos significativos sobre sintomas, sobretudo de desatenção, apareceram só quando os avaliadores estavam mais próximos do tratamento, e ficaram substancialmente reduzidos em análises com grupo controle ativo ou avaliadores provavelmente cegos [T5]. Por isso, os autores veem pouco apoio ao treino cognitivo como tratamento de primeira linha para o TDAH [T5]. Treinos com múltiplos domínios mostraram efeitos maiores sobre sintomas, mas havia apenas 4 estudos com medidas provavelmente cegas, o que impede confirmar esse achado [T4]. Não houve efeito sobre inibição ou atenção, e os ganhos em memória de trabalho não se estenderam aos resultados acadêmicos avaliados [T5]. Esta é evidência de pesquisa (meta-análise de ensaios randomizados controlados), não norma nem orientação prática para a sala de aula [T2][T3].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "YEGENCIK-2025-META-RCT-ESCOLA#0057",
+     "CORTESE-2015-META-TREINO-COGNITIVO#0028",
+     "CORTESE-2015-META-TREINO-COGNITIVO#0003",
+     "CORTESE-2015-META-TREINO-COGNITIVO#0026",
+     "CORTESE-2015-META-TREINO-COGNITIVO#0024"
+    ]
+   },
+   "Q30": {
+    "resposta": "A evidência não permite afirmar que a sala comum melhora ou piora o desempenho acadêmico de forma geral, pois os resultados são inconsistentes e o impacto pode ser positivo ou negativo [T3]. Uma revisão narrativa sugere impacto geral positivo da inclusão, mas os resultados são difíceis de sintetizar [T2]. Uma meta-análise de Wang e Baker encontrou efeitos benéficos pequenos a moderados da inclusão, com tamanho de efeito médio de 0,33, considerando todos os desfechos em conjunto (desempenho, atitudes e processos) [T4]. Para crianças com deficiência intelectual, uma revisão sistemática narrativa, que não incluiu meta-análises, concluiu que as colocadas no ensino comum tiveram melhor desempenho acadêmico do que as de classes especiais [T2]. Por outro lado, o próprio estudo conclui que alguns alunos podem se beneficiar da educação segregada, e não foi possível analisar quais tipos de inclusão funcionam para cada perfil de aluno [T5]. O argumento de que a sala comum pode prejudicar o aluno quando o tempo e os recursos para individualização não correspondem às suas necessidades é uma posição teórica dos opositores, e não um achado da pesquisa [T1].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "DALGAARD-2022-INCLUSAO-META#0016",
+     "DALGAARD-2022-INCLUSAO-META#0021",
+     "DALGAARD-2022-INCLUSAO-META#0001",
+     "DALGAARD-2022-INCLUSAO-META#0019",
+     "DALGAARD-2022-INCLUSAO-META#0009"
+    ]
+   },
+   "Q31": {
+    "resposta": "Há algum indício de que a diferenciação pode melhorar o desempenho acadêmico, com efeitos pequenos a médios, mas essa evidência é limitada e heterogênea [T1]. Os estudos sobre diferenciação dentro da sala no ensino secundário são escassos [T2], e a maioria dos trabalhos existentes foi feita há algum tempo e no ensino fundamental [T1]. Em estudos com agrupamento por habilidade, os efeitos em algumas disciplinas foram pequenos a médios, e em alguns casos grandes, mas os autores afirmam que ainda são necessárias mais informações para confirmar esses achados [T4]. Os efeitos variaram entre grupos: foram mais marcantes para alunos de baixo desempenho e pareceram negligenciáveis para alunos de alto desempenho [T4]. Portanto, o efeito não está comprovado no ensino secundário, pois a base de evidência sobre sua eficácia ainda é limitada [T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0018",
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0014",
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0020",
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0059",
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0073"
+    ]
+   },
+   "Q32": {
+    "resposta": "A meta-análise de ensaios randomizados encontrou melhora no desempenho acadêmico (d = 0,37; p < 0,0001), e não apenas no comportamento [T1]. Na mesma análise, também houve efeito sobre desatenção (d = −0,33), habilidades sociais (d = 0,28) e problemas externalizantes (d = −0,32) [T1]. Não houve efeito significativo sobre hiperatividade/impulsividade (d = −0,09; p = 0,22) [T1]. Os resultados vêm de 22 estudos (n = 1962), mas os autores apontam alta heterogeneidade e possível viés de relato, o que pede cautela na interpretação [T1]. Uma revisão narrativa, que não se restringe a ensaios randomizados, também relata aumento no número de acertos em tarefas acadêmicas, mas alerta para a pouca replicação dos estudos e para a predominância de pesquisas norte-americanas [T5][T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "YEGENCIK-2025-META-RCT-ESCOLA#0000",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035"
+    ]
+   },
+   "Q33": {
+    "resposta": "Evidência: em um estudo com alunos do 5º ano, adaptar a instrução ao estilo preferido (visual ou auditivo) não melhorou o desempenho em compreensão [T1]. Evidência: a revisão de Pashler et al. (2009) não encontrou apoio empírico para a hipótese de que aprender pelo modo preferido gera melhor aprendizagem [T3]. Evidência: 68% dos alunos do estudo não têm uma preferência clara de estilo de aprendizagem [T1]. Ter preferências de aprendizagem nunca foi questionado; o que está em debate é se aprender no estilo preferido gera maior rendimento acadêmico [T3]. Orientação prática: alunos auditivos podem se beneficiar mais de instrução na modalidade não preferida, e o foco deve ser fortalecer as habilidades de leitura de todos os alunos [T2]. Orientação prática: professores e escolas não devem dedicar tempo e recursos ao ensino baseado em estilos de aprendizagem [T1].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0020",
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0021",
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0003",
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0013",
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0002"
+    ]
+   },
+   "Q34": {
+    "resposta": "**Evidência:** Em um estudo com delineamento de caso único com alunos do ensino fundamental com dislexia, a fonte OpenDyslexic não melhorou a velocidade nem a precisão de leitura, nem individualmente nem no grupo [T5]. Rello e Baeza-Yates (2013), com leitores espanhóis com dislexia, também não encontraram melhora significativa no tempo de leitura com OpenDyslexic [T1]. Na dissertação de de Leeuw (2010), a fonte Dyslexie não levou a uma leitura mais rápida, mas pode ajudar com alguns erros relacionados à dislexia [T1]. Para considerar uma intervenção baseada em evidências, são necessários vários estudos independentes com resultados semelhantes, e a compreensão de texto não foi medida diretamente no estudo principal [T3]. **Orientação prática:** Os autores afirmam que educadores não devem gastar tempo com intervenções sem respaldo empírico, e que alunos com dislexia precisam de ensino intensivo e sistemático por professores bem preparados [T3][T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "WERY-2017-FONTE-OPENDYSLEXIC#0004",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0025",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0026",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0020",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0000"
+    ]
+   },
+   "Q35": {
+    "resposta": "Não há, nesses trechos, evidência de ganho geral: em um estudo primário com crianças com dislexia e leitores típicos, o espaçamento aumentado, entre letras ou entre palavras, não trouxe vantagem na velocidade de leitura [T1]. Quando o espaçamento entre letras foi aumentado e o espaço entre palavras foi mantido padrão, a velocidade caiu nos dois grupos, com efeito pequeno [T1], e entre os leitores típicos essa queda foi estatisticamente significativa [T3]. Estudos anteriores relataram resultados diferentes: Zorzi et al. (2012) encontraram melhora com espaçamento extra-grande em crianças com dislexia, mas não igualaram o comprimento das frases [T2]. Hakvoort et al. (2017), com frases de mesmo comprimento, observaram redução de erros, sem aumento da velocidade [T2]. Os autores sugerem que o comprimento das frases e a idade dos participantes podem explicar essas diferenças [T4].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0020",
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0002",
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0019",
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0021",
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0023"
+    ]
+   },
+   "Q36": {
+    "resposta": "Em estudo com educadores do Reino Unido e da Holanda, a crença em neuromitos foi de 49% dos mitos testados [T5]. No Brasil, a acurácia média dos educadores nos neuromitos clássicos foi de 74%, contra 89% nas demais questões sobre o cérebro [T1]. Os trechos não informam diretamente o percentual geral de professores brasileiros que acreditam em neuromitos, apenas as taxas de acerto nesses itens [T1]. Os educadores brasileiros endossaram vários neuromitos comuns, com acurácia menor nesses itens do que nas questões gerais [T2]. Há forte crença em neuromitos clássicos, como o uso de apenas 10% do cérebro, e em mitos mais \"perigosos\", como diferenças de aprendizagem entre os sexos [T2]. Na questão sobre diferenças de aprendizagem entre meninos e meninas, quase 1/3 dos educadores brasileiros acredita nelas [T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "SIMOES-2022-NEUROMITOS-BRASIL#0030",
+     "SIMOES-2022-NEUROMITOS-BRASIL#0035",
+     "SIMOES-2022-NEUROMITOS-BRASIL#0024",
+     "SIMOES-2022-NEUROMITOS-BRASIL#0032",
+     "SIMOES-2022-NEUROMITOS-BRASIL#0004"
+    ]
+   },
+   "Q37": {
+    "resposta": "O estudo indica que não se deve presumir que o texto simplificado mantenha a informação original, pois mesmo os sistemas com melhor desempenho não preservam o sentido do texto [T2]. Ao menos 14% das perguntas ficaram sem resposta, com base no texto gerado pelo melhor sistema, por causa de erros introduzidos por ele [T3][T5]. Esses erros incluem supressões de conteúdo e reescritas imprecisas, que podem mudar a forma como o texto é entendido [T1]. Sistemas supervisionados com conhecimento pré-treinado e o ChatGPT tiveram bons resultados, mas todos os sistemas avaliados cometeram erros críticos [T2]. Alguns sistemas estão corretos o suficiente para justificar estudos de usabilidade, mas a verificação do conteúdo simplificado continua necessária [T2]. Os autores ainda não avaliaram se saídas corretas desses sistemas melhoram a compreensão de pessoas com dificuldade para entender textos complexos, o que pretendem investigar em trabalhos futuros [T2].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0001",
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0034",
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0002",
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0005",
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0000"
+    ]
+   },
+   "Q38": {
+    "resposta": "Um preprint que avaliou GPT-3.5, LLaMA-2 70B e Mixtral 8x7B em 100 materiais educacionais mostrou que exemplos no prompt (few-shot) melhoram a manipulação de legibilidade e a preservação da informação [T3]. Entre os modelos, o LLaMA-2 70B ajustou melhor o nível de leitura, enquanto o GPT-3.5 preservou melhor o conteúdo e o significado [T5]. Mesmo assim, a inspeção manual identificou a introdução de informações incorretas e uma distribuição inconsistente das edições [T3]. Os textos gerados tendem a ficar mais complexos do que o nível pretendido, o que mostra que o ajuste de legibilidade ainda não é confiável [T5]. Os próprios autores afirmam que são necessárias mais pesquisas para garantir a qualidade do conteúdo educacional gerado [T3][T5].",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0005",
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0002",
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0001",
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0007",
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0010"
+    ]
+   },
+   "Q39": {
+    "resposta": "Não encontrei nos documentos da base informação suficiente para responder.",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "AAP-CPG-ADHD-2019#0036",
+     "AAP-CPG-ADHD-2019#0015",
+     "AAP-CPG-ADHD-2019#0051",
+     "AAP-CPG-ADHD-2019#0035",
+     "NICE-NG87-ADHD-2018#0021"
+    ]
+   },
+   "Q40": {
+    "resposta": "Não encontrei nos documentos da base informação suficiente para responder.",
+    "modelo": "claude-haiku-5-5",
+    "fontes": [
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0033",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0027",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0034",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0038",
+     "ABDA-GUIA-PROFESSORES-2012#0000"
+    ]
+   }
+  },
+  "opus": {
+   "Q01": {
+    "resposta": "Divida o enunciado em unidades menores e apresente as informações progressivamente, com indicações explícitas para cada etapa [T3]. Ofereça uma lista de verificação, um organizador, notas ou lembretes para o aluno consultar o que precisa fazer durante a questão [T3]. Retire do material os elementos que distraem, mantendo os que forem essenciais para o objetivo de aprendizagem [T3]. Enquanto ele trabalha, verifique o progresso regularmente e de forma individualizada e responda às perguntas que ele tiver [T1]. Antes de dar a resposta, garanta tempo suficiente para que ele a formule ou faça uma pausa para que a registre no papel ou em um dispositivo eletrônico [T1]. Tudo isso é orientação prática: os trechos não apresentam evidência de pesquisa sobre a eficácia dessas medidas, não estabelecem norma e não tratam especificamente de TDAH [T1][T3].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0030",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0028"
+    ]
+   },
+   "Q02": {
+    "resposta": "Como orientação prática de cartilha, e não como evidência de eficácia, ensine o aluno a dividir o trabalho em várias etapas, o que pode facilitar a resolução e a conclusão e tornar a tarefa menos exaustiva [T1]. Também como orientação prática, evite tarefas longas e repetitivas, prefira as mais curtas, com um pouco de desafio sem serem difíceis demais, e confira se ele entendeu o que precisa fazer [T2]. Permita pausas regulares entre as atividades, com tempo para se movimentar, pois prestar atenção exige esforço extra e pode ser muito cansativo para crianças com TDAH [T2][T3]. Observe e converse com o aluno sobre o que o ajuda ou o distrai, já que recursos como objetos de manipulação, música de fundo ou movimento podem ter efeitos diferentes em cada criança [T2]. Para que ele demonstre domínio do conteúdo, a orientação prática é oferecer opções como redação, apresentação oral, quiz on-line ou projeto prático [T2]. Quanto à evidência de pesquisa, os trechos não avaliam a divisão de tarefas: a meta-análise descreve uma intervenção de organização e planejamento (HOPS), e a revisão narrativa relata resultados positivos no engajamento com o uso do computador [T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0003",
+     "CDC-ADHD-CLASSROOM-2026#0010",
+     "ABDA-GUIA-PROFESSORES-2012#0001",
+     "YEGENCIK-2025-META-RCT-ESCOLA#0049",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030"
+    ]
+   },
+   "Q03": {
+    "resposta": "**Orientação prática:** a cartilha sugere ensinar o aluno a dividir o trabalho em várias etapas, o que pode facilitar a resolução e a conclusão [T2]. Ela também recomenda ensinar técnicas de organização, perguntar sobre dúvidas em sala e permitir tempo extra para responder [T4]. Por virem de uma cartilha sem referências, essas sugestões não constituem evidência de eficácia [T1][T2][T4].\n\n**Diretriz (PCDT do TDAH, Portaria Conjunta SAES/SCTIE nº 14/2022):** o uso de dicas e avisos aumenta a conformidade com o comportamento desejado, e o elogio deve ser específico e vir imediatamente após esse comportamento [T3]. O documento também aponta que programas de reforço são particularmente úteis para alunos com TDAH, pois eles geralmente exigem feedback e recompensa imediatos para mudar o comportamento [T5]. Porém, essas orientações tratam do comportamento em sala, não especificamente da ordem dos passos de um problema, e a evidência de pesquisa aparece apenas de forma indireta, pelas referências citadas na diretriz [T3][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "ABDA-GUIA-PROFESSORES-2012#0003",
+     "MS-PCDT-TDAH-2022#0020",
+     "ABDA-GUIA-PROFESSORES-2012#0001",
+     "MS-PCDT-TDAH-2022#0021"
+    ]
+   },
+   "Q04": {
+    "resposta": "Como orientação prática, ofereça indicações explícitas para cada etapa da atividade e agrupe as informações em unidades menores [T3]. Também é possível mostrar as informações progressivamente, eliminar elementos que distraem e não sejam essenciais ao objetivo de aprendizagem e fornecer listas de verificação ou lembretes [T3]. Para ampliar o engajamento, ajuste o nível de desafio e, quando possível, deixe o aluno escolher entre tipos de atividade ou entre trabalhar sozinho ou em grupo [T1][T5]. Enquanto a turma trabalha, verifique regularmente e de forma individualizada o progresso do aluno e responda às dúvidas dele [T5]. Essas estratégias são orientações práticas baseadas no DUA, e os trechos não apresentam evidência de pesquisa nem norma sobre sua eficácia para ajudar alunos com TDAH a iniciar tarefas [T1][T3][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0010",
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016"
+    ]
+   },
+   "Q05": {
+    "resposta": "Não encontrei nos documentos da base informação suficiente para responder.",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0003",
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "MS-PCDT-TDAH-2022#0020",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0027"
+    ]
+   },
+   "Q06": {
+    "resposta": "**Evidência de pesquisa:** erros de impulsividade são erros de não conseguir esperar, e ajudar crianças pequenas a esperar melhorou o desempenho delas em tarefas de laboratório [T2].\n\n**Evidência de pesquisa:** a espera parece ajudar porque a resposta automática perde força e a resposta correta passa a competir melhor, mesmo quando a criança se ocupa de outra coisa durante esse intervalo [T3].\n\n**Limite da evidência:** esses resultados vêm de tarefas de laboratório com crianças pequenas, e os trechos não os testam com alunos com TDAH em sala de aula [T2][T3].\n\n**Orientação prática (não é norma):** antes de dar a resposta, faça uma pausa para que os alunos a registrem no papel ou em um dispositivo eletrônico, ou a compartilhem com um colega [T1].\n\n**Orientação prática (não é norma):** enquanto a turma realiza a atividade, verifique regularmente e de forma individualizada o progresso do aluno e responda às perguntas que ele tiver [T1].\n\n**Orientação de cartilha (sem valor de evidência de eficácia):** você também pode permitir um tempo extra para ele responder às perguntas durante a aula ou a prova [T4].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+     "DIAMOND-2013-FUNCOES-EXECUTIVAS#0005",
+     "DIAMOND-2013-FUNCOES-EXECUTIVAS#0006",
+     "ABDA-GUIA-PROFESSORES-2012#0001",
+     "ABDA-GUIA-PROFESSORES-2012#0000"
+    ]
+   },
+   "Q07": {
+    "resposta": "Não encontrei nos documentos da base informação suficiente para responder.",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+     "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0010",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0009",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0025",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001"
+    ]
+   },
+   "Q08": {
+    "resposta": "**Norma (PCDT do TDAH):** o reforço simbólico, ou sistema de fichas, oferece uma recompensa imediata, como um adesivo, por atingir uma expectativa específica, como preencher uma planilha, e essa ficha é trocada depois por um reforçador de reserva, como tempo adicional no computador [T2]. O protocolo considera esses programas particularmente úteis para alunos com TDAH, e os critérios podem se tornar mais rigorosos para obter períodos mais longos de comportamento apropriado [T2]. Sobre a família, o mesmo documento afirma que tratamentos psicossociais com coordenação entre escola e casa podem aumentar os efeitos, mas não trata especificamente de relatório diário [T2].\n\n**Evidência de pesquisa:** em um estudo com uma garota com TDAH, comunicação, automonitoramento e extinção, planejados a partir da análise do comportamento, melhoraram os comportamentos-alvo, entre eles não fazer a tarefa [T4]. O reforço positivo com elogios e ícone de sorriso afetou os comportamentos de interesse de forma mais sistemática que o automonitoramento, mas esse estudo envolveu comportamentos sociais no recreio, e não a permanência na tarefa [T4].\n\n**Orientação prática (cartilha, sem valor de evidência de eficácia):** o guia sugere prêmios por comportamentos assertivos, agenda escola-casa e preferência por elogios em vez de críticas [T1][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "MS-PCDT-TDAH-2022#0021",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033",
+     "ABDA-GUIA-PROFESSORES-2012#0003"
+    ]
+   },
+   "Q09": {
+    "resposta": "Como orientação prática, sem valor de prova de eficácia, a cartilha da ABDA sugere sentar o aluno na frente, perto do quadro e do professor, para facilitar o monitoramento, as intervenções e os elogios [T2].\n\nComo diretriz, o NICE NG87 dá como exemplos de modificações ambientais mudar a disposição dos assentos, ajustar a iluminação e o ruído e reduzir distrações, por exemplo com fones de ouvido [T4].\n\nA mesma diretriz afirma que essas modificações são específicas às circunstâncias de cada pessoa e devem ser definidas a partir de uma avaliação de suas necessidades [T4].\n\nTambém como orientação prática, a cartilha *ADHD in the Classroom* recomenda minimizar as distrações na sala e conversar com o aluno sobre o que o ajuda ou distrai, pois a música de fundo, por exemplo, pode ajudar ou atrapalhar, dependendo da criança [T3].\n\nQuanto à evidência de pesquisa, há informação limitada sobre quais acomodações são eficazes para crianças com TDAH, e as evidências citadas tratam de expectativas claras, feedback positivo imediato e relatório diário aos pais, não de ajustes no ambiente [T1].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "CDC-ADHD-CLASSROOM-2026#0008",
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "CDC-ADHD-CLASSROOM-2026#0010",
+     "NICE-NG87-ADHD-2018#0031",
+     "ABDA-GUIA-PROFESSORES-2012#0004"
+    ]
+   },
+   "Q10": {
+    "resposta": "Não encontrei nos documentos da base informação suficiente para responder.",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ABDA-GUIA-PROFESSORES-2012#0003",
+     "ABDA-GUIA-PROFESSORES-2012#0000",
+     "ABDA-GUIA-PROFESSORES-2012#0002",
+     "MS-PCDT-TDAH-2022#0020",
+     "ABDA-GUIA-PROFESSORES-2012#0001"
+    ]
+   },
+   "Q11": {
+    "resposta": "Os três princípios do DUA são proporcionar modos múltiplos de Apresentação (o \"o quê\" da aprendizagem), de Ação e Expressão (o \"como\") e de Implicação, Engajamento e Envolvimento (o \"porquê\") [T2]. Na tradução da versão 3.0, o primeiro aparece como princípio da Representação e o terceiro, como princípio do Engajamento [T4][T5]. Como fundamento de pesquisa, as Diretrizes afirmam que esses princípios se baseiam em investigação neurocientífica [T2]. Segundo Nelson (2013), o DUA se fundamenta em pesquisas científicas sobre a aprendizagem, e esses aspectos têm como premissa estudos sobre as redes de reconhecimento, estratégicas e afetivas [T3]. Como orientação prática, o princípio da Ação e Expressão pode ser aplicado com mapas conceituais, discussões em pequenos grupos e exercícios orais [T1].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0013",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0009",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0004"
+    ]
+   },
+   "Q12": {
+    "resposta": "A versão 3.0 das Diretrizes do DUA foi publicada em 30 de julho de 2024, após a atualização anterior, de 2020 [T1]. A principal mudança descrita é a resposta a um forte apelo de profissionais e pesquisadores para abordar barreiras importantes enraizadas em preconceitos e sistemas de exclusão [T1]. Com isso, a atualização busca cumprir a promessa de orientar a concepção de ambientes de aprendizagem que honrem e valorizem mais plenamente cada aluno [T1]. Esse foco aparece na versão 3.0 em pontos de verificação como o 2.4 (\"Trabalhar os preconceitos no uso da linguagem e dos símbolos\") e o 6.5 (\"Questionar práticas excludentes\"), embora os trechos não informem se eles são novos [T3][T4]. A numeração dos pontos de verificação difere entre as versões 2.0 e 3.0, e a 3.0 prevalece para numeração e texto [T5]. Essas informações descrevem uma orientação prática, não uma norma nem um resultado de pesquisa, pois as Diretrizes são uma ferramenta de sugestões concretas, atualizada com base em novas pesquisas e no feedback de profissionais [T1][T2].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0001",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0000",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0005",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0023"
+    ]
+   },
+   "Q13": {
+    "resposta": "**Orientação prática (Diretrizes DUA 3.0):** um conceito-chave apresentado em texto expositivo ou equação matemática também pode ser mostrado em ilustração, diagrama, tabela, modelo, vídeo, história em quadrinhos, fotografia, animação, dança/movimento ou manipulativo físico ou virtual [T2].\n\nAo combinar formatos, é importante esclarecer as conexões entre as informações do texto e sua representação em ilustrações, equações, gráficos ou diagramas [T2].\n\nImagens, gráficos, vídeos e animações podem ser acompanhados de descrições ou audiodescrições, e os conceitos visuais importantes podem ganhar modelos táteis, objetos físicos e explicações auditivas [T5].\n\nO texto escrito pode ser lido em voz alta por um apoio, parceiro ou “leitor” competente, ou convertido em fala por software [T5].\n\nA mesma informação também pode ser oferecida por diferentes canais, como visão, audição ou tato, e em formatos ajustáveis, como textos ampliáveis e sons amplificáveis [T4].\n\n**Natureza da fonte:** esses exemplos são orientações práticas, não norma nem resultado de pesquisa, e os trechos justificam a variedade de formatos por não existir um meio de representação ideal para todos os alunos, mas não tratam especificamente de TDAH [T2][T3][T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0042",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0028",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0030",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0033"
+    ]
+   },
+   "Q14": {
+    "resposta": "Como orientação prática, as Diretrizes DUA 3.0 indicam que nenhum meio de expressão é ideal para todos, por isso a avaliação deve oferecer múltiplas modalidades para reduzir barreiras de comunicação [T2][T3].\n\nNa prática, o aluno pode demonstrar o que sabe por meio de produções orais, escritas, visuais, corporais, artísticas ou multimodais, além de portfólios, relatórios, apresentações e projetos [T4].\n\nPara não reduzir a habilidade avaliada, o caderno pedagógico orienta oferecer caminhos acessíveis e equivalentes, preservando os objetivos de aprendizagem definidos para a turma [T4].\n\nO mesmo caderno sugere apoios ligados às barreiras identificadas, como editores de texto e recursos de Tecnologia Assistiva, além de tempo adequado para realizar as atividades [T4].\n\nUm artigo sobre DUA cita como exemplos os mapas conceituais on-line ou em papel, as discussões em pequenos grupos, o pensar “em voz alta” e os exercícios orais [T5].\n\nEsses trechos trazem orientações e exemplos, sem apresentar norma aplicável, resultados de eficácia ou recomendações específicas para alunos com TDAH [T2][T3][T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0049",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0055",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0022",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0013"
+    ]
+   },
+   "Q15": {
+    "resposta": "Tudo o que segue é orientação prática das Diretrizes do DUA, pois os trechos não apresentam resultados de pesquisa nem norma legal [T1][T3][T5]. Para despertar o interesse, o DUA considera essenciais múltiplas opções de engajamento, já que nenhum meio de envolvimento é ideal para todos os estudantes em todos os contextos [T1]. A Diretriz 7 orienta otimizar a escolha e a autonomia (7.1), otimizar a relevância, o valor e a autenticidade (7.2), cultivar a alegria e a diversão (7.3) e tratar preconceitos, ameaças e distrações (7.4) [T4]. Para sustentar o esforço e a persistência, a Diretriz 8 orienta esclarecer o significado e o propósito dos objetivos (8.1), otimizar o desafio e o suporte (8.2), promover a colaboração (8.3), promover o pertencimento (8.4) e oferecer feedback orientado para a ação (8.5) [T3][T4]. Como exemplos práticos da versão 2.0, o professor pode usar lembretes periódicos do objetivo e de sua relevância, pedir que os alunos o formulem explicitamente, apresentá-lo de diferentes maneiras e incentivar a divisão de metas de longo prazo em objetivos de curto prazo [T5]. A mesma versão sugere ainda ajustar o ritmo de trabalho, a duração das sessões, a disponibilidade de pausas e a sequência das atividades [T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0002",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0015",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0003",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0048"
+    ]
+   },
+   "Q16": {
+    "resposta": "Não: nas Diretrizes DUA (orientação prática), aplicar o termo DUA a adaptações feitas posteriormente é um erro, pois ele se refere a projetar objetivos, métodos, materiais e avaliação desde o início, de forma intencional e sistemática, para abordar diferenças individuais [T1].\nPlanejar para todos é considerar a variabilidade dos estudantes como regra, e não exceção, oferecendo desde o princípio opções flexíveis e personalizáveis, em vez de desenhar o currículo para uma média imaginária [T4].\nAdaptar para um aluno, por sua vez, é ajustar depois um currículo inflexível que não foi projetado para atender à diversidade individual [T1].\nAs duas abordagens não se excluem, pois um artigo sobre inclusão escolar, com base em Orsati (2013), indica que, para alunos com necessidades mais complexas, é relevante pensar em um Planejamento Educacional Individualizado elaborado por toda a equipe escolar [T5].\nComo orientação prática, o mesmo artigo cita o aluno que faz a mesma atividade respondendo cinco de dez exercícios (programa individualizado) ou usando calculadora para responder aos dez com o mesmo objetivo (suporte individualizado), e recomenda avaliar quando essas estratégias são necessárias e quando ele pode realizar as mesmas atividades sem acomodações [T3].\nQuanto à evidência e à norma, os trechos apenas mencionam pesquisas sobre práticas baseadas em evidências para estudantes dos extremos, sem comparar as duas abordagens, e citam a PNEE-EI ao descrever a organização histórica da Educação Especial, não para definir essa diferença [T1][T2].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0017",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0003",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0006",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0014"
+    ]
+   },
+   "Q17": {
+    "resposta": "Na versão 3.0 do DUA, que prevalece para a numeração e o texto dos pontos de verificação, a Diretriz 6 (Desenvolvimento de Estratégias) recomenda estabelecer metas significativas, desafiadoras e pessoais (6.1) e prever e planejar desafios, formulando planos razoáveis para atingi-las (6.2) [T2][T3][T4]. A mesma diretriz recomenda organizar informações e recursos com ferramentas e processos flexíveis (6.3) e melhorar a monitorização do progresso, analisando o crescimento ao longo do tempo e como progredir a partir dele (6.4) [T2][T4]. Como exemplos práticos para definir metas, a versão 2.0 sugere oferecer modelos do processo e do resultado, fornecer listas de verificação e deixar metas, objetivos e planos em local visível [T3]. Para o planejamento, a versão 2.0 sugere avisos para parar e pensar antes de agir, modelos de planejamento com prioridades, sequência e tempo das etapas, e a divisão de metas de longo prazo em objetivos atingíveis de curto prazo [T3]. Para acompanhar o próprio progresso, o ponto 9.3 da versão 3.0 orienta usar dispositivos, recursos ou gráficos para coletar, mapear e exibir dados, além de adotar protocolos de reflexão individual e coletiva [T5]. Esse conteúdo é orientação prática das diretrizes do DUA, pois os trechos não apresentam norma nem resultados de pesquisa sobre a eficácia dessas estratégias [T1][T2][T3][T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0006",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+     "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0025"
+    ]
+   },
+   "Q18": {
+    "resposta": "**Orientação prática:** ao planejar a aula, considere múltiplas formas de representação, expressão e engajamento, usando as diretrizes do DUA como referencial que reconhece a variabilidade dos estudantes como parte do ensino e da aprendizagem [T1].\n\n**Exemplo prático (relato docente):** na experiência apresentada no Caderno, a professora diversificou as formas de apresentação e expressão do conhecimento com relatos orais e escritos, encenações teatrais e tecnologias digitais, para que os estudantes acessassem e demonstrassem suas aprendizagens por diferentes caminhos [T2][T3].\n\n**Trabalho colaborativo:** nesse mesmo relato, a atuação com a professora do AEE ajudou a identificar barreiras e construir estratégias de acessibilidade, como comunicação alternativa e materiais bilíngues, com o PAEE articulado ao planejamento da sala comum [T3].\n\n**Resultados e limites:** o relato indica maior participação dos estudantes, mas essa observação vem de uma experiência docente e não de uma pesquisa de eficácia apresentada nos trechos, e seus desafios incluíram turma numerosa, necessidade de domínio de Tecnologia Assistiva e falta de tempo institucional para o planejamento colaborativo [T2][T3].\n\n**Norma:** a LDBEN 9394/96 e suas atualizações, as Diretrizes Operacionais do AEE, a LBI e o Decreto 12.686 são citados como base para organizar os serviços de Educação Especial de modo a garantir condições acessíveis na classe comum [T5].\n\n**Limite para o TDAH:** o Caderno define como público estudantes com deficiência, transtorno do espectro autista e altas habilidades ou superdotação, e os trechos não apresentam exemplos específicos para alunos com TDAH [T4].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0019",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0025",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0028",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0067",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0062"
+    ]
+   },
+   "Q19": {
+    "resposta": "Como norma vigente, a Lei nº 14.254/2021 determina que o poder público desenvolva e mantenha um programa de acompanhamento integral para educandos com dislexia, TDAH ou outro transtorno de aprendizagem [T5]. Esse acompanhamento compreende a identificação precoce do transtorno, o encaminhamento para diagnóstico, o apoio educacional na rede de ensino e o apoio terapêutico especializado na rede de saúde [T5]. As escolas da educação básica, públicas e privadas, devem garantir o cuidado e a proteção a esses educandos, com o apoio da família e dos serviços de saúde existentes, visando ao seu pleno desenvolvimento físico, mental, moral, espiritual e social [T1]. Quando alterações na leitura e na escrita ou instabilidade na atenção repercutirem na aprendizagem, o educando deve ter assegurado, o mais precocemente possível, acompanhamento específico para sua dificuldade pelos educadores da escola, podendo contar com apoio e orientação das áreas de saúde, de assistência social e de outras políticas públicas [T3]. Os sistemas de ensino também devem garantir aos professores amplo acesso à informação e formação continuada para identificar precocemente os sinais e realizar o atendimento educacional escolar desses educandos [T2]. Esses pontos têm natureza de norma legal, pois os trechos consultados não apresentam evidências de pesquisa nem orientações práticas [T1][T2][T3][T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "LEI-14254-2021-DISLEXIA-TDAH#0002",
+     "LEI-14254-2021-DISLEXIA-TDAH#0005",
+     "LEI-14254-2021-DISLEXIA-TDAH#0003",
+     "LEI-14254-2021-DISLEXIA-TDAH#0000",
+     "LEI-14254-2021-DISLEXIA-TDAH#0001"
+    ]
+   },
+   "Q20": {
+    "resposta": "Não: pela Nota Técnica nº 04/2014 do MEC, norma vigente, o laudo médico não é imprescindível, pois o Atendimento Educacional Especializado (AEE) é pedagógico, e não clínico [T1].\nA norma afirma que exigir diagnóstico clínico para garantir o atendimento às especificidades educacionais impõe barreiras ao acesso e configura discriminação e cerceamento de direito [T1].\nO laudo pode ser anexado ao Plano de AEE como documento complementar, quando a escola julgar necessário, mas não é obrigatório [T1].\nO documento comprobatório de que a escola reconhece a matrícula do estudante e assegura o atendimento é o Plano de AEE, elaborado pelo professor do AEE [T1][T2].\nComo orientação prática da própria Nota, o Plano deve partir de um estudo de caso de cunho educacional, que não depende de laudo e permite à escola adotar estratégias pedagógicas e de acessibilidade [T5].\nEssas informações são normativas, não evidências de pesquisa, e se referem a alunos com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação, sem que os trechos mencionem o TDAH [T1][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "MEC-SECADI-NT-04-2014-LAUDO#0004",
+     "MEC-SECADI-NT-04-2014-LAUDO#0003",
+     "MEC-SECADI-NT-04-2014-LAUDO#0001",
+     "MEC-SECADI-NT-04-2014-LAUDO#0002",
+     "MEC-SECADI-NT-04-2014-LAUDO#0005"
+    ]
+   },
+   "Q21": {
+    "resposta": "Como norma, o art. 3º, IV, da LBI define barreiras como qualquer entrave, obstáculo, atitude ou comportamento que limite ou impeça a participação social da pessoa, bem como o gozo, a fruição e o exercício de seus direitos, entre eles a acessibilidade, a comunicação, o acesso à informação e a compreensão [T3].\n\nA lei classifica as barreiras em urbanísticas, arquitetônicas, nos transportes, nas comunicações e na informação, atitudinais e tecnológicas [T3].\n\nTambém como norma, o art. 3º, VI, define adaptações razoáveis como adaptações, modificações e ajustes necessários e adequados, que não acarretem ônus desproporcional e indevido, quando requeridos em cada caso, a fim de assegurar que a pessoa com deficiência possa gozar ou exercer, em igualdade de condições e oportunidades com as demais pessoas, todos os direitos e liberdades fundamentais [T1].\n\nNo campo educacional, o art. 28, III, prevê projeto pedagógico que institucionalize as adaptações razoáveis para garantir aos estudantes com deficiência o pleno acesso ao currículo em condições de igualdade [T2].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0003",
+     "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0006",
+     "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0002",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0007",
+     "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0005"
+    ]
+   },
+   "Q22": {
+    "resposta": "Como norma, e não como evidência de pesquisa ou orientação prática, o art. 24, inciso V, alínea \"a\", da LDB determina que a verificação do rendimento escolar observe a avaliação contínua e cumulativa do desempenho do aluno [T2]. Essa avaliação deve dar prevalência aos aspectos qualitativos sobre os quantitativos e aos resultados ao longo do período sobre os de eventuais provas finais [T2]. A alínea \"e\" do mesmo inciso torna obrigatórios os estudos de recuperação para os casos de baixo rendimento escolar, de preferência paralelos ao período letivo e disciplinados pelas instituições de ensino em seus regimentos [T2][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0004",
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0000",
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0005",
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0002",
+     "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0001"
+    ]
+   },
+   "Q23": {
+    "resposta": "**Norma:** o AEE é parte integrante do processo educacional e, segundo a Política Nacional de Educação Especial Inclusiva (Decreto nº 12.686/2025), é uma ação transversal a todos os níveis e modalidades de ensino [T2][T4].\n\n**Norma:** a Resolução CNE/CEB nº 4/2009 define como público do AEE os alunos com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação, mas usa termos antigos e, em caso de conflito, prevalecem o Decreto nº 12.686/2025 e a Portaria MEC nº 421/2026 [T4].\n\n**Atenção ao TDAH:** ele não aparece nominalmente nessa lista, e os trechos disponíveis não permitem concluir se estudantes com TDAH têm direito ao AEE [T4].\n\n**Norma:** o AEE não substitui a classe comum, pois é realizado prioritariamente na sala de recursos multifuncionais, no turno inverso da escolarização, e a política nacional assegura a participação e a aprendizagem do público da Educação Especial em classes comuns [T2][T4].\n\n**Orientação prática:** o professor do AEE e o da classe comum devem planejar em conjunto e atuar de forma colaborativa, cabendo ao AEE dar suporte ao estudante na classe comum [T1][T2].\n\n**Evidência de pesquisa:** os trechos trazem normas e orientações, mas não apresentam resultados de pesquisa sobre o AEE [T1][T2][T3][T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0057",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0049",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0050",
+     "RES-CNE-CEB-4-2009-AEE#0001",
+     "RES-CNE-CEB-4-2009-AEE#0002"
+    ]
+   },
+   "Q24": {
+    "resposta": "**Norma vigente:** o Decreto nº 12.686/2025 institui a PNEEI para garantir o direito à educação em um sistema educacional inclusivo a estudantes com deficiência, com transtorno do espectro autista e com altas habilidades ou superdotação, sem discriminação e com base na igualdade de oportunidades [T5].\n\nEsses estudantes têm direito a ser incluídos em classes e escolas comuns, com o apoio necessário à participação, à permanência e à aprendizagem, e a educação especial deve ser oferecida de forma transversal a todos os níveis, etapas e modalidades [T5].\n\nEntre os princípios da política estão a igualdade de oportunidades e condições, a promoção da equidade, o combate ao capacitismo e à discriminação e a garantia de acessibilidade [T2].\n\nEntre as diretrizes estão a oferta de tecnologias assistivas e adaptações razoáveis conforme as necessidades individuais, a adoção de medidas de apoio individualizadas e efetivas e a oferta de Atendimento Educacional Especializado, preferencialmente nas escolas comuns da rede regular [T3].\n\nA Portaria MEC nº 421/2026 dispõe sobre a PNEEI e a Reneei e determina que o padrão de qualidade educacional seja expresso pelo conjunto de apoios necessários ao acesso, à permanência, à participação e à aprendizagem [T1][T4].\n\nTodos os trechos são normas, sem evidência de pesquisa ou orientação prática, e o público descrito no art. 1º do Decreto não menciona expressamente o TDAH [T1][T2][T3][T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "PORTARIA-MEC-421-2026-PNEEI#0001",
+     "DECRETO-12686-2025-PNEEI#0002",
+     "DECRETO-12686-2025-PNEEI#0003",
+     "PORTARIA-MEC-421-2026-PNEEI#0000",
+     "DECRETO-12686-2025-PNEEI#0001"
+    ]
+   },
+   "Q25": {
+    "resposta": "**Norma:** a lei mencionada na cartilha assegura critérios adequados de avaliação das provas escritas discursivas ou de redação para o ingresso no ensino superior, de acordo com as características linguísticas da pessoa com deficiência [T5].\n\n**Norma (Edital do Enem 2026, conforme a cartilha):** os recursos previstos são auxílio para leitura, auxílio para transcrição para o Cartão Resposta e a Folha de Redação e 60 minutos adicionais em cada dia do exame [T5].\n\n**Condição de acesso:** o participante precisa apresentar documentação que ateste a condição e a efetiva necessidade dos recursos e serviços profissionais solicitados [T5].\n\n**Correção:** o Inep oferece avaliação diferenciada da redação, com avaliadores capacitados para analisar os padrões de escrita de pessoas com dislexia e considerar as dificuldades de escrita desses participantes [T5].\n\n**Exigências mantidas:** a cartilha alerta esses participantes de que narrar histórias ou escrever poemas leva à anulação da prova e de que copiar trechos dos textos motivadores pode tirar pontos ou anular a redação [T1].\n\n**Orientação prática da cartilha (não é evidência de pesquisa):** o aluno pode contar com o ledor durante a prova para escutar a própria redação e verificar se o texto está coeso, claro, objetivo e coerente [T1].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0009",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0017",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0010",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0016",
+     "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001"
+    ]
+   },
+   "Q26": {
+    "resposta": "**Norma:** a Resolução CNE/CEB nº 4/2009 considera público-alvo do AEE os alunos com deficiência, com transtornos globais do desenvolvimento e com altas habilidades/superdotação [T3].\n\n**Norma:** o TDAH não é citado nessa lista nem entre os quadros incluídos em transtornos globais do desenvolvimento, portanto os trechos não sustentam que esse diagnóstico, por si só, torne o aluno público-alvo ou lhe garanta o AEE [T1][T3].\n\n**Limite da conclusão:** em caso de conflito com essa resolução, prevalecem o Decreto 12.686/2025 e a Portaria MEC 421/2026, mas o conteúdo deles não consta dos trechos, o que impede uma resposta definitiva sobre a regra atual [T3].\n\n**Norma:** para estudantes público-alvo, a Nota Técnica nº 04/2014 afirma que o laudo médico é complementar e não obrigatório, pois o AEE é um atendimento pedagógico, e não clínico [T1].\n\n**Orientação prática:** a cartilha em inglês informa que crianças com TDAH podem ser elegíveis a serviços de educação especial pela categoria \"other health impairment\", com apoio por IEP ou Section 504 Plan, mas esses mecanismos não aparecem nas normas brasileiras apresentadas e não comprovam direito ao AEE [T1][T3][T4].\n\n**Evidência de pesquisa:** os trechos disponíveis são normas e uma cartilha, sem evidência de pesquisa sobre essa questão [T1][T2][T3][T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "MEC-SECADI-NT-04-2014-LAUDO#0004",
+     "MEC-SECADI-NT-04-2014-LAUDO#0003",
+     "RES-CNE-CEB-4-2009-AEE#0001",
+     "CDC-ADHD-CLASSROOM-2026#0006",
+     "RES-CNE-CEB-4-2009-AEE#0003"
+    ]
+   },
+   "Q27": {
+    "resposta": "**Evidência de pesquisa:** uma revisão narrativa do NCEO considera os resultados inconclusivos, mas indica que alguns alunos com TDAH ou dificuldades de aprendizagem (*learning disabilities*, LD) podem se beneficiar do tempo extra em provas de conteúdo [T3]. Sobre TDAH, três estudos encontraram efeitos positivos, como notas um pouco maiores em leitura para alguns alunos, enquanto outros três não encontraram impacto significativo no desempenho [T1][T2]. Sobre LD, o quadro também é dividido: quatro estudos indicaram efeitos positivos e quatro não encontraram impacto no desempenho [T1][T2]. O acesso ao tempo extra não garante seu uso, pois, em um estudo, menos da metade dos alunos com TDAH que podiam usá-lo o fez [T1]. Muitas pesquisas avaliaram o tempo extra junto com outras adaptações, como leitura oral e pausas, e essa combinação não parece melhorar o desempenho de forma consistente [T3].\n\n**Orientação prática:** a cartilha recomenda permitir tempo extra em aula e na prova, mas, por não ter referências, essa recomendação não é norma nem prova de eficácia [T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0001",
+     "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0003",
+     "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0005",
+     "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0004",
+     "ABDA-GUIA-PROFESSORES-2012#0001"
+    ]
+   },
+   "Q28": {
+    "resposta": "Sim: segundo evidência de pesquisa de uma meta-análise com 24 estudos de delineamento intrassujeitos (WSD) e 76 de sujeito único (SSD), as intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com sintomas de TDAH [T1][T5].\nNos estudos WSD, o efeito foi grande (MSMD = 0,92) [T1].\nNos estudos SSD, o efeito também foi positivo (MSMD = 3,08), mas é difícil interpretar sua magnitude absoluta por falta de parâmetros estatísticos, e os valores de WSD e SSD não podem ser comparados diretamente porque usam unidades de medida diferentes [T1].\nOs maiores efeitos variaram conforme o delineamento: nos estudos WSD, foram os das intervenções baseadas em consequências (MSMD = 1,82), e nos estudos SSD, os das intervenções de autorregulação (MSMD = 3,61) [T3].\nOs efeitos foram maiores em turmas de ensino regular (WSD: MSMD = 1,30; SSD: MSMD = 3,58) do que em outros contextos de sala de aula (WSD: MSMD = 0,64; SSD: MSMD = 2,41), diferença que pode refletir as populações atendidas ou os tratamentos aplicados em cada contexto [T3].\nNão foi possível tirar conclusões confiáveis sobre a influência do tipo de medida nem da idade, do gênero, da inteligência e do uso de medicação dos alunos, principalmente por problemas de poder estatístico [T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0031",
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0039",
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0032",
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0025",
+     "GAASTRA-2016-META-INTERVENCOES-SALA#0000"
+    ]
+   },
+   "Q29": {
+    "resposta": "Evidência de pesquisa de uma meta-análise de ensaios clínicos randomizados indica que o treino cognitivo melhora o desempenho em memória de trabalho, mas tem efeitos limitados sobre os sintomas do TDAH em avaliações cegas [T3].\n\nHá efeitos significativos nas avaliações feitas por quem está mais próximo da intervenção, especialmente para desatenção, mas eles diminuem substancialmente em ensaios com controle ativo ou com avaliadores provavelmente cegos à alocação [T5].\n\nNo treino exclusivo de memória de trabalho, os efeitos sobre o TDAH foram negligenciáveis mesmo nas medidas mais proximais, o que sugere pouca ou nenhuma eficácia para os sintomas centrais [T4].\n\nOs testes objetivos mostraram melhoras grandes na memória de trabalho visual e verbal, mas não houve efeitos sobre inibição ou desatenção, e os ganhos não se estenderam aos desfechos acadêmicos analisados [T5].\n\nTreinos voltados a múltiplos domínios tiveram efeito substancialmente maior nas medidas proximais, mas apenas 4 ensaios usaram medidas provavelmente cegas, número insuficiente para corroborar esse resultado com fontes independentes [T4].\n\nEsses achados são evidência de pesquisa, pois os trechos usados não apresentam norma nem orientação prática para a sala de aula sobre esse tema [T3][T4][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "YEGENCIK-2025-META-RCT-ESCOLA#0057",
+     "CORTESE-2015-META-TREINO-COGNITIVO#0028",
+     "CORTESE-2015-META-TREINO-COGNITIVO#0003",
+     "CORTESE-2015-META-TREINO-COGNITIVO#0026",
+     "CORTESE-2015-META-TREINO-COGNITIVO#0024"
+    ]
+   },
+   "Q30": {
+    "resposta": "**Evidência de pesquisa:** não há resposta única, pois a revisão sugere que alguns alunos com necessidades especiais podem se beneficiar da inclusão, enquanto outros podem se beneficiar do ensino especial em ambiente segregado [T5]. A revisão não conseguiu examinar os efeitos de diferentes tipos de inclusão para diferentes perfis de alunos [T5]. O conhecimento disponível é inconsistente, e várias revisões apontam fragilidades metodológicas nos estudos primários [T3].\n\n**Resultados favoráveis:** uma meta-análise de 11 estudos encontrou efeitos benéficos pequenos a moderados da inclusão, com efeito médio de 0,33, mas esse valor reúne desempenho, atitudes e processos, sem medir apenas o desempenho acadêmico [T4]. Uma meta-análise de 6 estudos encontrou efeito médio de 0,40 para a codocência em notas, desempenho e desfechos sociais e atitudinais, mas não está claro quais foram as condições de controle, e dois estudos não tiveram grupo de controle [T2].\n\n**Hipótese, não resultado medido:** opositores da inclusão sugerem que a sala comum pode prejudicar o aluno, sobretudo quando o tempo e os recursos para individualização e diferenciação não atendem às suas necessidades [T1][T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "DALGAARD-2022-INCLUSAO-META#0016",
+     "DALGAARD-2022-INCLUSAO-META#0021",
+     "DALGAARD-2022-INCLUSAO-META#0001",
+     "DALGAARD-2022-INCLUSAO-META#0019",
+     "DALGAARD-2022-INCLUSAO-META#0009"
+    ]
+   },
+   "Q31": {
+    "resposta": "Não há efeito comprovado: como evidência de pesquisa, a revisão sistemática conclui que há um corpo limitado de evidências sobre a eficácia da diferenciação dentro da sala de aula no ensino secundário [T5].\nRevisões anteriores indicam algum potencial de efeito positivo, de pequeno a médio, no desempenho acadêmico, mas essa evidência é limitada e heterogênea, e a maioria dos estudos é antiga e foi feita na educação primária [T1].\nOs achados também variam entre as sínteses, pois algumas revisões relataram efeitos positivos, enquanto a meta-análise de larga escala de Scheerens (2016) encontrou efeito muito pequeno do ensino adaptativo sobre o desempenho [T2].\nNos estudos com agrupamento homogêneo, foi possível inferir efeitos gerais pequenos a médios, e em alguns casos grandes, nas disciplinas chamadas de \"beta\", embora ainda sejam necessárias mais informações para corroborar esses resultados [T4].\nNos dois estudos maiores dessa abordagem, os ganhos se concentraram nos alunos de desempenho baixo ou baixo e médio, enquanto o efeito para o grupo de alto desempenho pareceu insignificante [T4].\nComo implicação prática extraída da pesquisa, e não como norma, a implementação tende a ser complexa, já que os professores dependeram de apoio externo nas intervenções e os que recebem mais formação em diferenciação adaptam o ensino com mais frequência [T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0018",
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0014",
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0020",
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0059",
+     "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0073"
+    ]
+   },
+   "Q32": {
+    "resposta": "Melhoram os dois: na meta-análise de ensaios clínicos randomizados em contexto escolar, 22 estudos (n = 1962) entraram nas análises, com efeito significativo no desempenho acadêmico (d = 0,37; p < 0,0001) [T1]. Essa mesma evidência de pesquisa mostrou melhora em desatenção (d = −0,33), sintomas combinados de TDAH (d = −0,28) e habilidades sociais (d = 0,28), além de redução de problemas externalizantes (d = −0,32) [T1]. Não houve efeito significativo em hiperatividade/impulsividade (d = −0,09; p = 0,22), portanto a melhora não alcançou todos os aspectos comportamentais [T1]. Os autores ressaltam que há questões a considerar nesses resultados, como a alta heterogeneidade e o possível viés de relato [T1].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "YEGENCIK-2025-META-RCT-ESCOLA#0000",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030",
+     "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035"
+    ]
+   },
+   "Q33": {
+    "resposta": "Não, pois a evidência de pesquisa de um estudo com alunos do 5º ano indica que adequar o ensino ao estilo auditivo ou visual do aluno não teve efeito sobre o desempenho [T1]. Nesse estudo, 68% dos alunos não tinham preferência clara de estilo, e aqueles que tinham não aprenderam melhor ao receber instrução no estilo preferido [T1]. Revisões de pesquisa também não encontraram apoio aos estilos de aprendizagem, embora nenhuma delas tenha incluído um estudo com crianças em idade escolar [T3]. A existência de preferências não é questionada, pois o debate é se aprender no estilo preferido leva a maior desempenho acadêmico [T3]. Como orientação prática, os autores recomendam não dedicar tempo e recursos a esse tipo de ensino e sugerem que pode ser especialmente importante fortalecer a leitura de todos os alunos, sobretudo dos que preferem o estilo auditivo [T1][T2]. Quanto ao estilo cinestésico, a evidência é limitada, pois o estudo investigou os estilos auditivo e visual, e a pesquisa citada que incluiu o cinestésico não avaliou o desempenho dos alunos [T3][T4].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0020",
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0021",
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0003",
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0013",
+     "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0002"
+    ]
+   },
+   "Q34": {
+    "resposta": "**Evidência de pesquisa:** em um estudo de caso único com alunos do ensino fundamental com dislexia, a OpenDyslexic não melhorou a velocidade nem a precisão da leitura em comparação com Arial e Times New Roman, seja individualmente ou no grupo [T5].\n\nNenhum participante disse preferir ler nessa fonte, e os autores concluem que pode não haver benefício em converter materiais impressos para ela [T5].\n\nEm estudos anteriores, a OpenDyslexic não melhorou significativamente o tempo de leitura de leitores de espanhol com dislexia, enquanto a Dyslexie não levou a uma leitura mais rápida entre 21 estudantes holandeses com dislexia, embora possa ajudar com alguns erros relacionados à dislexia [T1].\n\n**Limites da evidência:** o estudo com a OpenDyslexic não mediu diretamente a compreensão de texto, e seus resultados ainda precisam ser verificados por outras pesquisas [T3].\n\nEsses resultados se referem a alunos com dislexia, não a alunos com TDAH [T1][T5].\n\n**Orientação prática dos autores:** em vez de recorrer à fonte, os educadores devem priorizar intervenções com comprovação empírica, como a instrução intensiva e sistemática em consciência fonológica, fonética e fluência [T2][T3].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "WERY-2017-FONTE-OPENDYSLEXIC#0004",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0025",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0026",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0020",
+     "WERY-2017-FONTE-OPENDYSLEXIC#0000"
+    ]
+   },
+   "Q35": {
+    "resposta": "Os trechos são de um estudo primário, portanto trazem evidência de pesquisa, não norma nem orientação prática, e os resultados relatados sobre o espaçamento são divergentes [T1][T2]. Zorzi et al. (2012) relataram melhora na leitura de crianças com dislexia com espaçamento extragrande entre letras, mas não igualaram o comprimento das frases comparadas, e linhas mais curtas facilitam a leitura [T2]. Com frases de mesmo comprimento, Hakvoort et al. (2017) observaram redução significativa de erros, mas nenhum aumento da velocidade de leitura em crianças com dislexia [T2]. No estudo que é fonte dos trechos, com falantes nativos de italiano no primeiro ano da escola secundária, o aumento do espaçamento não trouxe vantagem geral de velocidade nem efeito na precisão, embora a precisão em línguas transparentes como o italiano tenda a atingir o teto ainda no ensino fundamental [T1][T5]. Nesse mesmo estudo, aumentar o espaçamento entre letras mantendo o padrão entre palavras reduziu a velocidade de leitura de crianças com dislexia e de leitores típicos, com efeito pequeno, possivelmente por dificultar a segmentação das frases em palavras [T1]. Os autores levantam apenas como hipótese que um espaçamento maior ajude durante a aquisição da leitura e seja irrelevante depois que essa habilidade já foi adquirida [T4].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0020",
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0002",
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0019",
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0021",
+     "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0023"
+    ]
+   },
+   "Q36": {
+    "resposta": "Como evidência de pesquisa (survey), e não norma ou orientação prática, os estudos em diferentes regiões do mundo indicam que uma grande parcela dos educadores endossa neuromitos [T5]. No Reino Unido e na Holanda, Dekker et al. (2012) verificaram que os educadores acreditavam em 49% dos neuromitos testados, número que se refere à proporção de mitos, não de professores [T1][T5]. No Brasil, um survey de 28 itens com 1.634 respondentes encontrou 74% de acerto nas questões sobre neuromitos e 89% nas demais [T1][T3]. O acerto variou conforme o mito: foi de 52% no mito de que usamos apenas 10% do cérebro e de 64% no de adaptar o ensino ao lado direito ou esquerdo do cérebro [T1][T4]. Na afirmação de que homens têm mais capacidade de raciocínio lógico e mulheres são mais intuitivas, o acerto foi de 70%, o que mostra que quase 1/3 dos educadores brasileiros acredita em diferenças de aprendizagem entre os sexos [T2]. Assim, embora o conhecimento geral sobre o cérebro dos educadores brasileiros seja relativamente alto em comparação com outros estudos, ainda há forte crença em neuromitos clássicos [T2].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "SIMOES-2022-NEUROMITOS-BRASIL#0030",
+     "SIMOES-2022-NEUROMITOS-BRASIL#0035",
+     "SIMOES-2022-NEUROMITOS-BRASIL#0024",
+     "SIMOES-2022-NEUROMITOS-BRASIL#0032",
+     "SIMOES-2022-NEUROMITOS-BRASIL#0004"
+    ]
+   },
+   "Q37": {
+    "resposta": "**Evidência de pesquisa (estudo primário):** não dá para confiar plenamente, pois os sistemas automáticos avaliados não preservam por completo o sentido do texto original [T2].\nNa avaliação humana, pessoas responderam a perguntas sobre fatos-chave do original após lerem uma versão simplificada por humanos ou uma das nove versões geradas por sistemas automáticos [T3].\nOs sistemas supervisionados com conhecimento pré-treinado (MUSS e T5) alcançaram a maior acurácia e se aproximaram dos textos escritos por humanos, enquanto o ChatGPT teve bom desempenho, mas foi menos preciso [T2].\nAinda assim, pelo menos 14% das perguntas ficaram sem resposta possível mesmo no sistema de melhor desempenho, devido a erros introduzidos pelos próprios sistemas [T3].\nEsse risco importa porque exclusões ou reescritas imprecisas podem mudar a forma como o texto é entendido, e um texto mais fácil de ler não ajuda se induzir o leitor ao erro [T1].\n**Implicação apontada pelos autores (não é norma):** como todos os sistemas ainda cometem erros críticos, eles defendem pesquisas sobre fluxos com participação humana, e ainda falta investigar se simplificações corretas melhoram a compreensão de pessoas com dificuldade em textos complexos [T2].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0001",
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0034",
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0002",
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0005",
+     "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0000"
+    ]
+   },
+   "Q38": {
+    "resposta": "Segundo evidência de pesquisa de um preprint, os LLMs conseguem isso apenas parcialmente: na avaliação de GPT-3.5, LLaMA-2 70B e Mixtral 8x7B com 100 materiais educacionais, o uso de alguns exemplos no comando (few-shot) melhorou significativamente o ajuste do nível de leitura e a preservação da informação [T3].\n\nNenhum modelo se destacou nos dois objetivos, pois o LLaMA-2 70B foi o melhor em ajustar a leitura, enquanto o GPT-3.5 foi superior em preservar o conteúdo e o significado [T3][T5].\n\nMesmo o melhor resultado de ajuste foi limitado, com erro absoluto médio de 172,9 pontos Lexile e apenas 22,22% dos textos dentro da faixa de ±50 pontos do nível pretendido [T4][T5].\n\nOs textos gerados também tenderam a ficar mais complexos do que o nível desejado [T5].\n\nA inspeção manual identificou introdução de desinformação e distribuição inconsistente das edições, o que levou os autores a apontar a necessidade de mais pesquisa para garantir a qualidade do conteúdo gerado [T3].\n\nComo implicação prática indicada pelos autores, e não como norma, é necessário ensinar ao modelo o que significa a escala Lexile e como os textos podem ser em cada nível [T5].",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0005",
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0002",
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0001",
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0007",
+     "HUANG-2024-LLM-NIVEIS-LEITURA#0010"
+    ]
+   },
+   "Q39": {
+    "resposta": "Não encontrei nos documentos da base informação suficiente para responder.",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "AAP-CPG-ADHD-2019#0036",
+     "AAP-CPG-ADHD-2019#0015",
+     "AAP-CPG-ADHD-2019#0051",
+     "AAP-CPG-ADHD-2019#0035",
+     "NICE-NG87-ADHD-2018#0021"
+    ]
+   },
+   "Q40": {
+    "resposta": "Não encontrei nos documentos da base informação suficiente para responder.",
+    "modelo": "claude-opus-5-5",
+    "fontes": [
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0033",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0027",
+     "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0034",
+     "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0038",
+     "ABDA-GUIA-PROFESSORES-2012#0000"
+    ]
+   }
+  }
+ }
+}

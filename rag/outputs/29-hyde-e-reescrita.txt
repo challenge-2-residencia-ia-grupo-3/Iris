@@ -1,0 +1,163 @@
+RESPOSTA IMAGINÁRIA (HyDE) E REESCRITA DA PERGUNTA, NA PRIMEIRA ETAPA DA BUSCA. Gabaritos de modelo, sem conferência humana.
+P pergunta (a busca de hoje) | H resposta imaginária sozinha | PH pergunta + resposta imaginária | R pergunta + 3 reescritas.
+Depois de cada uma, o mesmo reranker lê os 50 primeiros com a pergunta digitada e entrega 5.
+Técnica: modelos prontos (Qwen3, reranker mMiniLM; textos escritos pelo Claude haiku, que não é o modelo configurado no protótipo),
+contagem e sorteio. Busca pela conta exata do cosseno. Bootstrap de 95%: 2000 sorteios de perguntas, semente 20261105.
+Acaso no recall@5: 0.004 (5 de 1368 trechos). Nenhum modelo treinado.
+
+===== OPUS: 38 perguntas, 167 trechos certos; uma pergunta vale 2.6 pontos =====
+técnica                       certos nos 50  recall@50 |        recall@5 final  ao menos 1 certo nos 5    MRR
+P  pergunta (hoje)               125 de 167       0.77 |      0.42 [0.32-0.52]               33 de 38   0.60
+H  resposta imaginária           129 de 167       0.79 |      0.42 [0.32-0.52]               32 de 38   0.58
+PH pergunta + imaginária         130 de 167       0.80 |      0.42 [0.33-0.52]               34 de 38   0.60
+R  pergunta + 3 reescritas       121 de 167       0.75 |      0.43 [0.33-0.53]               34 de 38   0.61
+
+Sem o reranker (os 5 primeiros da própria lista). Não previsto antes de rodar; descreve, não decide:
+P  pergunta (hoje)           recall@5 sem reranker 0.28
+H  resposta imaginária       recall@5 sem reranker 0.34 | menos P: +0.06 [-0.00 a +0.11] 14/18/6
+PH pergunta + imaginária     recall@5 sem reranker 0.30 | menos P: +0.02 [-0.03 a +0.06] 7/27/4
+R  pergunta + 3 reescritas   recall@5 sem reranker 0.28 | menos P: -0.00 [-0.06 a +0.05] 8/23/7
+
+Diferença pareada contra P (técnica menos P), IC 95%, perguntas em que ganhou/empatou/perdeu:
+H  resposta imaginária       recall@50 +0.02 [-0.05 a +0.10] 7/26/5 | recall@5 final -0.00 [-0.03 a +0.03] 3/33/2
+PH pergunta + imaginária     recall@50 +0.03 [-0.01 a +0.07] 5/31/2 | recall@5 final +0.00 [+0.00 a +0.01] 1/37/0
+R  pergunta + 3 reescritas   recall@50 -0.02 [-0.06 a +0.01] 2/32/4 | recall@5 final +0.01 [+0.00 a +0.03] 2/36/0
+
+Recall@5 final por tipo de pergunta (todos os recortes que o gabarito permite), e certos nos 50 entre parênteses:
+tipo                               P               H              PH               R
+estrategia (n=10, 43 certos)      0.26 (19)      0.26 (22)      0.26 (20)      0.26 (17)
+dua (n=8, 41 certos)      0.47 (36)      0.47 (34)      0.47 (36)      0.47 (34)
+norma (n=8, 31 certos)      0.61 (30)      0.64 (31)      0.61 (31)      0.61 (30)
+evidencia (n=6, 26 certos)      0.38 (17)      0.41 (21)      0.41 (20)      0.45 (16)
+mito (n=4, 18 certos)      0.34 (15)      0.24 (13)      0.34 (15)      0.34 (16)
+so_ingles (n=2, 8 certos)      0.53 ( 8)      0.53 ( 8)      0.53 ( 8)      0.53 ( 8)
+
+As 10 perguntas práticas de professor (43 trechos certos): certos nos 50 e certos nos 5 entregues, por técnica:
+  P  pergunta (hoje)           nos 50: 19 de 43 | nos 5: 10 de 43 | perguntas sem nenhum certo nos 5: Q04, Q05, Q10
+  H  resposta imaginária       nos 50: 22 de 43 | nos 5: 10 de 43 | perguntas sem nenhum certo nos 5: Q04, Q05, Q10
+  PH pergunta + imaginária     nos 50: 20 de 43 | nos 5: 10 de 43 | perguntas sem nenhum certo nos 5: Q04, Q05, Q10
+  R  pergunta + 3 reescritas   nos 50: 17 de 43 | nos 5: 10 de 43 | perguntas sem nenhum certo nos 5: Q04, Q05, Q10
+
+Matriz dos 167 trechos certos (todas as perguntas): quem alcança cada um entre os seus 50 primeiros
+                                    imaginária alcança  imaginária não alcança
+a pergunta alcança                                 115                      10
+a pergunta não alcança                              14                      28
+  lendo os 50 de cada uma (até 100 candidatos), o teto seria 139 de 167; 28 não aparecem em nenhuma das duas listas
+
+Matriz dos 43 trechos certos (só as 10 práticas): quem alcança cada um entre os seus 50 primeiros
+                                    imaginária alcança  imaginária não alcança
+a pergunta alcança                                  17                       2
+a pergunta não alcança                               5                      19
+  lendo os 50 de cada uma (até 100 candidatos), o teto seria 24 de 43; 19 não aparecem em nenhuma das duas listas
+
+Os 42 trechos certos que a pergunta deixa fora dos 50: posição mediana com a pergunta 103, com a resposta imaginária 75; 27 sobem de posição, 14 entram nos 50.
+Posição exata de cada trecho certo nas 10 perguntas práticas (de 1368 trechos), pergunta | resposta imaginária:
+  Q01  P: 18, 21, 99, 102, 110, 526        | H: 6, 4, 148, 12, 64, 332
+  Q02  P: 2, 11, 36, 48, 200               | H: 2, 44, 53, 60, 130
+  Q03  P: 1, 45, 70, 104, 110, 754         | H: 1, 32, 72, 75, 155, 772
+  Q04  P: 27, 103                          | H: 20, 165
+  Q05  P: 101, 149, 237, 920               | H: 32, 15, 28, 234
+  Q06  P: 20, 31                           | H: 22, 23
+  Q07  P: 42, 53, 408, 410, 427            | H: 2, 72, 56, 85, 98
+  Q08  P: 2, 6, 10, 23, 71, 97             | H: 1, 2, 7, 20, 50, 96
+  Q09  P: 1, 8, 28                         | H: 1, 32, 44
+  Q10  P: 51, 62, 74, 629                  | H: 52, 59, 113, 462
+
+===== RASCUNHO: 19 perguntas, 73 trechos certos; uma pergunta vale 5.3 pontos =====
+técnica                       certos nos 50  recall@50 |        recall@5 final  ao menos 1 certo nos 5    MRR
+P  pergunta (hoje)                69 de 73        0.95 |      0.40 [0.27-0.54]               16 de 19   0.74
+H  resposta imaginária            64 de 73        0.89 |      0.36 [0.22-0.51]               14 de 19   0.64
+PH pergunta + imaginária          69 de 73        0.95 |      0.41 [0.28-0.54]               16 de 19   0.69
+R  pergunta + 3 reescritas        65 de 73        0.91 |      0.39 [0.25-0.53]               15 de 19   0.74
+
+Sem o reranker (os 5 primeiros da própria lista). Não previsto antes de rodar; descreve, não decide:
+P  pergunta (hoje)           recall@5 sem reranker 0.58
+H  resposta imaginária       recall@5 sem reranker 0.48 | menos P: -0.10 [-0.28 a +0.05] 4/10/5
+PH pergunta + imaginária     recall@5 sem reranker 0.63 | menos P: +0.05 [-0.03 a +0.13] 4/13/2
+R  pergunta + 3 reescritas   recall@5 sem reranker 0.48 | menos P: -0.10 [-0.27 a +0.04] 3/10/6
+
+Diferença pareada contra P (técnica menos P), IC 95%, perguntas em que ganhou/empatou/perdeu:
+H  resposta imaginária       recall@50 -0.06 [-0.13 a -0.01] 0/15/4 | recall@5 final -0.04 [-0.09 a +0.00] 1/14/4
+PH pergunta + imaginária     recall@50 +0.00 [+0.00 a +0.00] 0/19/0 | recall@5 final +0.01 [+0.00 a +0.02] 1/18/0
+R  pergunta + 3 reescritas   recall@50 -0.03 [-0.11 a +0.02] 1/15/3 | recall@5 final -0.01 [-0.04 a +0.00] 0/18/1
+
+Vagas dos 5 entregues ocupadas por trecho que nenhum juiz do rascunho leu (acima de 10% a comparação não vale):
+  P  pergunta (hoje)            23 de 95 (24%)
+  H  resposta imaginária        32 de 95 (34%)
+  PH pergunta + imaginária      24 de 95 (25%)
+  R  pergunta + 3 reescritas    27 de 95 (28%)
+
+===== OPUS-CURTA: 38 perguntas, 167 trechos certos; uma pergunta vale 2.6 pontos (EXPLORATÓRIO: perguntas encurtadas por modelo) =====
+técnica                       certos nos 50  recall@50 |        recall@5 final  ao menos 1 certo nos 5    MRR
+P  pergunta (hoje)               114 de 167       0.69 |      0.28 [0.19-0.38]               26 de 38   0.43
+H  resposta imaginária           110 de 167       0.68 |      0.32 [0.22-0.43]               28 de 38   0.48
+PH pergunta + imaginária         117 de 167       0.71 |      0.28 [0.19-0.38]               26 de 38   0.45
+R  pergunta + 3 reescritas       105 de 167       0.64 |      0.30 [0.21-0.40]               28 de 38   0.43
+
+Sem o reranker (os 5 primeiros da própria lista). Não previsto antes de rodar; descreve, não decide:
+P  pergunta (hoje)           recall@5 sem reranker 0.26
+H  resposta imaginária       recall@5 sem reranker 0.29 | menos P: +0.03 [-0.03 a +0.09] 9/22/7
+PH pergunta + imaginária     recall@5 sem reranker 0.33 | menos P: +0.07 [+0.03 a +0.11] 12/25/1
+R  pergunta + 3 reescritas   recall@5 sem reranker 0.23 | menos P: -0.04 [-0.11 a +0.02] 4/27/7
+
+Diferença pareada contra P (técnica menos P), IC 95%, perguntas em que ganhou/empatou/perdeu:
+H  resposta imaginária       recall@50 -0.01 [-0.08 a +0.06] 9/22/7 | recall@5 final +0.04 [+0.00 a +0.09] 3/35/0
+PH pergunta + imaginária     recall@50 +0.02 [-0.03 a +0.07] 8/26/4 | recall@5 final +0.00 [+0.00 a +0.00] 0/38/0
+R  pergunta + 3 reescritas   recall@50 -0.05 [-0.13 a +0.02] 5/26/7 | recall@5 final +0.02 [-0.01 a +0.06] 3/34/1
+
+Recall@5 final por tipo de pergunta (todos os recortes que o gabarito permite), e certos nos 50 entre parênteses:
+tipo                               P               H              PH               R
+estrategia (n=10, 43 certos)      0.05 (10)      0.17 (16)      0.05 (14)      0.10 (13)
+dua (n=8, 41 certos)      0.48 (36)      0.48 (32)      0.48 (35)      0.48 (35)
+norma (n=8, 31 certos)      0.46 (26)      0.46 (27)      0.46 (27)      0.46 (28)
+evidencia (n=6, 26 certos)      0.23 (18)      0.23 (13)      0.23 (16)      0.21 (13)
+mito (n=4, 18 certos)      0.29 (16)      0.29 (18)      0.29 (18)      0.29 (13)
+so_ingles (n=2, 8 certos)      0.10 ( 8)      0.20 ( 4)      0.10 ( 7)      0.27 ( 3)
+
+As 10 perguntas práticas de professor (43 trechos certos): certos nos 50 e certos nos 5 entregues, por técnica:
+  P  pergunta (hoje)           nos 50: 10 de 43 | nos 5:  2 de 43 | perguntas sem nenhum certo nos 5: Q01, Q02, Q03, Q04, Q05, Q06, Q08, Q10
+  H  resposta imaginária       nos 50: 16 de 43 | nos 5:  5 de 43 | perguntas sem nenhum certo nos 5: Q01, Q02, Q05, Q06, Q08, Q10
+  PH pergunta + imaginária     nos 50: 14 de 43 | nos 5:  2 de 43 | perguntas sem nenhum certo nos 5: Q01, Q02, Q03, Q04, Q05, Q06, Q08, Q10
+  R  pergunta + 3 reescritas   nos 50: 13 de 43 | nos 5:  3 de 43 | perguntas sem nenhum certo nos 5: Q01, Q02, Q03, Q04, Q05, Q08, Q10
+
+Matriz dos 167 trechos certos (todas as perguntas): quem alcança cada um entre os seus 50 primeiros
+                                    imaginária alcança  imaginária não alcança
+a pergunta alcança                                  99                      15
+a pergunta não alcança                              11                      42
+  lendo os 50 de cada uma (até 100 candidatos), o teto seria 125 de 167; 42 não aparecem em nenhuma das duas listas
+
+Matriz dos 43 trechos certos (só as 10 práticas): quem alcança cada um entre os seus 50 primeiros
+                                    imaginária alcança  imaginária não alcança
+a pergunta alcança                                  10                       0
+a pergunta não alcança                               6                      27
+  lendo os 50 de cada uma (até 100 candidatos), o teto seria 16 de 43; 27 não aparecem em nenhuma das duas listas
+
+Os 53 trechos certos que a pergunta deixa fora dos 50: posição mediana com a pergunta 107, com a resposta imaginária 110; 34 sobem de posição, 11 entram nos 50.
+Posição exata de cada trecho certo nas 10 perguntas práticas (de 1368 trechos), pergunta | resposta imaginária:
+  Q01  P: 2, 97, 125, 300, 522, 804        | H: 17, 36, 237, 111, 480, 2
+  Q02  P: 7, 53, 76, 91, 378               | H: 3, 36, 68, 57, 110
+  Q03  P: 1, 76, 219, 239, 335, 902        | H: 1, 16, 62, 205, 126, 331
+  Q04  P: 15, 239                          | H: 2, 21
+  Q05  P: 253, 393, 576, 1163              | H: 88, 105, 185, 579
+  Q06  P: 95, 116                          | H: 640, 1195
+  Q07  P: 2, 69, 95, 107, 155              | H: 4, 119, 196, 149, 363
+  Q08  P: 7, 36, 37, 42, 167, 383          | H: 7, 6, 46, 23, 79, 182
+  Q09  P: 1, 79, 83                        | H: 1, 45, 62
+  Q10  P: 74, 85, 321, 1028                | H: 64, 173, 163, 562
+
+CRITÉRIO (escrito antes de gerar os textos): passa a técnica cujo recall@5 final menos o de P tem o intervalo todo
+acima de zero no gabarito do Opus (perguntas como estão) e não tem o intervalo todo abaixo de zero no rascunho. O rascunho
+só conta se até 10% das vagas dos 5 entregues forem de trecho nunca julgado. Passar não muda o padrão do produto: a técnica
+vira candidata, porque custa uma chamada de modelo a mais por pergunta e os gabaritos não têm conferência humana.
+O recorte das perguntas curtas tem veredito próprio, pelo mesmo intervalo, e vale como exploratório.
+H  resposta imaginária       Opus -0.00 [-0.03 a +0.03]; rascunho -0.04 [-0.09 a +0.00], não julgados 32 de 95: NÃO PASSA (no Opus o intervalo encosta ou passa pelo zero)
+                             perguntas curtas +0.04 [+0.00 a +0.09]: NÃO PASSA (o intervalo encosta ou passa pelo zero)
+PH pergunta + imaginária     Opus +0.00 [+0.00 a +0.01]; rascunho +0.01 [+0.00 a +0.02], não julgados 24 de 95: NÃO PASSA (no Opus o intervalo encosta ou passa pelo zero)
+                             perguntas curtas +0.00 [+0.00 a +0.00]: NÃO PASSA (o intervalo encosta ou passa pelo zero)
+R  pergunta + 3 reescritas   Opus +0.01 [+0.00 a +0.03]; rascunho -0.01 [-0.04 a +0.00], não julgados 27 de 95: NÃO PASSA (no Opus o intervalo encosta ou passa pelo zero)
+                             perguntas curtas +0.02 [-0.01 a +0.06]: NÃO PASSA (o intervalo encosta ou passa pelo zero)
+
+Quanto a busca de hoje perde quando a pergunta é curta (P curta menos P como está, recall@5 final): -0.14 [-0.21 a -0.07] 2/18/18
+  H  resposta imaginária       com a pergunta curta, contra P com a pergunta inteira: -0.10 [-0.19 a -0.00]
+  PH pergunta + imaginária     com a pergunta curta, contra P com a pergunta inteira: -0.14 [-0.21 a -0.07]
+  R  pergunta + 3 reescritas   com a pergunta curta, contra P com a pergunta inteira: -0.12 [-0.18 a -0.05]

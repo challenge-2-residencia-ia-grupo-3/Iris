@@ -1,0 +1,39 @@
+ESTABILIDADE DA BUSCA DO PGVECTOR CONTRA A CONTA EXATA DO COSSENO. Qwen3, mesmas perguntas dos gabaritos, pt e en.
+Técnica: contagem. Nenhum modelo treinado. O pgvector está na VPS e foi lido por túnel, só com consultas de leitura;
+o vetor da pergunta foi calculado no Mac. A conta exata é o produto do vetor da pergunta por todos os vetores da tabela.
+PostgreSQL 17.11, pgvector 0.8.7, 1368 vetores, hnsw.ef_search 100 (o que o pacote usa).
+Plano da busca como o pacote faz hoje: Limit > Sort > Seq Scan on iris_trechos
+Plano com o índice forçado (SET enable_seqscan = off, só na sessão da medida): Limit > Index Scan using iris_trechos_hnsw_qwen3 on iris_trechos
+Execuções em processos separados: 3.
+
+===== COMO O PACOTE BUSCA HOJE: listas diferentes da conta exata (execução 1) =====
+gabarito    língua    n              nos 5             nos 10             nos 20             nos 50            nos 100
+                          ordem / conjunto   ordem / conjunto   ordem / conjunto   ordem / conjunto   ordem / conjunto
+opus            pt   38              0 / 0              0 / 0              0 / 0              0 / 0              0 / 0
+opus            en   38              0 / 0              0 / 0              0 / 0              0 / 0              0 / 0
+rascunho        pt   19              0 / 0              0 / 0              0 / 0              0 / 0              0 / 0
+rascunho        en   19              0 / 0              0 / 0              0 / 0              0 / 0              0 / 0
+total               114              0 / 0              0 / 0              0 / 0              0 / 0              0 / 0
+(ordem = a lista não é idêntica; conjunto = entrou um trecho diferente. Listas com menos de 100 trechos: 0)
+
+===== COM O ÍNDICE HNSW FORÇADO: listas diferentes da conta exata (execução 1) =====
+gabarito    língua    n              nos 5             nos 10             nos 20             nos 50            nos 100
+                          ordem / conjunto   ordem / conjunto   ordem / conjunto   ordem / conjunto   ordem / conjunto
+opus            pt   38              0 / 0              0 / 0              1 / 1              1 / 1            14 / 14
+opus            en   38              0 / 0              0 / 0              0 / 0              2 / 2            16 / 16
+rascunho        pt   19              0 / 0              0 / 0              0 / 0              1 / 1              9 / 9
+rascunho        en   19              0 / 0              0 / 0              3 / 3              6 / 6            11 / 11
+total               114              0 / 0              0 / 0              4 / 4            10 / 10            50 / 50
+(ordem = a lista não é idêntica; conjunto = entrou um trecho diferente. Listas com menos de 100 trechos: 0)
+
+===== REPETE DE UM PROCESSO PARA OUTRO? listas com os 100 primeiros idênticos aos da execução 1 =====
+hoje     execução 2: 114 de 114
+hoje     execução 3: 114 de 114
+forcado  execução 2: 114 de 114
+forcado  execução 3: 114 de 114
+exata    execução 2: 114 de 114
+exata    execução 3: 114 de 114
+
+CRITÉRIO (escrito antes de rodar):
+1. Repete (os mesmos 100 primeiros, na mesma ordem, nas 114 listas, em todas as execuções): SIM
+2. É exato hoje (nenhuma lista com conjunto diferente da conta exata nos 50 primeiros): SIM

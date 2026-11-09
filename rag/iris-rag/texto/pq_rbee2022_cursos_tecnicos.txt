@@ -1,0 +1,742 @@
+=== p. 1 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+561
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+A Educação Especial e os Cursos Técnicos: a Visão dos Docentes
+sobre os Processos de Adaptação Curricular1
+Special Education and Technical Courses: the Teacher’s Vision of
+Curricular Adaptation Processes
+Marcelio Adriano DIOGO 2
+Marlise GELLER 3
+
+RESUMO: A chegada de estudantes com deficiência nos cursos técnicos dos Institutos Federais tem aumentado com a aprovação
+da Lei nº 13.409, de 28 de dezembro de 2016, que prevê reserva de vagas para esse público. Neste texto, analisa-se a visão dos
+docentes do Instituto Federal Sul-rio-grandense (IFSul), divididos na área técnica e propedêutica, em relação à presença dos
+estudantes com deficiência, particularmente a intelectual, nos cursos técnicos e a respeito das possíveis adaptações curriculares
+nos itinerários formativos desses estudantes. O referencial teórico mostrou o deslocamento em relação aos termos adaptações/
+adequações curriculares para flexibilização, diferenciação e acessibilidade curricular, que implica um entendimento mais amplo dos
+seus significados. A pesquisa, feita a partir das 81 respostas obtidas em um questionário com perguntas abertas e em escala Likert,
+teve como suporte metodológico a análise de conteúdo de Bardin (2010), com categorização a posteriori e critério semântico na
+separação das respostas. Por fim, a organização e a discussão dos resultados foram realizadas, problematizando-se as contribuições
+dos participantes da pesquisa. Os resultados mostraram diferenças no entendimento da importância do uso das adaptações entre
+docentes das áreas técnica e propedêutica, mas também revelaram igual discordância com aquelas que suprimem conteúdos das
+disciplinas e preocupação com o reflexo disso na formação do estudante.
+PALAVRAS-CHAVE: Adaptação curricular. Acessibilidade. Cursos técnicos. Educação inclusiva.
+ABSTRACT: The arrival of students with disabilities in technical courses at Federal Institutes has increased due to the approval
+of the Law no. 13,409, of December 28, 2016, that provides quotas for admission to this public. In this text, the vision of the
+teachers of the Instituto Federal Sul-rio-grandense (IFSUL) is analyzed, divided into the technical and propaedeutic area, in relation
+to the presence of students with disabilities, particularly intellectual, in technical courses and in relation to the possible curricular
+adaptations in formative itineraries of these students. The theoretical framework shows the shift in relation to the terms curricular
+adaptations/adequacies for flexibility, differentiation and curricular accessibility, which implies a broader understanding of their
+meanings. The research, carried out from 81 answers obtained in a questionnaire with open questions and on a Likert scale, had
+as methodological support Bardin’s (2010) content analysis, with a posteriori categorization and semantic criteria in the answers
+separation. Finally, the results organization and discussion were carried out, problematizing the contributions of the research
+participants. The results showed differences in understanding the importance of the use of adaptations between teachers in the
+technical and propaedeutic areas, but they also revealed the equal disagreement with those adaptations that suppress the content
+of the disciplines and concern about the reflection of this in the student’s education.
+KEYWORDS: Curricular adaptation. Accessibility. Technical courses. Inclusive education.
+1 Introdução
+O movimento dos estudantes público-alvo da Educação Especial em direção aos cursos médio técnicos integrados, lento na primeira década do século XXI, sofreu uma expansão
+bem significativa que, não por coincidência, ocorreu com a aprovação da Lei nº 13.409, de 28
+de dezembro de 2016, que passou a prever a reserva de vagas para pessoas com deficiência nos
+cursos técnicos e superiores das Instituições Federais de ensino.
+1 https://doi.org/10.1590/1980-54702022v28e0122
+2 Doutorando. Programa de Pós-Graduação em Ensino de Ciências e Matemática (PPGECIM). Universidade Luterana do Brasil
+(ULBRA). Canoas/Rio Grande do Sul/Brasil. E-mail: m.celo1974@gmail.com. ORCID: https://orcid.org/0000-0002-7667-8892
+3 Professora adjunta. Programa de Pós-Graduação em Ensino de Ciências e Matemática (PPGECIM). Universidade Luterana do Brasil
+(ULBRA). Canoas/Rio Grande do Sul/Brasil. E-mail: marlise.geller@gmail.com. ORCID: https://orcid.org/0000-0002-9640-2666
+
+=== p. 2 ===
+562
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
+A Figura 1 mostra o recorte desse aumento, baseado nos dados do Instituto Nacional
+de Pesquisas Educacionais Anísio Teixeira ([INEP], 2021), na qual podemos obse rvar que o
+número de estudantes quadruplicou de 2016 a 2021.
+Figura 1
+Evolução das matrículas da Educação Especial no Ensino Médio Técnico Integrado
+Nota. Compilação a partir das Sinopses Estatísticas da Educação Básica do INEP/MEC de 2008 a 2021 (https://
+www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/sinopses-estatisticas/educacao-basica).
+Boa parte dos cursos técnicos integrados ao Ensino Médio ocorrem nos Institutos
+Federais. Tais instituições foram criadas pela Lei nº 11.892, de 29 de dezembro de 2008, na
+qual também foi instituída a Rede Federal de Educação Profissional, Cien tífica e Tecnológica
+(RFECPT). A Rede Federal é composta por 38 Institutos Federais, dois Centros Federais de
+Educação Tecnológica (CEFET), 22 escolas técnicas vinculadas às universidades federais e ao
+Colégio Pedro II. Considerando os respectivos campi associados a essas instituições, tem-se, ao
+todo, 661 unidades distribuídas nas 27 unidades da federação.
+Em função desse incremento de estudantes com deficiência nos cursos técnicos, uma
+série de recursos de acessibilidade precisaram ser mobilizados para garantir, além do acesso, a
+possibilidade de permanência e de êxito para esse público. O currículo passou a ser foco de
+mais atenção, uma vez que os docentes se depararam com o que consideraram uma dicotomia:
+torná-lo acessível e ao mesmo tempo garantir que as habilidades e as competências necessárias à
+formação técnica sejam desenvolvidas. O desafio imposto criou uma série de questionamentos
+em como atender essa demanda e de que forma estudantes com deficiência intelectual poderiam ser auxiliados durante o percurso de seu itinerário formativo. Dito de outro modo, até que
+ponto poderia se lançar mão de uma adaptação ou adequação curricular de modo a garantir a
+acessibilidade.
+Apesar de existir na legislação e nas orientações do Ministério da Educação (MEC)
+material que se refere aos tipos de adaptações e ao grau de adequação que o currículo pode ter,
+
+=== p. 3 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+563
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+incluindo mesmo a eliminação de objetivos, em um curso técnico essas possibilidades provocam muito debate. Nas discussões, a figura do profissional que estará sendo formado quando o
+currículo é muito modificado é trazida com a problematização de que, nesse caso, uma certificação diferenciada é necessária, já que objetivos importantes do currículo podem não ter sido
+contemplados.
+Diante de uma demanda que está posta e que precisa ser mais bem compreendida, o
+trabalho discutido aqui é parte de uma pesquisa de Doutorado4, que visa a investigação da certificação diferenciada ou da terminalidade específica como possibilidade de conclusão do curso
+médio técnico. O recorte apresentado diz respeito às percepções dos docentes do Instituto
+Federal de Educação, Ciência e Tecnologia Sul-rio-grandense (IFSul) em relação à chegada dos
+estudantes com deficiência intelectual nos cursos e as implicações que esse movimento causa
+no formato das aulas, na adequação do currículo e no apoio específico às demandas, principalmente cognitivas, que esses discentes impõem.
+2 Método
+A presença de estudantes com deficiência nas classes regulares do ensino técnico,
+notadamente discentes com deficiência intelectual e Transtorno do Espectro Autista (TEA),
+motiva discussões aprofundadas sobre o papel das adaptações no currículo e o itinerário formativo eventualmente diferenciado necessário para esse público concluir o curso técnico. A
+diferença de perspectiva entre docentes da área técnica e da área propedêutica com relação à
+trajetória dentro do curso técnico foi investigada por meio de uma pesquisa com foco na visão
+dos docentes do IFSul desse processo. Estamos chamando de área propedêutica as disciplinas
+de base, que estejam em uma das áreas: Linguagens e Códigos, Ciências Humanas, Ciências da
+Natureza e Matemática; já área técnica, referimo-nos às disciplinas de formação específica do
+curso escolhido.
+O IFSul é um dos três Institutos Federais gaúchos e tem, segundo o Relatório de
+Gestão 2021 (IFSUL, 2021), 967 docentes efetivos e 17.517 matrículas na educação presencial. É composto de 14 campi, distribuídos no Rio Grande do Sul (RS), com reitoria em Pelotas,
+contando com cursos médio técnicos integrados, concomitantes, subsequentes, Educação de
+Jovens e Adultos, Graduação e Pós-Graduação lato e stricto sensu.
+Para efetivar o processo investigativo, um questionário foi enviado aos docentes por
+e-mail ao Departamento de Ensino de cada campus, o qual foi respondido por 65 professores e
+professoras. A pesquisa apresentava questões fechadas, com opções de resposta em escala Likert,
+e questões abertas para investigar a acessibilidade/adaptação curricular no processo formativo.
+As questões fechadas são apresentadas a seguir:
+1.
+Em que medida você promove ou promovia adaptações ou acessibilidade curricular no
+processo de ensino durante o período da aula para potencializar o processo de aprendizagem quando tem ou tinha estudantes com deficiência intelectual? Considere 1 com
+pouca adaptação e 5 com muita adaptação.
+4 Pesquisa submetida ao Comitê de Ética e aprovada sob o protocolo CAAE: 39995020.2.0000.5349, intitulada Certificação
+Diferenciada no Ensino Técnico: um processo inclusivo ou excludente?. Doutorando: Marcelio Adriano Diogo; Orientadora: Profa.
+Dra. Marlise Geller.
+
+=== p. 4 ===
+564
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
+2.
+Ter estudantes com deficiência intelectual na turma envolve a elaboração de um Plano
+Educacional Individualizado (PEI), que é um documento que prevê as estratégias de
+ensino, a adaptação/acessibilidade curricular, os horários de atendimento, a forma de
+avaliação, entre outras providências a serem detalhadas para essa(e) estudante. Em que
+medida você considera importante na sua prática a elaboração do PEI? Considere 1
+como pouco importante e 5 como muito importante.
+3.
+Em que medida você considera importante a adaptação na forma e na estrutura das
+aulas do dia a dia quando a turma possui estudantes com deficiência intelectual?
+Considere 1 como pouco importante e 5 como muito importante.
+4.
+Em que medida você considera as adaptações curriculares (conteúdo e objetivos) um
+instrumento eficiente como estratégia de ensino e de aprendizagem para estudantes
+com deficiência intelectual? Considere 1 como pouco importante e 5 como muito
+importante.
+5.
+Como você se posiciona em relação à política de reserva de vagas para estudantes com
+deficiência nos cursos técnicos? Considere 1 como discordo totalmente e 5 como concordo totalmente.
+6.
+Como você se posiciona em relação à inclusão de estudantes com deficiência intelectual
+nas classes regulares dos cursos técnicos? Considere 1 como discordo totalmente e 5
+como concordo totalmente.
+7.
+Como você se posiciona em relação às adaptações curriculares que suprimem conteúdos no currículo do ensino técnico. Considere 1 como discordo totalmente e 5 como
+concordo totalmente.
+A Questão 1 foi contabilizada apenas para docentes que indicaram ter tido estudantes com deficiência intelectual entre 2018 e 2021 (52 docentes).
+Além das questões fechadas apresentadas, também foram oferecidas questões abertas,
+indicadas a seguir, que solicitavam posicionamento dos docentes acerca dos temas apresentados.
+1.
+Descreva seu ponto de vista em relação às adaptações curriculares como estratégia de
+aprendizagem para o ensino de estudantes com deficiência intelectual.
+2.
+Descreva que tipo de adaptação foi feita: com material adaptado, com estratégias de trabalho em grupo, com redução de conteúdo, entre outros.
+Para as perguntas fechadas, a média apresentada nos resultados foi normalizada para
+uma nota entre 0 e 10. Para a interpretação das respostas das perguntas abertas, utilizamos
+a análise de conteúdo de Bardin (2010), com categorização a posteriori segundo critério semântico. As perguntas foram separadas nos resultados em dois grupos: área técnica e área
+propedêutica.
+3 Resultados e discussão
+Antes de analisarmos os resultados e os aspectos relevantes dos dados coletados, apresentamos uma cronologia na legislação e na literatura sobre as diferentes concepções de acesso
+
+=== p. 5 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+565
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+ao currículo e as possibilidades previstas e desejadas para concretizar esse acesso. Há de percebermos um deslocamento do termo “adaptação” para “acessibilidade”, mas ainda mantemos o
+uso do primeiro nesta pesquisa em decorrência da sua utilização nos documentos institucionais
+do IFSul.
+3.1 Avanços nas possibilidades de acesso ao currículo
+Um marco importante nos avanços de direitos e de sistemas de apoio às pessoas com
+deficiência pode ser atribuído à Declaração de Salamanca por ocasião da Conferência Mundial
+de Educação Especial, em 1994. Trata-se de uma resolução da Organização das Nações Unidas
+(ONU) que versa sobre princípios, políticas e práticas na área das necessidades educacionais da
+Educação Especial. No seu texto, há a inferência de que escolas e currículos devem se adaptar aos
+diferentes ritmos de aprendizagem e às necessidades da criança e não o contrário (ONU, 1994).
+Em 1996, a Lei n° 9.394, de 20 de dezembro, conhecida como Lei de Diretrizes e
+Bases da Educação Nacional (LDB), em substituição à LDB anterior, a qual datava de 1971,
+trouxe novos elementos. Na esteira dos avanços, a Educação Especial ganhou destaque diante
+das políticas públicas da educação brasileira, afirmando-se o compromisso com estudantes com
+necessidades educacionais especiais, ao inserir-se um capítulo inteiro dedicado a essa finalidade
+na LDB. Nesse capítulo, a lei não só destaca o público-alvo da Educação Especial, como detalha os serviços que esse público tem direito para garantir seu desenvolvimento. Além disso, traz
+uma ênfase às adequações que garantem atendimento às necessidades dos estudantes e apresenta a terminalidade específica como possibilidade de finalização de etapa escolar.
+Em 1998, o MEC apresentou os Parâmetros Curriculares Nacionais (PCN) – adaptações curriculares: estratégias para a educação de alunos com necessidades educacionais especiais, que apontou as adaptações curriculares como formas de acesso ao currículo, as quais
+indicam adequação de objetivos, de conteúdos e de critérios de avaliação, de forma a atender à
+diversidade de estudantes no país, destacando que estas se realizam no âmbito do projeto pedagógico, no currículo desenvolvido em sala de aula e no nível individual do estudante.
+Em 2000, o MEC produziu duas cartilhas versando sobre adaptações curriculares de pequeno e de grande porte. Segundo uma das cartilhas, chamada Projeto Escola Viva
+- Garantindo o acesso e permanência de todos os alunos na escola - Alunos com necessidades educacionais especiais: Adaptações curriculares de pequeno porte (2000a): “As Adaptações Curriculares
+de Pequeno Porte são modificações promovidas no currículo, pelo professor, de forma a permitir e promover a participação produtiva dos alunos que apresentam necessidades especiais
+no processo de ensino e aprendizagem” (p. 8). Em relação às adaptações de grande porte, estão
+definidas na cartilha Projeto Escola Viva - Garantindo o acesso e permanência de todos os alunos
+na escola - Alunos com necessidades educacionais especiais: Adaptações curriculares de grande porte
+(2000b) como “ajustes cuja implementação depende de decisões e de ações técnico-política-
+-administrativas, que extrapolam a área de ação específica do professor” (p. 10). Nos dois casos, são exemplificadas adaptações em relação às diversas deficiências e no âmbito das diversas
+categorias, como adequações de objetivos, de conteúdos, de método de ensino, de organização
+didática, de avaliação e de temporalidade dos processos de ensino e de aprendizagem.
+
+=== p. 6 ===
+566
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
+Em 2001, o Conselho Nacional de Educação (CNE) instituiu as Diretrizes Nacionais
+para a Educação Especial na Educação Básica. Nesse documento, apareceu, pela primeira vez,
+a palavra “flexibilização” e reforçou-se o uso das adaptações. Embora o texto não traga o significado de flexibilizar, na leitura entende-se que o currículo possa ser menos rígido e mais
+maleável, que seja flexível frente às diversas características dos sujeitos que habitam o espaço
+escolar e que respeite os tempos de aprendizagem dos estudantes com diferentes necessidades
+educacionais. A adaptação curricular pode ser entendida, então, como forma de concretizar um
+currículo flexível, não no sentido de empobrecimento, mas de torná-lo acessível aos estudantes
+com deficiência.
+O currículo, portanto, constitui-se em uma ferramenta que pode ser modificada para
+proporcionar ao educando condições singulares de desenvolvimento, resultando em alterações
+com maior ou menor expressão. A escola comum torna-se mais inclusiva quando reconhece
+que as práticas pedagógicas precisam ser ajustadas ao contexto de vida, no sentido de atenção às
+diferenças de quem a frequenta, visando o progresso individual contínuo dentro das especificidades de cada sujeito. O olhar do professor frente à deficiência, enxergando as potencialidades
+e não as limitações, é fundamental para os avanços que se pretendem atingir. A subjetividade
+do que é importante no contexto da deficiência faz do docente um ator central no processo,
+pois é a partir da sua sensibilidade que o aluno tem seu plano de desenvolvimento construído.
+Em 2006, a Convenção sobre os Direitos das Pessoas com Deficiência, realizada na
+sede da ONU, em Nova Iorque, consolidou direitos sociais importantes para esse público,
+como o da não discriminação, da educação, da acessibilidade e do trabalho (ONU, 2006), uma
+vez que a deficiência passou a ser vista como um modelo social, quer dizer, como uma característica do indivíduo e não como um defeito que precisa ser corrigido.
+A caminhada no Brasil em busca de uma educação em que o respeito à diferença seja
+um direito consolidado foi lenta, mas a publicação da Política Nacional de Educação Especial
+na Perspectiva da Educação Inclusiva (PNEEPEI), de 2008, constituiu mais um passo nessa
+direção. Nela ficou objetivado o acesso, a participação e a aprendizagem do público-alvo da
+Educação Especial (estudantes com deficiência, transtornos globais do desenvolvimento e altas
+habilidades/superdotação) nas escolas regulares.
+Os números mostram uma grande migração de estudantes das classes exclusivas para
+as classes comuns à medida que a PNEEPEI era implementada. A Figura 2, a seguir, evidencia
+claramente esse fenômeno, o qual foi comemorado em diversos segmentos educativos.
+
+=== p. 7 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+567
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+Figura 2
+Matrícu las da Educação Especial nas classes comuns e exclusivas
+Nota. Compilação a partir das Sinopses Estatísticas da Educação Básica do INEP/MEC de 2007 a 2021, números
+expressos em milhares (https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/sinopses-estatisticas/
+educacao-basica).
+Em 2011, foi publicado o Decreto nº 7.611, de 17 de novembro, que dispôs sobre
+a Educação Especial e o Atendimento Educacional Especializado. Esse atendimento é definido
+no Decreto, em seu Art. 2º, parágrafo 1º, como o “conjunto de atividades, recursos de acessibilidade e pedagógicos organizados institucional e continuamente”. Nesse documento, surge
+a expressão “adaptações razoáveis” e “acessibilidade” no sentido de possibilidades de acesso ao
+currículo e de atenção às necessidades individuais do estudante.
+O termo “adaptação curricular” (ou adequação curricular) ainda provoca divergências entre os pesquisadores sobre o seu real significado ou sobre sua abrangência no campo
+educacion al. Há quem entenda que se trata do único modo de promover o acesso dos alunos
+com deficiência ao conhecimento historicamente acumulado (Oliveira, 2008); há quem critique a possibilidade de eliminar conteúdos básicos do currículo (Garcia, 2006); e há quem
+veja a adaptação curricular como uma estratégia totalmente equivocada que não favorece uma
+educação inclusiva (Batista & Mantoan, 2007).
+3.2 AdAPtAr, flexiBilizAr, diferenciAr: As PossiBilidAdes de Acesso Ao currículo
+ Diante de todas as possibilidades de ajuste no currículo, com a chegada dos estudantes com deficiência nos cursos técnicos, isso se torna um fato que precisa ser bem entendido
+pelos docentes. Independentemente da categoria da adaptação, não se pode perder de vista a
+finalidade do processo educativo, que é promover o desenvolvimento do educando ape sar de
+suas limitações físicas, sensoriais ou cognitivas. Assim, quando se fala em adaptação de conteú-
+
+=== p. 8 ===
+568
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
+do, deve-se ter em mente que o objetivo não é eliminar simplesmente assuntos que o professor
+considera desnecessários ou de difícil compreensão. A decisão deve se pautar rigorosamente
+pela análise das capacidades e das possibilidades educacionais do aprendiz, visto que, antes
+de mais nada, é um direito seu ter acesso ao conteúdo planejado para sua etapa de ensino.
+Logicamente, a deficiência intelectual poderá acabar requerendo uma diminuição na profundidade de alguns temas ou a supressão de alguns assuntos cuja abstração se colocará além das
+possibilidades do estudante. Nesse caso, justifica-se a adequação, pois há de medir-se o impacto
+que uma insistência demasiada em um tópico poderia desencadear: frustração desnecessária
+frente a um objetivo que pode se mostrar irrelevante em comparação a um desenvolvimento
+que o aluno possa atingir e que seria mais significativo para a sua vida.
+Como já apresentamos, documentos oficiais preveem a alteração de objetivos e de
+conteúdos e mesmo a eliminação de tópicos do currículo quando se julgar necessário para o desenvolvimento do estudante com deficiência. Mendes (2011) considera essa possibilidade uma
+diferenciação curricular negativa, pois antecipa a incapacidade do estudante com um currículo
+diferente. Essa noção é acompanhada por Xavier (2018), que vê nas adaptações curriculares
+a ideia de um currículo menor, mais pobre, marcado pela impossibilidade e não exatamente
+pela contextualização do objeto da aprendizagem. Já Araújo (2019) considera que adaptações,
+adequações e flexibilizações devem ser entendidas como ajustes, modificações e diferenciações
+realizadas para compreender as necessidades educacionais especiais decorrentes da deficiência
+intelectual. A mesma ideia é defendida por Capellini (2018), a qual considera que o conceito
+de adequações curriculares deve ser entendido como uma possibilidade de se concretizar um
+currículo flexível, de modo amplo, afastando-se, necessariamente, da ideia de empobrecimento,
+e tornando-o acessível a todos os estudantes por meio de alternativas metodológicas que atendam às suas necessidades singulares.
+Pletsch et al. (2017), no entanto, destacam as potencialidades da diferenciação curricular e do Desenho Universal para a Aprendizagem (DUA) como princípios para a inclusão
+escolar. Os autores entendem que o conceito de diferenciação curricular, quando parte da
+trajetória do sujeito com deficiência, se constitui em uma concepção que atende à diversidade
+da sala de aula. Argumentam que a diferenciação não implica limitação ou empobrecimento,
+mas revisão de estratégias e de recursos que se aliam ao DUA para potencializar o acesso ao
+currículo. Segundo Pletsch et al. (2017), “essa relação favorece a elaboração de um conjunto de
+estratégias, técnicas e materiais e recursos para garantir a participação dos alunos nos processos
+educativos” (p. 274).
+Como afirmamos anteriormente, a discussão acerca dos termos utilizados é importante, mas neste trabalho estão sendo entendidos todos como uma forma de proporcionar
+acesso curricular aos estudantes com deficiência, particularmente a intelectual. Assim sendo,
+interessou-nos coletar junto aos docentes suas percepções sobre os ajustes curriculares necessários para o desenvolvimento das habilidades esperadas na formação técnica.
+
+=== p. 9 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+569
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+3.3 Resultados da pesquisa
+O questionário distribuído foi respondido por 65 docentes, os quais foram separados
+em relação à disciplina que ministravam na área técnica ou propedêutica. Tivemos, na área
+técnica, 36 contribuições, e, na área propedêutica, 29 respostas.
+A Tabela 1 mostra a nota normalizada média (0 a 10) para cada pergunta segundo os
+docentes de cada uma das áreas.
+Tabela 1
+Resultado de pesquisa com docentes do IFSul
+Pergunta
+Área técnica
+(36)
+Área propedêutica
+(29)
+Em que medida você promove ou promovia adaptações ou acessibilidade
+curricular no processo de ensino durante o período da aula para potencializar o processo de aprendizagem quando tem ou tinha estudantes com
+deficiência intelectual? Considere 1 com pouca adaptação e 5 com muita
+adaptação.
+5,2
+5,9
+Ter estudantes com deficiência intelectual na turma envolve a elaboração
+de um Plano Educacional Individualizado (PEI), que é um documento
+que prevê as estratégias de ensino, a adaptação/acessibilidade curricular, os
+horários de atendimento, a forma de avaliação, entre outras providências
+a serem detalhadas para essa(e) estudante. Em que medida você considera
+importante na sua prática a elaboração do PEI? Considere 1 como pouco
+importante e 5 como muito importante.
+7,5
+7,7
+Em que medida você considera importante a adaptação na forma e na estrutura das aulas do dia a dia quando a turma possui estudantes com deficiência intelectual? Considere 1 como pouco importante e 5 como muito
+importante.
+7,4
+8,9
+Em que medida você considera as adaptações curriculares de conteúdo e
+objetivos um instrumento eficiente como estratégia de ensino e de aprendizagem para estudantes com deficiência intelectual? Considere 1 como
+pouco importante e 5 como muito importante.
+8,3
+8,9
+Como você se posiciona em relação à política de reserva de vagas para estudantes com deficiência nos cursos técnicos? Considere 1 como discordo
+totalmente e 5 como concordo totalmente.
+7,1
+8,8
+Como você se posiciona em relação à inclusão de estudantes com deficiência intelectual nas classes regulares dos cursos técnicos? Considere 1 como
+discordo totalmente e 5 como concordo totalmente.
+7,0
+8,2
+Como você se posiciona em relação às adaptações curriculares que suprimem conteúdos no currículo do ensino técnico. Considere 1 como discordo totalmente e 5 como concordo totalmente.
+6,1
+6,2
+A área técnica apresentou pontuações mais conservadoras em todas as questões.
+Notadamente, esse grupo de docentes problematiza o papel das adaptações, principalmente
+as significativas, à luz das competências que os discentes precisam desenvolver para assegurar
+a formação necessária para a conclusão do curso. Mesmo a política de reserva de vagas e a inclusão de estudantes com deficiência nos cursos técnicos apresentam uma avaliação mais baixa
+que a outra área pesquisada.
+
+=== p. 10 ===
+570
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
+Conforme Diniz et al. (2009), o reconhecimento do corpo com impedimentos como
+expressão da diversidade humana é recente e ainda se constitui um desafio. Isso se potencializa
+na área técnica, a qual tem dificuldades para compreender, com razão, como alguns sujeitos
+com deficiência, sobretudo intelectual, podem desenvolver suas atividades com adaptações profundas em seu itinerário formativo. A questão “O aluno X poderá ser técnico nesse curso?” frequentemente é verbalizada. Novamente, Diniz et al. (2009) trazem adequadamente a reflexão
+de que “a desvantagem social vivenciada pelas pessoas com deficiência não é uma sentença da
+natureza, mas o resultado de um movimento discursivo da cultura da normalidade” (p. 74).
+O relato, a seguir, é de um docente da área de Ciências da Natureza que aborda o
+ponto de vista das adaptações curriculares e dos questionamentos da área técnica:
+Acredito que as adaptações sejam necessárias para que a inclusão seja real, partindo, principalmente, do pressuposto que o estudante, como cidadão, tem o direito à educação, seja ela técnica
+ou não. Também acredito no bom senso da sociedade, um estudante com deficiência intelectual
+certamente não poderá trabalhar com maquinário pesado ou sistemas de alta tensão, citando
+exemplos de cursos aos quais já ministrei aulas, mas, certamente poderá se integrar nas empresas
+realizando trabalhos compatíveis com suas habilidades. De fato, algo que os docentes das áreas
+técnicas sempre reclamam é isso: estar formando um técnico que não é totalmente técnico na
+área, que o diploma atesta que ele pode fazer todas as atividades. Nesse ponto que acredito no
+bom senso das empresas e das instituições no processo formativo, pois inclusão não significa
+igualdade, mas equidade.
+Ao mesmo tempo que o docente considera as adaptações necessárias, traz um contraponto à preocupação da área técnica em relação à formação do estudante, problematizando,
+mesmo sem citar, o expediente da certificação diferenciada. A “previsão” confirma-se no depoimento de um docente da área técnica que justamente pontua essa preocupação: “O que me
+preocupa mais não é suprimir em si, mas sim a ausência de um certificado com terminalidade
+específica para esses alunos; no ponto de vista da segurança deles na execução das tarefas”.
+A pergunta sobre a promoção de acessibilidade ou de adaptação para estudantes com
+deficiência intelectual na classe nos chama atenção pelos números atingidos. A média de 5,2
+(área técnica) ou de 5,9 (área propedêutica) é baixa em função da necessidade de estratégias
+de acesso ao currículo que esses estudantes demandam. Entender que essa prerrogativa de
+promoção de acessibilidade curricular tem uma importância mediana é desconhecer que um
+estudante com deficiência intelectual possui um desenvolvimento significativamente diferente
+de um estudante sem deficiência. Segundo Capellini (2018), o currículo torna-se acessível por
+meio de adequações que atendam às necessidades dos estudantes. Para Fonseca (2011), a adaptação consiste em um formato de currículo voltado especificamente àqueles com dificuldades
+de aprendizagem expressivas, como o estudante com deficiência intelectual.
+A Figura 3 a seguir mostra o gráfico de respostas obtidas.
+
+=== p. 11 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+571
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+Figura 3
+Questão do questionário aplicado aos docentes
+Nota. A questão refere-se a: “Em que medida você promove ou promovia adaptações ou acessibilidade curricular
+no processo de ensino durante o período da aula para potencializar o processo de aprendizagem quando tem ou
+tinha estudantes com deficiência intelectual? Considere 1 com pouca adaptação e 5 com muita adaptação”.
+Um aspecto importante da pesquisa diz respeito, também, à pergunta “Como você
+se posiciona em relação às adaptações curriculares que suprimem conteúdos no currículo do
+ensino técnico?”. Tanto a área técnica quanto a propedêutica convergem para a mesma opinião
+de que a supressão de conteúdos não é bem recebida em um curso técnico. Isso é respaldado por
+diversos autores, como Correia (2016), Mendes (2011) e Xavier (2018), os quais consideram
+que adequar ou adaptar não pode ser sinônimo de empobrecimento do currículo.
+No depoimento a seguir, o docente da área técnica r eforça sua posição totalmente
+contrária à supressão de conteúdos. Notamos que há uma desinformação em relação ao papel das
+adaptações quando ele refere que: “Adaptação é muito diferente de mudança”. Ora, adaptação,
+no sentido de ajuste, a nosso ver, é justamente sinônimo de mudança. Mudança de paradigma,
+mudança de concepção do papel do currículo no planejamento das ações em sala de aula.
+Acho que pode se ter uma adaptação da estratégia desde que esta não traga prejuízos aos demais
+alunos. Adaptação é muito diferente de mudança. Além disso, não é viável para o professor que
+alguns estudantes requeiram total atenção em detrimento aos demais. A política de inclusão
+tem seus pontos positivos, mas deixar tudo isso na mão do docente é muito fácil para os gestores, porém é extremamente desgastante para os professores.
+Quando se argumenta que a supressão de conteúdos pode impactar a aquisição de
+habilidades fundamentais do estudante, a discussão da certificação diferenciada como possibilidade de conclusão de etapa ganha mais sentido, uma vez que, a depender das adaptações e das
+adequações curriculares, a formação do estudante pode, e talvez precise, ser encaminhada com
+o uso de uma terminalidade específica.
+Isso implica dizermos, em absoluto, que a certificação diferenciada é sempre excludente, pois entendemos que, em algumas situações, pode se tornar um expediente legítimo e
+inclusivo, principalmente para estudantes com deficiência intelectual. Há um equilíbrio tênue
+entre oferecer condições inclusivas de formação, o uso de certificado diferenciado e a produção
+de um currículo acessível a todos os estudantes. De qualquer modo, a “régua” da escola, quer
+
+=== p. 12 ===
+572
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
+dizer, a exigência historicamente normalizada de requisito para a conclusão de uma etapa escolar tem de ser, no mínimo, objeto de reflexão. Muitos docentes que estão à frente das classes
+atuais tiveram uma formação clássica de quanto mais exigente o curso, mais bem preparado
+o estudante estaria. Isso reflete uma cultura mais difícil de ser modificada, ainda mais considerando o quão recente a pauta de inclusão e de acessibilidade é nas escolas, especialmente os
+institutos de formação técnica.
+Uma das perguntas do instrumento inqueria, entre os docentes que disseram não ter
+adaptado conteúdos para o trabalho com estudantes com deficiência intelectual, o motivo de
+não haver realizado a adequação. A seguir, reproduzimos a resposta de um docente da área de
+Ciências da Natureza com uma visão mais pragmática do currículo: a de precisa-se vencê-lo
+porque será cobrado depois em exames como vestibular e Exame Nacional do Ensino Médio
+(ENEM), por exemplo.
+Não utilizei adaptação porque tais alunos não necessitam ter conteúdos diferentes do previsto
+na ementa do curso, pois as avaliações como PAVE (Programa de Avaliação da Vida Escolar
+– UFPel [Universidade Federal de Pelotas]) e ENEM, por exemplo, não preveem esse tipo de
+alteração, caso o professor realize, pois, a meu ver, sempre algum tópico pode ser retirado...
+então [...] caso esses alunos queiram ascender em sua carreira estudantil, vão se deparar com a
+realidade. Assim vejo que a adaptação não serve para uma política de avaliação do país que não
+prevê a acessibilidade de tais alunos. No entanto, o que pode ser realizado são outras medidas
+como um acompanhamento mais direcionado com tais alunos, ou um plano de ensino diferente, mas que prevê os mesmos conteúdos, eu não chamaria isso de adaptação, pois se parece
+que alguns conteúdos possam ser retirados (não que isso ocorra por alguns professores que
+adaptam), mas fiz/criei algumas estratégias diferentes com esses alunos e isso foi previsto no
+plano de ensino para estes.
+A partir da análise da resposta, inferimos que o docente considera a adaptação como
+sinônimo de uma estratégia que elimina conteúdos da ementa do curso, o que não se ampara
+na legislação. Por sua vez, a justificativa de que avaliações de ingresso no Ensino Superior, como
+o PAVE e o ENEM, não preveem alterações em suas provas, não tem intersecção com a adequação/flexibilização de conteúdos. É, na verdade, uma visão capacitista, que Sassaki (2020)
+traduz como a situação em que o foco são as capacidades das pessoas sem deficiência como
+critério da normalidade. Em outras palavras, a ênfase é colocada nas pessoas capazes e o que elas
+devem realizar é o objetivo a ser atingido por qualquer indivíduo: se os estudantes “normais”
+fazem ENEM e PAVE, então os estudantes com deficiência devem se deparar com a realidade
+se quiserem “ascender em sua carreira estudantil”.
+Em se tratando das questões abertas, apresentadas anteriormente neste texto, as quais
+solicitavam posicionamento dos docentes sobre os temas propostos, a primeira categorização,
+para docentes da área técnica, traz os resultados das adaptações curriculares como estratégia
+nas aulas. Quase 80% dos participantes, como a Tabela 2 mostra, consideram-nas como ponto
+chave para a aprendizagem dos estudantes com deficiência. Concebemos que emergiram também duas subcategorias com significado próximo, mas diferentemente relevantes. Enquanto
+a palavra “importante” sugere uma condição desejada, a palavra “essencial” foi compreendida
+como necessária, pois sem essas adaptações, o aprendizado, tal qual o que foi atingido, não seria
+alcançado.
+
+=== p. 13 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+573
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+Tabela 2
+Categorização dos dados – área técnica
+Categoria
+Subcategoria
+Frequência
+%
+Adaptações curriculares como estratégia
+Importante para a aprendizagem
+14
+37,8%
+Necessária ou essencial para a aprendizagem
+15
+40,5%
+Essencial para a integração
+2
+5,4%
+Não podem suprimir conteúdos
+2
+5,4%
+Docentes não estão preparados
+3
+8,1%
+Desnecessárias
+1
+2,7%
+37
+100%
+Tendo como base os docentes das áreas propedêuticas nesta pesquisa, uma diferença
+relevante para a área técnica diz respeito às duas subcategorias em destaque. Enquanto na área
+técnica o percentual de quem achava as adaptações curriculares uma estratégia importante era
+igual a quem achava essencial, na área propedêutica, a classificação “importante” foi o dobro da
+“essencial”, como mostra a Tabela 3.
+Tabela 3
+Categorização dos dados – área propedêutica
+Categoria
+Subcategoria
+Frequência
+%
+Adaptações curriculares como estratégia
+Importante para a aprendizagem
+15
+51,7%
+Necessária ou essencial para a aprendizagem
+7
+24,1%
+Essencial para a integração
+0
+0%
+Não podem suprimir conteúdos
+3
+10,3%
+Docentes não estão preparados
+2
+6,9%
+Desnecessárias
+2
+6,9%
+29
+100%
+Uma observação importante a ser feita pode ser justificada pela resposta do docente
+de Matemática reproduzida a seguir, que mostra que não há, de modo algum, duas categorias
+de estudantes: os normais e os deficientes. Dentro da sala de aula e dentro da deficiência, há
+uma variedade de características e de desenvolvimento pessoais que precisam ser levados em
+consideração na busca de uma adequação curricular.
+Já tive estudantes que só entendiam a leitura com letra de forma. Assim, os materiais precisavam
+ser adaptados para que o estudante tivesse autonomia em seu processo de leitura. Além disso,
+outro estudante já precisou trabalhar outros conteúdos que não os abordados em sala de aula,
+pois o estudante demonstrou não ter base para acompanhar os estudos. Assim, já tive estudan-
+
+=== p. 14 ===
+574
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
+tes no primeiro ano do Ensino Médio que precisavam trabalhar com questões envolvendo as
+quatro operações básicas, ou até mesmo potenciação e radiciação. Tais conteúdos eram mais
+bem trabalhados na sala de recursos, mas em sala de aula eram proporcionadas atividades diferenciadas para que o estudante estivesse incluso no processo de aprendizagem, conforme seu
+ritmo e possibilidade.
+Essa parece ser uma premissa importante, o do docente flexível, que, segundo Scherer
+(2015), é uma característica da contemporaneidade – a necessidade de uma escola e de uma
+docência flexíveis, atentas às necessidades e às formas possíveis de desenvolvimento de seus
+estudantes.
+Igualmente, há de destacarmos na posição dos docentes da área técnica o fato de não
+considerarem o currículo como estático, como podemos observar no relato a seguir, o que vai
+ao encontro do que Capellini (2018) pontua.
+Entendo todo processo de aprendizagem requer adaptações e, no caso específico de estudantes
+com deficiência intelectual, estas devem ir sendo realizadas a partir das limitações efetivas do
+estudante, ou seja, previamente não se pode dizer o que um estudante tem condições ou não de
+se apropriar, mas com base no processo, dando oportunidade aos estudantes de se desafiarem,
+entendo que surjam concretamente os pontos que requerem uma adaptação.
+A segunda categorização, também dividida em duas áreas, mostra os tipos de adaptação utilizados nas aulas. Há, como podíamos esperar, grande variedade de estratégias, conforme
+o que foi posto nas Tabelas 4 e 5. Chama-nos atenção o fato de uma pergunta do instrumento
+de pesquisa, que questionava se o docente realizava encontros fora do turno de aula para atendimento, ter 69,2% de respostas indicando encontros semanais ou quinzenais. Notamos que tal
+procedimento não foi considerado em todas as respostas como exemplo de adaptação realizada.
+Tabela 4
+Categorização dos dados – área técnica
+Categoria
+Subcategoria
+Frequência
+%
+Tipo de adaptação realizada
+Adaptação de conteúdo
+3
+8,9%
+Adaptação nas atividades
+8
+23,5%
+Supressão de conteúdo
+12
+35,3%
+Adaptação de material
+9
+26,5%
+Adaptação na avaliação
+2
+5,9%
+Atendimento individualizado
+0
+0%
+34
+100%
+
+=== p. 15 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+575
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+Tabela 5
+Categorização dos dados – área propedêutica
+Categoria
+Subcategoria
+Frequência
+%
+Tipo de adaptação realizada
+Adaptação de conteúdo
+4
+10,5%
+Adaptação nas atividades
+4
+10,5%
+Supressão de conteúdo
+11
+28,9%
+Adaptação de material
+12
+31,6%
+Adaptação na avaliação
+4
+10,5%
+Atendimento individualizado
+3
+7,9%
+38
+100%
+Há, no entanto, uma característica, ao nosso ver, muito peculiar: enquanto ambos os
+grupos se mostraram incomodados com a supressão de conteúdos nos cursos técnicos (Tabela
+1), esse tipo de adaptação foi utilizado com destaque (35% pela área técnica e 29% pela área
+propedêutica). Ora, apesar de não concordar com a eliminação de conteúdos, esse expediente
+foi bastante utilizado no momento das adequações para as aulas com estudantes com deficiência.
+Notamos que a prática é prevista como forma legítima de proporcionar ao educando
+acesso ao currículo. Considerada como adaptações significativas, a adequação que elimina conteúdos não deve ser feita indiscriminadamente, mas, sim, pautada por uma reflexão detalhada
+da necessidade e depois de esgotadas outras formas de acessibilidade. O que se destaca aqui é a
+aparente contradição entre o discurso e a prática.
+4 Conclusões
+Embora as informações relativas aos documentos institucionais usem a terminologia
+adaptações curriculares, consideramos que os verbetes flexibilização, diferenciação e acessibilidade curricular, neste trabalho, têm o sentido de promover ajustes no currículo, de modo a
+contemplar a heterogeneidade da sala de aula. Isso não significa supressão de conteúdo, embora
+entendamos que possa haver eliminação de conteúdos que não sejam essenciais ao desenvolvimento do aprendiz, tal qual a legislação prevê, sem, no entanto, considerar que isso seja necessariamente um empobrecimento do currículo.
+Não por acaso, os resultados obtidos nas respostas da área técnica, em todas as perguntas, foram mais conservadores. Há uma preocupação em relação ao fato de um estudante
+com deficiência intelectual poder desenvolver as habilidades requeridas no curso técnico para
+ter direito ao diploma. Em especial, a nota 5,2 da área técnica, que é atribuída à importância
+aos processos de acessibilidade curricular promovidos, os quais dão conta dos desafios que os
+estudantes ainda encontrarão dentro da formação técnica.
+Cabe destacarmos, por fim, que a pesquisa reflete, principalmente, o avanço lento da
+inclusão nas instituições de ensino. Apesar de esse fato poder ser visto como negativo, olhamos
+
+=== p. 16 ===
+576
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
+sob uma perspectiva mais otimista: o avanço é lento, mas não cremos estar ocorrendo retrocesso. Os números de chegada dos estudantes nos cursos técnicos estão aí para ratificar essa visão.
+Referências
+Araújo, M. A. (2019). Adaptações curriculares para alunos com deficiência intelectual: das concepções às
+práticas pedagógicas [Dissertação de Mestrado, Universidade Federal de Goiás]. Repositório da
+Universidade Federal de Goiás. https://repositorio.bc.ufg.br/tede/handle/tede/9632
+Bardin, L. (2010). Análise de conteúdo. Edições 70.
+Batista, C. A. M., & Mantoan, M. T. E. (2007). Atendimento Educacional Especializado em Deficiência
+Mental. In A. L. L. Gomes, A. C. Fernandes, C. A. M. Batista, D. A. Salustiano, M. T. E. Montoan,
+& R. V. Figueiredo (Eds.), Atendimento Educacional Especializado (1ª ed., pp. 13-42). Secretaria de
+Educação Especial, Secretaria de Educação a Distância, Ministério da Educação.
+Capellini, V. L. M. F. (2018). Adaptações curriculares na inclusão escolar: contrastes entre dois países. Appris.
+Correia, G. B. (2016). Deficiência, Conhecimento e Aprendizagem: uma análise relativa à produção
+acadêmica sobre Educação Especial e Currículo [Dissertação de Mestrado, Universidade Federal do
+Rio Grande do Sul]. Repositório da Universidade Federal do Rio Grande do Sul. https://www.
+lume.ufrgs.br/handle/10183/147927
+Decreto n° 7.611, de 17 de novembro de 2011. Dispõe sobre a educação especial, o atendimento
+educacional especializado e dá outras providências. http://www.planalto.gov.br/ccivil_03/_
+ato2011-2014/2011/decreto/d7611.htm
+Diniz, D., Barbosa, L., & Santos, W. R. dos. (2009). Deficiência, direitos humanos e justiça.
+Revista Internacional de Direitos Humanos, 6(11), 65-77. https://doi.org/10.1590/S1806-
+64452009000200004
+Diretrizes Nacionais para a Educação Especial na Educação Básica. (2001). http://portal.mec.gov.br/seesp/
+arquivos/pdf/diretrizes.pdf
+Fonseca, K. A. (2011). Análise de adequações curriculares no Ensino Fundamental: subsídios para programas
+de pesquisa colaborativa na formação de professores. [Dissertação de Mestrado, Universidade
+Estadual Paulista]. Repositório da Universidade Estadual Paulista. https://repositorio.unesp.br/
+handle/11449/97506
+Garcia, R. M. C. (2006). Políticas para a educação especial e as formas organizativas do trabalho
+pedagógico. Revista Brasileira de Educação Especial, 12(3), 299-316. https://doi.org/10.1590/
+S1413-65382006000300002
+Instituto Federal de Educação, Ciência e Tecnologia Sul-rio-grandense. (2021). Relatório de Gestão 2021.
+IFSUL.
+Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira. (2021). Sinopse Estatística da
+Educação Básica 2008-2021. https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/
+sinopses-estatisticas/educacao-basica
+Lei n° 9.394, de 20 de dezembro de 1996. Estabelece as diretrizes e bases da educação nacional.  http://
+www.planalto.gov.br/ccivil_03/leis/l9394.htm
+
+=== p. 17 ===
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+577
+Adaptações curriculares nos cursos técnicos
+Relato de Pesquisa
+Lei n° 11.892, de 29 de dezembro de 2008. Institui a Rede Federal de Educação Profissional, Científica e
+Tecnológica, cria os Institutos Federais de Educação, Ciência e Tecnologia, e dá outras providências.
+http://www.planalto.gov.br/ccivil_03/_ato2007-2010/2008/lei/l11892.htm
+Lei n° 13.409, de 28 de dezembro de 2016. Altera a Lei nº 12.711, de 29 de agosto de 2012, para dispor sobre a
+reserva de vagas para pessoas com deficiência nos cursos técnico de nível médio e superior das instituições
+federais de ensino. http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2016/lei/l13409.htm
+Mendes, G. M. L. (2011). As práticas curriculares nos cadernos escolares: registros de inclusão?. In
+M. D. Pletsch, & A. Damasceno (Orgs.), Educação especial e inclusão escolar: reflexões sobre o fazer
+pedagógico (1ª ed., pp. 137-148). EDUR.
+Oliveira, A. A. S. (2008). Adequações Curriculares na Área da Deficiência Intelectual: algumas reflexões.
+In A. A. S. Oliveira, S. Omote, & C. R. M. Giroto (Orgs.), Inclusão escolar: as contribuições da
+educação especial (1ª ed., pp. 129-154).  Cultura Acadêmica, Fundepe.
+Organização das Nações Unidas. Declaração de Salamanca e enquadramento da ação na área das necessidades
+educativas especiais. (1994). http://portal.mec.gov.br/seesp/arquivos/pdf/salamanca.pdf
+Organização das Nações Unidas. (2006). Convenção sobre os Direitos das Pessoas com Deficiência. http://
+www.un.org/disabilities/documents/natl/portugal-c.doc
+Parâmetros Curriculares Nacionais – Adaptações Curriculares: estratégias para a educação de alunos com
+necessidades educacionais especiais. (1998). https://docplayer.com.br/8626-Parametros-curricularesnacionais.html
+Pletsch, M. D., Souza, F. F., & Orleans, L. F. (2017). A diferenciação curricular e o desenho universal
+na aprendizagem como princípios para a inclusão escolar. Revista educação e cultura contemporânea,
+14(35), 264-281. https://doi.org/10.5935/2238-1279.20170014
+Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva. (2008). http://portal.mec.
+gov.br/arquivos/pdf/politicaeducespecial.pdf
+Projeto Escola Viva - Garantindo o acesso e permanência de todos os alunos na escola - Alunos com necessidades
+educacionais especiais: Adaptações curriculares de pequeno porte. (2000a). http://portal.mec.gov.br/
+seesp/arquivos/pdf/cartilha06.pdf
+Projeto Escola Viva - Garantindo o acesso e permanência de todos os alunos na escola - Alunos com necessidades
+educacionais especiais: Adaptações curriculares de grande porte. (2000b). http://portal.mec.gov.br/
+seesp/arquivos/pdf/cartilha05.pdf
+Sassaki, R. K. (2020). Capacitismo, incapacitismo e deficientismo na contramão da inclusão. Revista
+Reação, 96, 10-12.
+Scherer, R. P. (2015). Cada um aprende do seu jeito: das adaptações às flexibilizações curriculares [Dissertação
+de Mestrado, Universidade do Vale do Rio dos Sinos]. Repositório da Universidade do Vale do Rio
+dos Sinos. http://www.repositorio.jesuita.org.br/handle/UNISINOS/3885
+Xavier, M. S. (2018). Acessibilidade curricular: refletindo sobre conceitos e o trabalho pedagógico [Dissertação
+de Mestrado, Universidade Federal de Santa Maria]. Repositório da Universidade Federal de Santa
+Maria. https://repositorio.ufsm.br/handle/1/170845
+Recebido em: 07/07/2022
+Reformulado em: 12/09/2022
+Aprovado em: 18/09/2022
+
+=== p. 18 ===
+578
+Rev. Bras. Ed. Esp., Corumbá, v.28, e0122, p.561-578, 2022
+DIOGO, M.A. & GELLER, M.
