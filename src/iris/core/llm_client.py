@@ -77,9 +77,25 @@ class OllamaLLMProvider(BaseLLMProvider):
         timeout_seconds: int = 300,
     ) -> None:
         settings = get_settings()
-        self.model = model or os.environ.get("IRIS_LLM_MODEL") or os.environ.get("RAG_LLM_MODELO") or settings.llm_model
         self.base_url = (base_url or os.environ.get("OLLAMA_URL") or settings.ollama_url).rstrip("/")
         self.timeout_seconds = timeout_seconds
+
+        explicit_model = model or os.environ.get("IRIS_LLM_MODEL") or os.environ.get("RAG_LLM_MODELO")
+        if explicit_model:
+            self.model = explicit_model
+        else:
+            # Detecta automaticamente modelos Llama 3 já instalados no Ollama local
+            installed = self.list_installed_models()
+            if settings.llm_model in installed:
+                self.model = settings.llm_model
+            elif "llama3:latest" in installed:
+                self.model = "llama3:latest"
+            elif any("llama3" in m for m in installed):
+                self.model = next(m for m in installed if "llama3" in m)
+            elif installed:
+                self.model = installed[0]
+            else:
+                self.model = settings.llm_model
 
     def list_installed_models(self) -> list[str]:
         """Retorna a lista de modelos instalados no servidor Ollama local."""

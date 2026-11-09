@@ -5,7 +5,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 HOST="${IRIS_HOST:-127.0.0.1}"
 PORT="${IRIS_PORT:-8000}"
-MODEL="${IRIS_LLM_MODEL:-${RAG_LLM_MODELO:-llama3.1:8b}}"
+
+# Detecta automaticamente se já existe um modelo llama3 baixado
+DETECTED_MODEL=""
+if command -v ollama >/dev/null 2>&1; then
+    if ollama list 2>/dev/null | awk '{print $1}' | grep -Eq "^llama3(:latest)?$"; then
+        DETECTED_MODEL="llama3:latest"
+    elif ollama list 2>/dev/null | awk '{print $1}' | grep -Eq "^llama3\.1"; then
+        DETECTED_MODEL="llama3.1:8b"
+    fi
+fi
+MODEL="${LLM_MODEL:-${IRIS_LLM_MODEL:-${RAG_LLM_MODELO:-${DETECTED_MODEL:-llama3:latest}}}}"
 OLLAMA_HOST_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
 
 cd "${REPO_ROOT}"
@@ -64,3 +74,4 @@ else
     IRIS_LLM_PROVIDER=ollama IRIS_LLM_MODEL="${MODEL}" IRIS_HOST="${HOST}" IRIS_PORT="${PORT}" \
         PYTHONPATH="${REPO_ROOT}/src" python3 -m iris.main
 fi
+

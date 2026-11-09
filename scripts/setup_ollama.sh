@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODEL="${1:-${IRIS_LLM_MODEL:-llama3.1:8b}}"
+# Detecta automaticamente se já existe um modelo llama3 baixado
+DETECTED_MODEL=""
+if command -v ollama >/dev/null 2>&1; then
+    if ollama list 2>/dev/null | awk '{print $1}' | grep -Eq "^llama3(:latest)?$"; then
+        DETECTED_MODEL="llama3:latest"
+    elif ollama list 2>/dev/null | awk '{print $1}' | grep -Eq "^llama3\.1"; then
+        DETECTED_MODEL="llama3.1:8b"
+    fi
+fi
+
+MODEL="${1:-${IRIS_LLM_MODEL:-${DETECTED_MODEL:-llama3:latest}}}"
 OLLAMA_HOST_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
 
 echo "============================================================"

@@ -3,7 +3,7 @@
 HOST ?= 127.0.0.1
 PORT ?= 8000
 DOCS_PORT ?= 8001
-LLM_MODEL ?= llama3.1:8b
+LLM_MODEL ?= llama3:latest
 PYTHONPATH := $(CURDIR)/src
 
 # Detecta automaticamente se o uv está funcional ou usa python3 com PYTHONPATH
