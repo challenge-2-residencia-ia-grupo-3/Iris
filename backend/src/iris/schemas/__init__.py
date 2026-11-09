@@ -23,7 +23,9 @@ from iris.schemas.materials import (
     MaterialStructure,
     MaterialTextInput,
     MaterialValidationError,
+    ProseStructure,
     QuestionItem,
+    StructuralNode,
     validate_file_size_limit,
     validate_material_content,
 )
@@ -50,7 +52,9 @@ __all__ = [
     "MaterialValidationError",
     "AlternativeItem",
     "ContextBlock",
+    "ProseStructure",
     "QuestionItem",
+    "StructuralNode",
     "validate_file_size_limit",
     "validate_material_content",
 ]

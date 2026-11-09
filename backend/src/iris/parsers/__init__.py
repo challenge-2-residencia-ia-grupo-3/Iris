@@ -9,6 +9,7 @@ from iris.parsers.document_extractor import (
     extract_text_from_txt,
     normalize_extracted_text,
 )
+from iris.parsers.prose_organizer import organize_prose_structure
 from iris.parsers.structural_decomposer import decompose_material
 
 __all__ = [
@@ -21,6 +22,7 @@ __all__ = [
     "extract_text_from_pdf",
     "extract_text_from_txt",
     "normalize_extracted_text",
+    "organize_prose_structure",
 ]
 
 

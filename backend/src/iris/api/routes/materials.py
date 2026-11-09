@@ -13,6 +13,7 @@ from iris.parsers.document_extractor import (
     UnsupportedFileFormatError,
     extract_text_from_file,
 )
+from iris.parsers.prose_organizer import organize_prose_structure
 from iris.parsers.structural_decomposer import decompose_material
 from iris.schemas.materials import (
     MaterialMetadata,
@@ -21,6 +22,7 @@ from iris.schemas.materials import (
     MaterialStructure,
     MaterialTextInput,
     MaterialValidationError,
+    ProseStructure,
     validate_file_size_limit,
     validate_material_content,
 )
@@ -126,6 +128,24 @@ def decompose_material_service(raw_text: str) -> MaterialStructure:
     return decompose_material(sanitized)
 
 
+def organize_prose_service(raw_text: str) -> ProseStructure:
+    """Executa a organização estrutural automática de textos corridos (RF-02 Extensão / História 1.1.4).
+
+    1. Sanitização preventiva de PII.
+    2. Validação básica de presença de conteúdo.
+    3. Construção da árvore hierárquica (títulos, seções, subseções, parágrafos e listas).
+    """
+    if not isinstance(raw_text, str) or not raw_text.strip():
+        raise MaterialValidationError(
+            message="O texto fornecido para organização estrutural está vazio.",
+            code="EMPTY_TEXT",
+            field="text",
+        )
+
+    sanitized, _ = sanitize_pii(raw_text)
+    return organize_prose_structure(sanitized)
+
+
 # Roteamento FastAPI (quando FastAPI estiver disponível)
 try:
     from fastapi import APIRouter, File, HTTPException, UploadFile, status
@@ -208,6 +228,28 @@ try:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail={"detail": f"Erro interno ao decompor material: {err}", "code": "INTERNAL_ERROR"},
+            ) from err
+
+    @router.post(
+        "/organize-prose",
+        response_model=dict[str, Any],
+        summary="Organização estrutural automática de textos corridos (História 1.1.4)",
+        description="Identifica e organiza hierarquicamente títulos, subtítulos, seções, subseções, parágrafos e listas.",
+    )
+    async def organize_prose_endpoint(payload: MaterialTextInput) -> dict[str, Any]:
+        try:
+            text_val = payload.text if hasattr(payload, "text") else payload["text"]
+            structure = organize_prose_service(text_val)
+            return structure.model_dump()
+        except MaterialValidationError as err:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=err.to_dict(),
+            ) from err
+        except Exception as err:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail={"detail": f"Erro interno ao organizar texto corrido: {err}", "code": "INTERNAL_ERROR"},
             ) from err
 
 
