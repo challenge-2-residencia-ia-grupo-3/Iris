@@ -190,14 +190,15 @@ Para atender à diretriz do Challenge 2 de justificar decisões técnicas sem an
 | **ADR-04** | Estratégia de fragmentação do corpus RAG (*Chunking*) | Fragmentação por contagem de caracteres fixa (ex.: 500 chars com overlap de 50) vs. *Chunking* semântico estruturado por diretriz do DUA/MEC | **Validado na Semana 2 (`ingestao.py`)** | **Resultado Empírico:** Corte estrutural por seção/artigo com teto de 350 palavras, mínimo de 40 palavras e sobreposição do último parágrafo (até 60 palavras), gerando 1.368 trechos limpos a partir de 38 documentos curados. |
 | **ADR-05** | Modelo de *Embeddings* e Recuperação em 2 Estágios | Busca lexical (BM25) vs. MPNet vs. `Qwen3-Embedding-0.6B` + Reordenação Cross-Encoder (`mmarco-mMiniLMv2`) | **Validado na Semana 2 (`consultar.py`)** | **Resultado Empírico:** A recuperação em dois estágios (`qwen3+rerank50`) elevou o Recall@5 de 0,28 (Qwen3 isolado) e 0,20 (BM25) para **0,42** (IC 95%: 0,32 a 0,52), atendendo a 87% das consultas com resposta na base. |
 | **ADR-06** | Limite de iterações do loop de auditoria (*Circuit Breaker*) | Loop indefinido até atingir $\text{TRCC} \ge 95\%$ vs. Limite rígido de duas iterações (`max_retries = 2`) com aviso ao docente | **Em Validação Experimental (Semana 4)** | **Protocolo Experimental:** Mensurar tempo de resposta total e consumo de tokens em cascata para checar se 2 iterações são suficientes para convergência sem violar o requisito de latência ($\le 40\text{s}$) estipulado em RNF-07. |
-| **ADR-07** | Gerenciamento de ambiente e dependências | Pip/Virtualenv vs. Poetry vs. UV | **Decidido por Requisito do Projeto** | O gestor `uv` foi selecionado em cumprimento ao RNF-11, unificando dependências da API e do RAG no `pyproject.toml` com empacotamento editável de `src/iris`. |
+| **ADR-07** | Gerenciamento de ambiente e dependências | Pip/Virtualenv vs. Poetry vs. UV | **Decidido por Requisito do Projeto** | O gestor `uv` foi selecionado em cumprimento ao RNF-11, unificando dependências da API e do RAG no `pyproject.toml` com empacotamento editável de `backend/src/iris`. |
 | **ADR-08** | Mapeamento Taxonômico entre Catálogo de Características e Base RAG | Reindexação vetorial por micro-característica vs. Mapeamento determinístico `id_caracteristica` $\rightarrow$ `barreira_rag_associada` via schema modular | **Implementado (`#39` e `#44`)** | O catálogo `rag/catalogs/tdah_caracteristicas_funcionais.json` define 9 características atômicas observáveis em sala (com diretrizes de Nível 1, 2 e 3) mapeadas para as 9 tags `barreiras` indexadas no RAG, permitindo expansão para TEA/Dislexia sem reindexar vetores nem alterar código. |
+| **ADR-09** | Separação Física e Stack da Interface Web Docente (`frontend/` vs. `backend/`) | Templates monolíticos acoplados ao backend vs. Arquitetura desacoplada **Frontend Next.js (`frontend/`) + Backend Python FastAPI (`backend/`)** | **Implementado (`#4` — História 1.1.1)** | O repositório separa fisicamente o backend Python (`backend/src/iris/` e `backend/tests/`) da aplicação web em **Next.js 14 + TypeScript + Tailwind CSS** (`frontend/`), comunicando-se via REST stateless (`POST /api/v1/materials/upload` e `POST /api/v1/materials/text`) com conformidade WCAG 2.1 AA e fidelidade ao protótipo do Figma. |
 
 ---
 
-## 6. Arquitetura do Catálogo Modular de Características (`#39`) e Ponte RAG (`#44`)
+## 6. Arquitetura do Catálogo Modular de Características (`#39`), Ponte RAG (`#44`) e Divisão `backend/` vs. `frontend/`
 
-O desacoplamento entre a interface docente/API (`src/iris/`) e o motor científico de recuperação (`rag/iris-rag/pacote/`) é realizado pelo módulo [`src/iris/rag/bridge.py`](file:///Users/aluno1/Residencia_IA/challenge_2_residencia_ia_grupo_3/iris/src/iris/rag/bridge.py) e pelo validador de schema [`src/iris/schemas/catalog.py`](file:///Users/aluno1/Residencia_IA/challenge_2_residencia_ia_grupo_3/iris/src/iris/schemas/catalog.py):
+O desacoplamento entre a interface docente em Next.js (`frontend/`), a API FastAPI (`backend/src/iris/`) e o motor científico de recuperação (`rag/iris-rag/pacote/`) é realizado pelo módulo [`backend/src/iris/rag/bridge.py`](file:///Users/aluno1/Iris/backend/src/iris/rag/bridge.py) e pelo validador de schema [`backend/src/iris/schemas/catalog.py`](file:///Users/aluno1/Iris/backend/src/iris/schemas/catalog.py):
 
 | `id_caracteristica` (Catálogo Modular `#39`) | `barreira_rag_associada` (Índice RAG) | Princípio DUA Primário | Documentos de Referência Vinculados (`fontes.json`) |
 | :--- | :--- | :--- | :--- |
@@ -251,3 +252,24 @@ Para viabilizar que o professor de uma nova série ou um novo bimestre conheça 
 ```
 
 O arquivo é gravado unicamente no dispositivo do professor ou arquivado no prontuário físico/local da unidade escolar. O sistema pode reimportar esse `.json` a qualquer momento para inicializar a sessão de adaptação sem que nenhum dado persista no servidor.
+
+---
+
+## 7. Protocolo de Avaliação, Métricas e Golden Benchmark (`src/iris/eval/`)
+
+Para respaldar as decisões arquiteturais com validação empírica quantitativa (Semanas 3 e 7), o módulo `src/iris/eval/` disponibiliza o ferramental de medição objetiva e a base de questões:
+
+### 7.1. Golden Benchmark Escolar (`data/golden_benchmark.json`)
+O dataset contém **30 questões escolares reais** cobrindo Português, Matemática, Ciências, História e Geografia (4º ao 9º ano), anotadas com a presença de comandos conjugados e status de revisão:
+* **Estrutura:** Carregado via `iris.eval.benchmark.carregar_golden_benchmark()`, retornando instâncias imutáveis de `GoldenQuestion`.
+* **Propósito:** Servir de baseline experimental para avaliar se o pipeline RAG preserva as habilidades avaliadas e aplica andaimes com precisão, em comparação a LLMs puros.
+
+### 7.2. Flesch PT-BR e Densidade de Comandos (`iris.eval.readability`)
+* **Flesch PT-BR (Martins et al., 1996):**
+  $$\text{IFR} = 248.835 - 1.015 \times \left(\frac{\text{palavras}}{\text{sentenças}}\right) - 84.6 \times \left(\frac{\text{sílabas}}{\text{palavras}}\right)$$
+  Calculado com suporte a hifenização oficial (`pyphen`) e fallback algorítmico fonético baseado em núcleos vocálicos do português.
+* **Detecção de Comandos Conjugados:** Mapeia 60+ verbos imperativos e infinitivos escolares e contabiliza sentenças que acumulam 2 ou mais verbos de comando (fator crítico de saturação da memória de trabalho).
+
+### 7.3. Métricas de Fidelidade Pedagógica (`iris.eval.metrics`)
+* **TRCC (Taxa de Retenção de Conceitos-Chave):** Razão entre os conceitos obrigatórios da trava curricular retidos no material adaptado versus os conceitos originais (critério inegociável: $\ge 0.95$).
+* **SAEN (Aderência Estrutural ao Nível):** Verificador estrutural das exigências formais de cada nível (Nível 1: destaque tipográfico; Nível 2: checklists e decomposição; Nível 3: escalonamento passo a passo).
