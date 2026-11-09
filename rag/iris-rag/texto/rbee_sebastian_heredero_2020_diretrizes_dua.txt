@@ -1,0 +1,1460 @@
+=== p. 1 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+733
+Diretrizes para o Desenho Universal para a Aprendizagem (DUA)123
+Universal Desing Learning Guidelines
+Eladio Sebastián-Heredero4
+RESUMO: As Diretrizes do Desenho Universal para a Aprendizagem – DUA (UDL na língua inglesa) começaram como um
+projeto do Centro Nacional de Acesso ao Currículo Geral (NCAC), um acordo de colaboração entre o Centro de Tecnologias
+Especiais Aplicadas (CAST) e o Escritório de Programas de Educação Especial (OSEP) do Departamento de Educação dos Estados
+Unidos. Estas Diretrizes foram compiladas pelo Dr. David H. Rose, Co-fundador e Diretor Educacional do CAST, e Jenna
+Gravel, Mestre em Educação e Doutoranda na Universidade de Harvard. Eles receberam inúmeras colaborações e comentários
+de colegas do CAST, professores dos diferentes níveis de ensino (ensino fundamental, médio e superior), pesquisadores e outros
+profissionais. Esta tradução e revisão foram realizadas como atividade do Grupo de Estudos: Pesquisas em Políticas e Práticas
+Educativas Inclusivas: Reconstruindo a escola, na Universidade Federal de Mato Grosso do Sul, Campo Grande (MS/Br), ao longo
+do segundo semestre de 2019, integrado pelas seguintes pessoas: Andre Luiz Alvarenga de Souza, Angelita Leal de Castro Fonseca,
+Evelyn Mello, Franciele Cristina da Silva, Jaqueline Vargas, Jociane de Oliveira Nunes Gonçalves, Juliana Moreno Cavalheiro,
+Leandro Vieira, Mareide Lopes de Arruda e Patricia Tanganelli Lara – coordenados pelo Prof. Dr. Eladio Sebastián-Heredero. A
+autorização para esta publicação no Brasil na língua portuguesa foi feita pelo Sr. David Gordon, Senior Director, Publishing &
+Communications do CAST, com o conhecimento da Sra. Kim Ducharme, Director of Educational User Experience Design do
+CAST, com data de 10 de julho de 2020.
+PALAVRAS-CHAVE: Desenho Universal para a Aprendizagem; Práticas educativas inclusivas; Currículo inclusivo.
+ABSTRACT: The Universal Design Guidelines for Learning – UDL, started as a project by the National Center for Access to the
+General Curriculum (NCAC), a collaboration agreement between the Center for Special Applied Technologies (CAST) and the
+Office of Special Education Programs (OSEP) of the United States Department of Education. These Guidelines were compiled
+by Dr. David H. Rose, CAST Co-founder and Educational Director, and Jenna Gravel, Master of Education and PhD student at
+Harvard University. They received numerous collaborations and comments from CAST colleagues, teachers from different levels
+of education (elementary, secondary and higher education), researchers and other professionals. This translation and revision was
+carried out as an activity of the Study Group: Research in Inclusive Educational Policies and Practices: Rebuilding the school, at
+the Federal University of Mato Grosso do Sul, Campo Grande (MS / Br), during the second semester of 2019 integrated by the
+following people: Andre Luiz Alvarenga de Souza, Angelita Leal de Castro Fonseca, Evelyn Mello, Franciele Cristina da Silva,
+Jaqueline Vargas, Jociane de Oliveira Nunes Gonçalves, Juliana Moreno Cavalheiro, Leandro Vieira, Mareide Lopes de Arruda and
+Patricia Tanganelli Lara coordinated by PhD Eladio Sebastián-Heredero. Authorization for this publication in Brazil in Portuguese
+was made by Mr. David Gordon, Senior Director, Publishing & Communications at CAST, with the knowledge of Ms. Kim
+Ducharme, Director of Educational User Experience Design at CAST, dated 10 July 2020.
+KEYWORDS: Universal Design for Learning; Inclusive educational practices; Inclusive curriculum.
+1 https://doi.org/10.1590/1980-54702020v26e0155
+2 No documento original: Universal Desing Learning Guidelines.
+3 Tradução para o português (Brasil) - Versão 2.0. Grupo de Estudos “Pesquisas em Políticas e Práticas educativas Inclusivas -
+Reconstruindo a escola” (GEPPPEI-RE). Universidade Federal do Mato Grosso do Sul (UFMS).  Campo Grande/Mato Grosso
+do Sul/Brasil.
+4 Universidade Federal de Mato Grosso do Sul (UFMS). Campo Grande/Mato Grosso do Sul/Brasil. E-mail: eladio.sebastian@
+ufms.br. ORCID: https://orcid.org/0000-0003-0293-4395
+
+=== p. 2 ===
+SEBASTIÁN-HEREDERO, E.
+734
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+Prefácio
+O desenvolvimento do Desenho Universal para a Aprendizagem5 e suas Diretrizes
+No CAST6, começamos a trabalhar há quase 26 anos para desenvolver modos de facilitar aos estudantes com deficiência o acesso ao currículo geral. Ao longo dos primeiros anos,
+centramo-nos em ajudá-los a adaptar-se ou ajustar-se a si mesmos, superando suas dificuldades,
+com o objetivo de aprender seguindo um currículo regular. Este trabalho se centrou basicamente no uso da tecnologia, das ferramentas compensatórias (como o corretor ortográfico) e
+do software para o desenvolvimento de habilidades – ferramentas que no dia a dia continuam
+sendo uma parte importante de qualquer plano educacional compreensivo.
+Porém, também percebemos que nossa abordagem era, em parte, limitada, pois encobria o papel crítico que tem o contexto na hora de determinar a quem se considera ou não
+uma pessoa com deficiência. No final dos anos 1980, mudamos nosso foco para o currículo
+e suas limitações e nos questionamos: como essas limitações incapacitam os estudantes? Essa
+mudança conduziu a uma simples, embora profunda, conclusão: o peso da adaptação deve
+recair em primeiro lugar sobre o currículo e não sobre o estudante. Dado que a maioria dos
+currículos têm dificuldades em adaptar-se às diferenças individuais, temos que reconhecer que
+são estes, e não os estudantes, os que têm deficiências. Portanto, devemos corrigir os currículos
+e não os estudantes.
+No inicio dos anos 1990, o CAST começou a investigar, desenvolver e articular os
+principios e as práticas do Desenho Universal para a Aprendizagem (DUA). O termo vem do
+conceito de Desenho Universal, da área do Desenvolvimento Arquitetônico e seus produtos,
+impulsionado pela primeira vez por Ronald L. Mace7 da Universidade Estadual da Carolina
+do Norte em 1980. Esse movimento teve como objetivo criar entornos físicos e ferramentas
+que possam ser utilizados pelo maior número de pessoas possíveis. Um exemplo clássico do
+Desenho Universal são as rampas das calçadas: ainda que originalmente fossem planejadas
+para pessoas usuárias de cadeiras de rodas, agora são usadas por todos, desde pessoas com carrinhos de compra a pais empurrando carrinhos de crianças. Como nosso interesse se centrava
+na aprendizagem, e não na arquitetura e seus produtos, preocupamo-nos com questões nas
+ciências da educação, e não mais com a aplicação direta dos princípios arquitetônicos originais.
+Com o tempo compreendemos que a aprendizagem implica um desafio específico na
+área concreta de atuação e para que isso aconteça devemos eliminar as barreiras desnecessárias
+mantendo os desafíos necessários. Por isso, os princípios do DUA, além de focar no acesso
+físico à sala de aula, concentram-se no acesso a todos os aspectos da aprendizagem. Esta é uma
+distinção importante entre o que significa DUA e o que se pode considerar uma simples orientação sobre o acesso do estudante à aprendizagem.
+5 No original, Universal Design for Learning (UDL).
+6 O CAST foi fundado em 1984 como o Centro de Tecnologia Especial Aplicada e tem conseguido o reconhecimento internacional
+pelo tratamento inovador para expandir as oportunidades educativas para todos os indivíduos, baseados nos principios do Desenho
+Universal para a Aprendizagem.
+7 Ronald L. Mace foi o criador do The Center for Universal Design (CUD). O Centro para o Desenho Universal é uma referência
+nacional de assistência técnica e um centro de pesquisa que avalia, desenvolve e promove um desenho acessível e universal em lares,
+comércios, repartições públicas, ambientes ao ar livre e produtos. Sua missão é melhorar entornos e produtos por meio da inovação
+em desenho, pesquisa, educação e assistência para o desenho. Recuperado em 24 de julho de 2020 de https://projects.ncsu.edu/
+ncsu/design/cud/index.htm.
+
+=== p. 3 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+735
+Este trabalho foi realizado em colaboração com pesquisadores, neurocientistas e profissionais do âmbito da educação e da tecnología de muito talento e dedicação. À medida que
+o campo do DUA vem crescendo, aumentam as demandas por parte dos interessados que
+solicitam ajuda para fazer a aplicação desses princípios e tornar suas práticas mais concretas e
+aplicavéis ao desenho/planejamento curricular. Foi por causa dessa demanda que decidimos
+criar as Diretrizes para o DUA.
+1 Introdução
+O objetivo da educação no século XXI não consiste simplesmente no domínio dos
+conteúdos do conhecimento e no uso de novas tecnologias, mas abarca, também, o domínio
+do próprio processo de aprendizagem. A educação deveria ajudar a passar de aprendiz em desenvolvimento a avançado: pessoas que querem aprender, que sabem como fazê-lo estrategicamente e que, desde um estilo próprio altamente fléxivel e personalizado, estão bem preparadas
+para a aprendizagem ao longo da vida. O DUA ajuda os educadores a alcançar esse objetivo,
+proporcionando uma referência para entender como criar currículos que atendam às necessidades de todos os estudantes desde o primeiro momento.
+As Diretrizes do DUA pretendem ser uma expressão de referência geral para o desenvolvimento do DUA, que podem ajudar qualquer professor ou gestor que planeje unidades
+didáticas ou desenvolva currículos (objetivos, metódos, materiais e avaliações) para minimizar barreiras, assim como otimizar os níveis de desafios e ajudas. Também podem auxiliar os
+educadores a identificar as barreiras presentes nos currículos atuais. Porém, para entender por
+completo estas Diretrizes, primeiro se deve compreender o que é o DUA.
+2 O que é o Desenho Universal para a Aprendizagem?
+2.1 O conceito de DUA
+O DUA é uma referência que corrige o principal obstáculo para promover alunos
+avançados nos ambientes de aprendizagem: os currículos inflexíveis, tamanho único para todos.
+São precisamente esses currículos inflexíveis que geram barreiras não intencionais para o acesso
+ao aprendizado. Os estudantes que estão nos extremos, como os superdotados e os com altas
+habilidades e os estudantes com deficiencia, são particularmente vulneráveis. Um desenho curricular deficiente poderia não atender a todas as necessidades de aprendizagem, incluindo os
+estudantes que poderíamos considerar na média.
+Nos ambientes de aprendizagem, como escolas ou universidades, a variabilidade individual é norma, e não exceção, há muita diversidade. Quando os currículos são desenhados
+para uma média imaginária, não se considera a variabilidade/diversidade real entre os estudantes. Esses currículos fracassam quando tentam proporcionar a todos os alunos oportunidades
+justas e equitativas para aprender, já que excluem aqueles com distintas capacidades, conhecimentos prévios e motivacionais que não correspondem ao critério ilusório da média.
+O DUA considera a variabilidade/diversidade dos estudantes ao sugerir flexibilidade
+de objetivos, métodos, materiais e avaliações, permitindo aos educadores satisfazer carências
+diversas. O currículo que se cria seguindo a referência do DUA é planejado desde o princípio
+
+=== p. 4 ===
+SEBASTIÁN-HEREDERO, E.
+736
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+para atender às necessidades de todos os alunos, fazendo com que mudanças posteriores, assim
+como o esforço e o tempo vinculados a elas, sejam dispensáveis. A referência do DUA estimula
+a criação de propostas flexíveis desde o início, apresentando opções personalizáveis que permitem a todos os estudantes progredir a partir de onde eles estão, e não de onde nós imaginamos
+que estejam. As opções para atingi-los são variadas e suficientemente fortes para proporcionar
+uma educação efetiva para todos os estudantes.
+2.2 Os três princípios
+Existem três princípios fundamentais baseados na investigação neurocientifica que
+orientam o DUA e fundamentam estas Diretrizes:
+Principio I: Proporcionar Modos Múltiplos de Apresentação (o o que da
+Aprendizagem).
+Os estudantes diferem nos modos como percebem e compreendem a informação
+que lhes é apresentada. Por exemplo, aqueles com deficiências sensoriais (cegos e surdos), com
+dificuldades de aprendizagem (dislexia), com outras línguas ou culturas, podem requerer maneiras distintas de aceder aos conteúdos. Outros, simplesmente, poderão captar a informação
+de forma mais rápida ou mais eficiente por meio de recursos visuais ou auditivos em vez de um
+texto impresso. Além disso, a aprendizagem e a transferência do aprendizado ocorrem quando
+múltiplas apresentações são usadas, pois isso permite aos estudantes fazer conexões interiores,
+assim como entre os conceitos. Em resumo, não há um meio de representação ideal para todos
+os estudantes, por isso oportunizar modos múltiplos de apresentação dos conteúdos é essencial.
+Principio II: Proporcionar Modos Múltiplos de Ação e Expressão (o como da
+Aprendizagem).
+Os estudantes diferem nas formas como procuram o conhecimento e expressam o
+que sabem. Por exemplo, as pessoas com alterações significativas de movimento (paralisia cerebral), aqueles com dificuldades nas habilidades estratégicas e organizativas (transtorno da função executiva), os que apresentam barreiras com a comunicação etc., fazem a ação e a expressão
+da aprendizagem de forma muito diferente. Alguns podem ser capazes de expressar-se bem
+com um texto escrito, mas não de forma oral, e vice-versa. Também há de se reconhecer que a
+ação e a expressão requerem uma grande quantidade de estratégias, práticas e organização; este
+é outro aspecto em que os estudantes se diferenciam. Na realidade, não há um modo de ação e
+expressão ideal para todos os alunos; assim, há de se promover opções variadas para que a ação
+e a expressão se manifestem, pois são imprescindíveis.
+Principio III: Proporcionar Modos Múltiplos de Implicação, Engajamento e
+Envolvimento (o porquê da Aprendizagem).
+As emoções das pessoas e a afetividade são elementos cruciais para a aprendizagem,
+e os estudantes diferem notoriamente nos modos os quais podem ser provocados e motivados
+para aprender. Existe uma diversidade de fontes que influenciam na hora de explicar a varia-
+
+=== p. 5 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+737
+bilidade individual afetiva e de envolvimento, como os fatores neurológicos e os culturais,
+os interesses pessoais, a subjetividade e os conhecimentos prévios, junto com outra gama de
+fatores presentes nestas Diretrizes. Alguns estudantes se interessam de forma muito espontânea
+perante as novidades, enquanto outros não se interessam em participar e se assustam com esses
+fatos, preferindo as atividades rotineiras. Uns optam por trabalhar sozinhos, outros preferem
+trabalhar com os companheiros. Logo, não há um único meio que seja ideal para todos os alunos em todos os contextos. Portanto, é relevante proporcionar modos múltiplos de implicação
+e envolvimento.
+Os fundamentos das ciências da educação, da neurologia e das práticas do DUA
+se discutem com aprofundamento nos livros: Teaching Every Student in the Digital Age (Rose
+& Meyer, 2002); The Universally Designed Classroom (Rose, Meyer, & Hitchcock, 2005) e A
+Practical Reader in Universal Design for Learning (Rose & Meyer, 2006).
+2.3 Questões importantes sobre o Desenho Universal para a Aprendizagem
+Antes de oferecer uma exposição completa das Diretrizes do DUA, é importante
+responder a algumas perguntas que esclareçam os termos e os conceitos que nele aparecem.
+Isso ajudará a adquirir conhecimentos prévios e vocabulário necessário para compreender estas
+Diretrizes. As questões são: Como é definido o DUA? Quem são os estudantes/aprendizes
+avançados? A que nos referimos com o termo currículo? O que significa que os currículos são
+deficientes? Como trabalhar o DUA e as deficiências curriculares? A tecnologia é necessária para
+implementar o DUA? Quais evidências fundamentam as práticas do DUA?
+2.3.1 Como é definido o DUA?
+Uma definição precisa de Desenho Universal para a Aprendizagem foi proporcionada
+pelo governo dos Estados Unidos e incluída na Lei de Oportunidades em Educação Superior
+(Higher Education Opportunity Act), de 2008, mencionando que o termo Desenho Universal
+para a Aprendizagem diz respeito a uma série de referências cientificamente válidas para guiar a
+prática educativa que:
+a)
+Proporciona flexibilidade nas formas que as informações são apresentadas, nos modos que
+os estudantes respondem ou demonstram seus conhecimentos e habilidades, e nas maneiras que os estudantes são motivados e se comprometem com seu próprio aprendizado.
+b)
+Reduz as barreiras na forma de ensinar, proporciona adaptações, apoios/ajudas e desafios
+apropriados, e mantém altas expectativas de êxito para todos os estudantes, incluindo
+aqueles com deficiências e os que se encontram limitados por sua competência linguística
+no idioma da aprendizagem.
+Além dessa definição, os aspectos relativos ao DUA são tratados nos livros: Teaching
+Every Student in the Digital Age (Rose & Meyer, 2002), The Universally Designed Classroom
+(Rose, Meyer, & Hitchcock, 2005) e A Practical Reader in Universal Design for Learning (Rose
+& Meyer, 2006).
+
+=== p. 6 ===
+SEBASTIÁN-HEREDERO, E.
+738
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+2.3.2 Quem são os estudantes/aprendizes avançados?
+O objetivo da educação é o desenvolvimento de estudantes/aprendizes avançados,
+algo que todos podem se tornar. Na perspectiva do DUA, os aprendizes avançados são:
+a)
+Estudantes/Aprendizes com recursos e conhecimentos e que usam os saberes prévios para
+aprender coisas novas, ativando esse conhecimento para identificar, organizar, priorizar
+e assimilar novas informações. Eles reconhecem as ferramentas e os recursos que podem
+ajudá-los a encontrar, estruturar e lembrar de novas informações; sabem transformar novas informações em conhecimento útil e significativo.
+b) 	 Estudantes/Aprendizes estratégicos, focados nos objetivos, que criam planos de aprendizagem; idealizam estratégias e táticas eficazes para aperfeiçoar as aprendizagens; organizam recursos e ferramentas para facilitar a aprendizagem; monitoram seus progressos;
+reconhecem seus pontos fortes e fracos como estudantes; abandonam planos e estratégias
+que são ineficazes.
+c)
+Estudantes/Aprendizes determinados, motivados e ansiosos por aprender coisas novas.
+Eles anseiam o domínio da aprendizagem orientada para atingir seus objetivos; sabem
+como estabelecer metas de aprendizagem que representem desafios; conseguem manter o
+esforço e a força necessários para atingir suas metas; podem regular e controlar suas reações emocionais, e que seriam impedimentos ou distrações para um bom aprendizado.
+2.3.3 A que nos referimos com o termo currículo?
+Propósito do Currículo DUA
+O objetivo de um currículo baseado no DUA não é simplesmente auxiliar os estudantes a dominar um dado campo do conhecimento ou um conjunto específico de habilidades,
+mas ajudá-los a dominar a aprendizagem em si mesma, ou seja, torná-los estudantes/aprendizes avançados. Assim, esses alunos desenvolverão três características principais: a) estrategistas
+qualificados e orientados para os objetivos; b) conhecedores; e c) determinados e motivados
+para aprender mais. O planejamento do currículo usando o DUA permite que os professores
+eliminem possíveis dificuldades que podem impedir que os estudantes alcancem esse objetivo
+importante.
+Componentes do currículo do DUA
+Quatro são os componentes altamente inter-relacionados que compõem o currículo
+do DUA: objetivos, métodos, materiais e avaliação. Em seguida, explicaremos as diferenças
+entre as definições tradicionais e as baseadas em DUA em cada um dos componentes.
+Os objetivos são frequentemente descritos como expectativas de aprendizado. Eles
+representam conhecimentos, conceitos e habilidades que todos os estudantes devem dominar
+e, geralmente, estão em consonância com certos padrões ou standares. No referencial geral do
+DUA, os objetivos estão definidos de modo que se reconheça a diversidade de estudantes e os
+objetivos fiquem diferenciados pela maneira e pelos meios para alcançá-los. Essas características
+permitem aos professores de um currículo DUA oferecer mais opções e alternativas – diferentes
+caminhos, ferramentas, estratégias e bases – para alcançar o domínio. Enquanto os currículos
+
+=== p. 7 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+739
+tradicionais se concentram em objetivos relacionados a conteúdo e desempenho, um currículo
+DUA foca no desenvolvimento de estudantes/aprendizes avançados. Isso define expectativas mais
+altas e atingíveis por cada aluno.
+Os métodos são geralmente definidos como decisões, abordagens, procedimentos ou
+rotinas de ensino que os professores usam para acelerar ou melhorar a aprendizagem. Professores
+mais avançados aplicam métodos baseados em evidências e os diferenciam de acordo com o
+propósito do ensino. Os currículos do DUA facilitam uma maior variação de métodos, de acordo com a diversidade de estudantes no contexto do trabalho a ser desenvolvido, nos recursos
+sociais/emocionais deles e no clima de convivência e nas relações de cada sala de aula. Flexíveis
+e variados, os métodos do DUA são ajustados com base no acompanhamento continuado do
+progresso dos alunos.
+Os materiais são considerados, habitualmente, como os meios utilizados para apresentar os conteúdos de aprendizagem e o que os estudantes usam para demonstrar seus conhecimentos. No âmbito do DUA, a marca diferencial dos materiais é sua variabilidade e
+flexibilidade. Para ensinar conhecimento conceitual, os materiais do DUA oferecem conteúdo
+de múltiplas formas, bem como apoios integrados e instantâneos, como glossários acessíveis
+por meio de hiperlinks, informações prévias e conselhos. Para a aprendizagem estratégica e a
+expressão do conhecimento, eles fornecem as ferramentas e os suportes necessários para acessar,
+analisar, organizar, sintetizar e demonstrar a compreensão de várias maneiras. Em relação ao
+envolvimento nas aprendizagens, mostram caminhos alternativos para o sucesso, incluindo a
+escolha do conteúdo apropriado, os níveis variados de apoio e desafios e as opções para promover e manter o interesse e a motivação.
+A avaliação é descrita como o processo de coletar informações sobre o desempenho
+do estudante, utilizando uma variedade de métodos e materiais para mensurar seus conhecimentos, habilidades e motivação, com o objetivo de tomar decisões educacionais fundamentadas. No referencial do DUA, o objetivo da avaliaçao é melhorar o planejamento estratégico
+e seus resultados, assegurando que sejam suficientemente amplas e articuladas para guiar o
+ensino de todos os estudantes. Isso é possivel, em parte, mantendo o foco no objetivo, e não
+nos meios, permitindo o uso de ajudas e andaimes para proporcionar construções irrelevantes8.
+Expandindo os meios para adaptar-se às diversidades presentes entre os alunos, a avaliação no
+DUA reduz ou elimina barreiras para mensurar os conhecimentos, as habilidades e o envolvimento dos estudantes.
+2.3.4 O que significa que os currículos são deficientes?
+Os currículos podem ser deficientes de várias maneiras:
+a) Os currículos são deficientes em relação a quem eles podem ensinar.
+8 Construção irrelevante é o grau em que os resultados dos testes são influenciados por fatores irrelevantes – não relacionados –
+ao construto que o teste está tentando medir. Por exemplo: apresentação ou modo de resposta. Uso contextual: para Elisa, uma
+estudante com deficiência cognitiva grave, alterar o tamanho da fonte e aumentar o tamanho das imagens ajuda-a a avaliar o item
+contar objetos. Esta é uma construção irrelevante (dificuldade não desejada) para avaliar a capacidade de contar. Recuperado em 24
+de julho de 2020 de http://naac.cast.org/glossary?word=Construct+irrelevant&wicket:pageMapName=glossary.
+
+=== p. 8 ===
+SEBASTIÁN-HEREDERO, E.
+740
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+Frequentemente, os currículos não são organizados, projetados ou validados para serem usados com a diversidade de estudantes que povoam nossas salas de aula. Alunos que estão
+nos extremos – superdotados ou com altas habilidades, com necessidades educacionais especiais
+ou deficiências, que estão aprendendo a língua da instrução, entre outros – frequentemente,
+são prejudicados nesses planos de aprendizagem, por serem projetados para uma média fictícia,
+com currículos que não consideram essa diversidade.
+b) Os currículos são deficientes em relação ao que podem ensinar.
+Muitas vezes, os currículos são projetados para transmitir ou avaliar informações ou
+conteúdos sem considerar o desenvolvimento de estratégias de aprendizagem – habilidades
+que os estudantes precisam para compreender, avaliar, sintetizar e transformar informações em
+conhecimentos úteis. Os currículos, no geral, continuam a ser construídos, em grande parte,
+de forma impressa e/ou escrita, adequados para a transmissão de conteúdo narrativo e expositivo. No entanto, eles não são bons para informações que exigem o entendimento de processos
+dinâmicos e relações, cálculos ou procedimentos.
+c) Os currículos são deficientes em relação a como eles podem ensinar.
+Normalmente, os currículos têm opções de ensino muito limitadas. Não apenas são
+mal elaborados, ao diferenciar o ensino com diversidade de estudantes ou frente a um aluno
+com seus distintos níveis de comprensão, mas também são deficientes por serem incapazes de
+fornecer muitos dos elementos-chave para o sucesso educacional, evidenciados pela Pedagogia
+e pela capacidade de destacar características críticas ou grandes ideias, de proporcionar os conhecimentos prévios necessários, de relacionar as capacidades atuais com as prévias, de modelar
+ativamente as estratégias e as habilidades de sucesso, de dinamizar o processo ou de fornecer um
+andaime graduado ou um crescimento gradual, entre outros. A maioria dos currículos é melhor
+apresentando a informação do que a ensinando.
+2.3.5 Como trabalhar o DUA e as deficiências curriculares?
+O processo usual para tornar os currículos existentes mais acessíveis é fazer adaptações que os tornem mais praticáveis para todos os estudantes.  Frequentemente, os próprios
+professores são forçados a fazer complicadas tentativas de ajustar os elementos curriculares inflexíveis, do tipo tamanho único para todos, que não foram projetados para atender à diversidade
+individual dos alunos. O termo DUA geralmente se aplica erroneamente a essas adaptações
+feitas posteriormente.
+Entretanto, o DUA refere-se ao processo pelo qual um currículo (isto é, objetivos, métodos, materiais e avaliação) é projetado desde o início, intencionalmente e sistematicamente, para abordar diferenças individuais. Nos currículos projetados sob os princípios do
+DUA, as dificuldades e as perdas decorrentes das subsequentes modificações e adaptações dos
+currículos deficientes podem ser minimizadas ou eliminadas, e ambientes de aprendizado ainda
+
+=== p. 9 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+741
+melhores podem ser implementados. O desafio não é modificar ou adaptar os currículos para
+alguns de uma maneira especial, mas fazê-lo de maneira eficaz e desde o princípio. 
+Existe um número considerável de pesquisas que identificam a eficácia de práticas
+baseadas em evidências para esses estudantes dos extremos. Infelizmente, essas boas práticas,
+geralmente, não estão disponíveis para todos os alunos e são oferecidas apenas quando estes já
+fracassaram nos currículos regulares. Muitas vezes, essas alternativas são fornecidas em espaços terapêuticos ou especiais, onde os vínculos com o currículo geral e seus altos padrões foram
+completamente cortados. Um curículo do DUA fornece os meios para sua reestruturação,
+reparando os danos e promovendo a inclusão de todos os estudantes.
+2.3.6 A tecnologia é necessária para implementar o DUA?
+Educadores dedicados sempre encontram maneiras de planejar currículos que atendam às necessidades de todos os estudantes, independentemente de usarem, ou não, tecnologias. Porém, a aplicação das poderosas tecnologias digitais com os princípios do DUA permite
+uma personalização do currículo de uma maneira mais fácil e eficaz para os alunos. Os avanços
+das tecnologias e das ciências da aprendizagem permitiram a personalização instantânea dos
+currículos de forma mais prática e econômica. Muitas dessas tecnologias dispõem de sistemas
+interligados de apoio, de andaimes e de desafios que ajudam os estudantes a entender, transitar
+e se envolver com o ambiente de aprendizagem.
+Aprender e demonstrar o uso efetivo da tecnologia é, por si só, um importante
+resultado educacional. A tecnologia permeia todos os aspectos de nossa economia e cultura. Atualmente, cada aluno precisa desenvolver uma série de competências muito mais amplas
+e dependentes de nossa cultura, que está em constante mudança. Além disso, o entendimento
+dessas tecnologias poderá auxiliar na melhor compreensão das possíveis opções não tecnológicas que podem ser usadas.
+Não obstante, é preciso considerar que essas tecnologias não devem ser vistas como
+a única maneira de desenvolver o DUA. Professores eficazes devem ser criativos ao projetar
+ambientes educacionais flexíveis como resposta à diversidade de estudantes usando uma ampla
+gama de soluções com maior ou menor uso da tecnologia. O objetivo do DUA é criar ambientes nos quais todos tenham a oportunidade de se tornar estudantes avançados, e os meios para
+alcançá-lo devem ser flexíveis, sejam eles tecnológicos ou não.
+Também cabe observar que o simples uso da tecnologia em sala de aula não deve ser
+considerado como uma implementação do DUA. Isso não necessariamente melhora a aprendizagem, e muitas tecnologias têm os mesmos problemas de acessibilidade que algumas opções
+não tecnológicas. Por isso ela precisa ser cuidadosamente planejada no currículo como uma
+estratégia para se atingir os objetivos propostos.
+Contudo, há uma exceção. Para alguns estudantes, o uso de tecnologias assistivas
+pessoais, como uma cadeira de rodas motorizada, óculos ou um implante coclear, são essenciais
+para o acesso físico e sensorial básico aos ambientes de aprendizagem. Esses estudantes precisarão das tecnologias assistivas, mesmo durante atividades em que outros alunos não façam uso
+
+=== p. 10 ===
+SEBASTIÁN-HEREDERO, E.
+742
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+de nenhuma tecnologia. Mesmo em salas bem equipadas com materiais e métodos do DUA, as
+tecnologias assistivas não excluem nem substituem a necessidade do DUA9.
+Em resumo, tecnologia não é sinônimo de DUA, mas desempenha um papel importante em sua aplicação e conceitualização.
+2.3.7 Quais evidências científicas fundamentam as práticas do DUA?
+O DUA é baseado em uma das descobertas mais disseminadas na pesquisa educacional: as respostas dos estudantes são muito variáveis no processo de ensino-aprendizagem. Praticamente em todos os relatórios de pesquisa sobre ensino ou intervenção educacional
+aparecem que as diferenças individuais são evidentes e ocupam um lugar de destaque nos
+resultados. No entanto, essas diferenças individuais, geralmente, são tratadas como fontes incômodas de erros e como distração dos principais efeitos. O DUA, por outro lado, trata essas
+diferenças individuais como foco de atenção. De fato, quando vistos por meio do referencial do
+DUA, esses resultados são essenciais para entender e projetar um ensino eficaz. 
+A pesquisa que está por trás do DUA é dividida em quatro categorias: a investigação
+sobre os fundamentos do DUA, a investigação sobre os princípios do DUA, a investigação
+sobre as práticas promissoras e a investigação sobre a implementação do DUA.
+a) Investigação sobre os fundamentos do DUA
+O DUA é baseado em uma variedade de investigações de diferentes disciplinas incluídas no campo da neurociência, das ciências da educação e da psicologia cognitiva. Está
+consolidado nos conceitos como a Zona de Desenvolvimento Proximal, o andaime do conceito
+costrutivista10, a tutoria ou mentorização e a modelagem, assim como nas fundamentais obras
+de Piaget, Vygotsky, Bruner, Ross e Wood, e Bloom, que adotaram princípios semelhantes para
+entender as diferenças individuais e a pedagogia necessária para tratar com elas. 
+Por exemplo, Vygotsky já enfatizou a importância dos andaimes graduados como uns
+dos pontos principais que irão nortear o currículo do DUA. Estes são úteis para o iniciante,
+mas podem ser eliminados gradualmente à medida que o estudante adquire habilidades. O
+uso dos andaimes com retirada gradual de apoios é uma prática tão antiga quanto a própria
+cultura humana, sendo relevante para o aprendizado em quase todos os campos, desde aprender a andar ou andar de bicicleta sem ajuda até os longos períodos de aprendizado exigidos na
+neurocirurgia ou na condução de aeronaves.
+b) Investigação sobre os princípios
+A base de pesquisa dos princípios gerais do DUA também se fundamenta na neurociência moderna. Os três princípios básicos são construídos a partir do conhecimento de
+9 Para uma discussão mais elaborada sobre os papéis complementares do DUA e da tecnologia assistiva conforme Rose, Hasselbring, Stahl e Zabala (2005).
+10 Também chamado de progresso gradual ou scaffolding na versao original da obra de Vygotsky.
+
+=== p. 11 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+743
+que nosso cérebro é formado por três redes diferentes usadas no processo de aprendizagem:
+de reconhecimento, estratégicas e afetivas.  As Diretrizes alinham essas três redes com os três
+princípios (de reconhecimento com representação, estratégicas com ação e expressão, e afetivas
+com envolvimento ou enjagamento). Essa base neurocientífica empírica fornece um princípio
+sólido para entender como o cérebro, no processo de aprendizado, relaciona-se com o ensino
+eficaz. Esse alinhamento é expandido e esclarecido posteriormente com as Diretrizes e os pontos de verificação.
+c) Investigação sobre as práticas promissoras
+As linhas de investigação promissoras incluem as obras destinadas a identificar as
+práticas específicas que são fundamentais para enfrentar o desafio das diferenças individuais.
+São estudos de muitos pesquisadores diferentes, e que se acumularam nas últimas décadas,
+sendo rotulados como promissores, pois parecem se encaixar na referencial do DUA, mas não
+foram testados em um ambiente DUA ou usaram esse referencial. É importante que essas práticas sejam estudadas dentro de um ambiente DUA para que possam ser consideradas práticas
+eficazes do DUA. Essa é uma área que incentivamos fortemente que seja estudada para trazer
+contribuições no trabalho de campo.
+d) Investigação sobre a implementação do DUA
+Em quarto lugar, estão as pesquisas sobre aplicações específicas do DUA em ambientes de aprendizagem, incluindo as condições necessárias para a implementação, as barreiras
+mais comuns e as contribuições dessa prática. Essa nova área de pesquisa está em seus estágios
+iniciais, mas terá um lugar mais proeminente à medida que as aplicações e as implementações
+do DUA forem desenvolvidas em larga escala nos currículos do sistema educacional como um
+todo. Essa também é uma área que encorajamos a produção de contribuições decorrentes de
+pesquisas.
+Questões de pesquisas adicionais
+Como em qualquer outra disciplina, existem muitas perguntas de pesquisa que ainda
+precisam ser respondidas. Isso inclui: como os professores ou redes de ensino podem iniciar a
+aplicação do DUA? Como os professores progridem na implementação do DUA? Quais são
+os componentes mais importantes do DUA? Como pode ser realizada a implementação com
+eficiência máxima? Como sabemos quando as escolas estão prontas para implementar o DUA?
+Essas e outras questões sobre aplicação e eficácia precisam começar a ser estudadas em
+larga escala sistematicamente. Obviamente, também existem muitos problemas que ainda não
+foram formulados e que surgirão à medida que a investigação sobre o tema avance.
+Sobre esta apresentação
+Esta é a apresentação em forma de texto das Diretrizes do DUA. O documento possui uma definição completa de cada princípio e suas diretrizes correspondentes, bem como des-
+
+=== p. 12 ===
+SEBASTIÁN-HEREDERO, E.
+744
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+crições e exemplos de cada ponto de verificação. Claro que esse tipo de representação nem sempre é a melhor para todos, por isso também criamos uma apresentação gráfica em forma de lista
+de verificação para o professor, e temos planos de desenvolver outras apresentações. Tudo isso
+está disponível online no site do Centro Nacional do Desenho Universal para a Aprendizagem11.
+Esta versão textual das Diretrizes é a segunda revisão no que consideramos um processo dinâmico e em desenvolvimento; como tal, esta não deve ser tida como uma versão
+final, pois continuarão a evoluir constantemente com nosso entendimento da investigação
+de disciplinas relacionadas ao DUA, como a educação, a psicologia ou a neurociência, entre
+outras. Como este documento não é definitivo, incentivamos a participação e a colaboração
+daqueles que implementam, defendem ou investigam o DUA, bem como de todas as pessoas
+que trabalham em outros campos, com o objetivo de criar Diretrizes mais precisas e inclusivas.
+Assim como na primeira versão destas Diretrizes, nossa intenção continua sendo coletar e sintetizar as observações produzidas no campo de estudo, avaliá-las a partir de evidências
+derivadas de investigações atuais e de forma regular e, em consulta com um conselho editorial,
+realizar modificações, incorporações e atualizações relevantes das Diretrizes do DUA. Este é
+apenas um começo, esperançosamente promissor, para melhorar as oportunidades de todos
+os indivíduos para se tornarem aprendizes especializados.  
+Como estão organizadas as Diretrizes?
+As Diretrizes do DUA estão organizadas de acordo com seus três princípios fundamentais (representação ou apresentação, ação e expressão e motivação ou envolvimento). Estes
+se estruturam de maneira diferente, dependendo do objetivo da apresentação, pois o conteúdo
+deve ser consistente. Para fornecer mais detalhes, os princípios estão divididos em diretrizes,
+cada uma com um conjunto de pontos de verificação. Em resumo, eles são dispostos assim:
+princípio (nível de detalhe mais baixo) → diretriz → ponto de verificação (nível de detalhe
+mais alto).
+Como as Diretrizes são utilizadas? 
+As Diretrizes devem ser cuidadosamente selecionadas e aplicadas ao currículo, conforme as particularidades de cada caso. As Diretrizes do DUA não são uma receita; poderíamos
+dizer que são um conjunto de estratégias que podem ser usadas para superar as barreiras inerentes a maioria dos currículos existentes. Elas podem servir de base para criar as opções e a
+flexibilidade necessárias para maximizar as oportunidades de aprendizagem. Em muitos casos,
+os educadores podem descobrir que já estão incorporando muitas dessas diretrizes em sua prática diária de ensino.
+As Diretrizes não devem ser aplicadas a um único aspecto do currículo, nem usadas
+com apenas alguns estudantes. O ideal é que sejam utilizadas para planejar e avaliar objetivos, metodologias, materiais e métodos de avaliação, a fim de criar um ambiente de aprendizagem completamente acessível para todos.
+11 Recuperado em 24 de julho de 2020 de http://www.udlcenter.org/
+
+=== p. 13 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+745
+2.4 As Diretrizes para o Desenho Universal para a Aprendizagem 2.0 
+Princípio I: proporcionar modos múltiplos de apresentação (o o que da
+aprendizagem)
+Os estudantes diferem na maneira como percebem e compreendem as informações
+apresentadas a eles. Por exemplo: pessoas com deficiências sensoriais (cegueira ou surdez), dificuldades de aprendizagem (dislexia), com diferenças linguísticas ou culturais, e outras diversidades mais, podem exigir maneiras distintas de aceder ao conteúdo. Outros podem, simplesmente, captar informações com mais rapidez ou eficiência por meios visuais ou auditivos
+do que com textos impressos. Além disso, as aprendizagens e a transferência do aprendizado
+ocorrem quando várias formas de apresentação são usadas, pois isso permite que os estudantes
+façam conexões internas, bem como entre conceitos.
+Resumindo, não há um meio ideal de apresentação para todos os alunos. Assim,
+fornecer várias opções de apresentação é essencial.
+2.4.1 Diretriz 1 - Oferecer opções diferentes para a percepção
+O aprendizado é impossível se a informação não puder ser percebida pelo estudante;
+é difícil quando a informação é apresentada em formatos cujo uso requer ajuda ou esforços
+extraordinários. Para reduzir as barreiras na aprendizagem, é importante garantir que as informações principais sejam igualmente perceptíveis por todos os estudantes. Para isso, deve-se:
+1) fornecer as mesmas informações por meio de diferentes modalidades (por exemplo, visão,
+audição ou tátil); 2) oferecer as informações em um formato que permita que sejam ajustadas/
+adequadas pelos usuários (por exemplo, um texto que possa ser ampliado ou sons que possam
+ser amplificados). Múltiplas apresentações dessa natureza não apenas garantem que as informações sejam acessíveis a estudantes com deficiências perceptivas ou sensoriais específicas, mas
+também facilitam o acesso e a compreensão de outros alunos.
+Ponto de verificação 1.1 - Oferecer opções que permitam personalização na
+apresentação de informações
+Nos materiais impressos, a apresentação das informações é fixa e permanente. Em
+materiais digitais planejados adequadamente, a apresentação das mesmas informações é muito
+maleável e pode ser facilmente personalizada. Por exemplo, um texto com informações básicas
+pode ser colocado em locais diferentes, ampliado ou enfatizado usando cores, ou completamente removido. Essa maleabilidade fornece, por um lado, opções que aumentam a clareza
+perceptiva e realça informações importantes para uma ampla diversidade de estudantes, e, por
+outro lado, ajustes para as preferências de outros.
+Essas personalizações são, normalmente, complicadas de executar em materiais impressos, enquanto em mídias digitais estão disponíveis automaticamente, mesmo que não se
+possa garantir que o meio digital seja automaticamente acessível, pois muitos materiais digitais
+são igualmente inacessíveis. Educadores e estudantes devem trabalhar juntos para alcançar a
+melhor combinação de ajustes para as necessidades do aprendizado.
+
+=== p. 14 ===
+SEBASTIÁN-HEREDERO, E.
+746
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+Exemplos de como implementá-lo
+As informações devem ser apresentadas em um formato flexível para que suas características perceptivas possam ser modificadas:
+•
+o tamanho do texto, das imagens, dos gráficos, das tabelas ou de qualquer outro conteúdo visual;
+•
+o contraste entre o plano de fundo e o texto ou a imagem;
+•
+a cor como um meio de informação ou ênfase;
+•
+o volume ou a velocidade da fala e do som;
+•
+a velocidade da sincronização de vídeo, animações, sons, simulações etc.;
+•
+o formato da apresentação visual e de outros elementos;
+•
+a fonte da letra usada para materiais impressos.
+Ponto de verificação 1.2 - Oferecer alternativas para informações auditivas
+O som é um meio eficaz de transmitir o sentido completo da informação; por isso
+que a forma de apresentação do som é tão importante em filmes, dado que a voz humana é
+particularmente eficaz na transmissão de significados e emoções. No entanto, a transmissão
+de informações apenas por meios auditivos não é igualmente acessível a todos os estudantes,
+e especialmente inacessível àqueles com deficiência auditiva, aos que precisam de mais tempo
+para processar as informações ou que têm dificuldades de memória. Além disso, ouvir é uma
+habilidade estratégica complexa que deve ser aprendida.
+Para garantir que todos os estudantes tenham acesso às aprendizagens, diferentes
+opções devem ser oferecidas para apresentar qualquer tipo de informação auditiva, incluindo as
+ênfases ou o sentido das informações.
+Exemplos de como implementá-lo
+•
+Usar apresentações textuais equivalentes, como legendas ou reconhecimento automático
+de voz para linguagem oral;
+•
+fornecer diagramas visuais, gráficos e notações de música ou som;
+•
+oferecer transcrições escritas de vídeos ou clipes de áudio;
+•
+dispor de intérpretes de língua de sinais em português (Libras) para o português falado;
+•
+facilitar apoios visuais ou táteis equivalentes (por exemplo, vibrações) para sons ou alertas;
+•
+utilizar descrições visuais e/ou emocionais para apresentações musicais.
+Ponto de verificação 1.3 - Oferecer alternativas para informações visuais
+As imagens, os gráficos, as animações, os vídeos ou os textos são os melhores meios
+para a apresentação de informações, especialmente quando são sobre as relações entre objetos,
+ações, números ou eventos. Mas essas representações visuais não são acessíveis igualmente a
+todos os estudantes, especialmente àqueles com deficiências visuais ou aos que não estão familiarizados com os tipos de gráficos ou símbolos utilizados.
+A informação visual pode ser bastante densa, principalmente nas artes visuais, podendo ter significados múltiplos e complexos e sua interpretação depender de fatores contex-
+
+=== p. 15 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+747
+tuais e do conhecimento prévio do espectador. Para garantir que todos os estudantes possam
+acessar às informações em termos iguais, é essencial fornecer alternativas não visuais.
+Exemplos de como implementá-lo
+•
+Oferecer descrições (texto ou voz) para todas as imagens, os gráficos, os vídeos ou as
+animações;
+•
+fornecer alternativas táteis (gráficos táteis ou objetos de referência) para efeitos visuais
+que representam conceitos;
+•
+usar objetos físicos e modelos espaciais para transmitir perspectiva ou interação;
+•
+facilitar ajudas auditivas para as ideias principais e as mudanças de sequência nas informações visuais.
+ 
+O texto é um caso especial de informação visual. Sua transformação em áudio é
+um dos métodos mais fáceis para executar e aumentar a acessibilidade. A vantagem do texto
+comparado com o áudio é sua permanência ao longo do tempo, mas o fornecimento de textos
+que são facilmente transformáveis em áudio/voz alcançaria essa permanência sem sacrificar as
+vantagens do áudio. Os sintetizadores digitais de texto para fala aumentaram sua eficiência,
+embora sua capacidade de transmitir informações prosódicas valiosas ainda seja baixo e esteja
+em fase de desenvolvimento.  
+Exemplos de como implementá-lo
+•
+Seguir os padrões de acessibilidade (NIMAS, DAISY etc.) ao criar textos digitais;
+•
+permitir a participação de um assistente ou parceiro competente para ler o texto em voz
+alta;
+•
+prover acesso ao software de conversão de texto em fala.
+2.4.2 Diretriz 2 - Fornecer várias opções para linguagem, expressões matemáticas
+e símbolos
+Os estudantes diferem em suas capacidades de lidar com modos distintos de representação, tanto linguística quanto não linguística. O mesmo vocabulário que esclarece conceitos para alguns estudantes pode ser confuso e não claro para outros. Um símbolo de igual (=)
+pode ajudar alguns a entender que os dois lados de uma equação devem ser equivalentes, enquanto para outros que não entendem esse símbolo, isso pode causar confusão. Um gráfico que
+ilustra um relacionamento entre duas variáveis pode ser informativo para uns e inacessível ou
+desconcertante para outros. Um desenho ou uma imagem pode ter um significado para alguns
+alunos e um totalmente diferente para estudantes de outros contextos culturais e sociais. Como
+resultado de tudo isso, podem surgir desigualdades quando a informação é apresentada a todos
+de uma única forma. Uma estratégia educacional importante é garantir que representações
+alternativas sejam fornecidas, não apenas para a acessibilidade, mas também para promover
+clareza e compreensão entre todos os estudantes.
+
+=== p. 16 ===
+SEBASTIÁN-HEREDERO, E.
+748
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+Ponto de verificação 2.1 - Esclarecer vocabulário e símbolos
+Os elementos semânticos pelos quais as informações são apresentadas (palavras, símbolos, números e ícones), não são igualmente acessíveis a estudantes com diferentes formações,
+idiomas e conhecimentos lexicais. Para garantir a acessibilidade para todos, o vocabulário-chave, os rótulos, os ícones e os símbolos devem ser vinculados ou associados a uma representação
+alternativa de seu significado (por exemplo, glossários ou definições incorporadas, um gráfico
+equivalente, um desenho ou um mapa). Devem ser traduzidos provérbios, expressões arcaicas,
+populares ou regionais e gírias. 
+Exemplos de como implementá-lo
+•
+Pré-ensinar vocabulário e símbolos, especialmente de maneira a promover a conexão
+com as experiências e os conhecimentos anteriores do estudante;
+•
+fornecer símbolos gráficos com descrições de texto alternativos;
+•
+destacar como expressões ou equações complexas são compostas de palavras ou símbolos
+mais simples;
+•
+inserir suportes para vocabulário e símbolos no texto (por exemplo, links ou notas de
+rodapé com definições, explicações, ilustrações, informações anteriores, traduções);
+•
+incorporar suportes para referências desconhecidas no texto (por exemplo, anotações de
+domínios específicos, teoremas e propriedades menos conhecidas, provérbios, linguagens
+acadêmica, matemática, figurativa e arcaica, gírias, coloquialismos e dialetos). 
+Ponto de verificação 2.2 - Esclarecer a sintaxe e a estrutura
+Os elementos mais simples de um texto ou equações (como palavras ou números)
+podem ser combinados para criar novos significados, que dependem, no entanto, de como as
+regras ou as estruturas são entendidas (como a sintaxe em uma frase ou as propriedades das
+equações) e de como esses elementos são combinados. Quando a sintaxe de uma frase ou a
+estrutura de uma representação gráfica não é óbvia ou familiar para os estudantes, a compreensão pode ser afetada. Para garantir que todos tenham acesso igual à informação, devem ser
+oferecidas apresentações alternativas que esclareçam ou tornem explícitas as relações sintáticas
+ou estruturais entre os elementos do significado. 
+Exemplos de como implementá-lo
+•
+Esclarecer a sintaxe desconhecida (em idiomas ou fórmulas matemáticas) ou a estrutura
+subjacente (em diagramas, gráficos, ilustrações, exposições extensas ou narrações), por
+meio de alternativas que permitam:
+•	destacar associações estruturais ou torná-las mais explícitas;
+•	estabelecer conexões com estruturas aprendidas anteriormente;
+•	explicitar as ligações entre os elementos (por exemplo, destaques nas palavras de transição em um ensaio, relações entre as ideias em um mapa conceitual etc.).
+
+=== p. 17 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+749
+Ponto de verificação 2.3 - Facilitar a decodificação de textos, notações matemáticas
+e símbolos
+A capacidade de decodificar fluentemente palavras, números ou símbolos que foram
+apresentados em um formato codificado (por exemplo, símbolos visuais para um texto, símbolos em relevo para Braille, expressões algébricas para relacionamentos) requer prática para
+qualquer estudante, embora alguns sejam capazes de alcançar a automação mais rapidamente
+que outros. 
+Os alunos precisam de práticas consistentes e significativas com os símbolos para que
+possam entendê-los e usá-los de maneira eficaz. A falta de fluência ou naturalidade aumenta
+a carga cognitiva no processo de decodificação, reduzindo, assim, a capacidade de processar e
+entender as informações. Para garantir que todos tenham acesso igual ao conhecimento, pelo
+menos quando a capacidade de decodificar não é o objetivo do ensino, é importante oferecer
+opções que reduzam as barreiras que a decodificação acarreta aos que não estão familiarizados
+ou não utilizam os símbolos com destreza.
+Exemplos de como implementá-lo
+•
+Permitir o uso de software de sintetizador de voz;
+•
+usar voz automática com notação matemática digital (Math ML);
+•
+utilizar texto digital acompanhado por voz humana pré-gravada (por exemplo, Daisy
+Talking Books);
+•
+conceder flexibilidade e acesso fácil a várias representações de notações, quando apropriado (por exemplo, fórmulas, vocabulário, gráficos);
+•
+oferecer esclarecimentos sobre a notação por meio de listas de termos-chave. 
+Ponto de verificação 2.4 - Promover a compreensão entre diferentes idiomas
+A linguagem dos materiais curriculares, geralmente, é monolíngue, mas há situações
+em que os estudantes não o são; portanto, a promoção da compreensão multilíngue é essencial. 
+Para os novos alunos da língua oficial (por exemplo, português nas escolas do Brasil)
+ou da língua de ensino (a língua dominante na escola, no caso de colégios bilingues), a acessibilidade às informações é significativamente reduzida quando as alternativas linguísticas não
+estão disponíveis. Oferecer alternativas, especialmente para informações importantes ou vocabulário, é um aspecto relevante da acessibilidade. 
+Exemplos de como implementá-lo
+•
+Disponibilizar todas as informações expressivas no idioma dominante e em outros idiomas importantes (por exemplo, espanhol nas áreas de fronteira, ou línguas indígenas no
+caso do Brasil) para estudantes com baixo nível de português e em Libras para estudantes
+surdos;
+•
+vincular as palavras-chave do vocabulário à sua definição e pronúncia nos idiomas dominante e nativo;
+
+=== p. 18 ===
+SEBASTIÁN-HEREDERO, E.
+750
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+•
+definir o vocabulário específico do domínio (por exemplo, os termos específicos ou as
+legendas em estudos sociais), usando-os junto com os termos comuns;
+•
+fornecer ferramentas eletrônicas para tradução ou links para glossários multilíngues na
+web;
+•
+inserir recursos visuais não linguísticos para esclarecer o vocabulário (imagens, vídeos
+etc.).
+Ponto de verificação 2.5 - Complementar uma informação com outras formas de
+apresentação
+Nos materiais de aula predominam as informações textuais, mas este é um formato
+com problemas para apresentar alguns conceitos e explicar a maioria dos processos. Além disso,
+como forma de apresentação, é, de alguma forma, complicado para os estudantes com dificuldades de aprendizagem relacionadas ao uso da língua escrita. Fornecer alternativas ao texto,
+especialmente ilustrações, simulações, imagens ou gráficos interativos, pode tornar suas informações mais compreensíveis para qualquer aluno e mais acessíveis para aqueles que as julguem
+totalmente inacessíveis nesse formato.
+Exemplos de como implementá-lo
+•
+Apresentar os conceitos fundamentais presentes na forma de representação simbólica
+(por exemplo, um texto expositivo ou uma equação matemática), com uma forma alternativa (por exemplo, ilustração, tabela, diagrama, vídeo, banda desenhada, guia gráfico,
+fotografia, animação ou material manipulativo físico ou virtual);
+•
+explicar as relações entre as informações oferecidas nos textos e qualquer representação
+que as acompanhe: ilustrações, equações, gráficos ou diagramas.
+2.4.3 Diretriz 3 - Oferecer opções para comprender e entender
+O objetivo da educação não é tornar as informações acessíveis, pelo contrário, é
+ensinar aos estudantes como transformar as informações as que têm acesso em conhecimentos
+úteis. Décadas de estudos e pesquisas na área da ciência cognitiva mostraram que essa transformação é um processo ativo, e não passivo. A construção de conhecimento útil, disponível
+para a tomada de decisões futuras, não se baseia apenas na percepção das informações, mas precisa de habilidades ativas de processamento delas, como atenção seletiva, integração de novos
+conhecimentos com os que já existem, estratégias de categorização e memorização ativa. 
+As pessoas diferem muito em suas habilidades de processamento de informações e no
+acesso a conhecimentos prévios pelos quais novas informações podem ser adquiridas. O planejamento e a apresentação adequada das informações são responsabilidade de qualquer currículo
+ou metodologia educacional, podendo fornecer os auxílios necessários para garantir que todos
+os estudantes tenham acesso às informações.
+
+=== p. 19 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+751
+Ponto de verificação 3.1 - Ativar ou substituir os conhecimentos anteriores
+As informações, como fatos, conceitos, princípios ou ideias, são mais acessíveis e
+podem ser assimiladas de maneira mais apropriada quando apresentadas de forma que facilite
+ou ative qualquer conhecimento prévio necessário. Existem certas barreiras e desigualdades
+quando alguns estudantes não possuem esse conhecimento preliminar, que é essencial para
+compreender ou usar as novas informações. No entanto, também há barreiras para os que têm
+o conhecimento anterior requisitado, mas estes não sabem que isso é relevante. Essas dificuldades podem ser reduzidas quando existe a disponibilidade de opções que facilitam ou ativam
+esse conhecimento, ou, ainda, permitem que outras conexões sejam feitas com as informações
+preliminares necessárias.
+Exemplos de como implementá-lo
+•
+Conectar o aprendizado, estabelecendo relações e ativando conhecimentos prévios (por
+exemplo, usando imagens visuais, fixando conceitos anteriores já assimilados ou praticando rotinas para dominá-los);
+•
+usar organizadores gráficos avançados (por exemplo, mapas conceituais, estratégias para
+desenvolver a metecognição12);
+•
+ensinar com anterioridade os conceitos preliminares essenciais por meio de demonstrações ou modelos;
+•
+estabelecer ligações entre conceitos, com analogias ou metáforas;
+•
+fazer conexões curriculares explícitas (por exemplo, ensinar estratégias de redação na aula
+de ciências).  
+Ponto de verificação 3.2 - Destacar modelos, características fundamentais,
+principais ideias e relacionamentos 
+Uma das grandes diferenças entre os especialistas e os novatos em qualquer área é a
+facilidade de distinguir o essencial do que não é relevante. Os especialistas reconhecem rapidamente as características mais significativas das informações e, portanto, gerenciam efetivamente
+o tempo, identificando o que é útil e encontrando as conexões apropriadas para assimilar as
+informações mais valiosas com seus conhecimentos anteriores. Como consequência, uma das
+maneiras mais eficazes de tornar as informações mais acessíveis é oferecer apoios ou indicações
+explícitas que ajudem os estudantes a prestarem atenção às características mais expressivas e a
+descartarem as que não são tão importantes. 
+Exemplos de como implementá-lo
+•
+Destacar elementos-chave em textos, gráficos, diagramas, fórmulas etc.;
+•
+usar esquemas, organizadores gráficos, rotinas de organização de unidades, conceitos e
+formas de domínio de conceito para salientar ideias e relacionamentos importantes;
+•
+utilizar vários exemplos e contra-exemplos para enfatizar as ideias principais;
+12 Nota do tradutor: No original consta um método específico, o KWL – Know, Want-to-know, Learned –, porém, optou-se por
+colocar esse tipo de estratégia de forma geral.
+
+=== p. 20 ===
+SEBASTIÁN-HEREDERO, E.
+752
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+•
+indicar a atenção para os elementos essenciais com chamadas ou avisos;
+•
+evidenciar habilidades adquiridas anteriormente que podem ser usadas para resolver problemas menos familiares.
+Ponto de verificação 3.3 - Orientar o processamento, a visualização e a manipulação
+de informações
+Normalmente, a transformação efetiva da informação em conhecimento útil requer
+a aplicação de estratégias mentais e habilidades de processamento da informação. Essas estratégias cognitivas ou metacognitivas envolvem a seleção e a manipulação de informações para
+que possam ser melhor resumidas, categorizadas, priorizadas, contextualizadas e lembradas.
+Enquanto alguns alunos podem ter um repertório completo desse tipo de estratégias e o conhecimento sobre quando aplicá-las, muitos outros não as possuem. Os materiais bem planejados
+podem oferecer modelos, suportes e devolutivas personalizados e integrados para ajudar os
+estudantes com diferentes habilidades a fazerem uso eficaz dessas estratégias.
+Exemplos de como implementá-lo
+•
+Oferecer indicações explícitas para cada etapa em qualquer processo sequencial;
+•
+apresentar diferentes métodos e estratégias organizacionais (tabelas e algoritmos para
+processar operações matemáticas);
+•
+usar modelos interativos que orientem a exploração e o novo aprendizado;
+•
+introduzir suportes graduais que favoreçam estratégias de processamento da informação;
+•
+fornecer várias maneiras de abordar ou estudar uma lição e itinerários opcionais pelo
+conteúdo (por exemplo, explorar as ideias principais por meio de peças de teatro, arte,
+literatura, filmes ou outras mídias);
+•
+agrupar as informações em unidades menores;
+•
+mostrar informações progressivamente (por exemplo, a sequência principal com uma
+apresentação no PowerPoint);
+•
+eliminar elementos ou acessórios que distraem, a menos que sejam essenciais para o objetivo do aprendizado.
+Ponto de verificação 3.4 - Maximizar a transferência e a generalização
+Todos os estudantes precisam ser capazes de generalizar e transferir seus aprendizados para novos contextos. Os alunos diferem nos apoios necessários para ativar efetivamente a
+memória e a troca, e, assim, melhorar sua capacidade de acessar seus conhecimentos anteriores. Esses auxílios para trocar as informações disponíveis para outras situações podem ser de
+interesse de todos, uma vez que o aprendizado não é realizado usando conceitos individuais e
+isolados, e todos se beneficiam do uso de múltiplas formas de apresentação para que essas trocas
+ocorram. Sem esse apoio, sem o uso dessas representações, a informação pode ser aprendida e
+conhecida, mas não transferida ou utilizada em novas situações. O suporte à memória, à generalização e à transferência inclui o uso de técnicas que foram projetadas para aumentar a probabilidade de recuperação de informações, bem como de técnicas que explicitamente aconselham
+e orientam os estudantes sobre como usar determinadas estratégias.
+
+=== p. 21 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+753
+Exemplos de como implementá-lo
+•
+Fornecer listas de verificação, organizadores, notas, lembretes eletrônicos etc.;
+•
+incentivar o uso de dispositivos e estratégias (por exemplo, imagens visuais, estratégias de
+similitude, método dos lugares etc.);
+•
+incorporar oportunidades explícitas para revisão e prática;
+•
+distribuir modelos, organizadores gráficos, mapas conceituais, que facilitem a anotação;
+•
+oferecer suportes que conectem as novas informações ao conhecimento anterior (por
+exemplo, redes de palavras, mapas conceituais incompletos);
+•
+integrar novas ideias em diferentes contextos, conhecidos ou familiares (por exemplo,
+uso de analogias, metáforas, teatro, música, filmes etc.);
+•
+proporcionar situações nas quais, de maneira explícita, seja generalizada a aprendizagem
+para novas situações (por exemplo, tipos de problemas distintos que podem ser resolvidos com equações lineares, usando os princípios da física para construir um parquinho
+de jogos);
+•
+dar a oportunidade de criar situações nas quais possam ser revisadas as principais ideias
+e os vínculos entre elas.
+Princípio II: proporcionar modos múltiplos de ação e expressão (o como da
+aprendizagem)
+Os estudantes diferem no modo como funcionam em um ambiente de aprendizagem
+e como expressam o que já sabem. Por exemplo, indivíduos com sérios problemas de mobilidade (como paralisia cerebral), aqueles que não possuem habilidades estratégicas e organizacionais
+(dificuldades na função executiva), com barreiras de linguagem ou outros problemas, podem
+resolver as atividades didáticas de maneiras diferentes. Alguns podem ser capazes de se expressar
+corretamente por escrito, mas não na linguagem oral, e vice-versa.  Além disso, deve-se levar em
+consideração que tanto a ação quanto a expressão requerem um grande número de estratégias,
+práticas e organização, e tudo isso faz parte de uma área na qual os estudantes podem distinguir-se
+significativamente um do outro. É por isso que não há um único meio de ação e expressão ideal
+para todos os alunos e, consequentemente, é essencial fornecer diversas alternativas para realizar
+os processos que envolvam a ação e a expressão dos conhecimentos adquiridos.
+2.4.4 Diretriz 4 - Fornecer opções para a interação física
+Um livro ou um caderno de exercícios impresso fornece meios limitados de uso ou
+de interação física (por exemplo, virar as páginas com o dedo, escrever nos espaços estabelecidos para ele). Da mesma forma, muitos programas multimídia educacionais oferecem formas
+restristas de navegação ou interação (por exemplo, usando um joystick ou um teclado). Essa
+limitação pode representar um obstáculo para alguns estudantes, especialmente àqueles com
+alguma deficiência física, cegos, comdisgrafia ou os que precisam de vários tipos de apoio para
+desempenhar funções executivas. 
+Logo, é importante oferecer materiais com os quais todos os alunos possam trabalhar
+e interagir. Quando os materiais curriculares têm uma configuração apropriada, eles fornecem
+uma interface compatível com tecnologias comuns de interação ou uso, por meio das quais
+
+=== p. 22 ===
+SEBASTIÁN-HEREDERO, E.
+754
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+pessoas com dificuldades motoras podem interatuar e expressar o que sabem, como permitir a
+navegação com interruptores, com ativação por voz, com teclados expandidos e outros produtos e tecnologias de acesso e uso. 
+Ponto de verificação 4.1 - Variar os métodos de resposta e navegação
+Os estudantes diferem muito em sua capacidade de interagir com o ambiente físico. Para reduzir as barreiras de aprendizagem que poderiam surgir das demandas motoras
+de uma tarefa, devem ser oferecidos meios alternativos e formas de responder, selecionar ou
+escrever. Além disso, as pessoas se diferenciam amplamente quanto à maneira ideal de cada um
+para navegar pelas informações e atividades. Para promover a igualdade de oportunidades para
+participar de experiências de aprendizado, o professor deve garantir que haja diversas opções
+para atuar e interagir, e que o controle desse processo seja acessível a todos.
+Exemplos de como implementá-lo
+•
+Oferecer alternativas nos requisitos de ritmo, tempos e habilidades motoras necessárias
+para interagir com materiais educacionais, tanto os que requerem manipulação física
+como tecnológicas;
+•
+facilitar opções para dar respostas físicas ou por seleção (por exemplo, alternativas às
+marcas com lápis ou caneta, alternativas para controlar o mouse);
+•
+fornecer possibilidades para interações físicas com materiais diversos: por meio das mãos,
+da voz, de interruptores, de joysticks, de teclados ou de teclados adaptados. 
+Ponto de verificação 4.2 - Otimizar o acesso a ferramentas, produtos e tecnologias
+de apoio
+Geralmente, não basta fornecer uma ferramenta ao estudante, é necessário oferecer
+auxílio para que se faça um uso efetivo dela. Muitos alunos precisam de ajuda para navegar
+em seu ambiente (tanto em termos do ambiente físico quanto do currículo) e deve-se garantir
+que todos tenham a oportunidade de utilizar materiais que os ajudem a atingir a meta de sua
+participação plena na sala de aula. 
+Diversos estudantes com deficiência precisam usar regularmente tecnologias assistivas para navegar, interagir ou escrever. Portanto, é essencial assegurar que as tecnologias e o currículo não criem barreiras na utilização dessas ajudas e que estas possam passar despercebidas. 
+Uma consideração importante na apresentação de atividades é, por exemplo, garantir
+que haja comandos alternativos do teclado para qualquer ação do mouse, para que os estudantes
+possam usar tecnologias de ajuda comum, cuja operação dependa desses comandos. No entanto, é pertinente assegurar que, ao fazer uma lição em um formato acessível, esta não elimine o
+desafio necessário para aprender, mesmo que de maneira inadvertida.
+Exemplos de como implementá-lo
+•
+Oferecer opções ou comandos de teclado alternativos às ações do mouse;
+•
+usar computadores e sistemas de varredura para aumentar o acesso independente às alternativas de teclado;
+
+=== p. 23 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+755
+•
+fornecer acesso a teclados alternativos;
+•
+personalizar modelos para telas sensíveis ao toque e teclados;
+•
+selecionar um software que permita trabalhar com teclados e teclas de acesso alternativas.
+2.4.5 Diretriz 5 - Proporcionar opções para a expressão e a comunicação
+Não há meios de expressão que sejam igualmente válidos para todos os estudantes ou
+para todos os tipos de comunicação. Pelo contrário, existem meios que parecem inapropriados
+para certas formas de expressão e para alguns tipos de aprendizagem. Enquanto um aluno com
+dislexia pode ser um excelente narrador oralmente, ele pode ter dificuldades em contar a mesma história por escrito.
+É importante proporcionar modalidades alternativas para se expressar, tanto no nível
+da interação entre colegas quanto para permitir que o estudante expresse apropriadamente (ou
+facilmente) seus conhecimentos, ideias e conceitos no ambiente de aprendizagem.
+Ponto de verificação 5.1 - Usar múltiplos meios de comunicação
+A menos que meios e materiais específicos sejam essenciais para o objetivo de aprender (por exemplo, aprender a pintar com tinta a óleo, aprender a escrever com caderno de
+caligrafia), é essencial fornecer meios alternativos de expressão. 
+A existência de alternativas reduz as barreiras para se expressar com meios específicos
+entre os estudantes com necessidades especiais diversas, mas também aumenta as oportunidades de aprender com o restante dos alunos, desenvolvendo um repertório maior de expressões
+de acordo com a riqueza dos meios existentes para o seu desenvolvimento. Por exemplo, é importante que todos os estudantes aprendam a redigir, não apenas escrevam, mas aprendam os
+meios ideais para expressar qualquer ideia ou conteúdo e para cada público.
+Exemplos de como implementá-lo
+•
+Compor ou redigir de várias formas, como: texto, voz, desenho, ilustração, projeto, cinema, música, movimento, arte visual, escultura ou vídeo;
+•
+usar objetos físicos manipuláveis (por exemplo, modelos 3D, material dourado);
+•
+utilizar mídias sociais e ferramentas interativas da web (por exemplo, fóruns de discussão,
+bate-papos, webs, ferramentas de anotação, gibis, apresentações com animações);
+•
+resolver problemas usando estratégias variadas.
+Ponto de verificação 5.2 - Usar ferramentas variadas para construção e composição
+Nos contextos educacionais, há uma tendência de se usar ferramentas tradicionais
+em vez de outras mais modernas e atuais, o que tem várias limitações: 1) não prepara os estudantes para o futuro; 2) limita a variedade de conteúdos e métodos de ensino que podem ser
+implementados; 3) restringe a capacidade dos alunos de expressar seus conhecimentos sobre
+o conteúdo (avaliação); e, mais importante, 4) limita os tipos de estudantes que podem ter
+sucesso.
+
+=== p. 24 ===
+SEBASTIÁN-HEREDERO, E.
+756
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+As ferramentas atuais são mais flexíveis e acessíveis; com elas, os alunos podem participar com sucesso do processo de aprendizagem e expressar o que sabem. A menos que o objetivo seja aprender a usar uma ferramenta específica (por exemplo, aprender a desenhar círculos
+com um compasso), os currículos devem permitir várias alternativas. Como qualquer artesão,
+os estudantes devem aprender a usar ferramentas que permitam o melhor ajuste possível entre
+suas habilidades e o que a tarefa exige.
+Exemplos de como implementá-lo
+•
+Oferecer corretores ortográficos e gramaticais e software de previsão de palavras;
+•
+fornecer software de reconhecimento e conversores de texto para fala, gravações etc.;
+•
+proporcionar calculadoras, calculadoras gráficas, desenhos geométricos ou papel milimétrico para gráficos etc.;
+•
+facilitar princípios ou fragmentos de frases;
+•
+usar páginas web de literatura, ferramentas gráficas ou mapas conceituais etc.;
+•
+propiciar ferramentas de design de computador (CAD), software para anotações musicais
+(por escrito) e software para anotações matemáticas;
+•
+prover materiais virtuais ou manipulativos para matemática (por exemplo, material dourado, blocos de álgebra);
+•
+utilizar aplicativos da web (por exemplo, wikis, animações, apresentações).
+Ponto de verificação 5.3 - Definir competências com níveis de suporte graduados
+para prática e execução
+Os estudantes devem desenvolver uma ampla variedade de competências (por exemplo, visuais, auditivas, matemáticas, de leitura, etc.). Isso implica que eles frequentemente precisam de múltiplos auxílios para guiá-los tanto na prática quanto no desenvolvimento de sua
+autonomia.
+A fluência ou o domínio da fala é algo que também pode ser aprendido, dando aos
+alunos a oportunidade de atuar ou executar tarefas, como o ensaio ou a produção dramática. O
+fato de fazer isso, ajuda-os, pois permite que eles sintetizem pessoalmente seu aprendizado de
+maneira relevante. 
+O currículo deve oferecer alternativas em termos de graus de liberdade disponíveis,
+estruturação e sequenciamento, além de oferecer oportunidades de apoio para quem precisa e
+um maior grau de liberdade para quem pode fazê-lo de forma autônoma. Em resumo, é importante dar opções para que os estudantes atinjam seu nível máximo de proficiência nas diferentes
+competências.
+Exemplos de como implementá-lo
+•
+Oferecer diferentes modelos de simulação (por exemplo, modelos que demonstrem os
+mesmos resultados, mas usando distintas abordagens, estratégias, habilidades, etc.);
+•
+usar mentores diferentes (por exemplo, apoio de professores/tutores que usam abordagens diversas para motivar, orientar, dar feedback ou informar);
+
+=== p. 25 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+757
+•
+fornecer suportes que possam ser removidos gradualmente à medida que a autonomia e
+as habilidades aumentem (por exemplo, software para leitura e gravação);
+•
+proporcionar tipos distintos de feedback (por exemplo, feedback acessível, porque pode
+ser personalizado para aprendizado individual);
+•
+facilitar vários exemplos de soluções criativas para problemas reais.
+2.4.6 Diretriz 6 - Fornecer opções para funções executivas
+No nível superior da capacidade humana de agir com facilidade ou domínio, estão
+as chamadas funções executivas. Essas capacidades, associadas à atividade cerebral do córtex pré-
+-frontal, permitem que os humanos superem reações impulsivas, reações no curto prazo em seu
+ambiente, e, em vez disso, ajam estabelecendo metas ou objetivos no longo prazo. Um plano
+estratégico eficaz para se atingir isso é monitorar o progresso e modificar as metas necessárias.
+Em suma, essas estratégias permitem que os estudantes tirem maior proveito de seu ambiente. 
+De particular importância para os educadores é o fato de as funções executivas terem
+uma capacidade muito limitada devido à memória operacional. Está provado que a capacidade
+executiva é significativamente reduzida quando: 1) dedica-se à gestão de habilidades de baixo
+nível, e não automatizadas ou fluidas, o que significa uma redução da capacidade disponível
+para as funções de alto nível; e 2) há certos tipos de deficiência ou falta de clareza nas estratégias
+executivas. 
+O esquema no qual o DUA se baseia tenta aumentar a capacidade executiva de duas
+maneiras: 1) dando suporte às habilidades de baixo nível, para que exijam menos processamento executivo; e 2) apoiando habilidades e estratégias executivas de alto nível para torná-las mais
+eficazes e elaboradas. As diretrizes anteriores tinham a ver com suporte de baixo nível, enquanto
+a diretriz discutida nesta seção se destina a oferecer suporte para funções executivas ou de nível
+superior.
+Ponto de verificação 6.1 - Orientar o estabelecimento adequado de metas
+Não se pode pensar que os estudantes definirão metas apropriadas no seu trabalho,
+mas também não deveria ser fornecido o como deve ser feito. Embora no curto prazo possa ser
+útil, essa solução é insuficiente para desenvolver novas habilidades ou estratégias em qualquer
+estudante. Portanto, é importante que os estudantes desenvolvam a capacidade de definir seus
+objetivos. A estrutura do DUA incorpora ajudas progresivas para aprender a estabelecer objetivos pessoais desafiadores e, ao mesmo tempo, realistas.
+Exemplos de como implementá-lo
+•
+Fornecer avisos e apoios para que o estudante estime os esforços, os recursos e as dificuldades necessárias;
+•
+oferecer modelos ou exemplos do processo e do resultado da definição de metas;
+•
+facilitar diretrizes e listas de verificação para ajudar na definição de objetivos ou metas;
+•
+colocar metas, objetivos e planos em algum lugar visível.
+
+=== p. 26 ===
+SEBASTIÁN-HEREDERO, E.
+758
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+Ponto de verificação 6.2 - Apoiar o planejamento e o desenvolvimento da estratégia
+Depois que uma meta é estabelecida, os estudantes, ou qualquer pessoa que queira
+resolver um problema, planejam uma estratégia, especificando as ferramentas que usarão para
+alcançá-la.
+Para crianças em qualquer campo ou domínio, estudantes mais velhos e jovens ou
+com deficiências que afetam funções executivas (por exemplo, deficiência intelectual), a fase
+dedicada ao planejamento estratégico é frequentemente omitida e é usada a estratégia do erro. 
+Para incentivar os estudantes a usar o planejamento e a estratégia, é importante usar
+opções variadas, como chamadas que os levam a parar e pensar (redutores de velocidade cognitivos, freios cognitivos), apoios progresivos que os ajudam a executar efetivamente suas estratégias, ou participação na tomada de decisões com mentores competentes.
+Exemplos de como implementá-lo
+•
+Integrar avisos para que parem e pensem antes de agir, bem como espaços adequados
+para isso;
+•
+incorporar chamadas para mostrar e explicar seu trabalho (por exemplo, revisão de portfólio, crítica de arte);
+•
+facilitar listas de verificação e modelos de planejamento do projeto para entender o problema, definir prioridades, sequências e tempo das etapas a seguir;
+•
+agregar instrutores ou mentores que modelem o processo pensando em voz alta;.
+•
+fornecer diretrizes para dividir as metas de longo prazo em objetivos atingíveis de curto
+prazo.
+Ponto de verificação 6.3 - Facilitar o gerenciamento de informações e recursos
+Um dos limites das funções executivas é imposto pelas limitações da memória de
+trabalho. Esse tipo de caderno de anotações, no qual são mantidas informações que podemos
+acessar como parte do entendimento e da solução de problemas, é muito limitado para alguns
+estudantes e até severamente limitado para aqueles com deficiências cognitivas e problemas
+de aprendizagem. Consequentemente, muitos desses alunos podem parecer desorganizados,
+esquecidos e mal preparados. 
+Sempre que a capacidade de usar a memória de trabalho não for um elemento relevante em uma lição ou conteúdo de aprendizagem, é importante oferecer estruturas internas e
+organizadores externos, como os utilizados pelas pessoas que usam as funções executivas, para
+manter as informações organizadas e em mente.
+Exemplos de como implementá-lo
+•
+Proporcionar organizadores gráficos e modelos para a coleta e a organização de
+informações;
+•
+integrar lembretes e avisos para categorizar e sistematizar;
+•
+oferecer listas de verificação e diretrizes para tomar notas.
+
+=== p. 27 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+759
+Ponto de verificação 6.4 - Aumentar a capacidade de acompanhar os progressos
+A aprendizagem não pode ocorrer se não houver retorno; isso significa que os estudantes precisam de uma imagem clara do progresso que estão, ou não, obtendo. Quando
+avaliações e retornos sistemáticos não informam sobre o processo ou essas informações não são
+fornecidas regularmente, não pode haver alterações nesse processo, pois os alunos não sabem
+como fazê-lo de maneira diferente. 
+Essa falta de conhecimento sobre o que melhorar pode fazer com que alguns estudantes pareçam teimosos, negligentes ou desmotivados. Para esses alunos, e, às vezes, para a
+maior parte deles, é importante garantir que as opções possam ser personalizadas para dar um
+feedback mais explícito, regular, informativo e acessível em todos os momentos. Fornecer esses
+retornos formativos, permitindo aos estudantes monitorar efetivamente seu próprio progresso e
+usar essas informações para orientar seus esforços e práticas, é essencial.
+Exemplos de como implementá-lo
+•
+Fazer perguntas para orientar o autocontrole e a reflexão;
+•
+mostrar representações do progresso (por exemplo, antes e depois com fotos, gráficos e
+diagramas ou tabelas expondo o progresso ao longo do tempo, portfólios de processos);
+•
+pedir aos estudantes que identifiquem o tipo de retorno ou conselho que estão procurando;
+•
+usar modelos que orientem a autorreflexão sobre a qualidade do que foi concluído;
+•
+fornecer modelos diferentes de estratégias de autoavaliação (por exemplo, dramatização,
+revisão de vídeos, avaliação de colegas);
+•
+utilizar listas de verificação para avaliação, matrizes de avaliação (rubricas de pontuação) e exemplos de práticas ou trabalhos de estudantes avaliados com anotações ou
+comentários.
+Princípio III: Proporcionar modos múltiplos de implicação, engajamento e
+envolvimento (o porquê da aprendizagem)
+O componente afetivo desempenha um papel crucial na aprendizagem e, portanto,
+os estudantes diferem muito na maneira como estão envolvidos ou no que os motiva a aprender. Essas diferenças podem ter origem em causas múltiplas e diversas, incluindo aquelas de
+interesse neurológico, cultural, pessoal, subjetivo ou de conhecimento e experiência anteriores,
+entre outros fatores. 
+Para alguns, a novidade e a espontaneidade podem ser motivadoras, enquanto para
+outros podem gerar desmotivação ou até medo, preferindo ambientes rotineiros. Há quem prefira trabalhar sozinho, enquanto outros estão mais envolvidos no trabalho com os colegas. Na
+realidade, não existe uma forma única de participação ideal para todos os estudantes e em todos
+os contextos; portanto, é essencial fornecer várias opções para facilitar o envolvimento.
+2.4.7 Diretriz 7 - Proporcionar opções para promover o interesse por parte dos
+estudantes
+
+=== p. 28 ===
+SEBASTIÁN-HEREDERO, E.
+760
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+A informação em que não se presta atenção, que não supõe uma atividade cognitiva do estudante, apresenta, de fato, dificuldades para ser comprendida, tanto no momento
+presente quanto no futuro, porque o que poderia ser relevante passa despercebido e não se
+processa. Por isso, boa parte da atividade dos professores é dedicada a captar a atenção e o envolvimento dos estudantes, posto que eles diferem significativamente no que atrai sua atenção
+e motiva seu interesse. 
+Essas preferências, e o próprio estudante, podem variar ao longo do tempo e dependendo das circunstâncias. Os interesses mudam à medida que evoluem e novos conhecimentos e habilidades são adquiridos; quando que sua biologia muda e se tornam adolescentes ou adultos. Logo, é relevante ter formas alternativas de promover o interesse e estratégias
+que correspondam às diferenças intra e interindividuais existentes entre os estudantes para seu
+engajamento.
+Ponto de verificação 7.1 - Otimizar a escolha individual e a autonomia
+Em um contexto educacional, geralmente, não são oferecidas opções sobre objetivos
+de aprendizagem, mas considera-se adequado oferecer diferentes possibilidades sobre como
+se podem alcançar esses objetivos, sobre os contextos para atingi-los e as ferramentas e apoios
+disponíveis. 
+Viabilizar opções aos estudantes pode contribuir para desenvolver sua autodeterminação, sua satisfação com as conquistas alcançadas, e aumentar o grau em que eles se sentem
+vinculados ao seu próprio aprendizado. No entanto, é importante observar que os estudantes diferem no tipo de decisão que preferem tomar; portanto, não basta apenas fornecer opções. Para garantir a participação, o tipo de escolha e o nível de independência possível devem
+ser ajustados às opções a serem apresentadas.
+Exemplos de como implementá-lo
+•
+Oferecer aos estudantes, com a máxima discrição e autonomia possível, possibilidades de
+escolha em questões como:
+•	 o nível de desafio percebido;
+•	 o tipo de prêmios ou recompensas disponíveis;
+•	 o contexto ou os conteúdos utilizados para a prática e a avaliação de competências;
+•	 as ferramentas para coletar e produzir informações;
+•	 a cor, a forma, os gráficos, a apresentação etc.;
+•	 a sequência ou os horários para concluir as diferentes partes das tarefas.
+•
+Permitir que os estudantes participem do processo de elaboração de atividades da sala de
+aula e das tarefas acadêmicas;
+•
+envolver os estudantes, sempre que possível, no estabelecimento de suas próprias metas
+acadêmicas, comportamentais e pessoais.
+Ponto de verificação 7.2 - Otimizar a relevância, o valor e a utilidade das atividades
+
+=== p. 29 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+761
+Os estudantes se envolvem mais quando as informações e atividades que precisam
+realizar são relevantes para eles e têm valor para seus interesses e objetivos. Isso não significa,
+necessariamente, que a situação deve ser equivalente à vida real em todos os casos, uma vez que
+a ficção pode motivar tanto quanto a não ficção, mas deve ser relevante e autêntica/real para os
+objetivos pessoais e de aprendizagem. 
+Os alunos raramente se interessam por informações e atividades que não têm valor
+para eles ou que não são relevantes. Em um contexto educacional, uma das maneiras mais importantes para os professores captarem seu interesse é destacando a utilidade da aprendizagem
+e demonstrando sua relevância por meio de atividades reais e significativas. Obviamente, nem
+todos os estudantes consideram as mesmas atividades ou informações expressivas para seus objetivos. Para oferecer a oportunidade de que todos se envolvam igualmente, é essencial fornecer
+opções diferentes que otimizem o que é valioso e significativo para cada um deles.
+Exemplos de como implementá-lo
+•
+Variar as atividades e as fontes de informação para que elas possam ser:
+•	personalizadas e contextualizadas na vida real ou no interesse dos estudantes;
+•	culturalmente sensíveis e significativas;
+•	socialmente relevantes;
+•	apropriadas para cada idade e capacidade;
+•	adequadas para diferentes raças, culturas, etnias e sexos.
+•
+Criar atividades nas quais os resultados sejam autênticos, comunicáveis a um público real
+e que reflitam um objetivo claro para os participantes;
+•
+fornecer tarefas que permitam participação ativa, exploração e experimentação;
+•
+promover o desenvolvimento de respostas pessoais, avaliação e autorreflexão em relação
+a conteúdos e atividades;
+•
+incluir atividades que incentivem o uso da imaginação para resolver problemas novos e
+relevantes, ou que deem significado a ideias complexas de maneira criativa. 
+Ponto de verificação 7.3 - Minimizar a sensação de insegurança e as distrações
+Uma das coisas mais importantes que um professor pode fazer é criar espaços onde os
+estudantes se sintam confiantes para aprender. Para isso, é necessário reduzir as possíveis causas
+de insegurança e distrações. 
+Quando os estudantes precisam focar sua atenção em satisfazer suas necessidades
+básicas ou evitar uma experiência negativa, é difícil para eles se concentrarem no processo de
+aprendizagem. Além da segurança física dos ambientes educacionais, outros tipos de ameaças
+e distrações mais sutis também devem ser levados em consideração. O que é ameaçador ou
+potencialmente perturbador depende das necessidades individuais e do histórico do aluno. Um
+estudante de inglês pode considerar a experiência com esse idioma ameaçadora, enquanto outros podem julgar que a estimulação sensorial excessiva os distrai demais. O ambiente educacional ideal oferece opções que reduzem o sentimento de insegurança, a percepção de ameaças
+e distrações para todos, criando um espaço seguro no qual a aprendizagem pode ocorrer.
+
+=== p. 30 ===
+SEBASTIÁN-HEREDERO, E.
+762
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+Exemplos de como implementá-lo
+•
+Criar um clima de apoio e aceitação na sala de aula;
+•
+reduzir os níveis de incerteza:
+•	 usar gráficos, calendários, programas, lembretes etc., que possam incrementar a previsibilidade das atividades diárias;
+•	 elaborar rotinas de classe;
+•	 disponibilizar lembretes e pré-visualizações que permitam aos estudantes antecipar e
+estar preparados para mudanças em novas atividades, programas e eventos;
+•	 minimizar as opções que podem se contrapor às anteriores, maximizar o inesperado, a
+surpresa ou a novidade em atividades muito rotineiras.
+•
+Variar os níveis de estimulação sensorial;
+•
+diversificar em relação à presença de ruído de fundo ou à estimulação visual, ao número
+de elementos, às características ou aos itens que são apresentados ao mesmo tempo;
+•
+modalizar o ritmo de trabalho, a duração das sessões, a disponibilidade de pausas, os
+tempos de espera, a temporização ou a sequência de atividades;
+•
+modificar as demandas sociais necessárias para aprender ou realizar algo, o nível percebido de ajuda e proteção e os requisitos para fazer uma apresentação e uma avaliação
+pública;
+•
+envolver todos os estudantes da turma em debates.
+2.4.8 Diretriz 8 - Proporcionar opções para manter o esforço e a persistência
+Muitos tipos de aprendizagens, principalmente habilidades e estratégias, exigem
+atenção e esforço contínuos. Quando os alunos estão motivados, podem regular sua atenção e
+a parte emocional para manter o esforço e a concentração que esse aprendizado exige. No entanto, os estudantes diferem consideravelmente em sua capacidade de se autorregularem nesse
+sentido. Essas diferenças também são evidentes em sua motivação inicial, em suas habilidades e
+autorregulação, em sua sensibilidade à interferência de contexto, e assim por diante.
+Um objetivo educacional fundamental é desenvolver as habilidades individuais de
+autorregulação e autodeterminação que garantam todas as oportunidades de aprendizagem (ver
+Diretriz 9). Enquanto isso, o ambiente externo deve oferecer opções compatíveis com a acessibilidade, apoiando os alunos que se distinguem em sua motivação inicial, em suas capacidades
+de autorregulação etc.
+Ponto de verificação 8.1- Ressaltar a relevância de metas e objetivos
+No decorrer de qualquer projeto em andamento, ao longo do tempo ou na prática
+sistemática, existem muitas fontes de interesse e motivação que competem por atenção e esforço. Alguns alunos precisam de ajuda para lembrar o objetivo inicial ou para manter uma
+visão estável das recompensas por atingir esse objetivo. Para estes, é importante estabelecer
+um sistema de lembretes periódicos ou constantes que os lembre o objetivo e sua relevância,
+a fim de garantir que eles mantenham esforço e concentração, mesmo que surjam elementos
+complicadores.
+
+=== p. 31 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+763
+Exemplos de como implementá-lo
+•
+Pedir aos alunos para formular explicitamente o objetivo ou repensá-lo;
+•
+apresentar o objetivo de diferentes maneiras;
+•
+incentivar a divisão das metas de longo prazo em objetivos de curto prazo;
+•
+demonstrar o uso de ferramentas manuais e de gerenciamento de tempo do computador;
+•
+usar instruções e suportes para visualizar o resultado esperado;
+•
+incluir os alunos em debates de avaliação sobre o que constitui excelência e gerar exemplos relevantes que se conectam às suas origens e aos interesses culturais. 
+Ponto de verificação 8.2 - Variar as exigências e os recursos para otimizar os
+desafios
+Os alunos não são apenas diferentes em suas habilidades e capacidades, mas também
+nos tipos de desafios que os motivam a dar o melhor de si. Todos eles precisam de desafios, mas
+nem sempre da mesma maneira. Além de estabelecer requisitos de natureza diferente e com
+níveis variados de dificuldade, os estudantes devem receber recursos diversos, adequados para
+concluir a tarefa com sucesso. Sem os recursos adequados e flexíveis, eles não serão capazes de
+executar a tarefa. 
+Oferecer uma variedade de propostas ou tarefas e um repertório de recursos possíveis
+permitirá que todos os alunos encontrem os desafios mais motivadores, sendo essencial considerar que existem recursos suficientes para enfrentá-los.
+Exemplos de como implementá-lo
+•
+Diferenciar o grau de dificuldade ou complexidade com que as atividades fundamentais
+podem ser concluídas;
+•
+fornecer alternativas em relação às ferramentas e aos suportes permitidos;
+•
+variar os graus de liberdade para considerar um resultado aceitável;
+•
+enfatizar o processo, o esforço e a melhoria na obtenção dos objetivos como alternativas
+à avaliação externa e à concorrência.
+Ponto de verificação 8.3 - Fomentar a colaboração e a cooperação
+No século XXI, todos os alunos devem ser capazes de se comunicar e colaborar efetivamente em uma comunidade de aprendizagem (o que é mais fácil para alguns do que para
+outros), que deve ser um objetivo comum para todos os alunos. A atribuição de mentores ou de
+pares pode aumentar bastante as oportunidades de suporte individualizado, um a um. Quando
+essa tutoria de pares é cuidadosamente estruturada, a ajuda disponível para manter o envolvimento pode ser significativamente aumentada. O agrupamento flexível, ao invés de fixo, permite uma melhor diferenciação e uma adoção de várias funções, além de oferecer oportunidades
+para aprender a trabalhar de forma mais eficaz com outras pessoas. Diferentes possibilidades
+devem ser mostradas aos alunos sobre como desenvolver e usar essas habilidades importantes.
+
+=== p. 32 ===
+SEBASTIÁN-HEREDERO, E.
+764
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+Exemplos de como implementá-lo
+•
+Criar grupos de colaboração com objetivos, funções e responsabilidades claras;
+•
+propor programas para toda a escola para apoiar o bom comportamento, com objetivos
+e recursos diferenciados;
+•
+facilitar instruções para orientar os alunos sobre quando e como pedir ajuda a outros
+colegas ou professores;
+•
+incentivar e apoiar oportunidades de interação entre pares (por exemplo, tutores);
+•
+formar comunidades de aprendizagem focadas em interesses ou atividades comuns;
+•
+oferecer expectativas para o trabalho em grupo (por exemplo, rubricas, regras etc.).
+Ponto de verificação 8.4 - Utilizar o retorno (feedback) orientado para o domínio
+em uma tarefa
+A avaliação é mais eficaz em manter o envolvimento quando o retorno é relevante,
+construtivo, acessível, consistente e oportuno. Mas o tipo de devolutiva também é decisivo
+para ajudar os alunos a manter a motivação e o esforço necessários para aprender. O retorno
+orientado para o domínio de algo é o tipo de feedback que estimula os alunos para o domínio
+ou a excelência nessa habilidade, em vez de um conceito fixo de desempenho ou conquista. Isso
+também enfatiza o papel do esforço e da prática como fatores que orientam os alunos em direção a bons hábitos e práticas de aprendizagem duradouras, enfatizando sua inteligência e capacidade. Essas distinções podem ser particularmente importantes para os alunos cujas deficiências foram interpretadas, por si ou por seus educadores, como permanentes, restritivas e fixas.
+Exemplos de como implementá-lo
+•
+Oferecer devolutivas que promovam a perseverança, que se concentrem no desenvolvimento da eficácia e na autoconsciência, e que incentivem o uso de estratégias e apoios
+específicos para enfrentar um desafio;
+•
+facilitar retornos que enfatizem o esforço, a melhoria, a conquista ou a abordagem de um
+padrão, melhor do que no desempenho concreto;
+•
+proporcionar devolutivas específicas, com frequência e em tempo hábil;
+•
+fornecer comentários substantivos e informativos, em vez de comparativos ou
+competitivos;
+•
+dar retornos que modelem como incorporar a avaliação em estratégias positivas para o
+sucesso futuro, incluindo a identificação de padrões de erros e respostas incorretas.
+2.4.9 Diretriz 9 - Proporcionar opções para a autorregulação
+Embora seja importante cuidar dos elementos extrínsecos da aprendizagem para contribuir para uma maior motivação e envolvimento (ver Diretrizes 7 e 8), também é expressivo
+que os estudantes desenvolvam habilidades intrínsecas para regular suas próprias emoções e
+motivações.
+A capacidade de se autorregular, modular estrategicamente as próprias reações ou
+estados emocionais, para ser mais eficaz ao lidar e interagir com o meio ambiente, é um aspecto
+fundamental do desenvolvimento humano. Ainda que muitas pessoas consigam desenvolver
+
+=== p. 33 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+765
+essas habilidades por conta própria, por erro ou observando modelos (eficazes, apropriados) em
+outros adultos, muitas outras encontram grandes dificuldades. 
+Infelizmente, alguns planejamentos não contemplam explicitamente o desenvolvimento dessas habilidades, deixando-as como parte de um currículo implícito, que geralmente
+é inacessível ou invisível para a maioria. Aqueles professores e currículos que abordam explicitamente a autorregulação, provavelmente terão mais sucesso na aplicação dos princípios do
+DUA por meio da modelagem e conseguirão que os estudantes alcancem essa capacidade com
+métodos variados.
+Como em qualquer aprendizagem, as diferenças individuais são muito comuns. Portanto, é conveniente oferecer alternativas suficientes para ajudar os estudantes com
+suas experiências prévias e habilidades diferentes para que se envolvam efetivamente com seu
+próprio aprendizado.
+Ponto de verificação 9.1 - Promover expectativas e crenças que otimizem a
+motivação
+Um aspecto importante da autorregulação é o conhecimento individual de cada estudante sobre o que ele considera motivador, intrinsecamente ou extrinsecamente. Para conseguir
+isso, eles precisam ser capazes de definir objetivos pessoais, que podem ser alcançados de maneira realista, além de incentivar pensamentos positivos sobre a possibilidade de alcançar esses
+objetivos. No entanto, os alunos também precisam conseguir lidar com a frustração e evitar a
+ansiedade durante todo o processo para alcançá-los. Logo, múltiplas opções devem ser oferecidas para ajudar todos os estudantes a permanecerem motivados.
+Exemplos de como implementá-lo
+•
+Fornecer avisos, lembretes, diretrizes, rubricas, listas de verificação com objetivos de autorregulação, de como reduzir a frequência de surtos agressivos em resposta às frustrações;
+•
+incrementar o tempo de concentração em uma tarefa, mesmo que ocorram distrações.
+•
+aumentar a frequência com que a autorreflexão e os autorreforços ocorrem;
+•
+facilitar a orientação, o aconselhamento, ou o apoio a esse modelo, e o processo a ser seguido para se estabelecer as metas pessoais adequadas, levando em conta tanto os pontos
+fortes quanto os fracos de cada um;
+•
+apoiar atividades que promovam a autorreflexão e a identificação de objetivos pessoais.
+Ponto de verificação 9.2 - Facilitar estratégias e habilidades pessoais para lidar
+com os problemas da vida cotidiana.
+Facilitar um modelo de habilidades de autorregulação não é suficiente para a maioria
+dos estudantes. Eles precisarão de aprendizagens baseadas em uma estrutura (andaimes) e que
+se estendam ao longo do tempo: lembretes, modelos, exemplos, listas de verificação e outros suportes semelhantes que podem ajudar a escolher e testar estratégias adaptativas para gerenciar,
+orientar ou controlar suas respostas emocionais a eventos externos; estratégias para enfrentar
+situações sociais que produzem ansiedade ou para reduzir as distrações durante a execução de
+
+=== p. 34 ===
+SEBASTIÁN-HEREDERO, E.
+766
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+uma tarefa; acontecimentos de caráter interno, por exemplo; estratégias para reduzir pensamentos negativos, pensamentos de ideias depressivas ou geradoras de ansiedade. Esses apoios devem
+oferecer alternativas suficientes para suprir as diferenças individuais, tanto nos tipos de estratégias que podem ser convenientes quanto na independência com que podem ser aplicadas.
+Exemplos de como implementá-lo
+•
+Oferecer diferentes modelos, apoios e devolutivas para:
+•	gerenciar frustrações;
+•	buscar apoio emocional externo.
+•
+Desenvolver controles e habilidades internas para lidar com situações conflitantes ou
+sensíveis;
+•
+manipular adequadamente fobias ou medos e julgamentos sobre a aptidão natural (por
+exemplo: Como posso melhorar em áreas que exigem mais esforços? é melhor do que Não sou
+bom em matemática);
+•
+usar situações reais ou simulações para demonstrar as habilidades para enfrentar os problemas da vida cotidiana. 
+Ponto de verificação 9.3 - Desenvolver a autoavaliação e a reflexão
+Para desenvolver uma melhor capacidade de autorregulação, os estudantes precisam
+aprender a controlar cuidadosamente suas emoções e sua capacidade de reagir. As pessoas diferem consideravelmente em sua capacidade e tendência à metacognição, portanto, alguns precisarão de instruções muito mais explícitas e modeladas para aprender como fazê-las com sucesso
+igual aos outros. 
+Para muitos alunos, o mero fato de reconhecer que eles estão progredindo em direção
+a uma maior independência é muito motivador. Por outro lado, um dos elementos-chave na
+perda de motivação dos estudantes é a dificuldade em reconhecer seu próprio progresso. Fazse necessário que os estudantes tenham vários modelos, diretrizes para diferentes técnicas de
+autoavaliação, para que cada um possa identificar e escolher o melhor para si.
+Exemplos de como implementá-lo
+•
+Oferecer dispositivos, auxílios ou gráficos para facilitar o processo de aprendizagem para
+coletar e representar os dados de suas próprias escolhas, com o objetivo de controlar as
+alterações nesses comportamentos;
+•
+usar atividades que incluam meios pelos quais os estudantes obtenham retornos e tenham
+acesso a recursos alternativos (por exemplo, gráficos, modelos, sistemas de devolutivas na
+tela etc.), que favoreçam o reconhecimento do progresso de maneira compreensível e
+oportuna.
+
+=== p. 35 ===
+Desenho Universal para a Aprendizagem
+Revisão de Literatura
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020
+767
+Referências
+Rose, D. H., Hasselbring, T. S., Stahl, S., & Zabala, J. (2005). Assistive technology and universal design
+for learning: Two sides of the same coin. CITISEER, 1, 507-518.  Recuperado em 17 outubro de
+2020 de http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.517.1325
+Rose, D. H., & Meyer, A. (2006). A Practical Reader in Universal Design for Learning. Harvard Education
+Press: Cambridge.
+Rose, D. H., & Meyer, A. (2002). Teaching Every Student in the Digital Age. Educational Technology
+Research and Development, 55(5), 521-525. DOI: 10.1007/s11423-007-9056-3
+Rose, D. H., Meyer, A., & Hitchcock, C. (2005). The Universally Designed Classroom. Harvard Education
+Press: Cambridge.13
+Recebido em: 01/07/2020
+Reformulado em: 06/07/2020
+Aprovado em: 12/08/2020
+
+=== p. 36 ===
+SEBASTIÁN-HEREDERO, E.
+768
+Rev. Bras. Ed. Esp., Bauru, v.26, n.4, p.733-768, Out.-Dez., 2020

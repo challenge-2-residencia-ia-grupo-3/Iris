@@ -1,0 +1,1835 @@
+{
+ "haiku": {
+  "Q01": {
+   "frases": {
+    "1": {
+     "passagem": "Oferecer indicações explícitas para cada etapa em qualquer processo sequencial;",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "agrupar as informações em unidades menores;",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "Fornecer listas de verificação, organizadores, notas, lembretes eletrônicos etc.;",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico ou que compartilhem respostas com seu colega",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "verificar, regularmente e de forma individualizada, o progresso dos alunos com deficiência e responder às perguntas que possam ter.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q02": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "Make sure assignments are not long and repetitive. Shorter assignments that provide a little challenge without being too hard may work well.",
+     "trecho": 2
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "Allow breaks—for children with ADHD, paying attention takes extra effort and can be very tiring. Allow time to move and exercise.",
+     "trecho": 2
+    }
+   }
+  },
+  "Q03": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "3": {
+     "passagem": "O uso de dicas e avisos aumenta a conformidade com o comportamento desejado.",
+     "trecho": 3
+    }
+   }
+  },
+  "Q04": {
+   "frases": {
+    "2": {
+     "passagem": "Oferecer indicações explícitas para cada etapa em qualquer processo sequencial;",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "eliminar elementos ou acessórios que distraem, a menos que sejam essenciais para o objetivo do aprendizado.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "verificar, regularmente e de forma individualizada, o progresso dos alunos com deficiência e responder às perguntas que possam ter",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "fornecer níveis ajustáveis de desafio; (ii) oferecer oportunidade de interagir em diferentes contextos de aprendizagem",
+     "trecho": 1
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 2
+    }
+   }
+  },
+  "Q05": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "Os redirecionamentos devem ser breves e específicos e devem ser feitos de forma consistente, imediatamente após o comportamento negativo de uma maneira calma e silenciosa",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "A atenção diferencial do professor também é considerada eficaz para alunos com TDAH. Os professores devem dar atenção positiva ao comportamento socialmente desejável. O elogio deve ocorrer imediatamente após o comportamento desejado e deve ser de natureza específica.",
+     "trecho": 3
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "6": {
+     "passagem": "Conclui-se, portanto, que o conjunto de dados apresentados é promissor, todavia mais investigações sobre novas modalidades de intervenções escolares, bem como replicações das intervenções já investigadas, são necessárias.",
+     "trecho": 4
+    }
+   }
+  },
+  "Q06": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico ou que compartilhem respostas com seu colega",
+     "trecho": 1
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 5
+    }
+   }
+  },
+  "Q07": {
+   "frases": {
+    "1": {
+     "passagem": "Nesse caso, chame o(a) profissional ledor(a) para ajudar você e peça que ele(a) leia os textos em voz alta.",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "Select the target text—same as assigned grade level targets, with opportunities for inclusive instruction, interaction with peers.",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "The passage should always be in view so the student can apply his or her reading skills.",
+     "trecho": 2
+    },
+    "5": {
+     "passagem": "o acompanhamento integral para educandos com dislexia, Transtorno do Déficit de Atenção com Hiperatividade (TDAH) ou outro transtorno de aprendizagem.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q08": {
+   "frases": {
+    "1": {
+     "passagem": "Cirelli et al. (2016) observaram o aumento no tempo de trabalho dedicado a tarefas em sala de aula, de forma independente, em dois meninos com TDAH, com o uso de cronograma de atividades.",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "Os programas de reforço são particularmente úteis para alunos com TDAH, que geralmente exigem feedback imediato e recompensa para mudar o comportamento.",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "Os tratamentos psicossociais, que incluem esforços de coordenação na escola e em casa podem aumentar os efeitos.",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "Gumpel (2007) utilizou uma combinação de autocontrole associado ao RC. O autocontrole envolvia automonitoramento de comportamentos sociais durante o recreio.",
+     "trecho": 4
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 5
+    },
+    "6": {
+     "passagem": "Essas intervenções sugeridas não necessariamente resolvem o transtorno, mas auxiliam a criança a se organizar",
+     "trecho": 2
+    }
+   }
+  },
+  "Q09": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "There is limited information on which types of accommodations are effective for children with ADHD.",
+     "trecho": 1
+    },
+    "6": {
+     "passagem": "Observe and talk with the student about what helps or distracts them (for example, fidget tools, limiting eye contact when listening, background music, or moving while learning can be beneficial or distracting, depending on the child)",
+     "trecho": 3
+    }
+   }
+  },
+  "Q10": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "Ao fornecer aos alunos regras adequadas à idade e não duvidosas em relação às expectativas da sala de aula, os professores podem melhorar o comportamento desses indivíduos em sala de aula.",
+     "trecho": 4
+    },
+    "4": {
+     "passagem": "Os redirecionamentos devem ser breves e específicos e devem ser feitos de forma consistente, imediatamente após o comportamento negativo de uma maneira calma e silenciosa",
+     "trecho": 4
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 5
+    }
+   }
+  },
+  "Q11": {
+   "frases": {
+    "1": {
+     "passagem": "Principio III: Proporcionar Modos Múltiplos de Implicação, Engajamento e Envolvimento (o porquê da Aprendizagem).",
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "Existem três princípios fundamentais baseados na investigação neurocientifica que orientam o DUA e fundamentam estas Diretrizes:",
+     "trecho": 2
+    }
+   }
+  },
+  "Q12": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 4
+    }
+   }
+  },
+  "Q13": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 5
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 5
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 5
+    }
+   }
+  },
+  "Q14": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "São exemplos de estratégias utilizadas para o alcance deste princípio",
+     "trecho": 5
+    }
+   }
+  },
+  "Q15": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "Pedir aos alunos para formular explicitamente o objetivo ou repensá-lo;",
+     "trecho": 5
+    },
+    "6": {
+     "passagem": "Um objetivo educacional fundamental é desenvolver as habilidades individuais de autorregulação e autodeterminação que garantam todas as oportunidades de aprendizagem",
+     "trecho": 5
+    }
+   }
+  },
+  "Q16": {
+   "frases": {
+    "1": {
+     "passagem": "o DUA refere-se ao processo pelo qual um currículo (isto é, objetivos, métodos, materiais e avaliação) é projetado desde o início, intencionalmente e sistematicamente, para abordar diferenças individuais.",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "A referência do DUA estimula a criação de propostas flexíveis desde o início, apresentando opções personalizáveis que permitem a todos os estudantes progredir a partir de onde eles estão",
+     "trecho": 4
+    },
+    "3": {
+     "passagem": "podem usar a calculadora e focar no mesmo objetivo, de modo a responder todos os dez exercícios (suporte individualizado). Tais estratégias estão garantidas quando se pensa em um planejamento de ensino baseado no DUA.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "É importante avaliar os momentos em que eles precisam dessas estratégias e os momentos em que aprenderão juntamente com os demais alunos, realizando as mesmas atividades sem acomodações.",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "e, no caso de alunos com necessidades mais complexas, é relevante se pensar em um Planejamento Educacional Individualizado (PEI)",
+     "trecho": 5
+    },
+    "6": {
+     "passagem": "essas boas práticas, geralmente, não estão disponíveis para todos os alunos e são oferecidas apenas quando estes já fracassaram nos currículos regulares.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q17": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "oferecer modelos ou exemplos do processo e do resultado da definição de metas;",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "Integrar avisos para que parem e pensem antes de agir, bem como espaços adequados para isso;",
+     "trecho": 3
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 5
+    }
+   }
+  },
+  "Q18": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 5
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 5
+    }
+   }
+  },
+  "Q19": {
+   "frases": {
+    "1": {
+     "passagem": "As escolas da educação básica das redes pública e privada, com o apoio da família e dos serviços de saúde existentes, devem garantir o cuidado e a proteção ao educando com dislexia, TDAH ou outro transtorno de aprendizagem",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "devem ter assegurado o acompanhamento específico direcionado à sua dificuldade, da forma mais precoce possível, pelos seus educadores no âmbito da escola na qual estão matriculados",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "podem contar com apoio e orientação da área de saúde, de assistência social e de outras políticas públicas existentes no território",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "compreende a identificação precoce do transtorno, o encaminhamento do educando para diagnóstico, o apoio educacional na rede de ensino, bem como o apoio terapêutico especializado na rede de saúde",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "os sistemas de ensino devem garantir aos professores da educação básica amplo acesso à informação",
+     "trecho": 2
+    }
+   }
+  },
+  "Q20": {
+   "frases": {
+    "1": {
+     "passagem": "Por isso, não se trata de documento obrigatório, mas, complementar, quando a escola julgar necessário.",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "denotaria imposição de barreiras ao seu acesso aos sistemas de ensino, configurando-se em discriminação e cerceamento de direito.",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "a declaração dos estudantes público alvo da educação especial, no âmbito do Censo Escolar, deve alicerçar-se nas orientações contidas na Resolução CNE/CEB, nº 4/2009, que no seu artigo 4º, considera público-alvo do AEE:",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "a elaboração desse estudo de caso, não está condicionada a existência de laudo médico do aluno, pois, é de cunho estritamente, educacional",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "se for necessário, o professor do AEE, poderá articular-se com profissionais da área da saúde, tornando-se o laudo médico, neste caso, um documento anexo ao Plano de AEE.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q21": {
+   "frases": {
+    "1": {
+     "passagem": "barreiras: qualquer entrave, obstáculo, atitude ou comportamento que limite ou impeça a participação social da pessoa, bem como o gozo, a fruição e o exercício de seus direitos à acessibilidade, à liberdade de movimento e de expressão, à comunicação, ao acesso à informação, à compreensão",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "a) barreiras urbanísticas: as existentes nas vias e nos espaços públicos e privados abertos ao público ou de uso coletivo;",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "VI - adaptações razoáveis: adaptações, modificações e ajustes necessários e adequados que não acarretem ônus desproporcional e indevido, quando requeridos em cada caso",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "a fim de assegurar que a pessoa com deficiência possa gozar ou exercer, em igualdade de condições e oportunidades com as demais pessoas, todos os direitos e liberdades fundamentais",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "III - projeto pedagógico que institucionalize o atendimento educacional especializado, assim como os demais serviços e adaptações razoáveis, para atender às características dos estudantes com deficiência e garantir o seu pleno acesso ao currículo em condições de igualdade",
+     "trecho": 2
+    }
+   }
+  },
+  "Q22": {
+   "frases": {
+    "1": {
+     "passagem": "a) avaliação contínua e cumulativa do desempenho do aluno, com prevalência dos aspectos qualitativos sobre os quantitativos e dos resultados ao longo do período sobre os de eventuais provas finais;",
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "Art. 24. A educação básica, nos níveis fundamental e médio, será organizada de acordo com as seguintes regras comuns:",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "(Recorte: somente os artigos abaixo; texto compilado vigente; trechos revogados removidos)",
+     "trecho": 2
+    }
+   }
+  },
+  "Q23": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "O AEE é realizado, prioritariamente, na sala de recursos multifuncionais da própria escola ou em outra escola de ensino regular, no turno inverso da escolarização",
+     "trecho": 4
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "Art. 4º Para fins destas Diretrizes, considera-se público-alvo do AEE:",
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "não sendo substitutivo às classes comuns",
+     "trecho": 4
+    }
+   }
+  },
+  "Q24": {
+   "frases": {
+    "1": {
+     "passagem": "Fica instituída a Política Nacional de Educação Especial Inclusiva, com a finalidade de garantir o direito à educação em um sistema educacional inclusivo para estudantes com deficiência, com transtorno do espectro autista e com altas habilidades ou superdotação, sem discriminação e com base na igualdade de oportunidades.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "O estudante com transtorno do espectro autista é considerado pessoa com deficiência para fins da Política Nacional de Educação Especial Inclusiva.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "o reconhecimento da educação como direito universal, público e subjetivo de todos os cidadãos;",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "oferta de tecnologias assistivas e adaptações razoáveis, de acordo com as necessidades individuais, em interação com os contextos educacionais;",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "A garantia do padrão de qualidade educacional, no âmbito da PNEEI, deverá ser expressa a partir do conjunto de apoios necessários ao acesso, à permanência, à participação e à aprendizagem.",
+     "trecho": 1
+    },
+    "6": {
+     "passagem": "os estudantes que são público da educação especial tenham o direito a ser incluídos em classes e escolas comuns, com o apoio necessário à sua participação, permanência e aprendizagem.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q25": {
+   "frases": {
+    "1": {
+     "passagem": "Para receber esse tratamento diferenciado, você precisa apresentar documentação que ateste a condição e a efetiva necessidade dos recursos e dos serviços profissionais solicitados.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "Tempo adicional: tempo adicional de 60 minutos em cada dia do exame, concedido caso o documento comprobatório tenha sido aprovado.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "conte com o auxílio do(a) ledor(a) durante a prova. Ao escutar a própria redação, você poderá verificar se o texto está escrito de forma coesa, clara, objetiva e coerente.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "Outra capacitação é oferecida à equipe de avaliadores(as) que irá analisar os padrões de escrita de pessoas com dislexia e que considerará, na avaliação das redações do Enem, as dificuldades de escrita desses(as) participantes.",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "A dislexia não impede o(a) participante de ingressar em uma universidade, pelo contrário, com os mecanismos necessários, todas as pessoas disléxicas podem alcançar esse objetivo.",
+     "trecho": 2
+    },
+    "6": {
+     "passagem": "narrar histórias ou escrever poemas levará à anulação da sua prova.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q26": {
+   "frases": {
+    "2": {
+     "passagem": "considera-se público-alvo da educação especial as pessoas com deficiência, com transtornos globais do desenvolvimento e com altas habilidades ou superdotação.",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "I – Alunos com deficiência: aqueles que têm impedimentos de longo prazo de natureza física, intelectual, mental ou sensorial.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "complementar à formação dos estudantes com deficiência, transtornos globais do desenvolvimento, como apoio permanente e limitado no tempo e na frequência dos estudantes às salas de recursos multifuncionais",
+     "trecho": 2
+    },
+    "5": {
+     "passagem": "denotaria imposição de barreiras ao seu acesso aos sistemas de ensino, configurando-se em discriminação e cerceamento de direito.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q27": {
+   "frases": {
+    "1": {
+     "passagem": "Three studies showed the positive effects of extended time for high school students with attention-deficit/hyperactivity disorder (ADHD).",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "Four studies involved students with LD and resulted in positive effects.",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "The research on the effects of extended time is inconclusive. Some studies found benefit while others found mixed effects, or no effect.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "However, less than half of the students with ADHD with access to extended time actually used it.",
+     "trecho": 1
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 5
+    }
+   }
+  },
+  "Q28": {
+   "frases": {
+    "1": {
+     "passagem": "This meta-analytic review indicates that classroom interventions reduce off-task and disruptive classroom behavior in children with symptoms of ADHD.",
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "classroom interventions reduce off-task and disruptive classroom behavior in children with symptoms of ADHD (WSDs: MSMD = 0.92;",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "the different classroom interventions performed had (small to large) positive effects on off-task and disruptive classroom behavior in children with symptoms of ADHD, with consequence-based and self-regulation interventions showing the strongest effects.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "Larger effects were obtained in general education classrooms than in other classroom settings.",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "effect sizes for WSDs and SSDs cannot be directly compared to each other as they represent different units of measurement.",
+     "trecho": 1
+    },
+    "6": {
+     "passagem": "interpreting the absolute magnitude of these effects is difficult as statistical guidelines for such interpretation are lacking.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q29": {
+   "frases": {
+    "1": {
+     "passagem": "Effects on ADHD were negligible even considering most proximal measures.",
+     "trecho": 4
+    },
+    "2": {
+     "passagem": "There were statistically significant effects on ADHD symptoms when considering raters most proximal to treatment delivery, especially for symptoms of inattention.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "provided little support for cognitive training as a front-line ADHD treatment.",
+     "trecho": 5
+    },
+    "4": {
+     "passagem": "Unfortunately, there was an insufficient number of trials (n = 4) with probably blinded measures to corroborate these effects using independent sources.",
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "although there were no effects on inhibition or inattention. Furthermore, the effects of cognitive training on working memory did not extend to the academic outcomes explored.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q30": {
+   "frases": {
+    "1": {
+     "passagem": "the impact of inclusion on students with SEN may be hypothesised to be both positive and negative, and the current knowledge base is inconsistent.",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "Results are difficult to synthesise, but suggest an overall positive impact of inclusion",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "small‐to‐moderate beneficial effects of inclusion on all outcomes with an overall mean weighted effect size across all studies and all three categories of outcomes of 0.33",
+     "trecho": 4
+    },
+    "4": {
+     "passagem": "children with mental retardation placed in general education perform better than children with mental retardation placed in special education classrooms",
+     "trecho": 2
+    },
+    "5": {
+     "passagem": "while some children with special needs may benefit from inclusive educational placement, other children may benefit from traditional special education in a segregated setting.",
+     "trecho": 5
+    },
+    "6": {
+     "passagem": "opponents of inclusive education suggest that placement in general education classrooms may have adverse effects for students with special needs, especially if the time and resources allocated for individualisation and differentiation are not aligned with student needs.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q31": {
+   "frases": {
+    "1": {
+     "passagem": "there is some evidence that diﬀerentiated instruction has potential power to aﬀect students’ academic achievement positively with small to medium eﬀects.",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "Although studies on within-class diﬀerentiated instruction in secondary education are scarce",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "overall small to medium sized eﬀects (and in some cases also large eﬀects) of the approach on student achievement can be achieved in beta subjects.",
+     "trecho": 4
+    },
+    "4": {
+     "passagem": "Diﬀerential eﬀects for student outcomes are somewhat variable; the results are most profound for the low achieving group in the study by Richards and Omdal (2007)",
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "it shows that a systematic review of the literature leads to a limited body of evidence regarding the eﬀectiveness of within-class diﬀerentiated instruction in secondary education.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q32": {
+   "frases": {
+    "1": {
+     "passagem": "academic performance (d = 0.37, p < 0.0001)",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "inattention (d = −0.33, p < 0.0001), academic performance (d = 0.37, p < 0.0001), and social skills (d = 0.28, p < 0.001), and reducing externalising problems (d = −0.32, p = 0.001)",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "There was no significant effect for hyperactivity/impulsivity (d = −0.09, p = 0.22)",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "22 (n = 1962) of which were included in our meta-analyses.",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "aumento na compreensão e número de acertos em tarefas acadêmicas",
+     "trecho": 5
+    }
+   }
+  },
+  "Q33": {
+   "frases": {
+    "1": {
+     "passagem": "Overall, matching instruction to meet a student’s auditory or visual learning style had no effect on student achievement.",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "Their review found no empirical evidence to support the meshing hypothesis.",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "Most students, 68%, do not even have a clear learning style preference.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "It is important to note that having learning preferences has never been called into question.",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "auditory learners may actually benefit more from additional instruction in their non-preferred modality.",
+     "trecho": 2
+    },
+    "6": {
+     "passagem": "Teachers and schools should not devote time and resources to learning styles-based instruction.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q34": {
+   "frases": {
+    "1": {
+     "passagem": "Results from this alternating treatment experiment show no improvement in reading rate or accuracy for individual students with dyslexia, as well as the group as a whole.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "Rello and Baeza-Yates (2013) measured eye-tracking recordings of Spanish readers with dyslexia (aged 11–50) and found that OD did not significantly improve reading time nor shorten eye fixation.",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "In her master’s thesis, de Leeuw (2010) compared Arial and Dyslexie with 21 Dutch students with dyslexia and found Dyslexie did not lead to faster reading, but may help with some dyslexic-related errors.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "multiple independent studies with similar results are needed to deem any intervention or practice to be Bevidencebased^",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "Educators cannot waste time with interventions having no empirical support.",
+     "trecho": 3
+    }
+   }
+  },
+  "Q35": {
+   "frases": {
+    "1": {
+     "passagem": "a general advantage in reading speed due to increased spacing, in both its components, was not found either in children with dyslexia or in typical readers",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "both groups of participants showed a decrease in reading speed when presented with this spacing condition, although the effect size was small",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "found that an extra-large inter-letter spacing decreases the number of errors significantly, but does not increase reading speed in children with dyslexia",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "One plausible explanation for the discrepancy of these results could be the length of the sentences.",
+     "trecho": 4
+    }
+   }
+  },
+  "Q36": {
+   "frases": {
+    "1": {
+     "passagem": "Dekker et al. (2012) surveyed teachers in the UK and the Netherlands who reported being interested in the neuroscience of learning and found that educators believed in 49% of the neuromyths tested.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "Brazilian educators scored worse on classic neuromyths than general questions, but rates here were somewhat higher: 74% on neuromyths and 89% on all other questions.",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "Brazilian educators scored worse on classic neuromyths than general questions, but rates here were somewhat higher: 74% on neuromyths and 89% on all other questions.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "Brazilian educators endorsed several common neuromyths, as accuracy (and confidence) on these items was lower than that of general knowledge items.",
+     "trecho": 2
+    },
+    "5": {
+     "passagem": "There is a strong belief in classic neuromyths, including the use of only 10% of the brain, and more ‘dangerous’ myths, such as differences in learning abilities between the sexes",
+     "trecho": 2
+    },
+    "6": {
+     "passagem": "it still shows that almost 1/3 of educators in Brazil believe in differences in learning abilities or styles between boys and girls or men and women",
+     "trecho": 2
+    }
+   }
+  },
+  "Q37": {
+   "frases": {
+    "1": {
+     "passagem": "we find that even those systems do not preserve the meaning of the original text",
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "at least 14% of the questions remain unanswerable even for the best-performing system due to the errors introduced by these systems",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "deletions or inaccurate rewrites can change how a text is understood",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "Prompted LLMs (ChatGPT) perform well but are not as accurate as supervised systems.",
+     "trecho": 2
+    },
+    "5": {
+     "passagem": "some systems are overall correct enough to warrant usability studies",
+     "trecho": 2
+    },
+    "6": {
+     "passagem": "whether correct TS outputs improve reading comprehension for people who have difficulty understanding complex texts, which we intend to investigate in future work",
+     "trecho": 2
+    }
+   }
+  },
+  "Q38": {
+   "frases": {
+    "1": {
+     "passagem": "Evaluating 100 processed educational materials reveals that few-shot prompting significantly improves performance in readability manipulation and information preservation.",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "LLaMA-2 70B performs best in adjusting readability, whereas GPT-3.5 demonstrates superior performance in preserving content and meaning.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "However, manual inspection highlights concerns such as misinformation introduction and inconsistent edit distribution.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "indicating that the generated texts are generally more complex than the intended level.",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "These findings emphasize the need for further research to ensure the quality of generated educational content.",
+     "trecho": 3
+    }
+   }
+  },
+  "Q39": {
+   "abstencao": {
+    "A": "T2",
+    "B": "T2"
+   },
+   "frases": {}
+  },
+  "Q40": {
+   "abstencao": {
+    "A": "T2",
+    "B": "T2"
+   },
+   "frases": {}
+  }
+ },
+ "opus": {
+  "Q01": {
+   "frases": {
+    "1": {
+     "passagem": "Oferecer indicações explícitas para cada etapa em qualquer processo sequencial;",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "Fornecer listas de verificação, organizadores, notas, lembretes eletrônicos etc.;",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "eliminar elementos ou acessórios que distraem, a menos que sejam essenciais para o objetivo do aprendizado.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "verificar, regularmente e de forma individualizada, o progresso dos alunos com deficiência e responder às perguntas que possam ter.",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "Antes de dar a resposta, permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico",
+     "trecho": 1
+    }
+   }
+  },
+  "Q02": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "Make sure assignments are not long and repetitive. Shorter assignments that provide a little challenge without being too hard may work well.",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "Allow breaks—for children with ADHD, paying attention takes extra effort and can be very tiring. Allow time to move and exercise.",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "fidget tools, limiting eye contact when listening, background music, or moving while learning can be beneficial or distracting, depending on the child",
+     "trecho": 2
+    },
+    "5": {
+     "passagem": "Provide choices to show mastery (for example, let the student choose among written essay, oral report, online quiz, or hands-on project.",
+     "trecho": 2
+    },
+    "6": {
+     "passagem": "Targeting organisation, homework management, and timemanagement through 20-min sessions",
+     "trecho": 4
+    }
+   }
+  },
+  "Q03": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "4": {
+     "passagem": "O uso de dicas e avisos aumenta a conformidade com o comportamento desejado.",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "Os programas de reforço são particularmente úteis para alunos com TDAH, que geralmente exigem feedback imediato e recompensa para mudar o comportamento.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q04": {
+   "frases": {
+    "1": {
+     "passagem": "Oferecer indicações explícitas para cada etapa em qualquer processo sequencial;",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "eliminar elementos ou acessórios que distraem, a menos que sejam essenciais para o objetivo do aprendizado.",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "dar-lhes a escolha entre vários tipos de atividade ou dar-lhes a opção de trabalhar sozinho ou em grupos para completar um exercício em sala de aula",
+     "trecho": 5
+    },
+    "4": {
+     "passagem": "aproveitar o tempo em que os alunos realizam suas atividades para verificar, regularmente e de forma individualizada, o progresso dos alunos com deficiência e responder às perguntas que possam ter.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q05": {
+   "frases": {}
+  },
+  "Q06": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "permitir que os alunos tenham tempo suficiente para formular uma resposta ou fazer uma pausa para que os alunos registrem suas respostas em um pedaço de papel ou dispositivo eletrônico ou que compartilhem respostas com seu colega",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "aproveitar o tempo em que os alunos realizam suas atividades para verificar, regularmente e de forma individualizada, o progresso dos alunos com deficiência e responder às perguntas que possam ter.",
+     "trecho": 1
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 4
+    }
+   }
+  },
+  "Q07": {
+   "abstencao": {
+    "A": "T2",
+    "B": "T2"
+   },
+   "frases": {}
+  },
+  "Q08": {
+   "frases": {
+    "1": {
+     "passagem": "O reforço simbólico é uma estratégia reativa que fornece aos alunos um reforço imediato (por exemplo, um adesivo) para atingir uma expectativa comportamental específica (por exemplo, preencher uma planilha).",
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "Os programas de reforço são particularmente úteis para alunos com TDAH, que geralmente exigem feedback imediato e recompensa para mudar o comportamento.",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "Os tratamentos psicossociais, que incluem esforços de coordenação na escola e em casa podem aumentar os efeitos.",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "Intervenções planejadas a partir dessa análise, envolvendo um sistema de comunicação, automonitoramento e extinção, produziram melhora nos comportamentos-alvo.",
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "Os dois procedimentos afetaram os comportamentos de interesse, todavia, os resultados com o uso de RC foram mais sistemáticos que os observados com o automonitoramento.",
+     "trecho": 4
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 1
+    }
+   }
+  },
+  "Q09": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "4": {
+     "passagem": "Observe and talk with the student about what helps or distracts them (for example, fidget tools, limiting eye contact when listening, background music, or moving while learning can be beneficial or distracting, depending on the child).",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "However, some evidence shows that setting clear expectations, providing immediate positive feedback, and communicating daily with parents through a daily report card can help.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q10": {
+   "abstencao": {
+    "A": "T1",
+    "B": "T1"
+   },
+   "frases": {}
+  },
+  "Q11": {
+   "frases": {
+    "1": {
+     "passagem": "Principio I: Proporcionar Modos Múltiplos de Apresentação (o o que da Aprendizagem).",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "Existem três princípios fundamentais baseados na investigação neurocientifica que orientam o DUA e fundamentam estas Diretrizes:",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "De acordo com Nelson (2013), o DUA está fundamentado em pesquisas científicas sobre a aprendizagem",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "aprendizagem cooperativa (discussões em pequenos grupos sobre o que foi aprendido)",
+     "trecho": 1
+    }
+   }
+  },
+  "Q12": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 2
+    }
+   }
+  },
+  "Q13": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 5
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 5
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 3
+    }
+   }
+  },
+  "Q14": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "elaboração e utilização de mapas conceituais construídos on-line ou em papel",
+     "trecho": 5
+    }
+   }
+  },
+  "Q15": {
+   "frases": {
+    "2": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 4
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "incentivar a divisão das metas de longo prazo em objetivos de curto prazo;",
+     "trecho": 5
+    },
+    "6": {
+     "passagem": "modalizar o ritmo de trabalho, a duração das sessões, a disponibilidade de pausas, os tempos de espera, a temporização ou a sequência de atividades;",
+     "trecho": 5
+    }
+   }
+  },
+  "Q16": {
+   "frases": {
+    "1": {
+     "passagem": "Entretanto, o DUA refere-se ao processo pelo qual um currículo (isto é, objetivos, métodos, materiais e avaliação) é projetado desde o início, intencionalmente e sistematicamente, para abordar diferenças individuais.",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "A referência do DUA estimula a criação de propostas flexíveis desde o início, apresentando opções personalizáveis que permitem a todos os estudantes progredir a partir de onde eles estão",
+     "trecho": 4
+    },
+    "3": {
+     "passagem": "Frequentemente, os próprios professores são forçados a fazer complicadas tentativas de ajustar os elementos curriculares inflexíveis, do tipo tamanho único para todos, que não foram projetados para atender à diversidade individual dos alunos.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "e, no caso de alunos com necessidades mais complexas, é relevante se pensar em um Planejamento Educacional Individualizado (PEI)",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "Os alunos PAEE, por exemplo, podem trabalhar a mesma atividade que os demais alunos respondendo cinco de um total de dez exercícios de matemática (programa individualizado)",
+     "trecho": 3
+    },
+    "6": {
+     "passagem": "Existe um número considerável de pesquisas que identificam a eficácia de práticas baseadas em evidências para esses estudantes dos extremos.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q17": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "oferecer modelos ou exemplos do processo e do resultado da definição de metas;",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "Integrar avisos para que parem e pensem antes de agir, bem como espaços adequados para isso;",
+     "trecho": 3
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 5
+    }
+   }
+  },
+  "Q18": {
+   "frases": {
+    "1": {
+     "restrita": true,
+     "trecho": 1
+    },
+    "2": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "3": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "4": {
+     "restrita": true,
+     "trecho": 3
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 5
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 4
+    }
+   }
+  },
+  "Q19": {
+   "frases": {
+    "1": {
+     "passagem": "O poder público deve desenvolver e manter programa de acompanhamento integral para educandos com dislexia, Transtorno do Deficit de Atenção com Hiperatividade (TDAH) ou outro transtorno de aprendizagem.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "compreende a identificação precoce do transtorno, o encaminhamento do educando para diagnóstico, o apoio educacional na rede de ensino, bem como o apoio terapêutico especializado na rede de saúde.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "As escolas da educação básica das redes pública e privada, com o apoio da família e dos serviços de saúde existentes, devem garantir o cuidado e a proteção ao educando",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "devem ter assegurado o acompanhamento específico direcionado à sua dificuldade, da forma mais precoce possível, pelos seus educadores no âmbito da escola na qual estão matriculados",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "os sistemas de ensino devem garantir aos professores da educação básica amplo acesso à informação, inclusive quanto aos encaminhamentos possíveis para atendimento multissetorial, e formação continuada",
+     "trecho": 2
+    }
+   }
+  },
+  "Q20": {
+   "frases": {
+    "1": {
+     "passagem": "Neste liame não se pode considerar imprescindível a apresentação de laudo médico (diagnóstico clínico) por parte do aluno com deficiência, transtornos globais do desenvolvimento ou altas habilidades/superdotação, uma vez que o AEE caracteriza-se por atendimento pedagógico e não clínico.",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "denotaria imposição de barreiras ao seu acesso aos sistemas de ensino, configurando-se em discriminação e cerceamento de direito.",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "tornando-se o laudo médico, neste caso, um documento anexo ao Plano de AEE. Por isso, não se trata de documento obrigatório, mas, complementar, quando a escola julgar necessário.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "elaborar o Plano de Atendimento Educacional Especializado – Plano de AEE, documento comprobatório de que a escola, institucionalmente, reconhece a matricula do estudante público alvo da educação especial e assegura o atendimento de suas especificidades educacionais.",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "Ressalte-se, por imperioso, que a elaboração desse estudo de caso, não está condicionada a existência de laudo médico do aluno, pois, é de cunho estritamente, educacional, a fim de que as estratégias pedagógicas e de acessibilidade possam ser adotadas pela escola",
+     "trecho": 5
+    },
+    "6": {
+     "passagem": "Neste liame não se pode considerar imprescindível a apresentação de laudo médico (diagnóstico clínico) por parte do aluno com deficiência, transtornos globais do desenvolvimento ou altas habilidades/superdotação",
+     "trecho": 1
+    }
+   }
+  },
+  "Q21": {
+   "frases": {
+    "1": {
+     "passagem": "IV - barreiras: qualquer entrave, obstáculo, atitude ou comportamento que limite ou impeça a participação social da pessoa, bem como o gozo, a fruição e o exercício de seus direitos à acessibilidade, à liberdade de movimento e de expressão, à comunicação, ao acesso à informação, à compreensão",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "barreiras urbanísticas: as existentes nas vias e nos espaços públicos e privados abertos ao público ou de uso coletivo;",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "VI - adaptações razoáveis: adaptações, modificações e ajustes necessários e adequados que não acarretem ônus desproporcional e indevido, quando requeridos em cada caso",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "III - projeto pedagógico que institucionalize o atendimento educacional especializado, assim como os demais serviços e adaptações razoáveis, para atender às características dos estudantes com deficiência e garantir o seu pleno acesso ao currículo em condições de igualdade",
+     "trecho": 2
+    }
+   }
+  },
+  "Q22": {
+   "frases": {
+    "1": {
+     "passagem": "a) avaliação contínua e cumulativa do desempenho do aluno, com prevalência dos aspectos qualitativos sobre os quantitativos e dos resultados ao longo do período sobre os de eventuais provas finais;",
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "com prevalência dos aspectos qualitativos sobre os quantitativos e dos resultados ao longo do período sobre os de eventuais provas finais;",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "e) obrigatoriedade de estudos de recuperação, de preferência paralelos ao período letivo, para os casos de baixo rendimento escolar, a serem disciplinados pelas instituições de ensino em seus regimentos;",
+     "trecho": 2
+    }
+   }
+  },
+  "Q23": {
+   "frases": {
+    "1": {
+     "passagem": "Art. 3º A Educação Especial se realiza em todos os níveis, etapas e modalidades de ensino, tendo o AEE como parte integrante do processo educacional.",
+     "trecho": 4
+    },
+    "2": {
+     "passagem": "Art. 4º Para fins destas Diretrizes, considera-se público-alvo do AEE:",
+     "trecho": 4
+    },
+    "4": {
+     "passagem": "O AEE é realizado, prioritariamente, na sala de recursos multifuncionais da própria escola ou em outra escola de ensino regular, no turno inverso da escolarização, não sendo substitutivo às classes comuns",
+     "trecho": 4
+    },
+    "5": {
+     "restrita": true,
+     "trecho": 2
+    }
+   }
+  },
+  "Q24": {
+   "frases": {
+    "1": {
+     "passagem": "Fica instituída a Política Nacional de Educação Especial Inclusiva, com a finalidade de garantir o direito à educação em um sistema educacional inclusivo para estudantes com deficiência, com transtorno do espectro autista e com altas habilidades ou superdotação, sem discriminação e com base na igualdade de oportunidades.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "tenham o direito a ser incluídos em classes e escolas comuns, com o apoio necessário à sua participação, permanência e aprendizagem.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "a garantia de igualdade de oportunidades e condições para o acesso, a permanência, a participação e a aprendizagem dos estudantes que são o público da educação especial;",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "oferta de tecnologias assistivas e adaptações razoáveis, de acordo com as necessidades individuais, em interação com os contextos educacionais;",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "A garantia do padrão de qualidade educacional, no âmbito da PNEEI, deverá ser expressa a partir do conjunto de apoios necessários ao acesso, à permanência, à participação e à aprendizagem.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q25": {
+   "frases": {
+    "1": {
+     "passagem": "O texto dessa lei assegura critérios adequados de avaliação das provas escritas discursivas ou de redação para o ingresso em cursos de nível superior, de acordo com as características linguísticas da pessoa com deficiência.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "Esses recursos concedidos pelo Inep estão previstos no Edital do Enem 2026.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "você precisa apresentar documentação que ateste a condição e a efetiva necessidade dos recursos e dos serviços profissionais solicitados.",
+     "trecho": 5
+    },
+    "4": {
+     "passagem": "Outra capacitação é oferecida à equipe de avaliadores(as) que irá analisar os padrões de escrita de pessoas com dislexia e que considerará, na avaliação das redações do Enem, as dificuldades de escrita desses(as) participantes.",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "lembramos que narrar histórias ou escrever poemas levará à anulação da sua prova.",
+     "trecho": 1
+    },
+    "6": {
+     "passagem": "conte com o auxílio do(a) ledor(a) durante a prova. Ao escutar a própria redação, você poderá verificar se o texto está escrito de forma coesa, clara, objetiva e coerente.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q26": {
+   "frases": {
+    "1": {
+     "passagem": "Art. 4º Para fins destas Diretrizes, considera-se público-alvo do AEE:",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "Incluem-se nessa definição alunos com autismo clássico, síndrome de Asperger, síndrome de Rett, transtorno desintegrativo da infância (psicoses) e transtornos invasivos sem outra especificação.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "Por isso, não se trata de documento obrigatório, mas, complementar, quando a escola julgar necessário.",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "Children with ADHD may be eligible for special education services through a category called \"other health impairment.\"",
+     "trecho": 4
+    }
+   }
+  },
+  "Q27": {
+   "frases": {
+    "1": {
+     "passagem": "The research on the effects of extended time is inconclusive. Some studies found benefit while others found mixed effects, or no effect. Some students with LD or ADHD may benefit from extended time",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "Three studies showed the positive effects of extended time for high school students with attention-deficit/hyperactivity disorder (ADHD).",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "Four studies involved students with LD and resulted in positive effects.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "However, less than half of the students with ADHD with access to extended time actually used it.",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "Much of the research bundled extended time with other accommodations (e.g., oral delivery, breaks). Extended time when bundled with other accommodations does not appear to consistently help students’ performance.",
+     "trecho": 3
+    },
+    "6": {
+     "restrita": true,
+     "trecho": 5
+    }
+   }
+  },
+  "Q28": {
+   "frases": {
+    "1": {
+     "passagem": "Separate meta-analyses were performed on standardized mean differences (SMDs) for 24 within-subjects design (WSD) and 76 single-subject design (SSD) studies.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "Large effects were found for WSD studies (MSMD = 0.92).",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "Positive effects were also found for SSD studies (MSMD = 3.08) but interpreting the absolute magnitude of these effects is difficult as statistical guidelines for such interpretation are lacking.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "WSD studies indicate that consequence-based interventions (MSMD = 1.82) are more effective in reducing off-task and disruptive classroom behavior",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "interventions implemented in general education classrooms (WSDs: MSMD = 1.30; SSDs: MSMD = 3.58) lead to a larger reduction in off-task and disruptive classroom behavior",
+     "trecho": 3
+    },
+    "6": {
+     "passagem": "No reliable conclusions could be formulated about moderating effects of type of measure and students’ age, gender, intelligence, and medication use, mainly because of power problems.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q29": {
+   "frases": {
+    "1": {
+     "passagem": "Despite improving working memory performance, cognitive training had limited effects on ADHD symptoms according to assessments based on blinded measures.",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "There were statistically significant effects on ADHD symptoms when considering raters most proximal to treatment delivery, especially for symptoms of inattention. However, these effects were reduced substantially",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "Effects on ADHD were negligible even considering most proximal measures. This suggests that this form of training",
+     "trecho": 4
+    },
+    "4": {
+     "passagem": "There were large and highly significant improvements on objective tests of both visual and verbal working memory, although there were no effects on inhibition or inattention.",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "Unfortunately, there was an insufficient number of trials (n = 4) with probably blinded measures to corroborate these effects using independent sources.",
+     "trecho": 4
+    }
+   }
+  },
+  "Q30": {
+   "frases": {
+    "1": {
+     "passagem": "the findings from this review suggest that while some children with special needs may benefit from inclusive educational placement, other children may benefit from traditional special education in a segregated setting.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "Unfortunately, it was not possible to explore the effects of different kinds of inclusive education for different kinds of children with special needs.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "Results are inconsistent, and several reviews point to a number of methodological challenges and weaknesses of the study designs within primary studies.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "The study found small‐to‐moderate beneficial effects of inclusion on all outcomes with an overall mean weighted effect size across all studies and all three categories of outcomes of 0.33.",
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "The outcomes within the included studies were grades, achievement scores, social, and attitudinal outcomes. The review found co‐teaching to be effective (average total effect size of 0.40).",
+     "trecho": 2
+    },
+    "6": {
+     "passagem": "opponents suggest that placement in general education classrooms may have adverse effects for children with special needs, especially if the time and resources allocated for individualisation and differentiation are not aligned with student needs.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q31": {
+   "frases": {
+    "1": {
+     "passagem": "it shows that a systematic review of the literature leads to a limited body of evidence regarding the eﬀectiveness of within-class diﬀerentiated instruction in secondary education",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "there is some evidence that diﬀerentiated instruction has potential power to aﬀect students’ academic achievement positively with small to medium eﬀects.",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "In this meta-analysis, a very small eﬀect of adaptive teaching on student achievement was found.",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "we could infer that overall small to medium sized eﬀects (and in some cases also large eﬀects) of the approach on student achievement can be achieved in beta subjects.",
+     "trecho": 4
+    },
+    "5": {
+     "passagem": "In both studies, eﬀectiveness for the high achieving group seemed negligible.",
+     "trecho": 4
+    },
+    "6": {
+     "passagem": "teachers relied on external support to implement within-class diﬀerentiated instruction during the interventions.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q32": {
+   "frases": {
+    "1": {
+     "passagem": "22 (n = 1962) of which were included in our meta-analyses. Our findings showed that school-based based randomised controlled trials were effective in improving combined ADHD (d = −0.28, p < 0.0001), inattention (d = −0.33, p < 0.0001), academic performance (d = 0.37, p < 0.0001)",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "combined ADHD (d = −0.28, p < 0.0001), inattention (d = −0.33, p < 0.0001), academic performance (d = 0.37, p < 0.0001), and social skills (d = 0.28, p < 0.001), and reducing externalising problems (d = −0.32, p = 0.001)",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "There was no significant effect for hyperactivity/impulsivity (d = −0.09, p = 0.22)",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "Issues related to high levels of heterogeneity and potential reporter bias are further discussed.",
+     "trecho": 1
+    }
+   }
+  },
+  "Q33": {
+   "frases": {
+    "1": {
+     "passagem": "Overall, matching instruction to meet a student’s auditory or visual learning style had no effect on student achievement.",
+     "trecho": 1
+    },
+    "2": {
+     "passagem": "Most students, 68%, do not even have a clear learning style preference. For the ones who do, receiving instruction in their preferred style did not equate with better learning.",
+     "trecho": 1
+    },
+    "3": {
+     "passagem": "Like Pashler et al., these reviews found no support for learning styles, but no study was conducted with school-aged children.",
+     "trecho": 3
+    },
+    "4": {
+     "passagem": "It is important to note that having learning preferences has never been called into question. What is under debate is whether learning in your preferred style yields greater academic achievement.",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "Teachers and schools should not devote time and resources to learning styles-based instruction.",
+     "trecho": 1
+    },
+    "6": {
+     "passagem": "However, Mahdjoubi and Akplotsyi did not assess student achievement",
+     "trecho": 3
+    }
+   }
+  },
+  "Q34": {
+   "frases": {
+    "1": {
+     "passagem": "Results from this alternating treatment experiment show no improvement in reading rate or accuracy for individual students with dyslexia, as well as the group as a whole.",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "none of the participants reported preferring to read material presented in that font. These results indicate there may be no benefit for translating print materials to this font.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "found that OD did not significantly improve reading time nor shorten eye fixation. In her master’s thesis, de Leeuw (2010) compared Arial and Dyslexie with 21 Dutch students with dyslexia and found Dyslexie did not lead to faster reading, but may help with some dyslexic-related errors.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "we did not measure comprehension of connected text—the end goal of reading.",
+     "trecho": 3
+    },
+    "6": {
+     "passagem": "This intensive systematic intervention is likely to include direct multisensory instruction in the areas of phonological awareness, phonics, and fluency",
+     "trecho": 2
+    }
+   }
+  },
+  "Q35": {
+   "frases": {
+    "1": {
+     "passagem": "The seminal work of Zorzi et al. (2012) showed that an extra-large space (TNR Regular inter-letter spacing enlarged by 2.5 pt. on 14 pt. body size, + ~ 18% of the body size) improves reading for children with dyslexia.",
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "using sentences of the same length, found that an extra-large inter-letter spacing decreases the number of errors significantly, but does not increase reading speed in children with dyslexia.",
+     "trecho": 2
+    },
+    "3": {
+     "passagem": "The data showed no effect of letterform and inter-letter and inter-word spacing on reading accuracy either in children with dyslexia or in the control group.",
+     "trecho": 5
+    },
+    "4": {
+     "passagem": "both groups of participants showed a decrease in reading speed when presented with this spacing condition, although the effect size was small.",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "one hypothesis could be that wider spacing supports a child during reading acquisition, but is irrelevant when they have already acquired reading skills.",
+     "trecho": 4
+    }
+   }
+  },
+  "Q36": {
+   "frases": {
+    "1": {
+     "passagem": "most educators have limited neuroscience-related knowledge and relatively low confidence in that knowledge; furthermore, a large percentage endorse neuromyths",
+     "trecho": 5
+    },
+    "2": {
+     "passagem": "Dekker et al. (2012) surveyed teachers in the UK and the Netherlands who reported being interested in the neuroscience of learning and found that educators believed in 49% of the neuromyths tested.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "Brazilian educators scored worse on classic neuromyths than general questions, but rates here were somewhat higher: 74% on neuromyths and 89% on all other questions.",
+     "trecho": 1
+    },
+    "4": {
+     "passagem": "| 1. 10% | 52 | 67 | 48 | 46 | N/A | 33 | 44 | 59 | 40 |",
+     "trecho": 1
+    },
+    "5": {
+     "passagem": "overall accuracy was 70% and confidence was 4.02.",
+     "trecho": 2
+    },
+    "6": {
+     "passagem": "Brazilian educators’ knowledge of the brain is relatively high (compared with other studies conducted in other Latin American countries, Europe and the United States).",
+     "trecho": 2
+    }
+   }
+  },
+  "Q37": {
+   "frases": {
+    "1": {
+     "passagem": "However, we find that even those systems do not preserve the meaning of the original text",
+     "trecho": 2
+    },
+    "2": {
+     "passagem": "measuring how well people can answer questions about key facts from the original text after reading a simplified version",
+     "trecho": 3
+    },
+    "3": {
+     "passagem": "Supervised systems that leverage pre-trained knowledge (MUSS, T5) produce texts that lead to the highest reading comprehension accuracy, approaching the scores obtained on human-written texts.",
+     "trecho": 2
+    },
+    "4": {
+     "passagem": "at least 14% of the questions remain unanswerable even for the best-performing system due to the errors introduced by these systems",
+     "trecho": 3
+    },
+    "5": {
+     "passagem": "However, texts that are easier to read are not helpful if they mislead readers by providing information that is not consistent with the original document.",
+     "trecho": 1
+    },
+    "6": {
+     "passagem": "all systems still make critical errors. This motivates future work on machine-in-the-loop workflows to let editors and readers rely on TS appropriately",
+     "trecho": 2
+    }
+   }
+  },
+  "Q38": {
+   "frases": {
+    "1": {
+     "passagem": "Evaluating 100 processed educational materials reveals that few-shot prompting significantly improves performance in readability manipulation and information preservation.",
+     "trecho": 3
+    },
+    "2": {
+     "passagem": "LLaMA-2 70B performs best in adjusting readability, whereas GPT-3.5 demonstrates superior performance in preserving content and meaning.",
+     "trecho": 5
+    },
+    "3": {
+     "passagem": "LLaMA-2 70B achieves the best Lexile Score measure (lowest MAE = 172.9; highest match rate = 22.22%)",
+     "trecho": 5
+    },
+    "4": {
+     "passagem": "indicating that the generated texts are generally more complex than the intended level.",
+     "trecho": 5
+    },
+    "5": {
+     "passagem": "manual inspection highlights concerns such as misinformation introduction and inconsistent edit distribution.",
+     "trecho": 3
+    },
+    "6": {
+     "passagem": "To fully utilize LLMs, it is necessary to teach them what Lexile means and what the texts would possibly look like at each level.",
+     "trecho": 5
+    }
+   }
+  },
+  "Q39": {
+   "abstencao": {
+    "A": "T2",
+    "B": "T2"
+   },
+   "frases": {}
+  },
+  "Q40": {
+   "abstencao": {
+    "A": "T1",
+    "B": "T1"
+   },
+   "frases": {}
+  }
+ }
+}

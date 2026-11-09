@@ -1,0 +1,97 @@
+RELATÓRIO DE CHUNKING - Íris: base de conhecimento (semana 2)
+Gerado por ingestao.py. Parâmetros: máx. 350 palavras por trecho, mín. 40, sobreposição = último parágrafo do trecho anterior se tiver até 60 palavras (~15% de 350); nas leis, o caput do artigo.
+Prefixo de contexto no texto indexado: 'Documento: <titulo> | Seção: <secao>'.
+
+Documentos indexados: 38 (de 40 no catálogo)
+  fora: CAST-UDL-GUIDELINES-3-0-2024 (quase duplicata de CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024)
+  fora: CAST-DUA-3-0-ORGANIZADOR-PTBR-2024 (quase duplicata de CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024)
+Chunks gerados: 1368
+Tamanho em palavras (sem o prefixo): min 40 | p25 110 | mediana 215 | p75 305 | max 511 | média 207.6
+  acima de 350 palavras: 19 de 1368 (5 são páginas inteiras de quadro; 14 passam do limite por causa da sobreposição ou de um parágrafo sem ponto final)
+  abaixo de 40 palavras: 0 de 1368 (documentos curtos inteiros ou fim de seção sem vizinha)
+  chunks de página inteira (quadros do PCDT e do Caderno 4 do MEC): 8 de 1368
+
+Descartados: 372 páginas/pedaços
+   181  página fora do recorte (apêndice de metodologia/tabelas de remédio)
+   168  trecho de referências bibliográficas
+     7  trecho de tabela de dados (células soltas: Y/N, números, siglas)
+     5  trecho com menos de 10 palavras
+     4  página vazia (branco/só imagem)
+     3  página de sumário
+     2  página de diretoria/expediente (lista de nomes)
+     1  página de ficha técnica / créditos
+     1  trecho de créditos (lista de nomes)
+Limpeza (linhas afetadas): hifenizacoes_juntadas=3, hifens_mantidos=7, linhas_cabecalho_rodape=1032, linhas_de_creditos_da_diretoria=13, numeros_de_pagina=267
+
+documento                                        chunks palavras pág.inteira  descartes
+CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024                66    14952           0  trecho de referências bibliográficas: 6
+RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA          55    15002           0  página vazia (branco/só imagem): 1; trecho de referências bibliográficas: 1
+MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026         68    16510           4  página de diretoria/expediente (lista de nomes): 1; página de ficha técnica / créditos: 1; página vazia (branco/só imagem): 1; trecho de referências bibliográficas: 2
+ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR             21     5956           0  trecho de referências bibliográficas: 2
+NICE-NG87-ADHD-2018                                  65    13904           0  página de sumário: 2
+AAP-CPG-ADHD-2019                                    68    13764           0  trecho de referências bibliográficas: 23
+CDC-ADHD-CLASSROOM-2026                              14     1598           0  -
+MS-PCDT-TDAH-2022                                    28     6759           4  página fora do recorte (apêndice de metodologia/tabelas de remédio): 181; trecho com menos de 10 palavras: 1; trecho de referências bibliográficas: 7
+ABDA-GUIA-PROFESSORES-2012                            5     1602           0  -
+DIAMOND-2013-FUNCOES-EXECUTIVAS                      55    13579           0  trecho de referências bibliográficas: 34
+GAASTRA-2016-META-INTERVENCOES-SALA                  44     8686           0  trecho de referências bibliográficas: 4
+YEGENCIK-2025-META-RCT-ESCOLA                        96    11789           0  trecho de créditos (lista de nomes): 1; trecho de tabela de dados (células soltas: Y/N, números, siglas): 5; trecho de referências bibliográficas: 13
+CORTESE-2015-META-TREINO-COGNITIVO                   31     6800           0  trecho com menos de 10 palavras: 1; trecho de referências bibliográficas: 9
+SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES       36     5212           0  trecho de referências bibliográficas: 6
+NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024             13     2412           0  -
+NCEO-TOOLKIT-TEMPO-EXTRA-2026                         7     1764           0  trecho de referências bibliográficas: 5
+LEI-14254-2021-DISLEXIA-TDAH                          7      454           0  -
+LEI-13146-2015-LBI-RECORTE-EDUCACAO                   9     2207           0  -
+LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL        6     1055           0  -
+LEI-12764-2012-TEA                                   10     1513           0  -
+DECRETO-12686-2025-PNEEI                             24     3372           0  -
+PORTARIA-MEC-421-2026-PNEEI                          29     3339           0  -
+RES-CNE-CEB-4-2009-AEE                                5     1450           0  -
+MEC-POLITICA-PEEI-2008                               30     6347           0  -
+MEC-SECADI-NT-04-2014-LAUDO                           6     1822           0  -
+INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA             18     5494           0  página vazia (branco/só imagem): 1; página de diretoria/expediente (lista de nomes): 1; página de sumário: 1
+DALGAARD-2022-INCLUSAO-META                         124    24496           0  -
+SMALEJACOBSE-2019-DIFERENCIACAO-RS                   84    18140           0  trecho com menos de 10 palavras: 1; trecho de referências bibliográficas: 13
+DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE                 31     6991           0  página vazia (branco/só imagem): 1; trecho de referências bibliográficas: 1
+DEKKER-2012-NEUROMITOS                               26     5645           0  trecho de referências bibliográficas: 3
+ROGOWSKY-2020-ESTILOS-APRENDIZAGEM                   23     4903           0  trecho de referências bibliográficas: 4
+SIMOES-2022-NEUROMITOS-BRASIL                        41     9222           0  trecho de referências bibliográficas: 6; trecho com menos de 10 palavras: 1
+SWELLER-2019-CARGA-COGNITIVA                         66    15711           0  trecho de referências bibliográficas: 10
+KUSTER-2018-FONTE-DYSLEXIE                           34     8525           0  trecho de referências bibliográficas: 6
+WERY-2017-FONTE-OPENDYSLEXIC                         28     4605           0  trecho de referências bibliográficas: 4
+GALLIUSSI-2020-ESPACAMENTO-DISLEXIA                  25     5586           0  trecho de tabela de dados (células soltas: Y/N, números, siglas): 1; trecho com menos de 10 palavras: 1; trecho de referências bibliográficas: 3
+AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE                51     9026           0  trecho de referências bibliográficas: 2
+HUANG-2024-LLM-NIVEIS-LEITURA                        19     3766           0  trecho de tabela de dados (células soltas: Y/N, números, siglas): 1; trecho de referências bibliográficas: 4
+
+Chunks com aviso 'nao_usar_para': numeracao_dua_3_0=55, evidencia_de_eficacia=5, norma_vigente_em_conflito=5, norma_vigente=30
+
+5 exemplos aleatórios (semente 42):
+----------------------------------------------------------------------------------------------------
+AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0011 | p. 5-5 | 131 palavras | estrutural
+Documento: Do Text Simplification Systems Preserve Meaning? A Human Evaluation via Reading Comprehension | Seção: Text Granularity
+Text Granularity
+Participants are presented with a paragraph of text before answering each question, thus moving away from the prior focus 3We do not use the gold or distractor spans in the evaluation study or when generating the TS outputs.
+470% of the passages have critical spans (over the three questions) of at least 60%, showing that the questions generally cover most information conveyed in the original text.
+on evaluating TS at the sentence level. In real world settings, people are unlikely to use text simplification on isolated sentences and might be able to understand important information by making inferences from the context. Thus evaluating text simplification outputs at the paragraph level strikes a good balance between providing a realistic amoun [...]
+----------------------------------------------------------------------------------------------------
+NICE-NG87-ADHD-2018#0018 | p. 22-23 | 215 palavras | estrutural
+Documento: Attention deficit hyperactivity disorder: diagnosis and management (NICE guideline NG87) | Seção: 1.6 Dietary advice
+[texto não reproduzido por restrição de licença] [...]
+----------------------------------------------------------------------------------------------------
+CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0051 | p. None-None | 323 palavras | estrutural
+Documento: Diretrizes Desenho Universal para Aprendizagem. Versão 3.0 (texto completo, tradução) | Seção: [texto não reproduzido por restrição de licença] [...]
+----------------------------------------------------------------------------------------------------
+YEGENCIK-2025-META-RCT-ESCOLA#0074 | p. 18-18 | 48 palavras | estrutural
+Documento: School-based randomized controlled trials for ADHD and accompanying impairments: a systematic review and meta-analysis | Seção: High risk
+High risk
+Evans et al.
+(2014) N N N 70–84% N Y Y
+High risk
+Evans et al.
+(2016) N N N 85%+ Y Y Y Some concerns Evans et al.
+(2023) Y- Stratified based on medication and sex, school level randomisation N N 85%+ Y N N
+----------------------------------------------------------------------------------------------------
+YEGENCIK-2025-META-RCT-ESCOLA#0012 | p. 3-3 | 132 palavras | estrutural
+Documento: School-based randomized controlled trials for ADHD and accompanying impairments: a systematic review and meta-analysis | Seção: Data extraction
+Data extraction
+We extracted two types of data, descriptive and quantified. In terms of descriptive data, we extracted information related to the following: sample characteristics (including gender distribution and medication use), experimental design, intervention type, intervention duration, intervention setting/school type, intervention administrator, outcome reporter, and intervention components. In terms of quantified data, we extracted sample sizes, means and standard deviations, and, where necessary, standard errors and reported effect sizes. Descriptive information and quantified data for studies that were published pre-2018 were obtained from the most up-to-date systematic review and meta-analysis (i.e., Moore et al., 2018). F [...]

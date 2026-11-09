@@ -12,11 +12,11 @@ Este documento estabelece os **Requisitos Não Funcionais** da plataforma Íris,
 * **Critério de Aceite:** O banco de dados do sistema (se houver) deve restringir-se a vetores de conhecimento científico (RAG) e tabelas de configuração estática; nenhuma tabela de estudantes deve existir no schema da aplicação.
 * **Validação:** Inspeção de segurança e auditoria de schema de dados nos pipelines de CI/CD.
 
-### RNF-02: Sanitização Local e Detecção Automatizada de PII
-* **Categoria:** Segurança da Informação.
-* **Descrição:** Todo texto e documento submetido pelo professor deve passar por um módulo local de detecção e anonimização de PII (*Personally Identifiable Information*) antes de qualquer transmissão para APIs externas de modelos de linguagem.
-* **Critério de Aceite:** Nomes próprios de pessoas, números de CPF, números de matrícula escolar, nomes de instituições de ensino, endereços de e-mail e telefones devem ser substituídos por máscaras anônimas estruturadas (ex.: `[ALUNO_01]`, `[ESCOLA_01]`). A taxa de detecção e ofuscação de PII deve ser de $100\%$ para formatos estruturados (CPF, e-mail) e $\ge 98\%$ para nomes próprios em testes sintéticos.
-* **Validação:** Testes unitários com dataset controlado de textos contendo dados pessoais sintéticos.
+### RNF-02: Sanitização Preventiva e Descarte Imediato de PII (Zero-Retention Scrubber)
+* **Categoria:** Segurança da Informação e Privacidade.
+* **Descrição:** A plataforma não solicita nem processa dados cadastrais de estudantes. Para prevenir a exposição de dados decorrente de inserções acidentais pelo docente (como cabeçalhos de provas antigas contendo nomes de alunos ou citações de nomes próprios em notas orais transcritas), todo insumo submetido deve passar por um módulo local de detecção e descarte imediato de PII (*Personally Identifiable Information*) antes de qualquer transmissão para APIs externas de modelos de linguagem.
+* **Critério de Aceite:** Nomes próprios de pessoas e identificadores escolares devem ser substituídos de forma irreversível por marcadores genéricos estruturados (ex.: `[ESTUDANTE]`, `[ESCOLA]`). O módulo não deve gerar nem manter tabelas ou dicionários de reidratação em memória no servidor (*Zero-Retention*). A taxa de descarte preventivo de identificadores em testes sintéticos deve ser $\ge 98\%$.
+* **Validação:** Testes unitários com dataset controlado de avaliações contendo nomes e cabeçalhos escolares sintéticos.
 
 ### RNF-03: Desacoplamento entre Dados Pedagógicos e Dados Clínicos
 * **Categoria:** Ética e Proteção de Dados Sensíveis.

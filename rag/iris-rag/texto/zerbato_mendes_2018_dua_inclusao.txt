@@ -1,0 +1,743 @@
+=== p. 1 ===
+Educação Unisinos
+22(2):147-155, abril-junho 2018
+Unisinos - doi: 10.4013/edu.2018.222.04
+Este é um artigo de acesso aberto, licenciado por Creative Commons Atribuição 4.0 Internacional (CC BY 4.0), sendo permitidas reprodução, adaptação
+e distribuição desde que o autor e a fonte originais sejam creditados.
+Desenho universal para a aprendizagem
+como estratégia de inclusão escolar1
+Universal design for learning as a strategy for school inclusion
+Ana Paula Zerbato2
+Universidade Federal de São Carlos
+apzerbato@gmail.com
+Enicéia Gonçalves Mendes²
+Universidade Federal de São Carlos
+eniceia.mendes@gmail.com
+Resumo: A filosofia de inclusão escolar pressupõe que não só o acesso, mas a permanência,
+participação e a aprendizagem dos alunos público-alvo da Educação Especial sejam garantidas.
+Uma das propostas usuais tem sido a de prover adaptações ou flexibilizações no ensino,
+aplicadas exclusivamente para esses alunos. Todavia, tais práticas demandam trabalho duplo,
+tanto no planejamento quanto na execução do ensino. E haveria uma forma melhor de ensinar
+em classes heterogêneas? O presente trabalho visou apresentar uma discussão teórica sobre
+a proposta do Desenho Universal para a Aprendizagem (DUA), a fim de adequar o ensino,
+com vistas a ampliar a participação e a aprendizagem de todos e reduzir a necessidade de
+adequações personalizadas custosas que dificultam as práticas inclusivas do professor da classe
+comum. Espera-se que a reflexão apresentada seja apenas o despertar para uma discussão
+aprofundada entre profissionais da educação comum e especial sobre práticas pedagógicas
+mais acessíveis na perspectiva da inclusão escolar.
+Palavras-chave: Educação especial, desenho universal para a aprendizagem, inclusão escolar.
+Abstract: The philosophy of school inclusion implies that not only the access but also the
+permanence, participation and learning of students from the target audience of Special
+Education be guaranteed – one of the usual proposals being the provision of adaptations
+or flexibilizations in the learning process applied exclusively to students with special needs.
+On the other hand, such practice demands twice as much work, both in the planning and the
+execution of classes. Is there a better way to teach heterogeneous groups? This paper aims
+at presenting a theoretic discussion about the proposition of Universal Design for Learning
+(UDL), adapting teaching to amplify the participation and learning of all, lowering the need of
+expensive personalized adaptations, which make inclusive practices difficult for the teacher and
+the common group of students. It is expected the presented critical reflection to be only the
+awakening for a deepened discussion between professionals from both common and special
+education regarding the pedagogical practices in the perspective of school inclusion.
+Keywords: special education, universal design for learning, school inclusion.
+1 Apoio: CNPq.
+2 Universidade Federal de São Carlos. Rodovia Washington Luís km 232, 13565-605, São Carlos, SP, Brasil.
+
+=== p. 2 ===
+148
+Ana Paula Zerbato, Enicéia Gonçalves Mendes
+Educação Unisinos
+Introdução
+Os dispositivos normativos (Brasil, 1988, 2001, 2008,
+2009, 2015) que garantem o direito da escolarização
+dos estudantes do público-alvo da Educação Especial3
+(PAEE) em classes de ensino comum, também se referem aos serviços de apoio especializados que devem
+ser implantados para a efetivação da inclusão escolar,
+assegurando, não somente a sua inserção numa sala de
+aula, mas o acesso ao conhecimento e à aprendizagem.
+Entretanto, a inclusão escolar requer mais que
+intenções e documentos que garantam o direito à educação para todos. Ações práticas capazes de atender
+as diversas demandas dos alunos (PAEE ou não) são
+necessárias, além de oferecer-lhes situações ricas de
+aprendizagem (Bruno, 2000). Tais práticas normalmente recaem sob a responsabilidade única da figura do
+professor do ensino comum, o qual precisa reconhecer
+a diversidade existente em sua sala de aula para atendimento e aprendizado de todos.
+As modificações no ato de ensinar não são tarefas
+fáceis e simples de serem executadas, nem ao menos
+é possível que o professor do ensino comum, sozinho,
+as realize. É necessário que ele conte com uma rede de
+profissionais de apoio, recursos suficientes, formação e
+outros aspectos necessários para a execução de um bom
+ensino. Inclusão escolar não se faz somente dentro da
+sala de aula.
+Diversificação de materiais, organização do tempo,
+modificações no espaço físico da sala de aula, atividades entre grandes ou pequenos grupos, entre e outras
+estratégias de ensino, tornam a prática pedagógica um
+desafio diário, pois exigem dos profissionais conhecimentos diversificados sobre quais estratégias devem ser
+utilizadas, assim como mais informações sobre seu aluno
+e suas reais necessidades (Gonçalves, 2006).
+Sendo assim, como melhor ensinar turmas heterogêneas? A apropriação de um currículo aberto e flexível
+seria o caminho mais eficaz? Ou um currículo fechado
+traz objetivos mais pontuais e iguais para toda turma?
+O ensino individualizado e as adequações curriculares
+são boas propostas? Esse artigo buscou discutir as práticas pedagógicas propostas para a inclusão escolar do
+aluno PAEE em salas de ensino comum e apresentou um
+novo debate teórico que pode contribuir na elaboração
+dessas práticas, seguindo o conceito do Desenho Universal para a Aprendizagem (DUA).
+Segregação, adaptação ou um
+currículo para todos?
+O ensino especial era caracterizado por propostas
+segregativas (Moreira e Baumel, 2001) que legitimaram
+currículos inadequados e descontextualizados em relação
+ao que era ensinado aos demais estudantes e, muitas
+vezes, contribuíam para infantilizar o estudante PAEE
+ou reforçar o estigma de que eram incapazes de realizar
+determinadas atividades. Por muito tempo, perdurou o
+entendimento de que a Educação Especial, organizada de
+forma paralela à educação comum, seria mais apropriada
+para a aprendizagem dos alunos que apresentavam deficiência, problemas de saúde ou qualquer inadequação
+em relação à estrutura organizada pelos sistemas de
+ensino. Tal concepção exerceu impacto duradouro na
+história da Educação Especial, resultando em práticas
+que enfatizaram os aspectos relacionados à deficiência
+ou ao impedimento, em contraposição às possibilidades
+de aprendizagem dos conteúdos educacionais.
+De acordo com a Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva (PNEE-EI),
+a Educação Especial organizou-se, tradicionalmente,
+como AEE substitutivo ao ensino comum, evidenciando
+diferentes compreensões, terminologias e modalidades
+que levaram a criação de instituições especializadas,
+escolas e classes especiais (Brasil, 2008). Essa organização, fundamentada no conceito de normalidade/anormalidade, determinou formas de atendimentos clínicos
+terapêuticos que definiam, por meio de diagnósticos, as
+práticas escolares para os alunos com deficiência.
+Nos anos 90, o movimento pela inclusão escolar e social se radicalizou e os documentos normativos tenderam
+para a chamada educação inclusiva, enfatizando que o
+ensino, com suas estratégias e metodologias em respeito às diferenças, deveria ser adaptado às necessidades
+educacionais do indivíduo e não o contrário. Entretanto,
+como aponta Moreira (1997), os projetos pedagógicos
+das escolas não puderam traduzir esses princípios em
+normas de ações efetivas, denotando um caráter puramente prescritivo para definir a prática. Para Moreira e
+Baumel (2001) não se pode correr o risco de se utilizar
+sempre as mesmas estratégias para os alunos PAEE,
+como as adaptações curriculares, e produzir na mesma
+sala de aula um currículo de segunda categoria - que
+possa denotar a simplificação ou descontextualização
+do conhecimento, ao contrário, a inclusão escolar de
+estudantes PAEE requer uma reestruturação do ensino
+3 De acordo com a Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva (Brasil, 2008), compreende-se alunos público-alvo
+da Educação Especial os estudantes: com deficiência (sensoriais, motoras e/ou intelectuais), transtorno do espectro do autismo ou altas habilidades/
+superdotação.
+
+=== p. 3 ===
+149
+Desenho universal para a aprendizagem como estratégia de inclusão escolar
+volume 22, número 2, abril • junho 2018
+e das formas de ensinar para que se efetive atendimento
+e educação de qualidade para todos.
+Observa-se que os documentos orientadores da perspectiva inclusiva (Brasil, 2001, 2008, 2010, 2015) fazem
+referências a um sistema de ensino idealizado, no qual
+todos aprendem, chamando a atenção do ensino comum
+para o desafio de atender as diferenças. No entanto,
+mesmo com tal perspectiva conceitual transformadora,
+as políticas educacionais implementadas parecem não
+alcançar o objetivo de orientar a escola comum a assumir
+o desafio de responder as necessidades educacionais de
+todos os alunos.
+A mais recente Lei Brasileira de Inclusão da Pessoa
+com Deficiência (Brasil, 2015), por exemplo, faz alguns
+apontamentos de como deve ser o ensino em salas inclusivas, sugerindo, entre diversas ações, a construção
+de um projeto pedagógico no qual os serviços e as
+adaptações razoáveis4, necessárias para atender as características dos estudantes com deficiência, garantam
+o pleno acesso ao currículo em condições de igualdade
+(inciso III) ou a adoção de medidas individualizadas e
+coletivas em que se maximizem o seu desenvolvimento
+e favoreçam a participação e o aprendizado do estudante
+com deficiência (inciso V). Dentre outras medidas, é
+abordada ainda a adoção de práticas pedagógicas inclusivas nos programas de formação inicial e continuada
+de professores.
+Assim, acompanhando uma tendência internacional, nota-se que o Brasil adotou diferentes expressões
+em seus documentos da Educação Especial, a fim de
+orientar como o currículo, na perspectiva da inclusão
+escolar, deve ser. Termos como adaptações curriculares, acomodações do ensino, adequações curriculares
+individualizadas, flexibilização curricular, entre outros,
+são recorrentes na literatura oficial para denominar as
+ações pedagógicas e sugerirem as formas pelas quais
+deveria se ensinar em salas de aulas inclusivas. Porém,
+há controvérsias entre pesquisadores (Falvey et al., 1999;
+Leite, 2003; Heredero, 2010) em relação a tais propostas
+de ensino em classes heterogêneas.
+De acordo com Chtena (2016), as salas de aula,
+atualmente, são altamente diversificadas em termos de
+características, personalidade, estilo cognitivo, capacidade e interesse dos estudantes. Alguns têm deficiências,
+muitas vezes invisíveis, que afetam suas habilidades para
+ver, ouvir, prestar atenção ou participar de atividades da
+mesma forma como seus pares. De acordo com a autora
+supracitada, alguns são aprendizes visuais, outros são
+aprendizes auditivos e alguns são aprendizes práticos.
+E cada estudante tem suas preferências e maneiras de
+expressar seu conhecimento, alguns, por exemplo, se
+expressam melhor por meio da escrita, outros por meio
+da oralidade e outros por meio meios visuais.
+Assim, por mais que os profissionais realizem os mais
+variados cursos de formação em busca de aprimoramento
+para sua prática, muitas vezes, o que lhes é dito, em termos gerais, é que devem acomodar ou adequar o ensino
+para alunos com deficiências documentadas. E, normalmente, as orientações em relação ao ensino referem-se
+à disponibilização de tempo extra para realização das
+atividades ou das avaliações, recomendação do uso de
+um computador, adaptação de um material/atividade,
+estar atentos às diferenças culturais, religiosas e outras
+(Chtena, 2016).
+Entretanto, sabe-se que a criação de um ambiente verdadeiramente inclusivo exige muito mais e não depende
+exclusivamente das ações dos professores de ensino
+comum dentro da sala de aula. Uma escola inclusiva
+requer, entre vários aspectos, a construção de uma cultura
+colaborativa que vise a parceria com professores de Educação Especial e profissionais especializados, a fim de
+elaborar e implementar práticas pedagógicas inclusivas.
+Para Chtena (2016), elaborar um currículo para atender as necessidades, capacidades e interesses de todos
+os alunos, ao invés de ajustá-lo conforme necessário,
+é um bom ponto de partida. Nesse sentido, o Desenho
+Universal para a Aprendizagem (DUA) visa proporcionar
+uma maior variedade de opções para o ensino de todos,
+considerando a diversidade da sala de aula, valorizando
+como eles expressam seus conhecimentos e como estão
+envolvidos e motivados para aprender mais.
+Desenho universal para a
+aprendizagem: caminhos possíveis para
+a construção de práticas inclusivas
+Diante do desafio de transformar escolas de ensino
+comum em ambientes inclusivos e favoráveis à aprendizagem de todos, surgiu, em 1999, nos Estados Unidos,
+o conceito Universal Designer Learning (UDL), aqui
+traduzido como Desenho Universal para Aprendizagem
+(DUA). O DUA consiste na elaboração de estratégias
+para acessibilidade de todos, tanto em termos físicos
+quanto em termos de serviços, produtos e soluções
+4 De acordo com a Lei Brasileira de Inclusão da Pessoa com Deficiência (Brasil, 2015, p. 9) entende-se por adaptações razoáveis “as adaptações,
+modificações e ajustes necessários e adequados que não acarretem ônus desproporcional e indevidos, quando requeridos, em cada caso, a fim de
+assegurar que a pessoa com deficiência possa gozar ou exercer, em igualdade de condições e oportunidades com as demais pessoas, todos os direitos
+e liberdades fundamentais”, como uma prova ampliada ou em Braille ou uma prova vídeo-gravada traduzida para a Língua de Sinais.
+
+=== p. 4 ===
+150
+Ana Paula Zerbato, Enicéia Gonçalves Mendes
+Educação Unisinos
+educacionais para que todos possam aprender sem barreiras (CAST UDL, 2006). Destaca-se, ainda, que tal
+abordagem ainda é pouco conhecida ou disseminada
+no Brasil, a julgar pela escassez de literatura científica
+sobre o assunto.
+O DUA foi desenvolvido por David Rose, Anne
+Meyer e outros pesquisadores do Center for Applied Special Technology (CAST) e apoiado pelo Departamento
+de Educação dos Estados Unidos, em 1999, em Massachusetts (CAST UDL, 2006). A projeção de edifícios e
+espaços públicos pela arquitetura, baseada no conceito
+do Design Universal, de modo que todos possam ter
+acesso, sem qualquer limitação, foi a inspiração para o
+surgimento do DUA (Nelson, 2013).
+ Um exemplo que deixa mais clara a compreensão
+desse conceito é a concepção de rampa. Uma rampa
+pode ser utilizada tanto por pessoas que apresentam uma
+deficiência física e dificuldade de locomoção quanto por
+pessoas que não apresentam nenhuma deficiência, como
+um idoso, uma pessoa obesa ou uma mãe empurrando um
+carrinho de bebê. Dessa ideia, baseada na acessibilidade
+para todos, independentemente das suas condições ou
+impedimentos, surgiu a ideia de integração de tal conceito aos processos de ensino e aprendizagem, baseando-se
+num ensino pensado para atender as necessidades variadas dos alunos, pois além das barreiras físicas, também
+existem hoje as barreiras pedagógicas.
+Não se trata de seguir uma preferência pedagógica ou
+um modelo de ensino, mas, sim, uma ênfase na necessidade de renovar as práticas devido às transformações
+da nossa realidade educativa atual que, infelizmente,
+ainda parece apontar para um antagonismo fundamental entre a população estudantil atendida atualmente e
+o currículo, denominado de tamanho único por Rose e
+Meyer (2002), que é oferecido de modo padronizado,
+engessado e imposto.
+O DUA consiste em um conjunto de princípios baseados na pesquisa e constitui um modelo prático que
+objetiva maximizar as oportunidades de aprendizagem
+para todos os estudantes PAEE ou não. O DUA tem como
+objetivo auxiliar os educadores e demais profissionais
+a adotarem modos de ensino de aprendizagem adequados, escolhendo e desenvolvendo materiais e métodos
+eficientes, de forma que seja elaborado de forma mais
+justas e aprimorados para avaliar o progresso de todos
+os estudantes.
+Assim, ao invés de se pensar numa adaptação específica para um aluno particular, em determinada atividade,
+se pensa em formas diferenciadas de ensinar o currículo
+para todos os estudantes (Alves et al., 2013). Ao elaborar
+materiais concretos para o aprendizado de conteúdos matemáticos para um aluno cego, por exemplo, tal recurso,
+normalmente, é pensado e adaptado para os alunos-alvo
+da turma, porém, na perspectiva do DUA, o mesmo
+material pode ser utilizado por todos da sala de aula, de
+modo a beneficiar outros estudantes na compreensão dos
+conteúdos ensinados.
+Princípios orientadores do desenho
+universal para aprendizagem
+De acordo com Nelson (2013), o DUA está fundamentado em pesquisas científicas sobre a aprendizagem,
+apontando que:
+(i) A aprendizagem está relacionada tanto aos aspectos
+emocionais quanto aos biológicos do indivíduo,
+isto é, a quantidade de sono e alimentação adequada, as predisposições e as emoções, são fatores que
+precisam ser respeitados;
+(ii) É importante que os alunos tenham experiências
+significativas, tempo e oportunidade para explorarem o conhecimento;
+(iii) As emoções têm uma importância fundamental
+uma vez que motivam a aprender, a criar e a
+conhecer;
+(iv) O ambiente é muito importante. Os conhecimentos aprendidos precisam ser significativos
+e se essas aprendizagens não forem usadas em
+outros ambientes, tais conhecimentos e conexões
+estagnam-se. Destaca-se nesse princípio, não só
+a relação entre diferentes contextos de aprendizagem, mas também a transferência dessas
+aprendizagens para outros ambientes;
+(v) A aprendizagem deve ter sentido para o sujeito, de
+modo que as informações se relacionem e estejam
+interligadas com quem aprende. Se não for assim,
+há memorização, mas não aprendizagem;
+(vi) Cada indivíduo é único e, consequentemente,
+isso nos remete para os estilos, ritmos e modos
+singulares de aprendizagem em cada indivíduo;
+(vii) A aprendizagem é aprimorada com desafios
+e inibida com ameaças, ou seja, o indivíduo
+precisa tanto de estabilidade quanto de desafio.
+Tais aspectos têm como premissa os estudos
+de três grandes sistemas corticais do cérebro
+envolvidos durante a aprendizagem: redes de
+reconhecimento, estratégicas e afetivas (Rose
+e Meyer, 2002), conforme detalhará a Figura 1.
+Rose e Meyer (2002) apresentam o seguinte exemplo:
+imagine dois estudantes ouvindo um poema ao mesmo
+tempo. O primeiro pode estar encantado com a linguagem e com as imagens que cria em sua mente, estando
+conectado à atividade e ansioso para aprender mais.
+
+=== p. 5 ===
+151
+Desenho universal para a aprendizagem como estratégia de inclusão escolar
+volume 22, número 2, abril • junho 2018
+Um segundo estudante está cansado e desinteressado, as
+palavras não significam nada para ele e este inferiu que
+poemas são mudos, pois, no momento, está pensando
+em outra coisa para ocupar seu tempo. A forma como os
+dois estudantes respondem e escutam o poema refletem
+os resultados de nossas redes afetivas. A boa notícia é
+que o professor pode ajudar o segundo estudante a se
+conectar ao poema e a experiência da poesia por meio
+do princípio de engajamento (Rose e Meyer, 2002), primeiro princípio do DUA que deve embasar a elaboração
+de uma atividade acessível.
+Há várias estratégias que podem ser utilizadas para ampliar o engajamento do aluno na atividade, como (i) fornecer níveis ajustáveis de desafio; (ii) oferecer oportunidade
+de interagir em diferentes contextos de aprendizagem e
+(iii) proporcionar opções de incentivos e recompensas na
+aprendizagem. Alguns exemplos: utilização de softwares
+interativos, textos e/ou livros gravados, uso de jogos e/
+ou músicas, avaliação baseada no desempenho real do
+aluno, tutoria entre pares, entre outros.
+As redes de reconhecimento, correspondentes ao
+princípio da representação, são estratégias pedagógicas que apoiam a apresentação e o reconhecimento da
+informação a ser aprendida. É a relação que se faz com
+o conhecimento por meio da memória, necessidade e
+emoções de cada um. A maneira pela qual as informações
+são apresentadas aos estudantes pode expandir ou limitar
+seus conhecimentos, podendo demonstrar se eles vão ou
+não aprender o conteúdo.
+O princípio da representação aponta os caminhos
+que podem ser oferecidos aos estudantes para que
+acessem conhecimentos prévios, ideias, conceitos
+e temas atuais a partir de informações apresentadas
+e, ao mesmo tempo, pode fornecer suporte para decodificar essas informações (Rose e Meyer, 2002).
+Significa, portanto, fornecer vários exemplos sobre o
+mesmo conteúdo, destacar características importantes,
+recorrer a mídias e outros formatos que oferecem
+informações básicas. Quanto maior as possibilidades
+de apresentar um novo conhecimento, maiores serão
+as possibilidades em aprendê-lo – exemplos práticos
+envolveriam a utilização de livros digitais, softwares
+especializados e recursos de sites específicos, elaboração de cartazes, de esquemas e resumos de textos,
+Figura 1. Estratégias do desenho universal para aprendizagem alinhadas às redes de aprendizagem.
+Figure 1. Universal design strategies for learning linked to learning networks.
+
+Como engajar os alunos e
+motivá-los.
+Como desafiá-los e mantêlos interessados.
+Estas
+são
+dimensões
+afetivas.
+Como
+reunir
+fatos
+e
+categorizar o que vemos,
+ouvimos e lemos.
+Identificar letras, palavras
+ou um estilo do autor são
+tarefas de reconhecimento.
+Planejamento e execução de
+tarefas. Como organizar e
+expressar ideias. Escrever
+um ensaio ou resolver um
+problema de matemática são
+tarefas estratégicas.
+ Apresentar informações e
+conteúdos de diferentes
+maneiras.
+    Diferenciar as maneiras
+de expressar o que os
+alunos sabem.
+Estimular por meio dos
+interesses e motivação para
+a aprendizagem.
+
+=== p. 6 ===
+152
+Ana Paula Zerbato, Enicéia Gonçalves Mendes
+Educação Unisinos
+construção de cartões táteis e visuais com códigos de
+cores, entre outros.
+Dos três princípios que sustentam o DUA, observa-se
+que os professores parecem se sentir mais confortáveis
+com esse princípio. Para Rose e Meyer (2002), talvez
+isso ocorra porque a base da representação é o próprio
+ato de ensinar. E isso é o que a maioria acredita que está
+fazendo quando se torna professor. Como compartilhar
+as informações com os estudantes? Como decidir as
+ferramentas, recursos e estratégias a serem utilizadas?
+As orientações do princípio da representação auxiliam na
+resposta a todos esses questionamentos. De acordo com
+os autores supracitados, o princípio da representação é
+estruturado em torno de três orientações:
+• Dar opções para a compreensão: mover-se entre
+os conhecimentos prévios até os conceitos mais
+abrangentes, trabalhar com conceitos mais complexos para ganhar uma compreensão aprofundada;
+• Dar opções para linguagem, expressão matemática
+e símbolos: dar suporte para os estudantes na compreensão de textos, números, símbolos e linguagem;
+• Dar opções para percepção: adequação de informações auditivas, visuais e concretas.
+São estratégias do princípio de representação: ensinar
+vocabulário a partir de objetos concretos e demonstração,
+relacionar problemas de matemática e vocabulário com
+conhecimento prévio, aplicar problemas a situações de
+vida diária, encorajar a elaboração de desenhos para
+traduzir e visualizar problemas com palavras, fazer
+duplas de aprendizes sendo um aluno PAEE e outro
+não, formar grupos heterogêneos durantes atividades
+de aprendizagem coletiva, realizar conexões interdisciplinares entre o que os alunos estão aprendendo em
+outras áreas, reescrever problemas de palavras em termos
+simples, criar bancos de palavras em cartazes e pendurá-
+-los na sala de aula para visualização, utilizar recursos
+de ensino auditivos, visuais e sinestésicos para favorecer
+diferentes estilos de aprendizagem visando alcançar um
+número maior de alunos do que as instruções diretas ou
+em lápis-papel e lousa-livro (Furner et al., 2005).
+Por último, e não menos importante que os demais,
+está o terceiro princípio, relacionado às redes estratégicas:
+Ação e Expressão. Inicialmente, pode ser diretamente relacionado à avaliação da aprendizagem somente, mas essa
+diretriz é mais profunda. Estudantes precisam de apoios,
+medidas e orientações para aprender a todo momento,
+desse modo, o princípio da Ação e Expressão pensa nas
+estratégias utilizadas para processar a informação a ser
+aprendida (Nelson, 2013), visando a disponibilização
+de modelos flexíveis de demonstração de desempenho
+e buscando oportunizar a prática com apoio, de modo
+a fornecer feedback relevante, contínuo e proporcionar
+oportunidades flexíveis para demonstrar competências.
+Para Nelson (2013), o princípio da Ação e Expressão encoraja os professores a incluírem interações físicas, usando tanto a alta tecnologia quanto ferramentas
+não tecnológicas e estruturas que guiem o aluno para
+sua auto avaliação. A diversificação de estratégias
+pode contribuir para que o aluno consiga demonstrar
+os conhecimentos aprendidos. É saber prover aos
+alunos oportunidades para que possam demonstrar o
+que sabem por meio de atividades diferenciadas ou
+criações, podendo incluir ações físicas, meios de comunicações, construção de objetos, produção escrita,
+entre outros.
+São exemplos de estratégias utilizadas para o alcance
+deste princípio: elaboração e utilização de mapas conceituais construídos on-line ou em papel - de modo a proporcionarem aos alunos um mapa gráfico, evidenciando
+a aprendizagem, gráficos elaborados com dados sobre
+o progresso de aprendizagem dos alunos, aprendizagem
+cooperativa (discussões em pequenos grupos sobre o que
+foi aprendido), pensar “em voz alta” (encorajar os alunos
+a falarem sobre o que aprenderam), exercícios orais, de
+socialização, entre outros.
+De acordo com os três princípios orientadores do
+DUA, Silva et al. (2013, p. 9) apontam para a importância
+de se pensar na “diversidade do processo de aprendizagem” quando se projeta um ensino para todos, pois, se a
+forma de aprender de cada estudante não for respeitada,
+corre-se o risco de dar continuidade a um ensino tradicional, homogêneo e excludente, no qual o aluno PAEE e
+muitos outros não tem vez. Dessa forma, o propósito do
+DUA parece vir ao encontro dos princípios de Educação
+Inclusiva, pois entende-se que é importante, em parceria
+com professores especializados e outros profissionais, a
+elaboração de recursos, materiais, atividades e espaços
+educativos e flexíveis para o aprendizado de todos os
+alunos, contemplando, assim, a diversidade, os diferentes
+estilos e ritmos de aprendizagem.
+Práticas pedagógicas baseadas
+na estrutura do desenho universal
+para aprendizagem
+Não há uma receita que possa ser seguida para o ensino de todos os alunos - afinal isso implicaria na homogeneização do ensino e um retorno às práticas tradicionais
+da educação, caminho contrário à prática dos princípios
+da inclusão escolar. Há vários elementos importantes e
+diversificados que podem ajudar os educadores a elaborarem e conseguirem uma aprendizagem mais eficaz
+em escolas que pretendem se tornar inclusivas, sendo
+
+=== p. 7 ===
+153
+Desenho universal para a aprendizagem como estratégia de inclusão escolar
+volume 22, número 2, abril • junho 2018
+que tais elementos são encontrados num ensino que se
+embasa na estrutura proposta pelo DUA.
+Para Orsati (2013), o planejamento do ensino para a
+diversidade implica, em primeiro lugar, aceitar as habilidades, estilos de aprendizados, capacidades e interesses
+diferenciados existentes dentro da sala de aula. Em segundo lugar, quando esse grupo diverso “não se encaixa no
+seu plano original” (Orsati, 2013, p. 214), os professores
+elaboram as adaptações e começam a refletir sobre como
+reformular sua instrução, daquele momento em diante,
+para todos os alunos. A autora supracitada considera que o
+sucesso da inclusão escolar depende da implementação de
+vários fatores: (a) envolvimento dos pais; (b) disponibilização de equipe de apoio para professores e funcionários;
+(c) oferta de um ensino autêntico com diferentes níveis de
+dificuldades, com adaptações e acomodações; (d) ensino
+estruturado pelo Desenho Universal para Aprendizagem;
+(e) construção de uma comunidade na escola e na sala de
+aula; (f) planejamento do desenho do ambiente educativo, considerando as necessidades físicas, sensoriais e de
+comunicação dos alunos e (g) a presença de uma equipe
+democrática na escola.
+A autora supracitada aponta, em um estudo sobre
+acomodações, modificações e práticas efetivas para salas
+de aulas inclusivas que o acesso de todos ao currículo
+geral implica na avaliação das necessidades educativas
+de cada estudante e, no caso de alunos com necessidades
+mais complexas, é relevante se pensar em um Planejamento Educacional Individualizado (PEI) ou, como
+Orsati (2013) denomina, um programa individualizado
+elaborado por toda a equipe escolar (professores, pais,
+gestores e outros profissionais que atendem o aluno).
+Dentro do programa, pensa-se nas possíveis acomodações, nos objetivos de ensino para o aluno e nos suportes
+que darão acesso a este programa, incluindo materiais,
+adaptações e suportes individualizados.
+Entretanto, os estudantes não precisarão o tempo do
+programa individualizado e do suporte individualizado.
+É importante avaliar os momentos em que eles precisam
+dessas estratégias e os momentos em que aprenderão
+juntamente com os demais alunos, realizando as mesmas atividades sem acomodações. Os alunos PAEE,
+por exemplo, podem trabalhar a mesma atividade que
+os demais alunos respondendo cinco de um total de dez
+exercícios de matemática (programa individualizado) ou
+podem usar a calculadora e focar no mesmo objetivo, de
+modo a responder todos os dez exercícios (suporte individualizado). Tais estratégias estão garantidas quando se
+pensa em um planejamento de ensino baseado no DUA.
+Chtena (2016) aponta outras estratégias que podem
+ser realizadas quando se pensa em um ensino estruturado
+de acordo com o DUA. Algumas delas são:
+• O uso da tecnologia: elaborar páginas sobre o conteúdo trabalhado em formato eletrônico acessível.
+Caso o ensino seja pautado em aulas expositivas,
+fornecer aos alunos apresentações audiovisuais
+ou pequenos textos sobre o assunto, porém deixar
+espaços em branco para que os alunos preencham
+conceitos-chave, fatos, definições e outras informações que acharem relevantes;
+• Ensino expositivo: caso se utilize de apresentações
+em slides verificar a formatação e certificar-se de
+que a apresentação está acessível a todos. Ler as
+informações em voz alta para garantir uma comunicação eficaz para todos, incluindo aqueles com deficiência visual e alunos sentados atrás de qualquer
+obstrução. Falar de frente para a turma para permitir
+aos alunos com deficiência auditiva a leitura dos
+lábios. Tais recursos incentivará o engajamento e a
+interação com todos os alunos. Evitar palavras que
+possam expor os estudantes com deficiência. Em
+vez disso, falar de uma forma que coloque a pessoa
+antes da deficiência. Reforçar os aspectos principais
+usando uma variedade de formatos (por exemplo,
+verbalmente, graficamente ou através de demonstração) e explicar porque eles são importantes. Utilizar
+perguntas abertas para verificar a compreensão.
+Antes de dar a resposta, permitir que os alunos tenham tempo suficiente para formular uma resposta
+ou fazer uma pausa para que os alunos registrem
+suas respostas em um pedaço de papel ou dispositivo
+eletrônico ou que compartilhem respostas com seu
+colega. Caso utilize vídeos, certificar-se de que eles
+são legendados ou contêm uma transcrição de texto
+disponível para alunos com deficiência auditiva e
+aqueles que não têm compreensão auditiva;
+• Outras atividades em sala de aula: fornecer múltiplos meios para a participação e o envolvimento
+dos alunos. Por exemplo, incentivar a discussão
+em sala de aula por meio de atividades em pequenos grupos, encenações sobre o assunto, debates,
+estudos de caso, artigos de um minuto ou outras
+atividades que deem aos alunos mais de uma maneira de interagir na aula. Quando possível, oferecer
+aos alunos oportunidades de tomar decisões sobre
+sua aprendizagem. Por exemplo, dar-lhes a escolha
+entre vários tipos de atividade ou dar-lhes a opção
+de trabalhar sozinho ou em grupos para completar
+um exercício em sala de aula;
+• Avaliação: utilizar uma variedade de métodos de
+avaliação (por exemplo, por meio de artigos, jornais
+de aprendizagem, apresentações, testes, questionários, exames orais) ao longo do semestre para
+permitir/incentivar várias maneiras de demonstrar
+
+=== p. 8 ===
+154
+Ana Paula Zerbato, Enicéia Gonçalves Mendes
+Educação Unisinos
+o aprendizado. Proporcionar aos alunos a oportunidade de concluir uma tarefa em vários formatos
+(por exemplo, um artigo, uma encenação, uma
+apresentação em grupo, entre outros);
+• Suportes adicionais: aproveitar o tempo em que os
+alunos realizam suas atividades para verificar, regularmente e de forma individualizada, o progresso
+dos alunos com deficiência e responder às perguntas
+que possam ter. Acompanhar os alunos que parecem
+estar com mais dificuldades e incentivá-los a procurar o apoio de outros profissionais de sua escola.
+Certamente, essas são apenas algumas sugestões
+encontradas na literatura sobre DUA para tornar a aula
+mais acessível a todos, devendo ser avaliada pela equipe
+quais as estratégias e em que momento as utilizar, de
+acordo com cada contexto escolar. Em um estudo de
+Nunes e Madureira (2015), as autoras apontam a urgência
+em se pensar práticas pedagógicas inclusivas, de modo
+a garantir o acesso, a participação e a aprendizagem de
+todos os alunos.
+[...] Garantir o acesso à escola regular constitui a dimensão
+mais fácil de alcançar no processo de inclusão, pois depende
+sobretudo de decisões de natureza política. Já assegurar
+a aprendizagem e o sucesso na aprendizagem envolve
+mudanças significativas nas formas de conceber a função
+da escola e o papel do professor no processo de ensino e
+aprendizagem. Trata-se, portanto, de equacionar processos
+pedagógicos inclusivos que permitam o envolvimento
+efetivo de crianças e jovens com NEE na aprendizagem
+[...] Tal necessidade está associada ao aparecimento do
+conceito Universal Design for Learning (UDL) nos anos
+90 [...] (Nunes e Madureira, 2015, p. 7).
+Estes são alguns pilares que podem promover uma
+educação eficaz para todos os alunos, inclusive para
+alunos PAEE. Portanto, a utilização de uma única estratégia ou a implementação de um serviço exclusivo ou a
+elaboração de um recurso não exclui a possibilidade das
+diferentes formas que o ensino possa ser organizado para
+melhor atender cada estudante. Alguns alunos poderão
+necessitar de um apoio individualizado para algumas
+atividades e para outras não; outros alunos necessitarão
+de mais tempo para realização de algumas tarefas, outros
+não. O que não pode acontecer no ensino em turmas
+inclusivas é a utilização da mesma estratégia sempre ou
+do mesmo recurso ou do mesmo serviço para todos os
+alunos, pois é indispensável a avaliação continuada do
+ensino, da aprendizagem e dos serviços de apoio necessários para cada estudante. Quanto maiores as possibilidades de se organizar o ensino (acomodações, serviços
+de apoio, materiais diversificados, trabalho colaborativo
+de profissionais, DUA, entre outros) mais altas são as
+chances de participação e aprendizado dos alunos.
+Considerações finais
+As práticas pedagógicas, na perspectiva da Educação
+Inclusiva, são formas de ensinar que podem incluir desde
+os arranjos dos espaços, organização do tempo, uso de tecnologias até a elaboração de recursos materiais, podendo
+ir do todo ao mais individualizado. Entretanto, a inclusão
+escolar não se reduz às atividades escolares da sala de
+aula realizadas pelo professor de ensino comum. Elas são
+somente um dos elementos que devem estar assegurados
+no Projeto Político Pedagógico e currículo escolar que
+visam uma boa escolarização para todos os estudantes,
+com e sem necessidades educacionais especiais.
+Uma escola inclusiva requer ainda a participação de
+toda equipe escolar – gestão escolar, professores, profissionais especializados, família, alunos e comunidade em
+geral – na construção de uma identidade e cultura colaborativa para o desenvolvimento de práticas mais abrangentes para acesso e aprendizado de todos os estudantes.
+Para Johnson-Harris e Mundschenk (2014), quando
+os professores apresentam o conteúdo por meio de uma
+variedade de maneiras, esse pode ser assimilado de forma
+mais eficaz. Muitas vezes, o uso dos mesmos meios de ensinar não permite o aprendizado de todos. Por outro lado,
+a decisão de apresentar a mesma atividade de uma outra
+forma pode resultar no entendimento daquele aluno que
+não conseguia aprender e até contribuir para que outros
+alunos compreenderem melhor um determinado assunto.
+Neste sentido, o DUA pode ser um aliado em potencial do trabalho colaborativo para o favorecimento da
+inclusão escolar, pois converge em um objetivo comum:
+a construção de práticas pedagógicas acessíveis para a
+escolarização de todos em sala de aula do ensino comum
+por meio da parceria colaborativa entre professor de
+ensino comum e Educação Especial e/ou outros profissionais especializados.
+Espera-se que a reflexão apresentada nesse ensaio
+seja apenas o despertar para uma discussão aprofundada
+entre os profissionais da educação comum e especial
+sobre as práticas pedagógicas na perspectiva da inclusão escolar, podendo ser analisado tanto o processo de
+construção dessas práticas quanto as possibilidades de
+trabalho baseadas nos princípios do DUA. Além disso,
+espera-se que esse estudo propicie a abertura para análise
+e reflexões sobre as propostas de inclusão presentes nas
+escolas de ensino comum, assim como contribua para
+a melhoria do trabalho educativo dentro da perspectiva
+inclusiva, mostrando meios alternativos e viáveis de se
+fazer a escolarização de alunos PAEE nas escolas de
+
+=== p. 9 ===
+155
+Desenho universal para a aprendizagem como estratégia de inclusão escolar
+volume 22, número 2, abril • junho 2018
+ensino comum e favorecendo, ao mesmo tempo, todos
+os alunos. Em suma, a proposta do DUA não visa o ensino especificamente para o PAEE, mas sim em como
+melhorar a qualidade de ensino para todos os estudantes.
+Referências
+ALVES, M.M.; RIBEIRO, J.; SIMÕES, F. 2013. Universal Design for
+Learning (UDL): Contributos para uma escola de todos. Indagatio
+Didactica, 5(4):122-146.
+BRASIL. 1988. Capítulo III: Da Educação, da Cultura e do Desporto.
+In: BRASIL, Constituição Federal da República Federativa do
+Brasil de 1988. Brasília, Presidência da República. Casa Civil..
+Seção I, p. 121-125. Disponível em: http://www.planalto.gov.br/
+ccivil_03/constituicao/constituicaocompilado.htm. Acesso em:
+30/03/2017.
+BRASIL. 2001. Resolução CNE/CEB 2/2001. Diretrizes Nacionais
+para a Educação Especial na Educação Básica. Diário Oficial da
+União. Brasília, Conselho Nacional de Educação. Câmara de Educação Básica. Seção 1E, p. 39-40. Disponível em: http://portal.mec.
+gov.br/cne/arquivos/pdf/CEB0201.pdf. Acesso em: 05/04/2017.
+BRASIL. 2008. Política de Educação Especial na Perspectiva da
+Educação Inclusiva. Documento elaborado pelo Grupo de Trabalho nomeado pela Portaria nº 555/2007, prorrogada pela Portaria
+nº 948/2007. MEC/SEESP. Brasília, MEC, 15 p. Disponível em:
+http://portal.mec.gov.br/arquivos/pdf/politicaeducespecial.pdf.
+Acesso em: 09/04/2017.
+BRASIL. 2009. Resolução CNE/CEB nº4/2009, que estabelece as
+Diretrizes Operacionais para o Atendimento Educacional Especializado na Educação Básica. Diário Oficial da União. Brasília,
+Conselho Nacional de Educação. Câmara de Educação Básica, 3 p.
+Disponível em: http://portal.mec.gov.br/dmdocuments/rceb004_09.
+pdf. Acesso em: 12/04/2017.
+BRASIL. 2010. Marcos Político-Legais da Educação Especial na
+Perspectiva da Educação Inclusiva. Brasília, Secretaria de Educação Especial, 72 p.
+BRASIL. 2015. Lei 13.146, de 6 de julho de 2015. Institui a Lei
+Brasileira de Inclusão da Pessoa com Deficiência (Estatuto da
+Pessoa com Deficiência). Brasília, Presidência da República,
+Casa Civil, 31 p.
+BRUNO, M. 2000. Escola inclusiva: problemas e perspectivas. Série-Estudos: Periódicos do Mestrado em Educação da UCDB,
+10:79-90.
+CAST UDL. 2006. Learn About Universal Design for Learning (UDL).
+Disponível em: http://bookbuilder.cast.org/learn.php. Acesso em:
+16/01/2017.
+CHTENA, N. 2016. Teaching Tips For an UDL-Friendly Classroom:
+Advice for implementing strategies based on Universal Design
+for Learning. Disponível em: https://www.insidehighered.com/
+blogs/gradhacker/teaching-tips-udl-friendly-classroom. Acesso
+em: 14/01/2017.
+FALVEY, M.A.; GIVNER, C.C.; KIMM, C. 1999. O que eu farei segunda-feira pela manhã? In: S. STAINBACK; W. STAINBACK, Inclusão: um guia para educadores. Porto Alegre, Artmed, p. 142-168.
+FURNER, J.; YAHNYA, N.; DUFFY, M.L. 2005. Teach mathematics:
+Strategies to reach all students. Intervention in School and Clinic,
+41(1):16-23.  https://doi.org/10.1177/10534512050410010501
+GONÇALVES, A.K.S. 2006. Estratégias pedagógicas inclusivas
+para crianças com paralisia cerebral na educação infantil. São
+Carlos, SP. Dissertação de Mestrado. Universidade Federal de
+São Carlos, 136 p.
+HEREDERO, E.S. 2010. A escola inclusiva e estratégias para fazer
+frente a ela: adaptações curriculares. Acta Scientiarum Education,
+32(2):193-208. https://doi.org/10.4025/actascieduc.v32i2.9772
+JOHNSON-HARRIS, K.M.; MUNDSCHENK, N.A. 2014. Working
+Effectively with Students with BD in a General Education Classroom: The Case for Universal Design for Learning. The Clearing
+House: A Journal of Education Strategies, Issues and Ideas,
+87(4):168-174. https://doi.org/10.1080/00098655.2014.897927
+LEITE, T.S. 2013. Adequações curriculares: perspetivas e práticas
+de planeamento e intervenção. Da Investigação às Práticas,
+3(1):35-53.
+MOREIRA, A.F. 1997. A Psicologia... e o resto. Cadernos de Pesquisa,
+100:93-107.
+MOREIRA, L.C.; BAUMEL, R.C.R.C. 2001. Currículo em Educação
+Especial: Tendências e Debates. Educar em Revista, 17:125-137.
+https://doi.org/10.1590/0104-4060.224
+NELSON, L.L. 2013. Design and deliver: planning and teaching
+using universal design for learning. Baltimore, Paul. H. Brookes
+Publishing Co., 151 p.
+NUNES, C.; MADUREIRA, I. 2015. Desenho Universal para a
+Aprendizagem: Construindo práticas pedagógicas inclusivas. Da
+Investigação às Práticas, 5(2):126-143.
+ORSATI, F.T. 2013. Acomodações, modificações e práticas efetivas
+para a sala de aula inclusiva. Temas sobre Desenvolvimento,
+19(107):213-22.
+ROSE, D.H.; MEYER, A. 2002. Teaching every student in the digital
+age: Universal design for learning. Alexandria, ASCD, 216 p.
+SILVA, S.C.; BOCK, G.L.K.; BECHE, R.C.E.; GOEDERT, L. 2013.
+Ambiente virtual de aprendizagem Moodle: Acessibilidade nos
+processos de aprendizagem na Educação a Distância/CEAD/
+UDESC. Anais... UNIREDE, 1:1-13.
+Submetido: 22/05/2017
+Aceito: 11/10/2017

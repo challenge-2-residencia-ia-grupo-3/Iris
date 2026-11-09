@@ -1,0 +1,100 @@
+GABARITO DO OPUS (rascunho v0): 40 perguntas escritas antes de abrir os trechos; trechos marcados por
+leitura, sem usar o buscador. Um marcador (modelo Claude Opus), SEM conferência humana. Nada treinado.
+chunking congelado: 1b517d249bef1873... | banco: pgvector | 38 perguntas com resposta, 2 sem resposta de propósito.
+Com 38 perguntas, uma vale 2.6 pontos. IC 95% por bootstrap (2000, semente 20261105).
+
+método                      recall@5recall@10  hit@5                 MRR  nDCG@5  ms (mediana)
+bm25                0.20 [0.12-0.29]    0.31   0.47    0.32 [0.21-0.44]    0.22             7
+mpnet               0.11 [0.05-0.18]    0.13   0.32    0.23 [0.11-0.35]    0.13           163
+qwen3               0.28 [0.19-0.37]    0.41   0.68    0.46 [0.34-0.59]    0.33           815
+hibrido             0.24 [0.15-0.33]    0.37   0.61    0.41 [0.29-0.53]    0.28           862
+hibrido+rerank      0.33 [0.24-0.43]    0.44   0.74    0.52 [0.40-0.65]    0.36          5622
+qwen3+rerank        0.36 [0.26-0.46]    0.46   0.76    0.56 [0.44-0.69]    0.40          5343
+
+Comparações pareadas (diferença média e IC 95%; só diz 'melhor' se o IC exclui o zero):
+  qwen3+rerank    - qwen3           recall@5  +0.08 [+0.03 a +0.13]  IC exclui o zero
+  qwen3+rerank    - qwen3           MRR       +0.10 [-0.01 a +0.22]  IC passa pelo zero
+  qwen3           - hibrido         recall@5  +0.04 [-0.01 a +0.10]  IC passa pelo zero
+  qwen3           - hibrido         MRR       +0.06 [-0.03 a +0.15]  IC passa pelo zero
+  qwen3           - mpnet           recall@5  +0.17 [+0.09 a +0.27]  IC exclui o zero
+  qwen3           - mpnet           MRR       +0.24 [+0.09 a +0.38]  IC exclui o zero
+  qwen3           - bm25            recall@5  +0.08 [+0.02 a +0.14]  IC exclui o zero
+  qwen3           - bm25            MRR       +0.14 [+0.02 a +0.25]  IC exclui o zero
+  hibrido+rerank  - hibrido         recall@5  +0.09 [+0.03 a +0.15]  IC exclui o zero
+  hibrido+rerank  - hibrido         MRR       +0.12 [+0.02 a +0.23]  IC exclui o zero
+
+Recorte: perguntas cuja resposta está só em documento em inglês (tipos evidencia, mito, so_ingles):
+  bm25             recall@5 inglês 0.00 (n=12) | português 0.29 (n=26)
+  mpnet            recall@5 inglês 0.06 (n=12) | português 0.13 (n=26)
+  qwen3            recall@5 inglês 0.23 (n=12) | português 0.30 (n=26)
+  hibrido          recall@5 inglês 0.04 (n=12) | português 0.33 (n=26)
+  hibrido+rerank   recall@5 inglês 0.22 (n=12) | português 0.38 (n=26)
+  qwen3+rerank     recall@5 inglês 0.32 (n=12) | português 0.37 (n=26)
+
+Recorte por tipo de pergunta (recall@5):
+  tipo                    bm25           mpnet           qwen3         hibrido  hibrido+rerank    qwen3+rerank
+  dua                     0.35            0.21            0.36            0.43            0.44            0.41   (n=8)
+  estrategia              0.09            0.02            0.09            0.10            0.15            0.16   (n=10)
+  evidencia               0.00            0.08            0.11            0.00            0.00            0.25   (n=6)
+  mito                    0.00            0.00            0.34            0.06            0.46            0.40   (n=4)
+  norma                   0.50            0.19            0.52            0.52            0.61            0.61   (n=8)
+  so_ingles               0.00            0.10            0.37            0.10            0.37            0.37   (n=2)
+
+Trechos com aviso de evidência fraca (cartilha ABDA, 'evidencia_de_eficacia') no top-5, nas 40:
+  bm25              15 de 200
+  mpnet              1 de 200
+  qwen3             24 de 200
+  hibrido           26 de 200
+  hibrido+rerank    26 de 200
+  qwen3+rerank      25 de 200
+
+Perguntas sem resposta na base (o top-5 deveria ser fraco; a abstenção é medida na geração):
+  Q39 Qual a dose inicial de metilfenidato para uma criança de 6 anos com TDAH e como 
+     qwen3 1º: MS-PCDT-TDAH-2022#0018
+  Q40 Como montar uma prancha de comunicação alternativa (CAA) para um aluno com TEA n
+     qwen3 1º: MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0038
+
+Posição do primeiro trecho certo por pergunta ('-' = fora do top-10):
+  id   tipo             bm25     mpnet     qwen3   hibrido hibrido+r qwen3+rer
+  Q01  estrategia         10         -         -         4         3         1
+  Q02  estrategia          3         -         2         2         2         2
+  Q03  estrategia          5         -         1         3         2         2
+  Q04  estrategia          8         -         -         8         4         -
+  Q05  estrategia          -         -         -         -         -         -
+  Q06  estrategia         10         -         -         6         7         6
+  Q07  estrategia          6         -         -         -         -         -
+  Q08  estrategia          2         1         2         1         2         2
+  Q09  estrategia          1         -         1         1         1         1
+  Q10  estrategia          -         -         -         -         -         -
+  Q11  dua                 3         -         9         3         1         1
+  Q12  dua                 2         1         1         1         1         1
+  Q13  dua                 2         6         1         2         2         2
+  Q14  dua                 3         5         4         5         4         4
+  Q15  dua                 1         -         3         2         1         1
+  Q16  dua                 1         -         1         1         1         1
+  Q17  dua                 1         1         1         1         1         1
+  Q18  dua                 9         1         1         1         1         1
+  Q19  norma               2         2         2         2         1         1
+  Q20  norma               1         5         1         1         1         1
+  Q21  norma               2         -         1         1         1         1
+  Q22  norma               1         -         1         1         2         2
+  Q23  norma               8         1         2         3         4         3
+  Q24  norma               2         -         4         2         1         1
+  Q25  norma               1         1         2         1         2         2
+  Q26  norma               4         -         3         3         3         3
+  Q27  evidencia           -         -         2         -         -         1
+  Q28  evidencia           -         -         -         -         -         -
+  Q29  evidencia           -         -         9         -         -         2
+  Q30  evidencia           -         -         -         -         -         -
+  Q31  evidencia           -         2         -         -         -         -
+  Q32  evidencia           -         2         -         -         -         -
+  Q33  mito                -         -         2         -         1         1
+  Q34  mito                -         -         1         -         3         5
+  Q35  mito                -         -         3         9         1         1
+  Q36  mito                -         -         2         4         1         1
+  Q37  so_ingles           -         -         3         6         2         3
+  Q38  so_ingles           -         2         2         3         2         3
+
+LIMITES: um só marcador, que é modelo; quem escreveu as perguntas conhecia os títulos da base;
+a marcação por leitura/grep pode ter perdido trecho relevante (aí um método 'erra' sem errar);
+relevante = responde à pergunta, não 'é boa evidência'. Ler junto com o rascunho do Mac (2 juízes, kappa 0,69).

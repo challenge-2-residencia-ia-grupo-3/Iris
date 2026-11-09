@@ -79,22 +79,35 @@ uv run pytest
 
 ```text
 iris/
-├── .agents/                      # Configurações e skills do agente de desenvolvimento
-│   └── skills/
-│       ├── challenge2-cbl-pedagogical-adapter/
-│       └── po-ia-educacional/
+├── .env.example                  # Exemplo padronizado de variáveis de ambiente
 ├── docs/                         # Documentação oficial do projeto (MkDocs)
 │   ├── index.md                  # Apresentação e navegação
 │   ├── visao_produto.md          # Visão, dores, personas e proposta de valor
-│   ├── requisitos_funcionais.md  # RF-01 a RF-15 (sem user stories)
+│   ├── requisitos_funcionais.md  # RF-01 a RF-15
 │   ├── requisitos_nao_funcionais.md # RNF-01 a RNF-12 (LGPD, SLA, métricas)
-│   ├── arquitetura.md            # Diagramas, fluxo stateless e multiagentes
+│   ├── arquitetura.md            # Diagramas, ADRs, catálogo modular e multiagentes
+│   ├── backlog_rastreabilidade.md # Matriz de rastreabilidade e 29 Histórias BDD
 │   ├── cbl.md                    # Big Idea, EQ, Guiding Questions e Roadmap
+│   ├── rag/                      # Documentação técnica e relatórios da base RAG
 │   └── skills.md                 # Catálogo das skills do projeto
+├── rag/                          # Subsistemas de Conhecimento Científico e Catálogos
+│   ├── setup_rag.sh              # Script de bootstrap automático e smoke test do RAG
+│   ├── catalogs/                 # Catálogos modulares validados por schema (#39)
+│   │   └── tdah_caracteristicas_funcionais.json
+│   └── iris-rag/                 # Corpus curado (38 fontes), ingestão, busca e avaliação
+├── src/iris/                     # Pacote principal da aplicação (FastAPI + Agentes + RAG Bridge)
+│   ├── config.py                 # Configurações centralizadas e guardrails Zero-Database
+│   ├── main.py                   # Entrypoint FastAPI stateless
+│   ├── api/                      # Rotas REST stateless (v1)
+│   ├── core/                     # Cliente unificado de LLM (Ollama Local + API) e telemetria
+│   ├── schemas/                  # Contratos de validação (Catálogo, Materiais, Perfil Portátil)
+│   ├── security/                 # Sanitizador preventivo de PII (Zero-Retention)
+│   ├── parsers/                  # Extratores de arquivos (.pdf, .docx, .txt) e decompositor
+│   ├── agents/                   # Orquestração multiagentes (Extrator, Estrategista, Adaptador, Auditor)
+│   └── rag/                      # Ponte (bridge.py) de integração limpa com rag/iris-rag/pacote
+├── tests/                        # Suíte de testes automatizados (unittest / pytest)
+├── scripts/                      # Automação de backlog e sincronização com GitHub
 ├── mkdocs.yml                    # Configuração do MkDocs Material
-├── pyproject.toml                # Especificação de dependências e metadados UV
-├── .python-version               # Versão do Python (3.12)
-├── .gitignore                    # Regras de exclusão do Git
-├── README.md                     # Visão geral rápida do repositório
-└── skills.md                     # Espelho do catálogo de skills
+├── pyproject.toml                # Especificação unificada de dependências UV
+└── README.md                     # Visão geral rápida do repositório
 ```

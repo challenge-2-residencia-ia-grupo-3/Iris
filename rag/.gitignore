@@ -1,0 +1,16 @@
+# Gerados pela ingestão e pela indexação; não versionar
+iris-rag/pacote/chunks.jsonl
+iris-rag/pacote/cache/
+iris-rag/pacote/chroma/
+iris-rag/pacote/.venv/
+iris-rag/raw/
+
+# Textos de documentos sem licença aberta (ver iris-rag/textos_nao_distribuidos.txt)
+iris-rag/texto/cast_dua_3_0_ptbr_organizador.txt
+iris-rag/texto/cast_dua_3_0_ptbr_textocompleto.md
+iris-rag/texto/cast_udl_3_0_en_site.md
+iris-rag/texto/fe_aap2019.md
+iris-rag/texto/fe_abda_guia_professores.md
+iris-rag/texto/fe_diamond2013.md
+iris-rag/texto/fe_nice_ng87.txt
+iris-rag/texto/mec_pneei_caderno4_praticas_inclusivas_2026.txt

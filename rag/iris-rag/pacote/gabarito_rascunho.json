@@ -1,0 +1,376 @@
+{
+ "_instrucoes": "RASCUNHO para o grupo revisar. Perguntas propostas com apoio de IA, escritas antes de rodar a busca nestas consultas, mas por quem já conhecia os nomes dos documentos da base. O grupo deve reescrever o que não soar como pergunta real de professor. Os trechos_relevantes são sugestões e precisam de conferência humana antes de virar gabarito.",
+ "versao": "rascunho-0",
+ "partes_validas": [
+  "A",
+  "B",
+  "C",
+  "D"
+ ],
+ "barreiras_validas": [
+  "atencao_sustentada",
+  "memoria_trabalho",
+  "iniciacao_tarefa",
+  "organizacao_sequencial",
+  "sobrecarga_visual",
+  "controle_inibitorio",
+  "flexibilidade_cognitiva",
+  "velocidade_processamento",
+  "leitura_texto_longo"
+ ],
+ "itens": [
+  {
+   "pergunta": "aluno com TDAH não sustenta a atenção em lista longa de exercícios de matemática do 6º ano: como dividir a tarefa sem reduzir os exercícios?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "atencao_sustentada",
+   "tipo_atividade": "lista de exercícios",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "ABDA-GUIA-PROFESSORES-2012#0001",
+    "ABDA-GUIA-PROFESSORES-2012#0003"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "ABDA-GUIA-PROFESSORES-2012#0002",
+    "GAASTRA-2016-META-INTERVENCOES-SALA#0004",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030"
+   ]
+  },
+  {
+   "pergunta": "aluno se distrai depois de poucos minutos numa leitura em sala: que estratégias mantêm o engajamento sem encurtar o texto?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "atencao_sustentada",
+   "tipo_atividade": "leitura em sala",
+   "parte_esperada": "A",
+   "trechos_relevantes": [
+    "ABDA-GUIA-PROFESSORES-2012#0001",
+    "CDC-ADHD-CLASSROOM-2026#0010",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0020",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0047"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "ABDA-GUIA-PROFESSORES-2012#0002",
+    "ABDA-GUIA-PROFESSORES-2012#0004",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0055",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0010",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016"
+   ]
+  },
+  {
+   "pergunta": "aluno esquece a segunda parte da instrução em atividade de ciências com três comandos: como apresentar os comandos sem dar a resposta?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "memoria_trabalho",
+   "tipo_atividade": "atividade de ciências",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0035"
+   ]
+  },
+  {
+   "pergunta": "o que é memória de trabalho e por que excesso de informação simultânea atrapalha a aprendizagem?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "memoria_trabalho",
+   "tipo_atividade": "explicação ao professor",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0017",
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0027",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043",
+    "SWELLER-2019-CARGA-COGNITIVA#0005",
+    "SWELLER-2019-CARGA-COGNITIVA#0038",
+    "SWELLER-2019-CARGA-COGNITIVA#0042"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0021",
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0022",
+    "SWELLER-2019-CARGA-COGNITIVA#0018",
+    "SWELLER-2019-CARGA-COGNITIVA#0041",
+    "SWELLER-2019-CARGA-COGNITIVA#0053",
+    "SWELLER-2019-CARGA-COGNITIVA#0054"
+   ]
+  },
+  {
+   "pergunta": "aluno olha para a folha da redação e não consegue começar: que apoio ajuda a iniciar sem escrever por ele?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "iniciacao_tarefa",
+   "tipo_atividade": "produção de texto",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0003",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0008",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0011",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0012"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0015",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0035"
+   ]
+  },
+  {
+   "pergunta": "exemplo resolvido ajuda aluno que não sabe por onde começar um problema?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "iniciacao_tarefa",
+   "tipo_atividade": "problema de matemática",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0009",
+    "SWELLER-2019-CARGA-COGNITIVA#0017"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0046",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0047",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042"
+   ]
+  },
+  {
+   "pergunta": "aluno com TDAH se perde na ordem dos passos num experimento de ciências: como organizar a sequência da atividade?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "organizacao_sequencial",
+   "tipo_atividade": "experimento",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "ABDA-GUIA-PROFESSORES-2012#0003"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "ABDA-GUIA-PROFESSORES-2012#0000",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028"
+   ]
+  },
+  {
+   "pergunta": "como ensinar o aluno a planejar e organizar tarefas longas em vez de o professor organizar tudo por ele?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "organizacao_sequencial",
+   "tipo_atividade": "trabalho de várias semanas",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "ABDA-GUIA-PROFESSORES-2012#0003",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0062",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0063",
+    "CDC-ADHD-CLASSROOM-2026#0004",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "ABDA-GUIA-PROFESSORES-2012#0001",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028"
+   ]
+  },
+  {
+   "pergunta": "folha de prova com muitas imagens e caixas confunde o aluno: o que retirar para reduzir a sobrecarga visual?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "sobrecarga_visual",
+   "tipo_atividade": "prova impressa",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0032",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0047",
+    "SWELLER-2019-CARGA-COGNITIVA#0018"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": []
+  },
+  {
+   "pergunta": "imagens decorativas no material atrapalham a aprendizagem?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "sobrecarga_visual",
+   "tipo_atividade": "material didático",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0047"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0013",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0014"
+   ]
+  },
+  {
+   "pergunta": "aluno responde por impulso sem ler o enunciado até o fim: que estratégia em sala ajuda a controlar a resposta?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "controle_inibitorio",
+   "tipo_atividade": "prova de múltipla escolha",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0005",
+    "MS-PCDT-TDAH-2022#0020",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": []
+  },
+  {
+   "pergunta": "reforço positivo e sistema de recompensas funcionam para comportamento de alunos com TDAH em sala?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "controle_inibitorio",
+   "tipo_atividade": "rotina de sala",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "ABDA-GUIA-PROFESSORES-2012#0002",
+    "CDC-ADHD-CLASSROOM-2026#0003",
+    "MS-PCDT-TDAH-2022#0020",
+    "MS-PCDT-TDAH-2022#0021",
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0032"
+   ]
+  },
+  {
+   "pergunta": "aluno trava quando precisa mudar de estratégia em uma atividade: como apoiar a flexibilidade cognitiva?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "flexibilidade_cognitiva",
+   "tipo_atividade": "resolução de problemas",
+   "parte_esperada": "B",
+   "trechos_relevantes": [
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0033"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+    "DIAMOND-2013-FUNCOES-EXECUTIVAS#0036",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0047"
+   ]
+  },
+  {
+   "pergunta": "treino cognitivo por computador melhora funções executivas e desempenho escolar em crianças com TDAH?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "flexibilidade_cognitiva",
+   "tipo_atividade": "intervenção",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "MS-PCDT-TDAH-2022#0015"
+   ]
+  },
+  {
+   "pergunta": "aluno entende o conteúdo mas é muito lento para escrever e copiar: que adaptações cabem sem baixar a exigência?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "velocidade_processamento",
+   "tipo_atividade": "cópia e escrita",
+   "parte_esperada": "C",
+   "trechos_relevantes": [],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0027",
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0028",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0049"
+   ]
+  },
+  {
+   "pergunta": "quais recursos de acessibilidade em avaliação a legislação brasileira prevê para aluno com TDAH ou dislexia?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "velocidade_processamento",
+   "tipo_atividade": "avaliação",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001",
+    "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0008",
+    "MEC-POLITICA-PEEI-2008#0017"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0000"
+   ]
+  },
+  {
+   "pergunta": "aluno com dislexia cansa em texto longo de história: como apresentar o texto sem trocar o conteúdo?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "leitura_texto_longo",
+   "tipo_atividade": "texto de história",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0030",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0042",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0017",
+    "KUSTER-2018-FONTE-DYSLEXIE#0005"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": []
+  },
+  {
+   "pergunta": "ouvir o texto em áudio ajuda a compreensão de quem tem dificuldade de leitura?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "leitura_texto_longo",
+   "tipo_atividade": "leitura de texto",
+   "parte_esperada": "D",
+   "trechos_relevantes": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0039",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0008",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0027",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0030"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0033",
+    "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0034",
+    "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0017",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0021"
+   ]
+  },
+  {
+   "pergunta": "o que é adaptação curricular e até onde o professor pode flexibilizar sem esvaziar o currículo?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "leitura_texto_longo",
+   "tipo_atividade": "planejamento",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0010",
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0012",
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0013",
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0014",
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0019",
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0028",
+    "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0005"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0021",
+    "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0017"
+   ]
+  },
+  {
+   "pergunta": "como o Plano Educacional Individualizado deve registrar barreiras e apoios do estudante?",
+   "autor": "rascunho com apoio de IA",
+   "barreira": "organizacao_sequencial",
+   "tipo_atividade": "planejamento individual",
+   "parte_esperada": "C",
+   "trechos_relevantes": [
+    "DECRETO-12686-2025-PNEEI#0012",
+    "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0016",
+    "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0050",
+    "PORTARIA-MEC-421-2026-PNEEI#0008",
+    "PORTARIA-MEC-421-2026-PNEEI#0009"
+   ],
+   "marcado_por": "dois juízes de IA; falta conferência humana",
+   "a_conferir": [
+    "DECRETO-12686-2025-PNEEI#0013",
+    "PORTARIA-MEC-421-2026-PNEEI#0005"
+   ]
+  }
+ ],
+ "_concordancia": {
+  "ambos": 66,
+  "so_um": 45,
+  "nenhum": 356,
+  "kappa": 0.687
+ }
+}

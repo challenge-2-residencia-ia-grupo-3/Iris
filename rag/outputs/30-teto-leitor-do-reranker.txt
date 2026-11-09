@@ -1,0 +1,18 @@
+QUEM O RERANKER LÊ, E QUANTOS CANDIDATOS: O QUE SE CONTA ANTES DE PREVER. Contagem, sem modelo treinado.
+O reranker (mMiniLM) lê pares (texto, trecho) de até 512 tokens; o que passa disso é cortado do lado mais longo.
+Gabarito do Opus, de modelo, sem conferência humana.
+
+===== OPUS: 38 perguntas, 167 trechos certos =====
+trechos certos entre os candidatos: 125 com os 50 da pergunta | 139 com os 50 + 50 (teto do ganho: 14)
+candidatos por pergunta com 50 + 50, sem repetir: de 52 a 96, mediana 62
+o reranker lê a pergunta  : texto lido de 16 a 40 tokens (mediana 26); pares cortados: 804 de 2470 (33%); fração do trecho lida, mediana 1.00, pior caso 0.56
+o reranker lê a imaginaria: texto lido de 122 a 226 tokens (mediana 176); pares cortados: 1527 de 2470 (62%); fração do trecho lida, mediana 0.83, pior caso 0.34
+
+===== OPUS-CURTA: 38 perguntas, 167 trechos certos =====
+trechos certos entre os candidatos: 114 com os 50 da pergunta | 125 com os 50 + 50 (teto do ganho: 11)
+candidatos por pergunta com 50 + 50, sem repetir: de 54 a 98, mediana 66
+o reranker lê a pergunta  : texto lido de 4 a 13 tokens (mediana 8); pares cortados: 724 de 2614 (28%); fração do trecho lida, mediana 1.00, pior caso 0.59
+o reranker lê a imaginaria: texto lido de 44 a 215 tokens (mediana 161); pares cortados: 1537 de 2614 (59%); fração do trecho lida, mediana 0.86, pior caso 0.37
+
+Tamanho dos 1368 trechos da base, em tokens do reranker: mediana 360, máximo 837; acima de 508: 274.
+Leitura: trocar a pergunta pela resposta imaginária dá ao reranker um texto mais longo e deixa menos espaço para o trecho.
