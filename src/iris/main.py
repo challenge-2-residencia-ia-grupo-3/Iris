@@ -38,5 +38,12 @@ def create_app() -> Any:
     def health_check() -> dict[str, Any]:
         return get_health_status()
 
+    # Registra rotas de materiais didáticos (História 1.1.1 - Issue #4)
+    from iris.api.routes.materials import router as materials_router
+
+    if materials_router is not None:
+        app.include_router(materials_router, prefix="/api/v1")
+
     return app
+
 

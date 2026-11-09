@@ -11,6 +11,16 @@ from iris.schemas.catalog import (
     load_all_catalogs,
     load_catalog_file,
 )
+from iris.schemas.materials import (
+    MAX_MATERIAL_WORDS,
+    MIN_MATERIAL_CHARS,
+    MaterialMetadata,
+    MaterialResponse,
+    MaterialSourceType,
+    MaterialTextInput,
+    MaterialValidationError,
+    validate_material_content,
+)
 
 __all__ = [
     "BARREIRAS_RAG_VALIDAS",
@@ -23,4 +33,13 @@ __all__ = [
     "get_characteristic_by_id",
     "load_all_catalogs",
     "load_catalog_file",
+    "MAX_MATERIAL_WORDS",
+    "MIN_MATERIAL_CHARS",
+    "MaterialMetadata",
+    "MaterialResponse",
+    "MaterialSourceType",
+    "MaterialTextInput",
+    "MaterialValidationError",
+    "validate_material_content",
 ]
+

@@ -129,11 +129,12 @@ Como professor da educação básica, quero inserir o conteúdo da minha ativida
 * **E** a extração não deve falhar ou corromper acentuações da língua portuguesa (UTF-8).
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Backend]** Endpoint FastAPI `POST /api/v1/materials/upload` com suporte a multipart/form-data e extração de texto bruto (`.txt`, `.pdf`, `.docx`).
-- [ ] **[Backend]** Validação de tamanho (mínimo 50 caracteres e limite seguro de 2.000 palavras) com mensagens de erro estruturadas.
+- [x] **[Backend]** Endpoint FastAPI `POST /api/v1/materials/upload` com suporte a multipart/form-data e extração de texto bruto (`.txt`, `.pdf`, `.docx`).
+- [x] **[Backend]** Validação de tamanho (mínimo 50 caracteres e limite seguro de 2.000 palavras) com mensagens de erro estruturadas.
 - [ ] **[Frontend]** Componente da Etapa 1 com área de colagem de texto (textarea acessível) e contador de caracteres/palavras em tempo real.
 - [ ] **[Frontend]** Componente drag-and-drop de arquivos com feedback visual de formato aceito/rejeitado (WCAG 2.1 AA).
-- [ ] **[Testes]** Testes unitários de extração de arquivos em `tests/api/test_materials.py` com mocks de PDF e DOCX.
+- [x] **[Testes]** Testes unitários de extração de arquivos em `tests/api/test_materials.py` com mocks de PDF e DOCX.
+
 
 ##### História 1.1.2: Decomposição estrutural automática de questões e enunciados
 **História de Usuário**
