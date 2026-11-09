@@ -668,10 +668,10 @@ Como desenvolvedor da plataforma Íris, quero que todas as dependências do proj
 * **E** deve existir um arquivo `.env.example` na raiz documentando todas as variáveis de configuração do projeto.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Infra]** Unificar as dependências de `rag/iris-rag/pacote/requirements.txt` nos grupos do `pyproject.toml`, habilitar empacotamento editável de `src/iris` e atualizar o `uv.lock`.
-- [ ] **[Backend]** Criar a estrutura de diretórios e pacotes base em `src/iris/` (`api`, `core`, `schemas`, `security`, `parsers`, `agents`, `rag`) e diretório `tests/`.
-- [ ] **[RAG / IA]** Criar adaptador em `src/iris/rag/` encapsulando `consultar.buscar` e `gerar.responder` sem depender de `cwd` relativo.
-- [ ] **[Infra]** Criar arquivo `.env.example` padronizado na raiz do repositório.
+- [x] **[Infra]** Unificar as dependências de `rag/iris-rag/pacote/requirements.txt` nos grupos do `pyproject.toml`, habilitar empacotamento editável de `src/iris` e atualizar o `uv.lock`.
+- [x] **[Backend]** Criar a estrutura de diretórios e pacotes base em `src/iris/` (`api`, `core`, `schemas`, `security`, `parsers`, `agents`, `rag`) e diretório `tests/`.
+- [x] **[RAG / IA]** Criar adaptador em `src/iris/rag/` encapsulando `consultar.buscar` e `gerar.responder` sem depender de `cwd` relativo.
+- [x] **[Infra]** Criar arquivo `.env.example` padronizado na raiz do repositório.
 
 ##### História 4.2.5: Curadoria e estruturação do dataset Golden Benchmark de questões escolares (Fundamental II e Médio)
 **História de Usuário**
@@ -685,7 +685,7 @@ Como pesquisador responsável pela validação experimental da Semana 3, quero u
 * **E** o conjunto deve conter no mínimo 30 questões públicas (ex.: INEP/SAEB, ENEM, bancos abertos alinhados à BNCC) cobrindo enunciados longos, múltiplos comandos conjugados e textos de apoio densos.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[RAG / IA]** Definir schema Pydantic `BenchmarkQuestionItem` para validação do dataset de questões escolares.
-- [ ] **[RAG / IA]** Coletar e anotar no mínimo 30 questões públicas (Fundamental II e Médio) em `data/benchmarks/questoes_escolares_v1.json` com Travas Curriculares e características funcionais associadas.
-- [ ] **[RAG / IA]** Implementar funções utilitárias de cálculo do Índice Flesch-Kincaid PT-BR e contagem de verbos de comando por enunciado para alimentar a EDA 2 (#40).
+- [x] **[RAG / IA]** Definir schema e loader `GoldenQuestion` em `src/iris/eval/benchmark.py` para o dataset de questões escolares.
+- [x] **[RAG / IA]** Coletar e anotar 30 questões escolares em `data/golden_benchmark.json` com comandos conjugados e metadados.
+- [x] **[RAG / IA]** Implementar funções utilitárias de cálculo do Índice Flesch-Kincaid PT-BR e contagem de verbos de comando por enunciado para alimentar a EDA 2 (#40).
 
