@@ -121,6 +121,71 @@ Para evitar que uma única instrução genérica resulte em empobrecimento curri
      * *Prevenção de Efeito Muleta:* Verifica se o enunciado adaptado não revelou a resposta ou suprimiu a etapa cognitiva exigida.
    * **Controle de Ciclo (*Circuit Breaker*):** O loop de auto-correção entre o Agente Auditor e o Agente Adaptador é limitado a **no máximo duas iterações** (`max_retries = 2`). Caso o material adaptado não atinja conformidade após duas tentativas, o ciclo é interrompido e a minuta é enviada à interface com um alerta preventivo em destaque, permitindo que o professor exerça a mediação direta (*Human-in-the-Loop*).
 
+### 2.4. Contratos Estruturais de Integração e Resolução de Acoplamentos Ocultos
+
+Para blindar o desenvolvimento paralelo da equipe contra retrabalho e inconsistências de schemas, a arquitetura estabelece quatro contratos de dados unificados:
+
+```mermaid
+classDiagram
+    class RawContent {
+        +str text
+        +str source_type
+        +dict metadata
+        +bool pii_sanitized
+    }
+
+    class MaterialStructure {
+        +List~QuestionItem~ questions
+        +List~TextSection~ continuous_sections
+        +str raw_header
+    }
+
+    class QuestionItem {
+        +str id
+        +int order
+        +str context_text
+        +str prompt_command
+        +List~str~ options
+    }
+
+    class CurriculumInvariants {
+        +List~str~ conceitos_obrigatorios
+        +List~str~ termos_intocaveis
+        +str verbo_comando_bncc
+        +Optional~str~ alerta_anti_muleta
+    }
+
+    class CharacteristicItem {
+        +str id_caracteristica
+        +str titulo
+        +str descricao_pratica
+        +dict andaimes_por_nivel
+        +List~str~ referencias
+    }
+
+    RawContent --> MaterialStructure : Processado por StructuralDecomposer (#5/#53)
+    MaterialStructure *-- QuestionItem
+    MaterialStructure --> CurriculumInvariants : Analisado por Agente Extrator (#17) e Validado por Docente (#13)
+    CharacteristicItem --> CurriculumInvariants : Parametrização (#8 e #16)
+```
+
+1. **Contrato de Ingestão Unificada (`RawContent` $\rightarrow$ `MaterialStructure`):**
+   * Tanto o upload/colagem da Etapa 1 ([#4](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/4)) quanto o OCR multimodal ([#6](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/6)) convergem para a entidade `RawContent`.
+   * O `StructuralDecomposer` ([#5](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/5) e [#53](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/53)) recebe o `RawContent` sanitizado e devolve `MaterialStructure`, contendo tanto blocos de questões (`questions`) quanto seções contínuas (`continuous_sections`). Isso garante que o OCR não precise inventar heurísticas de parsing de questões.
+
+2. **Contrato de Invariantes Curriculares (`CurriculumInvariants`):**
+   * Compartilhado entre o **Agente Extrator ([#17](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/17))**, a **Interface de Travas Curriculares ([#13](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/13))** e o **Agente Auditor ([#19](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/19))**.
+   * A IA pré-extrai deterministicamente os núcleos conceituais; o professor valida e calibra na interface web antes da chamada ao motor multiagentes.
+
+3. **Fonte Única da Verdade para o Catálogo Funcional (SSOT):**
+   * O arquivo `rag/catalogs/tdah_caracteristicas_funcionais.json` é a SSOT mandatória. O endpoint `GET /api/v1/catalogs/characteristics` consumido pela interface web ([#8](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/8)) e o filtro de busca vetorial do RAG ([#16](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/16)) utilizam estritamente os mesmos identificadores (`id_caracteristica`).
+
+4. **Isolamento de Testes do Agente Auditor ([#19](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/19)):**
+   * O Agente Auditor consome `(original: str, adaptado: str, travas: CurriculumInvariants)` e calcula o TRCC determinístico. O desenvolvimento do auditor não depende da implementação em tempo real do Agente Adaptador ([#18](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/18)), utilizando as fixtures pré-anotadas do Golden Benchmark (`data/golden_benchmark.json`) para testes automatizados.
+
+5. **Arquitetura Stateless e Sessão do Stepper ([#35](https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/35)):**
+   * O backend FastAPI não mantém tabelas de alunos ou estado persistente entre requisições. O estado completo da navegação (Etapa 1 $\rightarrow$ Etapa 5) reside no `sessionStorage` do navegador (Next.js) e trafega via payload JSON em cada endpoint, eliminando qualquer risco de violação da LGPD.
+
 ---
 
 ## 3. Análise Exploratória de Dados (EDA) e Governança do Conhecimento

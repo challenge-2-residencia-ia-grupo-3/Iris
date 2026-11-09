@@ -113,4 +113,42 @@ Atua como um Especialista em IA focado na mensuração de eficiência e confiabi
 * **Diagnóstico do Gargalo:** Identificação clara se o elo mais fraco está no *Retriever* (recuperador/corpus) ou no *Generator* (modelo gerador/prompt).
 * **Recomendações Práticas:** 2 a 3 sugestões técnicas viáveis (chunking, embeddings, re-ranking, filtragem por metadados).
 
+---
+
+## 4. Skill: `revisor-pr`
+
+```yaml
+name: revisor-pr
+description: >-
+  Atua como Tech Lead e Revisor de Código Sênior. Audita Pull Requests abertos por colegas,
+  avaliando riscos de regressão, qualidade de código e conformidade arquitetural, gerando
+  correções em código prontas para o agente aplicar e o comentário formal de revisão para o GitHub.
+```
+
+### 4.1. Papel e Objetivo
+Auditar criticamente PRs prevenindo quebras em produção, falhas de testes e divergências com os 3 Pilares do Challenge 2, acelerando a resolução entregando correções exatas em código e o comentário formatado para o GitHub.
+
+---
+
+## 5. Skill: `atribuidor-issues`
+
+```yaml
+name: atribuidor-issues
+description: >-
+  Atua como Gerente de Engenharia e Coordenador de Backlog. Avalia o estado atual do projeto
+  no GitHub e no código, audita dependências funcionais ocultas entre histórias, balanceia a carga
+  da equipe e SEMPRE apresenta o plano prévio de alocação para aprovação do usuário antes de
+  executar alterações no GitHub.
+```
+
+### 5.1. Regra de Ouro Inegociável (Human-in-the-Loop)
+**NUNCA execute atribuições diretamente no GitHub sem apresentar o Plano Prévio de Alocação e receber a aprovação explícita do usuário.**
+
+### 5.2. Protocolo de Atuação
+1. **Diagnóstico de Estado Real:** Inspecionar código, testes e PRs mergeados para identificar o que de fato está pendente.
+2. **Auditoria de Dependências Funcionais:** Validar os 5 critérios de desimpedimento (contratos de ingestão, precedência de parsers, SSOT do catálogo, isolamento de agentes e arquitetura stateless).
+3. **Apresentação do Plano Prévio:** Exibir quadro comparativo, justificativas técnicas e comandos `gh` planejados para validação do usuário.
+4. **Execução Pós-Aprovação:** Executar `gh issue edit` e atualizar a rastreabilidade na documentação.
+
+
 
