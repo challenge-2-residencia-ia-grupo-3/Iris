@@ -68,10 +68,10 @@ echo "[4/4] Subindo Backend API + Frontend Web Completo em http://${HOST}:${PORT
 (sleep 1.5 && open "http://${HOST}:${PORT}" >/dev/null 2>&1 || true) &
 
 if command -v uv >/dev/null 2>&1 && uv run python -c "import uvicorn, fastapi" >/dev/null 2>&1; then
-    IRIS_LLM_PROVIDER=ollama IRIS_LLM_MODEL="${MODEL}" PYTHONPATH="${REPO_ROOT}/src" \
-        uv run uvicorn iris.main:app --host "${HOST}" --port "${PORT}" --reload
+    IRIS_LLM_PROVIDER=ollama IRIS_LLM_MODEL="${MODEL}" PYTHONPATH="${REPO_ROOT}/backend/src" \
+        uv run uvicorn iris.main:app --app-dir "${REPO_ROOT}/backend/src" --host "${HOST}" --port "${PORT}" --reload
 else
     IRIS_LLM_PROVIDER=ollama IRIS_LLM_MODEL="${MODEL}" IRIS_HOST="${HOST}" IRIS_PORT="${PORT}" \
-        PYTHONPATH="${REPO_ROOT}/src" python3 -m iris.main
+        PYTHONPATH="${REPO_ROOT}/backend/src" python3 -m iris.main
 fi
 

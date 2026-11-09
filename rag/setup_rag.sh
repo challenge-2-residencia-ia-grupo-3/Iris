@@ -5,7 +5,7 @@ set -euo pipefail
 RAG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${RAG_DIR}/.." && pwd)"
 PACOTE_DIR="${RAG_DIR}/iris-rag/pacote"
-SRC_DIR="${REPO_ROOT}/src"
+SRC_DIR="${REPO_ROOT}/backend/src"
 
 # Detecta automaticamente se já existe um modelo llama3 baixado no Ollama
 DETECTED_MODEL=""
