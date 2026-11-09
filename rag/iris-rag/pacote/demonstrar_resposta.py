@@ -167,7 +167,8 @@ def uma_consulta(q: dict, banco: str | None, ao_vivo: bool = False, gerador: str
     item = {"id": q["id"], "tipo": q["tipo"], "pergunta": q["pergunta"], "ao_vivo": ao_vivo, "juizes": None,
             "busca_agora": None}
     if ao_vivo:                                                    # recuperação e geração nesta execução
-        r = gerar.responder(q["pergunta"])
+        metodo_busca = consultar.METODO_PADRAO if banco else "bm25"
+        r = gerar.responder(q["pergunta"], metodo=metodo_busca)
         ids, item["resposta"], item["modelo"] = [f["chunk_id"] for f in r["fontes"]], r["resposta"], r["llm"]
     else:                                                          # resposta registrada e trechos utilizados na geração
         g = ler(GRAVADAS)["geradores"][gerador][q["id"]]
@@ -297,7 +298,7 @@ def demonstrar(todas: bool = False, ao_vivo: bool = False, caminho: Path | None 
     """Executa a demonstração e grava o texto em caminho, quando informado. Retorna os itens."""
     banco = ligar_banco()
     if ao_vivo and not banco:
-        raise SystemExit("--ao-vivo requer o banco em execução")
+        print("[demonstrar] banco vetorial indisponível; usando busca lexical BM25 em memória para --ao-vivo.")
     itens = [uma_consulta(q, banco, ao_vivo) for q in escolher(todas)]
     fech = fechados()
     refeitas = [i for i in itens if i["busca_agora"]]
@@ -324,9 +325,12 @@ def demonstrar(todas: bool = False, ao_vivo: bool = False, caminho: Path | None 
     L += resumo(itens) + [""]
     for i in itens:
         L += ["=" * 110, texto_da_consulta(i, fech), ""]
-    if caminho:
+    texto_final = "\n".join(L) + "\n"
+    if caminho and (banco or ao_vivo or not caminho.exists()):
         caminho.parent.mkdir(exist_ok=True)
-        caminho.write_text("\n".join(L) + "\n", encoding="utf-8")
+        caminho.write_text(texto_final, encoding="utf-8")
+    if __name__ == "__main__":
+        print(texto_final, end="")
     return itens
 
 
@@ -341,4 +345,3 @@ if __name__ == "__main__":
         raise SystemExit(0)
     destino = SAIDA.with_name(SAIDA.stem + ("-todas" if a.todas else "") + ("-ao-vivo" if a.ao_vivo else "") + ".txt")
     demonstrar(a.todas, a.ao_vivo, destino)
-    print(destino.read_text(encoding="utf-8"))

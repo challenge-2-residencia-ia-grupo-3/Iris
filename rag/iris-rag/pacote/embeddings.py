@@ -82,10 +82,45 @@ class BuscaBM25:
     nome = "bm25"
 
     def __init__(self, textos: list[str], k1: float = 1.5, b: float = 0.75):
-        from rank_bm25 import BM25Okapi
-        self.bm25 = BM25Okapi([palavras(t) for t in textos], k1=k1, b=b)
+        self._corpus = [palavras(t) for t in textos]
+        self._k1 = k1
+        self._b = b
+        self.bm25 = None
+
+    def _inicializar(self):
+        if self.bm25 is not None:
+            return
+        try:
+            from rank_bm25 import BM25Okapi
+            self.bm25 = BM25Okapi(self._corpus, k1=self._k1, b=self._b)
+        except ModuleNotFoundError:
+            import math
+            from collections import Counter
+            N = len(self._corpus) or 1
+            doc_len = [len(d) for d in self._corpus]
+            avgdl = sum(doc_len) / N if N else 1.0
+            df = Counter(w for d in self._corpus for w in set(d))
+            idf = {w: math.log((N - n + 0.5) / (n + 0.5) + 1.0) for w, n in df.items()}
+            freqs = [Counter(d) for d in self._corpus]
+
+            class _BM25Fallback:
+                def get_scores(s, query):
+                    scores = [0.0] * N
+                    for q in query:
+                        if q not in idf:
+                            continue
+                        w_idf = idf[q]
+                        for i, f_doc in enumerate(freqs):
+                            tf = f_doc.get(q, 0)
+                            if tf:
+                                denom = tf + self._k1 * (1 - self._b + self._b * doc_len[i] / avgdl)
+                                scores[i] += w_idf * (tf * (self._k1 + 1)) / denom
+                    return scores
+
+            self.bm25 = _BM25Fallback()
 
     def notas(self, pergunta: str):
+        self._inicializar()
         return self.bm25.get_scores(palavras(pergunta))
 
 

@@ -696,17 +696,71 @@ def salvar_chunks(chunks: list[dict], caminho: Path = SAIDA_CHUNKS) -> None:
             f.write(json.dumps(c, ensure_ascii=False) + "\n")
 
 
+def _placeholders_restritos(docs_ausentes: list[dict], ids_existentes: set[str]) -> list[dict]:
+    """Gera entradas de metadados para trechos referenciados de documentos com licença restrita."""
+    cat_por_id = {d["id"]: d for d in docs_ausentes}
+    if not cat_por_id:
+        return []
+    refs: set[str] = set()
+    arq_respostas = AQUI / "respostas_medidas.json"
+    if arq_respostas.exists():
+        dados = json.loads(arq_respostas.read_text(encoding="utf-8"))
+        for qs in dados.get("geradores", {}).values():
+            for item in qs.values():
+                refs.update(item.get("fontes", []))
+    placeholders: list[dict] = []
+    txt = "(texto não reproduzido por restrição de licença; consultar o endereço de origem)"
+    for cid in sorted(refs - ids_existentes):
+        doc_id = cid.split("#")[0]
+        d = cat_por_id.get(doc_id)
+        if not d:
+            continue
+        titulo = d.get("titulo", doc_id)
+        placeholders.append({
+            "chunk_id": cid,
+            "doc_id": doc_id,
+            "titulo": titulo,
+            "orgao": d.get("orgao", ""),
+            "ano": d.get("ano", ""),
+            "url": d.get("url", ""),
+            "licenca": d.get("licenca", "restrita"),
+            "parte": d.get("parte", ""),
+            "idioma": d.get("idioma", "pt-BR"),
+            "tipo_evidencia": d.get("tipo_evidencia", ""),
+            "pagina_inicio": None,
+            "pagina_fim": None,
+            "secao": "Seção sob licença restrita",
+            "tema": d.get("tema", ""),
+            "barreiras": d.get("barreiras", []),
+            "n_palavras": 0,
+            "nao_usar_para": NAO_USAR_PARA.get(doc_id, d.get("nao_usar_para", [])),
+            "nota_uso": d.get("nota_uso", ""),
+            "tipo_corte": "fechado",
+            "texto": txt,
+            "texto_indexado": f"Documento: {titulo} | Seção: Seção sob licença restrita\n\n{txt}",
+        })
+    return placeholders
+
+
 def carregar_chunks(caminho: Path = SAIDA_CHUNKS) -> list[dict]:
-    return [json.loads(x) for x in Path(caminho).read_text(encoding="utf-8").splitlines() if x]
+    caminho = Path(caminho)
+    if not caminho.exists():
+        print("[ingestao] chunks.jsonl não encontrado; gerando automaticamente a partir dos textos disponíveis...")
+        rodar(salvar=True, verbose=True, permitir_ausentes=True)
+    return [json.loads(x) for x in caminho.read_text(encoding="utf-8").splitlines() if x]
 
 
-def rodar(salvar: bool = True, verbose: bool = True) -> tuple[list[dict], dict]:
+def rodar(salvar: bool = True, verbose: bool = True, permitir_ausentes: bool = True) -> tuple[list[dict], dict]:
     docs, fora = carregar_catalogo()
     todos: list[dict] = []
     por_doc: dict[str, dict] = {}
     descartes_total: Counter = Counter()
     limpeza_total: Counter = Counter()
+    ausentes: list[dict] = []
     for d in docs:
+        if permitir_ausentes and not (BASE / d["arquivo_texto"]).exists():
+            ausentes.append(d)
+            continue
         cs, desc, est = processar_documento(d)
         todos.extend(cs)
         descartes_total.update(desc)
@@ -714,15 +768,23 @@ def rodar(salvar: bool = True, verbose: bool = True) -> tuple[list[dict], dict]:
         por_doc[d["id"]] = {"n_chunks": len(cs), "descartes": dict(desc),
                             "palavras": sum(c["n_palavras"] for c in cs),
                             "pagina_inteira": sum(c["tipo_corte"] == "pagina_inteira" for c in cs)}
-    resumo = {"n_docs": len(docs), "fora": fora, "n_chunks": len(todos),
+    if ausentes:
+        placeholders = _placeholders_restritos(ausentes, {c["chunk_id"] for c in todos})
+        todos.extend(placeholders)
+        if verbose:
+            print(f"[ingestao] {len(ausentes)} documentos com licença restrita ausentes localmente; "
+                  f"adicionados {len(placeholders)} metadados de referência.")
+    palavras_validas = [c["n_palavras"] for c in todos if c["n_palavras"] > 0] or [0]
+    resumo = {"n_docs": len(docs) - len(ausentes), "fora": fora, "n_chunks": len(todos),
               "n_descartados": sum(descartes_total.values()),
               "descartes": dict(descartes_total), "limpeza": dict(limpeza_total),
-              "tamanho": _quantis([c["n_palavras"] for c in todos]), "por_doc": por_doc}
+              "tamanho": _quantis(palavras_validas), "por_doc": por_doc}
     if salvar:
         salvar_chunks(todos)
-        escrever_relatorio(todos, resumo)
+        if not ausentes:
+            escrever_relatorio(todos, resumo)
     if verbose:
-        print(f"{resumo['n_docs']} documentos -> {resumo['n_chunks']} chunks; "
+        print(f"{resumo['n_docs']} documentos abertos processados -> {resumo['n_chunks']} chunks totais; "
               f"{resumo['n_descartados']} páginas/pedaços descartados")
     return todos, resumo
 
