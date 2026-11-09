@@ -19,8 +19,19 @@ class GoldenQuestion:
     enunciado: str
     comando_conjugado_esperado: bool
     status: str = "rascunho"
-    trava_curricular: Optional[str] = None
+    # Conceitos da trava; "a|b" = alternativas aceitas. Lista no JSON ou texto separado por ";".
+    trava_curricular: Optional[tuple[str, ...]] = None
     habilidade_bncc: Optional[str] = None
+
+
+def _como_tupla(valor: object) -> Optional[tuple[str, ...]]:
+    """Normaliza a trava: lista/tupla de conceitos ou texto separado por ';'."""
+    if valor is None:
+        return None
+    if isinstance(valor, str):
+        valor = valor.split(";")
+    conceitos = tuple(str(c).strip() for c in valor if str(c).strip())
+    return conceitos or None
 
 
 def carregar_golden_benchmark(
@@ -45,7 +56,7 @@ def carregar_golden_benchmark(
             enunciado=q["enunciado"],
             comando_conjugado_esperado=bool(q.get("comando_conjugado_esperado", False)),
             status=q.get("status", "rascunho"),
-            trava_curricular=q.get("trava_curricular"),
+            trava_curricular=_como_tupla(q.get("trava_curricular")),
             habilidade_bncc=q.get("habilidade_bncc"),
         )
         for q in raw_data

@@ -1,0 +1,11 @@
+id_caracteristica,nome,barreiras,n_trechos,n_docs
+fadiga_executiva_autorregulacao_provas_extensas,Fadiga executiva e queda de sustentação atencional ao longo de avaliações extensas,atencao_sustentada,377,9
+atencao_sustentada_textos_longos,Fadiga de atenção sustentada em blocos textuais densos e contínuos,leitura_texto_longo,308,9
+impulsividade_leitura_superficial_negacoes,Impulsividade na resposta e omissão de condições restritivas ou negações,controle_inibitorio,304,7
+organizacao_sequencial_expressao_escrita,Dificuldade na organização sequencial de etapas e expressão escrita,organizacao_sequencial,295,6
+distratibilidade_poluicao_visual_layout,Distratibilidade por poluição visual e elementos gráficos concorrentes,sobrecarga_visual,160,4
+sobrecarga_memoria_trabalho_comandos_multiplos,Sobrecarga de memória de trabalho em comandos múltiplos conjugados,memoria_trabalho,152,3
+retencao_dados_intermediarios_problemas_multietapas,Dificuldade na retenção e manipulação mental de dados intermediários,memoria_trabalho,152,3
+bloqueio_iniciacao_tarefas_abertas,Bloqueio na iniciação de tarefas abertas sem ponto de partida estruturado,iniciacao_tarefa,122,4
+ritmo_processamento_pressao_temporal,Sobrecarga por velocidade de processamento sob pressão de tempo e volume textual,velocidade_processamento,62,2
+flexibilidade_cognitiva_alternancia_topicos,Rigidez na alternância entre tipos de tarefa ou mudança brusca de regra,flexibilidade_cognitiva,14,1
