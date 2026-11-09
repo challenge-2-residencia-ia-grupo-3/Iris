@@ -15,11 +15,15 @@ from iris.schemas.materials import (
     MAX_FILE_SIZE_BYTES,
     MAX_SAFE_CONTEXT_CHARS,
     MIN_MATERIAL_CHARS,
+    AlternativeItem,
+    ContextBlock,
     MaterialMetadata,
     MaterialResponse,
     MaterialSourceType,
+    MaterialStructure,
     MaterialTextInput,
     MaterialValidationError,
+    QuestionItem,
     validate_file_size_limit,
     validate_material_content,
 )
@@ -41,9 +45,14 @@ __all__ = [
     "MaterialMetadata",
     "MaterialResponse",
     "MaterialSourceType",
+    "MaterialStructure",
     "MaterialTextInput",
     "MaterialValidationError",
+    "AlternativeItem",
+    "ContextBlock",
+    "QuestionItem",
     "validate_file_size_limit",
     "validate_material_content",
 ]
+
 
