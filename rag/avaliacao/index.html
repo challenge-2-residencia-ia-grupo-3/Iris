@@ -1,0 +1,2117 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação oficial do Projeto Íris (Challenge 2 - Residência em IA: UnB / Lab Livre / Eldorado / Softex / MCTI)">
+      
+      
+        <meta name="author" content="Grupo 3 - Residência em IA">
+      
+      
+        <link rel="canonical" href="https://challenge-2-residencia-ia-grupo-3.github.io/Iris/rag/avaliacao/">
+      
+      
+        <link rel="prev" href="../arquitetura/">
+      
+      
+        <link rel="next" href="../../cbl/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Avaliação do RAG - Íris — Plataforma Inteligente de Adaptação Pedagógica</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#iris-avaliacao-da-recuperacao-e-das-respostas" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-header__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  <img src="../../assets/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Íris — Plataforma Inteligente de Adaptação Pedagógica
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Avaliação do RAG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../definicao_projeto_entrega/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Entrega Semanal
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../visao_produto/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Visão do Produto
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../requisitos_funcionais/" class="md-tabs__link">
+          
+  
+  
+  Requisitos
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../arquitetura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../relatorio/" class="md-tabs__link">
+          
+  
+  
+  Base de Conhecimento e RAG
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../cbl/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Metodologia CBL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../skills/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Catálogo de Skills
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-nav__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  <img src="../../assets/logo.jpg" alt="logo">
+
+    </a>
+    Íris — Plataforma Inteligente de Adaptação Pedagógica
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../definicao_projeto_entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrega Semanal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../visao_produto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão do Produto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requisitos_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requisitos_nao_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Não Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backlog_rastreabilidade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backlog & Rastreabilidade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base de Conhecimento e RAG
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Base de Conhecimento e RAG
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../relatorio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relatório Técnico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura do RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Avaliação do RAG
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Avaliação do RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-conjunto-de-avaliacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Conjunto de avaliação
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-metricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Métricas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-recuperacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Recuperação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Recuperação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-metodos-avaliados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Métodos avaliados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-comparacoes-pareadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Comparações pareadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-resultado-por-tipo-de-consulta-metodo-adotado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Resultado por tipo de consulta, método adotado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-tempo-de-resposta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Tempo de resposta
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-experimentos-adicionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Experimentos adicionais
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Experimentos adicionais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-efeito-do-tamanho-dos-trechos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Efeito do tamanho dos trechos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-estabilidade-do-banco-vetorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Estabilidade do banco vetorial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-respostas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Respostas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Respostas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-procedimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Procedimento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-verificacao-automatica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Verificação automática
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-fundamentacao-das-frases-de-conteudo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Fundamentação das frases de conteúdo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-concordancia-entre-avaliadores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Concordância entre avaliadores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-classificacao-das-respostas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Classificação das respostas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-ameacas-a-validade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Ameaças à validade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-reproducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Reprodução
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cbl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia CBL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-conjunto-de-avaliacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Conjunto de avaliação
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-metricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Métricas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-recuperacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Recuperação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Recuperação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-metodos-avaliados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Métodos avaliados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-comparacoes-pareadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Comparações pareadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-resultado-por-tipo-de-consulta-metodo-adotado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Resultado por tipo de consulta, método adotado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-tempo-de-resposta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Tempo de resposta
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-experimentos-adicionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Experimentos adicionais
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Experimentos adicionais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-efeito-do-tamanho-dos-trechos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Efeito do tamanho dos trechos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-estabilidade-do-banco-vetorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Estabilidade do banco vetorial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-respostas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Respostas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Respostas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-procedimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Procedimento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-verificacao-automatica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Verificação automática
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-fundamentacao-das-frases-de-conteudo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Fundamentação das frases de conteúdo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-concordancia-entre-avaliadores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Concordância entre avaliadores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-classificacao-das-respostas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Classificação das respostas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-ameacas-a-validade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Ameaças à validade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-reproducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Reprodução
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegação" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Início
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../relatorio/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Base de Conhecimento e RAG
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="iris-avaliacao-da-recuperacao-e-das-respostas">Íris – Avaliação da recuperação e das respostas<a class="headerlink" href="#iris-avaliacao-da-recuperacao-e-das-respostas" title="Permanent link">&para;</a></h1>
+<p>Protocolo, métricas e resultados da avaliação do protótipo de RAG. Versão correspondente à entrega de 09/11/2026.</p>
+<h2 id="1-objetivo">1. Objetivo<a class="headerlink" href="#1-objetivo" title="Permanent link">&para;</a></h2>
+<p>Medir três propriedades do protótipo:</p>
+<ul>
+<li>qualidade da recuperação: presença dos trechos relevantes entre os cinco entregues ao modelo gerador;</li>
+<li>fundamentação: sustentação de cada frase da resposta pelo trecho citado;</li>
+<li>rastreabilidade: validade das citações.</li>
+</ul>
+<p>Nenhum modelo foi treinado ou ajustado. Os resultados decorrem de contagem sobre saídas de modelos pré-treinados.</p>
+<h2 id="2-conjunto-de-avaliacao">2. Conjunto de avaliação<a class="headerlink" href="#2-conjunto-de-avaliacao" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consultas</td>
+<td>40, elaboradas antes de qualquer execução de busca</td>
+</tr>
+<tr>
+<td>Consultas com resposta na base</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Consultas sem resposta na base</td>
+<td>2, para verificação da recusa</td>
+</tr>
+<tr>
+<td>Tipos de consulta</td>
+<td>Prática docente (10), DUA (8), norma (8), evidência de pesquisa (6), neuromito (4), resposta disponível apenas em inglês (2)</td>
+</tr>
+<tr>
+<td>Trechos de referência</td>
+<td>167 trechos classificados como relevantes</td>
+</tr>
+<tr>
+<td>Origem da referência</td>
+<td>Modelo de linguagem (Claude Opus), por leitura da base, sem acesso ao mecanismo de busca</td>
+</tr>
+<tr>
+<td>Validação humana</td>
+<td>Não realizada</td>
+</tr>
+</tbody>
+</table>
+<p>Arquivos: <code>rag/iris-rag/gabarito/perguntas_v0.json</code> e <code>rag/iris-rag/gabarito/gabarito_rascunho_v0.json</code>. O conjunto de referência é válido para a segmentação identificada pelo hash registrado no arquivo; alterações na segmentação invalidam os identificadores de trecho.</p>
+<h2 id="3-metricas">3. Métricas<a class="headerlink" href="#3-metricas" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Definição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recall@k</td>
+<td>Fração dos trechos relevantes de uma consulta presente entre os k primeiros retornados; média sobre as consultas</td>
+</tr>
+<tr>
+<td>Consultas atendidas</td>
+<td>Número de consultas com ao menos um trecho relevante entre os cinco retornados</td>
+</tr>
+<tr>
+<td>MRR</td>
+<td>Média do inverso da posição do primeiro trecho relevante</td>
+</tr>
+<tr>
+<td>Frases sustentadas</td>
+<td>Frases de conteúdo classificadas como sustentadas pelo trecho citado, por dois avaliadores</td>
+</tr>
+<tr>
+<td>Citações inválidas</td>
+<td>Frases que citam trecho não entregue ao modelo gerador</td>
+</tr>
+<tr>
+<td>Concordância</td>
+<td>Proporção de classificações idênticas entre avaliadores e coeficiente kappa de Cohen</td>
+</tr>
+</tbody>
+</table>
+<p>Os intervalos de confiança de 95% foram obtidos por bootstrap com 2.000 reamostragens das consultas e semente fixa. As comparações entre métodos são pareadas por consulta. A referência de acaso para o recall@5 é 0,004, correspondente à seleção aleatória de 5 entre 1.368 trechos.</p>
+<h2 id="4-recuperacao">4. Recuperação<a class="headerlink" href="#4-recuperacao" title="Permanent link">&para;</a></h2>
+<h3 id="41-metodos-avaliados">4.1 Métodos avaliados<a class="headerlink" href="#41-metodos-avaliados" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Recall@5 (IC 95%)</th>
+<th>Recall@10</th>
+<th>MRR</th>
+<th>Consultas atendidas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BM25</td>
+<td>0,20 (0,12 a 0,29)</td>
+<td>0,31</td>
+<td>0,32</td>
+<td>47%</td>
+</tr>
+<tr>
+<td>MPNet multilíngue</td>
+<td>0,11 (0,05 a 0,18)</td>
+<td>0,13</td>
+<td>0,23</td>
+<td>32%</td>
+</tr>
+<tr>
+<td>Híbrida (BM25 + vetorial, fusão de posições)</td>
+<td>0,24 (0,15 a 0,33)</td>
+<td>0,37</td>
+<td>0,41</td>
+<td>61%</td>
+</tr>
+<tr>
+<td>Qwen3</td>
+<td>0,28 (0,19 a 0,37)</td>
+<td>0,41</td>
+<td>0,46</td>
+<td>68% (26 de 38)</td>
+</tr>
+<tr>
+<td>Híbrida + reordenação (20 candidatos)</td>
+<td>0,33 (0,24 a 0,43)</td>
+<td>0,44</td>
+<td>0,52</td>
+<td>74%</td>
+</tr>
+<tr>
+<td>Qwen3 + reordenação (20 candidatos)</td>
+<td>0,36 (0,26 a 0,45)</td>
+<td>0,46</td>
+<td>0,56</td>
+<td>76% (29 de 38)</td>
+</tr>
+<tr>
+<td><strong>Qwen3 + reordenação (50 candidatos)</strong></td>
+<td><strong>0,42 (0,32 a 0,52)</strong></td>
+<td><strong>0,57</strong></td>
+<td><strong>0,60</strong></td>
+<td><strong>87% (33 de 38)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Fontes: <code>rag/iris-rag/pacote/outputs/16-gabarito-opus.txt</code>; <code>rag/outputs/18-variacoes-busca.txt</code>.</p>
+<p><img alt="Recall@5 por método de busca e por tipo de consulta" src="../figuras/fig2-recall.png" /></p>
+<h3 id="42-comparacoes-pareadas">4.2 Comparações pareadas<a class="headerlink" href="#42-comparacoes-pareadas" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Comparação</th>
+<th>Diferença de recall@5 (IC 95%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen3 + reordenação (50) − Qwen3</td>
+<td>+0,14 (+0,08 a +0,21)</td>
+</tr>
+<tr>
+<td>Qwen3 + reordenação (50) − Qwen3 + reordenação (20)</td>
+<td>+0,06 (+0,01 a +0,13)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-resultado-por-tipo-de-consulta-metodo-adotado">4.3 Resultado por tipo de consulta, método adotado<a class="headerlink" href="#43-resultado-por-tipo-de-consulta-metodo-adotado" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Consultas</th>
+<th>Recall@5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Norma</td>
+<td>8</td>
+<td>0,61</td>
+</tr>
+<tr>
+<td>Resposta disponível apenas em inglês</td>
+<td>2</td>
+<td>0,53</td>
+</tr>
+<tr>
+<td>DUA</td>
+<td>8</td>
+<td>0,47</td>
+</tr>
+<tr>
+<td>Evidência de pesquisa</td>
+<td>6</td>
+<td>0,38</td>
+</tr>
+<tr>
+<td>Neuromito</td>
+<td>4</td>
+<td>0,34</td>
+</tr>
+<tr>
+<td>Prática docente</td>
+<td>10</td>
+<td>0,26</td>
+</tr>
+</tbody>
+</table>
+<p>Nas dez consultas de prática docente, foram retornados 10 dos 43 trechos relevantes.</p>
+<h3 id="44-tempo-de-resposta">4.4 Tempo de resposta<a class="headerlink" href="#44-tempo-de-resposta" title="Permanent link">&para;</a></h3>
+<p>Tempo mediano por consulta, em computador portátil com GPU integrada: 40 ms para o Qwen3 isolado e 463 ms para o método adotado. O tempo em servidor sem GPU não foi medido para 50 candidatos.</p>
+<h2 id="5-experimentos-adicionais">5. Experimentos adicionais<a class="headerlink" href="#5-experimentos-adicionais" title="Permanent link">&para;</a></h2>
+<p>As variações a seguir foram avaliadas sobre o método adotado. Para cada uma, o resultado esperado e o critério de adoção foram registrados antes da execução.</p>
+<table>
+<thead>
+<tr>
+<th>Variação</th>
+<th>Resultado</th>
+<th>Diferença de recall@5 (IC 95%)</th>
+<th>Decisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Busca por resposta hipotética (HyDE)</td>
+<td>Trechos relevantes entre os 50 candidatos: 129 de 167, ante 125; recall@5 de 0,42</td>
+<td>0,00 (−0,03 a +0,03)</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>Consulta combinada com resposta hipotética</td>
+<td>Trechos relevantes entre os 50 candidatos: 130 de 167; recall@5 de 0,42</td>
+<td>0,00 (0,00 a +0,01)</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>Consulta com três reformulações</td>
+<td>Trechos relevantes entre os 50 candidatos: 121 de 167; recall@5 de 0,43</td>
+<td>+0,01 (0,00 a +0,03)</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>Resposta hipotética como entrada da reordenação</td>
+<td>Recall@5 de 0,21</td>
+<td>−0,21 (−0,32 a −0,11)</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>União de candidatos (50 da consulta e 50 da resposta hipotética)</td>
+<td>Trechos relevantes entre os candidatos: 139 de 167; recall@5 de 0,42</td>
+<td>0,00 (0,00 a +0,01)</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>Exclusão da cartilha da ABDA do resultado</td>
+<td>Recall@5 de 0,41; nas consultas de prática docente, 9 de 43 trechos relevantes, ante 10</td>
+<td>−0,01 (−0,04 a +0,02)</td>
+<td>Não adotada</td>
+</tr>
+</tbody>
+</table>
+<p>Fontes: <code>rag/outputs/29-hyde-e-reescrita.txt</code>; <code>rag/outputs/31-leitor-do-reranker.txt</code>; <code>rag/outputs/35-busca-sem-o-guia-abda.txt</code>.</p>
+<h3 id="51-efeito-do-tamanho-dos-trechos">5.1 Efeito do tamanho dos trechos<a class="headerlink" href="#51-efeito-do-tamanho-dos-trechos" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Grupo de trechos relevantes</th>
+<th>Trechos</th>
+<th>Mediana de tokens</th>
+<th>Acima de 508 tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entregues entre os cinco</td>
+<td>62</td>
+<td>462</td>
+<td>39%</td>
+</tr>
+<tr>
+<td>Entre os 50 candidatos, não entregues</td>
+<td>63</td>
+<td>473</td>
+<td>35%</td>
+</tr>
+<tr>
+<td>Fora dos 50 candidatos</td>
+<td>42</td>
+<td>333</td>
+<td>17%</td>
+</tr>
+<tr>
+<td>Base completa</td>
+<td>1.368</td>
+<td>360</td>
+<td>20%</td>
+</tr>
+</tbody>
+</table>
+<p>Os trechos relevantes não recuperados são mais curtos que os recuperados. Entre os candidatos, a proporção de trechos entregues é de 50% para pares truncados e de 49% para pares não truncados. O truncamento não explica a perda de trechos relevantes. Fonte: <code>rag/outputs/32-comprimento-dos-trechos.txt</code>.</p>
+<h3 id="52-estabilidade-do-banco-vetorial">5.2 Estabilidade do banco vetorial<a class="headerlink" href="#52-estabilidade-do-banco-vetorial" title="Permanent link">&para;</a></h3>
+<p>Em 114 listas de resultado (57 consultas, em português e em inglês), a ordenação retornada pelo PostgreSQL coincidiu com o cálculo exato do cosseno até a centésima posição e repetiu-se em três execuções independentes. Fonte: <code>rag/outputs/22-estabilidade-pgvector.txt</code>.</p>
+<h2 id="6-respostas">6. Respostas<a class="headerlink" href="#6-respostas" title="Permanent link">&para;</a></h2>
+<h3 id="61-procedimento">6.1 Procedimento<a class="headerlink" href="#61-procedimento" title="Permanent link">&para;</a></h3>
+<p>Para cada consulta, o sistema recuperou cinco trechos pelo método adotado e um modelo de linguagem gerou a resposta com as instruções do protótipo (<code>gerar.py</code>). Dois modelos geradores foram utilizados: Claude Haiku e Claude Opus. O modelo configurado no protótipo (Qwen, pela plataforma Groq) não foi avaliado, por indisponibilidade da credencial.</p>
+<p>A verificação automática, sem uso de modelo, confere a existência dos trechos citados, a presença de citação em cada frase e a ocorrência de recusa.</p>
+<p>A avaliação de fundamentação emprega dois avaliadores automáticos, instâncias independentes do modelo Claude Sonnet, que aplicam a regra descrita em <code>rag/iris-rag/pacote/regra_juiz_respostas_v2.md</code>. Cada frase é classificada como sustentada, parcialmente sustentada ou não sustentada pelo trecho citado. Para as duas primeiras classes, o avaliador transcreve a passagem do trecho; um script confere a transcrição literalmente e descarta a classificação quando a passagem não consta no trecho. Frases que qualificam as fontes são classificadas à parte, como comentário correto ou incorreto. Nos arquivos de saída, os avaliadores são identificados como juiz A e juiz B.</p>
+<h3 id="62-verificacao-automatica">6.2 Verificação automática<a class="headerlink" href="#62-verificacao-automatica" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>Claude Haiku</th>
+<th>Claude Opus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frases</td>
+<td>211</td>
+<td>199</td>
+</tr>
+<tr>
+<td>Frases com citação de trecho inexistente</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Frases sem citação</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Recusas nas 2 consultas sem resposta na base</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Recusas nas 38 consultas com resposta na base</td>
+<td>0</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Fonte: <code>rag/outputs/23-respostas-conferencia.txt</code>.</p>
+<h3 id="63-fundamentacao-das-frases-de-conteudo">6.3 Fundamentação das frases de conteúdo<a class="headerlink" href="#63-fundamentacao-das-frases-de-conteudo" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Classificação comum aos dois avaliadores</th>
+<th>Claude Haiku</th>
+<th>Claude Opus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sustentada</td>
+<td>161 (86,1%)</td>
+<td>160 (91,4%)</td>
+</tr>
+<tr>
+<td>Parcialmente sustentada</td>
+<td>14 (7,5%)</td>
+<td>7 (4,0%)</td>
+</tr>
+<tr>
+<td>Não sustentada</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Classificações divergentes</td>
+<td>12 (6,4%)</td>
+<td>8 (4,6%)</td>
+</tr>
+<tr>
+<td>Total de frases de conteúdo</td>
+<td>187</td>
+<td>175</td>
+</tr>
+</tbody>
+</table>
+<p>Fonte: <code>rag/outputs/26-respostas-juizes-v2.txt</code>.</p>
+<p><img alt="Classificação das frases e das respostas, por modelo gerador" src="../figuras/fig3-respostas.png" /></p>
+<h3 id="64-concordancia-entre-avaliadores">6.4 Concordância entre avaliadores<a class="headerlink" href="#64-concordancia-entre-avaliadores" title="Permanent link">&para;</a></h3>
+<p>Matriz para as 187 frases de conteúdo geradas pelo Claude Haiku (linhas: avaliador A; colunas: avaliador B):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Sustentada</th>
+<th>Parcialmente sustentada</th>
+<th>Não sustentada</th>
+<th>Descartada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sustentada</strong></td>
+<td>161</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Parcialmente sustentada</strong></td>
+<td>6</td>
+<td>14</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Não sustentada</strong></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Descartada</strong></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Modelo gerador</th>
+<th>Classificações idênticas</th>
+<th>Kappa de Cohen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Haiku</td>
+<td>176 de 187 (94,1%)</td>
+<td>0,70</td>
+</tr>
+<tr>
+<td>Claude Opus</td>
+<td>168 de 175 (96,0%)</td>
+<td>0,68</td>
+</tr>
+</tbody>
+</table>
+<h3 id="65-classificacao-das-respostas">6.5 Classificação das respostas<a class="headerlink" href="#65-classificacao-das-respostas" title="Permanent link">&para;</a></h3>
+<p>Respostas às 38 consultas com resposta na base:</p>
+<table>
+<thead>
+<tr>
+<th>Classe</th>
+<th>Claude Haiku</th>
+<th>Claude Opus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Atende à consulta, sem ressalva</td>
+<td>17</td>
+<td>17</td>
+</tr>
+<tr>
+<td>B. Atende à consulta, com frase parcialmente sustentada ou com classificação divergente</td>
+<td>12</td>
+<td>10</td>
+</tr>
+<tr>
+<td>C. Contém frase não sustentada para os dois avaliadores</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>D. Atende parcialmente à consulta</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>E. Recusa</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>A + B</td>
+<td>29 (76%; IC 95%: 63% a 89%)</td>
+<td>27 (71%; IC 95%: 55% a 84%)</td>
+</tr>
+</tbody>
+</table>
+<p>A resposta da classe C contém um comentário incorreto sobre o conteúdo dos trechos, e não uma afirmação de conteúdo não sustentada.</p>
+<p>Nas dez consultas de prática docente, com o Claude Haiku, uma resposta foi classificada em A, três em B e seis em D.</p>
+<h2 id="7-ameacas-a-validade">7. Ameaças à validade<a class="headerlink" href="#7-ameacas-a-validade" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ameaça</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Referência produzida por modelo</td>
+<td>O conjunto de referência da recuperação não foi validado por avaliador humano e pode omitir trechos relevantes</td>
+</tr>
+<tr>
+<td>Avaliadores automáticos</td>
+<td>A fundamentação foi classificada por modelos de linguagem, sem validação humana</td>
+</tr>
+<tr>
+<td>Revisão da regra de avaliação</td>
+<td>A regra foi revisada uma vez após a primeira aplicação sobre as mesmas respostas; os resultados reportados correspondem à segunda aplicação</td>
+</tr>
+<tr>
+<td>Modelo gerador</td>
+<td>As respostas avaliadas não foram geradas pelo modelo configurado no protótipo; o modelo gerador do produto não está definido</td>
+</tr>
+<tr>
+<td>Tamanho da amostra</td>
+<td>38 consultas com resposta; cada consulta corresponde a 2,6 pontos percentuais</td>
+</tr>
+<tr>
+<td>Formato das consultas</td>
+<td>As consultas simulam perguntas de professores; o formato do Agente Estrategista não foi avaliado</td>
+</tr>
+<tr>
+<td>Posição dos trechos</td>
+<td>O efeito da ordem dos trechos no contexto do modelo gerador não foi avaliado; os trechos são apresentados na ordem de relevância do segundo estágio</td>
+</tr>
+<tr>
+<td>Ambiente de geração das respostas</td>
+<td>As respostas foram geradas a partir de um índice local de desenvolvimento; a recuperação reproduzida no PostgreSQL coincidiu em 39 das 40 consultas</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-reproducao">8. Reprodução<a class="headerlink" href="#8-reproducao" title="Permanent link">&para;</a></h2>
+<p>Os comandos são executados a partir de <code>rag/iris-rag/pacote/</code>, com o banco em execução e com os textos de todos os documentos do índice (ver <code>README.md</code>, Condições para a reexecução).</p>
+<table>
+<thead>
+<tr>
+<th>Resultado</th>
+<th>Comando</th>
+<th>Saída</th>
+<th>Reexecução verificada fora do repositório de origem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recuperação por método</td>
+<td><code>python avaliar_opus.py</code></td>
+<td><code>rag/outputs/16-gabarito-opus.txt</code></td>
+<td>Sim; valores iguais</td>
+</tr>
+<tr>
+<td>Método adotado e variações</td>
+<td><code>python medir_variacoes.py ranquear</code>; <code>python medir_variacoes.py medir</code></td>
+<td><code>../../outputs/18-variacoes-busca.txt</code></td>
+<td>Sim; recall@5, intervalos e diferenças pareadas iguais</td>
+</tr>
+<tr>
+<td>Demonstração</td>
+<td><code>python demonstrar_resposta.py</code></td>
+<td><code>rag/outputs/05-consulta-resposta-fonte.txt</code></td>
+<td>Sim; saída igual, exceto identificação do banco</td>
+</tr>
+<tr>
+<td>Verificação automática das respostas</td>
+<td><code>python medir_respostas.py conferir</code></td>
+<td><code>../../outputs/23-respostas-conferencia.txt</code></td>
+<td>Não: depende de dados intermediários não distribuídos</td>
+</tr>
+<tr>
+<td>Fundamentação</td>
+<td><code>python medir_respostas.py medir2</code></td>
+<td><code>../../outputs/26-respostas-juizes-v2.txt</code></td>
+<td>Não: depende das saídas completas dos avaliadores, não distribuídas</td>
+</tr>
+<tr>
+<td>Experimentos adicionais</td>
+<td><code>python medir_hyde.py</code>; <code>python medir_sem_abda.py</code></td>
+<td><code>../../outputs/28</code> a <code>35</code></td>
+<td>Não verificada</td>
+</tr>
+</tbody>
+</table>
+<p>As saídas completas dos avaliadores não são distribuídas por conterem passagens de documentos de licença restrita. As respostas, as classificações e as passagens verificadas utilizadas neste documento estão registradas em <code>respostas_medidas.json</code>, <code>respostas_vereditos_v2.json</code> e <code>respostas_passagens_v2.json</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.tabs.link", "content.action.view"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

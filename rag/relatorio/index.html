@@ -1,0 +1,2701 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação oficial do Projeto Íris (Challenge 2 - Residência em IA: UnB / Lab Livre / Eldorado / Softex / MCTI)">
+      
+      
+        <meta name="author" content="Grupo 3 - Residência em IA">
+      
+      
+        <link rel="canonical" href="https://challenge-2-residencia-ia-grupo-3.github.io/Iris/rag/relatorio/">
+      
+      
+        <link rel="prev" href="../../arquitetura/">
+      
+      
+        <link rel="next" href="../arquitetura/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Relatório Técnico - Íris — Plataforma Inteligente de Adaptação Pedagógica</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#iris-base-de-conhecimento-e-prototipo-de-geracao-aumentada-por-recuperacao-rag" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-header__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  <img src="../../assets/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Íris — Plataforma Inteligente de Adaptação Pedagógica
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Relatório Técnico
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../definicao_projeto_entrega/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Entrega Semanal
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../visao_produto/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Visão do Produto
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../requisitos_funcionais/" class="md-tabs__link">
+          
+  
+  
+  Requisitos
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../arquitetura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Base de Conhecimento e RAG
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../cbl/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Metodologia CBL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../skills/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Catálogo de Skills
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-nav__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  <img src="../../assets/logo.jpg" alt="logo">
+
+    </a>
+    Íris — Plataforma Inteligente de Adaptação Pedagógica
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../definicao_projeto_entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrega Semanal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../visao_produto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão do Produto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requisitos_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requisitos_nao_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Não Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backlog_rastreabilidade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backlog & Rastreabilidade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base de Conhecimento e RAG
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Base de Conhecimento e RAG
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relatório Técnico
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relatório Técnico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 INTRODUÇÃO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1 INTRODUÇÃO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-contexto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Contexto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Escopo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-organizacao-do-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Organização do documento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-base-de-conhecimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 BASE DE CONHECIMENTO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 BASE DE CONHECIMENTO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-composicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Composição
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-criterios-de-curadoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Critérios de curadoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-avisos-de-uso-e-licenciamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Avisos de uso e licenciamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pipeline-de-ingestao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 PIPELINE DE INGESTÃO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-estrategia-de-segmentacao-chunking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 ESTRATÉGIA DE SEGMENTAÇÃO (CHUNKING)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-estrategia-de-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 ESTRATÉGIA DE EMBEDDINGS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-banco-vetorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 BANCO VETORIAL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-arquitetura-e-fluxo-de-consulta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 ARQUITETURA E FLUXO DE CONSULTA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7 ARQUITETURA E FLUXO DE CONSULTA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Visão geral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-recuperacao-em-dois-estagios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Recuperação em dois estágios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-geracao-da-resposta-e-citacao-de-fontes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Geração da resposta e citação de fontes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-demonstracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 DEMONSTRAÇÃO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8 DEMONSTRAÇÃO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-consulta-de-exemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Consulta de exemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-conjunto-de-sete-consultas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Conjunto de sete consultas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-avaliacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9 AVALIAÇÃO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9 AVALIAÇÃO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-protocolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Protocolo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-qualidade-da-recuperacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Qualidade da recuperação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-experimentos-adicionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Experimentos adicionais
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-fundamentacao-e-rastreabilidade-das-respostas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Fundamentação e rastreabilidade das respostas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-ameacas-a-validade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Ameaças à validade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-consideracoes-finais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 CONSIDERAÇÕES FINAIS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REFERÊNCIAS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apendice-a-documentos-da-base-de-conhecimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APÊNDICE A – DOCUMENTOS DA BASE DE CONHECIMENTO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apendice-b-pacote-entregue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APÊNDICE B – PACOTE ENTREGUE
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura do RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../avaliacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Avaliação do RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cbl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia CBL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 INTRODUÇÃO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1 INTRODUÇÃO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-contexto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Contexto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Escopo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-organizacao-do-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Organização do documento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-base-de-conhecimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 BASE DE CONHECIMENTO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 BASE DE CONHECIMENTO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-composicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Composição
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-criterios-de-curadoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Critérios de curadoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-avisos-de-uso-e-licenciamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Avisos de uso e licenciamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pipeline-de-ingestao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 PIPELINE DE INGESTÃO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-estrategia-de-segmentacao-chunking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 ESTRATÉGIA DE SEGMENTAÇÃO (CHUNKING)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-estrategia-de-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 ESTRATÉGIA DE EMBEDDINGS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-banco-vetorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 BANCO VETORIAL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-arquitetura-e-fluxo-de-consulta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 ARQUITETURA E FLUXO DE CONSULTA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7 ARQUITETURA E FLUXO DE CONSULTA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Visão geral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-recuperacao-em-dois-estagios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Recuperação em dois estágios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-geracao-da-resposta-e-citacao-de-fontes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Geração da resposta e citação de fontes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-demonstracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 DEMONSTRAÇÃO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8 DEMONSTRAÇÃO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-consulta-de-exemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Consulta de exemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-conjunto-de-sete-consultas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Conjunto de sete consultas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-avaliacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9 AVALIAÇÃO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9 AVALIAÇÃO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-protocolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Protocolo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-qualidade-da-recuperacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Qualidade da recuperação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-experimentos-adicionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Experimentos adicionais
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-fundamentacao-e-rastreabilidade-das-respostas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Fundamentação e rastreabilidade das respostas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-ameacas-a-validade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Ameaças à validade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-consideracoes-finais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 CONSIDERAÇÕES FINAIS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REFERÊNCIAS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apendice-a-documentos-da-base-de-conhecimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APÊNDICE A – DOCUMENTOS DA BASE DE CONHECIMENTO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apendice-b-pacote-entregue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APÊNDICE B – PACOTE ENTREGUE
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegação" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Início
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Base de Conhecimento e RAG
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="iris-base-de-conhecimento-e-prototipo-de-geracao-aumentada-por-recuperacao-rag">Íris: base de conhecimento e protótipo de geração aumentada por recuperação (RAG)<a class="headerlink" href="#iris-base-de-conhecimento-e-prototipo-de-geracao-aumentada-por-recuperacao-rag" title="Permanent link">&para;</a></h1>
+<p>Relatório técnico do Segundo Desafio. Residência em IA, Turma 1 – Grupo 3. Brasília, 2026.</p>
+<h2 id="resumo">Resumo<a class="headerlink" href="#resumo" title="Permanent link">&para;</a></h2>
+<p>Este relatório descreve a base de conhecimento e o protótipo de geração aumentada por recuperação (RAG) do Íris, sistema que adapta material didático para estudantes neurodivergentes. A base reúne 38 documentos de fontes primárias ou oficiais, organizados em quatro partes e segmentados em 1.368 trechos com metadados de origem. Os trechos são vetorizados com o modelo Qwen3-Embedding-0.6B e armazenados em PostgreSQL com a extensão pgvector. A recuperação ocorre em dois estágios: busca vetorial dos 50 trechos mais próximos e reordenação por um modelo cross-encoder, que seleciona 5. A resposta é gerada exclusivamente a partir desses trechos, com citação obrigatória por frase. A avaliação empregou 40 consultas elaboradas antes de qualquer execução. O método adotado obteve recall@5 de 0,42 (IC 95%: 0,32 a 0,52), ante 0,28 da busca vetorial isolada e 0,004 de uma seleção aleatória. Nas respostas, nenhuma frase citou trecho inexistente, e 86% das frases de conteúdo foram classificadas como sustentadas pelo trecho citado por dois avaliadores automáticos. O desempenho é inferior em consultas de natureza prática (recall@5 de 0,26). Os conjuntos de referência e os avaliadores são modelos de linguagem, sem validação humana, o que torna os resultados provisórios.</p>
+<p><strong>Palavras-chave:</strong> geração aumentada por recuperação; recuperação de informação; banco vetorial; embeddings; educação inclusiva.</p>
+<h2 id="1-introducao">1 INTRODUÇÃO<a class="headerlink" href="#1-introducao" title="Permanent link">&para;</a></h2>
+<h3 id="11-contexto">1.1 Contexto<a class="headerlink" href="#11-contexto" title="Permanent link">&para;</a></h3>
+<p>O Íris é um sistema de apoio ao professor que transforma material didático comum em material adaptado para estudantes neurodivergentes. Na arquitetura do sistema, o Agente Estrategista define a adaptação a aplicar a partir da barreira funcional do estudante e do tipo de atividade. Para que essa decisão seja verificável, o agente consulta uma base de conhecimento e fundamenta a proposta em documentos identificáveis.</p>
+<h3 id="12-objetivo">1.2 Objetivo<a class="headerlink" href="#12-objetivo" title="Permanent link">&para;</a></h3>
+<p>Este relatório documenta a base de conhecimento curada e o protótipo de RAG que atende ao Agente Estrategista, e apresenta a avaliação da qualidade da recuperação, da fundamentação das respostas e da rastreabilidade das fontes.</p>
+<h3 id="13-escopo">1.3 Escopo<a class="headerlink" href="#13-escopo" title="Permanent link">&para;</a></h3>
+<p>O escopo compreende a curadoria da base, o pipeline de ingestão, as estratégias de segmentação e de embeddings, o banco vetorial, o fluxo de consulta com geração de resposta e a avaliação. Interface e experiência do usuário estão fora do escopo. O primeiro perfil atendido é o do estudante com transtorno do déficit de atenção com hiperatividade (TDAH). A base contém somente documentos públicos; nenhum dado de estudante é armazenado.</p>
+<p>Nenhum modelo foi treinado ou ajustado. Todos os modelos utilizados são pré-treinados e de uso público. Modelos de linguagem foram empregados como apoio à implementação, à avaliação automática e à revisão textual; os resultados numéricos são produzidos por scripts incluídos no pacote que acompanha este relatório.</p>
+<h3 id="14-organizacao-do-documento">1.4 Organização do documento<a class="headerlink" href="#14-organizacao-do-documento" title="Permanent link">&para;</a></h3>
+<p>As seções 2 a 6 descrevem a base e a sua preparação. A seção 7 apresenta a arquitetura e o fluxo de consulta. A seção 8 apresenta a demonstração. A seção 9 apresenta a avaliação. A seção 10 traz as considerações finais. O Apêndice A lista os documentos da base e o Apêndice B descreve o pacote entregue.</p>
+<h2 id="2-base-de-conhecimento">2 BASE DE CONHECIMENTO<a class="headerlink" href="#2-base-de-conhecimento" title="Permanent link">&para;</a></h2>
+<h3 id="21-composicao">2.1 Composição<a class="headerlink" href="#21-composicao" title="Permanent link">&para;</a></h3>
+<p>A curadoria aceitou 40 documentos, dos quais 38 compõem o índice de busca. Dois documentos aceitos são versões alternativas de um terceiro e foram mantidos apenas no catálogo, para evitar que conteúdo duplicado ocupasse posições no resultado da busca. A base está organizada em quatro partes, conforme a Tabela 1.</p>
+<p><strong>Tabela 1 – Composição da base de conhecimento</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Questão atendida</th>
+<th>Documentos</th>
+<th>Exemplos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Desenho Universal para a Aprendizagem (DUA)</td>
+<td>Princípio de desenho que sustenta a adaptação</td>
+<td>4</td>
+<td>Diretrizes CAST 3.0; diretrizes do DUA publicadas na Revista Brasileira de Educação Especial; Caderno 4 do MEC</td>
+</tr>
+<tr>
+<td>B. TDAH e funções executivas</td>
+<td>Conhecimento sobre a barreira e intervenções escolares</td>
+<td>12</td>
+<td>Diretrizes NICE NG87 e AAP 2019; Protocolo Clínico do Ministério da Saúde; revisões sistemáticas</td>
+</tr>
+<tr>
+<td>C. Normas e MEC</td>
+<td>Obrigações e vedações aplicáveis à escola</td>
+<td>10</td>
+<td>Lei nº 14.254/2021; Lei Brasileira de Inclusão; LDB; Decreto nº 12.686/2025; Portaria MEC nº 421/2026</td>
+</tr>
+<tr>
+<td>D. Pesquisa</td>
+<td>Força da evidência, incluindo neuromitos</td>
+<td>12</td>
+<td>Estudos sobre neuromitos, carga cognitiva, tipografia para dislexia e simplificação automática de texto</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: elaboração própria, a partir de <code>rag/iris-rag/fontes.json</code>.</em></p>
+<p>Dos 1.368 trechos, 914 (67%) estão em inglês. As consultas são formuladas em português, o que condiciona a escolha dos modelos de busca (seção 5).</p>
+<h3 id="22-criterios-de-curadoria">2.2 Critérios de curadoria<a class="headerlink" href="#22-criterios-de-curadoria" title="Permanent link">&para;</a></h3>
+<p>A inclusão de cada documento obedeceu a quatro critérios, registrados individualmente no catálogo:</p>
+<p>a) fonte primária ou oficial: órgão governamental, sociedade científica ou periódico com revisão por pares;</p>
+<p>b) acesso público e lícito, com registro da licença declarada no documento;</p>
+<p>c) vigência verificada em 2026, no caso de normas;</p>
+<p>d) conferência da extração do texto em ao menos duas páginas de cada documento.</p>
+<p>Foram recusados 22 documentos, com o motivo registrado. Dois decretos revogados foram excluídos pelo critério de vigência.</p>
+<p>Estudos sobre neuromitos educacionais foram incluídos deliberadamente, para que o sistema possa indicar a ausência de fundamento de uma prática. Documentos que declaram evidência limitada também foram incluídos, por constituírem informação relevante para a decisão do agente.</p>
+<h3 id="23-avisos-de-uso-e-licenciamento">2.3 Avisos de uso e licenciamento<a class="headerlink" href="#23-avisos-de-uso-e-licenciamento" title="Permanent link">&para;</a></h3>
+<p>Determinados trechos carregam um aviso de uso, transmitido ao modelo gerador junto com o texto. O aviso restringe a finalidade para a qual o trecho pode ser citado. Uma cartilha sem referências bibliográficas, por exemplo, pode ser usada como orientação prática, mas não como evidência de eficácia.</p>
+<p>A licença de cada documento está registrada no catálogo, conforme declarada na fonte. Dos 38 documentos do índice, o pacote distribui o texto de 32: 18 com licença Creative Commons, 7 textos legais ou atos oficiais em domínio público, 3 com permissão de reprodução declarada pela fonte e 4 publicados por órgãos governamentais sem licença declarada (a Política Nacional de Educação Especial de 2008, a Nota Técnica MEC/SECADI nº 04/2014, o Protocolo Clínico e Diretrizes Terapêuticas do TDAH e a página do CDC sobre TDAH em sala de aula). A redistribuição desses quatro textos em repositório público deve ser avaliada previamente.</p>
+<p>Oito textos não acompanham esta entrega, por direitos reservados ou ausência de licença aberta: três versões das diretrizes do CAST, as diretrizes NICE e AAP, o guia da ABDA, um artigo de revisão e o Caderno 4 do MEC. Seis deles integram o índice. O catálogo registra o endereço de origem de cada documento, e o Apêndice A indica a situação de cada um.</p>
+<h2 id="3-pipeline-de-ingestao">3 PIPELINE DE INGESTÃO<a class="headerlink" href="#3-pipeline-de-ingestao" title="Permanent link">&para;</a></h2>
+<p>A ingestão é executada a cada alteração da base e compreende nove etapas:</p>
+<p>a) obtenção do documento original e registro do hash SHA-256;</p>
+<p>b) extração do texto conforme o formato de origem, com preservação do número de página nos documentos em PDF e remoção de dispositivos revogados nos textos legais;</p>
+<p>c) conferência da extração em duas páginas de cada documento;</p>
+<p>d) consolidação do catálogo, com marcação de duplicatas e de avisos de uso;</p>
+<p>e) limpeza de cabeçalhos, rodapés, numeração de página e hifenização de fim de linha;</p>
+<p>f) segmentação em trechos (seção 4);</p>
+<p>g) atribuição de metadados a cada trecho: documento, parte, idioma, tipo de evidência, página, seção, barreiras relacionadas e aviso de uso;</p>
+<p>h) geração dos vetores (seção 5);</p>
+<p>i) gravação de trechos, metadados e vetores no banco (seção 6).</p>
+<p>A Tabela 2 relaciona etapas cuja ausência compromete a rastreabilidade ou a qualidade da busca.</p>
+<p><strong>Tabela 2 – Etapas de ingestão e efeito de sua ausência</strong></p>
+<table>
+<thead>
+<tr>
+<th>Etapa</th>
+<th>Efeito da ausência</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Preservação do número de página</td>
+<td>A citação não indica a página, o que impede a conferência pelo usuário</td>
+</tr>
+<tr>
+<td>Remoção de dispositivos revogados</td>
+<td>A resposta pode citar dispositivo legal sem vigência</td>
+</tr>
+<tr>
+<td>Descarte de listas de referências</td>
+<td>Listas de referências concentram termos de busca e superam o texto explicativo no resultado; 168 segmentos foram descartados</td>
+</tr>
+<tr>
+<td>Recorte do Protocolo Clínico (páginas 1 a 18)</td>
+<td>As 181 páginas restantes são tabelas de medicamentos e deslocam consultas sobre TDAH para posologia</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: elaboração própria.</em></p>
+<p>No total, 372 páginas ou segmentos foram descartados. A contagem por motivo consta em <code>rag/iris-rag/pacote/outputs/01-chunking.txt</code>.</p>
+<h2 id="4-estrategia-de-segmentacao-chunking">4 ESTRATÉGIA DE SEGMENTAÇÃO (CHUNKING)<a class="headerlink" href="#4-estrategia-de-segmentacao-chunking" title="Permanent link">&para;</a></h2>
+<p>A segmentação segue a estrutura do documento, de modo que cada trecho trate de um único assunto. As regras constam na Tabela 3.</p>
+<p><strong>Tabela 3 – Regras de segmentação</strong></p>
+<table>
+<thead>
+<tr>
+<th>Regra</th>
+<th>Valor</th>
+<th>Justificativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ponto de corte</td>
+<td>Título, artigo de lei ou ponto de verificação do DUA</td>
+<td>A estrutura do documento delimita a mudança de assunto; janelas de tamanho fixo fragmentam frases e misturam assuntos</td>
+</tr>
+<tr>
+<td>Tamanho máximo</td>
+<td>350 palavras</td>
+<td>Mantém um assunto por trecho; cinco trechos totalizam cerca de 1.500 palavras de contexto para o modelo gerador</td>
+</tr>
+<tr>
+<td>Tamanho mínimo</td>
+<td>40 palavras</td>
+<td>Trechos muito curtos carregam pouca informação e são agregados ao trecho vizinho</td>
+</tr>
+<tr>
+<td>Sobreposição</td>
+<td>Último parágrafo do trecho anterior; em textos legais, o caput do artigo</td>
+<td>Preserva a continuidade entre trechos e o vínculo entre inciso e caput</td>
+</tr>
+<tr>
+<td>Quadros</td>
+<td>Uma página por trecho</td>
+<td>A divisão de um quadro separa linhas de suas colunas</td>
+</tr>
+<tr>
+<td>Prefixo de contexto</td>
+<td>Título do documento e da seção, antepostos ao texto vetorizado</td>
+<td>Trechos intermediários de uma seção preservam a indicação de origem</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: elaboração própria.</em></p>
+<p>O processo resultou em 1.368 trechos, com mediana de 215 palavras (primeiro quartil de 110 e terceiro quartil de 305).</p>
+<p>Em tokens, a mediana é de 360 por trecho, à razão de 1,86 token por palavra em português. Dos 1.368 trechos, 274 (20%) excedem 508 tokens e são truncados pelos dois modelos com limite de 512 tokens (MPNet e reordenador); quatro trechos excedem o limite de 1.024 tokens do Qwen3. A análise do efeito do truncamento consta na seção 9.3 e não indicou perda de desempenho atribuível ao tamanho dos trechos.</p>
+<h2 id="5-estrategia-de-embeddings">5 ESTRATÉGIA DE EMBEDDINGS<a class="headerlink" href="#5-estrategia-de-embeddings" title="Permanent link">&para;</a></h2>
+<p>Cada trecho é representado por um vetor numérico (embedding). A consulta é vetorizada pelo mesmo modelo, e a similaridade entre consulta e trecho é medida pelo cosseno entre os vetores. Três mecanismos de busca foram implementados sobre os mesmos trechos, conforme a Tabela 4.</p>
+<p><strong>Tabela 4 – Mecanismos de busca implementados</strong></p>
+<table>
+<thead>
+<tr>
+<th>Mecanismo</th>
+<th>Modelo</th>
+<th>Dimensões</th>
+<th>Característica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BM25</td>
+<td>Sem modelo; correspondência lexical</td>
+<td>–</td>
+<td>Referência de comparação; não relaciona termos de idiomas distintos</td>
+</tr>
+<tr>
+<td>MPNet multilíngue</td>
+<td><code>paraphrase-multilingual-mpnet-base-v2</code></td>
+<td>768</td>
+<td>Busca semântica multilíngue; limite de 512 tokens</td>
+</tr>
+<tr>
+<td>Qwen3</td>
+<td><code>Qwen3-Embedding-0.6B</code></td>
+<td>1.024</td>
+<td>Busca semântica multilíngue, projetada para consulta curta e documento longo; limite de 1.024 tokens</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: elaboração própria.</em></p>
+<p>O suporte multilíngue é requisito desta base, pois dois terços dos trechos estão em inglês. A correspondência lexical não relaciona, por exemplo, "tempo adicional" a "extended time".</p>
+<p>O Qwen3 apresentou o melhor resultado entre os três mecanismos isolados (seção 9.2) e foi adotado. A vetorização dos 1.368 trechos consumiu 2,7 minutos com o Qwen3 e 0,3 minuto com o MPNet, em computador portátil com aceleração por GPU integrada. Os modelos são executados localmente; documentos e consultas não são enviados a serviços externos.</p>
+<p>Duas alternativas foram descartadas. A tradução automática dos documentos para o português eleva o custo, introduz risco de erro em números e termos técnicos e inviabiliza a citação literal. A geração de vetores por API externa implica envio de textos e consultas a terceiros e custo por requisição, sem ganho necessário para o volume da base.</p>
+<h2 id="6-banco-vetorial">6 BANCO VETORIAL<a class="headerlink" href="#6-banco-vetorial" title="Permanent link">&para;</a></h2>
+<p>O banco vetorial é o PostgreSQL 17 com a extensão pgvector 0.8. A escolha considera a evolução prevista do Íris para aplicação web com banco relacional: trechos, metadados e vetores permanecem na mesma tabela do banco da aplicação, sob o mesmo controle de acesso e a mesma rotina de cópia de segurança.</p>
+<p>A tabela <code>iris_trechos</code> armazena um trecho por linha, com o texto, os metadados em colunas tipadas e uma coluna vetorial por modelo. A busca por similaridade é expressa em SQL, com o operador de distância de cosseno do pgvector:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>SELECT chunk_id, 1 - (vec_qwen3 &lt;=&gt; :consulta) AS cosseno
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>FROM iris_trechos
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>WHERE parte = 'C'                     -- filtro opcional por parte da base
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>ORDER BY vec_qwen3 &lt;=&gt; :consulta
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>LIMIT 50;
+</span></code></pre></div>
+<p>Os filtros por parte da base e por barreira funcional integram a cláusula <code>WHERE</code> da mesma consulta.</p>
+<p>A tabela possui índice de busca aproximada (HNSW), previsto para volumes maiores. No volume atual, de 1.368 linhas, o otimizador do PostgreSQL executa leitura sequencial com ordenação, o que corresponde à busca exata. Em 114 listas de resultado verificadas, a ordenação coincidiu com o cálculo exato do cosseno até a centésima posição e manteve-se idêntica entre execuções.</p>
+<h2 id="7-arquitetura-e-fluxo-de-consulta">7 ARQUITETURA E FLUXO DE CONSULTA<a class="headerlink" href="#7-arquitetura-e-fluxo-de-consulta" title="Permanent link">&para;</a></h2>
+<h3 id="71-visao-geral">7.1 Visão geral<a class="headerlink" href="#71-visao-geral" title="Permanent link">&para;</a></h3>
+<p>A Figura 1 apresenta os dois fluxos do sistema, ingestão e consulta, e o processo de avaliação, que não integra o caminho da resposta.</p>
+<p><strong>Figura 1 – Arquitetura da base de conhecimento e do protótipo de RAG</strong></p>
+<p><img alt="Arquitetura" src="../diagrama_arquitetura.svg" /></p>
+<p><em>Fonte: elaboração própria.</em></p>
+<h3 id="72-recuperacao-em-dois-estagios">7.2 Recuperação em dois estágios<a class="headerlink" href="#72-recuperacao-em-dois-estagios" title="Permanent link">&para;</a></h3>
+<p>No primeiro estágio, a consulta é vetorizada pelo Qwen3 e o banco retorna os 50 trechos de maior similaridade. No segundo estágio, um modelo cross-encoder (<code>mmarco-mMiniLMv2-L12-H384-v1</code>) avalia cada par formado pela consulta e por um trecho candidato e atribui uma nota de relevância. Os cinco trechos de maior nota são entregues ao modelo gerador.</p>
+<p>O segundo estágio apenas reordena candidatos: trechos ausentes dos 50 primeiros não são recuperados. O tempo de resposta medido foi de 463 ms por consulta com reordenação e de 40 ms sem reordenação, em computador portátil com GPU integrada. O tempo em servidor sem GPU não foi medido para 50 candidatos.</p>
+<h3 id="73-geracao-da-resposta-e-citacao-de-fontes">7.3 Geração da resposta e citação de fontes<a class="headerlink" href="#73-geracao-da-resposta-e-citacao-de-fontes" title="Permanent link">&para;</a></h3>
+<p>O modelo gerador recebe a consulta, os cinco trechos numerados de T1 a T5, com título, página, idioma, tipo de evidência e aviso de uso, e um conjunto de instruções:</p>
+<p>a) utilizar exclusivamente o conteúdo dos trechos fornecidos;</p>
+<p>b) encerrar cada frase com a citação do trecho que a sustenta;</p>
+<p>c) observar o aviso de uso de cada trecho;</p>
+<p>d) declarar a insuficiência de informação quando os trechos não respondem à consulta;</p>
+<p>e) distinguir evidência de pesquisa, norma e orientação prática.</p>
+<p>Após a geração, uma verificação automática, sem uso de modelo, confirma que cada citação aponta para um trecho existente e que toda frase possui citação.</p>
+<p>O protótipo está configurado para o modelo Qwen servido pela plataforma Groq; o modelo gerador a ser adotado no produto não está definido. As respostas apresentadas neste relatório foram geradas por modelos Claude com as mesmas instruções, em razão da indisponibilidade da credencial de acesso ao modelo configurado. O pacote permite repetir a demonstração com o modelo configurado (Apêndice B).</p>
+<h2 id="8-demonstracao">8 DEMONSTRAÇÃO<a class="headerlink" href="#8-demonstracao" title="Permanent link">&para;</a></h2>
+<h3 id="81-consulta-de-exemplo">8.1 Consulta de exemplo<a class="headerlink" href="#81-consulta-de-exemplo" title="Permanent link">&para;</a></h3>
+<p>Esta seção apresenta uma consulta completa: submissão, trechos recuperados, resposta gerada e evidência das fontes.</p>
+<p><strong>Consulta submetida:</strong> "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?"</p>
+<p><strong>Trechos recuperados:</strong> os cinco trechos entregues ao modelo gerador constam na Tabela 5.</p>
+<p><strong>Tabela 5 – Trechos recuperados para a consulta de exemplo</strong></p>
+<table>
+<thead>
+<tr>
+<th>Trecho</th>
+<th>Documento</th>
+<th>Seção</th>
+<th>Idioma e tipo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1 a T4</td>
+<td>NCEO Accommodations Toolkit: Extended Time – Research</td>
+<td>Extended Time: Research</td>
+<td>Inglês; revisão</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>ABDA: TDAH – Guia para Professores</td>
+<td>Texto do guia</td>
+<td>Português; cartilha, com aviso de uso</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: <code>rag/iris-rag/pacote/outputs/05-consulta-resposta-fonte.txt</code>.</em></p>
+<p>O aviso de uso do trecho T5 estabelece que a cartilha, por não apresentar referências, não deve ser citada como evidência de eficácia.</p>
+<p><strong>Resposta gerada:</strong></p>
+<ol>
+<li>Três estudos com alunos do ensino médio com TDAH mostraram efeitos positivos do tempo estendido [T1], enquanto outros três não encontraram impacto significativo no desempenho desses alunos [T2].</li>
+<li>Para alunos com dificuldades de aprendizagem (LD), os resultados também se dividem: quatro estudos apontaram efeitos positivos [T1] e quatro não encontraram benefício [T2].</li>
+<li>Na síntese da revisão, a pesquisa sobre tempo estendido é considerada inconclusiva, com benefício para alguns alunos com TDAH ou LD em avaliações de conteúdo [T3].</li>
+<li>Menos da metade dos alunos com TDAH que tinham acesso ao tempo estendido de fato o utilizou [T1].</li>
+<li>Como orientação prática, uma cartilha sugere permitir tempo extra para responder perguntas em aula ou em prova [T5].</li>
+<li>Essa cartilha não tem referências e não serve como evidência de eficácia [T5].</li>
+</ol>
+<p><strong>Evidência das fontes:</strong> a Tabela 6 relaciona cada frase ao trecho citado, à classificação atribuída por dois avaliadores automáticos e à passagem do documento que sustenta a frase.</p>
+<p><strong>Tabela 6 – Evidência das fontes por frase da resposta</strong></p>
+<table>
+<thead>
+<tr>
+<th>Frase</th>
+<th>Citação</th>
+<th>Avaliador A</th>
+<th>Avaliador B</th>
+<th>Passagem do documento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>T1, T2</td>
+<td>Sustentada</td>
+<td>Parcialmente sustentada</td>
+<td>"Three studies showed the positive effects of extended time for high school students with attention-deficit/hyperactivity disorder (ADHD)."</td>
+</tr>
+<tr>
+<td>2</td>
+<td>T1, T2</td>
+<td>Sustentada</td>
+<td>Sustentada</td>
+<td>"Four studies involved students with LD and resulted in positive effects."</td>
+</tr>
+<tr>
+<td>3</td>
+<td>T3</td>
+<td>Sustentada</td>
+<td>Sustentada</td>
+<td>"The research on the effects of extended time is inconclusive. Some studies found benefit while others found mixed effects, or no effect."</td>
+</tr>
+<tr>
+<td>4</td>
+<td>T1</td>
+<td>Sustentada</td>
+<td>Sustentada</td>
+<td>"However, less than half of the students with ADHD with access to extended time actually used it."</td>
+</tr>
+<tr>
+<td>5</td>
+<td>T5</td>
+<td>Sustentada</td>
+<td>Sustentada</td>
+<td>Passagem verificada no trecho T5; não reproduzida por restrição de licença</td>
+</tr>
+<tr>
+<td>6</td>
+<td>T5</td>
+<td>Comentário correto sobre a fonte</td>
+<td>Comentário correto sobre a fonte</td>
+<td>Reproduz o aviso de uso do trecho</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: <code>rag/iris-rag/pacote/outputs/05-consulta-resposta-fonte.txt</code>.</em></p>
+<p>A verificação automática não identificou citação de trecho inexistente nem frase sem citação. Os trechos T1 a T4 provêm de <code>publications.ici.umn.edu/nceo/accommodations-toolkit/extended-time-research</code>.</p>
+<h3 id="82-conjunto-de-sete-consultas">8.2 Conjunto de sete consultas<a class="headerlink" href="#82-conjunto-de-sete-consultas" title="Permanent link">&para;</a></h3>
+<p>A demonstração completa abrange sete consultas, correspondentes à primeira consulta de cada tipo no conjunto de avaliação. O critério de seleção foi definido previamente à execução. A Tabela 7 resume os resultados.</p>
+<p><strong>Tabela 7 – Resumo das sete consultas da demonstração</strong></p>
+<table>
+<thead>
+<tr>
+<th>Consulta</th>
+<th>Tipo</th>
+<th>Frases de conteúdo sustentadas para os dois avaliadores</th>
+<th>Recuperação reproduzida no PostgreSQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q01</td>
+<td>Prática docente</td>
+<td>2 de 5</td>
+<td>4 de 5 trechos</td>
+</tr>
+<tr>
+<td>Q11</td>
+<td>DUA</td>
+<td>2 de 3</td>
+<td>Idêntica</td>
+</tr>
+<tr>
+<td>Q19</td>
+<td>Norma</td>
+<td>5 de 5</td>
+<td>Idêntica</td>
+</tr>
+<tr>
+<td>Q27</td>
+<td>Evidência de pesquisa</td>
+<td>4 de 5</td>
+<td>Idêntica</td>
+</tr>
+<tr>
+<td>Q33</td>
+<td>Neuromito</td>
+<td>5 de 6</td>
+<td>Idêntica</td>
+</tr>
+<tr>
+<td>Q37</td>
+<td>Resposta disponível apenas em inglês</td>
+<td>2 de 6</td>
+<td>Idêntica</td>
+</tr>
+<tr>
+<td>Q39</td>
+<td>Sem resposta na base</td>
+<td>Recusa</td>
+<td>Idêntica</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: <code>rag/iris-rag/pacote/outputs/05-consulta-resposta-fonte.txt</code>.</em></p>
+<p>Nas sete consultas, nenhuma frase foi classificada como não sustentada por qualquer avaliador, nenhuma citou trecho inexistente e nenhuma ficou sem citação. As frases não contabilizadas como sustentadas foram classificadas como parcialmente sustentadas ou receberam classificações divergentes.</p>
+<p>As respostas foram geradas a partir de uma instância de desenvolvimento do índice. Na reexecução da busca no PostgreSQL, a lista de cinco trechos coincidiu em 39 das 40 consultas do conjunto de avaliação; a exceção é a consulta Q01, em que um trecho diverge.</p>
+<p>Na consulta Q39, relativa à posologia de medicamento, o sistema declarou insuficiência de informação. Os avaliadores classificaram a recusa como indevida, pois um dos trechos menciona ajuste de dose. A recusa é o comportamento esperado para consultas dessa natureza.</p>
+<h2 id="9-avaliacao">9 AVALIAÇÃO<a class="headerlink" href="#9-avaliacao" title="Permanent link">&para;</a></h2>
+<h3 id="91-protocolo">9.1 Protocolo<a class="headerlink" href="#91-protocolo" title="Permanent link">&para;</a></h3>
+<p>O conjunto de avaliação contém 40 consultas, elaboradas antes de qualquer execução de busca: 38 com resposta na base e 2 sem resposta, incluídas para verificar a recusa. As consultas distribuem-se em seis tipos: prática docente, DUA, norma, evidência de pesquisa, neuromito e resposta disponível apenas em inglês.</p>
+<p>Para cada consulta, um modelo de linguagem (Claude Opus) examinou a base, sem acesso ao mecanismo de busca, e identificou os trechos relevantes, em um total de 167. Esse conjunto de referência não foi validado por avaliador humano.</p>
+<p>A métrica principal é o recall@5: a fração dos trechos relevantes de uma consulta presente entre os cinco trechos retornados, em média sobre as consultas. A métrica secundária é o número de consultas com ao menos um trecho relevante entre os cinco retornados. Os intervalos de confiança de 95% foram obtidos por bootstrap, com 2.000 reamostragens das consultas.</p>
+<h3 id="92-qualidade-da-recuperacao">9.2 Qualidade da recuperação<a class="headerlink" href="#92-qualidade-da-recuperacao" title="Permanent link">&para;</a></h3>
+<p>A Figura 2 apresenta o recall@5 por método de busca e, para o método adotado, por tipo de consulta.</p>
+<p><strong>Figura 2 – Recall@5 por método de busca e por tipo de consulta</strong></p>
+<p><img alt="Recall@5" src="../figuras/fig2-recall.png" /></p>
+<p><em>Fonte: elaboração própria, a partir de <code>rag/iris-rag/pacote/outputs/16-gabarito-opus.txt</code> e <code>rag/outputs/18-variacoes-busca.txt</code>.</em></p>
+<p>O método adotado, Qwen3 com reordenação sobre 50 candidatos, obteve recall@5 de 0,42 (IC 95%: 0,32 a 0,52). A busca vetorial isolada obteve 0,28, e a seleção aleatória de cinco trechos corresponde a 0,004. A diferença entre o método adotado e a busca vetorial isolada é de 0,14 (IC 95%: 0,08 a 0,21). Pela métrica secundária, 33 das 38 consultas receberam ao menos um trecho relevante, ante 26 sem reordenação.</p>
+<p>A busca híbrida, que combina BM25 e busca vetorial por fusão de posições, obteve 0,24, valor inferior ao da busca vetorial isolada, embora com sobreposição dos intervalos de confiança.</p>
+<p>Por tipo de consulta, o recall@5 varia de 0,61 (norma) a 0,26 (prática docente). Nas dez consultas de prática docente, a busca retornou 10 dos 43 trechos relevantes.</p>
+<h3 id="93-experimentos-adicionais">9.3 Experimentos adicionais<a class="headerlink" href="#93-experimentos-adicionais" title="Permanent link">&para;</a></h3>
+<p>Cinco variações foram avaliadas com o objetivo de elevar o desempenho nas consultas de prática docente. Para cada uma, o resultado esperado e o critério de adoção foram registrados previamente à execução. Nenhuma atendeu ao critério de adoção. A Tabela 8 resume os resultados.</p>
+<p><strong>Tabela 8 – Variações avaliadas e resultado</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variação</th>
+<th>Resultado</th>
+<th>Decisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Busca por resposta hipotética gerada por modelo de linguagem (HyDE)</td>
+<td>Trechos relevantes entre os 50 candidatos: de 125 para 129, em 167; recall@5 final inalterado, em 0,42</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>Reformulação da consulta em três versões, com fusão das listas</td>
+<td>Recall@5 de 0,43; intervalo da diferença inclui zero</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>Resposta hipotética como entrada do reordenador</td>
+<td>Recall@5 reduzido de 0,42 para 0,21</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>Exclusão da cartilha da ABDA do resultado da busca</td>
+<td>Trechos relevantes retornados nas consultas de prática docente: de 10 para 9, em 43</td>
+<td>Não adotada</td>
+</tr>
+<tr>
+<td>Análise do efeito do truncamento de trechos longos</td>
+<td>Trechos relevantes não recuperados são mais curtos (17% acima de 508 tokens) que os recuperados (37%)</td>
+<td>Tamanho de trecho mantido</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: elaboração própria, a partir de <code>rag/outputs/29</code>, <code>31</code>, <code>32</code> e <code>35</code>.</em></p>
+<p>Os resultados indicam que o desempenho nas consultas de prática docente não decorre do vocabulário da consulta, do leitor do segundo estágio nem do tamanho dos trechos. A hipótese remanescente, não testada, é de cobertura: a base dispõe de poucos documentos que tratem dessas questões em linguagem próxima à do professor.</p>
+<h3 id="94-fundamentacao-e-rastreabilidade-das-respostas">9.4 Fundamentação e rastreabilidade das respostas<a class="headerlink" href="#94-fundamentacao-e-rastreabilidade-das-respostas" title="Permanent link">&para;</a></h3>
+<p>Para as 40 consultas, o sistema recuperou cinco trechos e um modelo de linguagem gerou a resposta conforme as instruções da seção 7.3. A avaliação compreendeu duas verificações.</p>
+<p>A primeira é automática e sem uso de modelo: confere a existência do trecho citado, a presença de citação em cada frase e a ocorrência de recusa.</p>
+<p>A segunda emprega dois avaliadores automáticos, instâncias independentes de um modelo de linguagem (Claude Sonnet) que aplicam a mesma regra escrita. Cada avaliador classifica cada frase como sustentada, parcialmente sustentada ou não sustentada pelo trecho citado. Para as duas primeiras classificações, o avaliador deve transcrever a passagem do trecho; a transcrição é conferida literalmente por script, e a classificação é descartada quando a passagem não consta no trecho. Frases que apenas qualificam as fontes são avaliadas separadamente. A Tabela 9 apresenta os resultados.</p>
+<p><strong>Tabela 9 – Fundamentação e rastreabilidade das respostas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>Resultado</th>
+<th>Referência</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frases com citação de trecho inexistente</td>
+<td>0 de 211</td>
+<td>Valor esperado: zero</td>
+</tr>
+<tr>
+<td>Frases de conteúdo sustentadas pelo trecho citado, para os dois avaliadores</td>
+<td>161 de 187 (86%)</td>
+<td>Nenhuma frase classificada como não sustentada pelos dois avaliadores</td>
+</tr>
+<tr>
+<td>Respostas que atendem à consulta sem frase reprovada</td>
+<td>29 de 38 (76%; IC 95%: 63% a 89%)</td>
+<td>17 de 38 sem ressalva</td>
+</tr>
+<tr>
+<td>Recusas nas 2 consultas sem resposta na base</td>
+<td>2 de 2</td>
+<td>Nenhuma recusa nas 38 consultas com resposta</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: <code>rag/outputs/23-respostas-conferencia.txt</code> e <code>rag/outputs/26-respostas-juizes-v2.txt</code>.</em></p>
+<p>A Tabela 10 apresenta a concordância entre os avaliadores nas 187 frases de conteúdo.</p>
+<p><strong>Tabela 10 – Matriz de concordância entre avaliadores (linhas: avaliador A; colunas: avaliador B)</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Sustentada</th>
+<th>Parcialmente sustentada</th>
+<th>Não sustentada</th>
+<th>Descartada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sustentada</strong></td>
+<td>161</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Parcialmente sustentada</strong></td>
+<td>6</td>
+<td>14</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Não sustentada</strong></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Descartada</strong></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: <code>rag/outputs/26-respostas-juizes-v2.txt</code>.</em></p>
+<p>Os avaliadores atribuíram a mesma classificação a 176 das 187 frases (94%), com coeficiente kappa de Cohen de 0,70. As divergências restringem-se às classes sustentada e parcialmente sustentada.</p>
+<p>A Figura 3 apresenta a distribuição das classificações para os dois modelos geradores avaliados.</p>
+<p><strong>Figura 3 – Classificação das frases e das respostas, por modelo gerador</strong></p>
+<p><img alt="Respostas" src="../figuras/fig3-respostas.png" /></p>
+<p><em>Fonte: elaboração própria, a partir de <code>rag/outputs/26-respostas-juizes-v2.txt</code>.</em></p>
+<p>Com o segundo modelo gerador (Claude Opus), 160 de 175 frases de conteúdo foram classificadas como sustentadas (91%). Esse modelo recusou três consultas de prática docente.</p>
+<p>Nas dez consultas de prática docente, uma resposta foi classificada sem ressalva e seis atenderam parcialmente à consulta. O resultado é coerente com o menor recall observado nesse tipo de consulta (seção 9.2).</p>
+<h3 id="95-ameacas-a-validade">9.5 Ameaças à validade<a class="headerlink" href="#95-ameacas-a-validade" title="Permanent link">&para;</a></h3>
+<p>a) O conjunto de referência da recuperação foi produzido por modelo de linguagem e não foi validado por avaliador humano.</p>
+<p>b) Os avaliadores das respostas são modelos de linguagem. A regra de avaliação foi revisada uma vez, após a primeira aplicação sobre as mesmas respostas; os resultados reportados correspondem à segunda aplicação e não constituem medida independente da regra.</p>
+<p>c) As respostas avaliadas foram geradas por modelos distintos do modelo configurado no protótipo; o modelo gerador do produto não está definido.</p>
+<p>d) O conjunto de avaliação tem 38 consultas com resposta; cada consulta corresponde a 2,6 pontos percentuais nas métricas por consulta.</p>
+<p>e) As consultas avaliadas simulam perguntas de professores. O formato de consulta do Agente Estrategista não foi avaliado.</p>
+<p>f) O efeito da posição dos trechos no contexto do modelo gerador não foi avaliado. Os trechos são apresentados na ordem de relevância atribuída pelo segundo estágio.</p>
+<h2 id="10-consideracoes-finais">10 CONSIDERAÇÕES FINAIS<a class="headerlink" href="#10-consideracoes-finais" title="Permanent link">&para;</a></h2>
+<p>A entrega compreende a base curada com 38 documentos, o pipeline de ingestão, o banco vetorial em PostgreSQL com pgvector e o protótipo que recupera trechos, gera resposta restrita ao conteúdo recuperado e indica a fonte de cada frase.</p>
+<p>A recuperação em dois estágios supera as alternativas avaliadas, e as respostas geradas mantêm-se restritas aos trechos fornecidos. O desempenho é inferior nas consultas de prática docente, e os experimentos realizados indicam limitação de cobertura da base, e não da técnica de busca.</p>
+<p>Os trabalhos subsequentes previstos são:</p>
+<p>a) validação, por avaliador humano, de amostra do conjunto de referência e das classificações das respostas;</p>
+<p>b) definição do modelo gerador do produto e avaliação das respostas com esse modelo;</p>
+<p>c) ampliação da base com fontes voltadas à prática docente;</p>
+<p>d) avaliação com consultas no formato do Agente Estrategista;</p>
+<p>e) medição do tempo de resposta do segundo estágio em servidor sem GPU;</p>
+<p>f) ampliação da cobertura para dislexia e transtorno do espectro autista;</p>
+<p>g) atribuição das barreiras funcionais por trecho, hoje atribuídas por documento;</p>
+<p>h) avaliação do efeito da posição dos trechos no contexto fornecido ao modelo gerador, com permutação da ordem dos cinco trechos (LIU <em>et al</em>., 2024).</p>
+<h2 id="referencias">REFERÊNCIAS<a class="headerlink" href="#referencias" title="Permanent link">&para;</a></h2>
+<p>BONIFACIO, L. <em>et al</em>. <strong>mMARCO</strong>: a multilingual version of the MS MARCO passage ranking dataset. arXiv:2108.13897, 2021. Disponível em: https://arxiv.org/abs/2108.13897. Acesso em: 6 nov. 2026.</p>
+<p>CAST. <strong>Universal Design for Learning Guidelines version 3.0</strong>. Lynnfield: CAST, 2024. Disponível em: https://udlguidelines.cast.org. Acesso em: 6 nov. 2026.</p>
+<p>COHEN, J. A coefficient of agreement for nominal scales. <strong>Educational and Psychological Measurement</strong>, v. 20, n. 1, p. 37-46, 1960.</p>
+<p>CORMACK, G. V.; CLARKE, C. L. A.; BÜTTCHER, S. Reciprocal rank fusion outperforms Condorcet and individual rank learning methods. <em>In</em>: INTERNATIONAL ACM SIGIR CONFERENCE ON RESEARCH AND DEVELOPMENT IN INFORMATION RETRIEVAL, 32., 2009, Boston. <strong>Proceedings</strong> [...]. New York: ACM, 2009. p. 758-759.</p>
+<p>EFRON, B. Bootstrap methods: another look at the jackknife. <strong>The Annals of Statistics</strong>, v. 7, n. 1, p. 1-26, 1979.</p>
+<p>GAO, L. <em>et al</em>. Precise zero-shot dense retrieval without relevance labels. <em>In</em>: ANNUAL MEETING OF THE ASSOCIATION FOR COMPUTATIONAL LINGUISTICS, 61., 2023, Toronto. <strong>Proceedings</strong> [...]. Stroudsburg: ACL, 2023. p. 1762-1777.</p>
+<p>LEWIS, P. <em>et al</em>. Retrieval-augmented generation for knowledge-intensive NLP tasks. <em>In</em>: ADVANCES IN NEURAL INFORMATION PROCESSING SYSTEMS, 33., 2020. <strong>Proceedings</strong> [...]. 2020. p. 9459-9474.</p>
+<p>LIU, N. F. <em>et al</em>. Lost in the middle: how language models use long contexts. <strong>Transactions of the Association for Computational Linguistics</strong>, v. 12, p. 157-173, 2024.</p>
+<p>MALKOV, Y. A.; YASHUNIN, D. A. Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs. <strong>IEEE Transactions on Pattern Analysis and Machine Intelligence</strong>, v. 42, n. 4, p. 824-836, 2020.</p>
+<p>PGVECTOR. <strong>pgvector</strong>: open-source vector similarity search for Postgres. Disponível em: https://github.com/pgvector/pgvector. Acesso em: 6 nov. 2026.</p>
+<p>REIMERS, N.; GUREVYCH, I. Making monolingual sentence embeddings multilingual using knowledge distillation. <em>In</em>: CONFERENCE ON EMPIRICAL METHODS IN NATURAL LANGUAGE PROCESSING, 2020. <strong>Proceedings</strong> [...]. Stroudsburg: ACL, 2020. p. 4512-4525.</p>
+<p>ROBERTSON, S.; ZARAGOZA, H. The probabilistic relevance framework: BM25 and beyond. <strong>Foundations and Trends in Information Retrieval</strong>, v. 3, n. 4, p. 333-389, 2009.</p>
+<p>ZHANG, Y. <em>et al</em>. <strong>Qwen3 Embedding</strong>: advancing text embedding and reranking through foundation models. arXiv:2506.05176, 2025. Disponível em: https://arxiv.org/abs/2506.05176. Acesso em: 6 nov. 2026.</p>
+<h2 id="apendice-a-documentos-da-base-de-conhecimento">APÊNDICE A – DOCUMENTOS DA BASE DE CONHECIMENTO<a class="headerlink" href="#apendice-a-documentos-da-base-de-conhecimento" title="Permanent link">&para;</a></h2>
+<p><strong>Tabela 11 – Documentos que compõem o índice de busca</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Documento</th>
+<th>Ano</th>
+<th>Idioma</th>
+<th>Licença e distribuição do texto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Diretrizes Desenho Universal para Aprendizagem. Versão 3.0 (texto completo, tradução)</td>
+<td>2024</td>
+<td>pt-BR</td>
+<td>Direitos reservados; não distribuído</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Práticas pedagógicas inclusivas em salas de aula (Cadernos Pedagógicos: Política Nacional...</td>
+<td>2026</td>
+<td>pt-BR</td>
+<td>Direitos reservados; não distribuído</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Diretrizes para o Desenho Universal para a Aprendizagem (DUA)</td>
+<td>2020</td>
+<td>pt-BR</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Desenho universal para a aprendizagem como estratégia de inclusão escolar</td>
+<td>2018</td>
+<td>pt-BR</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Clinical Practice Guideline for the Diagnosis, Evaluation, and Treatment of...</td>
+<td>2019</td>
+<td>en</td>
+<td>Direitos reservados; não distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>TDAH – Guia para Professores</td>
+<td>2012</td>
+<td>pt-BR</td>
+<td>Direitos reservados; não distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>ADHD in the Classroom</td>
+<td>2026</td>
+<td>en</td>
+<td>Sem licença declarada; distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Cognitive Training for Attention-Deficit/Hyperactivity Disorder: Meta-Analysis of Clinical...</td>
+<td>2015</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Executive Functions</td>
+<td>2013</td>
+<td>en</td>
+<td>Direitos reservados; não distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>The Effects of Classroom Interventions on Off-Task and Disruptive Classroom Behavior in...</td>
+<td>2016</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Protocolo Clínico e Diretrizes Terapêuticas do Transtorno do Déficit de Atenção com...</td>
+<td>2022</td>
+<td>pt-BR</td>
+<td>Sem licença declarada; distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>The Basics of Accommodations and Modifications (NCEO Brief #33)</td>
+<td>2024</td>
+<td>en</td>
+<td>Reprodução permitida pela fonte; distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Extended Time: Research (NCEO Accommodations Toolkit #6a)</td>
+<td>2026</td>
+<td>en</td>
+<td>Reprodução permitida pela fonte; distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Attention deficit hyperactivity disorder: diagnosis and management (NICE guideline NG87)</td>
+<td>2018</td>
+<td>en</td>
+<td>Direitos reservados; não distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Intervenções escolares para o TDAH: uma revisão da literatura (2000-2018)</td>
+<td>2019</td>
+<td>pt-BR</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>B</td>
+<td>School-based randomized controlled trials for ADHD and accompanying impairments: a...</td>
+<td>2025</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Decreto nº 12.686, de 20 de outubro de 2025 – institui a Política Nacional de Educação...</td>
+<td>2025</td>
+<td>pt-BR</td>
+<td>Domínio público; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>A redação do Enem 2026 – Cartilha do(a) participante com dislexia</td>
+<td>2026</td>
+<td>pt-BR</td>
+<td>Reprodução permitida pela fonte; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Lei nº 12.764, de 27 de dezembro de 2012 – Política Nacional de Proteção dos Direitos da...</td>
+<td>2012</td>
+<td>pt-BR</td>
+<td>Domínio público; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Lei nº 13.146/2015 (Lei Brasileira de Inclusão) – recorte: arts. 2º, 2º-A e 3º (definições)...</td>
+<td>2015</td>
+<td>pt-BR</td>
+<td>Domínio público; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Lei nº 14.254, de 30 de novembro de 2021 – acompanhamento integral para educandos com...</td>
+<td>2021</td>
+<td>pt-BR</td>
+<td>Domínio público; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Lei nº 9.394/1996 (LDB) – recorte: art. 24 (inclui inciso V, avaliação contínua com...</td>
+<td>1996</td>
+<td>pt-BR</td>
+<td>Domínio público; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva (MEC/SEESP, 2008)</td>
+<td>2008</td>
+<td>pt-BR</td>
+<td>Sem licença declarada; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Nota Técnica nº 04/2014/MEC/SECADI/DPEE, de 23/01/2014 – orientação quanto a documentos...</td>
+<td>2014</td>
+<td>pt-BR</td>
+<td>Sem licença declarada; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Portaria MEC nº 421, de 15 de maio de 2026 – dispõe sobre a PNEEI e a Reneei (regulamenta o...</td>
+<td>2026</td>
+<td>pt-BR</td>
+<td>Domínio público; distribuído</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Resolução CNE/CEB nº 4, de 2 de outubro de 2009 – Diretrizes Operacionais para o AEE na...</td>
+<td>2009</td>
+<td>pt-BR</td>
+<td>Domínio público; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Do Text Simplification Systems Preserve Meaning? A Human Evaluation via Reading Comprehension</td>
+<td>2024</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>The effects of inclusion on academic achievement, socioemotional development and wellbeing...</td>
+<td>2022</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Neuromyths in education: Prevalence and predictors of misconceptions among teachers</td>
+<td>2012</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>A Educação Especial e os Cursos Técnicos: a Visão dos Docentes sobre os Processos de...</td>
+<td>2022</td>
+<td>pt-BR</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Inter-letter spacing, inter-word spacing, and font with dyslexia-friendly features: testing...</td>
+<td>2020</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Generating Educational Materials with Different Levels of Readability using LLMs</td>
+<td>2024</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Dyslexie font does not benefit reading in children with or without dyslexia</td>
+<td>2018</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Providing Instruction Based on Students' Learning Style Preferences Does Not Improve Learning</td>
+<td>2020</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Neuroscience Knowledge and Endorsement of Neuromyths among Educators: What Is the Scenario...</td>
+<td>2022</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Differentiated Instruction in Secondary Education: A Systematic Review of Research Evidence</td>
+<td>2019</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Cognitive Architecture and Instructional Design: 20 Years Later</td>
+<td>2019</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+<tr>
+<td>D</td>
+<td>The effect of a specialized dyslexia font, OpenDyslexic, on reading rate and accuracy</td>
+<td>2017</td>
+<td>en</td>
+<td>Creative Commons; distribuído</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: <code>rag/iris-rag/fontes.json</code>.</em></p>
+<h2 id="apendice-b-pacote-entregue">APÊNDICE B – PACOTE ENTREGUE<a class="headerlink" href="#apendice-b-pacote-entregue" title="Permanent link">&para;</a></h2>
+<p>O arquivo <code>iris-base-e-rag.zip</code> contém o código-fonte, os cadernos executados, a documentação de arquitetura e de avaliação, as saídas dos scripts e os textos de 32 documentos (Apêndice A). O Quadro 1 relaciona os itens do entregável aos artefatos.</p>
+<p><strong>Quadro 1 – Itens do entregável e artefatos correspondentes</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Artefato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base de conhecimento curada, com mínimo de 20 documentos</td>
+<td><code>rag/iris-rag/FONTES.md</code>; <code>rag/iris-rag/fontes.json</code>; <code>rag/iris-rag/texto/</code></td>
+</tr>
+<tr>
+<td>Descrição da estratégia de segmentação</td>
+<td>Seção 4; <code>docs/rag/arquitetura.md</code>, seção 8.1</td>
+</tr>
+<tr>
+<td>Descrição da estratégia de embeddings</td>
+<td>Seção 5; <code>docs/rag/arquitetura.md</code>, seção 8.2</td>
+</tr>
+<tr>
+<td>Implementação do banco vetorial</td>
+<td><code>rag/iris-rag/pacote/banco_pg.py</code></td>
+</tr>
+<tr>
+<td>Consulta, trechos recuperados, resposta fundamentada e evidência das fontes</td>
+<td><code>rag/iris-rag/pacote/02_consulta_resposta_fonte.ipynb</code>; <code>rag/iris-rag/pacote/outputs/05-consulta-resposta-fonte.txt</code></td>
+</tr>
+<tr>
+<td>Diagrama de arquitetura</td>
+<td>Figura 1; <code>docs/rag/diagrama_arquitetura.svg</code></td>
+</tr>
+<tr>
+<td>Pipeline de ingestão</td>
+<td>Seção 3; <code>rag/iris-rag/scripts/</code>; <code>rag/iris-rag/pacote/ingestao.py</code></td>
+</tr>
+<tr>
+<td>Avaliação</td>
+<td>Seção 9; <code>docs/rag/avaliacao.md</code>; <code>rag/outputs/</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: elaboração própria.</em></p>
+<p>As instruções de instalação e execução constam no arquivo <code>README.md</code> do pacote. A execução repetida do script de demonstração produz arquivo de saída idêntico.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.tabs.link", "content.action.view"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
