@@ -418,12 +418,18 @@ def avaliar_pipeline_ao_vivo(
     total_sem_cit = 0
     detalhes_consultas: list[dict[str, Any]] = []
 
-    for qid, gab in itens_avaliar:
+    total_q = len(itens_avaliar)
+    for idx_q, (qid, gab) in enumerate(itens_avaliar, start=1):
         pergunta = gab["pergunta"]
         relevantes = set(gab.get("trechos_relevantes", []))
         parciais = set(gab.get("trechos_parciais", []))
+        print(f"\n[{idx_q}/{total_q}] Pergunta: \"{pergunta}\"", flush=True)
+        print(f"  • Buscando evidências ({metodo_busca}) e enviando ao LLM local...", flush=True)
+        print("  • Aguarde enquanto o Llama 3 sintetiza a resposta na sua GPU/Metal...", flush=True)
 
         res_ao_vivo = gerar_mod.responder(pergunta=pergunta, metodo=metodo_busca, k=5)
+        print(f"  ✓ Concluído em {res_ao_vivo.get('segundos_total', 0):.1f}s!", flush=True)
+
         fontes_ids = [f["chunk_id"] for f in res_ao_vivo["fontes"]]
         trechos_entregues = res_ao_vivo.get("trechos_entregues") or buscar_evidencias(
             pergunta, metodo=res_ao_vivo["metodo"], k=5

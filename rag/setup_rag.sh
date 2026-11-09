@@ -83,6 +83,7 @@ rodar_rag_ao_vivo() {
     echo ""
     echo "================================================================================"
     echo "  EXECUTANDO RAG AO VIVO NO LLM LOCAL (${MODEL})"
+    echo "  -> Provedor: Ollama | Modelo: ${MODEL} | Consultas: ${LIMITE}"
     echo "================================================================================"
     cd "${REPO_ROOT}"
     RAG_LLM="${RAG_LLM:-ollama}" RAG_LLM_MODELO="${MODEL}" \
