@@ -496,3 +496,27 @@ def main(argv: list[str] | None = None) -> None:
 
 if __name__ == "__main__":
     main()
+
+def analisar_distribuicao_perguntas(perguntas: list[dict[str, object]]) -> dict[str, object]:
+    """Sumário estatístico e contagem por disciplina e ano (EDA do benchmark; veio da versão do colega)."""
+    from iris.eval.readability import analyze_question, summarize
+
+    disciplinas: dict[str, int] = {}
+    anos: dict[str, int] = {}
+    analisadas = []
+
+    for p in perguntas:
+        disc = str(p.get("disciplina", "Outro"))
+        ano = str(p.get("ano", "Outro"))
+        disciplinas[disc] = disciplinas.get(disc, 0) + 1
+        anos[ano] = anos.get(ano, 0) + 1
+
+        stats = analyze_question(str(p.get("id", "")), p.get("enunciado", ""))
+        row = dict(p)
+        row.update(stats.__dict__)
+        analisadas.append(row)
+
+    resumo = summarize(analisadas)
+    resumo["distribuicao_disciplinas"] = disciplinas
+    resumo["distribuicao_anos"] = anos
+    return resumo
