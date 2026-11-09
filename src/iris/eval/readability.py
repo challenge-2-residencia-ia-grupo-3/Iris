@@ -1,9 +1,9 @@
 """Legibilidade (Flesch PT-BR) e densidade de comandos conjugados.
 
-Usado na EDA 2 (baseline do Golden Benchmark) do Épico 4.2.
+Usado na avaliação e no baseline do Golden Benchmark do Épico 4.2.
 
 Uso rápido:
-    uv run python -m iris.eval.readability data/golden_benchmark.json
+    python -m iris.eval.readability [caminho/para/golden_benchmark.json]
 
 Formato esperado do JSON: lista de objetos com ao menos `id` e `enunciado`.
     [{"id": "Q01", "disciplina": "Ciências", "ano": "6º", "enunciado": "..."}]
@@ -17,9 +17,19 @@ import unicodedata
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
+from typing import Any
 
-import pandas as pd
-import pyphen
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+try:
+    import pyphen
+    # left/right = 1 permite dividir palavras curtas (padrão do pyphen é 2/2).
+    _HYPHENATOR = pyphen.Pyphen(lang="pt_BR", left=1, right=1)
+except Exception:
+    _HYPHENATOR = None
 
 # --------------------------------------------------------------------------
 # Flesch adaptado ao português (Martins et al., 1996)
@@ -28,9 +38,6 @@ import pyphen
 
 _WORD_RE = re.compile(r"[^\W\d_]+(?:-[^\W\d_]+)*", re.UNICODE)
 _SENT_SPLIT_RE = re.compile(r"(?<=[.!?…])\s+|\n+")
-
-# left/right = 1 permite dividir palavras curtas (padrão do pyphen é 2/2).
-_HYPHENATOR = pyphen.Pyphen(lang="pt_BR", left=1, right=1)
 
 
 def split_sentences(text: str) -> list[str]:
@@ -46,8 +53,25 @@ def split_words(text: str) -> list[str]:
 
 @lru_cache(maxsize=50_000)
 def count_syllables(word: str) -> int:
-    """Conta sílabas via hifenização pt_BR (aproximação; mínimo 1)."""
-    return max(1, _HYPHENATOR.inserted(word.lower()).count("-") + 1)
+    """Conta sílabas via hifenização pt_BR (aproximação; mínimo 1).
+
+    Usa pyphen quando disponível; caso contrário, utiliza heurística
+    fonética pura de núcleos vocálicos da língua portuguesa.
+    """
+    w = word.lower().strip()
+    if not w:
+        return 1
+
+    if _HYPHENATOR is not None:
+        try:
+            return max(1, _HYPHENATOR.inserted(w).count("-") + 1)
+        except Exception:
+            pass
+
+    # Heurística pura para ambientes sem pyphen instalado:
+    # Agrupa sequências de vogais como núcleos silábicos do PT-BR
+    nucleos = re.findall(r"[aeiouáéíóúâêôãõàü]+", w)
+    return max(1, len(nucleos))
 
 
 def flesch_ptbr(text: str) -> float | None:
@@ -79,7 +103,7 @@ def flesch_band(score: float | None) -> str:
 # Densidade de comandos (verbos de comando em enunciados escolares)
 # --------------------------------------------------------------------------
 
-# Formas imperativas (e infinitivas) comuns em enunciados. Sem acento, minúsculas.
+# Formas imperativas (e infinitivas) comuns em enunciados escolares. Sem acento, minúsculas.
 COMMAND_VERBS: frozenset[str] = frozenset(
     """
     leia ler responda responder justifique justificar explique explicar
@@ -153,6 +177,7 @@ class QuestionStats:
 
 
 def analyze_question(qid: str, text: str) -> QuestionStats:
+    """Analisa uma questão individual calculando métricas de legibilidade e comandos."""
     words = split_words(text)
     n_words = len(words)
     n_cmd = len(find_commands(text))
@@ -171,8 +196,20 @@ def analyze_question(qid: str, text: str) -> QuestionStats:
     )
 
 
-def load_questions(path: str | Path) -> list[dict]:
-    data = json.loads(Path(path).read_text(encoding="utf-8"))
+def load_questions(path: str | Path | None = None) -> list[dict]:
+    """Carrega questões do Golden Benchmark a partir do JSON."""
+    if path is None:
+        # Tenta resolver relativo à raiz do repositório
+        repo_root = Path(__file__).resolve().parents[3]
+        caminho_padrao = repo_root / "data" / "golden_benchmark.json"
+        if caminho_padrao.exists():
+            target_path = caminho_padrao
+        else:
+            target_path = Path("data/golden_benchmark.json")
+    else:
+        target_path = Path(path)
+
+    data = json.loads(target_path.read_text(encoding="utf-8"))
     if not isinstance(data, list):
         raise ValueError("O JSON do benchmark deve ser uma lista de questões.")
     for i, q in enumerate(data):
@@ -181,8 +218,8 @@ def load_questions(path: str | Path) -> list[dict]:
     return data
 
 
-def analyze_benchmark(questions: list[dict]) -> pd.DataFrame:
-    """DataFrame com uma linha por questão (metadados + métricas)."""
+def analyze_benchmark(questions: list[dict]) -> Any:
+    """Retorna DataFrame com uma linha por questão (metadados + métricas)."""
     rows = []
     for i, q in enumerate(questions):
         qid = str(q.get("id", f"Q{i + 1:02d}"))
@@ -191,25 +228,44 @@ def analyze_benchmark(questions: list[dict]) -> pd.DataFrame:
         row.update(stats.__dict__)
         row["id"] = qid
         rows.append(row)
-    return pd.DataFrame(rows)
+
+    if pd is not None:
+        return pd.DataFrame(rows)
+    return rows
 
 
-def summarize(df: pd.DataFrame) -> dict:
+def summarize(df_or_rows: Any) -> dict:
     """Baseline agregado: distribuição do Flesch e da densidade de comandos."""
-    flesch = df["flesch"].dropna()
+    if pd is not None and isinstance(df_or_rows, pd.DataFrame):
+        df = df_or_rows
+        flesch = df["flesch"].dropna()
+        return {
+            "n_questoes": int(len(df)),
+            "flesch_media": round(float(flesch.mean()), 2) if len(flesch) else None,
+            "flesch_mediana": round(float(flesch.median()), 2) if len(flesch) else None,
+            "flesch_desvio": round(float(flesch.std()), 2) if len(flesch) > 1 else None,
+            "flesch_faixas": df["flesch_band"].value_counts().to_dict(),
+            "comandos_por_questao_media": round(float(df["n_commands"].mean()), 2),
+            "comandos_por_100_palavras_media": round(
+                float(df["commands_per_100_words"].mean()), 2
+            ),
+            "pct_questoes_com_comando_conjugado": round(
+                100 * float(df["has_conjugated_command"].mean()), 1
+            ),
+        }
+
+    # Fallback puro caso pandas não esteja presente
+    rows = df_or_rows if isinstance(df_or_rows, list) else []
+    flesch_vals = [r["flesch"] for r in rows if r.get("flesch") is not None]
+    n_cmd = [r.get("n_commands", 0) for r in rows]
+    n_conj = [1 if r.get("has_conjugated_command") else 0 for r in rows]
+    total = len(rows)
+
     return {
-        "n_questoes": int(len(df)),
-        "flesch_media": round(float(flesch.mean()), 2) if len(flesch) else None,
-        "flesch_mediana": round(float(flesch.median()), 2) if len(flesch) else None,
-        "flesch_desvio": round(float(flesch.std()), 2) if len(flesch) > 1 else None,
-        "flesch_faixas": df["flesch_band"].value_counts().to_dict(),
-        "comandos_por_questao_media": round(float(df["n_commands"].mean()), 2),
-        "comandos_por_100_palavras_media": round(
-            float(df["commands_per_100_words"].mean()), 2
-        ),
-        "pct_questoes_com_comando_conjugado": round(
-            100 * float(df["has_conjugated_command"].mean()), 1
-        ),
+        "n_questoes": total,
+        "flesch_media": round(sum(flesch_vals) / len(flesch_vals), 2) if flesch_vals else None,
+        "comandos_por_questao_media": round(sum(n_cmd) / total, 2) if total else 0.0,
+        "pct_questoes_com_comando_conjugado": round(100 * sum(n_conj) / total, 1) if total else 0.0,
     }
 
 
@@ -217,9 +273,9 @@ def main(argv: list[str] | None = None) -> None:
     import sys
 
     args = argv if argv is not None else sys.argv[1:]
-    path = args[0] if args else "data/golden_benchmark.json"
-    df = analyze_benchmark(load_questions(path))
-    print(json.dumps(summarize(df), ensure_ascii=False, indent=2))
+    path = args[0] if args else None
+    results = analyze_benchmark(load_questions(path))
+    print(json.dumps(summarize(results), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
