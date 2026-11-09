@@ -76,16 +76,63 @@ def _chamar_groq(prompt: str) -> tuple[str, dict]:
 
 
 def _chamar_ollama(prompt: str) -> tuple[str, dict]:
-    corpo = json.dumps({"model": MODELO, "prompt": prompt, "stream": False,
+    modelo_alvo = os.environ.get("RAG_LLM_MODELO", MODELO if LLM == "ollama" else "llama3.1:8b")
+    url_base = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
+    corpo = json.dumps({"model": modelo_alvo, "prompt": prompt, "stream": False,
                         "options": {"temperature": 0}}).encode()
-    req = urllib.request.Request(os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434") + "/api/generate",
+    req = urllib.request.Request(url_base + "/api/generate",
                                  data=corpo, headers={"Content-Type": "application/json"})
     r = json.loads(urllib.request.urlopen(req, timeout=600).read())
     return r["response"], {"prompt_tokens": r.get("prompt_eval_count"), "completion_tokens": r.get("eval_count")}
 
 
+def _chamar_extractive(prompt: str) -> tuple[str, dict]:
+    """Fallback extrativo determinístico quando nem Ollama nem Groq estão ativos."""
+    q_match = re.search(r"PERGUNTA:\s*(.+?)\s*\n\nRESPOSTA:", prompt, flags=re.S)
+    pergunta = q_match.group(1).strip() if q_match else ""
+    partes = re.split(r"\n(?=\[T\d+\]\s)", prompt)
+    q_tokens = {w.lower() for w in re.findall(r"[a-zA-ZÀ-ÿ]{4,}", pergunta)
+                if w.lower() not in {"como", "para", "qual", "quais", "aluno", "sobre", "fazer"}}
+    candidatas: list[tuple[float, str]] = []
+    for p in partes:
+        m = re.match(r"\[T(\d+)\]\s*([^\n]+)\n(.*)", p.strip(), flags=re.S)
+        if not m:
+            continue
+        idx = int(m.group(1))
+        corpo = m.group(3).split("\n\nPERGUNTA:")[0].strip()
+        if "AVISO DE USO:" in corpo:
+            continue
+        for pos, f in enumerate(re.split(r"(?<=[.!?])\s+|\n+", corpo)):
+            f = f.strip()
+            if 35 <= len(f) <= 320 and not f.startswith("#"):
+                f_tokens = {w.lower() for w in re.findall(r"[a-zA-ZÀ-ÿ]{4,}", f)}
+                inter = len(q_tokens & f_tokens)
+                if inter > 0:
+                    score = inter * 2.0 + 1.0 / (idx + pos * 0.2)
+                    candidatas.append((score, f"{f.rstrip('.!?')} [T{idx}]."))
+    candidatas.sort(key=lambda x: x[0], reverse=True)
+    escolhidas = []
+    vistas: set[str] = set()
+    for sc, txt in candidatas:
+        ch = txt[:50].lower()
+        if ch not in vistas and sc >= 1.5:
+            vistas.add(ch)
+            escolhidas.append(txt)
+        if len(escolhidas) >= 3:
+            break
+    resp = " ".join(escolhidas) if escolhidas else FRASE_SEM_RESPOSTA
+    return resp, {"prompt_tokens": len(prompt.split()), "completion_tokens": len(resp.split())}
+
+
 def gerar(prompt: str) -> tuple[str, dict]:
-    texto, uso = (_chamar_groq if LLM == "groq" else _chamar_ollama)(prompt)
+    provedor = os.environ.get("RAG_LLM", LLM).lower()
+    if provedor == "groq":
+        fn = _chamar_groq
+    elif provedor in {"extractive", "mock", "offline"}:
+        fn = _chamar_extractive
+    else:
+        fn = _chamar_ollama
+    texto, uso = fn(prompt)
     texto = re.sub(r"<think>.*?</think>", "", texto, flags=re.S).strip()   # Qwen3 pode "pensar em voz alta"
     return texto, uso
 
@@ -103,13 +150,29 @@ def conferir(resposta: str, trechos: list[dict]) -> dict:
             "citou_trecho_com_aviso": [trechos[n - 1]["doc"] for n in aviso_citado]}
 
 
-def responder(pergunta: str, metodo: str = consultar.METODO_PADRAO, k: int = 5) -> dict:
+def responder(
+    pergunta: str,
+    metodo: str = consultar.METODO_PADRAO,
+    k: int = 5,
+    filtro_barreira: str | None = None,
+) -> dict:
     t0 = time.time()
-    trechos = consultar.buscar(pergunta, metodo, k=k)
+    try:
+        trechos = consultar.buscar(pergunta, metodo, k=k, filtro_barreira=filtro_barreira)
+        metodo_efetivo = metodo
+    except Exception:
+        if metodo != "bm25":
+            trechos = consultar.buscar(pergunta, "bm25", k=k, filtro_barreira=filtro_barreira)
+            metodo_efetivo = "bm25"
+        else:
+            raise
     t_busca = time.time() - t0
     prompt = montar_prompt(pergunta, trechos)
     resposta, uso = gerar(prompt)
-    return {"pergunta": pergunta, "metodo": metodo, "llm": f"{LLM}:{MODELO}", "resposta": resposta,
+    provedor_atual = os.environ.get("RAG_LLM", LLM)
+    modelo_atual = os.environ.get("RAG_LLM_MODELO", MODELO if provedor_atual == LLM else "llama3.1:8b")
+    return {"pergunta": pergunta, "metodo": metodo_efetivo, "llm": f"{provedor_atual}:{modelo_atual}", "resposta": resposta,
+            "trechos_entregues": trechos,
             "fontes": [{"ref": f"T{i}", "doc": t["doc"], "titulo": t["titulo"], "pagina": t["pagina"],
                         "secao": t["secao"], "url": t["url"], "idioma": t["idioma"], "chunk_id": t["chunk_id"]}
                        for i, t in enumerate(trechos, 1)],
