@@ -187,14 +187,34 @@ Para atender à diretriz do Challenge 2 de justificar decisões técnicas sem an
 | **ADR-01** | Armazenamento de dados de estudantes | Banco relacional centralizado (PostgreSQL) vs. Arquitetura *stateless Zero-Database* com Perfil Portátil local (.json) | **Decidido por Diretriz Normativa** | Conformidade com a LGPD e o Art. 14 (proteção de menores). A ausência de banco central elimina o risco de vazamentos em massa de perfis pedagógicos infantis. |
 | **ADR-02** | Tratamento de dados pessoais na entrada (PII) | Dicionário de reidratação em memória vs. Sanitizador com descarte imediato (*Zero-Retention Scrubber*) | **Decidido por Princípio Arquitetural** | O descarte imediato impede que identificadores pessoais transitem ou permaneçam na memória do servidor, garantindo a natureza puramente didática do insumo. |
 | **ADR-03** | Estratégia de orquestração de IA | Prompt monolítico em cadeia única (*Single-Prompt Chain*) vs. Pipeline Multiagentes com Agente Auditor dedicado | **Em Validação Experimental (Semana 4)** | **Protocolo Experimental:** Submeter 40 questões do benchmark a ambas as abordagens. Avaliar a taxa de sucesso na retenção de travas curriculares ($\text{TRCC}$), a obediência ao isolamento de escopo e a latência de execução para comprovar a necessidade de segregação de papéis. |
-| **ADR-04** | Estratégia de fragmentação do corpus RAG (*Chunking*) | Fragmentação por contagem de caracteres fixa (ex.: 500 chars com overlap de 50) vs. *Chunking* semântico estruturado por diretriz do DUA/MEC | **Em Validação Experimental (Semana 2)** | **Protocolo Experimental:** Avaliar as métricas RAGAS (*Context Precision* e *Faithfulness*) em um *grid search* comparando blocos fixos de 250, 500 e 800 tokens contra blocos orientados à estrutura dos manuais pedagógicos. |
-| **ADR-05** | Modelo de *Embeddings* para busca semântica em Português | Modelos multilíngues comerciais (OpenAI `text-embedding-3-small`) vs. Modelos abertos multilíngues (BGE-M3, Multilingual-E5) | **Em Validação Experimental (Semana 2)** | **Protocolo Experimental:** Medir a taxa de acerto Top-k (*Hit Rate@3* e *Hit Rate@5*) e *Mean Reciprocal Rank (MRR)* sobre 20 consultas pedagógicas simuladas formuladas com termos da BNCC e do DUA. |
+| **ADR-04** | Estratégia de fragmentação do corpus RAG (*Chunking*) | Fragmentação por contagem de caracteres fixa (ex.: 500 chars com overlap de 50) vs. *Chunking* semântico estruturado por diretriz do DUA/MEC | **Validado na Semana 2 (`ingestao.py`)** | **Resultado Empírico:** Corte estrutural por seção/artigo com teto de 350 palavras, mínimo de 40 palavras e sobreposição do último parágrafo (até 60 palavras), gerando 1.368 trechos limpos a partir de 38 documentos curados. |
+| **ADR-05** | Modelo de *Embeddings* e Recuperação em 2 Estágios | Busca lexical (BM25) vs. MPNet vs. `Qwen3-Embedding-0.6B` + Reordenação Cross-Encoder (`mmarco-mMiniLMv2`) | **Validado na Semana 2 (`consultar.py`)** | **Resultado Empírico:** A recuperação em dois estágios (`qwen3+rerank50`) elevou o Recall@5 de 0,28 (Qwen3 isolado) e 0,20 (BM25) para **0,42** (IC 95%: 0,32 a 0,52), atendendo a 87% das consultas com resposta na base. |
 | **ADR-06** | Limite de iterações do loop de auditoria (*Circuit Breaker*) | Loop indefinido até atingir $\text{TRCC} \ge 95\%$ vs. Limite rígido de duas iterações (`max_retries = 2`) com aviso ao docente | **Em Validação Experimental (Semana 4)** | **Protocolo Experimental:** Mensurar tempo de resposta total e consumo de tokens em cascata para checar se 2 iterações são suficientes para convergência sem violar o requisito de latência ($\le 40\text{s}$) estipulado em RNF-07. |
-| **ADR-07** | Gerenciamento de ambiente e dependências | Pip/Virtualenv vs. Poetry vs. UV | **Decidido por Requisito do Projeto** | O gestor `uv` foi selecionado em cumprimento ao RNF-11, proporcionando resolução de dependências em tempo inferior a 30 segundos e bloqueio determinístico via `uv.lock`. |
+| **ADR-07** | Gerenciamento de ambiente e dependências | Pip/Virtualenv vs. Poetry vs. UV | **Decidido por Requisito do Projeto** | O gestor `uv` foi selecionado em cumprimento ao RNF-11, unificando dependências da API e do RAG no `pyproject.toml` com empacotamento editável de `src/iris`. |
+| **ADR-08** | Mapeamento Taxonômico entre Catálogo de Características e Base RAG | Reindexação vetorial por micro-característica vs. Mapeamento determinístico `id_caracteristica` $\rightarrow$ `barreira_rag_associada` via schema modular | **Implementado (`#39` e `#44`)** | O catálogo `rag/catalogs/tdah_caracteristicas_funcionais.json` define 9 características atômicas observáveis em sala (com diretrizes de Nível 1, 2 e 3) mapeadas para as 9 tags `barreiras` indexadas no RAG, permitindo expansão para TEA/Dislexia sem reindexar vetores nem alterar código. |
 
 ---
 
-## 6. Gestão do Perfil Pedagógico Portátil (*Zero-Database*)
+## 6. Arquitetura do Catálogo Modular de Características (`#39`) e Ponte RAG (`#44`)
+
+O desacoplamento entre a interface docente/API (`src/iris/`) e o motor científico de recuperação (`rag/iris-rag/pacote/`) é realizado pelo módulo [`src/iris/rag/bridge.py`](file:///Users/aluno1/Residencia_IA/challenge_2_residencia_ia_grupo_3/iris/src/iris/rag/bridge.py) e pelo validador de schema [`src/iris/schemas/catalog.py`](file:///Users/aluno1/Residencia_IA/challenge_2_residencia_ia_grupo_3/iris/src/iris/schemas/catalog.py):
+
+| `id_caracteristica` (Catálogo Modular `#39`) | `barreira_rag_associada` (Índice RAG) | Princípio DUA Primário | Documentos de Referência Vinculados (`fontes.json`) |
+| :--- | :--- | :--- | :--- |
+| `sobrecarga_memoria_trabalho_comandos_multiplos` | `memoria_trabalho` | Ação e Expressão | `RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA`, `SWELLER-2019-CARGA-COGNITIVA` |
+| `retencao_dados_intermediarios_problemas_multietapas` | `memoria_trabalho` | Representação | `ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR`, `RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA` |
+| `atencao_sustentada_textos_longos` | `leitura_texto_longo` | Representação | `GALLIUSSI-2020-ESPACAMENTO-DISLEXIA`, `RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA` |
+| `distratibilidade_poluicao_visual_layout` | `sobrecarga_visual` | Representação | `CDC-ADHD-CLASSROOM-2026`, `GAASTRA-2016-META-INTERVENCOES-SALA` |
+| `impulsividade_leitura_superficial_negacoes` | `controle_inibitorio` | Ação e Expressão | `ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR`, `MS-PCDT-TDAH-2022` |
+| `organizacao_sequencial_expressao_escrita` | `organizacao_sequencial` | Ação e Expressão | `RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA`, `LEI-14254-2021-DISLEXIA-TDAH` |
+| `fadiga_executiva_autorregulacao_provas_extensas` | `atencao_sustentada` | Engajamento | `RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA`, `NCEO-TOOLKIT-TEMPO-EXTRA-2026` |
+| `flexibilidade_cognitiva_alternancia_topicos` | `flexibilidade_cognitiva` | Representação | `RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA`, `CORTESE-2015-META-TREINO-COGNITIVO` |
+| `bloqueio_iniciacao_tarefas_abertas` | `iniciacao_tarefa` | Ação e Expressão | `RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA`, `GAASTRA-2016-META-INTERVENCOES-SALA` |
+| `ritmo_processamento_pressao_temporal` | `velocidade_processamento` | Representação | `NCEO-TOOLKIT-TEMPO-EXTRA-2026`, `INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA` |
+
+---
+
+## 7. Gestão do Perfil Pedagógico Portátil (*Zero-Database*)
 
 Para viabilizar que o professor de uma nova série ou um novo bimestre conheça as estratégias que favoreceram o estudante sem necessidade de cadastros centrais, o sistema adota o padrão **Perfil Portátil**:
 

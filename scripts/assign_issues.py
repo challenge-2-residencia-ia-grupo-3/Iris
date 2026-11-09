@@ -16,25 +16,40 @@ sys.path.insert(0, str(repo_root))
 
 from scripts.sync_github_backlog import get_github_token, github_request, API_BASE
 
-# Apenas as issues do Sprint 1 (Semanas 1 e 2 do Challenge 2)
+# Issues do Sprint Atual (Ondas 1, 2 e 3 - Semanas 2 e 3 do Challenge 2)
 SPRINT_ASSIGNEES = {
     # Integrante 3 (Back) + Integrante 5 (Front): Entrada de Material Didático
     4: ["sarahgleice", "ySamantha"],
 
+    # Integrante 3 (Back): Decomposição estrutural automática de questões
+    5: ["sarahgleice"],
+
     # Integrante 2 (Catálogo/Dados) + Integrante 5 (Front): Seleção Cirúrgica de Características
     8: ["iancostag", "ySamantha"],
 
-    # Integrante 1 (RAG & Ingestão): Base Científica RAG e EDA 1
+    # Integrante 5 (Front) + Integrante 3 (Back): Calibragem de Andaime (Níveis 1, 2 e 3)
+    12: ["ySamantha", "sarahgleice"],
+
+    # Integrante 1 (RAG & Ingestão): Base Científica RAG e Busca Filtrada
     16: ["matheushpr94"],
 
     # Integrante 3 (Backend & LGPD): Scrubber Preventivo de PII (Zero-Retention)
     34: ["sarahgleice"],
 
-    # Integrante 2 (Pedagogia & Catálogo): Catálogo Oficial de Características TDAH (JSON)
+    # Integrante 2 (Infra/Dados & Catálogo): Catálogo Oficial de Características TDAH (JSON)
     39: ["iancostag"],
 
-    # Integrante 4 (Métricas & Avaliação) + Integrante 1 (RAG): EDA Benchmark e RAGAS
+    # Integrante 4 (Métricas & Avaliação) + Integrante 1 (RAG): EDA 1/2 e Benchmark Semana 3
     40: ["Madu030", "matheushpr94"],
+
+    # Integrante 2 (Infra/IA): Camada Híbrida de LLM (Ollama Local + API Externa)
+    43: ["iancostag"],
+
+    # Integrante 2 (Infra/Arquitetura): Unificação pyproject.toml, estrutura src/iris e ponte RAG
+    44: ["iancostag"],
+
+    # Integrante 4 (Ciência de Dados) + Integrante 2 (Eng. Dados): Dataset Golden Benchmark (30 questões)
+    45: ["Madu030", "iancostag"],
 }
 
 

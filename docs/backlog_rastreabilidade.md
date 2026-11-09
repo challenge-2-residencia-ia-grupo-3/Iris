@@ -64,6 +64,9 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | `#37` | **História 4.1.4** | Auditoria de não-retenção de payloads sensíveis em logs de execução | Épico 4.1 / Tema 4 | **RNF-01**, **RNF-02** | **História 4.1.1** (RNF-02), **História 4.1.2** (RNF-01) | `priority: must` | `scope: privacy-lgpd`, `scope: infra-eval` |
 | `#39` | **História 4.2.1** | Estruturação de schema modular JSON/YAML para catálogos de características | Épico 4.2 / Tema 4 | **RF-06**, RNF-11, RNF-12 | *Nenhuma (Fundação do Catálogo)* | `priority: must` | `scope: rag`, `scope: api` |
 | `#40` | **História 4.2.2** | Análise exploratória de dados (EDA do corpus e benchmark) e validação RAGAS | Épico 4.2 / Tema 4 | **RF-10**, **RNF-04**, **RNF-05**, **RNF-06** | **História 2.1.1** (RF-10), **História 2.1.4** (RF-12) | `priority: must` | `scope: infra-eval`, `scope: rag` |
+| `#43` | **História 4.2.3** | Camada de abstração híbrida de LLM (Ollama Local + API Externa) e setup do Llama 3 | Épico 4.2 / Tema 4 | **RNF-01**, **RNF-07**, **RNF-08**, **RNF-12** | **História 4.2.4** (`#44`) | `priority: must` | `scope: infra-eval`, `scope: agents`, `scope: rag` |
+| `#44` | **História 4.2.4** | Unificação de dependências no pyproject.toml, estrutura base src/iris e ponte com o módulo RAG | Épico 4.2 / Tema 4 | **RNF-11**, **RNF-12** | *Nenhuma (Fundação de Código)* | `priority: must` | `scope: infra-eval`, `scope: api`, `scope: rag` |
+| `#45` | **História 4.2.5** | Curadoria e estruturação do dataset Golden Benchmark de questões escolares (Fundamental II e Médio) | Épico 4.2 / Tema 4 | **RF-08**, **RF-10**, **RNF-04**, **RNF-05** | **História 4.2.1** (`#39`) | `priority: must` | `scope: infra-eval`, `scope: rag` |
 
 ---
 
@@ -631,4 +634,58 @@ Como pesquisador e avaliador técnico da Residência em IA, quero conduzir a an�
 - [ ] **[RAG / IA]** Dataset de 30 a 50 questões escolares (Golden Benchmark) e scripts da EDA 2 (baseline Flesch PT-BR e comandos).
 - [ ] **[RAG / IA]** Script do benchmark comparativo da Semana 3 comparando LLM Puro vs. Íris (RAG + Multiagentes).
 - [ ] **[Testes]** Relatório automatizado de validação comprovando TRCC >= 95% e métricas RAGAS (Faithfulness >= 0.90).
+
+##### História 4.2.3: Camada de abstração híbrida de LLM (Ollama Local + API Externa) e setup do Llama 3
+**História de Usuário**
+Como engenheiro de IA e desenvolvedor da equipe Íris, quero uma camada de abstração unificada para chamadas de LLM (`IrisLLMClient`) que permita alternar transparentemente via variáveis de ambiente entre modelos locais no Ollama (como `llama3.1:8b` e `qwen2.5:7b`) e provedores via API (Groq / OpenAI), para que toda a equipe possa desenvolver e rodar baterias de testes sem custo, sem bloqueios de *rate limit* e em total conformidade com a LGPD.
+
+**Requisito Base:** RNF-01, RNF-07, RNF-08, RNF-12
+**Critérios de Aceitação:**
+* **Dado que** o desenvolvedor configura `IRIS_LLM_PROVIDER=ollama` ou `IRIS_LLM_PROVIDER=groq` no arquivo `.env`,
+* **Quando** qualquer módulo do RAG ou agente invocar o `IrisLLMClient`,
+* **Então** o cliente deve rotear a requisição usando o contrato OpenAI-compatible (`/v1/chat/completions`) sem exigir alterações no código chamador.
+* **E** o cliente deve suportar respostas em texto livre e saídas estruturadas validadas por schemas Pydantic (*Structured Outputs*).
+* **E** toda chamada deve retornar telemetria padronizada (`prompt_tokens`, `completion_tokens`, `latency_ms` e `model_used`).
+* **E** o repositório deve conter um `Modelfile` / script de setup com parâmetros reprodutíveis (`temperature=0`, `seed=42`) para execução local no Ollama.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[RAG / IA]** Implementar `src/iris/core/llm_client.py` suportando `generate_text` e `generate_structured` (Pydantic JSON Schema) para Ollama e API Groq/OpenAI.
+- [ ] **[Infra]** Criar `scripts/setup_ollama.sh` e configuração padrão para provisionamento reprodutível do modelo local (`llama3.1:8b` / `qwen2.5:7b`).
+- [ ] **[RAG / IA]** Integrar `gerar.py` do pacote RAG com a configuração unificada de provedores e variáveis de ambiente.
+- [ ] **[Testes]** Testes unitários em `tests/core/test_llm_client.py` validando fallback, extração JSON e coleta de métricas de latência/tokens.
+
+##### História 4.2.4: Unificação de dependências no pyproject.toml, estrutura base src/iris e ponte com o módulo RAG
+**História de Usuário**
+Como desenvolvedor da plataforma Íris, quero que todas as dependências do projeto estejam unificadas no `pyproject.toml` (gerenciado pelo `uv`) e que a árvore de pacotes em `src/iris/` esteja estruturada e integrada ao módulo `rag/iris-rag/pacote/`, para que a equipe trabalhe em paralelo na API, no Frontend e nos Agentes sem conflitos de diretórios ou erros de importação.
+
+**Requisito Base:** RNF-11, RNF-12
+**Critérios de Aceitação:**
+* **Dado que** um desenvolvedor clona o repositório e executa `uv sync`,
+* **Quando** a instalação finalizar,
+* **Então** todas as dependências da API FastAPI, manipulação de documentos (`.pdf`, `.docx`) e do pipeline RAG (`pgvector`, `rank-bm25`, `sentence-transformers`) devem estar resolvidas num único ambiente virtual.
+* **E** o pacote `src/iris/` deve conter a estrutura modular inicial (`api/`, `core/`, `schemas/`, `security/`, `parsers/`, `agents/`, `rag/`) instalável em modo editável.
+* **E** o serviço de busca e geração do RAG deve poder ser importado a partir de `src/iris/` independentemente do diretório de trabalho (`cwd`) da aplicação.
+* **E** deve existir um arquivo `.env.example` na raiz documentando todas as variáveis de configuração do projeto.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Infra]** Unificar as dependências de `rag/iris-rag/pacote/requirements.txt` nos grupos do `pyproject.toml`, habilitar empacotamento editável de `src/iris` e atualizar o `uv.lock`.
+- [ ] **[Backend]** Criar a estrutura de diretórios e pacotes base em `src/iris/` (`api`, `core`, `schemas`, `security`, `parsers`, `agents`, `rag`) e diretório `tests/`.
+- [ ] **[RAG / IA]** Criar adaptador em `src/iris/rag/` encapsulando `consultar.buscar` e `gerar.responder` sem depender de `cwd` relativo.
+- [ ] **[Infra]** Criar arquivo `.env.example` padronizado na raiz do repositório.
+
+##### História 4.2.5: Curadoria e estruturação do dataset Golden Benchmark de questões escolares (Fundamental II e Médio)
+**História de Usuário**
+Como pesquisador responsável pela validação experimental da Semana 3, quero um dataset estruturado (*Golden Benchmark*) contendo de 30 a 50 questões escolares reais de Ensino Fundamental II e Médio anotadas com suas respectivas Travas Curriculares e características-alvo, para viabilizar a EDA 2 (legibilidade Flesch-Kincaid PT-BR) e o experimento comparativo entre LLM Puro vs. Íris (RAG).
+
+**Requisito Base:** RF-08, RF-10, RNF-04, RNF-05
+**Critérios de Aceitação:**
+* **Dado que** o experimento da Semana 3 e a EDA 2 exigem avaliações escolares reais (e não apenas dúvidas teóricas sobre TDAH),
+* **Quando** o dataset `data/benchmarks/questoes_escolares_v1.json` for carregado,
+* **Então** cada questão deve conter: `id`, `disciplina`, `ano_escolar`, `habilidade_bncc`, `enunciado_original`, `alternativas` (quando objetiva), `conceitos_trava_curricular` (lista de termos/conceitos inegociáveis), `operacao_cognitiva` e `id_caracteristica_alvo`.
+* **E** o conjunto deve conter no mínimo 30 questões públicas (ex.: INEP/SAEB, ENEM, bancos abertos alinhados à BNCC) cobrindo enunciados longos, múltiplos comandos conjugados e textos de apoio densos.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[RAG / IA]** Definir schema Pydantic `BenchmarkQuestionItem` para validação do dataset de questões escolares.
+- [ ] **[RAG / IA]** Coletar e anotar no mínimo 30 questões públicas (Fundamental II e Médio) em `data/benchmarks/questoes_escolares_v1.json` com Travas Curriculares e características funcionais associadas.
+- [ ] **[RAG / IA]** Implementar funções utilitárias de cálculo do Índice Flesch-Kincaid PT-BR e contagem de verbos de comando por enunciado para alimentar a EDA 2 (#40).
 
