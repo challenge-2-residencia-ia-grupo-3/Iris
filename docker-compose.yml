@@ -46,3 +46,4 @@ services:
 volumes:
   iris_pgvector_data:
   iris_ollama_models:
+

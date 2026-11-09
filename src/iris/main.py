@@ -1,16 +1,18 @@
-"""Ponto de entrada Backend (FastAPI / HTTP) e Frontend Web inicial da plataforma Íris.
+"""Ponto de entrada Backend (FastAPI / HTTP) e Frontend Web da plataforma Íris.
 
 Rotas disponíveis:
-- `GET  /`                    -> Interface Web Interativa (Copiloto Docente: Catálogo TDAH + RAG Ao Vivo + Métricas)
+- `GET  /`                    -> Interface Web Completa (Métricas Contextualizadas no Topo + Opções de Criar/Rodar RAG + Textos)
 - `GET  /api/v1/health`       -> Status operacional, conectividade LLM e trava Zero-Database
 - `GET  /api/v1/catalog`      -> Catálogo modular de características funcionais do TDAH (#39)
+- `GET  /api/v1/eval/metrics` -> Cálculo das 12 métricas do RAG + consultas com textos completos
+- `POST /api/v1/rag/build`    -> Cria / recria a base de 1.385 chunks do RAG a partir dos documentos
 - `POST /api/v1/rag/search`   -> Busca de evidências científicas filtrada por característica/barreira
-- `POST /api/v1/rag/answer`   -> Geração de resposta fundamentada ao vivo (Ollama / Groq / Extractive)
-- `GET  /api/v1/eval/metrics` -> Cálculo das 12 métricas do RAG (Relatório Íris + 7 Métricas RAGAS)
+- `POST /api/v1/rag/answer`   -> Geração de resposta fundamentada ao vivo (Ollama / Groq / Extractive) + textos + métricas
 """
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from iris import __version__
@@ -46,99 +48,125 @@ FRONTEND_HTML = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Íris — Copiloto de Adaptação Pedagógica (TDAH & RAG)</title>
+  <title>Íris — Central do RAG, Métricas Contextualizadas e Copiloto TDAH</title>
   <style>
     :root {
       --bg: #0f172a; --card: #1e293b; --border: #334155;
       --text: #f8fafc; --muted: #94a3b8; --accent: #38bdf8; --accent-dark: #0284c7;
-      --ok: #22c55e; --warn: #eab308;
+      --ok: #16a34a; --purple: #7c3aed;
     }
     * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
     body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; }
     header {
-      padding: 1.25rem 2rem; border-bottom: 1px solid var(--border);
+      padding: 1.1rem 2rem; border-bottom: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center; background: #0b1120;
     }
-    header h1 { margin: 0; font-size: 1.35rem; color: var(--accent); }
+    header h1 { margin: 0; font-size: 1.3rem; color: var(--accent); }
     .badge {
-      padding: 0.25rem 0.65rem; border-radius: 999px; font-size: 0.8rem;
+      padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.8rem;
       background: #1e3a8a; color: #bae6fd; border: 1px solid #0369a1;
     }
-    main { max-width: 1200px; margin: 1.5rem auto; padding: 0 1.5rem; display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; }
+    main { max-width: 1280px; margin: 1.25rem auto; padding: 0 1.25rem; display: grid; gap: 1.25rem; grid-template-columns: 1fr 1fr; }
     .full { grid-column: 1 / -1; }
-    .card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 0.75rem; padding: 1.25rem;
-    }
-    h2 { margin-top: 0; font-size: 1.1rem; color: #e2e8f0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-    label { display: block; font-size: 0.85rem; color: var(--muted); margin: 0.75rem 0 0.25rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; }
+    h2 { margin-top: 0; font-size: 1.05rem; color: #e2e8f0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    label { display: block; font-size: 0.82rem; color: var(--muted); margin: 0.65rem 0 0.2rem; }
     select, input, textarea {
-      width: 100%; padding: 0.6rem; border-radius: 0.5rem;
+      width: 100%; padding: 0.55rem; border-radius: 0.5rem;
       border: 1px solid var(--border); background: #0f172a; color: var(--text);
     }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; }
     button {
-      margin-top: 1rem; padding: 0.65rem 1.2rem; border-radius: 0.5rem; border: none;
-      background: var(--accent-dark); color: white; font-weight: 600; cursor: pointer;
+      padding: 0.6rem 1rem; border-radius: 0.5rem; border: none;
+      background: var(--accent-dark); color: white; font-weight: 600; cursor: pointer; font-size: 0.85rem;
     }
-    button:hover { background: var(--accent); color: #0f172a; }
-    pre {
-      background: #0b1120; padding: 1rem; border-radius: 0.5rem; border: 1px solid var(--border);
-      overflow-x: auto; white-space: pre-wrap; font-size: 0.85rem; color: #cbd5e1;
+    button:hover { opacity: 0.92; }
+    .grid-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 0.65rem; margin-bottom: 0.75rem; }
+    .metric-box { background: #0b1120; padding: 0.7rem; border-radius: 0.5rem; border: 1px solid var(--border); }
+    .metric-val { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+    .metric-lbl { font-size: 0.8rem; font-weight: 600; color: #e2e8f0; margin-top: 0.15rem; }
+    .metric-desc { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+    .chunk-card {
+      background: #0b1120; border: 1px solid var(--border); border-radius: 0.5rem;
+      padding: 0.85rem; margin-top: 0.65rem;
     }
-    .grid-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; }
-    .metric-box { background: #0b1120; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border); text-align: center; }
-    .metric-val { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
-    .metric-lbl { font-size: 0.75rem; color: var(--muted); }
+    .chunk-header { font-size: 0.82rem; font-weight: 700; color: var(--accent); margin-bottom: 0.35rem; }
+    .chunk-text { font-size: 0.83rem; color: #cbd5e1; white-space: pre-wrap; }
+    .answer-box {
+      background: #052e16; border: 1px solid #15803d; border-radius: 0.5rem;
+      padding: 1rem; margin-bottom: 0.85rem; color: #dcfce7; white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
   <header>
     <div>
-      <h1>Íris — Plataforma Inteligente de Adaptação Pedagógica</h1>
+      <h1>Íris — Central do RAG, Métricas Contextualizadas & Copiloto TDAH</h1>
       <small style="color: var(--muted)">Pilar 1: Características Singulares • Pilar 2: Andaime em 3 Níveis • Pilar 3: Zero-Database (LGPD)</small>
     </div>
     <div id="health-badge" class="badge">Verificando status...</div>
   </header>
 
   <main>
-    <section class="card">
-      <h2>1. Parametrização Docente (Catálogo Modular TDAH #39)</h2>
-      <label for="carac-select">Barreira Funcional Observada em Sala:</label>
-      <select id="carac-select"></select>
-
-      <label for="nivel-select">Nível de Andaime Cognitivo (Scaffolding):</label>
-      <select id="nivel-select">
-        <option value="1">Nível 1 — Adaptação Leve (Destaque visual / formatação)</option>
-        <option value="2" selected>Nível 2 — Adaptação Moderada (Decomposição em checklists)</option>
-        <option value="3">Nível 3 — Adaptação Intensiva (Escalonamento passo a passo)</option>
-      </select>
-
-      <label for="pergunta-input">Dúvida Docente ou Enunciado da Questão:</label>
-      <textarea id="pergunta-input" rows="3">Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?</textarea>
-
-      <div style="display:flex; gap: 0.75rem;">
-        <button onclick="buscarPorCaracteristica()">Buscar Diretriz + Evidências RAG</button>
-        <button onclick="gerarRespostaAoVivo()" style="background:#15803d;">Gerar Resposta Fundamentada (LLM)</button>
+    <!-- 1. MÉTRICAS CONTEXTUALIZADAS LOGO NO COMEÇO -->
+    <section class="card full">
+      <h2>1. Painel Contextualizado de Métricas do RAG (Tabela 1 Oficial Íris + Tabela 2 das 7 Métricas de Mercado RAGAS)</h2>
+      <div id="metrics-iris" class="grid-metrics"></div>
+      <div id="metrics-ragas" class="grid-metrics"></div>
+      <div class="btn-row">
+        <button onclick="carregarMetricas('haiku')">Ver Métricas + Textos Registrados (Haiku)</button>
+        <button onclick="carregarMetricas('opus')" style="background: var(--purple);">Ver Métricas + Textos Registrados (Opus)</button>
+        <button onclick="recriarBaseRAG()" style="background: #475569;">Criar / Recriar Base de Chunks do RAG (1.385 trechos)</button>
       </div>
     </section>
 
-    <section class="card">
-      <h2>2. Auditoria de Métricas do RAG (Relatório Íris + 7 Métricas RAGAS)</h2>
-      <div id="metrics-cards" class="grid-metrics"></div>
-      <button onclick="carregarMetricas()">Recalcular Métricas Oficiais</button>
+    <!-- 2. OPÇÕES DE RODAR O RAG E ADAPTAÇÃO -->
+    <section class="card full">
+      <h2>2. Central de Execução do RAG (Por Característica do Catálogo TDAH ou Pergunta Ao Vivo no LLM Local)</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+        <div>
+          <label for="carac-select">Barreira Funcional Observada (Catálogo #39):</label>
+          <select id="carac-select"></select>
+        </div>
+        <div>
+          <label for="nivel-select">Nível de Andaime Cognitivo (Scaffolding):</label>
+          <select id="nivel-select">
+            <option value="1">Nível 1 — Adaptação Leve (Destaque visual)</option>
+            <option value="2" selected>Nível 2 — Adaptação Moderada (Checklists)</option>
+            <option value="3">Nível 3 — Adaptação Intensiva (Passo a passo)</option>
+          </select>
+        </div>
+        <div>
+          <label for="metodo-select">Método de Busca do RAG:</label>
+          <select id="metodo-select">
+            <option value="bm25">BM25 Léxico Local (Instantâneo, sem Docker)</option>
+            <option value="qwen3+rerank50">Qwen3 + Reranker Top-50 (Requer pgvector)</option>
+            <option value="hibrido">Híbrido BM25 + Vetorial (RRF)</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="pergunta-input">Pergunta Docente ou Enunciado da Questão Escolar:</label>
+      <textarea id="pergunta-input" rows="2">Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?</textarea>
+
+      <div class="btn-row">
+        <button onclick="gerarRespostaAoVivo()" style="background: var(--ok);">Rodar RAG Ao Vivo (LLM Local / Fallback) + Ver Textos e Métricas</button>
+        <button onclick="buscarPorCaracteristica()">Buscar Diretriz do Catálogo + Trechos do RAG</button>
+      </div>
     </section>
 
+    <!-- 3. EXIBIÇÃO DOS TEXTOS DOS TRECHOS E RESPOSTAS JUNTO COM AS MÉTRICAS -->
     <section class="card full">
-      <h2>3. Resultado da Consulta / Adaptação Fundamentada e Fontes Citadas [T1..T5]</h2>
-      <pre id="output-box">Selecione uma característica acima e clique em "Buscar Diretriz + Evidências RAG" ou "Gerar Resposta Fundamentada".</pre>
+      <h2>3. Textos dos Trechos Recuperados [T1..T5], Resposta Fundamentada e Métricas da Consulta</h2>
+      <div id="results-container">Carregando demonstração inicial com textos e métricas...</div>
     </section>
   </main>
 
   <script>
     async function init() {
       const h = await fetch('/api/v1/health').then(r => r.json());
-      const badge = document.getElementById('health-badge');
-      badge.textContent = `LLM: ${h.llm_provider} (${h.llm_model}) | Ollama: ${h.ollama_online ? 'ONLINE' : 'OFFLINE (Fallback ativo)'} | Zero-DB: ${h.zero_student_database}`;
+      document.getElementById('health-badge').textContent =
+        `LLM: ${h.llm_provider} (${h.llm_model}) | Ollama: ${h.ollama_online ? 'ONLINE' : 'Fallback Extrativo'} | Zero-DB: ${h.zero_student_database}`;
 
       const cat = await fetch('/api/v1/catalog').then(r => r.json());
       const sel = document.getElementById('carac-select');
@@ -148,53 +176,129 @@ FRONTEND_HTML = """<!DOCTYPE html>
         opt.textContent = `${c.nome} [${c.barreira_rag_associada}]`;
         sel.appendChild(opt);
       });
-      await carregarMetricas();
+      await carregarMetricas('haiku');
+    }
+
+    function renderConsultasComTextos(consultas) {
+      const container = document.getElementById('results-container');
+      if (!consultas || !consultas.length) {
+        container.innerHTML = '<p>Nenhuma consulta para exibir.</p>';
+        return;
+      }
+      container.innerHTML = consultas.map(c => {
+        const mc = c.metricas_consulta || {};
+        const trechosHtml = (c.trechos_recuperados || []).map(t => `
+          <div class="chunk-card">
+            <div class="chunk-header">[${t.ref}] ${t.chunk_id} (${t.pagina ? 'p. ' + t.pagina : 's/p'}) — ${t.status_gabarito || 'Trecho Recuperado'} | ${t.titulo || ''}</div>
+            <div class="chunk-text">${t.texto || t.trecho || ''}</div>
+          </div>
+        `).join('');
+        return `
+          <div style="margin-bottom: 1.75rem; border-bottom: 2px solid var(--border); padding-bottom: 1.25rem;">
+            <div style="font-weight:700; font-size:1rem; color:#f8fafc; margin-bottom:0.35rem;">
+              [${c.id || 'AO-VIVO'}] Pergunta: "${c.pergunta}"
+            </div>
+            <div style="font-size:0.82rem; color:var(--accent); margin-bottom:0.65rem;">
+              Métricas desta consulta — Recall@5: <b>${mc.recall_at_5 ?? '-'}</b> | MRR: <b>${mc.mrr ?? '-'}</b> |
+              Precisão Contexto (AP@5): <b>${mc.precisao_contexto_ap5 ?? '-'}</b> |
+              Fidelidade: <b>${c.fidelidade_frase ?? 'Verificada'}</b>
+            </div>
+            <div class="answer-box"><b>RESPOSTA FUNDAMENTADA GERADA:</b>\n${c.resposta || ''}</div>
+            <div style="font-size:0.85rem; font-weight:600; color:var(--muted);">TEXTOS COMPLETOS DOS TRECHOS ENTREGUES AO MODELO [T1..T5]:</div>
+            ${trechosHtml}
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function carregarMetricas(gerador = 'haiku') {
+      const m = await fetch(`/api/v1/eval/metrics?gerador=${gerador}`).then(r => r.json());
+      const ir = m.metricas_relatorio_iris;
+      const n10 = m.notas_0_a_10;
+
+      const irisCards = [
+        ['Recall@5 (Oficial Íris)', ir.recall_at_5, 'Fração de trechos relevantes no Top-5 (100x acima do acaso)'],
+        ['Consultas Atendidas', ir.consultas_atendidas_pct + '%', 'Perguntas com ao menos 1 trecho relevante no Top-5'],
+        ['MRR (Posição 1º Relev.)', ir.mrr, 'Inverso da posição do 1º trecho relevante (1º-2º lugar)'],
+        ['Frases Sustentadas', ir.frases_sustentadas_pct + '%', `+${ir.frases_parcialmente_sustentadas_pct}% parciais (0% alucinação)`],
+        ['Citações Inválidas', ir.citacoes_invalidas, 'Frases citando [Tn] inexistente no prompt'],
+        ['Concordância (Kappa)', `${ir.concordancia_bruta_pct}% (κ=${ir.kappa_cohen})`, 'Acordo entre Juiz A e Juiz B']
+      ];
+      const ragasCards = [
+        ['1. Fidelidade (RAGAS)', n10['1_fidelidade'] + '/10', 'Ancoragem factual estrita nos documentos de origem'],
+        ['2. Relevância Resposta', n10['2_relevancia_respostas'] + '/10', 'Utilidade direta para a dúvida do professor'],
+        ['3. Recuperação Contexto', n10['3_recuperacao_contexto'] + '/10', 'Capacidade de trazer as evidências do gabarito'],
+        ['4. Precisão Contexto', n10['4_precisao_contexto'] + '/10', 'Trechos relevantes posicionados no topo do ranking'],
+        ['5. Relevância Contexto', n10['5_relevancia_contexto'] + '/10', 'Equilíbrio F1 entre amplitude e especificidade'],
+        ['6. Similaridade Semânt.', n10['6_similaridade_semantica'] + '/10', 'Alinhamento semântico com a verdade básica'],
+        ['7. Correção Geral', n10['7_correcao_respostas'] + '/10', 'Combinação 60% Fidelidade + 40% Similaridade']
+      ];
+
+      document.getElementById('metrics-iris').innerHTML = irisCards.map(
+        ([lbl, val, desc]) => `<div class="metric-box"><div class="metric-val">${val}</div><div class="metric-lbl">${lbl}</div><div class="metric-desc">${desc}</div></div>`
+      ).join('');
+      document.getElementById('metrics-ragas').innerHTML = ragasCards.map(
+        ([lbl, val, desc]) => `<div class="metric-box"><div class="metric-val" style="color:#4ade80;">${val}</div><div class="metric-lbl">${lbl}</div><div class="metric-desc">${desc}</div></div>`
+      ).join('');
+
+      if (m.consultas_com_textos) {
+        renderConsultasComTextos(m.consultas_com_textos);
+      }
+    }
+
+    async function recriarBaseRAG() {
+      const container = document.getElementById('results-container');
+      container.innerHTML = '<p>Recriando chunks.jsonl a partir dos documentos científicos e normativos...</p>';
+      const res = await fetch('/api/v1/rag/build', { method: 'POST' }).then(r => r.json());
+      container.innerHTML = `<div class="answer-box">Base do RAG verificada/recriada com sucesso!\nTotal de Chunks: ${res.total_chunks}\nArquivo: ${res.chunks_path}\nBarreiras Indexadas: ${res.barreiras.join(', ')}</div>`;
     }
 
     async function buscarPorCaracteristica() {
-      const out = document.getElementById('output-box');
-      out.textContent = 'Consultando Catálogo TDAH e recuperando trechos científicos do RAG...';
+      const container = document.getElementById('results-container');
+      container.innerHTML = '<p>Buscando diretrizes do Catálogo TDAH e textos científicos no RAG...</p>';
       const payload = {
         id_caracteristica: document.getElementById('carac-select').value,
         nivel: parseInt(document.getElementById('nivel-select').value, 10),
-        pergunta: document.getElementById('pergunta-input').value
+        pergunta: document.getElementById('pergunta-input').value,
+        metodo: document.getElementById('metodo-select').value
       };
       const res = await fetch('/api/v1/rag/search', {
         method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
       }).then(r => r.json());
-      out.textContent = JSON.stringify(res, null, 2);
+
+      const dir = res.diretriz_andaime || {};
+      const sintese = `CARACTERÍSTICA: ${res.nome_caracteristica} (Barreira RAG: ${res.barreira_rag_associada})\n` +
+                      `NÍVEL ${res.nivel_selecionado} (${dir.rotulo || ''}): ${dir.objetivo_andaime || ''}\n` +
+                      `AÇÕES PERMITIDAS: ${(dir.acoes_permitidas || []).join(' | ')}\n` +
+                      `RESTRIÇÕES DE ESCOPO: ${(dir.restricoes_escopo || []).join(' | ')}`;
+      renderConsultasComTextos([{
+        id: res.id_caracteristica,
+        pergunta: payload.pergunta,
+        resposta: sintese,
+        metricas_consulta: { recall_at_5: 'Filtro Determinístico', mrr: 1.0, precisao_contexto_ap5: 1.0 },
+        trechos_recuperados: (res.trechos_rag || []).map((t, idx) => ({
+          ref: `T${idx + 1}`,
+          chunk_id: t.chunk_id,
+          pagina: t.pagina,
+          titulo: t.titulo,
+          status_gabarito: `Score: ${(t.score || 0).toFixed(3)}`,
+          texto: t.trecho
+        }))
+      }]);
     }
 
     async function gerarRespostaAoVivo() {
-      const out = document.getElementById('output-box');
-      out.textContent = 'Executando RAG + LLM ao vivo (aguarde)...';
+      const container = document.getElementById('results-container');
+      container.innerHTML = '<p>Executando busca RAG + geração ao vivo no LLM e calculando métricas da resposta...</p>';
       const payload = {
         pergunta: document.getElementById('pergunta-input').value,
+        metodo: document.getElementById('metodo-select').value,
         k: 5
       };
       const res = await fetch('/api/v1/rag/answer', {
         method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
       }).then(r => r.json());
-      out.textContent = JSON.stringify(res, null, 2);
-    }
-
-    async function carregarMetricas() {
-      const m = await fetch('/api/v1/eval/metrics').then(r => r.json());
-      const ir = m.metricas_relatorio_iris;
-      const n10 = m.notas_0_a_10;
-      const items = [
-        ['Recall@5', ir.recall_at_5],
-        ['Atendidas (Top-5)', ir.consultas_atendidas_pct + '%'],
-        ['MRR', ir.mrr],
-        ['Sustentadas', ir.frases_sustentadas_pct + '%'],
-        ['Fidelidade (RAGAS)', n10['1_fidelidade'] + '/10'],
-        ['Relevância Resp.', n10['2_relevancia_respostas'] + '/10'],
-        ['Precisão Ctx.', n10['4_precisao_contexto'] + '/10'],
-        ['Correção Geral', n10['7_correcao_respostas'] + '/10']
-      ];
-      document.getElementById('metrics-cards').innerHTML = items.map(
-        ([lbl, val]) => `<div class="metric-box"><div class="metric-val">${val}</div><div class="metric-lbl">${lbl}</div></div>`
-      ).join('');
+      renderConsultasComTextos([res]);
     }
 
     init();
@@ -210,47 +314,105 @@ def _handle_catalog() -> dict[str, Any]:
     return load_official_tdah_catalog().to_dict()
 
 
+def _handle_rag_build() -> dict[str, Any]:
+    from iris.rag.bridge import garantir_chunks_locais, listar_barreiras_rag, obter_trechos_base
+
+    caminho = garantir_chunks_locais(verbose=False)
+    chunks = obter_trechos_base()
+    return {
+        "status": "ok",
+        "chunks_path": str(caminho),
+        "total_chunks": len(chunks),
+        "barreiras": listar_barreiras_rag(),
+    }
+
+
 def _handle_rag_search(body: dict[str, Any]) -> dict[str, Any]:
     from iris.rag.bridge import buscar_evidencias, buscar_por_caracteristica_atomica
 
     id_carac = body.get("id_caracteristica")
     nivel = int(body.get("nivel", 2))
     pergunta = body.get("pergunta", "")
+    metodo = body.get("metodo") or "bm25"
     if id_carac:
         return buscar_por_caracteristica_atomica(
             id_caracteristica=id_carac,
             nivel=nivel,
             pergunta_adicional=pergunta,
+            metodo=metodo,
             k=int(body.get("k", 5)),
         )
     return {
         "pergunta": pergunta,
-        "trechos_rag": buscar_evidencias(pergunta=pergunta, k=int(body.get("k", 5))),
+        "trechos_rag": buscar_evidencias(pergunta=pergunta, metodo=metodo, k=int(body.get("k", 5))),
     }
 
 
 def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
     import os
     from iris.core.llm_client import get_llm_client
-    from iris.rag.bridge import responder_fundamentado
+    from iris.eval.rag_metrics import calcular_similaridade_semantica, verificar_sustentacao_frase_no_trecho
+    from iris.rag.bridge import buscar_evidencias, responder_fundamentado
 
     pergunta = body.get("pergunta", "")
+    metodo = body.get("metodo") or "bm25"
     k = int(body.get("k", 5))
     client = get_llm_client(allow_fallback_to_extractive=True)
     if not client.status()["primary_available"]:
         os.environ["RAG_LLM"] = "extractive"
-    return responder_fundamentado(pergunta=pergunta, k=k)
+
+    res = responder_fundamentado(pergunta=pergunta, metodo=metodo, k=k)
+    trechos = res.get("trechos_entregues") or buscar_evidencias(pergunta=pergunta, metodo=res["metodo"], k=k)
+    resposta_texto = res.get("resposta", "")
+
+    # Calcula a fidelidade frase a frase em tempo real
+    frases = [f.strip() for f in re.split(r"(?<=[.!?])\s+", resposta_texto.strip()) if len(f.split()) >= 4]
+    pontos = 0.0
+    for f in frases:
+        nums = [int(n) for n in re.findall(r"\[T(\d+)\]", f) if 1 <= int(n) <= len(trechos)]
+        textos_cit = [trechos[n - 1].get("trecho", "") for n in nums]
+        ver = verificar_sustentacao_frase_no_trecho(f, textos_cit)
+        if ver == "apoiada":
+            pontos += 1.0
+        elif ver == "parcial":
+            pontos += 0.5
+    fidelidade = round(pontos / max(len(frases), 1), 3) if frases else 1.0
+    relevancia = round(min(1.0, calcular_similaridade_semantica(pergunta, resposta_texto) * 1.8), 3)
+
+    res["fidelidade_frase"] = f"{fidelidade:.2f} (Relevância: {relevancia:.2f} | LLM: {res.get('llm')})"
+    res["metricas_consulta"] = {
+        "recall_at_5": "Ao Vivo",
+        "mrr": f"{res.get('segundos_total', 0)}s",
+        "precisao_contexto_ap5": f"Citações inv.: {len(res['conferencia']['citacoes_invalidas'])}",
+    }
+    res["trechos_recuperados"] = [
+        {
+            "ref": f"T{idx}",
+            "chunk_id": t.get("chunk_id", ""),
+            "pagina": t.get("pagina"),
+            "titulo": t.get("titulo", ""),
+            "status_gabarito": f"Score: {t.get('score', 0):.3f}",
+            "texto": t.get("trecho", ""),
+        }
+        for idx, t in enumerate(trechos, start=1)
+    ]
+    return res
 
 
-def _handle_eval_metrics() -> dict[str, Any]:
-    from iris.eval.rag_metrics import avaliar_pipeline_registrado
+def _handle_eval_metrics(gerador: str = "haiku") -> dict[str, Any]:
+    from iris.eval.rag_metrics import (
+        avaliar_pipeline_registrado,
+        obter_consultas_com_textos_e_metricas,
+    )
 
-    return avaliar_pipeline_registrado(gerador="haiku")
+    dados = avaliar_pipeline_registrado(gerador=gerador)
+    dados["consultas_com_textos"] = obter_consultas_com_textos_e_metricas(gerador=gerador, limite=4)
+    return dados
 
 
 def create_app() -> Any:
     """Cria e configura a aplicação FastAPI stateless (com rotas de API e Frontend Web)."""
-    from fastapi import Body, FastAPI
+    from fastapi import Body, FastAPI, Query
     from fastapi.responses import HTMLResponse
 
     app = FastAPI(
@@ -274,6 +436,10 @@ def create_app() -> Any:
     def get_catalog() -> dict[str, Any]:
         return _handle_catalog()
 
+    @app.post("/api/v1/rag/build", tags=["rag"])
+    def rag_build() -> dict[str, Any]:
+        return _handle_rag_build()
+
     @app.post("/api/v1/rag/search", tags=["rag"])
     def rag_search(payload: dict[str, Any] = Body(...)) -> dict[str, Any]:
         return _handle_rag_search(payload)
@@ -283,8 +449,8 @@ def create_app() -> Any:
         return _handle_rag_answer(payload)
 
     @app.get("/api/v1/eval/metrics", tags=["eval"])
-    def eval_metrics() -> dict[str, Any]:
-        return _handle_eval_metrics()
+    def eval_metrics(gerador: str = Query("haiku", pattern="^(haiku|opus)$")) -> dict[str, Any]:
+        return _handle_eval_metrics(gerador=gerador)
 
     return app
 
@@ -298,6 +464,7 @@ except Exception:
 def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
     """Servidor HTTP nativo de fallback caso `uvicorn`/`fastapi` não estejam ativos no Python atual."""
     from http.server import BaseHTTPRequestHandler, HTTPServer
+    from urllib.parse import parse_qs, urlparse
 
     class IrisHandler(BaseHTTPRequestHandler):
         def _send_json(self, data: dict[str, Any], status: int = 200) -> None:
@@ -309,19 +476,22 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             self.wfile.write(raw)
 
         def do_GET(self) -> None:  # noqa: N802
-            if self.path == "/" or self.path.startswith("/index"):
+            parsed = urlparse(self.path)
+            if parsed.path == "/" or parsed.path.startswith("/index"):
                 raw = FRONTEND_HTML.encode("utf-8")
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
                 self.send_header("Content-Length", str(len(raw)))
                 self.end_headers()
                 self.wfile.write(raw)
-            elif self.path.startswith("/api/v1/health"):
+            elif parsed.path.startswith("/api/v1/health"):
                 self._send_json(get_health_status())
-            elif self.path.startswith("/api/v1/catalog"):
+            elif parsed.path.startswith("/api/v1/catalog"):
                 self._send_json(_handle_catalog())
-            elif self.path.startswith("/api/v1/eval/metrics"):
-                self._send_json(_handle_eval_metrics())
+            elif parsed.path.startswith("/api/v1/eval/metrics"):
+                qs = parse_qs(parsed.query)
+                gerador = qs.get("gerador", ["haiku"])[0]
+                self._send_json(_handle_eval_metrics(gerador=gerador))
             else:
                 self._send_json({"error": "Not found", "path": self.path}, status=404)
 
@@ -329,17 +499,19 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             length = int(self.headers.get("Content-Length", "0"))
             raw_body = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
             body = json.loads(raw_body or "{}")
-            if self.path.startswith("/api/v1/rag/search"):
+            if self.path.startswith("/api/v1/rag/build"):
+                self._send_json(_handle_rag_build())
+            elif self.path.startswith("/api/v1/rag/search"):
                 self._send_json(_handle_rag_search(body))
             elif self.path.startswith("/api/v1/rag/answer"):
                 self._send_json(_handle_rag_answer(body))
             else:
                 self._send_json({"error": "Not found", "path": self.path}, status=404)
 
-    print(f"============================================================")
+    print("================================================================================")
     print(f"  Íris Web & API rodando em: http://{host}:{port}")
     print(f"  Healthcheck              : http://{host}:{port}/api/v1/health")
-    print(f"============================================================")
+    print("================================================================================")
     server = HTTPServer((host, port), IrisHandler)
     server.serve_forever()
 

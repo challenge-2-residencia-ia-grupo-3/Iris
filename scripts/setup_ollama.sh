@@ -77,3 +77,4 @@ echo ""
 echo "  • Calcular todas as métricas do RAG gerando respostas ao vivo no Ollama:"
 echo "    RAG_LLM=ollama RAG_LLM_MODELO=${MODEL} PYTHONPATH=src python3 -m iris.eval.rag_metrics --ao-vivo --limite 5"
 echo "============================================================"
+

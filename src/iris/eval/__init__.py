@@ -14,6 +14,7 @@ from iris.eval.rag_metrics import (
     calcular_recall_at_k,
     calcular_similaridade_semantica,
     formatar_relatorio_completo,
+    obter_consultas_com_textos_e_metricas,
     verificar_sustentacao_frase_no_trecho,
 )
 from iris.eval.readability import (
@@ -58,6 +59,7 @@ __all__ = [
     "flesch_ptbr",
     "formatar_relatorio_completo",
     "load_questions",
+    "obter_consultas_com_textos_e_metricas",
     "split_sentences",
     "split_words",
     "summarize",
