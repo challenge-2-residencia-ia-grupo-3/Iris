@@ -1,0 +1,66 @@
+{
+  "tokens_por_trecho": {
+    "n": 1041,
+    "min": 76,
+    "p50": 351,
+    "p75": 487,
+    "p90": 554,
+    "p95": 594,
+    "p99": 761,
+    "max": 839,
+    "media": 350.8
+  },
+  "palavras_por_trecho": {
+    "n": 1041,
+    "min": 40,
+    "p50": 202,
+    "p75": 303,
+    "p90": 338,
+    "p95": 346,
+    "p99": 357,
+    "max": 511,
+    "media": 201.4
+  },
+  "tokens_por_palavra": 1.7420473462534642,
+  "tokens_por_palavra_por_idioma": {
+    "en": 1.74,
+    "pt-BR": 1.74
+  },
+  "max_palavras_atual": 350,
+  "acima_do_max_palavras": 12,
+  "limite_modelo_tokens": 512,
+  "trechos_acima_do_limite": 201,
+  "pct_acima_do_limite": 19.3,
+  "max_palavras_sugerido": 264,
+  "max_palavras_sugerido_por_idioma": {
+    "en": 264,
+    "pt-BR": 264
+  },
+  "estouro_por_idioma": [
+    {
+      "idioma": "pt-BR",
+      "n_trechos": 315,
+      "acima": 74,
+      "tokens_p90": 556,
+      "pct_acima": 23.5
+    },
+    {
+      "idioma": "en",
+      "n_trechos": 726,
+      "acima": 127,
+      "tokens_p90": 549,
+      "pct_acima": 17.5
+    }
+  ],
+  "metodo_tokens": "tokenizador/sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+  "trechos_vazios_excluidos": 42,
+  "limites_modelos": {
+    "mpnet": 512,
+    "qwen3": 1024
+  },
+  "caracteristicas_sem_trechos": [],
+  "vocabulario": {
+    "so_no_catalogo": [],
+    "so_nos_trechos": []
+  }
+}
