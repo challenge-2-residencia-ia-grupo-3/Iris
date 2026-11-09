@@ -24,6 +24,7 @@ def get_health_status() -> dict[str, Any]:
 def create_app() -> Any:
     """Cria e configura a aplicação FastAPI stateless."""
     from fastapi import FastAPI
+    from fastapi.middleware.cors import CORSMiddleware
 
     app = FastAPI(
         title="Íris — Adaptação Inteligente de Materiais Pedagógicos",
@@ -32,6 +33,19 @@ def create_app() -> Any:
             "baseada em evidências (DUA/MEC) e arquitetura Zero-Database (LGPD)."
         ),
         version=__version__,
+    )
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "http://localhost:8000",
+            "http://127.0.0.1:8000",
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     @app.get("/api/v1/health", tags=["infra"])
@@ -45,5 +59,11 @@ def create_app() -> Any:
         app.include_router(materials_router, prefix="/api/v1")
 
     return app
+
+
+try:
+    app = create_app()
+except ImportError:
+    app = None  # type: ignore
 
 

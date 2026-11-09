@@ -34,3 +34,9 @@ site/
 /data/raw/*
 !/data/raw/.gitkeep
 
+# Frontend Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+

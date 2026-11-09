@@ -19,6 +19,7 @@ from iris.schemas.materials import (
     MaterialSourceType,
     MaterialTextInput,
     MaterialValidationError,
+    validate_file_size_limit,
     validate_material_content,
 )
 from iris.security.pii_scrubber import sanitize_pii
@@ -28,7 +29,7 @@ def process_material_text_service(raw_text: str) -> MaterialResponse:
     """Executa o pipeline completo em memória para texto direto:
 
     1. Sanitização preventiva de PII (Zero-Retention / RNF-02).
-    2. Validação de regras de negócio (50 caracteres a 2.000 palavras / RF-01).
+    2. Validação de regras de negócio (mínimo 50 caracteres e janela de contexto da IA / RF-01).
     3. Construção do envelope de resposta padronizado.
     """
     if not isinstance(raw_text, str) or not raw_text.strip():
@@ -41,7 +42,7 @@ def process_material_text_service(raw_text: str) -> MaterialResponse:
     # 1. Sanitizar PII (irreversível, sem dicionário de retenção)
     sanitized_text, pii_count = sanitize_pii(raw_text)
 
-    # 2. Validar limites de tamanho
+    # 2. Validar limites de tamanho e janela de contexto
     char_count, word_count = validate_material_content(sanitized_text)
 
     # 3. Retornar resposta
@@ -63,10 +64,11 @@ def process_material_text_service(raw_text: str) -> MaterialResponse:
 def process_material_file_service(filename: str, content: bytes) -> MaterialResponse:
     """Executa o pipeline completo em memória para upload de documentos:
 
-    1. Validação de formato e extração textual em memória (.txt, .pdf, .docx).
-    2. Sanitização preventiva de PII (Zero-Retention / RNF-02).
-    3. Validação de regras de negócio (50 caracteres a 2.000 palavras / RF-01).
-    4. Construção do envelope de resposta padronizado.
+    1. Controle de tamanho máximo do arquivo em memória.
+    2. Validação de formato e extração textual em memória (.txt, .pdf, .docx).
+    3. Sanitização preventiva de PII (Zero-Retention / RNF-02).
+    4. Validação de regras de negócio (mínimo 50 caracteres e janela de contexto da IA / RF-01).
+    5. Construção do envelope de resposta padronizado.
     """
     if not filename:
         raise UnsupportedFileFormatError(
@@ -74,7 +76,10 @@ def process_material_file_service(filename: str, content: bytes) -> MaterialResp
             code="MISSING_FILENAME",
         )
 
-    # 1. Extração em memória
+    # 1. Validar limite de tamanho binário do arquivo
+    validate_file_size_limit(content)
+
+    # 2. Extração em memória
     extracted_text, detected_format = extract_text_from_file(filename, content)
 
     # 2. Sanitizar PII

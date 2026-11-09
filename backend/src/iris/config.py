@@ -8,7 +8,8 @@ from pathlib import Path
 # Caminhos absolutos independentes do diretório de trabalho (cwd)
 PACKAGE_DIR = Path(__file__).resolve().parent
 SRC_DIR = PACKAGE_DIR.parent
-REPO_ROOT = SRC_DIR.parent
+BACKEND_DIR = SRC_DIR.parent
+REPO_ROOT = BACKEND_DIR.parent if BACKEND_DIR.name == "backend" else BACKEND_DIR
 
 RAG_DIR = REPO_ROOT / "rag"
 RAG_BASE_DIR = RAG_DIR / "iris-rag"

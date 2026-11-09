@@ -10,11 +10,14 @@ import sys
 import unittest
 from pathlib import Path
 
-# Garante que `src` esteja no sys.path mesmo quando rodado via `python3 -m unittest`
-REPO_ROOT = Path(__file__).resolve().parent.parent
-SRC_DIR = REPO_ROOT / "src"
+# Garante que `backend/src` esteja no sys.path mesmo quando rodado via `python3 -m unittest`
+BACKEND_DIR = Path(__file__).resolve().parent.parent
+REPO_ROOT = BACKEND_DIR.parent if BACKEND_DIR.name == "backend" else BACKEND_DIR
+SRC_DIR = BACKEND_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
 
 import iris
 from iris.config import RAG_BASE_DIR, RAG_PACOTE_DIR, get_settings

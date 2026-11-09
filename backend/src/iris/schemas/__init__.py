@@ -12,13 +12,15 @@ from iris.schemas.catalog import (
     load_catalog_file,
 )
 from iris.schemas.materials import (
-    MAX_MATERIAL_WORDS,
+    MAX_FILE_SIZE_BYTES,
+    MAX_SAFE_CONTEXT_CHARS,
     MIN_MATERIAL_CHARS,
     MaterialMetadata,
     MaterialResponse,
     MaterialSourceType,
     MaterialTextInput,
     MaterialValidationError,
+    validate_file_size_limit,
     validate_material_content,
 )
 
@@ -33,13 +35,15 @@ __all__ = [
     "get_characteristic_by_id",
     "load_all_catalogs",
     "load_catalog_file",
-    "MAX_MATERIAL_WORDS",
+    "MAX_FILE_SIZE_BYTES",
+    "MAX_SAFE_CONTEXT_CHARS",
     "MIN_MATERIAL_CHARS",
     "MaterialMetadata",
     "MaterialResponse",
     "MaterialSourceType",
     "MaterialTextInput",
     "MaterialValidationError",
+    "validate_file_size_limit",
     "validate_material_content",
 ]
 

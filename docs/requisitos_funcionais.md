@@ -10,9 +10,9 @@ Este documento especifica os **Requisitos Funcionais** da plataforma Íris. Em e
 * **Descrição:** O sistema deve permitir que o professor insira o material didático original (avaliações, listas de exercícios, textos de apoio ou roteiros de aula) por digitação direta em campo de texto ou por upload de arquivos nos formatos `.pdf`, `.docx` e `.txt`.
 * **Entradas:** Texto livre ou arquivo digital contendo questões, enunciados e textos-base.
 * **Processamento:**
-  1. Extração do texto bruto e sanitização de formatação indesejada.
-  2. Validação do tamanho do texto (mínimo de 50 caracteres e limite seguro de tokens da janela de contexto).
-* **Saída:** Objeto estruturado em memória contendo o material pedagógico bruto.
+  1. Extração do texto bruto em memória e sanitização de formatação indesejada preservando UTF-8.
+  2. Validação do tamanho do texto (mínimo de 50 caracteres, sem limite máximo funcional fixo de palavras na interface, respeitando os limites técnicos de tamanho de arquivo e janela de contexto da IA).
+* **Saída:** Objeto estruturado em memória contendo o material pedagógico bruto para conferência imediata.
 
 ### RF-02: Decomposição Estrutural Automática do Material
 * **Descrição:** O sistema deve identificar e segmentar deterministicamente os componentes estruturais da atividade pedagógica submetida.

@@ -13,10 +13,13 @@ import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-SRC_DIR = REPO_ROOT / "src"
+BACKEND_DIR = Path(__file__).resolve().parent.parent
+REPO_ROOT = BACKEND_DIR.parent if BACKEND_DIR.name == "backend" else BACKEND_DIR
+SRC_DIR = BACKEND_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
 
 from iris.api.routes.materials import (
     process_material_file_service,
@@ -32,11 +35,13 @@ from iris.parsers.document_extractor import (
     normalize_extracted_text,
 )
 from iris.schemas.materials import (
-    MAX_MATERIAL_WORDS,
+    MAX_FILE_SIZE_BYTES,
+    MAX_SAFE_CONTEXT_CHARS,
     MIN_MATERIAL_CHARS,
     MaterialResponse,
     MaterialSourceType,
     MaterialValidationError,
+    validate_file_size_limit,
     validate_material_content,
 )
 from iris.security.pii_scrubber import sanitize_pii
@@ -227,13 +232,28 @@ class TestContentValidationAndService(unittest.TestCase):
         self.assertEqual(chars, 50)
         self.assertEqual(words, 1)
 
-    def test_validation_rejects_text_over_2000_words(self) -> None:
-        """Texto com mais de 2.000 palavras deve ser rejeitado com TEXT_TOO_LONG."""
-        texto_gigante = "palavra " * 2001
+    def test_validation_has_no_fixed_word_limit(self) -> None:
+        """Texto com mais de 2.000 palavras deve ser aceito desde que dentro da janela de contexto segura."""
+        texto_longo = "questão " * 2500
+        chars, words = validate_material_content(texto_longo)
+        self.assertEqual(words, 2500)
+        self.assertGreater(chars, MIN_MATERIAL_CHARS)
+        self.assertLessEqual(chars, MAX_SAFE_CONTEXT_CHARS)
+
+    def test_validation_rejects_context_window_exceeded(self) -> None:
+        """Texto que ultrapassa a capacidade segura da janela de contexto da IA deve ser rejeitado."""
+        texto_excessivo = "A" * (MAX_SAFE_CONTEXT_CHARS + 10)
         with self.assertRaises(MaterialValidationError) as ctx:
-            validate_material_content(texto_gigante)
-        self.assertEqual(ctx.exception.code, "TEXT_TOO_LONG")
-        self.assertIn("limite máximo permitido de 2000 palavras", ctx.exception.message)
+            validate_material_content(texto_excessivo)
+        self.assertEqual(ctx.exception.code, "CONTEXT_WINDOW_EXCEEDED")
+        self.assertIn("capacidade segura de processamento", ctx.exception.message)
+
+    def test_validation_rejects_file_too_large(self) -> None:
+        """Arquivo que excede MAX_FILE_SIZE_BYTES deve ser rejeitado com FILE_TOO_LARGE."""
+        with self.assertRaises(MaterialValidationError) as ctx:
+            validate_file_size_limit(b"x" * 1024, max_bytes=512)
+        self.assertEqual(ctx.exception.code, "FILE_TOO_LARGE")
+        self.assertEqual(ctx.exception.field, "file")
 
     def test_process_material_text_service_success(self) -> None:
         """O serviço process_material_text_service deve sanitizar PII e validar limites com sucesso."""
@@ -252,7 +272,7 @@ class TestContentValidationAndService(unittest.TestCase):
         self.assertNotIn("Pedro Henrique Souza", response.raw_text)
         self.assertIn("[ESTUDANTE]", response.raw_text)
         self.assertGreaterEqual(response.metadata.char_count, MIN_MATERIAL_CHARS)
-        self.assertLessEqual(response.metadata.word_count, MAX_MATERIAL_WORDS)
+        self.assertGreater(response.metadata.estimated_tokens, 0)
 
     def test_process_material_file_service_txt_success(self) -> None:
         """O serviço process_material_file_service deve processar arquivo .txt com sanitização e validação."""

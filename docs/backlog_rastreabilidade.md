@@ -118,22 +118,28 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 
 ##### História 1.1.1: Entrada de material didático via texto e upload de documentos
 **História de Usuário**
-Como professor da educação básica, quero inserir o conteúdo da minha atividade por colagem direta de texto ou upload de arquivos (`.pdf`, `.docx`, `.txt`), para que eu possa submeter avaliações já existentes sem precisar redigitá-las manualmente.
+Como professor da educação básica, quero inserir o conteúdo da minha atividade por colagem direta de texto ou upload de arquivos (`.pdf`, `.docx`, `.txt`), para que eu possa submeter avaliações e atividades já existentes sem precisar redigitá-las manualmente.
 
 **Requisito Base:** RF-01, RNF-10
 **Critérios de Aceitação:**
 * **Dado que** o professor acessa a Etapa 1 da plataforma Íris,
-* **Quando** ele colar um texto ou fizer upload de um arquivo `.pdf`, `.docx` ou `.txt` válido,
+* **Quando** ele escolhe colar um texto ou fazer upload de um arquivo `.pdf`, `.docx` ou `.txt` válido,
 * **Então** o sistema deve extrair o conteúdo textual em memória e exibi-lo para conferência imediata.
-* **E** o sistema deve validar que o texto possui no mínimo 50 caracteres e no máximo 2.000 palavras.
-* **E** a extração não deve falhar ou corromper acentuações da língua portuguesa (UTF-8).
+* **E** o sistema deve validar que o conteúdo possui no mínimo 50 caracteres, não estabelecendo um limite máximo fixo de caracteres ou palavras na interface.
+* **E** o sistema deve respeitar os limites técnicos de processamento e da janela de contexto da IA. Caso o conteúdo ultrapasse a capacidade segura de processamento, deve informar o professor de maneira clara.
+* **Dado que** o conteúdo inserido possui acentuação, caracteres especiais, parágrafos, numeração e formatação,
+* **Quando** o sistema realiza a extração e sanitização,
+* **Então** deve remover formatações indesejadas e caracteres incompatíveis sem comprometer a estrutura do material pedagógico.
+* **E** o sistema deve preservar a integridade do texto extraído, sem corromper acentuações e caracteres especiais da língua portuguesa (UTF-8).
+* **E** o sistema deve permitir apenas um arquivo por envio.
+* **E** caso o arquivo esteja corrompido, vazio, em formato não suportado ou não contenha texto extraível, o sistema deve apresentar uma mensagem de erro orientativa, permitindo uma nova tentativa.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [x] **[Backend]** Endpoint FastAPI `POST /api/v1/materials/upload` com suporte a multipart/form-data e extração de texto bruto (`.txt`, `.pdf`, `.docx`).
-- [x] **[Backend]** Validação de tamanho (mínimo 50 caracteres e limite seguro de 2.000 palavras) com mensagens de erro estruturadas.
-- [ ] **[Frontend]** Componente da Etapa 1 com área de colagem de texto (textarea acessível) e contador de caracteres/palavras em tempo real.
-- [ ] **[Frontend]** Componente drag-and-drop de arquivos com feedback visual de formato aceito/rejeitado (WCAG 2.1 AA).
-- [x] **[Testes]** Testes unitários de extração de arquivos em `tests/api/test_materials.py` com mocks de PDF e DOCX.
+- [x] **[Backend]** Endpoint FastAPI `POST /api/v1/materials/upload` com suporte a multipart/form-data e extração de texto bruto (`.txt`, `.pdf`, `.docx`) em `backend/src/iris/api/routes/materials.py`.
+- [x] **[Backend]** Validação do conteúdo com mínimo de 50 caracteres, sem limite máximo funcional fixo de palavras, respeitando os limites seguros de processamento e da janela de contexto da IA (`backend/src/iris/schemas/materials.py`).
+- [x] **[Frontend]** Componente da Etapa 1 em Next.js (`frontend/src/components/Step1MaterialIntake.tsx`) com área de colagem de texto (`textarea` acessível) e contador de caracteres/palavras em tempo real sem limite máximo fixo na interface.
+- [x] **[Frontend]** Componente drag-and-drop e seleção de arquivo pelo dispositivo (1 arquivo por envio) com feedback visual de formato aceito/rejeitado e conferência imediata (WCAG 2.1 AA).
+- [x] **[Testes]** Testes unitários de extração de arquivos, UTF-8, mínimo de 50 caracteres, ausência de limite fixo de palavras e limites técnicos em `backend/tests/test_materials.py` e `tests/api/test_materials.py`.
 
 
 ##### História 1.1.2: Decomposição estrutural automática de questões e enunciados

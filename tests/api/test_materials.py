@@ -1,4 +1,4 @@
-"""Testes de API e serviços da História 1.1.1 (Issue #4)."""
+"""Ponte de execução para manter compatibilidade com `tests/api/test_materials.py`."""
 from __future__ import annotations
 
 import sys
@@ -6,12 +6,14 @@ import unittest
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-SRC_DIR = REPO_ROOT / "src"
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
+BACKEND_DIR = REPO_ROOT / "backend"
+SRC_DIR = BACKEND_DIR / "src"
 
-# Importa as classes de teste para garantir execução direta por caminho específico
-from tests.test_materials import (
+for p in (str(SRC_DIR), str(BACKEND_DIR)):
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+from tests.test_materials import (  # noqa: E402, F401
     TestContentValidationAndService,
     TestMaterialParsersAndValidation,
     TestPiiScrubber,
@@ -19,4 +21,3 @@ from tests.test_materials import (
 
 if __name__ == "__main__":
     unittest.main()
-

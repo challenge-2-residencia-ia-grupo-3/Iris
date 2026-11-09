@@ -12,7 +12,10 @@ from enum import Enum
 from typing import Any, Optional
 
 MIN_MATERIAL_CHARS = 50
-MAX_MATERIAL_WORDS = 2000
+# Ausência de limite funcional fixo de palavras na interface (Issue 1.1.1).
+# Limites técnicos de segurança para processamento em memória e janela de contexto da IA:
+MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024  # 10 MB para upload em memória
+MAX_SAFE_CONTEXT_CHARS = 100_000  # ~25.000 tokens (capacidade segura da janela de contexto da IA)
 
 
 class MaterialSourceType(str, Enum):
@@ -37,12 +40,29 @@ class MaterialValidationError(ValueError):
         return {"detail": self.message, "code": self.code, "field": self.field}
 
 
-def validate_material_content(text: str) -> tuple[int, int]:
-    """Valida se o texto atende às restrições de tamanho da História 1.1.1.
+def validate_file_size_limit(content: bytes, max_bytes: int = MAX_FILE_SIZE_BYTES) -> int:
+    """Valida se o tamanho binário do arquivo respeita o limite técnico de processamento em memória."""
+    size = len(content) if content else 0
+    if size > max_bytes:
+        max_mb = max_bytes / (1024 * 1024)
+        raise MaterialValidationError(
+            message=(
+                f"O arquivo enviado ({size / (1024 * 1024):.1f} MB) excede o limite técnico seguro de "
+                f"processamento em memória ({max_mb:.0f} MB). Reduza o tamanho do arquivo ou divida o documento."
+            ),
+            code="FILE_TOO_LARGE",
+            field="file",
+        )
+    return size
+
+
+def validate_material_content(text: str, max_context_chars: int = MAX_SAFE_CONTEXT_CHARS) -> tuple[int, int]:
+    """Valida se o texto atende às restrições da História 1.1.1.
 
     Regras:
     1. Mínimo de 50 caracteres (após remoção de espaços em branco externos).
-    2. Máximo de 2.000 palavras (contagem por whitespace).
+    2. Sem limite máximo funcional fixo de palavras na interface.
+    3. Respeito à capacidade segura de processamento da janela de contexto da IA (`MAX_SAFE_CONTEXT_CHARS`).
 
     Retorna:
         tuple[int, int]: (quantidade_caracteres, quantidade_palavras)
@@ -70,18 +90,18 @@ def validate_material_content(text: str) -> tuple[int, int]:
             field="text",
         )
 
-    words = cleaned.split()
-    word_count = len(words)
-
-    if word_count > MAX_MATERIAL_WORDS:
+    if char_count > max_context_chars:
         raise MaterialValidationError(
             message=(
-                f"O material excede o limite máximo permitido de {MAX_MATERIAL_WORDS} palavras para uma única atividade pedagógica. "
-                f"Quantidade atual: {word_count} palavras."
+                "O conteúdo ultrapassa a capacidade segura de processamento da janela de contexto da IA "
+                f"({max_context_chars:,} caracteres). Divida o material em partes menores para garantir a qualidade da adaptação."
             ),
-            code="TEXT_TOO_LONG",
+            code="CONTEXT_WINDOW_EXCEEDED",
             field="text",
         )
+
+    words = cleaned.split()
+    word_count = len(words)
 
     return char_count, word_count
 
@@ -97,6 +117,11 @@ class MaterialMetadata:
     sanitized: bool
     pii_removed_count: int
     filename: Optional[str] = None
+    estimated_tokens: int = 0
+
+    def __post_init__(self) -> None:
+        if self.estimated_tokens == 0 and self.char_count > 0:
+            self.estimated_tokens = max(1, round(self.char_count / 4))
 
     def model_dump(self) -> dict[str, Any]:
         return asdict(self)
