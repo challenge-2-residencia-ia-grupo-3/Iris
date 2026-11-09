@@ -1,0 +1,48 @@
+services:
+  # ============================================================================
+  # 1. Banco Vetorial PostgreSQL + pgvector (Recomendado rodar via Docker)
+  # ============================================================================
+  # Uso:
+  #   docker compose up -d pgvector
+  # Depois, para indexar os 1.385 chunks com embeddings:
+  #   cd rag/iris-rag/pacote && uv run python indexar.py
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: iris-pgvector
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-iris}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-iris}
+      POSTGRES_DB: ${POSTGRES_DB:-iris}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - iris_pgvector_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iris -d iris"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # 2. Ollama em Container (Apenas para Linux / CI — perfil opcional)
+  # ============================================================================
+  # ATENÇÃO (macOS / Apple Silicon M1/M2/M3/M4):
+  # No macOS, o Docker Desktop roda em uma VM Linux sem acesso à GPU Apple Metal.
+  # Rodar o Ollama dentro do Docker no Mac força inferência 100% em CPU (5x-10x mais lento).
+  # Portanto, no Mac, rode o Ollama NATIVO no host (`ollama serve` ou app Ollama)
+  # usando `./scripts/setup_ollama.sh`.
+  # Para subir via Docker em servidores Linux: `docker compose --profile docker-llm up -d`
+  ollama:
+    image: ollama/ollama:latest
+    container_name: iris-ollama
+    profiles: ["docker-llm"]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - iris_ollama_models:/root/.ollama
+
+volumes:
+  iris_pgvector_data:
+  iris_ollama_models:

@@ -1,8 +1,21 @@
-"""Módulo de avaliação, métricas de legibilidade e Golden Benchmark (Épico 4.2)."""
+"""Módulo de avaliação, métricas de legibilidade, Golden Benchmark e Auditoria RAG (Épico 4.2)."""
 
 from iris.eval.benchmark import GoldenQuestion, carregar_golden_benchmark
 from iris.eval.corpus_eda import analisar_distribuicao_perguntas
 from iris.eval.metrics import calcular_flesch, calcular_trcc, verificar_aderencia_nivel
+from iris.eval.rag_metrics import (
+    IrisReportMetrics,
+    MarketRAGMetrics,
+    avaliar_pipeline_ao_vivo,
+    avaliar_pipeline_registrado,
+    calcular_average_precision_at_k,
+    calcular_kappa_cohen,
+    calcular_mrr,
+    calcular_recall_at_k,
+    calcular_similaridade_semantica,
+    formatar_relatorio_completo,
+    verificar_sustentacao_frase_no_trecho,
+)
 from iris.eval.readability import (
     COMMAND_VERBS,
     QuestionStats,
@@ -22,11 +35,20 @@ from iris.eval.readability import (
 __all__ = [
     "COMMAND_VERBS",
     "GoldenQuestion",
+    "IrisReportMetrics",
+    "MarketRAGMetrics",
     "QuestionStats",
     "analisar_distribuicao_perguntas",
     "analyze_benchmark",
     "analyze_question",
+    "avaliar_pipeline_ao_vivo",
+    "avaliar_pipeline_registrado",
+    "calcular_average_precision_at_k",
     "calcular_flesch",
+    "calcular_kappa_cohen",
+    "calcular_mrr",
+    "calcular_recall_at_k",
+    "calcular_similaridade_semantica",
     "calcular_trcc",
     "carregar_golden_benchmark",
     "count_conjugated_commands",
@@ -34,9 +56,11 @@ __all__ = [
     "find_commands",
     "flesch_band",
     "flesch_ptbr",
+    "formatar_relatorio_completo",
     "load_questions",
     "split_sentences",
     "split_words",
     "summarize",
     "verificar_aderencia_nivel",
+    "verificar_sustentacao_frase_no_trecho",
 ]
