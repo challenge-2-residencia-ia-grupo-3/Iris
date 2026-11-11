@@ -1,0 +1,60 @@
+AGENTE ADAPTADOR COM MODELO GERADOR (História 2.1.3 / Issue #18)
+Modelo: ollama / llama3.1:8b, temperatura 0. Característica: comandos múltiplos.
+Base: 30 questões do Golden Benchmark x 3 níveis = 90 chamadas, uma por questão e nível.
+Técnica: o texto do modelo passa pelo verificar_escopo (contagem de palavras, ordem e trava, sem LLM);
+a latência é o tempo de relógio de cada chamada ao Adaptador, medido nesta máquina.
+Base de comparação: a saída de reserva (regras, sem modelo) foi aprovada em 90 de 90 saídas.
+
+1. DESFECHO DO TEXTO DO MODELO, POR NÍVEL
+nível       aprovada e adaptou   aprovada sem adaptar    reprovada no escopo        falha do modelo  foi p/ reserva
+1                           27                      1                      2                      0               2
+2                            7                      0                     23                      0              23
+3                            0                      0                     30                      0              30
+"aprovada sem adaptar": o modelo devolveu o enunciado igual; passa no laudo, mas não ajuda.
+"foi p/ reserva": o agente entregou a saída de reserva no lugar do texto do modelo.
+
+2. MOTIVO DA REPROVAÇÃO (cada saída conta uma vez, pelo primeiro motivo da lista)
+motivo                         nível 1   nível 2   nível 3
+conceito da trava                    0         3         7
+palavra perdida                      1         6         7
+palavra nova                         0        14        16
+ordem alterada                       1         0         0
+texto do nível 1 alterado            0         0         0
+
+3. LATÊNCIA POR CHAMADA, CONTRA O RNF-07 (só o Adaptador; o ciclo soma o Extrator)
+nível     limite   mediana       p90    máximo   dentro  tokens saída  tokens/s
+1            15s      5.1s      6.3s      6.6s   30 de 30        106      22.8
+2            40s      5.1s      7.9s      9.7s   30 de 30        108      22.8
+3            40s      6.8s      8.1s     16.2s   30 de 30        143      22.7
+Aquecimento (fora da contagem): 7.8 s, dos quais 0.0 s de carregamento do modelo.
+
+4. EXEMPLOS DE REPROVAÇÃO (primeira de cada motivo)
+[Q01, nível 2] palavra nova: palavra fora do vocabulário do andaime: ['ele']
+    Leia o texto e responda: quem encontrou o cachorro?
+    
+    1. O menino Pedro encontrou um cachorro perdido na rua. [ ]
+    2. Ele levou o animal para casa. [ ]
+    3. Ele pediu ajuda à mãe para achar o dono. [ ]
+[Q01, nível 3] palavra perdida: palavra do original ausente: ['achar', 'ajuda', 'animal', 'casa', 'dono', 'ele', 'levou', 'mãe', 'na', 'para', 'para', 'pediu', 'perdido', 'rua', 'um', 'à']; palavra fora do vocabulário do andaime: ['2', 'a', 'até', 'cachorro', 'confirme', 'e', 'escolhida', 'fim', 'identifique', 'leia', 'o', 'o', 'quem', 'texto']; ordem das palavras do original alterada
+    Leia o texto e responda: quem encontrou o cachorro?
+    
+    Passo 1: Leia o texto até o fim e identifique quem encontrou o cachorro.
+    
+    [ ] O menino Pedro
+    [ ] O cachorro
+    
+    Passo 2: Confirme a resposta escolhida.
+    
+    Revise se você preencheu os Passos 1 e 2.
+[Q03, nível 3] conceito da trava: conceito da trava curricular ausente: ['Maria', 'João']; palavra do original ausente: ['ao', 'foram', 'joão', 'maria', 'mercado']; palavra fora do vocabulário do andaime: ['2', 'sujeito']
+    Passo 1: Identifique o sujeito da oração.
+    
+    ____
+    
+    Passo 2: Classifique o sujeito como simples ou composto.
+    
+    ____
+    
+    Revise se você preencheu os Passos 1 e 2.
+[Q22, nível 1] ordem alterada: ordem das palavras do original alterada; texto alterado além do destaque tipográfico
+    Em que ano **chegaram** os portugueses ao Brasil?

@@ -160,6 +160,8 @@ fi
 
 export IRIS_LLM_PROVIDER=ollama
 export IRIS_LLM_MODEL="${MODEL}"
+export RAG_LLM=ollama
+export RAG_LLM_MODELO="${MODEL}"
 export PYTHONPATH="${REPO_ROOT}/backend/src:${REPO_ROOT}/rag/iris-rag/pacote"
 
 if "${PYTHON_BIN}" -c "import uvicorn, fastapi" >/dev/null 2>&1; then

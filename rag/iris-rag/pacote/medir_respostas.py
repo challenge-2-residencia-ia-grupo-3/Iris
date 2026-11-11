@@ -19,7 +19,6 @@ as respostas, os chunk_id entregues e os vereditos, sem o texto dos trechos.
 from __future__ import annotations
 
 import json
-import os
 import random
 import re
 import subprocess
@@ -30,7 +29,6 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-os.environ.setdefault("RAG_BANCO", "chroma")       # no Mac a base está no Chroma; os vetores são os mesmos do pgvector
 AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 

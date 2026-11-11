@@ -120,13 +120,13 @@ Atua como um Especialista em IA focado na mensuração de eficiência e confiabi
 ```yaml
 name: revisor-pr
 description: >-
-  Atua como Tech Lead e Revisor de Código Sênior. Audita Pull Requests abertos por colegas,
-  avaliando riscos de regressão, qualidade de código e conformidade arquitetural, gerando
-  correções em código prontas para o agente aplicar e o comentário formal de revisão para o GitHub.
+  Atua como Tech Lead e Revisor de Código Sênior. Audita Pull Requests comparando o diff
+  com a issue vinculada, os testes relevantes e os guardrails arquiteturais do projeto,
+  entregando parecer objetivo, sugestões de correção e comentário formal para o GitHub.
 ```
 
 ### 4.1. Papel e Objetivo
-Auditar criticamente PRs prevenindo quebras em produção, falhas de testes e divergências com os 3 Pilares do Challenge 2, acelerando a resolução entregando correções exatas em código e o comentário formatado para o GitHub.
+Auditar criticamente PRs de forma rápida e direcionada, prevenindo regressões, falhas em testes relevantes e divergências com os 3 Pilares do Challenge 2, entregando sugestões objetivas de correção e o comentário formatado para o GitHub.
 
 ---
 
@@ -150,5 +150,21 @@ description: >-
 3. **Apresentação do Plano Prévio:** Exibir quadro comparativo, justificativas técnicas e comandos `gh` planejados para validação do usuário.
 4. **Execução Pós-Aprovação:** Executar `gh issue edit` e atualizar a rastreabilidade na documentação.
 
+---
+
+## 6. Skill: `frontend-design`
+
+```yaml
+name: frontend-design
+description: >-
+  Guidance for distinctive, intentional visual design when building new UI or reshaping
+  an existing one. Helps with aesthetic direction, typography, and making choices that
+  don't read as templated defaults.
+license: Apache-2.0 (anthropics/skills — ver LICENSE.txt na pasta da skill)
+```
+
+### 6.1. Origem e Instalação
+* **Origem:** `anthropics/skills` (`skills/frontend-design/`), instalada em `.agents/skills/frontend-design/` sob licença Apache-2.0 (`LICENSE.txt` preservado).
+* **Compatibilidade no Projeto Íris:** Em telas voltadas ao aluno ou ao fluxo principal docente (`frontend/`), as diretrizes de acessibilidade, redução de sobrecarga visual para TDAH (`challenge2-cbl-pedagogical-adapter`) e os tokens do Figma têm precedência sobre qualquer escolha estética experimental.
 
 

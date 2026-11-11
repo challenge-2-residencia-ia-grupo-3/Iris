@@ -82,17 +82,16 @@ Os cadernos `01_rag_iris.ipynb` e `02_consulta_resposta_fonte.ipynb` são entreg
 
 A ingestão requer os textos de todos os documentos do índice. Seis documentos do índice têm licença restrita e não são distribuídos (lista em `rag/iris-rag/textos_nao_distribuidos.txt`). Sem esses textos, a ingestão é interrompida com a indicação do arquivo ausente, e as etapas seguintes não são executáveis; os cadernos executados e os arquivos de saída permitem a inspeção dos resultados sem reexecução.
 
-Com os textos nos caminhos indicados, a reexecução foi verificada em 06/11/2026, em diretório extraído deste pacote, fora do repositório de origem, com o banco `RAG_BANCO=chroma`:
+Com os textos nos caminhos indicados, a reexecução foi verificada em 06/11/2026, em diretório extraído deste pacote, fora do repositório de origem, com índice vetorial local, sem o PostgreSQL:
 
 | Etapa | Resultado da verificação |
 |---|---|
 | `python ingestao.py` | Arquivo de trechos idêntico ao original (1.368 trechos; hash SHA-256 igual ao campo `chunking_congelado` de `rag/iris-rag/gabarito/gabarito_rascunho_v0.json`) |
-| `python indexar.py` | Vetores recalculados para os 1.368 trechos |
 | `python avaliar_opus.py` | Recall@5, recall@10 e MRR iguais aos de `rag/outputs/16-gabarito-opus.txt`, com variação de 0,01 em um limite de intervalo e em uma métrica secundária |
 | `python medir_variacoes.py ranquear` e `medir` | Recall@5, intervalos e diferenças pareadas iguais aos de `rag/outputs/18-variacoes-busca.txt` |
 | `python demonstrar_resposta.py` | Saída igual à distribuída, exceto as linhas de identificação do banco e de comparação da recuperação |
 
-Tempos de execução dependem do equipamento. Colunas de diagnóstico que dependem do índice aproximado do Chroma ou de dados intermediários não distribuídos podem diferir.
+Tempos de execução dependem do equipamento. Colunas de diagnóstico que dependem de índice aproximado ou de dados intermediários não distribuídos podem diferir.
 
 Não foram verificados em instalação limpa: a criação do ambiente Python a partir de `requirements.txt`, a carga no PostgreSQL em contêiner e a reexecução dos cadernos.
 
@@ -102,7 +101,7 @@ A geração de respostas requer credencial do provedor do modelo gerador. A clas
 
 | Variável | Padrão | Finalidade |
 |---|---|---|
-| `RAG_BANCO` | `pgvector` | Banco vetorial; `chroma` seleciona a alternativa local sem contêiner |
+| `RAG_BANCO` | `pgvector` | Banco vetorial (PostgreSQL com pgvector) |
 | `RAG_PG_DSN` | `postgresql://iris:iris@127.0.0.1:5433/iris` | Conexão com o PostgreSQL |
 | `RAG_METODO` | `qwen3+rerank50` | Método de recuperação |
 | `RAG_RERANKER` | `mminilm` | Modelo de reordenação; `bge-m3` seleciona a alternativa de maior porte |

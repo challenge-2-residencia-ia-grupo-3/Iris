@@ -1,4 +1,4 @@
-"""Agente Auditor (Épico 2.1 / Issue #15; RF-12, RNF-04, RNF-05).
+"""Agente Auditor (História 2.1.4 / Issue #19, Épico #15; RF-12, RNF-04, RNF-05).
 
 Avalia a minuta de questão adaptada contra o material original e as Travas Curriculares:
 
@@ -32,6 +32,7 @@ from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any, Protocol
 
+from iris.core.llm_client import strip_thinking_tags
 from iris.eval.trcc import LIMIAR_PADRAO, ResultadoTRCC, avaliar_trcc, normalizar
 
 MAX_TENTATIVAS_PADRAO = 3
@@ -104,7 +105,7 @@ _MARCAS_RESPOSTA = tuple(
     )
 )
 _CALCULO = re.compile(r"\d+(?:[.,]\d+)?[×x*+\-÷/]\d+(?:[.,]\d+)?=(?:r\$ ?)?\d")
-_ALTERNATIVA = re.compile(r"(?m)^\s*\(?([A-Ea-e])[\).]\s+\S")
+_ALTERNATIVA = re.compile(r"(?m)^\s*\(?([A-Ea-e])[\).]\s+(\S.*?)\s*$")
 
 
 def _contagem_marcas(texto: str) -> int:
@@ -116,8 +117,16 @@ def _contagem_calculos(texto: str) -> int:
     return len(_CALCULO.findall(normalizar(texto)))
 
 
-def _letras_alternativas(texto: str) -> set[str]:
-    return {m.group(1).upper() for m in _ALTERNATIVA.finditer(texto)}
+def _alternativas(texto: str) -> dict[str, str]:
+    """Letra -> conteúdo normalizado de cada alternativa ("A) R$ 300" -> {"A": "r$300"})."""
+    return {m.group(1).upper(): normalizar(m.group(2)) for m in _ALTERNATIVA.finditer(texto)}
+
+
+def _alternativas_mantidas(original: str, adaptada: str) -> int:
+    """Quantas alternativas do original continuam na minuta, pelo conteúdo e não pela letra: a adaptação pode
+    renumerar ("1." no lugar de "a)") ou pôr caixa de seleção sem eliminar nenhuma."""
+    base = normalizar(adaptada)
+    return sum(1 for conteudo in _alternativas(original).values() if conteudo and conteudo in base)
 
 
 def sinais_resolucao_deterministicos(original: str, adaptada: str) -> list[str]:
@@ -128,7 +137,7 @@ def sinais_resolucao_deterministicos(original: str, adaptada: str) -> list[str]:
         motivos.append("a minuta contém marca de gabarito/resposta correta que não existia no original")
     if _contagem_calculos(adaptada) > _contagem_calculos(original):
         motivos.append("a minuta traz cálculo já resolvido (ex.: 12 × 25 = 300) que não existia no original")
-    n_orig, n_adap = len(_letras_alternativas(original)), len(_letras_alternativas(adaptada))
+    n_orig, n_adap = len(_alternativas(original)), _alternativas_mantidas(original, adaptada)
     if n_orig >= 2 and n_adap <= 1:
         motivos.append(f"alternativas eliminadas até sobrar {n_adap} (original tinha {n_orig})")
     return motivos
@@ -204,7 +213,8 @@ class VereditoJuiz:
 
 
 def _texto(resp: Any) -> str:
-    return resp if isinstance(resp, str) else str(getattr(resp, "text", ""))
+    # Modelos de raciocínio (Qwen3) abrem com <think>...</think>; chaves dentro do raciocínio confundiriam o parser.
+    return strip_thinking_tags(resp if isinstance(resp, str) else str(getattr(resp, "text", "")))
 
 
 def parsear_veredito(texto: str, ids_validos: set[str]) -> VereditoJuiz:

@@ -29,14 +29,12 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import random
 import sys
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
-os.environ["RAG_BANCO"] = "chroma"
 AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 import avaliar  # noqa: E402
@@ -496,8 +494,8 @@ def medir_combinacao() -> None:
             L.append("")
     reps = [r for r in range(2, 10) if arquivo_d(r).exists()]
     if reps:
-        L += [f"REPETIÇÃO: D rodou em {len(reps) + 1} processos separados. A busca do banco (Chroma, HNSW) é aproximada e, lá pela",
-              "posição 50, não devolve sempre a mesma lista de um processo para outro (ver outputs/21). O vetor da pergunta é idêntico.",
+        L += [f"REPETIÇÃO: D rodou em {len(reps) + 1} processos separados. O vetor da pergunta é idêntico; a lista do",
+              "banco pode variar se o índice HNSW, que é aproximado, entrar no plano de consulta (outputs/21 mede quanto).",
               f"{'gabarito':10s}{'rodada':>8s}{'recall@5 de D':>15s}{'MRR de D':>10s}{'5 primeiros iguais aos da rodada 1':>36s}{'A repetiu a lista guardada':>28s}"]
         for nome, itens in gabs.items():
             certos = [i["certos"] for i in itens]
@@ -540,15 +538,15 @@ def estabilidade() -> None:
     en = traducoes()
     guard = json.loads(CACHE.read_text(encoding="utf-8"))
     modelo = consultar._modelo("qwen3")
-    col = consultar._colecao("qwen3")
-    tudo = col.get(include=["embeddings"])                        # todos os vetores gravados
-    E = np.asarray(tudo["embeddings"], dtype=np.float64)
+    bp, con = consultar._pg()
+    ids, vetores = bp.todos_vetores(con, "qwen3")                 # todos os vetores gravados
+    E = np.asarray(vetores, dtype=np.float64)
     E /= np.linalg.norm(E, axis=1, keepdims=True)                 # comprimento 1: o produto vira cosseno
     cortes = (5, 10, 20, 50, 100)
-    L = ["ESTABILIDADE DA BUSCA DO BANCO (Chroma, HNSW) CONTRA A CONTA EXATA DO COSSENO. Qwen3, mesmas perguntas dos gabaritos.",
+    L = ["ESTABILIDADE DA BUSCA DO BANCO (pgvector, HNSW) CONTRA A CONTA EXATA DO COSSENO. Qwen3, mesmas perguntas dos gabaritos.",
          "Técnica: contagem. Para cada pergunta, a lista que o banco devolve é comparada com a ordem exata (produto do vetor",
          "da pergunta por todos os vetores gravados). Nenhum modelo treinado.",
-         f"O índice HNSW é uma busca aproximada: {len(tudo['ids'])} vetores, ef_search 100. ATENÇÃO: esta contagem pode mudar",
+         f"O índice HNSW é uma busca aproximada: {len(ids)} vetores, ef_search 100. ATENÇÃO: esta contagem pode mudar",
          "de uma execução para outra; é isso que ela mede. A coluna 'guardada' é a lista gravada pelo diagnóstico (outputs/17).", "",
          f"{'gabarito':10s}{'língua':>8s}{'n':>4s}" + "".join(f"{'≠ exata nos ' + str(k):>18s}" for k in cortes)
          + f"{'exata = guardada nos 50':>26s}"]
@@ -560,7 +558,7 @@ def estabilidade() -> None:
             for it in itens:
                 q = it["pergunta"] if lingua == "pt" else en[it["id"]]
                 v = np.asarray(modelo.vetor_pergunta(q), dtype=np.float64).ravel()
-                exata = [tudo["ids"][j] for j in np.argsort(-(E @ (v / np.linalg.norm(v))), kind="stable")[:FUNDO]]
+                exata = [ids[j] for j in np.argsort(-(E @ (v / np.linalg.norm(v))), kind="stable")[:FUNDO]]
                 banco = [cid for cid, _ in consultar.ranking(q, "qwen3", FUNDO)]
                 agora[(nome, lingua, it["id"])] = banco
                 for k in cortes:
