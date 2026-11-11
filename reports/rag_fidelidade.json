@@ -1,0 +1,193 @@
+{
+  "meta": 0.9,
+  "geradores": {
+    "haiku": {
+      "fidelidade": {
+        "A": {
+          "media": 0.8842105263157896,
+          "ic95": [
+            0.8285087719298246,
+            0.9337719298245615
+          ],
+          "sustentadas": 166,
+          "frases_de_conteudo": 187,
+          "respostas": 38
+        },
+        "B": {
+          "media": 0.887280701754386,
+          "ic95": [
+            0.8254385964912281,
+            0.9407894736842105
+          ],
+          "sustentadas": 167,
+          "frases_de_conteudo": 188,
+          "respostas": 38
+        },
+        "X": {
+          "media": 0.9223684210526315,
+          "ic95": [
+            0.8798245614035088,
+            0.9605263157894737
+          ],
+          "sustentadas": 172,
+          "frases_de_conteudo": 186,
+          "respostas": 38
+        },
+        "final": {
+          "media": 0.9048245614035088,
+          "ic95": [
+            0.8583333333333334,
+            0.9473684210526315
+          ],
+          "sustentadas": 170,
+          "frases_de_conteudo": 187,
+          "respostas": 38
+        }
+      },
+      "leitura": "não se distingue da meta",
+      "concordancia": {
+        "AxB": {
+          "frases": 187,
+          "iguais": 176,
+          "kappa": 0.6986963527171524,
+          "matriz": [
+            [
+              161,
+              5
+            ],
+            [
+              6,
+              15
+            ]
+          ]
+        },
+        "AxX": {
+          "frases": 186,
+          "iguais": 171,
+          "kappa": 0.5288753799392095,
+          "matriz": [
+            [
+              161,
+              4
+            ],
+            [
+              11,
+              10
+            ]
+          ]
+        },
+        "BxX": {
+          "frases": 186,
+          "iguais": 172,
+          "kappa": 0.5482303955586396,
+          "matriz": [
+            [
+              162,
+              4
+            ],
+            [
+              10,
+              10
+            ]
+          ]
+        }
+      },
+      "frases_divididas": 9,
+      "nao_sustentadas_para_os_tres": 0
+    },
+    "opus": {
+      "fidelidade": {
+        "A": {
+          "media": 0.9442857142857142,
+          "ic95": [
+            0.909047619047619,
+            0.9766666666666666
+          ],
+          "sustentadas": 167,
+          "frases_de_conteudo": 177,
+          "respostas": 35
+        },
+        "B": {
+          "media": 0.9185714285714285,
+          "ic95": [
+            0.8690476190476191,
+            0.9590476190476191
+          ],
+          "sustentadas": 162,
+          "frases_de_conteudo": 177,
+          "respostas": 35
+        },
+        "X": {
+          "media": 0.9647619047619047,
+          "ic95": [
+            0.9347619047619048,
+            0.9885714285714287
+          ],
+          "sustentadas": 164,
+          "frases_de_conteudo": 170,
+          "respostas": 35
+        },
+        "final": {
+          "media": 0.95,
+          "ic95": [
+            0.9219047619047619,
+            0.9780952380952381
+          ],
+          "sustentadas": 166,
+          "frases_de_conteudo": 175,
+          "respostas": 35
+        }
+      },
+      "leitura": "atinge a meta",
+      "concordancia": {
+        "AxB": {
+          "frases": 175,
+          "iguais": 168,
+          "kappa": 0.6746347941567061,
+          "matriz": [
+            [
+              160,
+              5
+            ],
+            [
+              2,
+              8
+            ]
+          ]
+        },
+        "AxX": {
+          "frases": 170,
+          "iguais": 158,
+          "kappa": 0.21538461538461612,
+          "matriz": [
+            [
+              156,
+              4
+            ],
+            [
+              8,
+              2
+            ]
+          ]
+        },
+        "BxX": {
+          "frases": 170,
+          "iguais": 158,
+          "kappa": 0.30041152263374493,
+          "matriz": [
+            [
+              155,
+              3
+            ],
+            [
+              9,
+              3
+            ]
+          ]
+        }
+      },
+      "frases_divididas": 10,
+      "nao_sustentadas_para_os_tres": 0
+    }
+  }
+}

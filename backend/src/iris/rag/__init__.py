@@ -12,6 +12,7 @@ from iris.rag.bridge import (
     obter_trechos_base,
     responder_fundamentado,
 )
+from iris.rag.contexto import conferir_citacoes, montar_contexto_estrategista
 
 __all__ = [
     "buscar_evidencias",
@@ -19,9 +20,11 @@ __all__ = [
     "buscar_por_caracteristica_atomica",
     "carregar_catalogo_fontes",
     "carregar_modulos_rag",
+    "conferir_citacoes",
     "formatar_pagina_trecho",
     "garantir_chunks_locais",
     "listar_barreiras_rag",
+    "montar_contexto_estrategista",
     "normalizar_trecho_ui",
     "obter_trechos_base",
     "responder_fundamentado",
