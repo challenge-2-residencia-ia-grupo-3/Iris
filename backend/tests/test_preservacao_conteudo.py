@@ -3,7 +3,8 @@
 Critério: toda palavra do material enviado pelo docente aparece, o mesmo número de
 vezes, em algum campo da estrutura devolvida por `decompose_material` (cabeçalho,
 instruções, blocos de contexto, enunciados, alternativas, espaços de resposta ou
-blocos não classificados).
+blocos não classificados) ou, por inteiro, na árvore de texto corrido
+(`prose_structure`), quando ela existir.
 
 A comparação é por multiconjunto de palavras (contagem por palavra), e não por
 conjunto: uma palavra que aparece três vezes no original e duas na estrutura conta
@@ -88,6 +89,17 @@ def palavras_da_estrutura(estrutura: MaterialStructure) -> Counter[str]:
     return total
 
 
+def palavras_da_prosa(estrutura: MaterialStructure) -> Counter[str]:
+    """Soma as palavras da árvore de texto corrido (História 1.1.4); vazio se o campo não existir."""
+    total: Counter[str] = Counter()
+    prosa = getattr(estrutura, "prose_structure", None)
+    if prosa is not None:
+        for no in prosa.flatten():
+            if no.element_type != "list":  # o nó de lista repete o texto dos itens
+                total += contar_palavras(no.content)
+    return total
+
+
 class TestPreservacaoIntegralDoConteudo(unittest.TestCase):
     """Nenhuma palavra do material original pode faltar na estrutura decomposta."""
 
@@ -96,6 +108,9 @@ class TestPreservacaoIntegralDoConteudo(unittest.TestCase):
             with self.subTest(material=nome):
                 estrutura = decompose_material(texto)
                 perdidas = contar_palavras(texto) - palavras_da_estrutura(estrutura)
+                if perdidas:
+                    # Material sem questões pode vir inteiro na árvore de texto corrido
+                    perdidas = contar_palavras(texto) - palavras_da_prosa(estrutura)
                 self.assertEqual(
                     dict(perdidas),
                     {},
