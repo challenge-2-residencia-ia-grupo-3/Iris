@@ -376,6 +376,62 @@ class TestProseOrganizer(unittest.TestCase):
         for palavra in ["termodinâmica", "conservação", "energia", "isotérmica", "isobárica", "isométrica"]:
             self.assertIn(palavra, words_decomposed)
 
+    def test_itens_de_lista_com_linhas_em_branco_continuam_na_mesma_lista(self) -> None:
+        """Itens com marcadores separados por linha em branco não devem ser classificados como subtítulos."""
+        doc = (
+            "Orientações:\n"
+            "• Item 1\n\n"
+            "• Item 2\n\n"
+            "• Item 3"
+        )
+        res = organize_prose_structure(doc)
+        lists = res.get_lists()
+        self.assertEqual(len(lists), 1)
+        self.assertEqual(len(lists[0].children), 3)
+        self.assertEqual([c.content for c in lists[0].children], ["Item 1", "Item 2", "Item 3"])
+        # Garante que nenhum item virou subtítulo indevido
+        subtitles = [n for n in res.flatten() if n.element_type == "subtitle"]
+        self.assertEqual(len(subtitles), 0)
+
+    def test_item_de_lista_longo_em_duas_linhas_continua_unido(self) -> None:
+        """Item de lista cuja frase quebra para a linha seguinte deve permanecer unido no mesmo list_item."""
+        doc = (
+            "Recomendações pedagógicas:\n"
+            "• Primeiro ponto com explicação detalhada\n"
+            "  que continua na linha de baixo\n"
+            "• Segundo ponto conciso"
+        )
+        res = organize_prose_structure(doc)
+        lists = res.get_lists()
+        self.assertEqual(len(lists), 1)
+        self.assertEqual(len(lists[0].children), 2)
+        self.assertEqual(
+            lists[0].children[0].content,
+            "Primeiro ponto com explicação detalhada que continua na linha de baixo",
+        )
+        self.assertEqual(lists[0].children[1].content, "Segundo ponto conciso")
+
+    def test_lista_ordenada_apos_dois_pontos_sem_ponto_final(self) -> None:
+        """Itens enumerados após linha com dois-pontos devem ser itens de lista, mesmo sem ponto final."""
+        doc = (
+            "Procedimento de Segurança:\n"
+            "1. Higienize a bancada com álcool\n"
+            "2. Coloque as luvas de proteção"
+        )
+        res = organize_prose_structure(doc)
+        lists = res.get_lists()
+        self.assertEqual(len(lists), 1)
+        self.assertEqual(len(lists[0].children), 2)
+        self.assertIn("Higienize", lists[0].children[0].content)
+        self.assertIn("Coloque", lists[0].children[1].content)
+
+    def test_servico_organize_prose_rejeita_janela_de_contexto_excedida(self) -> None:
+        """O serviço deve rejeitar materiais que ultrapassam a janela de contexto segura."""
+        texto_longo = "Texto de teste para validação de contexto.\n" * 4_000  # > 160.000 caracteres
+        with self.assertRaises(MaterialValidationError) as ctx:
+            organize_prose_service(texto_longo)
+        self.assertEqual(ctx.exception.code, "CONTEXT_WINDOW_EXCEEDED")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -103,6 +103,8 @@ def _detect_heading(
     is_first_line: bool = False,
     prev_line_empty: bool = True,
     next_line_empty: bool = False,
+    prev_line_ends_with_colon: bool = False,
+    prev_unit_is_list: bool = False,
 ) -> Optional[tuple[str, int, str, dict[str, Any]]]:
     """Analisa uma linha e retorna (element_type, level, clean_title, metadata) se for título/seção.
 
@@ -110,6 +112,10 @@ def _detect_heading(
     """
     stripped = line.strip()
     if not stripped or len(stripped) > 120:
+        return None
+
+    # Linhas iniciadas com marcadores de lista com bullets nunca são títulos ou seções
+    if RE_BULLET_ITEM.match(stripped):
         return None
 
     # Se for comando de questão com interrogação ou verbo imperativo, não é título de seção
@@ -148,7 +154,7 @@ def _detect_heading(
     # 5. Seção numerada simples: "1. Introdução", "2. Histórico"
     # Diferencia de itens de lista verificando comprimento, ausência de ponto final de frase e capitalização
     m_single = RE_SINGLE_NUMERIC_SECTION.match(stripped)
-    if m_single:
+    if m_single and not prev_line_ends_with_colon and not prev_unit_is_list:
         num = m_single.group(1)
         content_after = m_single.group(3).strip()
         # Se for curto e parece título
@@ -166,6 +172,9 @@ def _detect_heading(
 
     # 7. Subtítulo / Seção em Title Case ou ALL CAPS isolado por linhas em branco
     if prev_line_empty and (next_line_empty or len(stripped) <= 60):
+        # Não confunde com item de lista ordenada
+        if RE_ORDERED_ITEM.match(stripped):
+            return None
         words = stripped.split()
         if len(words) <= 12 and not stripped.endswith((".", ",", ";", "!", "?")):
             if stripped.isupper() and len(stripped) >= 3:
@@ -227,12 +236,30 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
         next_empty = (idx + 1 >= total_lines) or (not raw_lines[idx + 1].strip())
         is_first = (len(units) == 0)
 
+        # Verifica se a última linha não-vazia anterior terminava com dois-pontos (introdução de lista)
+        prev_colon = False
+        p_check = idx - 1
+        while p_check >= 0:
+            p_str = raw_lines[p_check].strip()
+            if p_str:
+                prev_colon = p_str.endswith(":")
+                break
+            p_check -= 1
+
+        prev_is_ordered_list = (
+            len(units) > 0
+            and units[-1]["kind"] == "list_item"
+            and units[-1].get("metadata", {}).get("list_type") == "ordered"
+        )
+
         # A. Verifica se é Título ou Seção
         heading_info = _detect_heading(
             line,
             is_first_line=is_first,
             prev_line_empty=prev_empty,
             next_line_empty=next_empty,
+            prev_line_ends_with_colon=prev_colon,
+            prev_unit_is_list=prev_is_ordered_list,
         )
         if heading_info:
             elem_type, level, clean_title, meta = heading_info
@@ -251,13 +278,27 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
         if m_bullet:
             bullet_char = m_bullet.group(1)
             item_text = m_bullet.group(2).strip()
+            item_lines = [item_text]
+            idx += 1
+            while idx < total_lines:
+                next_l = raw_lines[idx]
+                next_str = next_l.strip()
+                if not next_str:
+                    break
+                if RE_BULLET_ITEM.match(next_l) or RE_ORDERED_ITEM.match(next_l):
+                    break
+                if _detect_heading(next_l, False, False, False):
+                    break
+                if _is_question_line(next_l):
+                    break
+                item_lines.append(next_str)
+                idx += 1
             units.append({
                 "kind": "list_item",
                 "element_type": "list_item",
-                "content": item_text,
+                "content": " ".join(item_lines),
                 "metadata": {"list_type": "unordered", "marker": bullet_char},
             })
-            idx += 1
             continue
 
         # C. Verifica se é Item de Lista Ordenada (ex.: 1. Passo A, 2. Passo B)
@@ -268,7 +309,7 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
             ord_text = m_ord.group(3).strip()
             # Valida se a próxima linha ou a anterior também é um item de lista ordenada
             is_in_ordered_list = False
-            if idx > 0 and raw_lines[idx - 1].strip().endswith(":"):
+            if prev_colon:
                 is_in_ordered_list = True
             elif idx + 1 < total_lines and RE_ORDERED_ITEM.match(raw_lines[idx + 1].strip()):
                 is_in_ordered_list = True
@@ -278,13 +319,27 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
                 is_in_ordered_list = True
 
             if is_in_ordered_list and not _is_question_line(line):
+                item_lines = [ord_text]
+                idx += 1
+                while idx < total_lines:
+                    next_l = raw_lines[idx]
+                    next_str = next_l.strip()
+                    if not next_str:
+                        break
+                    if RE_BULLET_ITEM.match(next_l) or RE_ORDERED_ITEM.match(next_l):
+                        break
+                    if _detect_heading(next_l, False, False, False):
+                        break
+                    if _is_question_line(next_l):
+                        break
+                    item_lines.append(next_str)
+                    idx += 1
                 units.append({
                     "kind": "list_item",
                     "element_type": "list_item",
-                    "content": ord_text,
+                    "content": " ".join(item_lines),
                     "metadata": {"list_type": "ordered", "marker": marker_str},
                 })
-                idx += 1
                 continue
 
         # D. Bloco de Parágrafo Normal
