@@ -546,7 +546,17 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json(resp.model_dump())
                 except MaterialValidationError as err:
                     self._send_json({"detail": err.to_dict()}, status=422)
+            elif self.path.startswith("/api/v1/materials/decompose"):
+                from iris.api.routes.materials import decompose_material_service
+                from iris.schemas.materials import MaterialValidationError
+
+                try:
+                    resp = decompose_material_service(body.get("text", ""))
+                    self._send_json(resp.model_dump())
+                except MaterialValidationError as err:
+                    self._send_json({"detail": err.to_dict()}, status=422)
             else:
+
                 self._send_json({"error": "Not found", "path": self.path}, status=404)
 
     print("================================================================================")
