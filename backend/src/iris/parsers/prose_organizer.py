@@ -1,4 +1,4 @@
-"""Módulo de organização estrutural automática de textos corridos (História 1.1.4 - Issue #7 / RF-02 Extensão).
+"""Módulo de organização estrutural automática de textos corridos (História 1.1.4 - Issue #53 / RF-02 Extensão).
 
 Identifica deterministicamente e organiza em árvore hierárquica:
 - Títulos e Subtítulos (numerados e não-numerados);
@@ -15,6 +15,7 @@ Garantias inegociáveis:
 """
 from __future__ import annotations
 
+import math
 import re
 from typing import Any, Final, Optional
 
@@ -36,7 +37,7 @@ RE_SINGLE_NUMERIC_SECTION = re.compile(
 
 # Seções Nomeadas Explícitas (ex.: Capítulo 1: A Célula, Seção 2 - O Núcleo, Módulo I)
 RE_NAMED_SECTION = re.compile(
-    r"(?im)^[ \t]*(?:se[cç][aã]o|cap[ií]tulo|m[oó]dulo|unidade|parte|t[oó]pico)\s+(\d+|[ivxlcdm]+)\s*[:.\-–]?\s*(.*)$"
+    r"(?im)^[ \t]*(?:se[cç][aã]o|cap[ií]tulo|m[oó]dulo|unidade|parte|t[oó]pico)\s+(\d+|[ivxlcdm]+)\b\s*[:.\-–]?\s*(.*)$"
 )
 
 # Seções com Numerais Romanos (ex.: I. Introdução, II - Metodologia)
@@ -69,7 +70,7 @@ RE_CLASSICAL_HEADING = re.compile(
 
 # Marcadores de Lista Não Ordenada (Bullets)
 RE_BULLET_ITEM = re.compile(
-    r"^[ \t]*([•*–—+⁃▪▫◦\u2022\u25e6]|-)[ \t]+(.+)$"
+    r"^[ \t]*([•*–+⁃▪▫◦\u2022\u25e6]|-)[ \t]+(.+)$"
 )
 
 # Marcadores de Lista Ordenada (ex.: 1. Item, 2) Item, a) Item, (1) Item)
@@ -83,6 +84,18 @@ RE_QUESTION_INDICATOR = re.compile(
 )
 
 
+# Numeração simples no início da linha (ex.: "2. ", "3) ", "(4) ")
+RE_LEADING_NUMBER = re.compile(r"^\(?\d{1,2}\)?\s*[.)\-–]?\s+")
+
+# Cabeçalho Markdown explícito (#, ##, ###)
+RE_MARKDOWN_HEADING = re.compile(r"^(#{1,6})\s+(.+)$")
+
+
+def _looks_like_sentence(text: str) -> bool:
+    """Indica se o trecho tem forma de frase corrida, e não de título de seção."""
+    return len(text) > 80 or text.endswith((".", ",", ";"))
+
+
 def _clean_text(text: str) -> str:
     """Remove espaços em branco supérfluos nas extremidades mantendo o conteúdo integral."""
     return text.strip() if text else ""
@@ -92,6 +105,10 @@ def _is_question_line(line: str) -> bool:
     """Verifica se a linha é o comando de uma questão de avaliação para evitar falso-positivo com títulos."""
     stripped = line.strip()
     if RE_QUESTION_INDICATOR.search(stripped):
+        return True
+    # O verbo de comando costuma vir depois da numeração do enunciado ("2. Explique ...")
+    sem_numero = RE_LEADING_NUMBER.sub("", stripped)
+    if sem_numero != stripped and RE_QUESTION_INDICATOR.search(sem_numero):
         return True
     if re.match(r"(?im)^[ \t]*(?:quest[aã]o|atividade|exerc[ií]cio|item)\s+\d+", stripped):
         return True
@@ -112,13 +129,21 @@ def _detect_heading(
     if not stripped or len(stripped) > 120:
         return None
 
+    # Cabeçalho Markdown explícito tem precedência sobre as heurísticas
+    m_md = RE_MARKDOWN_HEADING.match(stripped)
+    if m_md:
+        hashes = len(m_md.group(1))
+        md_text = m_md.group(2).strip()
+        elem = "title" if hashes == 1 else ("section" if hashes == 2 else "subsection")
+        return (elem, hashes, md_text, {"markdown_level": hashes})
+
     # Se for comando de questão com interrogação ou verbo imperativo, não é título de seção
     if _is_question_line(stripped):
         return None
 
     # 1. Seções com numeração decimal multi-nível: 1.1, 1.2, 1.1.1, etc.
     m_multi = RE_NUMERIC_SECTION.match(stripped)
-    if m_multi:
+    if m_multi and not _looks_like_sentence(m_multi.group(2).strip()):
         num_str = m_multi.group(1)
         title_text = m_multi.group(2).strip()
         parts = num_str.split(".")
@@ -129,14 +154,14 @@ def _detect_heading(
 
     # 2. Seções nomeadas: "Capítulo 1: ...", "Seção 2 - ..."
     m_named = RE_NAMED_SECTION.match(stripped)
-    if m_named:
+    if m_named and not _looks_like_sentence(m_named.group(2).strip()):
         label_num = m_named.group(1)
         title_text = m_named.group(2).strip()
         return ("section", 2, stripped, {"section_label": label_num, "clean_title": title_text})
 
     # 3. Numerais Romanos: "I. Introdução", "II - ..."
     m_roman = RE_ROMAN_SECTION.match(stripped)
-    if m_roman:
+    if m_roman and not _looks_like_sentence(m_roman.group(2).strip()):
         roman_num = m_roman.group(1)
         title_text = m_roman.group(2).strip()
         return ("section", 2, stripped, {"roman": roman_num, "clean_title": title_text})
@@ -159,7 +184,8 @@ def _detect_heading(
             return ("section", 2, stripped, {"number": num, "clean_title": content_after})
 
     # 6. Título Principal na primeira posição do documento
-    if is_first_line and len(stripped) <= 90 and not stripped.endswith((".", ",", ";", ":")):
+    # Exige linha em branco depois: sem ela, é a primeira linha de um parágrafo quebrado
+    if is_first_line and next_line_empty and len(stripped) <= 90 and not stripped.endswith((".", ",", ";", ":")):
         words = stripped.split()
         if len(words) <= 12 and (stripped.isupper() or stripped.istitle() or words[0][0].isupper()):
             return ("title", 1, stripped, {"is_document_title": True})
@@ -167,24 +193,35 @@ def _detect_heading(
     # 7. Subtítulo / Seção em Title Case ou ALL CAPS isolado por linhas em branco
     if prev_line_empty and (next_line_empty or len(stripped) <= 60):
         words = stripped.split()
-        if len(words) <= 12 and not stripped.endswith((".", ",", ";", "!", "?")):
+        if len(words) <= 12 and not stripped.endswith((".", ",", ";", "!", "?", ":")):
             if stripped.isupper() and len(stripped) >= 3:
                 return ("section", 2, stripped, {"is_all_caps": True})
             cap_words = [w for w in words if w[0].isupper()]
-            if len(cap_words) >= max(1, int(len(words) * 0.5)):
+            if len(cap_words) >= max(1, math.ceil(len(words) * 0.5)):
                 elem = "title" if is_first_line else "subtitle"
                 lvl = 1 if is_first_line else 2
                 return (elem, lvl, stripped, {"is_title_case": True})
 
-    # 8. Linhas explícitas com marcadores Markdown de cabeçalho (#, ##, ###)
-    m_md = re.match(r"^(#{1,6})\s+(.+)$", stripped)
-    if m_md:
-        hashes = len(m_md.group(1))
-        md_text = m_md.group(2).strip()
-        elem = "title" if hashes == 1 else ("section" if hashes == 2 else "subsection")
-        return (elem, hashes, md_text, {"markdown_level": hashes})
-
     return None
+
+
+def _absorb_item_continuation(raw_lines: list[str], idx: int, item_line: str, unit: dict[str, Any]) -> int:
+    """Anexa ao item de lista as linhas seguintes que o continuam com recuo maior.
+
+    Retorna o índice da primeira linha que não pertence ao item.
+    """
+    item_indent = len(item_line) - len(item_line.lstrip())
+    while idx < len(raw_lines):
+        nxt = raw_lines[idx]
+        nxt_str = nxt.strip()
+        if not nxt_str or len(nxt) - len(nxt.lstrip()) <= item_indent:
+            break
+        if RE_BULLET_ITEM.match(nxt) or RE_ORDERED_ITEM.match(nxt) or RE_MARKDOWN_HEADING.match(nxt_str):
+            break
+        unit["content"] = f"{unit['content']} {nxt_str}"
+        unit["raw"] = f"{unit['raw']}\n{nxt_str}"
+        idx += 1
+    return idx
 
 
 def organize_prose_structure(raw_text: str) -> ProseStructure:
@@ -227,8 +264,14 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
         next_empty = (idx + 1 >= total_lines) or (not raw_lines[idx + 1].strip())
         is_first = (len(units) == 0)
 
+        # Linhas numeradas consecutivas, sem corpo entre elas, formam lista e não seções
+        in_numbered_run = bool(RE_SINGLE_NUMERIC_SECTION.match(stripped)) and (
+            (idx > 0 and bool(RE_SINGLE_NUMERIC_SECTION.match(raw_lines[idx - 1].strip())))
+            or (idx + 1 < total_lines and bool(RE_SINGLE_NUMERIC_SECTION.match(raw_lines[idx + 1].strip())))
+        )
+
         # A. Verifica se é Título ou Seção
-        heading_info = _detect_heading(
+        heading_info = None if in_numbered_run else _detect_heading(
             line,
             is_first_line=is_first,
             prev_line_empty=prev_empty,
@@ -255,9 +298,10 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
                 "kind": "list_item",
                 "element_type": "list_item",
                 "content": item_text,
+                "raw": stripped,
                 "metadata": {"list_type": "unordered", "marker": bullet_char},
             })
-            idx += 1
+            idx = _absorb_item_continuation(raw_lines, idx + 1, line, units[-1])
             continue
 
         # C. Verifica se é Item de Lista Ordenada (ex.: 1. Passo A, 2. Passo B)
@@ -282,9 +326,10 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
                     "kind": "list_item",
                     "element_type": "list_item",
                     "content": ord_text,
+                    "raw": stripped,
                     "metadata": {"list_type": "ordered", "marker": marker_str},
                 })
-                idx += 1
+                idx = _absorb_item_continuation(raw_lines, idx + 1, line, units[-1])
                 continue
 
         # D. Bloco de Parágrafo Normal
@@ -308,7 +353,8 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
             "kind": "paragraph",
             "element_type": "paragraph",
             "content": " ".join(para_lines),
-            "metadata": {},
+            # As quebras de linha originais ficam disponíveis (versos, endereços, falas)
+            "metadata": {"raw_text": "\n".join(para_lines)} if len(para_lines) > 1 else {},
         })
 
     # 3. Agrupamento de Listas e Construção dos Nós Estruturais
@@ -318,14 +364,19 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
     while u_idx < len(units):
         u = units[u_idx]
         if u["kind"] == "list_item":
-            # Coleta todos os itens de lista consecutivos
+            # Coleta os itens consecutivos do mesmo tipo; a troca de tipo abre outra lista
+            list_type = u["metadata"].get("list_type", "unordered")
             list_items: list[dict[str, Any]] = []
-            while u_idx < len(units) and units[u_idx]["kind"] == "list_item":
+            while (
+                u_idx < len(units)
+                and units[u_idx]["kind"] == "list_item"
+                and units[u_idx]["metadata"].get("list_type", "unordered") == list_type
+            ):
                 list_items.append(units[u_idx])
                 u_idx += 1
 
-            list_type = list_items[0]["metadata"].get("list_type", "unordered")
-            list_content = "\n".join([f"- {it['content']}" for it in list_items])
+            # O conteúdo da lista mantém os marcadores originais (a), 1., •)
+            list_content = "\n".join([it.get("raw", it["content"]) for it in list_items])
             raw_nodes_plan.append({
                 "kind": "list_container",
                 "element_type": "list",
