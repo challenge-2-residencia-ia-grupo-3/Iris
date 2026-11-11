@@ -131,7 +131,7 @@ class TestCurriculumExtractorAgent(unittest.TestCase):
         )
 
         self.assertIsInstance(res, CurriculumInvariants)
-        self.assertEqual(res.verbo_comando_bncc, "determine")
+        self.assertEqual(res.verbo_comando_bncc, "determinar")
         self.assertTrue(any("3x" in c or "equação" in c or "valor" in c for c in res.conceitos_obrigatorios))
         self.assertIsNotNone(res.alerta_anti_muleta)
 
