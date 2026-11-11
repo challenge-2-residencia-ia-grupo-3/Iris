@@ -587,10 +587,77 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             else:
                 self._send_json({"error": "Not found", "path": self.path}, status=404)
 
+        def _handle_upload(self) -> None:
+            """Recebe um arquivo em multipart/form-data (campo `file`), como a rota de upload do FastAPI."""
+            from email.parser import BytesParser
+            from email.policy import HTTP
+
+            from iris.api.routes.materials import process_material_file_service
+            from iris.parsers.document_extractor import DocumentParsingError, UnsupportedFileFormatError
+            from iris.schemas.materials import MaterialValidationError
+
+            length = int(self.headers.get("Content-Length", "0") or "0")
+            raw = self.rfile.read(length) if length > 0 else b""
+            # O analisador de e-mail da biblioteca padrão lê multipart a partir do cabeçalho Content-Type
+            cabecalho = f"Content-Type: {self.headers.get('Content-Type', '')}\r\n\r\n".encode("latin-1", "replace")
+            mensagem = BytesParser(policy=HTTP).parsebytes(cabecalho + raw)
+            arquivo = None
+            if mensagem.is_multipart():
+                for parte in mensagem.iter_parts():
+                    if parte.get_param("name", header="content-disposition") == "file":
+                        arquivo = parte
+                        break
+            if arquivo is None:
+                self._send_json(
+                    {
+                        "detail": {
+                            "detail": "Envie o arquivo no campo 'file' de um formulário multipart/form-data.",
+                            "code": "MISSING_FILE",
+                            "field": "file",
+                        }
+                    },
+                    status=422,
+                )
+                return
+
+            filename = arquivo.get_filename() or "desconhecido"
+            try:
+                resp = process_material_file_service(filename, arquivo.get_payload(decode=True) or b"")
+                self._send_json(resp.model_dump())
+            except UnsupportedFileFormatError as err:
+                self._send_json({"detail": {"detail": err.message, "code": err.code, "field": "file"}}, status=400)
+            except DocumentParsingError as err:
+                self._send_json({"detail": {"detail": err.message, "code": err.code, "field": "file"}}, status=422)
+            except MaterialValidationError as err:
+                self._send_json({"detail": err.to_dict()}, status=422)
+            except Exception as err:  # noqa: BLE001 - mesmo tratamento da rota do FastAPI
+                self._send_json(
+                    {"detail": {"detail": f"Erro interno ao processar arquivo: {err}", "code": "INTERNAL_ERROR"}},
+                    status=500,
+                )
+
         def do_POST(self) -> None:  # noqa: N802
-            length = int(self.headers.get("Content-Length", "0"))
-            raw_body = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
-            body = json.loads(raw_body or "{}")
+            if self.path.startswith("/api/v1/materials/upload"):
+                self._handle_upload()
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                raw_body = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
+                body = json.loads(raw_body or "{}")
+            except ValueError:  # inclui JSONDecodeError e UnicodeDecodeError
+                body = None
+            if not isinstance(body, dict):
+                self._send_json(
+                    {
+                        "detail": {
+                            "detail": "O corpo da requisição deve ser um objeto JSON válido.",
+                            "code": "INVALID_JSON",
+                            "field": "body",
+                        }
+                    },
+                    status=400,
+                )
+                return
             if self.path.startswith("/api/v1/rag/build"):
                 self._send_json(_handle_rag_build())
             elif self.path.startswith("/api/v1/rag/search"):
