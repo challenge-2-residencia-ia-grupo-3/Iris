@@ -135,3 +135,46 @@ def sanitize_pii(text: str) -> tuple[str, int]:
     total_replacements += count
 
     return sanitized, total_replacements
+
+
+# Padrão para menções nominais inline em observações pedagógicas livres (ex.: "O aluno Gabriel Silva gosta...")
+RE_ALUNO_PROSA = re.compile(
+    r"(?<!\[)\b((?:[oa]|d[oa]|a[o]?|pel[oa])\s+(?:aluno|aluna|estudante|discente)|(?:aluno|aluna|estudante|discente))\s+"
+    r"([A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ']{1,29}(?:\s+(?:(?:da|de|do|das|dos|e)\s+)?[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ']{1,29}){0,3})"
+)
+
+# Termos estritamente clínicos/médicos vetados pelo RNF-03 em perfis e observações pedagógicas
+RE_CLINICAL_REFERENCE = re.compile(
+    r"(?i)\b(?:cid(?:\s*[-:]?\s*(?:10|11|[a-z]\d{2}(?:\.\d+)?))|laudo\s+(?:m[eé]dico|cl[ií]nico|psiqui[aá]trico|neurol[oó]gico)|"
+    r"diagn[oó]stico\s+(?:cl[ií]nico|m[eé]dico|formal)|dsm\s*[-:]?\s*(?:iv|v|5)|"
+    r"prescri[cç][aã]o\s+m[eé]dica|medica[cç][aã]o|ritalina|venvanse|concerta|metilfenidato|lisdexanfetamina)\b"
+)
+
+
+def sanitize_pedagogical_note(text: str) -> tuple[str, int]:
+    """Sanitiza notas pedagógicas livres (ex.: potencialidades e interesses customizados).
+
+    Executa `sanitize_pii` e remove adicionalmente nomes próprios citados após referências
+    a estudante/aluno em prosa (ex.: "o aluno Gabriel Silva" -> "o aluno [ESTUDANTE]").
+    Mantém o princípio Zero-Retention (RNF-02) sem mapa de reidratação.
+    """
+    if not text:
+        return text, 0
+
+    sanitized, total_replacements = sanitize_pii(text)
+
+    def _replace_prosa(match: re.Match[str]) -> str:
+        prefixo = match.group(1)
+        return f"{prefixo} [ESTUDANTE]"
+
+    sanitized, inline_count = RE_ALUNO_PROSA.subn(_replace_prosa, sanitized)
+    total_replacements += inline_count
+    return re.sub(r"\s{2,}", " ", sanitized).strip(), total_replacements
+
+
+def detect_clinical_reference(text: str) -> str | None:
+    """Detecta menções a CID, laudos médicos ou medicações em campos pedagógicos (RNF-03)."""
+    if not text:
+        return None
+    match = RE_CLINICAL_REFERENCE.search(text)
+    return match.group(0) if match else None
