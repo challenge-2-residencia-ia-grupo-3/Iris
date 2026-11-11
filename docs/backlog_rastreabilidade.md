@@ -269,10 +269,10 @@ Como professor, quero selecionar especificamente a característica funcional em 
 * **E** o sistema deve impedir o avanço caso nenhuma característica funcional seja selecionada.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Backend]** Endpoint `GET /api/v1/catalogs/characteristics` retornando o catálogo oficial de barreiras atômicas.
-- [ ] **[Frontend]** Componente de seleção cirúrgica (Etapa 2) com filtros atômicos desacoplados de rótulo clínico.
-- [ ] **[Frontend]** Bloqueio de avanço de fluxo com alerta acessível caso nenhuma característica seja selecionada.
-- [ ] **[Testes]** Teste de renderização do catálogo e persistência do vetor de seleção no estado da sessão do cliente.
+- [x] **[Backend]** Endpoint `GET /api/v1/catalogs/characteristics` retornando o catálogo oficial de barreiras atômicas.
+- [x] **[Frontend]** Componente de seleção cirúrgica (Etapa 2) com filtros atômicos desacoplados de rótulo clínico.
+- [x] **[Frontend]** Bloqueio de avanço de fluxo com alerta acessível caso nenhuma característica seja selecionada.
+- [x] **[Testes]** Teste de renderização do catálogo e persistência do vetor de seleção no estado da sessão do cliente.
 
 ##### História 1.2.2: Registro de potencialidades, interesses e canais de engajamento
 **História de Usuário**
