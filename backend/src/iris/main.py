@@ -588,9 +588,24 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json({"error": "Not found", "path": self.path}, status=404)
 
         def do_POST(self) -> None:  # noqa: N802
-            length = int(self.headers.get("Content-Length", "0"))
-            raw_body = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
-            body = json.loads(raw_body or "{}")
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                raw_body = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
+                body = json.loads(raw_body or "{}")
+            except ValueError:  # inclui JSONDecodeError e UnicodeDecodeError
+                body = None
+            if not isinstance(body, dict):
+                self._send_json(
+                    {
+                        "detail": {
+                            "detail": "O corpo da requisição deve ser um objeto JSON válido.",
+                            "code": "INVALID_JSON",
+                            "field": "body",
+                        }
+                    },
+                    status=400,
+                )
+                return
             if self.path.startswith("/api/v1/rag/build"):
                 self._send_json(_handle_rag_build())
             elif self.path.startswith("/api/v1/rag/search"):
