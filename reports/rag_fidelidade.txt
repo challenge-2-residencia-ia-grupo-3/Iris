@@ -1,0 +1,33 @@
+FIDELIDADE (FAITHFULNESS) DAS RESPOSTAS, POR FRASE, A PARTIR DOS VEREDITOS VERSIONADOS.
+Fidelidade = frases de conteúdo que o trecho citado sustenta por inteiro / frases de conteúdo, média por resposta.
+Avaliadores: dois Claude Sonnet e o Codex (OpenAI), mesma regra; Claude Opus nas frases divididas. Sem conferência humana.
+Nenhum modelo treinado nem chamado aqui: contagem, kappa de Cohen e bootstrap (2000 reamostras, semente 20261105).
+Meta (FAITHFULNESS_MIN): 0.90. A leitura compara o intervalo de 95% com a meta.
+
+=== gerador haiku: 38 respostas
+avaliador                   fidelidade            IC 95%    frases sustentadas
+Sonnet A                         0.884     [0.829-0.934]            166 de 187
+Sonnet B                         0.887     [0.825-0.941]            167 de 188
+Codex                            0.922     [0.880-0.961]            172 de 186
+maioria dos três + Opus          0.905     [0.858-0.947]            170 de 187
+Leitura contra a meta: não se distingue da meta.
+
+par (sustenta ou não)       frases    iguais   kappa   matriz [[1,1] [1,0] / [0,1] [0,0]]
+Sonnet A x Sonnet B            187     94.1%    0.70   [161 5 / 6 15]
+Sonnet A x Codex               186     91.9%    0.53   [161 4 / 11 10]
+Sonnet B x Codex               186     92.5%    0.55   [162 4 / 10 10]
+Frases divididas, decididas pelo Opus: 9. Frases não sustentadas para os três avaliadores: 0.
+
+=== gerador opus: 35 respostas
+avaliador                   fidelidade            IC 95%    frases sustentadas
+Sonnet A                         0.944     [0.909-0.977]            167 de 177
+Sonnet B                         0.919     [0.869-0.959]            162 de 177
+Codex                            0.965     [0.935-0.989]            164 de 170
+maioria dos três + Opus          0.950     [0.922-0.978]            166 de 175
+Leitura contra a meta: atinge a meta.
+
+par (sustenta ou não)       frases    iguais   kappa   matriz [[1,1] [1,0] / [0,1] [0,0]]
+Sonnet A x Sonnet B            175     96.0%    0.67   [160 5 / 2 8]
+Sonnet A x Codex               170     92.9%    0.22   [156 4 / 8 2]
+Sonnet B x Codex               170     92.9%    0.30   [155 3 / 9 3]
+Frases divididas, decididas pelo Opus: 10. Frases não sustentadas para os três avaliadores: 0.
