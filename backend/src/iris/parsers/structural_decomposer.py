@@ -18,6 +18,7 @@ from __future__ import annotations
 import re
 from typing import Any, Final, Optional
 
+from iris.parsers.prose_organizer import organize_prose_structure
 from iris.schemas.materials import (
     AlternativeItem,
     ContextBlock,
@@ -380,14 +381,16 @@ def decompose_material(raw_text: str) -> MaterialStructure:
 
     # Se nenhum marcador de questão ou contexto for encontrado
     if not markers:
+        prose_struct = organize_prose_structure(raw_text)
         return MaterialStructure(
             header=None,
             instructions=None,
             context_blocks=[],
             questions=[],
-            unclassified_blocks=[raw_text.strip()],
+            unclassified_blocks=[raw_text.strip()] if not prose_struct.root_nodes else [],
             total_questions=0,
             has_shared_contexts=False,
+            prose_structure=prose_struct,
         )
 
     # 3. Isolar Cabeçalho Inicial
@@ -501,6 +504,8 @@ def decompose_material(raw_text: str) -> MaterialStructure:
                 ref_counts[ref] = ref_counts.get(ref, 0) + 1
         has_shared = any(c >= 2 for c in ref_counts.values())
 
+    prose_struct = organize_prose_structure(raw_text)
+
     return MaterialStructure(
         header=header_text,
         instructions="\n".join(lines[pos].strip() for pos in sorted(instruction_idx)) or None,
@@ -509,4 +514,5 @@ def decompose_material(raw_text: str) -> MaterialStructure:
         unclassified_blocks=unclassified_blocks,
         total_questions=len(questions),
         has_shared_contexts=has_shared,
+        prose_structure=prose_struct,
     )

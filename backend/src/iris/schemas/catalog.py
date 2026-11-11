@@ -397,6 +397,17 @@ def load_all_catalogs(directory: Path = CATALOGS_DIR) -> dict[str, Characteristi
     return catalogs
 
 
+def load_official_tdah_catalog(directory: Path = CATALOGS_DIR) -> CharacteristicCatalog:
+    """Carrega o catálogo oficial de características funcionais atômicas do TDAH."""
+    tdah_path = Path(directory) / "tdah_caracteristicas_funcionais.json"
+    if tdah_path.exists():
+        return load_catalog_file(tdah_path)
+    catalogs = load_all_catalogs(directory)
+    if not catalogs:
+        raise CatalogValidationError(f"Nenhum catálogo funcional encontrado em {directory}.")
+    return next(iter(catalogs.values()))
+
+
 def get_characteristic_by_id(
     id_caracteristica: str, directory: Path = CATALOGS_DIR
 ) -> CharacteristicItem:
@@ -405,3 +416,142 @@ def get_characteristic_by_id(
         if id_caracteristica in cat._por_id:
             return cat.get_characteristic(id_caracteristica)
     raise KeyError(f"Característica funcional {id_caracteristica!r} não encontrada em nenhum catálogo ativo.")
+
+
+class CharacteristicSelectionError(ValueError):
+    """Erro de validação na seleção cirúrgica de características funcionais (História 1.2.1 - Issue #8)."""
+
+    def __init__(self, message: str, code: str, field: str = "selected_ids") -> None:
+        super().__init__(message)
+        self.message = message
+        self.code = code
+        self.field = field
+
+    def to_dict(self) -> dict[str, str]:
+        return {"detail": self.message, "code": self.code, "field": self.field}
+
+
+class SurgicalCharacteristicSelection:
+    """Vetor cirúrgico de características ativadas e bloqueadas para a sessão (RF-04 / História 1.2.1)."""
+
+    def __init__(
+        self,
+        status: str,
+        message: str,
+        id_catalogo: str,
+        total_catalog_characteristics: int,
+        selected_ids: list[str],
+        blocked_ids: list[str],
+        active_characteristics: list[dict[str, Any]],
+        scope_isolation_rule: str,
+    ) -> None:
+        self.status = status
+        self.message = message
+        self.id_catalogo = id_catalogo
+        self.total_catalog_characteristics = total_catalog_characteristics
+        self.selected_ids = selected_ids
+        self.blocked_ids = blocked_ids
+        self.selected_count = len(selected_ids)
+        self.blocked_count = len(blocked_ids)
+        self.active_characteristics = active_characteristics
+        self.scope_isolation_rule = scope_isolation_rule
+
+    def model_dump(self) -> dict[str, Any]:
+        return {
+            "status": self.status,
+            "message": self.message,
+            "id_catalogo": self.id_catalogo,
+            "total_catalog_characteristics": self.total_catalog_characteristics,
+            "selected_count": self.selected_count,
+            "blocked_count": self.blocked_count,
+            "selected_ids": list(self.selected_ids),
+            "blocked_ids": list(self.blocked_ids),
+            "active_characteristics": list(self.active_characteristics),
+            "scope_isolation_rule": self.scope_isolation_rule,
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+def validate_surgical_characteristic_selection(
+    selected_ids: Any,
+    catalog: CharacteristicCatalog | None = None,
+    directory: Path = CATALOGS_DIR,
+) -> SurgicalCharacteristicSelection:
+    """Valida e constrói o vetor cirúrgico de características funcionais (RF-04 / Issue #8).
+
+    Regras de negócio:
+    1. Pelo menos 1 característica funcional atômica deve ser selecionada (impede avanço se vazia).
+    2. Todas as características selecionadas devem existir no catálogo oficial validado.
+    3. As características não assinaladas são explicitamente registradas em `blocked_ids` para
+       garantir o isolamento estrito de escopo (Pilar 1: Intervenção Cirúrgica).
+    """
+    if not isinstance(selected_ids, list):
+        raise CharacteristicSelectionError(
+            message="O campo 'selected_ids' deve ser uma lista de identificadores de características funcionais.",
+            code="INVALID_SELECTION_TYPE",
+            field="selected_ids",
+        )
+
+    cleaned_ids: list[str] = []
+    seen: set[str] = set()
+    for raw_id in selected_ids:
+        if not isinstance(raw_id, str) or not raw_id.strip():
+            raise CharacteristicSelectionError(
+                message="Todos os identificadores em 'selected_ids' devem ser textos não vazios.",
+                code="INVALID_CHARACTERISTIC_ID",
+                field="selected_ids",
+            )
+        cid = raw_id.strip()
+        if cid not in seen:
+            seen.add(cid)
+            cleaned_ids.append(cid)
+
+    if len(cleaned_ids) == 0:
+        raise CharacteristicSelectionError(
+            message=(
+                "Selecione pelo menos uma característica funcional observada em sala de aula "
+                "para definir o escopo permitido de adaptação antes de avançar."
+            ),
+            code="EMPTY_CHARACTERISTIC_SELECTION",
+            field="selected_ids",
+        )
+
+    active_catalog = catalog or load_official_tdah_catalog(directory=directory)
+    unknown_ids = [cid for cid in cleaned_ids if cid not in active_catalog._por_id]
+    if unknown_ids:
+        raise CharacteristicSelectionError(
+            message=(
+                f"Característica(s) funcional(is) não reconhecida(s) no catálogo '{active_catalog.id_catalogo}': "
+                f"{', '.join(unknown_ids)}."
+            ),
+            code="UNKNOWN_CHARACTERISTIC_ID",
+            field="selected_ids",
+        )
+
+    active_items = [active_catalog.get_characteristic(cid).to_dict() for cid in cleaned_ids]
+    blocked_ids = [
+        c.id_caracteristica
+        for c in active_catalog.caracteristicas
+        if c.id_caracteristica not in seen
+    ]
+
+    return SurgicalCharacteristicSelection(
+        status="success",
+        message=(
+            f"Escopo cirúrgico registrado: {len(cleaned_ids)} característica(s) ativada(s) para adaptação "
+            f"e {len(blocked_ids)} característica(s) bloqueada(s) para preservar a autonomia do estudante."
+        ),
+        id_catalogo=active_catalog.id_catalogo,
+        total_catalog_characteristics=len(active_catalog.caracteristicas),
+        selected_ids=cleaned_ids,
+        blocked_ids=blocked_ids,
+        active_characteristics=active_items,
+        scope_isolation_rule=(
+            "O pipeline de adaptação atuará exclusivamente sobre as características em 'selected_ids'. "
+            "Todas as dimensões listadas em 'blocked_ids' permanecem bloqueadas para intervenção, "
+            "preservando 100% da estrutura e autonomia original."
+        ),
+    )
+

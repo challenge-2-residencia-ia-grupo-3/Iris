@@ -72,6 +72,8 @@ class CurriculumInvariants(BaseModel):
         vistos: set[str] = set()
         resultado: list[str] = []
         for item in itens:
+            if item is None:
+                continue
             limpo = str(item).strip()
             if limpo and limpo.lower() not in vistos:
                 vistos.add(limpo.lower())
@@ -79,6 +81,14 @@ class CurriculumInvariants(BaseModel):
         if not resultado:
             raise ValueError("conceitos_obrigatorios vazio: nenhum conceito foi extraído do enunciado.")
         return resultado
+
+    @field_validator("termos_tecnicos_intocaveis", mode="before")
+    @classmethod
+    def _sanitizar_termos(cls, v: object) -> object:
+        # Mesmo formato de texto aceito em `conceitos_obrigatorios`; aqui a lista pode ficar vazia
+        if isinstance(v, str):
+            return [item.strip() for item in re.split(r"[;\n,]", v) if item.strip()]
+        return v
 
     @field_validator("verbo_comando_bncc", mode="before")
     @classmethod

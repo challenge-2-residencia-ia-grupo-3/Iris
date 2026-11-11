@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING, Iterable, Optional
 from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, strip_thinking_tags
 from iris.eval.trcc import avaliar_trcc
 from iris.schemas.curriculum import (
+    IMPERATIVO_PARA_INFINITIVO,
     CurriculumInvariants,
     ExtractionRequest,
     ExtractionResult,
@@ -53,6 +54,9 @@ Ex3 (Português): "Identifique o sujeito: Maria e João foram ao mercado."
 -> {"conceitos_obrigatorios":["sujeito","Maria","João","mercado"],"termos_tecnicos_intocaveis":["sujeito","Maria","João"],"verbo_comando_bncc":"identificar","operacao_cognitiva":"reconhecer o sujeito da oração dada","habilidade_bncc_sugerida":"EF06LP06","alerta_anti_muleta":"Não aponte quem é o sujeito da frase.","justificativa_preservacao":"Preserva os elementos literais avaliados."}
 
 Retorne APENAS o JSON válido."""
+
+# Conceito gravado pela salvaguarda quando o enunciado não oferece nenhum candidato
+CONCEITO_GENERICO = "conteudo_curricular"
 
 VERBOS_BNCC_COMUNS = (
     "analisar", "analise", "avalie", "avaliar", "calcular", "calcule",
@@ -124,6 +128,7 @@ class CurriculumExtractorAgent:
         provider_configurado = getattr(self.llm_client, "provider_name", "custom")
         if provider_configurado in {"extractive", "mock", "offline"}:
             used_fallback = True
+            json_valido_direto = False
             invariantes = self._extracao_deterministica_fallback(req)
         else:
             try:
@@ -266,14 +271,28 @@ class CurriculumExtractorAgent:
             match_brace = re.search(r"(\{.*\})", limpo, flags=re.DOTALL)
             json_str = match_brace.group(1) if match_brace else limpo
 
-        dados = json.loads(json_str)
+        try:
+            dados = json.loads(json_str)
+        except json.JSONDecodeError:
+            # Mais de um objeto na resposta: aproveita o primeiro objeto JSON completo
+            inicio = limpo.find("{")
+            if inicio < 0:
+                raise
+            dados, _ = json.JSONDecoder().raw_decode(limpo[inicio:])
+            json_direto = False
 
         # Se o professor já havia definido travas manuais, garante que estejam nos conceitos obrigatórios
         if req.trava_manual_docente:
-            existentes = set(c.lower() for c in dados.get("conceitos_obrigatorios", []))
+            conceitos = dados.get("conceitos_obrigatorios")
+            if isinstance(conceitos, str):  # o contrato aceita texto separado por ";", "," ou quebra de linha
+                conceitos = re.split(r"[;\n,]", conceitos)
+            elif not isinstance(conceitos, list):
+                conceitos = []
+            existentes = {str(c).strip().lower() for c in conceitos}
             for t in req.trava_manual_docente:
                 if t.lower() not in existentes:
-                    dados.setdefault("conceitos_obrigatorios", []).append(t)
+                    conceitos.append(t)
+            dados["conceitos_obrigatorios"] = conceitos
 
         return CurriculumInvariants.model_validate(dados), json_direto
 
@@ -286,28 +305,40 @@ class CurriculumExtractorAgent:
         verbo_encontrado = "identificar"
         for p in palavras:
             if p.lower() in VERBOS_BNCC_COMUNS:
-                verbo_encontrado = p.lower()
+                # Mesma forma (infinitivo) que o contrato grava em `verbo_comando_bncc`
+                verbo_encontrado = IMPERATIVO_PARA_INFINITIVO.get(p.lower(), p.lower())
                 break
 
-        # Conceitos obrigatórios a partir de travas manuais ou termos de destaque
-        conceitos: list[str] = []
-        if req.trava_manual_docente:
-            conceitos.extend(req.trava_manual_docente)
-
-        # Extrai equações ou expressões entre aspas/maiúsculas
+        # Conceitos do enunciado: equações ou expressões entre aspas
+        do_enunciado: list[str] = []
         destaques = re.findall(r'"([^"]+)"|\'([^\']+)\'|(\d+[a-zA-Z]?\s*[=+\-*/]\s*\d+)', texto)
         for g1, g2, g3 in destaques:
             val = (g1 or g2 or g3 or "").strip()
-            if val and len(val) >= 2 and val not in conceitos:
-                conceitos.append(val)
+            if val and len(val) >= 2 and val not in do_enunciado:
+                do_enunciado.append(val)
 
-        if not conceitos:
+        if not do_enunciado:
             # Pega palavras substantivas mais longas
             stopwords = {"para", "como", "qual", "quais", "onde", "quando", "sobre", "texto", "abaixo", "leia", "responda"}
-            candidatos = [p for p in palavras if p.lower() not in stopwords and len(p) >= 5]
-            conceitos = candidatos[:3] if candidatos else ["conteudo_curricular"]
+            # O verbo de comando já vai em `verbo_comando_bncc`; não é conceito do enunciado
+            candidatos = [
+                p for p in palavras
+                if p.lower() not in stopwords and p.lower() not in VERBOS_BNCC_COMUNS and len(p) >= 5
+            ]
+            do_enunciado = candidatos[:3]
+
+        # As travas manuais se somam aos conceitos do enunciado, como no caminho com LLM
+        conceitos: list[str] = list(req.trava_manual_docente or [])
+        existentes = {c.lower() for c in conceitos}
+        for c in do_enunciado:
+            if c.lower() not in existentes:
+                existentes.add(c.lower())
+                conceitos.append(c)
 
         termos_tecnicos = [c for c in conceitos if any(ch in c for ch in "=+-/*0123456789") or len(c) >= 7]
+        if not conceitos:
+            # O contrato exige ao menos um conceito; o marcador genérico não é termo técnico
+            conceitos = [CONCEITO_GENERICO]
 
         return CurriculumInvariants(
             conceitos_obrigatorios=conceitos,

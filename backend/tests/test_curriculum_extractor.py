@@ -135,6 +135,146 @@ class TestCurriculumExtractorAgent(unittest.TestCase):
         self.assertTrue(any("3x" in c or "equação" in c or "valor" in c for c in res.conceitos_obrigatorios))
         self.assertIsNotNone(res.alerta_anti_muleta)
 
+    def test_provedor_sem_llm_nao_declara_json_valido(self):
+        for provedor in ("mock", "extractive", "offline"):
+            with self.subTest(provedor=provedor):
+                mock_llm = MagicMock()
+                mock_llm.provider_name = provedor
+
+                agent = CurriculumExtractorAgent(llm_client=mock_llm)
+                res = agent.extract_with_telemetry(
+                    ExtractionRequest(enunciado="Explique como ocorre a fotossíntese nas plantas.")
+                )
+
+                mock_llm.generate.assert_not_called()
+                self.assertTrue(res.telemetry.used_fallback)
+                self.assertFalse(res.telemetry.json_valido_direto)
+
+    def test_fallback_cita_o_verbo_no_infinitivo_nos_textos(self):
+        mock_llm = MagicMock()
+        mock_llm.generate.side_effect = RuntimeError("Conexão com LLM recusada ou timeout")
+
+        agent = CurriculumExtractorAgent(llm_client=mock_llm)
+        res = agent.extract(ExtractionRequest(enunciado="Calcule a soma 12 + 30 e depois anote aqui."))
+
+        self.assertEqual(res.verbo_comando_bncc, "calcular")
+        self.assertIn("'calcular'", res.alerta_anti_muleta)
+        self.assertIn("'calcular'", res.operacao_cognitiva)
+        self.assertNotIn("calcule", res.alerta_anti_muleta)
+        self.assertNotIn("calcule", res.operacao_cognitiva)
+
+    def _agente_com_resposta(self, texto: str) -> CurriculumExtractorAgent:
+        mock_llm = MagicMock()
+        mock_llm.provider_name = "ollama"
+        mock_llm.generate.return_value = LLMResponse(text=texto, provider="ollama", model="mock-model")
+        return CurriculumExtractorAgent(llm_client=mock_llm)
+
+    def _json_do_modelo(self, **troca) -> str:
+        import json
+
+        base = {
+            "conceitos_obrigatorios": ["fotossíntese", "plantas"],
+            "termos_tecnicos_intocaveis": ["fotossíntese"],
+            "verbo_comando_bncc": "explicar",
+            "operacao_cognitiva": "explicar o processo",
+            "alerta_anti_muleta": "Não dê a resposta.",
+        }
+        return json.dumps({**base, **troca}, ensure_ascii=False)
+
+    def test_trava_manual_com_conceitos_em_texto_nao_descarta_a_resposta(self):
+        agent = self._agente_com_resposta(self._json_do_modelo(conceitos_obrigatorios="fotossíntese; plantas"))
+        res = agent.extract_with_telemetry(
+            ExtractionRequest(
+                enunciado="Explique como ocorre a fotossíntese nas plantas.",
+                trava_manual_docente=["luz", "Plantas"],
+            )
+        )
+
+        self.assertFalse(res.telemetry.used_fallback)
+        self.assertEqual(res.invariants.conceitos_obrigatorios, ["fotossíntese", "plantas", "luz"])
+
+    def test_trava_manual_com_conceitos_ausentes_na_resposta(self):
+        import json
+
+        dados = json.loads(self._json_do_modelo())
+        del dados["conceitos_obrigatorios"]
+        agent = self._agente_com_resposta(json.dumps(dados, ensure_ascii=False))
+        res = agent.extract_with_telemetry(
+            ExtractionRequest(
+                enunciado="Explique como ocorre a fotossíntese nas plantas.", trava_manual_docente=["luz"]
+            )
+        )
+
+        self.assertFalse(res.telemetry.used_fallback)
+        self.assertEqual(res.invariants.conceitos_obrigatorios, ["luz"])
+
+    def test_fallback_nao_lista_o_verbo_de_comando_como_conceito(self):
+        mock_llm = MagicMock()
+        mock_llm.generate.side_effect = RuntimeError("Conexão com LLM recusada ou timeout")
+
+        agent = CurriculumExtractorAgent(llm_client=mock_llm)
+        res = agent.extract(ExtractionRequest(enunciado="Explique como ocorre a fotossíntese nas plantas."))
+
+        self.assertEqual(res.verbo_comando_bncc, "explicar")
+        self.assertEqual(res.conceitos_obrigatorios, ["ocorre", "fotossíntese", "plantas"])
+        self.assertNotIn("Explique", res.termos_tecnicos_intocaveis)
+
+    def _agente_indisponivel(self) -> CurriculumExtractorAgent:
+        mock_llm = MagicMock()
+        mock_llm.generate.side_effect = RuntimeError("Conexão com LLM recusada ou timeout")
+        return CurriculumExtractorAgent(llm_client=mock_llm)
+
+    def test_fallback_sem_candidato_nao_marca_o_conceito_generico_como_termo_tecnico(self):
+        res = self._agente_indisponivel().extract(ExtractionRequest(enunciado="Diga o que o gato fez no dia de sol."))
+
+        self.assertEqual(res.conceitos_obrigatorios, ["conteudo_curricular"])
+        self.assertEqual(res.termos_tecnicos_intocaveis, [])
+
+    def test_fallback_soma_a_trava_manual_aos_conceitos_do_enunciado(self):
+        res = self._agente_indisponivel().extract(
+            ExtractionRequest(
+                enunciado="Explique como ocorre a fotossíntese nas plantas.",
+                trava_manual_docente=["luz", "Plantas"],
+            )
+        )
+
+        self.assertEqual(res.conceitos_obrigatorios, ["luz", "Plantas", "ocorre", "fotossíntese"])
+
+    def test_fallback_com_trava_e_sem_candidato_devolve_so_a_trava(self):
+        res = self._agente_indisponivel().extract(
+            ExtractionRequest(enunciado="Diga o que o gato fez no dia de sol.", trava_manual_docente=["gato"])
+        )
+
+        self.assertEqual(res.conceitos_obrigatorios, ["gato"])
+        self.assertEqual(res.termos_tecnicos_intocaveis, [])
+
+    def test_item_nulo_nao_vira_conceito(self):
+        agent = self._agente_com_resposta(self._json_do_modelo(conceitos_obrigatorios=[None, "plantas"]))
+        res = agent.extract(ExtractionRequest(enunciado="Explique como ocorre a fotossíntese nas plantas."))
+
+        self.assertEqual(res.conceitos_obrigatorios, ["plantas"])
+
+    def test_termos_intocaveis_em_texto_sao_aceitos(self):
+        agent = self._agente_com_resposta(self._json_do_modelo(termos_tecnicos_intocaveis="fotossíntese; clorofila"))
+        res = agent.extract_with_telemetry(
+            ExtractionRequest(enunciado="Explique como ocorre a fotossíntese nas plantas.")
+        )
+
+        self.assertFalse(res.telemetry.used_fallback)
+        self.assertEqual(res.invariants.termos_tecnicos_intocaveis, ["fotossíntese", "clorofila"])
+
+    def test_resposta_com_dois_objetos_json_aproveita_o_primeiro(self):
+        primeiro = self._json_do_modelo()
+        segundo = self._json_do_modelo(conceitos_obrigatorios=["outro"])
+        agent = self._agente_com_resposta(primeiro + "\n" + segundo)
+        res = agent.extract_with_telemetry(
+            ExtractionRequest(enunciado="Explique como ocorre a fotossíntese nas plantas.")
+        )
+
+        self.assertFalse(res.telemetry.used_fallback)
+        self.assertFalse(res.telemetry.json_valido_direto)
+        self.assertEqual(res.invariants.conceitos_obrigatorios, ["fotossíntese", "plantas"])
+
     def test_extracao_direta_de_golden_question(self):
         gq = GoldenQuestion(
             id="Q01",
