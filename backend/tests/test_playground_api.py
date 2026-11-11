@@ -257,5 +257,95 @@ class TestPlaygroundDataContracts(unittest.TestCase):
         self.assertEqual(len(body["consultas_com_textos"]), 8)
 
 
+class TestLicencaRestritaPeloDocumento(unittest.TestCase):
+    """A marca de licença restrita vem da lista de documentos não distribuídos, não do texto do trecho.
+
+    Na base pública o texto desses documentos já é o aviso; numa máquina com os textos completos
+    (a base usada na VPS), o texto é o integral e só a lista identifica o documento.
+    """
+
+    def test_lista_de_documentos_nao_distribuidos(self) -> None:
+        from iris.rag.bridge import documentos_nao_distribuidos
+
+        docs = documentos_nao_distribuidos()
+        self.assertIn("ABDA-GUIA-PROFESSORES-2012", docs)
+        self.assertIn("CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024", docs)
+        self.assertNotIn("ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR", docs)
+
+    def test_documento_nao_distribuido_com_texto_integral(self) -> None:
+        meta = {
+            "chunk_id": "ABDA-GUIA-PROFESSORES-2012#0003",
+            "doc_id": "ABDA-GUIA-PROFESSORES-2012",
+            "n_palavras": 87,
+            "texto": "Texto integral do guia, presente apenas em máquina com os textos obtidos na fonte.",
+        }
+        norm = normalizar_trecho_ui({"chunk_id": meta["chunk_id"]}, ref="T1", chunk_meta=meta)
+        self.assertTrue(norm["licenca_restrita"])
+        self.assertNotIn("Texto integral", norm["texto"])
+        self.assertIn("restrição de licença", norm["texto"])
+
+    def test_documento_aberto_mantem_o_texto(self) -> None:
+        meta = {
+            "chunk_id": "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+            "doc_id": "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR",
+            "n_palavras": 5,
+            "texto": "Texto de artigo com licença aberta.",
+        }
+        norm = normalizar_trecho_ui({"chunk_id": meta["chunk_id"]}, ref="T1", chunk_meta=meta)
+        self.assertFalse(norm["licenca_restrita"])
+        self.assertEqual(norm["texto"], meta["texto"])
+
+
+class TestRespostaAoVivoConcorrente(unittest.TestCase):
+    """Duas respostas ao vivo simultâneas não trocam o provedor uma da outra nem deixam o ambiente alterado."""
+
+    def test_duas_requisicoes_simultaneas(self) -> None:
+        import threading
+        import time
+        from unittest.mock import MagicMock, patch
+
+        def cliente(disponivel: bool) -> MagicMock:
+            c = MagicMock()
+            c._primary._resolve_model.return_value = "llama3:latest"
+            c.status.return_value = {"configured_provider": "ollama", "primary_available": disponivel}
+            return c
+
+        clientes = {"com-ollama": cliente(True), "sem-ollama": cliente(False)}
+        lido: dict[str, str | None] = {}
+
+        def responder_falso(pergunta: str, metodo: str, k: int = 5):
+            # o gerador real lê RAG_LLM durante a geração: "com-ollama" lê no meio da outra requisição,
+            # que ainda está gerando com o seu próprio provedor
+            if pergunta == "com-ollama":
+                time.sleep(0.3)
+                lido[pergunta] = os.environ.get("RAG_LLM")
+            else:
+                lido[pergunta] = os.environ.get("RAG_LLM")
+                time.sleep(0.4)
+            return {"metodo": metodo, "llm": lido[pergunta], "resposta": "", "conferencia": {},
+                    "trechos_entregues": [{"chunk_id": "DOC#0001", "trecho": "texto"}]}
+
+        def chamar(nome: str) -> None:
+            _handle_rag_answer({"pergunta": nome, "metodo": "bm25", "k": 1})
+
+        antes = (os.environ.get("RAG_LLM"), os.environ.get("RAG_LLM_MODELO"))
+        with patch("iris.core.llm_client.get_llm_client",
+                   side_effect=lambda **_: clientes[threading.current_thread().name]), \
+             patch("iris.rag.bridge.responder_fundamentado", side_effect=responder_falso), \
+             patch("iris.rag.bridge.obter_trechos_base", return_value=[]), \
+             patch("iris.eval.rag_metrics.calcular_similaridade_semantica", return_value=0.0):
+            a = threading.Thread(target=chamar, args=("com-ollama",), name="com-ollama")
+            b = threading.Thread(target=chamar, args=("sem-ollama",), name="sem-ollama")
+            a.start()
+            time.sleep(0.1)
+            b.start()
+            a.join()
+            b.join()
+
+        self.assertEqual(lido["com-ollama"], "ollama")
+        self.assertEqual(lido["sem-ollama"], "extractive")
+        self.assertEqual((os.environ.get("RAG_LLM"), os.environ.get("RAG_LLM_MODELO")), antes)
+
+
 if __name__ == "__main__":
     unittest.main()
