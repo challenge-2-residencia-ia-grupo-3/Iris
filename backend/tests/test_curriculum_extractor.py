@@ -219,6 +219,35 @@ class TestCurriculumExtractorAgent(unittest.TestCase):
         self.assertEqual(res.conceitos_obrigatorios, ["ocorre", "fotossíntese", "plantas"])
         self.assertNotIn("Explique", res.termos_tecnicos_intocaveis)
 
+    def _agente_indisponivel(self) -> CurriculumExtractorAgent:
+        mock_llm = MagicMock()
+        mock_llm.generate.side_effect = RuntimeError("Conexão com LLM recusada ou timeout")
+        return CurriculumExtractorAgent(llm_client=mock_llm)
+
+    def test_fallback_sem_candidato_nao_marca_o_conceito_generico_como_termo_tecnico(self):
+        res = self._agente_indisponivel().extract(ExtractionRequest(enunciado="Diga o que o gato fez no dia de sol."))
+
+        self.assertEqual(res.conceitos_obrigatorios, ["conteudo_curricular"])
+        self.assertEqual(res.termos_tecnicos_intocaveis, [])
+
+    def test_fallback_soma_a_trava_manual_aos_conceitos_do_enunciado(self):
+        res = self._agente_indisponivel().extract(
+            ExtractionRequest(
+                enunciado="Explique como ocorre a fotossíntese nas plantas.",
+                trava_manual_docente=["luz", "Plantas"],
+            )
+        )
+
+        self.assertEqual(res.conceitos_obrigatorios, ["luz", "Plantas", "ocorre", "fotossíntese"])
+
+    def test_fallback_com_trava_e_sem_candidato_devolve_so_a_trava(self):
+        res = self._agente_indisponivel().extract(
+            ExtractionRequest(enunciado="Diga o que o gato fez no dia de sol.", trava_manual_docente=["gato"])
+        )
+
+        self.assertEqual(res.conceitos_obrigatorios, ["gato"])
+        self.assertEqual(res.termos_tecnicos_intocaveis, [])
+
     def test_item_nulo_nao_vira_conceito(self):
         agent = self._agente_com_resposta(self._json_do_modelo(conceitos_obrigatorios=[None, "plantas"]))
         res = agent.extract(ExtractionRequest(enunciado="Explique como ocorre a fotossíntese nas plantas."))
