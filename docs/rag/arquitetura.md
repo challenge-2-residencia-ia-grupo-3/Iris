@@ -85,7 +85,6 @@ Arquivo do diagrama: `docs/rag/diagrama_arquitetura.svg`.
 | Ingestão | `pacote/ingestao.py` | Limpeza, segmentação e atribuição de metadados; gera `chunks.jsonl` |
 | Vetorização | `pacote/embeddings.py` | BM25, modelos de embeddings e fusão de listas |
 | Banco vetorial | `pacote/banco_pg.py` | Criação da tabela, carga e busca por similaridade |
-| Banco alternativo | `pacote/indexar.py` | Índice local em Chroma, para execução sem contêiner |
 | Recuperação | `pacote/consultar.py` | Métodos de busca, reordenação e filtros |
 | Geração | `pacote/gerar.py` | Montagem das instruções, chamada ao modelo gerador e verificação das citações |
 | Demonstração | `pacote/demonstrar_resposta.py` | Consulta, trechos, resposta e evidência por frase |
@@ -170,7 +169,7 @@ No volume atual, o otimizador do PostgreSQL executa leitura sequencial com orden
 
 | ID | Decisão | Alternativas consideradas | Justificativa | Estado |
 |---|---|---|---|---|
-| D1 | PostgreSQL com pgvector como banco vetorial | Chroma; FAISS | Trechos, metadados e vetores no banco relacional da aplicação; filtro e busca na mesma consulta | Adotada |
+| D1 | PostgreSQL com pgvector como banco vetorial | Índice vetorial local em arquivo; FAISS | Trechos, metadados e vetores no banco relacional da aplicação; filtro e busca na mesma consulta | Adotada |
 | D2 | Segmentação pela estrutura do documento | Janela de tamanho fixo | Preserva um assunto por trecho e permite citar artigo de lei ou ponto de verificação isoladamente | Adotada |
 | D3 | Qwen3-Embedding-0.6B no primeiro estágio | MPNet multilíngue; BM25; busca híbrida | Maior recall@5 entre os mecanismos isolados (0,28, ante 0,20 do BM25 e 0,11 do MPNet) | Adotada |
 | D4 | Reordenação por cross-encoder sobre 50 candidatos | Sem reordenação; reordenação sobre 20 candidatos | Recall@5 de 0,42, ante 0,28 e 0,36 | Adotada |

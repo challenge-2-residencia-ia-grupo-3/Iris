@@ -9,8 +9,8 @@ método                          recall@5  recall@10                 MRR  ao men
 qwen3                   0.28 [0.19-0.37]       0.41    0.46 [0.34-0.58]               26 de 38     40
 qwen3+rerank50  A       0.42 [0.32-0.52]       0.57    0.60 [0.49-0.71]               33 de 38    463
 qwen3 pt+en     C       0.37 [0.28-0.47]       0.55    0.62 [0.50-0.74]               32 de 38     76
-pt+en+rerank50  D       0.45 [0.35-0.55]       0.58    0.63 [0.52-0.74]               34 de 38    481
-(tempo de A medido de novo na mesma sessão de D: 454 ms; A repetiu a lista guardada em 37 de 38 perguntas)
+pt+en+rerank50  D       0.45 [0.35-0.55]       0.58    0.63 [0.52-0.74]               34 de 38    585
+(tempo de A medido de novo na mesma sessão de D: 589 ms; A repetiu a lista guardada em 38 de 38 perguntas)
 
 Diferença pareada (primeiro menos segundo), IC 95%, perguntas em que ganhou/empatou/perdeu:
 pt+en+rerank50  - qwen3           recall@5  +0.17 [+0.09 a +0.25]  20/15/3
@@ -43,14 +43,14 @@ método                          recall@5  recall@10                 MRR  ao men
 qwen3                   0.58 [0.42-0.74]       0.77    0.64 [0.47-0.81]               16 de 19     39
 qwen3+rerank50  A       0.40 [0.27-0.54]       0.58    0.74 [0.56-0.91]               16 de 19    472
 qwen3 pt+en     C       0.59 [0.43-0.74]       0.78    0.70 [0.53-0.85]               17 de 19     76
-pt+en+rerank50  D       0.38 [0.25-0.52]       0.57    0.70 [0.51-0.87]               15 de 19    491
-(tempo de A medido de novo na mesma sessão de D: 487 ms; A repetiu a lista guardada em 19 de 19 perguntas)
+pt+en+rerank50  D       0.38 [0.25-0.52]       0.58    0.70 [0.51-0.87]               15 de 19    615
+(tempo de A medido de novo na mesma sessão de D: 598 ms; A repetiu a lista guardada em 18 de 19 perguntas)
 
 Diferença pareada (primeiro menos segundo), IC 95%, perguntas em que ganhou/empatou/perdeu:
 pt+en+rerank50  - qwen3           recall@5  -0.20 [-0.39 a -0.01]  4/5/10
 pt+en+rerank50  - qwen3           MRR       +0.06 [-0.11 a +0.22]  6/9/4
 pt+en+rerank50  - qwen3+rerank50  recall@5  -0.02 [-0.06 a +0.03]  1/15/3
-pt+en+rerank50  - qwen3+rerank50  MRR       -0.04 [-0.11 a +0.00]  1/14/4
+pt+en+rerank50  - qwen3+rerank50  MRR       -0.04 [-0.11 a +0.00]  1/15/3
 pt+en+rerank50  - qwen3 pt+en     recall@5  -0.20 [-0.37 a -0.04]  4/5/10
 pt+en+rerank50  - qwen3 pt+en     MRR       +0.00 [-0.14 a +0.14]  4/11/4
 
@@ -58,20 +58,20 @@ método            inglês nos 5  ABDA nos 5  documentos nos 5  não julgados no
 qwen3                       16          13              2.37             0 de 95
 qwen3+rerank50              36          13              2.95            23 de 95
 qwen3 pt+en                 30           9              2.74             4 de 95
-pt+en+rerank50              55           9              3.37            40 de 95
-trechos em comum entre os 5 primeiros de D e os 5 primeiros de A, em média: 3.53 de 5
+pt+en+rerank50              54           9              3.32            39 de 95
+trechos em comum entre os 5 primeiros de D e os 5 primeiros de A, em média: 3.58 de 5
 
-REPETIÇÃO: D rodou em 3 processos separados. A busca do banco (Chroma, HNSW) é aproximada e, lá pela
-posição 50, não devolve sempre a mesma lista de um processo para outro (ver outputs/21). O vetor da pergunta é idêntico.
+REPETIÇÃO: D rodou em 3 processos separados. O vetor da pergunta é idêntico; a lista do
+banco pode variar se o índice HNSW, que é aproximado, entrar no plano de consulta (outputs/21 mede quanto).
 gabarito    rodada  recall@5 de D  MRR de D  5 primeiros iguais aos da rodada 1  A repetiu a lista guardada
-opus             1         0.4469    0.6321                           38 de 38                   37 de 38
-opus             2         0.4469    0.6321                           38 de 38                   37 de 38
-opus             3         0.4469    0.6321                           38 de 38                   37 de 38
-rascunho         1         0.3823    0.7001                           19 de 19                   19 de 19
-rascunho         2         0.3691    0.7001                           18 de 19                   19 de 19
-rascunho         3         0.3691    0.7001                           18 de 19                   19 de 19
+opus             1         0.4469    0.6321                           38 de 38                   38 de 38
+opus             2         0.4469    0.6321                           38 de 38                   38 de 38
+opus             3         0.4469    0.6321                           38 de 38                   38 de 38
+rascunho         1         0.3823    0.7013                           19 de 19                   18 de 19
+rascunho         2         0.3823    0.7013                           19 de 19                   18 de 19
+rascunho         3         0.3823    0.7013                           19 de 19                   18 de 19
 
 CRITÉRIO (escrito antes de rodar): D só vale como candidata no lugar de A se o recall@5 de D menos o de A tiver o
 intervalo todo acima de zero no gabarito do Opus. Se encostar no zero, fica A, que é mais simples. Passar não muda o padrão.
 D - A no Opus: +0.03 [-0.00 a +0.07], ganhou 3, empatou 34, perdeu 1: D NÃO SE DISTINGUE DE A (o intervalo encosta ou passa pelo zero): fica como candidata a mais simples, A
-Rascunho: D - Qwen3 -0.20 [-0.39 a -0.01], não julgados 40 de 95: rascunho não comparável (acima de 10% das vagas com trecho nunca julgado)
+Rascunho: D - Qwen3 -0.20 [-0.39 a -0.01], não julgados 39 de 95: rascunho não comparável (acima de 10% das vagas com trecho nunca julgado)

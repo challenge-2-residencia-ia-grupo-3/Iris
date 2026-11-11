@@ -10,13 +10,11 @@ Não altera consultar.py. Expectativa e critério estão em GABARITO-RASCUNHO.md
 from __future__ import annotations
 
 import json
-import os
 import random
 import sys
 import time
 from pathlib import Path
 
-os.environ["RAG_BANCO"] = "chroma"
 AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 import avaliar  # noqa: E402

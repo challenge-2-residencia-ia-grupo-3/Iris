@@ -55,7 +55,7 @@ indexar_pgvector() {
         docker compose up -d pgvector
         sleep 2
         cd "${PACOTE_DIR}"
-        eval "${PY_CMD} indexar.py"
+        eval "${PY_CMD} banco_pg.py"
     else
         echo "  [AVISO] Docker não está ativo no momento."
         echo "          O RAG opera normalmente usando o índice local BM25 (1.385 trechos)."
@@ -140,7 +140,7 @@ menu_interativo() {
         echo "  3) Fazer uma Pergunta Livre ao Llama 3 (você digita a pergunta no terminal)"
         echo "  4) Inspecionar Consultas Gravadas e Textos Completos dos Trechos [T1..T5]"
         echo "  5) Recriar Base de Chunks do RAG (1.385 trechos a partir dos 9 documentos)"
-        echo "  6) Indexar Banco Vetorial Denso no Docker (pgvector + indexar.py)"
+        echo "  6) Indexar Banco Vetorial Denso no Docker (pgvector + banco_pg.py)"
         echo "  7) Comparar Geradores Registrados (Claude Haiku vs. Claude Opus)"
         echo "  0) Sair"
         echo "================================================================================"

@@ -32,7 +32,7 @@ flowchart TD
     end
 
     subgraph RAG_KB["Base de Conhecimento Científica"]
-        Chroma[("Vector Store Indexada<br/>(Sem dados de estudantes)")]
+        PgVector[("PostgreSQL com pgvector<br/>(Sem dados de estudantes)")]
         KB_Docs["Manuais MEC • DUA / CAST<br/>Artigos Científicos: Funções Executivas TDAH"]
         EDA_Corpus["Análise Exploratória do Corpus (EDA)<br/>(Balanceamento e Metadados)"]
     end
@@ -54,10 +54,10 @@ flowchart TD
     Parser --> Core
 
     KB_Docs --> EDA_Corpus
-    EDA_Corpus --> Chroma
+    EDA_Corpus --> PgVector
 
     AgCurriculo --> AgEstrategia
-    AgEstrategia <--> Chroma
+    AgEstrategia <--> PgVector
     AgEstrategia --> AgAdaptador
     AgAdaptador --> AgAuditor
 
