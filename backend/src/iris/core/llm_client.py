@@ -9,6 +9,7 @@ Permite alternar transparentemente entre:
 """
 from __future__ import annotations
 
+import inspect
 import json
 import os
 import re
@@ -57,6 +58,8 @@ class BaseLLMProvider(ABC):
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 1500,
+        system_prompt: str | None = None,
+        json_mode: bool = False,
     ) -> LLMResponse:
         """Gera texto a partir de um prompt com temperatura controlada."""
 
@@ -75,10 +78,13 @@ class OllamaLLMProvider(BaseLLMProvider):
         model: str | None = None,
         base_url: str | None = None,
         timeout_seconds: int = 300,
+        keep_alive: str = "15m",
     ) -> None:
         settings = get_settings()
         self.base_url = (base_url or os.environ.get("OLLAMA_URL") or settings.ollama_url).rstrip("/")
         self.timeout_seconds = timeout_seconds
+        self.keep_alive = keep_alive
+        self._resolved_model_cache: str | None = None
 
         explicit_model = model or os.environ.get("IRIS_LLM_MODEL") or os.environ.get("RAG_LLM_MODELO")
         if explicit_model:
@@ -123,40 +129,74 @@ class OllamaLLMProvider(BaseLLMProvider):
             return False
 
     def _resolve_model(self) -> str:
-        """Seleciona o modelo configurado ou faz fallback para um modelo já instalado no Ollama."""
+        """Seleciona o modelo configurado com cache em instância para evitar `/api/tags` repetido."""
+        if self._resolved_model_cache is not None:
+            return self._resolved_model_cache
+
         installed = self.list_installed_models()
         if not installed:
             return self.model
         if self.model in installed:
+            self._resolved_model_cache = self.model
             return self.model
         # Verifica correspondência por prefixo (ex.: 'llama3.1' -> 'llama3.1:latest')
         base_prefix = self.model.split(":")[0]
         for candidate in installed:
             if candidate.startswith(base_prefix):
+                self._resolved_model_cache = candidate
                 return candidate
         # Se houver outro modelo instalado (ex.: qwen3:8b), usa-o como fallback local
+        self._resolved_model_cache = installed[0]
         return installed[0]
+
+    def warmup(self) -> float:
+        """Pré-carrega os pesos do modelo na GPU/RAM para evitar cold start na 1ª medição."""
+        t0 = time.perf_counter()
+        effective_model = self._resolve_model()
+        payload = json.dumps(
+            {
+                "model": effective_model,
+                "prompt": "",
+                "stream": False,
+                "keep_alive": self.keep_alive,
+            }
+        ).encode("utf-8")
+        req = urllib.request.Request(
+            f"{self.base_url}/api/generate",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+            resp.read()
+        return round((time.perf_counter() - t0) * 1000, 2)
 
     def generate(
         self,
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 1500,
+        system_prompt: str | None = None,
+        json_mode: bool = False,
     ) -> LLMResponse:
         t0 = time.perf_counter()
         effective_model = self._resolve_model()
-        payload = json.dumps(
-            {
-                "model": effective_model,
-                "prompt": prompt,
-                "stream": False,
-                "options": {
-                    "temperature": temperature,
-                    "num_predict": max_tokens,
-                    "seed": 42,
-                },
-            }
-        ).encode("utf-8")
+        body: dict[str, Any] = {
+            "model": effective_model,
+            "prompt": prompt,
+            "stream": False,
+            "keep_alive": self.keep_alive,
+            "options": {
+                "temperature": temperature,
+                "num_predict": max_tokens,
+                "seed": 42,
+            },
+        }
+        if system_prompt:
+            body["system"] = system_prompt
+        if json_mode:
+            body["format"] = "json"
+
+        payload = json.dumps(body).encode("utf-8")
 
         req = urllib.request.Request(
             f"{self.base_url}/api/generate",
@@ -176,9 +216,19 @@ class OllamaLLMProvider(BaseLLMProvider):
         cleaned = strip_thinking_tags(data.get("response", ""))
         prompt_tokens = int(data.get("prompt_eval_count") or 0)
         completion_tokens = int(data.get("eval_count") or 0)
+        load_ms = round((data.get("load_duration") or 0) / 1e6, 2)
+        prompt_eval_ms = round((data.get("prompt_eval_duration") or 0) / 1e6, 2)
+        eval_ms = round((data.get("eval_duration") or 0) / 1e6, 2)
+        inference_ms = round(prompt_eval_ms + eval_ms, 2) if (prompt_eval_ms or eval_ms) else round(max(0.0, latency_ms - load_ms), 2)
+        tokens_per_sec = round(completion_tokens / (eval_ms / 1000.0), 2) if eval_ms > 0 else 0.0
         usage = {
             "prompt_tokens": prompt_tokens,
             "completion_tokens": completion_tokens,
+            "load_ms": load_ms,
+            "prompt_eval_ms": prompt_eval_ms,
+            "eval_ms": eval_ms,
+            "inference_ms": inference_ms,
+            "tokens_per_sec": tokens_per_sec,
         }
         return LLMResponse(
             text=cleaned,
@@ -219,6 +269,8 @@ class GroqLLMProvider(BaseLLMProvider):
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 1500,
+        system_prompt: str | None = None,
+        json_mode: bool = False,
     ) -> LLMResponse:
         if not self.is_available():
             raise RuntimeError(
@@ -226,14 +278,21 @@ class GroqLLMProvider(BaseLLMProvider):
             )
 
         t0 = time.perf_counter()
-        payload = json.dumps(
-            {
-                "model": self.model,
-                "temperature": temperature,
-                "max_tokens": max_tokens,
-                "messages": [{"role": "user", "content": prompt}],
-            }
-        ).encode("utf-8")
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
+        body: dict[str, Any] = {
+            "model": self.model,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+            "messages": messages,
+        }
+        if json_mode:
+            body["response_format"] = {"type": "json_object"}
+
+        payload = json.dumps(body).encode("utf-8")
 
         req = urllib.request.Request(
             self.base_url,
@@ -260,13 +319,20 @@ class GroqLLMProvider(BaseLLMProvider):
         latency_ms = round((time.perf_counter() - t0) * 1000, 2)
         raw_content = data["choices"][0]["message"]["content"]
         cleaned = strip_thinking_tags(raw_content)
-        usage = data.get("usage", {})
+        usage = dict(data.get("usage", {}))
+        comp_tokens = int(usage.get("completion_tokens") or 0)
+        usage.setdefault("load_ms", 0.0)
+        usage.setdefault("inference_ms", latency_ms)
+        usage.setdefault(
+            "tokens_per_sec",
+            round(comp_tokens / (latency_ms / 1000.0), 2) if latency_ms > 0 else 0.0,
+        )
         return LLMResponse(
             text=cleaned,
             provider=self.provider_name,
             model=self.model,
             prompt_tokens=int(usage.get("prompt_tokens") or 0),
-            completion_tokens=int(usage.get("completion_tokens") or 0),
+            completion_tokens=comp_tokens,
             latency_ms=latency_ms,
             raw_usage=usage,
         )
@@ -293,6 +359,8 @@ class ExtractiveFallbackLLMProvider(BaseLLMProvider):
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 1500,
+        system_prompt: str | None = None,
+        json_mode: bool = False,
     ) -> LLMResponse:
         t0 = time.perf_counter()
         q_match = re.search(r"PERGUNTA:\s*(.+?)\s*\n\nRESPOSTA:", prompt, flags=re.DOTALL)
@@ -399,14 +467,57 @@ class HybridLLMClient:
             f"Provedor de LLM desconhecido: {provider_name!r}. Use 'ollama', 'groq' ou 'extractive'."
         )
 
+    @staticmethod
+    def _invoke_provider(
+        prov: BaseLLMProvider,
+        prompt: str,
+        temperature: float,
+        max_tokens: int,
+        system_prompt: str | None,
+        json_mode: bool,
+    ) -> LLMResponse:
+        sig = inspect.signature(prov.generate)
+        params = sig.parameters
+        accepts_kwargs = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
+        if accepts_kwargs or ("system_prompt" in params and "json_mode" in params):
+            return prov.generate(
+                prompt=prompt,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                system_prompt=system_prompt,
+                json_mode=json_mode,
+            )
+        combined = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
+        return prov.generate(prompt=combined, temperature=temperature, max_tokens=max_tokens)
+
+    def warmup(self) -> dict[str, Any]:
+        """Pré-aquece o provedor ativo caso suporte warmup (ex.: Ollama local)."""
+        warmup_fn = getattr(self._primary, "warmup", None)
+        if callable(warmup_fn):
+            try:
+                ms = float(warmup_fn())
+                return {"warmed": True, "provider": self.provider_name, "latency_ms": ms}
+            except Exception as exc:
+                return {"warmed": False, "provider": self.provider_name, "erro": str(exc)}
+        return {"warmed": False, "provider": self.provider_name, "latency_ms": 0.0}
+
     def generate(
         self,
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 1500,
+        system_prompt: str | None = None,
+        json_mode: bool = False,
     ) -> LLMResponse:
         try:
-            return self._primary.generate(prompt=prompt, temperature=temperature, max_tokens=max_tokens)
+            return self._invoke_provider(
+                self._primary,
+                prompt=prompt,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                system_prompt=system_prompt,
+                json_mode=json_mode,
+            )
         except Exception:
             if self.allow_fallback_to_extractive and not isinstance(
                 self._primary, ExtractiveFallbackLLMProvider

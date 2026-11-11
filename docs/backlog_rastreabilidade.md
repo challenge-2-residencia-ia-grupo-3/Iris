@@ -40,6 +40,7 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | :---: | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `#4` | **História 1.1.1** | Entrada de material didático via texto e upload de documentos | Épico 1.1 / Tema 1 | **RF-01**, RNF-10 | *Nenhuma (Ponto de Entrada)* | `priority: must` | `scope: front-web`, `scope: api` |
 | `#5` | **História 1.1.2** | Decomposição estrutural automática de questões e enunciados | Épico 1.1 / Tema 1 | **RF-02** | **História 1.1.1** (RF-01) | `priority: must` | `scope: api`, `scope: agents` |
+| `#53` | **História 1.1.4** | Organização estrutural de textos corridos (títulos, seções e listas) | Épico 1.1 / Tema 1 | **RF-02**, RNF-10 | **História 1.1.1** (RF-01) | `priority: must` | `scope: front-web`, `scope: api` |
 | `#6` | **História 1.1.3** | Extração multimodal de provas digitalizadas via OCR e análise visual | Épico 1.1 / Tema 1 | **RF-03** | **História 1.1.1** (RF-01), **História 1.1.2** (RF-02) | `priority: should` | `scope: agents`, `scope: api` |
 | `#8` | **História 1.2.1** | Seleção cirúrgica de características funcionais atômicas observadas | Épico 1.2 / Tema 1 | **RF-04**, RNF-10 | **História 4.2.1** (RF-06 — Schema do Catálogo) | `priority: must` | `scope: front-web`, `scope: api` |
 | `#9` | **História 1.2.2** | Registro de potencialidades, interesses e canais de engajamento | Épico 1.2 / Tema 1 | **RF-05**, RNF-06 | **História 1.2.1** (RF-04) | `priority: should` | `scope: front-web`, `scope: api` |
@@ -75,7 +76,7 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | Código Requisito | Nome do Requisito | Tema(s) | Épico(s) | Histórias de Usuário Vinculadas |
 | :--- | :--- | :--- | :--- | :--- |
 | **RF-01** | Inserção de Conteúdo Pedagógico via Texto e Documentos | Tema 1, Tema 4 | Épico 1.1, Épico 4.1 | **História 1.1.1** (`#4`), **História 4.1.1** (`#34`) |
-| **RF-02** | Decomposição Estrutural Automática do Material | Tema 1 | Épico 1.1 | **História 1.1.2** (`#5`) |
+| **RF-02** | Decomposição Estrutural Automática do Material | Tema 1 | Épico 1.1 | **História 1.1.2** (`#5`), **História 1.1.4** (`#53`) |
 | **RF-03** | Entrada Multimodal de Provas, Imagens e Áudio | Tema 1 | Épico 1.1, Épico 1.2 | **História 1.1.3** (`#6`), **História 1.2.3** (`#10`) |
 | **RF-04** | Seleção Cirúrgica de Características Neurodivergentes Específicas | Tema 1, Tema 2 | Épico 1.2, Épico 2.1 | **História 1.2.1** (`#8`), **História 2.1.3** (`#18`) |
 | **RF-05** | Registro de Potencialidades e Estilos de Engajamento | Tema 1 | Épico 1.2 | **História 1.2.2** (`#9`), **História 1.2.3** (`#10`) |
@@ -98,6 +99,58 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | **RNF-07 / RNF-08** | Latência ($\le 15\text{s}$ / $\le 40\text{s}$) e Eficiência de Tokens | Tema 2 | Épico 2.1 | **História 2.1.3** (`#18`) |
 | **RNF-09 / RNF-10** | Acessibilidade (WCAG 2.1 AA) e Fluxo Guiado em 5 Etapas | Tema 1, Tema 2, Tema 3 | Épico 1.1 a 1.3, Épico 2.2, Épico 3.2 | **História 1.1.1** (`#4`), **História 1.2.1** (`#8`), **História 1.3.1** (`#12`), **História 2.2.1** (`#21`), **História 2.2.2** (`#22`), **História 3.2.2** (`#31`) |
 | **RNF-11 / RNF-12** | Gerenciamento via UV e Modularidade Arquitetural | Tema 4 | Épico 4.1, Épico 4.2 | **História 4.1.2** (`#35`), **História 4.2.1** (`#39`) |
+
+---
+
+### 2.3. Matriz de Dependências Ocultas, Acoplamentos Críticos e Regras de Precedência
+
+Além das dependências lineares de precedência mapeadas na Tabela 2.1, a auditoria arquitetural identificou **5 acoplamentos funcionais críticos** que exigem alinhamento estrito entre os responsáveis pelas issues em desenvolvimento paralelo:
+
+```mermaid
+flowchart TD
+    subgraph Ingestao["1. Pipeline de Ingestão e Decomposição"]
+        I4["História 1.1.1 (#4)<br/>Upload Texto/Docx/PDF"]
+        I6["História 1.1.3 (#6)<br/>OCR & Visão Multimodal"]
+        D5["História 1.1.2 (#5)<br/>Decomposição Questões"]
+        D53["História 1.1.4 (#53)<br/>Decomposição Textos Corridos"]
+        I4 --> D5
+        I4 --> D53
+        I6 -. "Contrato Unificado: RawContent" .-> D5
+        I6 -.-> D53
+    end
+
+    subgraph Parametrizacao["2. Parametrização e Trava Curricular"]
+        A17["História 2.1.2 (#17)<br/>Agente Extrator Curricular"]
+        T13["História 1.3.2 (#13)<br/>Trava Curricular Manual"]
+        C8["História 1.2.1 (#8)<br/>Seleção Cirúrgica"]
+        R16["História 2.1.1 (#16)<br/>RAG Filtrado por id_caracteristica"]
+        A17 -. "1. Pré-extrai invariantes" .-> T13
+        T13 -. "2. Validação/Ajuste Docente (HITL)" .-> A17
+        C8 == "SSOT: tdah_caracteristicas_funcionais.json" === R16
+    end
+
+    subgraph Auditoria["3. Ciclo de Auditoria e Testes"]
+        Aud19["História 2.1.4 (#19)<br/>Agente Auditor (TRCC >= 95%)"]
+        Adapt18["História 2.1.3 (#18)<br/>Agente Adaptador"]
+        GB45["Golden Benchmark (#45)<br/>Fixtures de Teste"]
+        GB45 -. "Desacopla teste do Auditor<br/>sem esperar Adaptador" .-> Aud19
+        Adapt18 -. "Em execução E2E" .-> Aud19
+    end
+
+    subgraph SessaoStateless["4. Governança e Ciclo de Vida"]
+        Infra35["História 4.1.2 (#35)<br/>Arquitetura Zero-Database"]
+        UI_Steps["Etapas 1 a 5 (Web)<br/>Estado no Next.js (Client-side)"]
+        UI_Steps -. "Payload integral por requisição<br/>Sem persistência central no backend" .-> Infra35
+    end
+```
+
+| ID Acoplamento | Histórias Envolvidas | Risco Arquitetural / Dependência Oculta | Regra de Precedência e Contrato de Mitigação |
+| :---: | :--- | :--- | :--- |
+| **DEP-OC-01** | **#6 (OCR)** $\rightarrow$ **#5 (Questões)** e **#53 (Textos Corridos)** | O módulo OCR (#6) transcreve imagens de provas, mas não deve criar parsers estruturais concorrentes. | **Contrato Unificado de Ingestão:** O OCR (#6) deve atuar estritamente na extração de texto bruto (`RawContent`), delegando a identificação de cabeçalho, enunciados e listas para o `StructuralDecomposer` (#5/#53). |
+| **DEP-OC-02** | **#17 (Agente Extrator)** $\times$ **#13 (Trava Curricular)** | Ambiguidade de precedência entre a extração automática da IA e a inserção manual do professor na Etapa 3. | **Precedência Híbrida com Human-in-the-Loop:** O Agente Extrator (#17) roda primeiro sugerindo os invariantes curriculares (`CurriculumInvariants`). O professor (#13) visualiza, ajusta e confirma as travas na Etapa 3. O schema Pydantic de ambos deve ser compartilhado e idêntico. |
+| **DEP-OC-03** | **#19 (Agente Auditor)** $\times$ **#18 (Agente Adaptador)** | O Agente Auditor avalia a minuta adaptada (#18). Como a #18 ainda não foi iniciada, a implementação do Auditor (#19) corre o risco de bloqueio. | **Desacoplamento por Fixtures:** O Agente Auditor (#19) deve ser testado isoladamente utilizando os pares controlados de original vs. adaptado disponíveis em `data/golden_benchmark.json` (#45), sem depender da prontidão do Adaptador (#18). |
+| **DEP-OC-04** | **#8 (Catálogo Web)** $\times$ **#16 (Filtro RAG)** | Divergência de chaves de identificação entre a tela da Etapa 2 e a busca vetorial por metadados. | **Single Source of Truth (SSOT):** O arquivo `rag/catalogs/tdah_caracteristicas_funcionais.json` é a única fonte permitida de `id_caracteristica`. Samantha (#8) e Matheus (#16) consomem diretamente os mesmos identificadores. |
+| **DEP-OC-05** | **#35 (Zero-Database)** $\times$ **#4, #8, #12, #21 (Fluxo Web)** | A restrição stateless proíbe salvar dados de estudantes no banco central do servidor, mas o professor precisa navegar entre as 5 etapas. | **Estado Mantido no Cliente:** O estado da sessão de adaptação reside no React Context / `sessionStorage` do navegador (Next.js). O backend FastAPI recebe o payload completo a cada etapa e opera de forma 100% transiente em memória. |
 
 ---
 
@@ -172,18 +225,36 @@ Como professor, quero enviar fotos ou digitalizações de atividades impressas (
 * **E** o sistema deve emitir um indicador caso detecte alta densidade de elementos visuais concorrentes na imagem.
 * **E** o sistema deve rejeitar imagens ilegíveis ou com resolução insuficiente informando claramente o motivo ao docente.
 
----
-
-#### Épico 1.2: Mapeamento de Perfil Funcional por Características Atômicas
-* **Tipo:** `type: epic` | **Pai:** Tema 1
-* **Descrição:** Parametrização centrada nas características neurodivergentes específicas observadas em sala de aula, eliminando pacotes diagnósticos homogêneos.
-
 ### Tarefas de Implementação Técnica (INVEST)
 - [ ] **[Backend]** Endpoint `POST /api/v1/materials/ocr` para upload de imagens de provas (`.png`, `.jpg`).
 - [ ] **[RAG / IA]** Integração com pipeline OCR / modelo de visão computacional (VLM) para transcrição fidedigna.
 - [ ] **[RAG / IA]** Módulo de análise heurística de poluição visual (densidade de bordas e contraste da imagem).
 - [ ] **[Frontend]** Exibição de preview da imagem digitalizada com indicador de densidade visual na tela do docente.
 - [ ] **[Testes]** Testes de acurácia de OCR sobre amostra de provas escaneadas em diferentes resoluções.
+
+##### História 1.1.4: Organização estrutural de textos corridos
+**História de Usuário**
+Como professor regente, quero que a plataforma identifique e organize automaticamente a estrutura de textos corridos (títulos, subtítulos, parágrafos, seções, subseções e listas), para que o conteúdo seja disponibilizado para adaptação preservando a hierarquia e a sequência original do material pedagógico.
+
+**Requisito Base:** RF-02 (Extensão), RNF-10
+**Critérios de Aceitação:**
+* **Dado que** o conteúdo textual de um material pedagógico foi extraído,
+* **Quando** o módulo de decomposição estrutural processar um texto corrido,
+* **Então** o sistema deve identificar e organizar títulos, subtítulos, parágrafos, seções, subseções e listas sem descartar ou resumir informações do original.
+* **E** o sistema deve representar os elementos de acordo com sua hierarquia e ordem sequencial exata.
+* **E** a arquitetura deve permitir a coexistência entre textos corridos e blocos de questões (`MaterialStructure`), sem que um formato prejudique o processamento do outro.
+
+### Tarefas de Implementação Técnica (INVEST)
+- [ ] **[Backend]** Estender `src/iris/parsers/structural_decomposer.py` para identificar elementos hierárquicos de textos contínuos.
+- [ ] **[Backend]** Schema Pydantic `TextHierarchyItem` e `TextSection` preservando hierarquia de seções e listas.
+- [ ] **[Processamento]** Heurísticas e expressões regulares para reconhecimento de títulos, subtítulos e marcadores de listas.
+- [ ] **[Testes]** Bateria de testes com textos pedagógicos corridos variados comprovando preservação sequencial e ausência de perda de conteúdo.
+
+---
+
+#### Épico 1.2: Mapeamento de Perfil Funcional por Características Atômicas
+* **Tipo:** `type: epic` | **Pai:** Tema 1
+* **Descrição:** Parametrização centrada nas características neurodivergentes específicas observadas em sala de aula, eliminando pacotes diagnósticos homogêneos.
 
 ##### História 1.2.1: Seleção cirúrgica de características funcionais atômicas observadas
 **História de Usuário**
@@ -320,10 +391,10 @@ Como professor, quero que o sistema analise a questão original antes de adaptá
 * **E** essa lista deve ser repassada como restrição rígida para os agentes subsequentes.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[RAG / IA]** Prompt e contrato Pydantic do Agente Extrator Curricular em `src/iris/agents/curriculum_extractor.py`.
-- [ ] **[RAG / IA]** Extração determinística de vocabulário técnico, conceitos centrais e verbos de comando taxonômicos.
-- [ ] **[Backend]** Estrutura de passagem de estado em memória com a lista de invariantes intocáveis.
-- [ ] **[Testes]** Teste com 10 questões padrão aferindo a integridade dos conceitos extraídos pelo agente.
+- [x] **[RAG / IA]** Prompt e contrato Pydantic do Agente Extrator Curricular em `src/iris/agents/curriculum_extractor.py` e `src/iris/schemas/curriculum.py`.
+- [x] **[RAG / IA]** Extração determinística de vocabulário técnico, conceitos centrais e verbos de comando taxonômicos.
+- [x] **[Backend]** Estrutura de passagem de estado em memória com invariantes e telemetria (`CurriculumInvariants`, `ExtractionTelemetry`).
+- [x] **[Testes]** Testes unitários, avaliação Zero-Hint nas 30 questões do Golden Benchmark, analytics dinâmico (`src/iris/eval/extractor_analytics.py`) e menu interativo via `make extrator`.
 
 ##### História 2.1.3: Adaptação com isolamento estrito de escopo à característica selecionada
 **História de Usuário**

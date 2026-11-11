@@ -11,6 +11,13 @@ from iris.schemas.catalog import (
     load_all_catalogs,
     load_catalog_file,
 )
+from iris.schemas.curriculum import (
+    CurriculumInvariants,
+    ExtractionRequest,
+    ExtractionResult,
+    ExtractionTelemetry,
+    classificar_faixa_etaria,
+)
 from iris.schemas.materials import (
     MAX_FILE_SIZE_BYTES,
     MAX_SAFE_CONTEXT_CHARS,
@@ -35,6 +42,11 @@ __all__ = [
     "CatalogValidationError",
     "CharacteristicCatalog",
     "CharacteristicItem",
+    "CurriculumInvariants",
+    "ExtractionRequest",
+    "ExtractionResult",
+    "ExtractionTelemetry",
+    "classificar_faixa_etaria",
     "ScaffoldingLevelGuideline",
     "get_characteristic_by_id",
     "load_all_catalogs",
