@@ -524,9 +524,12 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self.wfile.write(raw)
             elif parsed.path.startswith("/api/v1/health"):
                 self._send_json(get_health_status())
-            elif parsed.path.startswith("/api/v1/catalogs/characteristics"):
+            elif parsed.path == "/api/v1/catalogs/characteristics":
                 from iris.api.routes.catalogs import get_characteristics_catalog_service
-                from iris.schemas.catalog import CharacteristicSelectionError
+                from iris.schemas.catalog import (
+                    CatalogValidationError,
+                    CharacteristicSelectionError,
+                )
 
                 qs = parse_qs(parsed.query)
                 id_catalogo = qs.get("id_catalogo", [None])[0]
@@ -534,6 +537,20 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json(get_characteristics_catalog_service(id_catalogo=id_catalogo))
                 except CharacteristicSelectionError as err:
                     self._send_json({"detail": err.to_dict()}, status=404)
+                except CatalogValidationError as err:
+                    self._send_json(
+                        {"detail": {"detail": str(err), "code": "CATALOG_SCHEMA_ERROR", "field": "catalog"}},
+                        status=500,
+                    )
+                except Exception as err:  # noqa: BLE001
+                    self._send_json(
+                        {"detail": {"detail": f"Erro interno ao carregar catálogo: {err}", "code": "INTERNAL_ERROR"}},
+                        status=500,
+                    )
+            elif parsed.path == "/api/v1/catalogs/characteristics/select":
+                self._send_json({"detail": "Method Not Allowed"}, status=405)
+            elif parsed.path.startswith("/api/v1/catalogs/"):
+                self._send_json({"error": "Not found", "path": self.path}, status=404)
             elif parsed.path.startswith("/api/v1/catalog"):
                 self._send_json(_handle_catalog())
             elif parsed.path.startswith("/api/v1/eval/metrics"):
@@ -553,15 +570,32 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json(_handle_rag_search(body))
             elif self.path.startswith("/api/v1/rag/answer"):
                 self._send_json(_handle_rag_answer(body))
-            elif self.path.startswith("/api/v1/catalogs/characteristics/select"):
-                from iris.api.routes.catalogs import select_surgical_characteristics_service
-                from iris.schemas.catalog import CharacteristicSelectionError
+            elif urlparse(self.path).path == "/api/v1/catalogs/characteristics/select":
+                from iris.api.routes.catalogs import (
+                    select_surgical_characteristics_service,
+                )
+                from iris.schemas.catalog import (
+                    CatalogValidationError,
+                    CharacteristicSelectionError,
+                )
 
                 try:
                     resp = select_surgical_characteristics_service(body)
                     self._send_json(resp.model_dump())
                 except CharacteristicSelectionError as err:
                     self._send_json({"detail": err.to_dict()}, status=422)
+                except CatalogValidationError as err:
+                    self._send_json(
+                        {"detail": {"detail": str(err), "code": "CATALOG_SCHEMA_ERROR", "field": "catalog"}},
+                        status=500,
+                    )
+                except Exception as err:  # noqa: BLE001
+                    self._send_json(
+                        {"detail": {"detail": f"Erro interno ao validar seleção: {err}", "code": "INTERNAL_ERROR"}},
+                        status=500,
+                    )
+            elif urlparse(self.path).path == "/api/v1/catalogs/characteristics":
+                self._send_json({"detail": "Method Not Allowed"}, status=405)
             elif self.path.startswith("/api/v1/materials/text"):
                 from iris.api.routes.materials import process_material_text_service
                 from iris.schemas.materials import MaterialValidationError

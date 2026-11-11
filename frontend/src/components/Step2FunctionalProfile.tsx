@@ -30,6 +30,7 @@ import {
   FALLBACK_OFFICIAL_CATALOG,
   PRINCIPIO_DUA_LABELS,
   SurgicalSelectionResponse,
+  clearSurgicalSelectionFromSession,
   fetchCharacteristicsCatalog,
   loadStep1StateFromSession,
   loadSurgicalSelectionFromSession,
@@ -113,7 +114,12 @@ export function Step2FunctionalProfile({
       setIsLoadingCatalog(false);
 
       const saved = loadSurgicalSelectionFromSession();
-      if (saved && Array.isArray(saved.selected_ids) && saved.selected_ids.length > 0) {
+      if (
+        saved &&
+        saved.id_catalogo === fetchedCatalog.id_catalogo &&
+        Array.isArray(saved.selected_ids) &&
+        saved.selected_ids.length > 0
+      ) {
         const validSet = new Set(fetchedCatalog.caracteristicas.map((c) => c.id_caracteristica));
         const restored = saved.selected_ids.filter((id) => validSet.has(id));
         if (restored.length > 0) {
@@ -159,26 +165,31 @@ export function Step2FunctionalProfile({
   const handleToggleCharacteristic = useCallback((idCaracteristica: string) => {
     setConfirmedSelection(null);
     setFeedbackBanner(null);
+    setAttemptedEmptySubmit(false);
+    clearSurgicalSelectionFromSession();
     setSelectedIds((prev) => {
       if (prev.includes(idCaracteristica)) {
         return prev.filter((id) => id !== idCaracteristica);
       }
-      setAttemptedEmptySubmit(false);
       return [...prev, idCaracteristica];
     });
   }, []);
 
   // Exemplo cirúrgico rápido: seleciona apenas 1 característica (comandos múltiplos)
   const handleSelectSingleExample = () => {
-    const targetId = "sobrecarga_memoria_trabalho_comandos_multiplos";
-    setSelectedIds([targetId]);
+    const targetItem =
+      catalog.caracteristicas.find((c) => c.id_caracteristica === "sobrecarga_memoria_trabalho_comandos_multiplos") ||
+      catalog.caracteristicas[0];
+    if (!targetItem) return;
+    setSelectedIds([targetItem.id_caracteristica]);
     setAttemptedEmptySubmit(false);
     setConfirmedSelection(null);
+    clearSurgicalSelectionFromSession();
     setFeedbackBanner({
       type: "info",
-      title: "Exemplo de Intervenção Cirúrgica (1 de 10 selecionada)",
+      title: `Exemplo de Intervenção Cirúrgica (1 de ${totalCount} selecionada)`,
       message:
-        "Apenas 'Sobrecarga de memória de trabalho em comandos múltiplos conjugados' foi marcada. As outras 9 características permanecem bloqueadas para preservar 100% da autonomia original do estudante.",
+        `Apenas '${targetItem.nome}' foi marcada. As outras ${Math.max(totalCount - 1, 0)} características permanecem bloqueadas para preservar 100% da autonomia original do estudante.`,
     });
   };
 
@@ -186,6 +197,7 @@ export function Step2FunctionalProfile({
     setSelectedIds([]);
     setConfirmedSelection(null);
     setAttemptedEmptySubmit(true);
+    clearSurgicalSelectionFromSession();
     setFeedbackBanner({
       type: "warning",
       title: "Nenhuma característica funcional selecionada",

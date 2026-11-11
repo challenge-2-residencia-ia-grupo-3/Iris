@@ -175,6 +175,11 @@ try:
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail=err.to_dict(),
             ) from err
+        except CatalogValidationError as err:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail={"detail": str(err), "code": "CATALOG_SCHEMA_ERROR", "field": "catalog"},
+            ) from err
 
 except ImportError:
     router = None  # type: ignore
