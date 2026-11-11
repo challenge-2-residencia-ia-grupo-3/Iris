@@ -38,16 +38,20 @@ Chaves **e** valores são varridos recursivamente.
 |---|---|
 | `cid` | `CID F90.0`, `F84`, `6A05`, "Classificação Internacional de Doenças" |
 | `laudo` | laudo, atestado médico, relatório clínico, prontuário, receita médica, neuropsicológico |
-| `diagnostico` | diagnóstico, TDAH, TEA, autismo, dislexia, transtorno, síndrome |
-| `medicacao` | nomes de medicamentos, "medicação", "remédio", doses (`10 mg`), psiquiatra/neurologista |
+| `diagnostico` | "diagnóstico médico", "tem diagnóstico", diagnosticado, TDAH e T.D.A.H., TEA, TOC (em maiúsculas), autismo, "no espectro", dislexia, "transtorno de/do...", síndrome |
+| `medicacao` | nomes de medicamentos, "toma Concerta", "medicação", "remédio", doses (`10 mg`, gotas, comprimidos), psiquiatra/neurologista |
 
-Não são bloqueados: "avaliação diagnóstica", "diagnóstico pedagógico", códigos como `Q10`, "A4",
-"ambiente estimulante", "receita de bolo".
+Não são bloqueados: "avaliação diagnóstica", "diagnóstico pedagógico", "diagnóstico inicial da turma", "causou
+transtorno", "ele concerta os erros", "garrafa de 500 ml", "toc toc", códigos como `Q10`, "A4", "ambiente
+estimulante", "receita de bolo". Os valores de `codigo_anonimo` e `versao_schema` não são varridos: o formato já é
+restrito pelo schema e um código aleatório como `F12-x9` seria lido como CID.
 
 ## Privacidade
 
 `str(exc)` **não** repete o trecho digitado (pode ir para logs). O trecho só sai em
-`to_dict(incluir_trecho=True)`, para exibir ao docente na interface.
+`to_dict(incluir_trecho=True)`, para exibir ao docente na interface. Na mensagem e em `to_dict(incluir_trecho=False)`,
+nomes de campo não declarados no schema aparecem como `<campo não declarado>`, porque o próprio nome pode ser o dado
+clínico (ex.: `laudo_tdah`).
 
 ## Limites conhecidos
 

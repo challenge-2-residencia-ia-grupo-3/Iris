@@ -139,6 +139,40 @@ def test_str_da_excecao_nao_repete_o_trecho_digitado():
     assert all("trecho" not in v for v in e.value.to_dict(incluir_trecho=False)["violacoes"])
 
 
+def test_nome_de_campo_clinico_nao_aparece_na_mensagem():
+    with pytest.raises(PerfilInvalidoError) as e:
+        validar_perfil(com(laudo_tdah_f90="x"))
+    assert "tdah" not in str(e.value).lower() and "f90" not in str(e.value).lower()
+    sem_trecho = e.value.to_dict(incluir_trecho=False)["violacoes"]
+    assert all("tdah" not in v["campo"].lower() for v in sem_trecho)
+
+
+# ---------- correções da revisão: frases pedagógicas comuns e disfarces simples ----------
+@pytest.mark.parametrize("texto", [
+    "Fez o diagnóstico inicial da turma em março.",
+    "A troca de sala causou transtorno, mas ele se adaptou.",
+    "Ele concerta os próprios erros quando relê.",
+    "Entendeu volume com a garrafa de 500 ml.",
+    "Gosta da brincadeira do toc toc na leitura.",
+])
+def test_nao_bloqueia_frase_comum_de_professor(texto):
+    assert detectar_conteudo_clinico(texto) == [], texto
+
+
+@pytest.mark.parametrize("texto,cat", [
+    ("Tem T.D.A.H.", "diagnostico"), ("cid f 90", "cid"), ("Está no espectro.", "diagnostico"),
+    ("ele tem diagnóstico", "diagnostico"), ("diagnóstico médico", "diagnostico"), ("TOC", "diagnostico"),
+    ("transtorno de aprendizagem", "diagnostico"), ("toma Concerta de manhã", "medicacao"),
+])
+def test_bloqueia_disfarces_simples(texto, cat):
+    assert cat in {v.categoria for v in detectar_conteudo_clinico(texto)}, texto
+
+
+@pytest.mark.parametrize("codigo", ["F12-x9", "6A05ab", "aluno-F90"])
+def test_codigo_anonimo_nao_e_lido_como_cid(codigo):
+    assert validar_perfil(com(codigo_anonimo=codigo)).codigo_anonimo == codigo
+
+
 def test_varrer_percorre_chaves_e_valores_aninhados():
     v = varrer({"a": [{"b": "tudo certo"}, {"c": "laudo"}]})
     assert [x.campo for x in v] == ["a[1].c"]
