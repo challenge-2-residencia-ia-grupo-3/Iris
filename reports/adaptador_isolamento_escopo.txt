@@ -1,0 +1,98 @@
+ISOLAMENTO DE ESCOPO DO AGENTE ADAPTADOR (História 2.1.3 / Issue #18)
+Característica: comandos múltiplos. Técnica: contagem de palavras e de conceitos da trava, sem LLM.
+Texto avaliado: saída de reserva do Adaptador (regras, sem modelo gerador).
+Base: 30 questões do Golden Benchmark x 3 níveis = 90 saídas.
+Questões com 2 ou mais comandos reconhecidos: 17 de 30.
+
+1. SAÍDA DE RESERVA, POR NÍVEL
+nível    saídas  adaptadas  perdeu palavra  palavra nova  "e" retirados  TRCC igual  TRCC menor  aprovadas
+1            30         28               0             0              0          30           0         30
+2            30         17               0             0             15          30           0         30
+3            30         17               0             0             15          30           0         30
+"adaptadas": saídas diferentes do original. Nos níveis 2 e 3 a questão de um comando só volta sem alteração.
+"e" retirados: conectivo entre dois comandos, que a lista de etapas substitui; única retirada tolerada.
+
+2. SABOTAGENS ACUSADAS PELO VERIFICADOR (acusadas / aplicadas)
+sabotagem                        nível 1   nível 2   nível 3     total
+retirar termo da trava             30/30     30/30     30/30     90/90
+trocar palavra por sinônimo        27/27     27/27     27/27     81/81
+inserir resposta                   30/30     30/30     30/30     90/90
+retirar comando                    28/28     28/28     28/28     84/84
+inverter duas palavras             29/29     29/29     29/29     87/87
+inverter duas etapas                 0/0     17/17     17/17     34/34
+Uma sabotagem não se aplica quando o texto não tem o que estragar (sem comando, sem etapas, sem a palavra).
+
+3. MATRIZ DE CONFUSÃO DO VERIFICADOR
+                         aprovou  reprovou
+saída íntegra                 90         0
+saída sabotada                 0       466
+Referência: um verificador que aprova tudo acusaria 0 sabotagens; um que só confere a trava (TRCC)
+acusa apenas a retirada de termo da trava.
+
+4. SAÍDAS DO NÍVEL 2 (questões com 2 ou mais comandos)
+[Q01]
+    1. [ ] **Leia** o texto
+    2. [ ] **Responda**: quem encontrou o cachorro?
+    O menino Pedro encontrou um cachorro perdido na rua. Ele levou o animal para casa e pediu ajuda à mãe para achar o dono.
+[Q03]
+    1. [ ] **Identifique** o sujeito da oração
+    2. [ ] **Classifique**-o como simples ou composto.
+    Maria e João foram ao mercado.
+[Q05]
+    1. [ ] **Leia** o trecho
+    2. [ ] **Explique** o que o autor quis dizer
+    3. [ ] **Justifique** com uma passagem do texto.
+    A biblioteca da escola era pequena, mas cada livro parecia abrir uma porta para outro mundo.
+[Q07]
+    1. [ ] **Escreva** um parágrafo argumentativo sobre o uso do celular na sala de aula.
+    2. [ ] **Apresente** pelo menos dois argumentos
+    3. [ ] **Conclua** com uma proposta.
+[Q10]
+    1. [ ] **Resolva** a multiplicação
+    2. [ ] **Confira** o resultado com uma divisão: 24 × 6.
+[Q11]
+    1. [ ] **Calcule** a área de um retângulo com 8 cm de comprimento e 5 cm de largura.
+    2. [ ] **Escreva** a resposta em centímetros quadrados.
+[Q12]
+    1. [ ] **Observe** a fração 3/4
+    2. [ ] **Represente**-a em um desenho
+    3. [ ] **Escreva**-a na forma decimal.
+[Q13]
+    1. [ ] **Resolva** a equação 2x + 6 = 14
+    2. [ ] **Verifique** se o valor encontrado está correto.
+[Q15]
+    1. [ ] **Leia** o problema
+    2. [ ] **Monte** a equação
+    3. [ ] **Calcule** o resultado.
+    A soma de dois números consecutivos é 37. Quais são esses números?
+[Q18]
+    1. [ ] **Leia** o texto
+    2. [ ] **Responda**: por que as plantas precisam de luz?
+    As plantas produzem o próprio alimento por meio da fotossíntese, processo que usa a luz do sol.
+[Q20]
+    1. [ ] **Defina** o que é um ecossistema
+    2. [ ] **Cite** dois exemplos
+    3. [ ] **Explique** a importância da biodiversidade.
+[Q21]
+    1. [ ] **Analise** a afirmação
+    2. [ ] **Justifique** se ela é verdadeira ou falsa.
+    Todo calor é transmitido apenas por contato direto.
+[Q24]
+    1. [ ] **Leia** o texto
+    2. [ ] **Identifique** a causa principal da Revolução Industrial
+    3. [ ] **Explique** suas consequências para os trabalhadores.
+    No século XVIII, máquinas passaram a substituir o trabalho manual em muitas fábricas.
+[Q26]
+    1. [ ] **Explique**, com suas palavras, por que a Segunda Guerra Mundial foi chamada de guerra total.
+    2. [ ] Em seguida, **cite** uma consequência para a população civil.
+[Q28]
+    1. [ ] **Leia** as coordenadas 15° S e 47° O
+    2. [ ] **Indique** em qual hemisfério o ponto está.
+[Q29]
+    1. [ ] **Defina** urbanização
+    2. [ ] **Explique** duas consequências do crescimento desordenado das cidades
+    3. [ ] **Sugira** uma solução.
+[Q30]
+    1. [ ] **Pesquise**
+    2. [ ] **Escolha**
+    3. [ ] **Apresente** um exemplo de impacto ambiental da sua região.
