@@ -81,6 +81,7 @@ nav:
       - Requisitos Não Funcionais: requisitos_nao_funcionais.md
       - Backlog & Rastreabilidade: backlog_rastreabilidade.md
   - Arquitetura: arquitetura.md
+  - Perfil Pedagógico: perfil_pedagogico.md
   - Base de Conhecimento e RAG:
       - Relatório Técnico: rag/relatorio.md
       - Arquitetura do RAG: rag/arquitetura.md
