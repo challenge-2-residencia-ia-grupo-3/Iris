@@ -1,0 +1,1212 @@
+{
+  "acaso": 0.003212526931363496,
+  "n_base": 1368,
+  "comparacao": {
+    "a": "qwen3+rerank50",
+    "b": "bm25",
+    "diferencas": {
+      "precisao_ragas": [
+        0.17894736842105266,
+        0.1105263157894737,
+        0.25263157894736843
+      ],
+      "precisao_posicao": [
+        0.25577485380116954,
+        0.1259502923976608,
+        0.3946637426900585
+      ]
+    }
+  },
+  "metodos": [
+    {
+      "metodo": "bm25",
+      "k": 5,
+      "n_perguntas": 38,
+      "resumo": {
+        "precisao_ragas": {
+          "media": 0.1473684210526316,
+          "ic95": [
+            0.08947368421052633,
+            0.2210526315789474
+          ]
+        },
+        "precisao_posicao": {
+          "media": 0.3054093567251462,
+          "ic95": [
+            0.1850877192982456,
+            0.4349415204678363
+          ]
+        },
+        "teto_precisao_ragas": 0.8210526315789474,
+        "perguntas_sem_acerto": 20
+      },
+      "por_pergunta": [
+        {
+          "id": "Q01",
+          "n_certos": 6,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0012",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0011",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0056",
+            "MS-PCDT-TDAH-2022#0019"
+          ]
+        },
+        {
+          "id": "Q02",
+          "n_certos": 5,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.3333333333333333,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ABDA-GUIA-PROFESSORES-2012#0003",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030",
+            "ABDA-GUIA-PROFESSORES-2012#0001",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+            "ABDA-GUIA-PROFESSORES-2012#0002"
+          ]
+        },
+        {
+          "id": "Q03",
+          "n_certos": 6,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.2,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "MS-PCDT-TDAH-2022#0013",
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "MS-PCDT-TDAH-2022#0021",
+            "MS-PCDT-TDAH-2022#0011",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0047"
+          ]
+        },
+        {
+          "id": "Q04",
+          "n_certos": 2,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.4,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0018",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0011",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0010",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0011"
+          ]
+        },
+        {
+          "id": "Q05",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0011",
+            "ABDA-GUIA-PROFESSORES-2012#0001",
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "ABDA-GUIA-PROFESSORES-2012#0003"
+          ]
+        },
+        {
+          "id": "Q06",
+          "n_certos": 2,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.4,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0011",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0043",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043"
+          ]
+        },
+        {
+          "id": "Q07",
+          "n_certos": 5,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0027",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0033",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0034",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002"
+          ]
+        },
+        {
+          "id": "Q08",
+          "n_certos": 6,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0021",
+            "MS-PCDT-TDAH-2022#0021",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033",
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0013"
+          ]
+        },
+        {
+          "id": "Q09",
+          "n_certos": 3,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.6,
+          "recuperados": [
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0047",
+            "MS-PCDT-TDAH-2022#0022",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0013",
+            "MS-PCDT-TDAH-2022#0019"
+          ]
+        },
+        {
+          "id": "Q10",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "MS-PCDT-TDAH-2022#0019",
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "ABDA-GUIA-PROFESSORES-2012#0003",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0018",
+            "ABDA-GUIA-PROFESSORES-2012#0002"
+          ]
+        },
+        {
+          "id": "Q11",
+          "n_certos": 5,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.3333333333333333,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0021",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0011",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0003"
+          ]
+        },
+        {
+          "id": "Q12",
+          "n_certos": 1,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 0.2,
+          "recuperados": [
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0044",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0001",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0000",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0023",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0005"
+          ]
+        },
+        {
+          "id": "Q13",
+          "n_certos": 6,
+          "acertos": 3,
+          "precisao_ragas": 0.6,
+          "precisao_posicao": 0.5333333333333333,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0028",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0042",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0030",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0011",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0033"
+          ]
+        },
+        {
+          "id": "Q14",
+          "n_certos": 6,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.3333333333333333,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0035",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0056",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0049",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0055"
+          ]
+        },
+        {
+          "id": "Q15",
+          "n_certos": 5,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0015",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0003",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0008",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0018",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0002"
+          ]
+        },
+        {
+          "id": "Q16",
+          "n_certos": 4,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0017",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0004",
+            "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0019",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0016",
+            "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0009"
+          ]
+        },
+        {
+          "id": "Q17",
+          "n_certos": 9,
+          "acertos": 4,
+          "precisao_ragas": 0.8,
+          "precisao_posicao": 0.95,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0006",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0061"
+          ]
+        },
+        {
+          "id": "Q18",
+          "n_certos": 5,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0025",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0067",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0000",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0002",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0059"
+          ]
+        },
+        {
+          "id": "Q19",
+          "n_certos": 5,
+          "acertos": 3,
+          "precisao_ragas": 0.6,
+          "precisao_posicao": 0.5888888888888889,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "LEI-14254-2021-DISLEXIA-TDAH#0000",
+            "LEI-14254-2021-DISLEXIA-TDAH#0002",
+            "LEI-14254-2021-DISLEXIA-TDAH#0003",
+            "LEI-14254-2021-DISLEXIA-TDAH#0006",
+            "LEI-14254-2021-DISLEXIA-TDAH#0005"
+          ]
+        },
+        {
+          "id": "Q20",
+          "n_certos": 4,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "MEC-SECADI-NT-04-2014-LAUDO#0004",
+            "MEC-SECADI-NT-04-2014-LAUDO#0005",
+            "MEC-SECADI-NT-04-2014-LAUDO#0003",
+            "MEC-SECADI-NT-04-2014-LAUDO#0001",
+            "MEC-POLITICA-PEEI-2008#0008"
+          ]
+        },
+        {
+          "id": "Q21",
+          "n_certos": 2,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.5833333333333333,
+          "teto_precisao_ragas": 0.4,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0007",
+            "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0003",
+            "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0002",
+            "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0006",
+            "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0000"
+          ]
+        },
+        {
+          "id": "Q22",
+          "n_certos": 1,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.2,
+          "recuperados": [
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0000",
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0004",
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0005",
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0002",
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0001"
+          ]
+        },
+        {
+          "id": "Q23",
+          "n_certos": 5,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0049",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0067",
+            "RES-CNE-CEB-4-2009-AEE#0002",
+            "RES-CNE-CEB-4-2009-AEE#0003",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0050"
+          ]
+        },
+        {
+          "id": "Q24",
+          "n_certos": 6,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "PORTARIA-MEC-421-2026-PNEEI#0000",
+            "PORTARIA-MEC-421-2026-PNEEI#0001",
+            "PORTARIA-MEC-421-2026-PNEEI#0013",
+            "PORTARIA-MEC-421-2026-PNEEI#0023",
+            "PORTARIA-MEC-421-2026-PNEEI#0025"
+          ]
+        },
+        {
+          "id": "Q25",
+          "n_certos": 4,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0000",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0004",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0003",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0006"
+          ]
+        },
+        {
+          "id": "Q26",
+          "n_certos": 4,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.25,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "MEC-SECADI-NT-04-2014-LAUDO#0004",
+            "MEC-SECADI-NT-04-2014-LAUDO#0003",
+            "RES-CNE-CEB-4-2009-AEE#0003",
+            "RES-CNE-CEB-4-2009-AEE#0001",
+            "DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE#0011"
+          ]
+        },
+        {
+          "id": "Q27",
+          "n_certos": 3,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.6,
+          "recuperados": [
+            "ABDA-GUIA-PROFESSORES-2012#0001",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0004",
+            "ABDA-GUIA-PROFESSORES-2012#0003",
+            "ABDA-GUIA-PROFESSORES-2012#0004",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001"
+          ]
+        },
+        {
+          "id": "Q28",
+          "n_certos": 5,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0032",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0031",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0029",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0015"
+          ]
+        },
+        {
+          "id": "Q29",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0032",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0017",
+            "MS-PCDT-TDAH-2022#0016",
+            "MS-PCDT-TDAH-2022#0007"
+          ]
+        },
+        {
+          "id": "Q30",
+          "n_certos": 6,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "MEC-POLITICA-PEEI-2008#0017",
+            "MEC-POLITICA-PEEI-2008#0008",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0027",
+            "RES-CNE-CEB-4-2009-AEE#0003",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0004"
+          ]
+        },
+        {
+          "id": "Q31",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0000",
+            "MEC-POLITICA-PEEI-2008#0011",
+            "MEC-POLITICA-PEEI-2008#0004",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0013",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0058"
+          ]
+        },
+        {
+          "id": "Q32",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0023",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0015",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0026",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0031",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0019"
+          ]
+        },
+        {
+          "id": "Q33",
+          "n_certos": 5,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0012",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0005",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0011",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0015",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0034"
+          ]
+        },
+        {
+          "id": "Q34",
+          "n_certos": 5,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0054",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0050",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0061"
+          ]
+        },
+        {
+          "id": "Q35",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0017",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0005",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0004",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0006"
+          ]
+        },
+        {
+          "id": "Q36",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "MEC-POLITICA-PEEI-2008#0005",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0005",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0013",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0026",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0010"
+          ]
+        },
+        {
+          "id": "Q37",
+          "n_certos": 3,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.6,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0026",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0042",
+            "MS-PCDT-TDAH-2022#0016",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0001",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0033"
+          ]
+        },
+        {
+          "id": "Q38",
+          "n_certos": 5,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0021",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0014",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0040",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0012",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0054"
+          ]
+        }
+      ]
+    },
+    {
+      "metodo": "qwen3+rerank50",
+      "k": 5,
+      "n_perguntas": 38,
+      "resumo": {
+        "precisao_ragas": {
+          "media": 0.3263157894736842,
+          "ic95": [
+            0.2578947368421053,
+            0.39473684210526316
+          ]
+        },
+        "precisao_posicao": {
+          "media": 0.5611842105263157,
+          "ic95": [
+            0.46447368421052626,
+            0.6667397660818712
+          ]
+        },
+        "teto_precisao_ragas": 0.8210526315789474,
+        "perguntas_sem_acerto": 5
+      },
+      "por_pergunta": [
+        {
+          "id": "Q01",
+          "n_certos": 6,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.3333333333333333,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0030",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0036"
+          ]
+        },
+        {
+          "id": "Q02",
+          "n_certos": 5,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.5833333333333333,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ABDA-GUIA-PROFESSORES-2012#0003",
+            "CDC-ADHD-CLASSROOM-2026#0010",
+            "ABDA-GUIA-PROFESSORES-2012#0001",
+            "YEGENCIK-2025-META-RCT-ESCOLA#0049",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030"
+          ]
+        },
+        {
+          "id": "Q03",
+          "n_certos": 6,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "ABDA-GUIA-PROFESSORES-2012#0003",
+            "MS-PCDT-TDAH-2022#0020",
+            "ABDA-GUIA-PROFESSORES-2012#0001",
+            "MS-PCDT-TDAH-2022#0021"
+          ]
+        },
+        {
+          "id": "Q04",
+          "n_certos": 2,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.4,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0010",
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016"
+          ]
+        },
+        {
+          "id": "Q05",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "ABDA-GUIA-PROFESSORES-2012#0003",
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "MS-PCDT-TDAH-2022#0020",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0027"
+          ]
+        },
+        {
+          "id": "Q06",
+          "n_certos": 2,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 0.4,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0016",
+            "DIAMOND-2013-FUNCOES-EXECUTIVAS#0005",
+            "DIAMOND-2013-FUNCOES-EXECUTIVAS#0006",
+            "ABDA-GUIA-PROFESSORES-2012#0001",
+            "ABDA-GUIA-PROFESSORES-2012#0000"
+          ]
+        },
+        {
+          "id": "Q07",
+          "n_certos": 5,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0002",
+            "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024#0010",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0009",
+            "WERY-2017-FONTE-OPENDYSLEXIC#0025",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001"
+          ]
+        },
+        {
+          "id": "Q08",
+          "n_certos": 6,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "MS-PCDT-TDAH-2022#0021",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033",
+            "ABDA-GUIA-PROFESSORES-2012#0003"
+          ]
+        },
+        {
+          "id": "Q09",
+          "n_certos": 3,
+          "acertos": 3,
+          "precisao_ragas": 0.6,
+          "precisao_posicao": 0.6388888888888888,
+          "teto_precisao_ragas": 0.6,
+          "recuperados": [
+            "CDC-ADHD-CLASSROOM-2026#0008",
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "CDC-ADHD-CLASSROOM-2026#0010",
+            "NICE-NG87-ADHD-2018#0031",
+            "ABDA-GUIA-PROFESSORES-2012#0004"
+          ]
+        },
+        {
+          "id": "Q10",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "ABDA-GUIA-PROFESSORES-2012#0003",
+            "ABDA-GUIA-PROFESSORES-2012#0000",
+            "ABDA-GUIA-PROFESSORES-2012#0002",
+            "MS-PCDT-TDAH-2022#0020",
+            "ABDA-GUIA-PROFESSORES-2012#0001"
+          ]
+        },
+        {
+          "id": "Q11",
+          "n_certos": 5,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0013",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0009",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0004"
+          ]
+        },
+        {
+          "id": "Q12",
+          "n_certos": 1,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.2,
+          "recuperados": [
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0001",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0000",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0005",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0023"
+          ]
+        },
+        {
+          "id": "Q13",
+          "n_certos": 6,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.45,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0042",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0028",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0030",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0033"
+          ]
+        },
+        {
+          "id": "Q14",
+          "n_certos": 6,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.325,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0007",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0049",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0055",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0022",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0013"
+          ]
+        },
+        {
+          "id": "Q15",
+          "n_certos": 5,
+          "acertos": 3,
+          "precisao_ragas": 0.6,
+          "precisao_posicao": 0.7555555555555555,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0007",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0002",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0015",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0003",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0048"
+          ]
+        },
+        {
+          "id": "Q16",
+          "n_certos": 4,
+          "acertos": 3,
+          "precisao_ragas": 0.6,
+          "precisao_posicao": 0.9166666666666666,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0017",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0003",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0015",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0006",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0014"
+          ]
+        },
+        {
+          "id": "Q17",
+          "n_certos": 9,
+          "acertos": 3,
+          "precisao_ragas": 0.6,
+          "precisao_posicao": 0.8055555555555555,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0006",
+            "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0060",
+            "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0025"
+          ]
+        },
+        {
+          "id": "Q18",
+          "n_certos": 5,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0019",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0025",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0028",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0067",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0062"
+          ]
+        },
+        {
+          "id": "Q19",
+          "n_certos": 5,
+          "acertos": 4,
+          "precisao_ragas": 0.8,
+          "precisao_posicao": 0.95,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "LEI-14254-2021-DISLEXIA-TDAH#0002",
+            "LEI-14254-2021-DISLEXIA-TDAH#0005",
+            "LEI-14254-2021-DISLEXIA-TDAH#0003",
+            "LEI-14254-2021-DISLEXIA-TDAH#0000",
+            "LEI-14254-2021-DISLEXIA-TDAH#0001"
+          ]
+        },
+        {
+          "id": "Q20",
+          "n_certos": 4,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.7,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "MEC-SECADI-NT-04-2014-LAUDO#0004",
+            "MEC-SECADI-NT-04-2014-LAUDO#0003",
+            "MEC-SECADI-NT-04-2014-LAUDO#0001",
+            "MEC-SECADI-NT-04-2014-LAUDO#0002",
+            "MEC-SECADI-NT-04-2014-LAUDO#0005"
+          ]
+        },
+        {
+          "id": "Q21",
+          "n_certos": 2,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.8333333333333333,
+          "teto_precisao_ragas": 0.4,
+          "recuperados": [
+            "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0003",
+            "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0006",
+            "LEI-13146-2015-LBI-RECORTE-EDUCACAO#0002",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0007",
+            "ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR#0005"
+          ]
+        },
+        {
+          "id": "Q22",
+          "n_certos": 1,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.5,
+          "teto_precisao_ragas": 0.2,
+          "recuperados": [
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0004",
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0000",
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0005",
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0002",
+            "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL#0001"
+          ]
+        },
+        {
+          "id": "Q23",
+          "n_certos": 5,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.25,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0057",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0049",
+            "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026#0050",
+            "RES-CNE-CEB-4-2009-AEE#0001",
+            "RES-CNE-CEB-4-2009-AEE#0002"
+          ]
+        },
+        {
+          "id": "Q24",
+          "n_certos": 6,
+          "acertos": 4,
+          "precisao_ragas": 0.8,
+          "precisao_posicao": 0.95,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "PORTARIA-MEC-421-2026-PNEEI#0001",
+            "DECRETO-12686-2025-PNEEI#0002",
+            "DECRETO-12686-2025-PNEEI#0003",
+            "PORTARIA-MEC-421-2026-PNEEI#0000",
+            "DECRETO-12686-2025-PNEEI#0001"
+          ]
+        },
+        {
+          "id": "Q25",
+          "n_certos": 4,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.45,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0009",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0017",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0010",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0016",
+            "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA#0001"
+          ]
+        },
+        {
+          "id": "Q26",
+          "n_certos": 4,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.3333333333333333,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "MEC-SECADI-NT-04-2014-LAUDO#0004",
+            "MEC-SECADI-NT-04-2014-LAUDO#0003",
+            "RES-CNE-CEB-4-2009-AEE#0001",
+            "CDC-ADHD-CLASSROOM-2026#0006",
+            "RES-CNE-CEB-4-2009-AEE#0003"
+          ]
+        },
+        {
+          "id": "Q27",
+          "n_certos": 3,
+          "acertos": 3,
+          "precisao_ragas": 0.6,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.6,
+          "recuperados": [
+            "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0001",
+            "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0003",
+            "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0005",
+            "NCEO-TOOLKIT-TEMPO-EXTRA-2026#0004",
+            "ABDA-GUIA-PROFESSORES-2012#0001"
+          ]
+        },
+        {
+          "id": "Q28",
+          "n_certos": 5,
+          "acertos": 4,
+          "precisao_ragas": 0.8,
+          "precisao_posicao": 0.95,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "GAASTRA-2016-META-INTERVENCOES-SALA#0031",
+            "GAASTRA-2016-META-INTERVENCOES-SALA#0039",
+            "GAASTRA-2016-META-INTERVENCOES-SALA#0032",
+            "GAASTRA-2016-META-INTERVENCOES-SALA#0025",
+            "GAASTRA-2016-META-INTERVENCOES-SALA#0000"
+          ]
+        },
+        {
+          "id": "Q29",
+          "n_certos": 4,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.3333333333333333,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "YEGENCIK-2025-META-RCT-ESCOLA#0057",
+            "CORTESE-2015-META-TREINO-COGNITIVO#0028",
+            "CORTESE-2015-META-TREINO-COGNITIVO#0003",
+            "CORTESE-2015-META-TREINO-COGNITIVO#0026",
+            "CORTESE-2015-META-TREINO-COGNITIVO#0024"
+          ]
+        },
+        {
+          "id": "Q30",
+          "n_certos": 6,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "DALGAARD-2022-INCLUSAO-META#0016",
+            "DALGAARD-2022-INCLUSAO-META#0021",
+            "DALGAARD-2022-INCLUSAO-META#0001",
+            "DALGAARD-2022-INCLUSAO-META#0019",
+            "DALGAARD-2022-INCLUSAO-META#0009"
+          ]
+        },
+        {
+          "id": "Q31",
+          "n_certos": 4,
+          "acertos": 0,
+          "precisao_ragas": 0.0,
+          "precisao_posicao": 0.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0018",
+            "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0014",
+            "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0020",
+            "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0059",
+            "SMALEJACOBSE-2019-DIFERENCIACAO-RS#0073"
+          ]
+        },
+        {
+          "id": "Q32",
+          "n_certos": 4,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "YEGENCIK-2025-META-RCT-ESCOLA#0000",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0028",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0033",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0030",
+            "SANTOS-ALBUQUERQUE-2019-INTERVENCOES-ESCOLARES#0035"
+          ]
+        },
+        {
+          "id": "Q33",
+          "n_certos": 5,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0020",
+            "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0021",
+            "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0003",
+            "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0013",
+            "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM#0002"
+          ]
+        },
+        {
+          "id": "Q34",
+          "n_certos": 5,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 0.2,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "WERY-2017-FONTE-OPENDYSLEXIC#0004",
+            "WERY-2017-FONTE-OPENDYSLEXIC#0025",
+            "WERY-2017-FONTE-OPENDYSLEXIC#0026",
+            "WERY-2017-FONTE-OPENDYSLEXIC#0020",
+            "WERY-2017-FONTE-OPENDYSLEXIC#0000"
+          ]
+        },
+        {
+          "id": "Q35",
+          "n_certos": 4,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.75,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0020",
+            "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0002",
+            "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0019",
+            "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0021",
+            "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA#0023"
+          ]
+        },
+        {
+          "id": "Q36",
+          "n_certos": 4,
+          "acertos": 1,
+          "precisao_ragas": 0.2,
+          "precisao_posicao": 1.0,
+          "teto_precisao_ragas": 0.8,
+          "recuperados": [
+            "SIMOES-2022-NEUROMITOS-BRASIL#0030",
+            "SIMOES-2022-NEUROMITOS-BRASIL#0035",
+            "SIMOES-2022-NEUROMITOS-BRASIL#0024",
+            "SIMOES-2022-NEUROMITOS-BRASIL#0032",
+            "SIMOES-2022-NEUROMITOS-BRASIL#0004"
+          ]
+        },
+        {
+          "id": "Q37",
+          "n_certos": 3,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.45,
+          "teto_precisao_ragas": 0.6,
+          "recuperados": [
+            "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0001",
+            "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0034",
+            "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0002",
+            "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0005",
+            "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE#0000"
+          ]
+        },
+        {
+          "id": "Q38",
+          "n_certos": 5,
+          "acertos": 2,
+          "precisao_ragas": 0.4,
+          "precisao_posicao": 0.3666666666666667,
+          "teto_precisao_ragas": 1.0,
+          "recuperados": [
+            "HUANG-2024-LLM-NIVEIS-LEITURA#0005",
+            "HUANG-2024-LLM-NIVEIS-LEITURA#0002",
+            "HUANG-2024-LLM-NIVEIS-LEITURA#0001",
+            "HUANG-2024-LLM-NIVEIS-LEITURA#0007",
+            "HUANG-2024-LLM-NIVEIS-LEITURA#0010"
+          ]
+        }
+      ]
+    }
+  ]
+}

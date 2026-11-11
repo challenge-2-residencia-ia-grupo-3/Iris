@@ -13,16 +13,21 @@ from iris.parsers.document_extractor import (
     UnsupportedFileFormatError,
     extract_text_from_file,
 )
+from iris.parsers.prose_organizer import organize_prose_structure
+from iris.parsers.structural_decomposer import decompose_material
 from iris.schemas.materials import (
     MaterialMetadata,
     MaterialResponse,
     MaterialSourceType,
+    MaterialStructure,
     MaterialTextInput,
     MaterialValidationError,
+    ProseStructure,
     validate_file_size_limit,
     validate_material_content,
 )
 from iris.security.pii_scrubber import sanitize_pii
+
 
 
 def process_material_text_service(raw_text: str) -> MaterialResponse:
@@ -104,6 +109,47 @@ def process_material_file_service(filename: str, content: bytes) -> MaterialResp
     )
 
 
+def decompose_material_service(raw_text: str) -> MaterialStructure:
+    """Executa a decomposição estrutural automática do material didático (RF-02 / História 1.1.2).
+
+    1. Sanitização preventiva de PII.
+    2. Validação básica de presença de conteúdo.
+    3. Decomposição estrutural em cabeçalho, textos de apoio e questões independentes.
+    """
+    if not isinstance(raw_text, str) or not raw_text.strip():
+        raise MaterialValidationError(
+            message="O texto fornecido para decomposição estrutural está vazio.",
+            code="EMPTY_TEXT",
+            field="text",
+        )
+
+    # Garante sanitização de PII antes de decompor
+    sanitized, _ = sanitize_pii(raw_text)
+    # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
+    validate_material_content(sanitized)
+    return decompose_material(sanitized)
+
+
+def organize_prose_service(raw_text: str) -> ProseStructure:
+    """Executa a organização estrutural automática de textos corridos (RF-02 Extensão / História 1.1.4).
+
+    1. Sanitização preventiva de PII.
+    2. Validação básica de presença de conteúdo.
+    3. Construção da árvore hierárquica (títulos, seções, subseções, parágrafos e listas).
+    """
+    if not isinstance(raw_text, str) or not raw_text.strip():
+        raise MaterialValidationError(
+            message="O texto fornecido para organização estrutural está vazio.",
+            code="EMPTY_TEXT",
+            field="text",
+        )
+
+    sanitized, _ = sanitize_pii(raw_text)
+    # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
+    validate_material_content(sanitized)
+    return organize_prose_structure(sanitized)
+
+
 # Roteamento FastAPI (quando FastAPI estiver disponível)
 try:
     from fastapi import APIRouter, File, HTTPException, UploadFile, status
@@ -165,6 +211,51 @@ try:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail={"detail": f"Erro interno ao processar arquivo: {err}", "code": "INTERNAL_ERROR"},
             ) from err
+
+    @router.post(
+        "/decompose",
+        response_model=dict[str, Any],
+        summary="Decomposição estrutural automática de material pedagógico (História 1.1.2)",
+        description="Segmenta deterministicamente cabeçalho, textos de apoio e lista ordenada de questões independentes.",
+    )
+    async def decompose_material_endpoint(payload: MaterialTextInput) -> dict[str, Any]:
+        try:
+            text_val = payload.text if hasattr(payload, "text") else payload["text"]
+            structure = decompose_material_service(text_val)
+            return structure.model_dump()
+        except MaterialValidationError as err:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=err.to_dict(),
+            ) from err
+        except Exception as err:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail={"detail": f"Erro interno ao decompor material: {err}", "code": "INTERNAL_ERROR"},
+            ) from err
+
+    @router.post(
+        "/organize-prose",
+        response_model=dict[str, Any],
+        summary="Organização estrutural automática de textos corridos (História 1.1.4)",
+        description="Identifica e organiza hierarquicamente títulos, subtítulos, seções, subseções, parágrafos e listas.",
+    )
+    async def organize_prose_endpoint(payload: MaterialTextInput) -> dict[str, Any]:
+        try:
+            text_val = payload.text if hasattr(payload, "text") else payload["text"]
+            structure = organize_prose_service(text_val)
+            return structure.model_dump()
+        except MaterialValidationError as err:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=err.to_dict(),
+            ) from err
+        except Exception as err:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail={"detail": f"Erro interno ao organizar texto corrido: {err}", "code": "INTERNAL_ERROR"},
+            ) from err
+
 
 except ImportError:
     # Router stub quando FastAPI não estiver instalado no ambiente local

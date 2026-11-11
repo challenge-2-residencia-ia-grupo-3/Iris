@@ -60,7 +60,24 @@ uv run mkdocs serve
 uv run mkdocs build
 ```
 
-### Execução do Backend (FastAPI) e Frontend (Next.js)
+### Comandos Rápidos via `Makefile` (Recomendado)
+
+```bash
+# 1. Verificar ambiente, catálogo, PII, API, RAG e Agente Extrator
+make check
+
+# 2. Subir tudo (preflight + Ollama + RAG + Backend :8000 + Frontend Next.js :3000)
+make up
+
+# 3. Abrir menus interativos de validação no terminal
+make rag         # Central do RAG, 12 métricas e consulta ao vivo
+make extrator    # Agente Extrator Curricular (#17), Benchmark e Analytics
+make test        # Bateria completa de testes unitários
+```
+
+Para o passo a passo completo de testes manuais por issue, consulte [docs/roteiro_testes.md](docs/roteiro_testes.md).
+
+### Execução Manual Individual (Backend FastAPI e Frontend Next.js)
 
 ```bash
 # 1. Iniciar a API Backend FastAPI (porta 8000)

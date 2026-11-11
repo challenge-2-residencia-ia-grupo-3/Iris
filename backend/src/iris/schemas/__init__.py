@@ -1,4 +1,10 @@
 """Contratos de dados e schemas de validação (Catálogos, Materiais, Travas e Perfil Portátil)."""
+from iris.schemas.adaptation import (
+    AdaptationRequest,
+    AdaptationResult,
+    AdaptationTelemetry,
+    ScopeReport,
+)
 from iris.schemas.catalog import (
     BARREIRAS_RAG_VALIDAS,
     PRINCIPIOS_DUA_VALIDOS,
@@ -11,26 +17,48 @@ from iris.schemas.catalog import (
     load_all_catalogs,
     load_catalog_file,
 )
+from iris.schemas.curriculum import (
+    CurriculumInvariants,
+    ExtractionRequest,
+    ExtractionResult,
+    ExtractionTelemetry,
+    classificar_faixa_etaria,
+)
 from iris.schemas.materials import (
     MAX_FILE_SIZE_BYTES,
     MAX_SAFE_CONTEXT_CHARS,
     MIN_MATERIAL_CHARS,
+    AlternativeItem,
+    ContextBlock,
     MaterialMetadata,
     MaterialResponse,
     MaterialSourceType,
+    MaterialStructure,
     MaterialTextInput,
     MaterialValidationError,
+    ProseStructure,
+    QuestionItem,
+    StructuralNode,
     validate_file_size_limit,
     validate_material_content,
 )
 
 __all__ = [
+    "AdaptationRequest",
+    "AdaptationResult",
+    "AdaptationTelemetry",
+    "ScopeReport",
     "BARREIRAS_RAG_VALIDAS",
     "PRINCIPIOS_DUA_VALIDOS",
     "BibliographicReference",
     "CatalogValidationError",
     "CharacteristicCatalog",
     "CharacteristicItem",
+    "CurriculumInvariants",
+    "ExtractionRequest",
+    "ExtractionResult",
+    "ExtractionTelemetry",
+    "classificar_faixa_etaria",
     "ScaffoldingLevelGuideline",
     "get_characteristic_by_id",
     "load_all_catalogs",
@@ -41,9 +69,16 @@ __all__ = [
     "MaterialMetadata",
     "MaterialResponse",
     "MaterialSourceType",
+    "MaterialStructure",
     "MaterialTextInput",
     "MaterialValidationError",
+    "AlternativeItem",
+    "ContextBlock",
+    "ProseStructure",
+    "QuestionItem",
+    "StructuralNode",
     "validate_file_size_limit",
     "validate_material_content",
 ]
+
 

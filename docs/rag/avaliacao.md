@@ -1,6 +1,6 @@
 # Íris – Avaliação da recuperação e das respostas
 
-Protocolo, métricas e resultados da avaliação do protótipo de RAG. Versão correspondente à entrega de 09/11/2026.
+Protocolo, métricas e resultados da avaliação do protótipo de RAG. Versão correspondente à entrega de 09/11/2026, acrescida em 11/11/2026 das seções 4.5 (precisão do contexto), 4.6 (filtro por característica) e 6.6 (fidelidade com avaliador de outro fornecedor).
 
 ## 1. Objetivo
 
@@ -36,6 +36,9 @@ Arquivos: `rag/iris-rag/gabarito/perguntas_v0.json` e `rag/iris-rag/gabarito/gab
 | Frases sustentadas | Frases de conteúdo classificadas como sustentadas pelo trecho citado, por dois avaliadores |
 | Citações inválidas | Frases que citam trecho não entregue ao modelo gerador |
 | Concordância | Proporção de classificações idênticas entre avaliadores e coeficiente kappa de Cohen |
+| Precisão do contexto por identificador | Fração dos cinco trechos retornados que consta entre os trechos de referência da consulta (`IDBasedContextPrecision`, biblioteca RAGAS); média sobre as consultas |
+| Precisão do contexto com posição | Precisão média até a quinta posição (AP@5): fórmula do Context Precision@K da RAGAS aplicada à classificação do conjunto de referência |
+| Fidelidade | Frases de conteúdo sustentadas integralmente pelo trecho citado, divididas pelas frases de conteúdo da resposta; média sobre as respostas. Corresponde à métrica Faithfulness da RAGAS, com a frase como unidade e com exigência de sustentação pelo trecho citado |
 
 Os intervalos de confiança de 95% foram obtidos por bootstrap com 2.000 reamostragens das consultas e semente fixa. As comparações entre métodos são pareadas por consulta. A referência de acaso para o recall@5 é 0,004, correspondente à seleção aleatória de 5 entre 1.368 trechos.
 
@@ -80,6 +83,40 @@ Nas dez consultas de prática docente, foram retornados 10 dos 43 trechos releva
 ### 4.4 Tempo de resposta
 
 Tempo mediano por consulta, em computador portátil com GPU integrada: 40 ms para o Qwen3 isolado e 463 ms para o método adotado. O tempo em servidor sem GPU não foi medido para 50 candidatos.
+
+### 4.5 Precisão do contexto
+
+Medição de 11/11/2026 sobre as 38 consultas com resposta na base, com cinco trechos por consulta. O cálculo compara identificadores de trecho com o conjunto de referência, sem modelo avaliador.
+
+| Método | Precisão por identificador (IC 95%) | Precisão com posição (IC 95%) | Consultas sem trecho relevante |
+|---|---|---|---|
+| BM25 (referência) | 0,15 (0,09 a 0,22) | 0,31 (0,19 a 0,43) | 20 de 38 |
+| Qwen3 com reordenação de 50 candidatos (adotado) | 0,33 (0,26 a 0,39) | 0,56 (0,46 a 0,67) | 5 de 38 |
+| Diferença pareada, adotado menos BM25 | +0,18 (+0,11 a +0,25) | +0,26 (+0,13 a +0,39) | |
+
+A referência de acaso para a precisão por identificador é 0,003, correspondente à seleção aleatória de 5 entre 1.368 trechos. O valor máximo alcançável neste conjunto de referência é 0,82, pois consultas com menos de cinco trechos relevantes não atingem 1. Os dois intervalos da diferença pareada excluem o zero.
+
+Os intervalos previstos antes da execução (0,10 a 0,20 e 0,25 a 0,40 para o BM25; 0,20 a 0,35 e 0,45 a 0,65 para o método adotado) contêm os quatro valores medidos.
+
+Fonte: `reports/rag_precisao_contexto.txt`.
+
+![Precisão do contexto por método](figuras/fig4-precisao-contexto.png)
+
+### 4.6 Filtro por característica
+
+A função `buscar_por_caracteristica_atomica` restringe a busca aos trechos classificados com a barreira associada à característica selecionada. A restrição é aplicada antes da ordenação, em todos os métodos.
+
+| Verificação | Resultado |
+|---|---|
+| Combinações verificadas | 30 (10 características do catálogo, 3 níveis de andaime) |
+| Trechos retornados por combinação | 5 |
+| Trechos retornados sem a barreira da característica | 0 de 150 |
+| Trechos sem classificação de barreira retornados em busca filtrada | 0 |
+| Trechos da base com classificação de barreira | 884 de 1.368 |
+
+A verificação utiliza a busca lexical (BM25), que dispensa banco e modelo. A cláusula equivalente do PostgreSQL não é exercitada pelo teste. Os 484 trechos sem classificação de barreira não são alcançáveis por busca filtrada.
+
+Fonte: `backend/tests/test_filtro_caracteristica.py`.
 
 ## 5. Experimentos adicionais
 
@@ -180,6 +217,44 @@ A resposta da classe C contém um comentário incorreto sobre o conteúdo dos tr
 
 Nas dez consultas de prática docente, com o Claude Haiku, uma resposta foi classificada em A, três em B e seis em D.
 
+### 6.6 Fidelidade com avaliador de outro fornecedor
+
+Medição de 11/11/2026. Às classificações dos dois avaliadores da seção 6.1 foi acrescentado um terceiro avaliador, de outro fornecedor (Codex, da OpenAI), com a mesma regra, o mesmo enunciado e as mesmas frases. O veredito final de cada frase é a maioria dos três. Nas frases em que os dois avaliadores Sonnet divergem do terceiro, ou em que há empate, o veredito final é o de um quarto avaliador (Claude Opus). Classificações parciais e classificações descartadas contam como não sustentadas. Respostas de recusa não entram no cálculo.
+
+| Avaliador | Claude Haiku (38 respostas) | Claude Opus (35 respostas) |
+|---|---|---|
+| Sonnet A | 0,884 (0,829 a 0,934) | 0,944 (0,909 a 0,977) |
+| Sonnet B | 0,887 (0,825 a 0,941) | 0,919 (0,869 a 0,959) |
+| Codex | 0,922 (0,880 a 0,961) | 0,965 (0,935 a 0,989) |
+| Veredito final | 0,905 (0,858 a 0,947) | 0,950 (0,922 a 0,978) |
+| Frases sustentadas, veredito final | 170 de 187 | 166 de 175 |
+| Comparação com o mínimo de 0,90 | Intervalo contém o mínimo | Intervalo acima do mínimo |
+
+O mínimo de 0,90 é o valor de `FAITHFULNESS_MIN` em `backend/src/iris/eval/faithfulness.py`. Nenhuma frase foi classificada como não sustentada pelos três avaliadores.
+
+Concordância na classificação binária (sustentada ou não), nas frases tratadas como conteúdo pelos dois avaliadores do par:
+
+| Par | Claude Haiku: frases, idênticas, kappa | Claude Opus: frases, idênticas, kappa |
+|---|---|---|
+| Sonnet A e Sonnet B | 187; 94,1%; 0,70 | 175; 96,0%; 0,67 |
+| Sonnet A e Codex | 186; 91,9%; 0,53 | 170; 92,9%; 0,22 |
+| Sonnet B e Codex | 186; 92,5%; 0,55 | 170; 92,9%; 0,30 |
+
+Matriz para as 186 frases geradas pelo Claude Haiku (linhas: Sonnet A; colunas: Codex):
+
+| | Sustentada | Não sustentada |
+|---|---|---|
+| **Sustentada** | 161 | 4 |
+| **Não sustentada** | 11 | 10 |
+
+Nas respostas do Claude Opus, o kappa entre fornecedores (0,22 e 0,30) ficou abaixo do limite de 0,40 fixado antes da execução, com 92,9% de classificações idênticas: 156 das 170 frases são sustentadas para os dois avaliadores, e a concentração em uma classe reduz o coeficiente. O avaliador de outro fornecedor classificou mais frases como sustentadas do que os avaliadores Sonnet, em sentido contrário ao previsto. Das 19 frases submetidas ao quarto avaliador, o veredito acompanhou os avaliadores Sonnet em 12 e o Codex em 6; na restante, os avaliadores Sonnet divergiam entre si.
+
+A biblioteca RAGAS com avaliador em execução (`iris.eval.faithfulness`) não foi utilizada, por indisponibilidade de credencial de provedor.
+
+Fontes: `rag/outputs/37-fidelidade-juiz-de-outro-fabricante.txt` e `reports/rag_fidelidade.txt`.
+
+![Classificação frase a frase e fidelidade por avaliador](figuras/fig5-fidelidade.png)
+
 ## 7. Ameaças à validade
 
 | Ameaça | Descrição |
@@ -189,6 +264,8 @@ Nas dez consultas de prática docente, com o Claude Haiku, uma resposta foi clas
 | Revisão da regra de avaliação | A regra foi revisada uma vez após a primeira aplicação sobre as mesmas respostas; os resultados reportados correspondem à segunda aplicação |
 | Modelo gerador | As respostas avaliadas não foram geradas pelo modelo configurado no protótipo; o modelo gerador do produto não está definido |
 | Tamanho da amostra | 38 consultas com resposta; cada consulta corresponde a 2,6 pontos percentuais |
+| Unidade da fidelidade | A fidelidade foi calculada por frase, e não por afirmação atômica; frase com mais de uma afirmação conta uma vez |
+| Concordância entre fornecedores | Nas respostas do Claude Opus, o kappa entre avaliadores de fornecedores distintos ficou abaixo de 0,40 |
 | Formato das consultas | As consultas simulam perguntas de professores; o formato do Agente Estrategista não foi avaliado |
 | Posição dos trechos | O efeito da ordem dos trechos no contexto do modelo gerador não foi avaliado; os trechos são apresentados na ordem de relevância do segundo estágio |
 | Ambiente de geração das respostas | As respostas foram geradas a partir de um índice local de desenvolvimento; a recuperação reproduzida no PostgreSQL coincidiu em 39 das 40 consultas |
@@ -204,6 +281,10 @@ Os comandos são executados a partir de `rag/iris-rag/pacote/`, com o banco em e
 | Demonstração | `python demonstrar_resposta.py` | `rag/outputs/05-consulta-resposta-fonte.txt` | Sim; saída igual, exceto identificação do banco |
 | Verificação automática das respostas | `python medir_respostas.py conferir` | `../../outputs/23-respostas-conferencia.txt` | Não: depende de dados intermediários não distribuídos |
 | Fundamentação | `python medir_respostas.py medir2` | `../../outputs/26-respostas-juizes-v2.txt` | Não: depende das saídas completas dos avaliadores, não distribuídas |
+| Precisão do contexto | `uv run python -m iris.eval.precisao_contexto` (raiz do repositório) | `reports/rag_precisao_contexto.txt` | Não verificada |
+| Filtro por característica e mapeador de contexto | `uv run pytest backend/tests/test_filtro_caracteristica.py backend/tests/test_contexto_estrategista.py` | Resultado do teste | Não verificada |
+| Fidelidade, cálculo a partir das classificações registradas | `uv run python -m iris.eval.fidelidade_frases` (raiz do repositório) | `reports/rag_fidelidade.txt` | Não verificada; dispensa banco, modelo e credencial |
+| Fidelidade, classificação pelos avaliadores | `python medir_fidelidade_cruzada.py julgar haiku`; `julgar opus`; `desempatar`; `medir` | `../../outputs/37-fidelidade-juiz-de-outro-fabricante.txt` | Não: depende das saídas completas dos avaliadores, não distribuídas |
 | Experimentos adicionais | `python medir_hyde.py`; `python medir_sem_abda.py` | `../../outputs/28` a `35` | Não verificada |
 
-As saídas completas dos avaliadores não são distribuídas por conterem passagens de documentos de licença restrita. As respostas, as classificações e as passagens verificadas utilizadas neste documento estão registradas em `respostas_medidas.json`, `respostas_vereditos_v2.json` e `respostas_passagens_v2.json`.
+As saídas completas dos avaliadores não são distribuídas por conterem passagens de documentos de licença restrita. As respostas, as classificações e as passagens verificadas utilizadas neste documento estão registradas em `respostas_medidas.json`, `respostas_vereditos_v2.json`, `respostas_passagens_v2.json` e `respostas_vereditos_cruzado.json`.

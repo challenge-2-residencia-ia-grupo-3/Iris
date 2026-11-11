@@ -1,0 +1,46 @@
+name: Testes do backend
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testes-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  testes:
+    name: Suíte de testes (unittest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar o uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Instalar dependências travadas no uv.lock
+        run: uv sync --frozen
+
+      - name: Rodar a suíte
+        run: uv run --frozen --with coverage coverage run --branch --source=backend/src/iris -m unittest discover -s backend/tests
+        env:
+          PYTHONPATH: backend/src
+
+      - name: Relatório de cobertura (informativo, sem mínimo exigido)
+        if: always()
+        run: |
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          uv run --frozen --with coverage coverage report >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"

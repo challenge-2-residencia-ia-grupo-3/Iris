@@ -23,7 +23,12 @@ from pathlib import Path
 from typing import Any
 
 from iris.config import RAG_BASE_DIR, RAG_PACOTE_DIR
-from iris.rag.bridge import buscar_evidencias, carregar_modulos_rag, obter_trechos_base
+from iris.rag.bridge import (
+    buscar_evidencias,
+    carregar_modulos_rag,
+    normalizar_trecho_ui,
+    obter_trechos_base,
+)
 
 STOPWORDS_PT = frozenset(
     """
@@ -486,16 +491,11 @@ def avaliar_pipeline_ao_vivo(
                 else ("PARCIAL (Gabarito)" if cid in parciais else "Contexto Adicional")
             )
             trechos_detalhados.append(
-                {
-                    "ref": f"T{idx}",
-                    "chunk_id": cid,
-                    "doc": t_item.get("doc", cid.split("#")[0]),
-                    "titulo": t_item.get("titulo", ""),
-                    "pagina": t_item.get("pagina"),
-                    "secao": t_item.get("secao", ""),
-                    "status_gabarito": status_rel,
-                    "texto": t_item.get("trecho", ""),
-                }
+                normalizar_trecho_ui(
+                    t_item,
+                    ref=f"T{idx}",
+                    status_gabarito=status_rel,
+                )
             )
 
         detalhes_consultas.append(
@@ -559,9 +559,54 @@ def avaliar_pipeline_ao_vivo(
     }
 
 
+def _resumir_veredito_consulta(ver_q: dict[str, Any]) -> dict[str, Any]:
+    """Sumariza os vereditos dos juízes A e B (por resposta e frase a frase)."""
+    frases = ver_q.get("frases", [])
+    contagem = {
+        "apoiada": 0,
+        "parcial": 0,
+        "divergem": 0,
+        "nao_apoiada": 0,
+        "comentario": 0,
+        "total_conteudo": 0,
+    }
+    for f in frases:
+        tipo_f = f.get("tipo")
+        comum = f.get("comum", "")
+        if tipo_f == "comentario" or comum == "comentario_correto":
+            contagem["comentario"] += 1
+            continue
+        if tipo_f == "conteudo":
+            contagem["total_conteudo"] += 1
+            if comum in contagem:
+                contagem[comum] += 1
+    return {
+        "recusou": bool(ver_q.get("recusou", False)),
+        "caixa": ver_q.get("caixa"),
+        "responde": ver_q.get("responde", {}),
+        "abstencao": ver_q.get("abstencao", {}),
+        "resumo_frases": contagem,
+        "frases": frases,
+    }
+
+
+def obter_opcoes_filtro_gabarito() -> dict[str, Any]:
+    """Retorna os tipos e barreiras disponíveis no gabarito oficial para filtragem na UI."""
+    gabarito_map = _carregar_gabarito_oficial()
+    tipos = sorted({str(it.get("tipo", "")) for it in gabarito_map.values() if it.get("tipo")})
+    barreiras = sorted({str(it.get("barreira", "")) for it in gabarito_map.values() if it.get("barreira")})
+    return {
+        "total_itens": len(gabarito_map),
+        "tipos": tipos,
+        "barreiras": barreiras,
+    }
+
+
 def obter_consultas_com_textos_e_metricas(
     gerador: str = "haiku",
     limite: int = 7,
+    tipo: str | None = None,
+    barreira: str | None = None,
 ) -> list[dict[str, Any]]:
     """Retorna as consultas com métricas individuais, resposta gerada e TEXTOS COMPLETOS dos trechos [T1..T5]."""
     gabarito_map = _carregar_gabarito_oficial()
@@ -571,9 +616,18 @@ def obter_consultas_com_textos_e_metricas(
     vereditos_gerador = vereditos[gerador]
     chunks_map = {c["chunk_id"]: c for c in obter_trechos_base()}
 
-    # Seleciona 1 consulta de cada tipo se limite == 7 (mesma seleção do demonstrar_resposta.py), ou as N primeiras
-    itens_ordenados = [ item for _, item in sorted(gabarito_map.items()) ]
-    if limite == 7:
+    itens_ordenados = [item for _, item in sorted(gabarito_map.items())]
+    if tipo:
+        tipo_norm = tipo.strip().lower()
+        itens_ordenados = [it for it in itens_ordenados if str(it.get("tipo", "")).strip().lower() == tipo_norm]
+    if barreira:
+        barreira_norm = barreira.strip().lower()
+        itens_ordenados = [
+            it for it in itens_ordenados if barreira_norm in str(it.get("barreira", "")).strip().lower()
+        ]
+
+    # Sem filtros e com limite == 7, seleciona 1 consulta representativa de cada tipo (mesma seleção de demonstrar_resposta.py)
+    if limite == 7 and not tipo and not barreira:
         vistos: set[str] = set()
         selecionados = []
         for it in itens_ordenados:
@@ -581,6 +635,8 @@ def obter_consultas_com_textos_e_metricas(
             if tp not in vistos:
                 vistos.add(tp)
                 selecionados.append(it)
+    elif limite <= 0:
+        selecionados = itens_ordenados
     else:
         selecionados = itens_ordenados[:limite]
 
@@ -593,6 +649,7 @@ def obter_consultas_com_textos_e_metricas(
         fontes_ids: list[str] = med.get("fontes", [])
         resposta_texto: str = med.get("resposta", "")
         ver_q = vereditos_gerador.get(qid, {})
+        ver_det = _resumir_veredito_consulta(ver_q)
 
         r5 = calcular_recall_at_k(fontes_ids, relevantes, k=5) if relevantes else 0.0
         mrr_q = calcular_mrr(fontes_ids[:5], relevantes) if relevantes else 0.0
@@ -607,17 +664,26 @@ def obter_consultas_com_textos_e_metricas(
                 else ("PARCIAL (Gabarito)" if cid in parciais else "Contexto Adicional")
             )
             trechos_detalhados.append(
-                {
-                    "ref": f"T{idx}",
-                    "chunk_id": cid,
-                    "doc": ch.get("doc_id", cid.split("#")[0]),
-                    "titulo": ch.get("titulo", ""),
-                    "pagina": ch.get("pagina_inicial"),
-                    "secao": ch.get("secao", ""),
-                    "status_gabarito": status_rel,
-                    "texto": ch.get("texto", "(texto de licença restrita não distribuído no repositório)"),
-                }
+                normalizar_trecho_ui(
+                    {"chunk_id": cid, "doc": cid.split("#")[0]},
+                    ref=f"T{idx}",
+                    chunk_meta=ch,
+                    status_gabarito=status_rel,
+                )
             )
+
+        res_f = ver_det["resumo_frases"]
+        total_cont = res_f["total_conteudo"]
+        if ver_det["recusou"]:
+            fidelidade_resumo = "Abstenção (sem resposta na base)"
+        elif total_cont > 0:
+            fidelidade_resumo = (
+                f"{res_f['apoiada']}/{total_cont} apoiadas"
+                + (f", {res_f['parcial']} parciais" if res_f["parcial"] else "")
+                + (f", {res_f['divergem']} divergentes" if res_f["divergem"] else "")
+            )
+        else:
+            fidelidade_resumo = "Veredito registrado"
 
         saida.append(
             {
@@ -625,8 +691,11 @@ def obter_consultas_com_textos_e_metricas(
                 "pergunta": gab["pergunta"],
                 "tipo": gab.get("tipo", ""),
                 "barreira": gab.get("barreira", ""),
+                "sem_resposta_esperada": gab.get("tipo") == "sem_resposta" or not relevantes,
                 "resposta": resposta_texto,
                 "justificativa_gabarito": gab.get("justificativa", ""),
+                "fidelidade_frase": fidelidade_resumo,
+                "veredito_detalhado": ver_det,
                 "metricas_consulta": {
                     "recall_at_5": round(r5, 3),
                     "mrr": round(mrr_q, 3),
