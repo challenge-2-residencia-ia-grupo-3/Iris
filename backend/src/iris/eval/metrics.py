@@ -8,9 +8,10 @@ Métricas:
 
 from __future__ import annotations
 
-from typing import Iterable, Set
+from typing import Iterable
 
 from iris.eval.readability import flesch_ptbr
+from iris.eval.trcc import avaliar_trcc
 
 
 def calcular_trcc(
@@ -21,14 +22,14 @@ def calcular_trcc(
 
     TRCC = |Conceitos da Trava Presentes no Adaptado| / |Conceitos da Trava Original|
     Critério inegociável do Challenge: TRCC >= 0.95 (95%).
-    """
-    esperados: Set[str] = {c.lower().strip() for c in conceitos_esperados if c.strip()}
-    if not esperados:
-        return 1.0
 
-    texto_lower = texto_adaptado.lower()
-    encontrados = sum(1 for c in esperados if c in texto_lower)
-    return round(encontrados / len(esperados), 4)
+    A comparação é determinística (iris.eval.trcc): sem diferença de acento ou caixa, por
+    palavra inteira e com alternativas no formato "a|b". Trava vazia levanta ValueError.
+    """
+    resultado = avaliar_trcc(conceitos_esperados, texto_adaptado)
+    if resultado.trcc is None:
+        raise ValueError("Trava curricular vazia: não há conceitos para calcular o TRCC.")
+    return round(resultado.trcc, 4)
 
 
 def calcular_flesch(texto: str) -> float | None:
