@@ -132,6 +132,8 @@ def medir(questoes: list[GoldenQuestion], cliente: HybridLLMClient | None = None
             else:
                 desfecho = "reprovada no escopo"
                 motivo = next(nome for nome, teste in MOTIVOS if teste(laudo_modelo))
+            print(f"{q.id} nível {nivel}: {desfecho}{f' ({motivo})' if motivo else ''}, "
+                  f"{t.total_ms / 1000:.1f} s", flush=True)
 
             registros.append(
                 {
@@ -279,12 +281,12 @@ def _figura(resumo: dict, caminho: Path) -> None:
                     color="#2a6f97", alpha=0.7)
         limite = resumo["por_nivel"][n]["limite_ms"] / 1000
         ax2.hlines(limite, i + 0.65, i + 1.35, color="#c1121f", linewidth=2)
-        ax2.text(i + 1.37, limite, f"limite {limite:.0f} s", va="center", fontsize=9, color="#c1121f")
+        ax2.text(i + 1, limite + 0.8, f"limite {limite:.0f} s", ha="center", va="bottom", fontsize=9, color="#c1121f")
         mediana = resumo["por_nivel"][n]["latencia_mediana_ms"] / 1000
         ax2.hlines(mediana, i + 0.75, i + 1.25, color="#333333", linewidth=1.5)
     ax2.set_xticks([1, 2, 3], [f"nível {n}" for n in niveis])
-    ax2.set_xlim(0.5, 3.9)
-    ax2.set_ylim(0, None)
+    ax2.set_xlim(0.5, 3.5)
+    ax2.set_ylim(0, max(resumo["por_nivel"][n]["limite_ms"] for n in niveis) / 1000 * 1.15)
     ax2.set_ylabel("segundos por chamada")
     ax2.set_title("Latência de cada chamada contra o RNF-07\n(traço preto: mediana; vermelho: limite)", fontsize=11)
     for lado in ("top", "right"):
