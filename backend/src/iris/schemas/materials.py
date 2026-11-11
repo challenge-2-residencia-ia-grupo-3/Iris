@@ -233,9 +233,134 @@ class ContextBlock:
         return self.model_dump()
 
 
+# ==============================================================================
+# Modelos de Organização Estrutural de Textos Corridos (História 1.1.4 - RF-02 Extensão)
+# ==============================================================================
+
+
+@dataclass
+class StructuralNode:
+    """Nó atômico ou composto na árvore hierárquica de textos corridos (História 1.1.4).
+
+    Representa títulos, subtítulos, seções, subseções, parágrafos, listas e itens de lista,
+    preservando sequência, hierarquia pai-filho e conteúdo integral.
+    """
+
+    id: str  # ex.: "node_1", "sec_1", "p_1", "list_1", "item_1"
+    element_type: str  # "title", "subtitle", "section", "subsection", "paragraph", "list", "list_item", "unclassified"
+    content: str  # Conteúdo textual integral do elemento
+    order: int  # Posição sequencial no documento original (1-based)
+    level: Optional[int] = None  # Nível de profundidade hierárquica (1=Título, 2=Seção/Subtítulo, 3=Subseção, etc.)
+    parent_id: Optional[str] = None  # ID do elemento pai na hierarquia
+    children: Optional[list[StructuralNode]] = None  # Filhos imediatos
+    metadata: Optional[dict[str, Any]] = None  # Informações complementares (marcador, tipo de lista, numeração)
+
+    def __post_init__(self) -> None:
+        if self.children is None:
+            self.children = []
+        if self.metadata is None:
+            self.metadata = {}
+
+    def get_descendants(self) -> list[StructuralNode]:
+        """Retorna todos os nós descendentes em ordem pré-fixada."""
+        result: list[StructuralNode] = []
+        for child in self.children:
+            result.append(child)
+            result.extend(child.get_descendants())
+        return result
+
+    def get_paragraphs(self) -> list[StructuralNode]:
+        """Retorna todos os parágrafos contidos dentro deste nó ou de seus filhos."""
+        return [n for n in [self] + self.get_descendants() if n.element_type == "paragraph"]
+
+    def get_lists(self) -> list[StructuralNode]:
+        """Retorna todas as listas contidas dentro deste nó ou de seus filhos."""
+        return [n for n in [self] + self.get_descendants() if n.element_type == "list"]
+
+    def model_dump(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "element_type": self.element_type,
+            "content": self.content,
+            "order": self.order,
+            "level": self.level,
+            "parent_id": self.parent_id,
+            "children": [c.model_dump() if hasattr(c, "model_dump") else c for c in self.children],
+            "metadata": dict(self.metadata) if self.metadata else {},
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+@dataclass
+class ProseStructure:
+    """Estrutura hierárquica de texto corrido pedagógico (História 1.1.4 - RF-02 Extensão).
+
+    Disponibiliza os elementos e suas relações para o mecanismo de adaptação pedagógica (História 2.1.3).
+    """
+
+    title: Optional[str]  # Título principal do documento, se identificado
+    root_nodes: list[StructuralNode]  # Nós de nível superior da árvore
+    total_elements: int  # Contagem total de elementos estruturados
+    max_depth: int  # Profundidade máxima da hierarquia identificada
+
+    def flatten(self) -> list[StructuralNode]:
+        """Retorna todos os nós em ordem linear original de ocorrência."""
+        nodes: list[StructuralNode] = []
+        for root in self.root_nodes:
+            nodes.append(root)
+            nodes.extend(root.get_descendants())
+        nodes.sort(key=lambda n: n.order)
+        return nodes
+
+    def get_sections(self) -> list[StructuralNode]:
+        """Retorna todos os nós do tipo 'section', 'subsection', 'title' ou 'subtitle'."""
+        return [n for n in self.flatten() if n.element_type in ("title", "subtitle", "section", "subsection")]
+
+    def get_paragraphs(self) -> list[StructuralNode]:
+        """Retorna todos os parágrafos em sequência para análise e intervenção pedagógica."""
+        return [n for n in self.flatten() if n.element_type == "paragraph"]
+
+    def get_lists(self) -> list[StructuralNode]:
+        """Retorna todas as listas estruturadas."""
+        return [n for n in self.flatten() if n.element_type == "list"]
+
+    def find_by_id(self, node_id: str) -> Optional[StructuralNode]:
+        """Busca um nó específico por ID."""
+        for n in self.flatten():
+            if n.id == node_id:
+                return n
+        return None
+
+    def get_outline(self) -> list[dict[str, Any]]:
+        """Retorna um sumário simplificado (outline) para organizadores cognitivos (DUA)."""
+        return [
+            {
+                "id": n.id,
+                "title": n.content,
+                "level": n.level,
+                "element_type": n.element_type,
+                "order": n.order,
+            }
+            for n in self.get_sections()
+        ]
+
+    def model_dump(self) -> dict[str, Any]:
+        return {
+            "title": self.title,
+            "root_nodes": [r.model_dump() if hasattr(r, "model_dump") else r for r in self.root_nodes],
+            "total_elements": self.total_elements,
+            "max_depth": self.max_depth,
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
 @dataclass
 class MaterialStructure:
-    """Estrutura decomposta completa do material pedagógico (História 1.1.2 - RF-02)."""
+    """Estrutura decomposta completa do material pedagógico (História 1.1.2 e 1.1.4 - RF-02)."""
 
     header: Optional[str]  # Cabeçalho institucional e contexto inicial
     instructions: Optional[str]  # Instruções gerais da prova
@@ -244,6 +369,7 @@ class MaterialStructure:
     unclassified_blocks: list[str]  # Conteúdos não classificados (garantia de zero-loss)
     total_questions: int  # Total de questões identificadas
     has_shared_contexts: bool  # Indicador se há textos compartilhados entre múltiplas questões
+    prose_structure: Optional[ProseStructure] = None  # Estrutura hierárquica do texto corrido (História 1.1.4)
 
     def model_dump(self) -> dict[str, Any]:
         return {
@@ -254,6 +380,11 @@ class MaterialStructure:
             "unclassified_blocks": list(self.unclassified_blocks),
             "total_questions": self.total_questions,
             "has_shared_contexts": self.has_shared_contexts,
+            "prose_structure": (
+                self.prose_structure.model_dump()
+                if self.prose_structure and hasattr(self.prose_structure, "model_dump")
+                else None
+            ),
         }
 
     def dict(self) -> dict[str, Any]:
