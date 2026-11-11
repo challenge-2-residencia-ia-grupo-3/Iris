@@ -15,6 +15,7 @@ from __future__ import annotations
 import re
 import unittest
 from collections import Counter
+from types import SimpleNamespace
 
 from iris.parsers.structural_decomposer import decompose_material
 from iris.schemas.materials import MaterialStructure
@@ -97,7 +98,18 @@ def palavras_da_prosa(estrutura: MaterialStructure) -> Counter[str]:
         for no in prosa.flatten():
             if no.element_type != "list":  # o nó de lista repete o texto dos itens
                 total += contar_palavras(no.content)
+                marcador = (no.metadata or {}).get("marker")
+                if no.element_type == "list_item" and marcador:
+                    total += contar_palavras(marcador)
     return total
+
+
+def palavras_perdidas(texto: str, estrutura: MaterialStructure) -> Counter[str]:
+    """Calcula palavras do original ausentes da estrutura, usando prosa apenas quando não há questões."""
+    perdidas = contar_palavras(texto) - palavras_da_estrutura(estrutura)
+    if perdidas and not estrutura.questions and getattr(estrutura, "prose_structure", None) is not None:
+        return contar_palavras(texto) - palavras_da_prosa(estrutura)
+    return perdidas
 
 
 class TestPreservacaoIntegralDoConteudo(unittest.TestCase):
@@ -107,10 +119,7 @@ class TestPreservacaoIntegralDoConteudo(unittest.TestCase):
         for nome, texto in MATERIAIS.items():
             with self.subTest(material=nome):
                 estrutura = decompose_material(texto)
-                perdidas = contar_palavras(texto) - palavras_da_estrutura(estrutura)
-                if perdidas:
-                    # Material sem questões pode vir inteiro na árvore de texto corrido
-                    perdidas = contar_palavras(texto) - palavras_da_prosa(estrutura)
+                perdidas = palavras_perdidas(texto, estrutura)
                 self.assertEqual(
                     dict(perdidas),
                     {},
@@ -122,8 +131,35 @@ class TestPreservacaoIntegralDoConteudo(unittest.TestCase):
         texto = MATERIAIS["prova_simples"]
         estrutura = decompose_material(texto)
         estrutura.questions[0].statement = estrutura.questions[0].statement.replace("fotossíntese", "")
-        perdidas = contar_palavras(texto) - palavras_da_estrutura(estrutura)
+        perdidas = palavras_perdidas(texto, estrutura)
         self.assertEqual(dict(perdidas), {"fotossíntese": 1})
+
+    def test_perda_em_questao_nao_e_mascarada_pela_arvore_de_prosa(self) -> None:
+        """Perda em material com questões deve falhar mesmo quando `prose_structure` está preenchida."""
+        texto = MATERIAIS["instrucoes"]
+        estrutura = decompose_material(texto)
+        if getattr(estrutura, "prose_structure", None) is None:
+            estrutura.prose_structure = SimpleNamespace(  # type: ignore[attr-defined]
+                flatten=lambda: [SimpleNamespace(element_type="paragraph", content=texto, metadata={})]
+            )
+        estrutura.questions[0].statement = estrutura.questions[0].statement.replace("quadrado", "")
+        self.assertEqual(dict(palavras_perdidas(texto, estrutura)), {"quadrado": 1})
+
+    def test_prosa_com_lista_alfabetica_preserva_marcadores(self) -> None:
+        """Em texto corrido puro com lista ordenada, marcadores dos itens são contabilizados."""
+        texto = "Passos do experimento:\na) Medir a massa\nb) Anotar o volume\n"
+        estrutura = decompose_material(texto)
+        if getattr(estrutura, "prose_structure", None) is None:
+            estrutura.prose_structure = SimpleNamespace(  # type: ignore[attr-defined]
+                flatten=lambda: [
+                    SimpleNamespace(element_type="paragraph", content="Passos do experimento:", metadata={}),
+                    SimpleNamespace(element_type="list", content="a) Medir a massa\nb) Anotar o volume", metadata={}),
+                    SimpleNamespace(element_type="list_item", content="Medir a massa", metadata={"marker": "a"}),
+                    SimpleNamespace(element_type="list_item", content="Anotar o volume", metadata={"marker": "b"}),
+                ]
+            )
+            self.assertEqual(dict(contar_palavras(texto) - palavras_da_prosa(estrutura)), {})
+        self.assertEqual(dict(palavras_perdidas(texto, estrutura)), {})
 
 
 if __name__ == "__main__":
