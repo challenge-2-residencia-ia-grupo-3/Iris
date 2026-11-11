@@ -2,50 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/arquitetura/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/backlog_rastreabilidade/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/cbl/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/definicao_projeto_entrega/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/requisitos_funcionais/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/requisitos_nao_funcionais/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/roteiro_testes/</loc>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/skills/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/visao_produto/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/rag/arquitetura/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/rag/avaliacao/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
     <url>
          <loc>https://challenge-2-residencia-ia-grupo-3.github.io/Iris/rag/relatorio/</loc>
-         <lastmod>2026-11-09</lastmod>
+         <lastmod>2026-11-11</lastmod>
     </url>
 </urlset>

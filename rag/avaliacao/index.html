@@ -367,6 +367,25 @@
   
 
       
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../roteiro_testes/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Roteiro de Testes
+
+      </a>
+    </li>
+  
+
+      
     </ul>
   </div>
 </nav>
@@ -926,6 +945,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#45-precisao-do-contexto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Precisão do contexto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-filtro-por-caracteristica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Filtro por característica
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1037,6 +1078,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#66-fidelidade-com-avaliador-de-outro-fornecedor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Fidelidade com avaliador de outro fornecedor
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1122,6 +1174,33 @@
     
   
     Catálogo de Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roteiro_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roteiro de Testes
   
 
     
@@ -1249,6 +1328,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#45-precisao-do-contexto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Precisão do contexto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-filtro-por-caracteristica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Filtro por característica
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1360,6 +1461,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#66-fidelidade-com-avaliador-de-outro-fornecedor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Fidelidade com avaliador de outro fornecedor
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1453,7 +1565,7 @@
 
 
 <h1 id="iris-avaliacao-da-recuperacao-e-das-respostas">Íris – Avaliação da recuperação e das respostas<a class="headerlink" href="#iris-avaliacao-da-recuperacao-e-das-respostas" title="Permanent link">&para;</a></h1>
-<p>Protocolo, métricas e resultados da avaliação do protótipo de RAG. Versão correspondente à entrega de 09/11/2026.</p>
+<p>Protocolo, métricas e resultados da avaliação do protótipo de RAG. Versão correspondente à entrega de 09/11/2026, acrescida em 11/11/2026 das seções 4.5 (precisão do contexto), 4.6 (filtro por característica) e 6.6 (fidelidade com avaliador de outro fornecedor).</p>
 <h2 id="1-objetivo">1. Objetivo<a class="headerlink" href="#1-objetivo" title="Permanent link">&para;</a></h2>
 <p>Medir três propriedades do protótipo:</p>
 <ul>
@@ -1534,6 +1646,18 @@
 <tr>
 <td>Concordância</td>
 <td>Proporção de classificações idênticas entre avaliadores e coeficiente kappa de Cohen</td>
+</tr>
+<tr>
+<td>Precisão do contexto por identificador</td>
+<td>Fração dos cinco trechos retornados que consta entre os trechos de referência da consulta (<code>IDBasedContextPrecision</code>, biblioteca RAGAS); média sobre as consultas</td>
+</tr>
+<tr>
+<td>Precisão do contexto com posição</td>
+<td>Precisão média até a quinta posição (AP@5): fórmula do Context Precision@K da RAGAS aplicada à classificação do conjunto de referência</td>
+</tr>
+<tr>
+<td>Fidelidade</td>
+<td>Frases de conteúdo sustentadas integralmente pelo trecho citado, divididas pelas frases de conteúdo da resposta; média sobre as respostas. Corresponde à métrica Faithfulness da RAGAS, com a frase como unidade e com exigência de sustentação pelo trecho citado</td>
 </tr>
 </tbody>
 </table>
@@ -1668,6 +1792,76 @@
 <p>Nas dez consultas de prática docente, foram retornados 10 dos 43 trechos relevantes.</p>
 <h3 id="44-tempo-de-resposta">4.4 Tempo de resposta<a class="headerlink" href="#44-tempo-de-resposta" title="Permanent link">&para;</a></h3>
 <p>Tempo mediano por consulta, em computador portátil com GPU integrada: 40 ms para o Qwen3 isolado e 463 ms para o método adotado. O tempo em servidor sem GPU não foi medido para 50 candidatos.</p>
+<h3 id="45-precisao-do-contexto">4.5 Precisão do contexto<a class="headerlink" href="#45-precisao-do-contexto" title="Permanent link">&para;</a></h3>
+<p>Medição de 11/11/2026 sobre as 38 consultas com resposta na base, com cinco trechos por consulta. O cálculo compara identificadores de trecho com o conjunto de referência, sem modelo avaliador.</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Precisão por identificador (IC 95%)</th>
+<th>Precisão com posição (IC 95%)</th>
+<th>Consultas sem trecho relevante</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BM25 (referência)</td>
+<td>0,15 (0,09 a 0,22)</td>
+<td>0,31 (0,19 a 0,43)</td>
+<td>20 de 38</td>
+</tr>
+<tr>
+<td>Qwen3 com reordenação de 50 candidatos (adotado)</td>
+<td>0,33 (0,26 a 0,39)</td>
+<td>0,56 (0,46 a 0,67)</td>
+<td>5 de 38</td>
+</tr>
+<tr>
+<td>Diferença pareada, adotado menos BM25</td>
+<td>+0,18 (+0,11 a +0,25)</td>
+<td>+0,26 (+0,13 a +0,39)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>A referência de acaso para a precisão por identificador é 0,003, correspondente à seleção aleatória de 5 entre 1.368 trechos. O valor máximo alcançável neste conjunto de referência é 0,82, pois consultas com menos de cinco trechos relevantes não atingem 1. Os dois intervalos da diferença pareada excluem o zero.</p>
+<p>Os intervalos previstos antes da execução (0,10 a 0,20 e 0,25 a 0,40 para o BM25; 0,20 a 0,35 e 0,45 a 0,65 para o método adotado) contêm os quatro valores medidos.</p>
+<p>Fonte: <code>reports/rag_precisao_contexto.txt</code>.</p>
+<p><img alt="Precisão do contexto por método" src="../figuras/fig4-precisao-contexto.png" /></p>
+<h3 id="46-filtro-por-caracteristica">4.6 Filtro por característica<a class="headerlink" href="#46-filtro-por-caracteristica" title="Permanent link">&para;</a></h3>
+<p>A função <code>buscar_por_caracteristica_atomica</code> restringe a busca aos trechos classificados com a barreira associada à característica selecionada. A restrição é aplicada antes da ordenação, em todos os métodos.</p>
+<table>
+<thead>
+<tr>
+<th>Verificação</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Combinações verificadas</td>
+<td>30 (10 características do catálogo, 3 níveis de andaime)</td>
+</tr>
+<tr>
+<td>Trechos retornados por combinação</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Trechos retornados sem a barreira da característica</td>
+<td>0 de 150</td>
+</tr>
+<tr>
+<td>Trechos sem classificação de barreira retornados em busca filtrada</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Trechos da base com classificação de barreira</td>
+<td>884 de 1.368</td>
+</tr>
+</tbody>
+</table>
+<p>A verificação utiliza a busca lexical (BM25), que dispensa banco e modelo. A cláusula equivalente do PostgreSQL não é exercitada pelo teste. Os 484 trechos sem classificação de barreira não são alcançáveis por busca filtrada.</p>
+<p>Fonte: <code>backend/tests/test_filtro_caracteristica.py</code>.</p>
 <h2 id="5-experimentos-adicionais">5. Experimentos adicionais<a class="headerlink" href="#5-experimentos-adicionais" title="Permanent link">&para;</a></h2>
 <p>As variações a seguir foram avaliadas sobre o método adotado. Para cada uma, o resultado esperado e o critério de adoção foram registrados antes da execução.</p>
 <table>
@@ -1950,6 +2144,103 @@
 </table>
 <p>A resposta da classe C contém um comentário incorreto sobre o conteúdo dos trechos, e não uma afirmação de conteúdo não sustentada.</p>
 <p>Nas dez consultas de prática docente, com o Claude Haiku, uma resposta foi classificada em A, três em B e seis em D.</p>
+<h3 id="66-fidelidade-com-avaliador-de-outro-fornecedor">6.6 Fidelidade com avaliador de outro fornecedor<a class="headerlink" href="#66-fidelidade-com-avaliador-de-outro-fornecedor" title="Permanent link">&para;</a></h3>
+<p>Medição de 11/11/2026. Às classificações dos dois avaliadores da seção 6.1 foi acrescentado um terceiro avaliador, de outro fornecedor (Codex, da OpenAI), com a mesma regra, o mesmo enunciado e as mesmas frases. O veredito final de cada frase é a maioria dos três. Nas frases em que os dois avaliadores Sonnet divergem do terceiro, ou em que há empate, o veredito final é o de um quarto avaliador (Claude Opus). Classificações parciais e classificações descartadas contam como não sustentadas. Respostas de recusa não entram no cálculo.</p>
+<table>
+<thead>
+<tr>
+<th>Avaliador</th>
+<th>Claude Haiku (38 respostas)</th>
+<th>Claude Opus (35 respostas)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sonnet A</td>
+<td>0,884 (0,829 a 0,934)</td>
+<td>0,944 (0,909 a 0,977)</td>
+</tr>
+<tr>
+<td>Sonnet B</td>
+<td>0,887 (0,825 a 0,941)</td>
+<td>0,919 (0,869 a 0,959)</td>
+</tr>
+<tr>
+<td>Codex</td>
+<td>0,922 (0,880 a 0,961)</td>
+<td>0,965 (0,935 a 0,989)</td>
+</tr>
+<tr>
+<td>Veredito final</td>
+<td>0,905 (0,858 a 0,947)</td>
+<td>0,950 (0,922 a 0,978)</td>
+</tr>
+<tr>
+<td>Frases sustentadas, veredito final</td>
+<td>170 de 187</td>
+<td>166 de 175</td>
+</tr>
+<tr>
+<td>Comparação com o mínimo de 0,90</td>
+<td>Intervalo contém o mínimo</td>
+<td>Intervalo acima do mínimo</td>
+</tr>
+</tbody>
+</table>
+<p>O mínimo de 0,90 é o valor de <code>FAITHFULNESS_MIN</code> em <code>backend/src/iris/eval/faithfulness.py</code>. Nenhuma frase foi classificada como não sustentada pelos três avaliadores.</p>
+<p>Concordância na classificação binária (sustentada ou não), nas frases tratadas como conteúdo pelos dois avaliadores do par:</p>
+<table>
+<thead>
+<tr>
+<th>Par</th>
+<th>Claude Haiku: frases, idênticas, kappa</th>
+<th>Claude Opus: frases, idênticas, kappa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sonnet A e Sonnet B</td>
+<td>187; 94,1%; 0,70</td>
+<td>175; 96,0%; 0,67</td>
+</tr>
+<tr>
+<td>Sonnet A e Codex</td>
+<td>186; 91,9%; 0,53</td>
+<td>170; 92,9%; 0,22</td>
+</tr>
+<tr>
+<td>Sonnet B e Codex</td>
+<td>186; 92,5%; 0,55</td>
+<td>170; 92,9%; 0,30</td>
+</tr>
+</tbody>
+</table>
+<p>Matriz para as 186 frases geradas pelo Claude Haiku (linhas: Sonnet A; colunas: Codex):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Sustentada</th>
+<th>Não sustentada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sustentada</strong></td>
+<td>161</td>
+<td>4</td>
+</tr>
+<tr>
+<td><strong>Não sustentada</strong></td>
+<td>11</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>Nas respostas do Claude Opus, o kappa entre fornecedores (0,22 e 0,30) ficou abaixo do limite de 0,40 fixado antes da execução, com 92,9% de classificações idênticas: 156 das 170 frases são sustentadas para os dois avaliadores, e a concentração em uma classe reduz o coeficiente. O avaliador de outro fornecedor classificou mais frases como sustentadas do que os avaliadores Sonnet, em sentido contrário ao previsto. Das 19 frases submetidas ao quarto avaliador, o veredito acompanhou os avaliadores Sonnet em 12 e o Codex em 6; na restante, os avaliadores Sonnet divergiam entre si.</p>
+<p>A biblioteca RAGAS com avaliador em execução (<code>iris.eval.faithfulness</code>) não foi utilizada, por indisponibilidade de credencial de provedor.</p>
+<p>Fontes: <code>rag/outputs/37-fidelidade-juiz-de-outro-fabricante.txt</code> e <code>reports/rag_fidelidade.txt</code>.</p>
+<p><img alt="Classificação frase a frase e fidelidade por avaliador" src="../figuras/fig5-fidelidade.png" /></p>
 <h2 id="7-ameacas-a-validade">7. Ameaças à validade<a class="headerlink" href="#7-ameacas-a-validade" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1978,6 +2269,14 @@
 <tr>
 <td>Tamanho da amostra</td>
 <td>38 consultas com resposta; cada consulta corresponde a 2,6 pontos percentuais</td>
+</tr>
+<tr>
+<td>Unidade da fidelidade</td>
+<td>A fidelidade foi calculada por frase, e não por afirmação atômica; frase com mais de uma afirmação conta uma vez</td>
+</tr>
+<tr>
+<td>Concordância entre fornecedores</td>
+<td>Nas respostas do Claude Opus, o kappa entre avaliadores de fornecedores distintos ficou abaixo de 0,40</td>
 </tr>
 <tr>
 <td>Formato das consultas</td>
@@ -2036,6 +2335,30 @@
 <td>Não: depende das saídas completas dos avaliadores, não distribuídas</td>
 </tr>
 <tr>
+<td>Precisão do contexto</td>
+<td><code>uv run python -m iris.eval.precisao_contexto</code> (raiz do repositório)</td>
+<td><code>reports/rag_precisao_contexto.txt</code></td>
+<td>Não verificada</td>
+</tr>
+<tr>
+<td>Filtro por característica e mapeador de contexto</td>
+<td><code>uv run pytest backend/tests/test_filtro_caracteristica.py backend/tests/test_contexto_estrategista.py</code></td>
+<td>Resultado do teste</td>
+<td>Não verificada</td>
+</tr>
+<tr>
+<td>Fidelidade, cálculo a partir das classificações registradas</td>
+<td><code>uv run python -m iris.eval.fidelidade_frases</code> (raiz do repositório)</td>
+<td><code>reports/rag_fidelidade.txt</code></td>
+<td>Não verificada; dispensa banco, modelo e credencial</td>
+</tr>
+<tr>
+<td>Fidelidade, classificação pelos avaliadores</td>
+<td><code>python medir_fidelidade_cruzada.py julgar haiku</code>; <code>julgar opus</code>; <code>desempatar</code>; <code>medir</code></td>
+<td><code>../../outputs/37-fidelidade-juiz-de-outro-fabricante.txt</code></td>
+<td>Não: depende das saídas completas dos avaliadores, não distribuídas</td>
+</tr>
+<tr>
 <td>Experimentos adicionais</td>
 <td><code>python medir_hyde.py</code>; <code>python medir_sem_abda.py</code></td>
 <td><code>../../outputs/28</code> a <code>35</code></td>
@@ -2043,7 +2366,7 @@
 </tr>
 </tbody>
 </table>
-<p>As saídas completas dos avaliadores não são distribuídas por conterem passagens de documentos de licença restrita. As respostas, as classificações e as passagens verificadas utilizadas neste documento estão registradas em <code>respostas_medidas.json</code>, <code>respostas_vereditos_v2.json</code> e <code>respostas_passagens_v2.json</code>.</p>
+<p>As saídas completas dos avaliadores não são distribuídas por conterem passagens de documentos de licença restrita. As respostas, as classificações e as passagens verificadas utilizadas neste documento estão registradas em <code>respostas_medidas.json</code>, <code>respostas_vereditos_v2.json</code>, <code>respostas_passagens_v2.json</code> e <code>respostas_vereditos_cruzado.json</code>.</p>
 
 
 

@@ -367,6 +367,25 @@
   
 
       
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../roteiro_testes/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Roteiro de Testes
+
+      </a>
+    </li>
+  
+
+      
     </ul>
   </div>
 </nav>
@@ -753,6 +772,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#24-contratos-estruturais-de-integracao-e-resolucao-de-acoplamentos-ocultos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Contratos Estruturais de Integração e Resolução de Acoplamentos Ocultos
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -897,6 +927,17 @@
     <span class="md-ellipsis">
       
         7.3. Métricas de Fidelidade Pedagógica (iris.eval.metrics)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-telemetria-e-analytics-do-agente-extrator-irisevalextractor_analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4. Telemetria e Analytics do Agente Extrator (iris.eval.extractor_analytics)
       
     </span>
   </a>
@@ -1115,6 +1156,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roteiro_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roteiro de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1191,6 +1259,17 @@
     <span class="md-ellipsis">
       
         2.3. Sistema Multiagentes de Adaptação com Isolamento de Escopo (Semana 4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-contratos-estruturais-de-integracao-e-resolucao-de-acoplamentos-ocultos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Contratos Estruturais de Integração e Resolução de Acoplamentos Ocultos
       
     </span>
   </a>
@@ -1341,6 +1420,17 @@
     <span class="md-ellipsis">
       
         7.3. Métricas de Fidelidade Pedagógica (iris.eval.metrics)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-telemetria-e-analytics-do-agente-extrator-irisevalextractor_analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4. Telemetria e Analytics do Agente Extrator (iris.eval.extractor_analytics)
       
     </span>
   </a>
@@ -1498,6 +1588,79 @@
 </ul>
 </li>
 <li><strong>Controle de Ciclo (<em>Circuit Breaker</em>):</strong> O loop de auto-correção entre o Agente Auditor e o Agente Adaptador é limitado a <strong>no máximo duas iterações</strong> (<code>max_retries = 2</code>). Caso o material adaptado não atinja conformidade após duas tentativas, o ciclo é interrompido e a minuta é enviada à interface com um alerta preventivo em destaque, permitindo que o professor exerça a mediação direta (<em>Human-in-the-Loop</em>).</li>
+</ol>
+<h3 id="24-contratos-estruturais-de-integracao-e-resolucao-de-acoplamentos-ocultos">2.4. Contratos Estruturais de Integração e Resolução de Acoplamentos Ocultos<a class="headerlink" href="#24-contratos-estruturais-de-integracao-e-resolucao-de-acoplamentos-ocultos" title="Permanent link">&para;</a></h3>
+<p>Para blindar o desenvolvimento paralelo da equipe contra retrabalho e inconsistências de schemas, a arquitetura estabelece quatro contratos de dados unificados:</p>
+<pre class="mermaid"><code>classDiagram
+    class RawContent {
+        +str text
+        +str source_type
+        +dict metadata
+        +bool pii_sanitized
+    }
+
+    class MaterialStructure {
+        +List~QuestionItem~ questions
+        +List~TextSection~ continuous_sections
+        +str raw_header
+    }
+
+    class QuestionItem {
+        +str id
+        +int order
+        +str context_text
+        +str prompt_command
+        +List~str~ options
+    }
+
+    class CurriculumInvariants {
+        +List~str~ conceitos_obrigatorios
+        +List~str~ termos_intocaveis
+        +str verbo_comando_bncc
+        +Optional~str~ alerta_anti_muleta
+    }
+
+    class CharacteristicItem {
+        +str id_caracteristica
+        +str titulo
+        +str descricao_pratica
+        +dict andaimes_por_nivel
+        +List~str~ referencias
+    }
+
+    RawContent --&gt; MaterialStructure : Processado por StructuralDecomposer (#5/#53)
+    MaterialStructure *-- QuestionItem
+    MaterialStructure --&gt; CurriculumInvariants : Analisado por Agente Extrator (#17) e Validado por Docente (#13)
+    CharacteristicItem --&gt; CurriculumInvariants : Parametrização (#8 e #16)</code></pre>
+<ol>
+<li><strong>Contrato de Ingestão Unificada (<code>RawContent</code> <span class="arithmatex">\(\rightarrow\)</span> <code>MaterialStructure</code>):</strong></li>
+<li>Tanto o upload/colagem da Etapa 1 (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/4">#4</a>) quanto o OCR multimodal (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/6">#6</a>) convergem para a entidade <code>RawContent</code>.</li>
+<li>
+<p>O <code>StructuralDecomposer</code> (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/5">#5</a> e <a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/53">#53</a>) recebe o <code>RawContent</code> sanitizado e devolve <code>MaterialStructure</code>, contendo tanto blocos de questões (<code>questions</code>) quanto seções contínuas (<code>continuous_sections</code>). Isso garante que o OCR não precise inventar heurísticas de parsing de questões.</p>
+</li>
+<li>
+<p><strong>Contrato de Invariantes Curriculares (<code>CurriculumInvariants</code>):</strong></p>
+</li>
+<li>Compartilhado entre o <strong>Agente Extrator (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/17">#17</a>)</strong>, a <strong>Interface de Travas Curriculares (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/13">#13</a>)</strong> e o <strong>Agente Auditor (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/19">#19</a>)</strong>.</li>
+<li>
+<p>A IA pré-extrai deterministicamente os núcleos conceituais; o professor valida e calibra na interface web antes da chamada ao motor multiagentes.</p>
+</li>
+<li>
+<p><strong>Fonte Única da Verdade para o Catálogo Funcional (SSOT):</strong></p>
+</li>
+<li>
+<p>O arquivo <code>rag/catalogs/tdah_caracteristicas_funcionais.json</code> é a SSOT mandatória. O endpoint <code>GET /api/v1/catalogs/characteristics</code> consumido pela interface web (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/8">#8</a>) e o filtro de busca vetorial do RAG (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/16">#16</a>) utilizam estritamente os mesmos identificadores (<code>id_caracteristica</code>).</p>
+</li>
+<li>
+<p><strong>Isolamento de Testes do Agente Auditor (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/19">#19</a>):</strong></p>
+</li>
+<li>
+<p>O Agente Auditor consome <code>(original: str, adaptado: str, travas: CurriculumInvariants)</code> e calcula o TRCC determinístico. O desenvolvimento do auditor não depende da implementação em tempo real do Agente Adaptador (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/18">#18</a>), utilizando as fixtures pré-anotadas do Golden Benchmark (<code>data/golden_benchmark.json</code>) para testes automatizados.</p>
+</li>
+<li>
+<p><strong>Arquitetura Stateless e Sessão do Stepper (<a href="https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/35">#35</a>):</strong></p>
+</li>
+<li>O backend FastAPI não mantém tabelas de alunos ou estado persistente entre requisições. O estado completo da navegação (Etapa 1 <span class="arithmatex">\(\rightarrow\)</span> Etapa 5) reside no <code>sessionStorage</code> do navegador (Next.js) e trafega via payload JSON em cada endpoint, eliminando qualquer risco de violação da LGPD.</li>
 </ol>
 <hr />
 <h2 id="3-analise-exploratoria-de-dados-eda-e-governanca-do-conhecimento">3. Análise Exploratória de Dados (EDA) e Governança do Conhecimento<a class="headerlink" href="#3-analise-exploratoria-de-dados-eda-e-governanca-do-conhecimento" title="Permanent link">&para;</a></h2>
@@ -1750,6 +1913,12 @@
 <ul>
 <li><strong>TRCC (Taxa de Retenção de Conceitos-Chave):</strong> Razão entre os conceitos obrigatórios da trava curricular retidos no material adaptado versus os conceitos originais (critério inegociável: <span class="arithmatex">\(\ge 0.95\)</span>).</li>
 <li><strong>SAEN (Aderência Estrutural ao Nível):</strong> Verificador estrutural das exigências formais de cada nível (Nível 1: destaque tipográfico; Nível 2: checklists e decomposição; Nível 3: escalonamento passo a passo).</li>
+</ul>
+<h3 id="74-telemetria-e-analytics-do-agente-extrator-irisevalextractor_analytics">7.4. Telemetria e Analytics do Agente Extrator (<code>iris.eval.extractor_analytics</code>)<a class="headerlink" href="#74-telemetria-e-analytics-do-agente-extrator-irisevalextractor_analytics" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Separação <em>Cold Start</em> vs. Inferência Real:</strong> O <code>OllamaLLMProvider</code> captura nativamente <code>load_duration</code>, <code>prompt_eval_duration</code> e <code>eval_duration</code> em milissegundos, permitindo auditar o desempenho real de inferência (RNF-07) sem distorção do carregamento inicial de pesos em GPU/RAM.</li>
+<li><strong>Registro Anônimo (Zero-PII):</strong> A execução registra apenas metadados operacionais em <code>reports/extractor_telemetry.jsonl</code> (<code>disciplina</code>, <code>faixa_etaria</code>, <code>comando_conjugado</code>, <code>inference_ms</code>, <code>tokens_per_sec</code>, <code>trava_recall</code> Zero-Hint), mantendo conformidade integral com o princípio Zero-Database.</li>
+<li><strong>Consultas Dinâmicas:</strong> Disponível via menu interativo (<code>make extrator</code>), CLI (<code>make extrator-analytics</code>) e endpoint REST <code>GET /api/v1/eval/extractor-analytics</code> com filtros por disciplina, faixa etária e tipo de questão.</li>
 </ul>
 
 

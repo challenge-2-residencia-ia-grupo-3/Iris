@@ -1,0 +1,1562 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação oficial do Projeto Íris (Challenge 2 - Residência em IA: UnB / Lab Livre / Eldorado / Softex / MCTI)">
+      
+      
+        <meta name="author" content="Grupo 3 - Residência em IA">
+      
+      
+        <link rel="canonical" href="https://challenge-2-residencia-ia-grupo-3.github.io/Iris/roteiro_testes/">
+      
+      
+        <link rel="prev" href="../skills/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Roteiro de Testes - Íris — Plataforma Inteligente de Adaptação Pedagógica</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Plus Jakarta Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#roteiro-guiado-de-testes-manuais-e-validacao-do-makefile-iris" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-header__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  <img src="../assets/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Íris — Plataforma Inteligente de Adaptação Pedagógica
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Roteiro de Testes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Alternar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Alternar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../definicao_projeto_entrega/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Entrega Semanal
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../visao_produto/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Visão do Produto
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../requisitos_funcionais/" class="md-tabs__link">
+          
+  
+  
+  Requisitos
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitetura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../rag/relatorio/" class="md-tabs__link">
+          
+  
+  
+  Base de Conhecimento e RAG
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../cbl/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Metodologia CBL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../skills/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Catálogo de Skills
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Roteiro de Testes
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Íris — Plataforma Inteligente de Adaptação Pedagógica" class="md-nav__button md-logo" aria-label="Íris — Plataforma Inteligente de Adaptação Pedagógica" data-md-component="logo">
+      
+  <img src="../assets/logo.jpg" alt="logo">
+
+    </a>
+    Íris — Plataforma Inteligente de Adaptação Pedagógica
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../definicao_projeto_entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrega Semanal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visao_produto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão do Produto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requisitos_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requisitos_nao_funcionais/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Não Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backlog_rastreabilidade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backlog & Rastreabilidade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base de Conhecimento e RAG
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Base de Conhecimento e RAG
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag/relatorio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relatório Técnico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag/arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura do RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rag/avaliacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Avaliação do RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cbl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia CBL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roteiro de Testes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roteiro de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-mapa-do-que-ja-esta-implementado-vs-o-que-entra-a-seguir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Mapa do que Já Está Implementado vs. O que Entra a Seguir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-preflight-validando-o-ambiente-e-o-makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Preflight: Validando o Ambiente e o Makefile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Preflight: Validando o Ambiente e o Makefile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passo-21-conferir-os-comandos-disponiveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.1 — Conferir os comandos disponíveis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-22-smoke-check-completo-de-ambiente-api-pii-rag-e-extrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.2 — Smoke-check completo de ambiente, API, PII, RAG e Extrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-23-bateria-completa-de-testes-unitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.3 — Bateria completa de testes unitários
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-subindo-a-plataforma-completa-make-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Subindo a Plataforma Completa (make up)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Subindo a Plataforma Completa (make up)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passo-31-subir-tudo-em-um-comando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 3.1 — Subir tudo em um comando
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-roteiro-de-testes-na-interface-web-nextjs-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Roteiro de Testes na Interface Web (Next.js + FastAPI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Roteiro de Testes na Interface Web (Next.js + FastAPI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-portal-docente-oficial-nextjs-httplocalhost3000-issues-4-e-34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Portal Docente Oficial (Next.js — http://localhost:3000) — Issues #4 e #34
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-playground-rag-api-swagger-http1270018000-issues-16-39-42-43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Playground RAG &amp; API Swagger (http://127.0.0.1:8000) — Issues #16, #39, #42, #43
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-roteiro-de-testes-no-terminal-make-rag-make-extrator-e-make-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Roteiro de Testes no Terminal (make rag, make extrator e make docs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Roteiro de Testes no Terminal (make rag, make extrator e make docs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-central-interativa-do-rag-make-rag-issues-16-e-42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Central Interativa do RAG (make rag) — Issues #16 e #42
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-central-interativa-do-agente-extrator-curricular-make-extrator-issue-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Central Interativa do Agente Extrator Curricular (make extrator) — Issue #17
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-portal-de-documentacao-mkdocs-make-docs-issues-41-47-51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Portal de Documentação MkDocs (make docs) — Issues #41, #47, #51
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-mapa-do-que-ja-esta-implementado-vs-o-que-entra-a-seguir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Mapa do que Já Está Implementado vs. O que Entra a Seguir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-preflight-validando-o-ambiente-e-o-makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Preflight: Validando o Ambiente e o Makefile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Preflight: Validando o Ambiente e o Makefile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passo-21-conferir-os-comandos-disponiveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.1 — Conferir os comandos disponíveis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-22-smoke-check-completo-de-ambiente-api-pii-rag-e-extrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.2 — Smoke-check completo de ambiente, API, PII, RAG e Extrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-23-bateria-completa-de-testes-unitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.3 — Bateria completa de testes unitários
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-subindo-a-plataforma-completa-make-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Subindo a Plataforma Completa (make up)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Subindo a Plataforma Completa (make up)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passo-31-subir-tudo-em-um-comando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 3.1 — Subir tudo em um comando
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-roteiro-de-testes-na-interface-web-nextjs-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Roteiro de Testes na Interface Web (Next.js + FastAPI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Roteiro de Testes na Interface Web (Next.js + FastAPI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-portal-docente-oficial-nextjs-httplocalhost3000-issues-4-e-34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Portal Docente Oficial (Next.js — http://localhost:3000) — Issues #4 e #34
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-playground-rag-api-swagger-http1270018000-issues-16-39-42-43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Playground RAG &amp; API Swagger (http://127.0.0.1:8000) — Issues #16, #39, #42, #43
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-roteiro-de-testes-no-terminal-make-rag-make-extrator-e-make-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Roteiro de Testes no Terminal (make rag, make extrator e make docs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Roteiro de Testes no Terminal (make rag, make extrator e make docs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-central-interativa-do-rag-make-rag-issues-16-e-42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Central Interativa do RAG (make rag) — Issues #16 e #42
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-central-interativa-do-agente-extrator-curricular-make-extrator-issue-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Central Interativa do Agente Extrator Curricular (make extrator) — Issue #17
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-portal-de-documentacao-mkdocs-make-docs-issues-41-47-51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Portal de Documentação MkDocs (make docs) — Issues #41, #47, #51
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="roteiro-guiado-de-testes-manuais-e-validacao-do-makefile-iris">Roteiro Guiado de Testes Manuais e Validação do <code>Makefile</code> — Íris<a class="headerlink" href="#roteiro-guiado-de-testes-manuais-e-validacao-do-makefile-iris" title="Permanent link">&para;</a></h1>
+<p>Este guia permite testar <strong>de ponta a ponta</strong> tudo o que já foi implementado no projeto Íris até o momento — validando os comandos do <code>Makefile</code>, as interfaces web (Next.js e Playground FastAPI), as rotas da API, a base científica RAG, as métricas de avaliação e o novo <strong>Agente Extrator Curricular (#17)</strong>.</p>
+<hr />
+<h2 id="1-mapa-do-que-ja-esta-implementado-vs-o-que-entra-a-seguir">1. Mapa do que Já Está Implementado vs. O que Entra a Seguir<a class="headerlink" href="#1-mapa-do-que-ja-esta-implementado-vs-o-que-entra-a-seguir" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Pronto["Já Implementado e Testável Agora"]
+        E1["Etapa 1 Web (Next.js :3000)&lt;br/&gt;#4 Upload (.pdf/.docx/.txt) + Texto"]
+        PII["Gateway PII (#34)&lt;br/&gt;Descarte Zero-Retention"]
+        CAT["Catálogo TDAH (#39)&lt;br/&gt;10 Características + Schema"]
+        RAG["Motor RAG &amp; 12 Métricas (#16 / #42 / #43)&lt;br/&gt;Playground Web (:8000) + make rag"]
+        EVAL["Golden Benchmark &amp; TRCC (#40 / #45 / #52)&lt;br/&gt;30 Questões + Flesch PT-BR"]
+        EXT["Agente Extrator Curricular (#17)&lt;br/&gt;make extrator + Analytics"]
+    end
+
+    subgraph Proximas["Em Desenvolvimento / Próximas Issues"]
+        DEC["Decompositor (#5, #53)"]
+        E2["Etapa 2 e 3 Web (#8, #9, #12, #13)"]
+        ADAPT["Agentes Adaptador (#18) e Auditor (#19)"]
+    end
+
+    E1 --&gt; PII --&gt; CAT
+    CAT --&gt; RAG
+    EVAL --&gt; EXT</code></pre>
+<hr />
+<h2 id="2-preflight-validando-o-ambiente-e-o-makefile">2. Preflight: Validando o Ambiente e o <code>Makefile</code><a class="headerlink" href="#2-preflight-validando-o-ambiente-e-o-makefile" title="Permanent link">&para;</a></h2>
+<p>Execute todos os comandos dentro da pasta <code>iris/</code>:</p>
+<h3 id="passo-21-conferir-os-comandos-disponiveis">Passo 2.1 — Conferir os comandos disponíveis<a class="headerlink" href="#passo-21-conferir-os-comandos-disponiveis" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>make<span class="w"> </span><span class="nb">help</span>
+</span></code></pre></div>
+* <strong>Resultado esperado:</strong> Exibe a tabela com <code>make up</code>, <code>make check</code>, <code>make test</code>, <code>make dev</code>, <code>make backend</code>, <code>make front</code>, <code>make rag</code>, <code>make extrator</code>, <code>make extrator-bench</code>, <code>make extrator-analytics</code>, <code>make docs</code> e <code>make setup</code>.</p>
+<h3 id="passo-22-smoke-check-completo-de-ambiente-api-pii-rag-e-extrator">Passo 2.2 — Smoke-check completo de ambiente, API, PII, RAG e Extrator<a class="headerlink" href="#passo-22-smoke-check-completo-de-ambiente-api-pii-rag-e-extrator" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>make<span class="w"> </span>check
+</span></code></pre></div>
+* <strong>O que valida automaticamente:</strong>
+  1. Pacotes Python no <code>.venv</code> (<code>fastapi</code>, <code>uvicorn</code>, <code>pydantic</code>, <code>pymupdf</code>, <code>python-docx</code>, <code>rank_bm25</code>).
+  2. Presença de <code>node</code>, <code>npm</code> e <code>frontend/node_modules</code>.
+  3. Status do daemon Ollama local e modelos instalados (<code>llama3:latest</code>).
+  4. Carga do catálogo JSON (<code>#39</code>), <code>chunks.jsonl</code> e 30 questões do Golden Benchmark (<code>#45</code>).
+  5. Endpoints REST (<code>/api/v1/health</code>, <code>/api/v1/catalog</code>, <code>/api/v1/materials/text</code> com sanitização de PII e validação <code>&lt; 50</code> chars, <code>/api/v1/rag/search</code>, <code>/api/v1/eval/metrics</code>, <code>/api/v1/eval/extractor-analytics</code>).
+  6. Cálculo de TRCC determinístico (<code>#52</code>), Flesch PT-BR (<code>#40</code>/<code>#45</code>) e extração com <code>CurriculumExtractorAgent</code> (<code>#17</code>).
+* <strong>Resultado esperado:</strong> Todas as linhas marcadas com <code>[OK]</code> e mensagem final <code>RESULTADO: TUDO ÍNTEGRO E PRONTO PARA TESTE MANUAL!</code>.</p>
+<h3 id="passo-23-bateria-completa-de-testes-unitarios">Passo 2.3 — Bateria completa de testes unitários<a class="headerlink" href="#passo-23-bateria-completa-de-testes-unitarios" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>make<span class="w"> </span><span class="nb">test</span>
+</span></code></pre></div>
+* <strong>Resultado esperado:</strong> Executa <strong>67 testes</strong> em <code>backend/tests/</code> com saída <code>OK (skipped=1)</code> <em>(o teste <code>test_aceitacao_real</code> é pulado intencionalmente enquanto não houver saídas finais geradas em <code>reports/saidas/iris.jsonl</code>)</em>.</p>
+<hr />
+<h2 id="3-subindo-a-plataforma-completa-make-up">3. Subindo a Plataforma Completa (<code>make up</code>)<a class="headerlink" href="#3-subindo-a-plataforma-completa-make-up" title="Permanent link">&para;</a></h2>
+<h3 id="passo-31-subir-tudo-em-um-comando">Passo 3.1 — Subir tudo em um comando<a class="headerlink" href="#passo-31-subir-tudo-em-um-comando" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>make<span class="w"> </span>up
+</span></code></pre></div>
+* <strong>O que o <code>make up</code> (<code>scripts/start_all.sh</code>) faz automaticamente:</strong>
+  1. Verifica <code>.venv</code> e dependências Python (executando <code>uv sync</code> se faltar algo).
+  2. Verifica a base de chunks do RAG (<code>rag/setup_rag.sh --padrao</code>).
+  3. Sobe <code>pgvector</code> no Docker caso o Docker esteja ativo (ou segue em modo BM25 local sem erro).
+  4. Garante <code>ollama serve</code> ativo e verifica o modelo <code>llama3:latest</code>.
+  5. Verifica <code>node</code>/<code>npm</code>, executa <code>npm install</code> em <code>frontend/</code> caso <code>node_modules</code> falte ou esteja desatualizado, e inicia o Next.js na porta <strong><code>3000</code></strong>.
+  6. Sobe o Backend FastAPI na porta <strong><code>8000</code></strong> com hot-reload e abre a interface no navegador.
+  7. Ao pressionar <code>Ctrl+C</code>, encerra tanto o Backend quanto o Frontend em segundo plano.</p>
+<blockquote>
+<p><strong>Alternativa em terminais separados:</strong> Se preferir isolar os logs, rode <code>make backend</code> em um terminal e <code>make front</code> em outro.</p>
+</blockquote>
+<hr />
+<h2 id="4-roteiro-de-testes-na-interface-web-nextjs-fastapi">4. Roteiro de Testes na Interface Web (Next.js + FastAPI)<a class="headerlink" href="#4-roteiro-de-testes-na-interface-web-nextjs-fastapi" title="Permanent link">&para;</a></h2>
+<p>Com o <code>make up</code> ativo, teste os dois portais web:</p>
+<h3 id="41-portal-docente-oficial-nextjs-httplocalhost3000-issues-4-e-34">4.1. Portal Docente Oficial (Next.js — <code>http://localhost:3000</code>) — Issues <code>#4</code> e <code>#34</code><a class="headerlink" href="#41-portal-docente-oficial-nextjs-httplocalhost3000-issues-4-e-34" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Tela de Acesso (Figma):</strong></li>
+<li>Teste o botão de <strong>Alternar Modo Escuro/Claro</strong> (ícone Lua/Sol) no canto superior direito.</li>
+<li>Clique em <strong>"Entrar"</strong> (ou em <strong>"Ir direto para Etapa 1"</strong>).</li>
+<li><strong>Etapa 1 — Entrada de Material Didático (<code>Step1MaterialIntake.tsx</code>):</strong></li>
+<li><strong>Acessibilidade:</strong> Teste o botão de <strong>Alto Contraste</strong> (WCAG 2.1 AA) no topo.</li>
+<li><strong>Teste de mínimo de caracteres:</strong> Digite menos de 50 caracteres (ex.: <code>"Questão rápida"</code>) e clique em processar/conferir.<ul>
+<li><em>Esperado:</em> Rejeição clara com orientação sobre o mínimo de 50 caracteres (<code>TEXT_TOO_SHORT</code>).</li>
+</ul>
+</li>
+<li><strong>Teste do Sanitizador de PII (Zero-Retention — <code>#34</code>):</strong> Use o botão de exemplo pré-carregado da tela (que contém <code>"Escola Municipal Professora Cecília Meireles"</code> e <code>"Aluno(a): Gabriel Silva de Oliveira... Matrícula: 20261045"</code>) <strong>ou</strong> cole o texto abaixo contendo PII misto:
+     <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Colégio Estadual Machado de Assis
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Aluno: Lucas Ferreira Mendes
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>CPF: 123.456.789-00 | E-mail: lucas.mendes@escola.br | Tel: (61) 99876-5432
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Questão 1: Leia o texto e explique como os cloroplastos produzem glicose e oxigênio durante a fotossíntese.
+</span></code></pre></div><ul>
+<li><em>Esperado:</em> O sistema exibe o texto sanitizado para conferência imediata substituindo os dados pessoais por marcadores irreversíveis (<code>[ESCOLA]</code>, <code>[ESTUDANTE]</code>, <code>[CPF]</code>, <code>[EMAIL]</code>, <code>[TELEFONE]</code>) e exibe a contagem exata de substituições nos metadados.</li>
+</ul>
+</li>
+<li><strong>Teste de Upload de Arquivos (<code>.txt</code>, <code>.docx</code>, <code>.pdf</code>):</strong><ul>
+<li>Arraste um arquivo <code>.txt</code> ou <code>.pdf</code>/<code>.docx</code> com texto selecionável na zona de upload.</li>
+<li>Teste enviar um formato não permitido (ex.: <code>.png</code> ou <code>.csv</code>) para validar a rejeição orientativa imediata no cliente.</li>
+<li>Se enviar um PDF apenas imagem (sem camada de texto), o backend informa que o arquivo não possui texto extraível (OCR entra na Semana 5 — <code>#6</code>).</li>
+</ul>
+</li>
+</ol>
+<h3 id="42-playground-rag-api-swagger-http1270018000-issues-16-39-42-43">4.2. Playground RAG &amp; API Swagger (<code>http://127.0.0.1:8000</code>) — Issues <code>#16</code>, <code>#39</code>, <code>#42</code>, <code>#43</code><a class="headerlink" href="#42-playground-rag-api-swagger-http1270018000-issues-16-39-42-43" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abra <code>http://127.0.0.1:8000</code> no navegador.</li>
+<li><em>Esperado:</em> Badge superior mostra <code>LLM: ollama (...) | Ollama: ONLINE | Zero-DB: true</code>.</li>
+<li><em>Painel de Métricas:</em> Exibe as <strong>6 métricas Íris</strong> (Recall@5 <code>0.42</code>, MRR, Frases Sustentadas <code>86.1%</code>, 0 citações inválidas, Kappa) e as <strong>7 métricas RAGAS</strong> (0 a 10).</li>
+<li><strong>Teste de Busca Filtrada por Característica (<code>#39</code> + <code>#16</code>):</strong></li>
+<li>Selecione uma característica no dropdown (ex.: <em>Comandos múltiplos conjugados</em>), escolha o Nível <code>2</code> e clique em buscar.</li>
+<li><em>Esperado:</em> Exibe as ações permitidas, restrições de escopo e os trechos científicos recuperados <code>[T1..T5]</code> do DUA/MEC.</li>
+<li><strong>Teste de Geração ao Vivo no Llama 3:</strong></li>
+<li>Digite uma dúvida pedagógica e acione a resposta ao vivo.</li>
+<li><em>Esperado:</em> Resposta gerada pelo Llama 3 local com citações <code>[Tn]</code> verificadas automaticamente.</li>
+<li><strong>Documentação OpenAPI (Swagger):</strong></li>
+<li>Acesse <code>http://127.0.0.1:8000/docs</code> e confira todos os endpoints agrupados (<code>materials</code>, <code>catalogo</code>, <code>rag</code>, <code>eval</code>, <code>infra</code>), incluindo <code>GET /api/v1/eval/extractor-analytics</code>.</li>
+</ol>
+<hr />
+<h2 id="5-roteiro-de-testes-no-terminal-make-rag-make-extrator-e-make-docs">5. Roteiro de Testes no Terminal (<code>make rag</code>, <code>make extrator</code> e <code>make docs</code>)<a class="headerlink" href="#5-roteiro-de-testes-no-terminal-make-rag-make-extrator-e-make-docs" title="Permanent link">&para;</a></h2>
+<h3 id="51-central-interativa-do-rag-make-rag-issues-16-e-42">5.1. Central Interativa do RAG (<code>make rag</code>) — Issues <code>#16</code> e <code>#42</code><a class="headerlink" href="#51-central-interativa-do-rag-make-rag-issues-16-e-42" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>make<span class="w"> </span>rag
+</span></code></pre></div>
+* <strong>Sugestão de validação no menu:</strong>
+  * Opção <code>1</code>: Visualizar as tabelas completas de métricas (Íris + RAGAS).
+  * Opção <code>2</code>: Rodar 1 consulta RAG ao vivo no Llama 3.
+  * Opção <code>3</code>: Digitar uma pergunta pedagógica livre e conferir a auditoria de citações <code>[T1..T5]</code>.
+  * Opção <code>0</code>: Sair.</p>
+<h3 id="52-central-interativa-do-agente-extrator-curricular-make-extrator-issue-17">5.2. Central Interativa do Agente Extrator Curricular (<code>make extrator</code>) — Issue <code>#17</code><a class="headerlink" href="#52-central-interativa-do-agente-extrator-curricular-make-extrator-issue-17" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>make<span class="w"> </span>extrator
+</span></code></pre></div>
+* <strong>Sugestão de validação no menu (opções 1 a 7):</strong>
+  * <strong>Opção <code>1</code> (Casos padrão):</strong> Roda Ciências (fotossíntese) e Matemática (equação <span class="arithmatex">\(3x + 12 = 30\)</span>), mostrando <code>verbo_comando_bncc</code>, <code>conceitos_obrigatorios</code>, <code>termos_tecnicos_intocaveis</code>, <code>alerta_anti_muleta</code> e a linha de telemetria (<code>total</code>, <code>inferência</code>, <code>cold_load</code>, <code>tok/s</code>).
+  * <strong>Opção <code>2</code> (Golden Benchmark):</strong> Liste as questões (<code>s</code>) e teste <code>Q01</code> (Português), <code>Q10</code> (Matemática) ou <code>Q25</code> (História) comparando com a trava de referência.
+  * <strong>Opção <code>3</code> (Questão livre):</strong> Cole qualquer enunciado seu (mín. 15 caracteres), informe disciplina e ano escolar e inspecione os invariantes extraídos.
+  * <strong>Opção <code>4</code> (Benchmark em lote Zero-Hint):</strong> Teste rodar <code>5</code> questões (ou todas as <code>30</code>) para ver o <code>warmup</code> eliminar o <em>cold start</em> e gerar a tabela por disciplina, faixa etária e tipo de comando.
+  * <strong>Opção <code>5</code> (Analytics Dinâmico):</strong> Filtre os logs gravados em <code>reports/extractor_telemetry.jsonl</code> por disciplina (ex.: <code>Matemática</code>), faixa etária (ex.: <code>11-12</code> ou <code>Fund. I</code>) ou comando conjugado (<code>s</code>/<code>n</code>).
+  * <strong>Opção <code>6</code>:</strong> Roda os 11 testes unitários específicos de <code>test_curriculum_extractor.py</code>.
+  * <strong>Opção <code>7</code>:</strong> Permite alternar em tempo de execução entre <code>ollama</code>, <code>groq</code> ou <code>extractive</code>.</p>
+<blockquote>
+<p><strong>Atalhos diretos sem abrir menu:</strong> <code>make extrator-bench</code> e <code>make extrator-analytics</code>.</p>
+</blockquote>
+<h3 id="53-portal-de-documentacao-mkdocs-make-docs-issues-41-47-51">5.3. Portal de Documentação MkDocs (<code>make docs</code>) — Issues <code>#41</code>, <code>#47</code>, <code>#51</code><a class="headerlink" href="#53-portal-de-documentacao-mkdocs-make-docs-issues-41-47-51" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>make<span class="w"> </span>docs
+</span></code></pre></div>
+* Acesse <code>http://127.0.0.1:8001</code> e valide que todas as páginas (Visão do Produto, RF/RNF, Backlog &amp; Rastreabilidade com Seção 2.3, Arquitetura com Seção 2.4 e 7.4, Relatório RAG, Skills e este Roteiro de Testes) renderizam incluindo os diagramas Mermaid e fórmulas LaTeX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.tabs.link", "content.action.view"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
