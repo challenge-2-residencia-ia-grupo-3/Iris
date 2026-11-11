@@ -61,10 +61,14 @@ def _norm(texto: str) -> str:
 # CID: aplicado ao texto ORIGINAL (maiúsculas importam: "Q10" de uma questão não é CID).
 _PADROES_CID = (
     re.compile(r"\bCID(?:[\s-]*1[01])?\b"),  # sigla em maiúsculas ("Cid" é nome próprio)
-    re.compile(r"(?i)\bcid[\s:-]*(?:1[01][\s:-]*)?[a-z]\d{2}"),  # "cid f90", "cid-10: F84"
+    re.compile(r"(?i)\bcid[\s:-]*(?:1[01][\s:-]*)?[a-z]\s?\d{2}"),  # "cid f90", "cid f 90", "cid-10: F84"
     re.compile(r"\b[A-TV-Z]\d{2}\.\d{1,2}\b"),  # F90.0, F84.5
     re.compile(r"\bF\d{2}\b"),  # capítulo F (transtornos mentais): F90, F84
     re.compile(r"\b6[A-E]\d{2}(?:\.\d{1,2})?\b"),  # CID-11: 6A05, 6A02
+)
+# Siglas que, em minúsculas, são palavras comuns ("toc toc", "tea"): só contam em maiúsculas, com ou sem pontos.
+_PADROES_SIGLA = (
+    re.compile(r"\b(?:T\.?D\.?A\.?H|T\.?D\.?A|T\.?E\.?A|T\.?O\.?D|T\.?O\.?C|T\.?G\.?D)\b\.?"),
 )
 # Demais categorias: texto normalizado (sem acento, minúsculas).
 _PADROES_NORM: dict[str, tuple[re.Pattern[str], ...]] = {
@@ -82,26 +86,35 @@ _PADROES_NORM: dict[str, tuple[re.Pattern[str], ...]] = {
         r"\bneuropsicologic[oa]s?\b",
     )),
     "diagnostico": tuple(re.compile(p) for p in (
-        r"\bdiagnostico(?! pedagogic)\b",
-        r"\bdiagnosticad[oa]s?\b|\bdiagnosticou\b|\bdiagnosticar\b",
-        r"\b(?:tdah|tda|tea|tod|toc|tgd)\b",
-        r"\bautis(?:mo|ta|tas)\b|\basperger\b",
+        # "diagnóstico" sozinho é termo pedagógico ("diagnóstico inicial da turma"); só conta com qualificador
+        # clínico ou com verbo de posse ("tem diagnóstico").
+        r"\bdiagnosticos? (?:medic|clinic|neurologic|psiquiatric|psicologic|formal|fechado|definitivo)\w*",
+        r"\b(?:tem|possui|recebeu|recebe|aguarda|aguardando|com|sem|em investigacao de) (?:um |o )?diagnostico\b",
+        r"\bdiagnosticad[oa]s?\b|\bdiagnosticou\b",
+        r"\bt\.?d\.?a\.?h\b|\btgd\b",
+        r"\bautis(?:mo|ta|tas)\b|\basperger\b|\b(?:no|do) espectro\b",
         r"\b(?:dislexia|discalculia|disgrafia|disortografia|dislexic[oa]s?)\b",
-        r"\btranstornos?\b|\bsindromes?\b",
+        # "transtorno" sozinho é incômodo ("a troca de sala causou transtorno"); clínico vem com complemento.
+        r"\btranstornos? (?:de|do|da|dos|das|global|opositor|obsessivo|bipolar|desafiador)\b",
+        r"\bsindromes?\b",
         r"\bdeficit de atencao\b|\bhiperatividade\b",
         r"\b(?:bipolar|esquizofreni\w*|epilepsia|convulsa\w+|paralisia cerebral)\b",
     )),
     "medicacao": tuple(re.compile(p) for p in (
-        r"\b(?:metilfenidato|ritalina|concerta|venvanse|lisdexanfetamina|atomoxetina|strattera|risperidona|"
+        r"\b(?:metilfenidato|ritalina|venvanse|lisdexanfetamina|atomoxetina|strattera|risperidona|"
         r"risperdal|aripiprazol|haloperidol|fluoxetina|sertralina|amitriptilina|imipramina|clonazepam|rivotril|"
         r"diazepam|carbamazepina|valproato|anfetamina)\b",
+        # "concerta" também é verbo ("ele concerta os erros"): só conta como remédio após tomar/usar.
+        r"\b(?:tom\w*|us[ao]\w*|uso de|medicad\w* com)\s+(?:o |a )?concerta\b",
         r"\bmedica(?:cao|coes|mento|mentos)\b|\bremedios?\b",
         r"\bpsicotropic\w*|\bantidepressiv\w*|\bansiolitic\w*|\bantipsicotic\w*|\banticonvulsiv\w*",
         r"\bpsiquiatr\w*|\bneurologist\w*|\bneuropediatr\w*",
-        r"\b\d+(?:[.,]\d+)?\s?(?:mg|mcg|ml|gotas|comprimidos?)\b",
+        # "ml" fica de fora: "garrafa de 500 ml" é aula de volume, não dose.
+        r"\b\d+(?:[.,]\d+)?\s?(?:mg|mcg|gotas|comprimidos?)\b",
     )),
 }
 _CHAVES_CID = {"cid", "cid10", "cid11", "cid_10", "cid_11"}
+_CHAVES_DIAGNOSTICO = {"diagnostico", "diagnosticos", "transtorno", "transtornos"}
 
 
 @dataclass(frozen=True)
@@ -111,18 +124,39 @@ class ViolacaoClinica:
     trecho: str  # o que foi digitado (NÃO vai em str(exc))
 
     def to_dict(self, incluir_trecho: bool = True) -> dict[str, str]:
-        d = {"campo": self.campo, "categoria": self.categoria, "orientacao": ORIENTACOES[self.categoria]}
+        # Sem o trecho, o caminho também é mascarado: um nome de campo não declarado pode ser o próprio dado clínico.
+        campo = self.campo if incluir_trecho else _campo_seguro(self.campo)
+        d = {"campo": campo, "categoria": self.categoria, "orientacao": ORIENTACOES[self.categoria]}
         if incluir_trecho:
             d["trecho"] = self.trecho
         return d
+
+
+_RE_SEGMENTO = re.compile(r"\[\d+\]|[^.\[\]]+")
+
+
+def _campo_seguro(campo: str) -> str:
+    """Caminho do campo sem nomes não declarados no schema (que podem conter o dado clínico, ex.: "laudo_tdah")."""
+    partes = []
+    for seg in _RE_SEGMENTO.findall(campo):
+        if seg.startswith("["):
+            partes.append(seg)
+        else:
+            partes.append(("." if partes else "") + (seg if seg in _CAMPOS_DECLARADOS else "<campo não declarado>"))
+    return "".join(partes)
 
 
 def detectar_conteudo_clinico(texto: str, campo: str = "", eh_chave: bool = False) -> list[ViolacaoClinica]:
     achados: list[ViolacaoClinica] = []
     if eh_chave and _norm(texto).replace(" ", "_") in _CHAVES_CID:
         achados.append(ViolacaoClinica(campo, "cid", texto))
+    # Como nome de campo, "diagnostico" e "transtorno" não têm sentido pedagógico: contam mesmo sem complemento.
+    if eh_chave and _CHAVES_DIAGNOSTICO & set(re.split(r"[\s_-]+", _norm(texto))):
+        achados.append(ViolacaoClinica(campo, "diagnostico", texto))
     for p in _PADROES_CID:
         achados += [ViolacaoClinica(campo, "cid", m.group(0)) for m in p.finditer(texto)]
+    for p in _PADROES_SIGLA:
+        achados += [ViolacaoClinica(campo, "diagnostico", m.group(0)) for m in p.finditer(texto)]
     base = _norm(texto.replace("_", " ") if eh_chave else texto)
     for categoria, padroes in _PADROES_NORM.items():
         for p in padroes:
@@ -136,6 +170,11 @@ def detectar_conteudo_clinico(texto: str, campo: str = "", eh_chave: bool = Fals
     return unicos
 
 
+# Campos de formato fechado, já restritos por padrão no schema: o valor não é texto livre. Um código anônimo
+# aleatório como "F12-x9" é válido e seria lido como CID.
+_CAMPOS_SEM_VARREDURA = frozenset({"codigo_anonimo", "versao_schema"})
+
+
 def varrer(obj: Any, caminho: str = "") -> list[ViolacaoClinica]:
     """Percorre dicts/listas/strings; examina chaves e valores."""
     if isinstance(obj, str):
@@ -145,6 +184,8 @@ def varrer(obj: Any, caminho: str = "") -> list[ViolacaoClinica]:
         for k, v in obj.items():
             sub = f"{caminho}.{k}" if caminho else str(k)
             achados += detectar_conteudo_clinico(str(k), sub, eh_chave=True)
+            if not caminho and k in _CAMPOS_SEM_VARREDURA:
+                continue
             achados += varrer(v, sub)
         return achados
     if isinstance(obj, (list, tuple)):
@@ -155,7 +196,7 @@ def varrer(obj: Any, caminho: str = "") -> list[ViolacaoClinica]:
 class ConteudoClinicoError(ValueError):
     def __init__(self, violacoes: list[ViolacaoClinica]) -> None:
         self.violacoes = tuple(violacoes)
-        locais = "; ".join(f"'{v.campo or 'perfil'}' ({v.categoria})" for v in violacoes)
+        locais = "; ".join(f"'{_campo_seguro(v.campo) or 'perfil'}' ({v.categoria})" for v in violacoes)
         orient = " ".join(dict.fromkeys(ORIENTACOES[v.categoria] for v in violacoes))
         super().__init__(
             f"Dados clínicos não são permitidos no Perfil Pedagógico Portátil (RNF-03). Encontrado em: {locais}. {orient}"
@@ -205,6 +246,11 @@ class PerfilPedagogico(_Base):
         if any(len(a) > 1000 for a in self.anotacoes_pedagogicas):
             raise ValueError("Cada anotação pedagógica deve ter no máximo 1000 caracteres.")
         return self
+
+
+_CAMPOS_DECLARADOS = frozenset(
+    nome for modelo in (PerfilPedagogico, BarreiraObservada, RegistroEstrategia) for nome in modelo.model_fields
+)
 
 
 # ---------------------------------------------------------------- validação para importação/API
