@@ -66,6 +66,11 @@ def montar_contexto_estrategista(
         for t in busca["trechos_rag"]:
             fonte = por_trecho.get(t["chunk_id"])
             if fonte is None:
+                nota = (t.get("nota_uso") or "").strip()
+                nao_usar = t.get("nao_usar_para") or []
+                aviso_de_uso = nota or (
+                    f"Não usar para: {', '.join(nao_usar)}." if nao_usar else None
+                )
                 fonte = {
                     "rotulo": f"T{len(fontes) + 1}",
                     "chunk_id": t["chunk_id"],
@@ -75,7 +80,7 @@ def montar_contexto_estrategista(
                     "url": t["url"],
                     "referencia": _referencia(t),
                     "caracteristicas": [],
-                    "aviso_de_uso": t.get("nota_uso") if t.get("nao_usar_para") else None,
+                    "aviso_de_uso": aviso_de_uso,
                     "trecho": t["trecho"],
                 }
                 por_trecho[t["chunk_id"]] = fonte
@@ -109,7 +114,8 @@ def conferir_citacoes(diretiva: str, fontes: Sequence[dict[str, Any]]) -> dict[s
     """
     validos = {f["rotulo"] for f in fontes}
     citados = sorted(set(re.findall(r"\[(T\d+)\]", diretiva)), key=lambda r: int(r[1:]))
-    frases = [f for f in re.split(r"(?<=[.!?])\s+", diretiva.strip()) if len(f.split()) >= 4]
+    blocos = re.split(r"(?<=[.!?])\s+|\n+", diretiva.strip())
+    frases = [f.strip() for f in blocos if len(f.split()) >= 4]
     return {
         "citados": citados,
         "citacoes_inexistentes": [r for r in citados if r not in validos],

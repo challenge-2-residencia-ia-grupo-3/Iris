@@ -58,13 +58,34 @@ def binario(veredito: str) -> int | None:
     return (1 if veredito == "apoiada" else 0) if veredito in CLASSES else None
 
 
+def veredito_final(frase: dict) -> int | None:
+    """Calcula o veredito final a partir de A, B, X e O (maioria de três + desempate pelo Opus)."""
+    votos = {j: binario(frase[j]) for j in ("A", "B", "X")}
+    conteudo = [v for v in votos.values() if v is not None]
+    if len(conteudo) < 2:
+        return None
+    dividida = (
+        votos["A"] is not None
+        and votos["A"] == votos["B"]
+        and votos["X"] is not None
+        and votos["X"] != votos["A"]
+    ) or sum(conteudo) * 2 == len(conteudo)
+    if dividida:
+        desempate = binario(frase.get("O", ""))
+        if desempate is not None:
+            return desempate
+    return int(sum(conteudo) * 2 > len(conteudo))
+
+
 def _votos(frases: list[dict], quem: str) -> list[int]:
-    votos = [f["final"] if quem == "final" else binario(f[quem]) for f in frases]
+    votos = [veredito_final(f) if quem == "final" else binario(f[quem]) for f in frases]
     return [v for v in votos if v is not None]
 
 
 def ic_bootstrap(valores: list[float]) -> tuple[float, float]:
     """Intervalo de 95% da média, reamostrando as respostas com reposição (semente fixa)."""
+    if not valores:
+        return 0.0, 0.0
     rnd = random.Random(SEMENTE)
     m = len(valores)
     medias = sorted(sum(rnd.choice(valores) for _ in range(m)) / m for _ in range(N_BOOT))
@@ -79,6 +100,14 @@ def fidelidade(respostas: dict[str, list[dict]], quem: str = "final") -> dict:
         if votos:
             por_resposta.append(sum(votos) / len(votos))
             sustentadas, total = sustentadas + sum(votos), total + len(votos)
+    if not por_resposta:
+        return {
+            "media": 0.0,
+            "ic95": [0.0, 0.0],
+            "sustentadas": 0,
+            "frases_de_conteudo": 0,
+            "respostas": 0,
+        }
     baixo, alto = ic_bootstrap(por_resposta)
     return {
         "media": sum(por_resposta) / len(por_resposta),
@@ -92,6 +121,8 @@ def fidelidade(respostas: dict[str, list[dict]], quem: str = "final") -> dict:
 def kappa(pares: list[tuple[int, int]]) -> float:
     """Kappa de Cohen: concordância entre dois avaliadores, descontada a que viria do acaso."""
     n = len(pares)
+    if n == 0:
+        return float("nan")
     observada = sum(a == b for a, b in pares) / n
     ca, cb = Counter(a for a, _ in pares), Counter(b for _, b in pares)
     esperada = sum(ca[k] * cb[k] for k in set(ca) | set(cb)) / n**2
@@ -161,7 +192,8 @@ def _texto(medida: dict) -> str:
         for par, c in g["concordancia"].items():
             a, b = par.split("x")
             m = c["matriz"]
-            linhas.append(f"{NOMES[a] + ' x ' + NOMES[b]:26s}{c['frases']:>8d}{c['iguais'] / c['frases']:>10.1%}{c['kappa']:>8.2f}"
+            pct_iguais = (c["iguais"] / c["frases"]) if c["frases"] else 0.0
+            linhas.append(f"{NOMES[a] + ' x ' + NOMES[b]:26s}{c['frases']:>8d}{pct_iguais:>10.1%}{c['kappa']:>8.2f}"
                           f"   [{m[0][0]} {m[0][1]} / {m[1][0]} {m[1][1]}]")
         linhas.append(f"Frases divididas, decididas pelo Opus: {g['frases_divididas']}. "
                       f"Frases não sustentadas para os três avaliadores: {g['nao_sustentadas_para_os_tres']}.")

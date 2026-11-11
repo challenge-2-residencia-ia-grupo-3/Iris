@@ -8,9 +8,11 @@ A versão com juiz ao vivo (``iris.eval.faithfulness``) é testada em ``test_ben
 """
 from __future__ import annotations
 
+import math
 import sys
 import unittest
 from pathlib import Path
+from typing import ClassVar
 
 # Garante que `backend/src` esteja no sys.path mesmo quando rodado via `python3 -m unittest`
 BACKEND_DIR = Path(__file__).resolve().parent.parent
@@ -19,7 +21,17 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from iris.eval.faithfulness import FAITHFULNESS_MIN
-from iris.eval.fidelidade_frases import binario, carregar_vereditos, concordancia, fidelidade, kappa, leitura, medir
+from iris.eval.fidelidade_frases import (
+    binario,
+    carregar_vereditos,
+    concordancia,
+    fidelidade,
+    ic_bootstrap,
+    kappa,
+    leitura,
+    medir,
+    veredito_final,
+)
 
 
 def _frase(a: str, b: str, x: str, final: int | None, dividida: bool = False) -> dict:
@@ -27,7 +39,7 @@ def _frase(a: str, b: str, x: str, final: int | None, dividida: bool = False) ->
 
 
 class TestContaDaFidelidade(unittest.TestCase):
-    RESPOSTAS = {
+    RESPOSTAS: ClassVar[dict[str, list[dict]]] = {
         # 2 de 2 sustentadas; o comentário não entra na conta
         "Q1": [_frase("apoiada", "apoiada", "apoiada", 1), _frase("apoiada", "parcial", "apoiada", 1),
                _frase("comentario_correto", "comentario_correto", "comentario_correto", None)],
@@ -61,6 +73,14 @@ class TestContaDaFidelidade(unittest.TestCase):
         self.assertEqual(leitura({"ic95": [0.92, 0.98]}, 0.90), "atinge a meta")
         self.assertEqual(leitura({"ic95": [0.86, 0.95]}, 0.90), "não se distingue da meta")
         self.assertEqual(leitura({"ic95": [0.70, 0.85]}, 0.90), "abaixo da meta")
+
+    def test_entradas_vazias_nao_quebram(self) -> None:
+        self.assertEqual(ic_bootstrap([]), (0.0, 0.0))
+        self.assertTrue(math.isnan(kappa([])))
+        self.assertEqual(
+            fidelidade({}, "final"),
+            {"media": 0.0, "ic95": [0.0, 0.0], "sustentadas": 0, "frases_de_conteudo": 0, "respostas": 0},
+        )
 
 
 class TestFidelidadeNosVereditosVersionados(unittest.TestCase):
@@ -96,6 +116,12 @@ class TestFidelidadeNosVereditosVersionados(unittest.TestCase):
                 for f in frases:
                     if f["dividida"] and binario(f["O"]) is not None:
                         self.assertEqual(f["final"], binario(f["O"]))
+
+    def test_veredito_final_calculado_bate_com_todas_as_frases(self) -> None:
+        for respostas in self.vereditos.values():
+            for frases in respostas.values():
+                for f in frases:
+                    self.assertEqual(veredito_final(f), f["final"])
 
 
 if __name__ == "__main__":

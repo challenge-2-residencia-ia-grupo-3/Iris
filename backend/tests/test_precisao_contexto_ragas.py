@@ -10,10 +10,13 @@ A busca padrão (Qwen3 e reranker) precisa de banco vetorial e de modelos baixad
 """
 from __future__ import annotations
 
+import asyncio
+import math
 import os
 import sys
 import unittest
 from pathlib import Path
+from typing import ClassVar
 
 # Garante que `backend/src` esteja no sys.path mesmo quando rodado via `python3 -m unittest`
 BACKEND_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +33,7 @@ from iris.eval.precisao_contexto import (
     pontuar_ragas_por_id,
     ranqueador_do_pacote,
 )
+
 from iris.rag import garantir_chunks_locais, obter_trechos_base
 
 
@@ -45,15 +49,26 @@ class TestPontuacaoRagasPorId(unittest.TestCase):
     def test_nenhum_certo(self) -> None:
         self.assertEqual(pontuar_ragas_por_id(["x", "y"], ["a"]), 0.0)
 
+    def test_lista_recuperada_vazia_retorna_zero_sem_nan(self) -> None:
+        nota = pontuar_ragas_por_id([], ["a"])
+        self.assertFalse(math.isnan(nota))
+        self.assertEqual(nota, 0.0)
+
+    def test_funciona_dentro_de_event_loop_ativo(self) -> None:
+        async def _chamar() -> float:
+            return pontuar_ragas_por_id(["a", "x"], ["a", "b"])
+
+        self.assertAlmostEqual(asyncio.run(_chamar()), 0.5)
+
 
 class TestMedirComRanqueadorFalso(unittest.TestCase):
     """A medida inteira, sem base nem modelo: o ranqueador é uma tabela fixa."""
 
-    ITENS = [
+    ITENS: ClassVar[list[dict]] = [
         {"id": "T1", "pergunta": "p1", "trechos_relevantes": ["a", "b"]},
         {"id": "T2", "pergunta": "p2", "trechos_relevantes": ["c"]},
     ]
-    RANKINGS = {"p1": ["a", "x", "b", "y", "z"], "p2": ["x", "y", "z", "w", "v"]}
+    RANKINGS: ClassVar[dict[str, list[str]]] = {"p1": ["a", "x", "b", "y", "z"], "p2": ["x", "y", "z", "w", "v"]}
 
     def _medir(self) -> dict:
         return medir(self.ITENS, "falso", lambda pergunta, metodo, n: self.RANKINGS[pergunta][:n])
@@ -82,6 +97,12 @@ class TestMedirComRanqueadorFalso(unittest.TestCase):
     def test_universo_incompleto_e_acusado(self) -> None:
         self.assertEqual(conferir_universo(self.ITENS, {"a", "c"}), ["b"])
         self.assertEqual(conferir_universo(self.ITENS, {"a", "b", "c", "z"}), [])
+
+    def test_medir_com_retorno_vazio_nao_propaga_nan(self) -> None:
+        resumo = medir(self.ITENS, "vazio", lambda *_: [])["resumo"]
+        self.assertEqual(resumo["precisao_ragas"]["media"], 0.0)
+        self.assertEqual(resumo["precisao_ragas"]["ic95"], [0.0, 0.0])
+        self.assertEqual(resumo["perguntas_sem_acerto"], 2)
 
 
 def _base_e_gabarito() -> tuple[list[dict], set[str], list[str]]:

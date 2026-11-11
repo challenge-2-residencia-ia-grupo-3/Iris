@@ -48,6 +48,7 @@ import asyncio
 import json
 import random
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from iris.config import RAG_BASE_DIR, REPO_ROOT
@@ -76,11 +77,26 @@ def conferir_universo(itens: list[dict], ids_base: set[str]) -> list[str]:
 
 def pontuar_ragas_por_id(recuperados: list[str], referencia: list[str]) -> float:
     """Context Precision do RAGAS por identificador: fração dos recuperados que está na referência."""
+    if not recuperados:
+        return 0.0
+
     from ragas import SingleTurnSample
     from ragas.metrics import IDBasedContextPrecision
 
-    amostra = SingleTurnSample(retrieved_context_ids=list(recuperados), reference_context_ids=list(referencia))
-    return float(asyncio.run(IDBasedContextPrecision().single_turn_ascore(amostra)))
+    amostra = SingleTurnSample(
+        retrieved_context_ids=list(recuperados),
+        reference_context_ids=list(referencia),
+    )
+
+    async def _pontuar() -> float:
+        return float(await IDBasedContextPrecision().single_turn_ascore(amostra))
+
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(_pontuar())
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        return pool.submit(asyncio.run, _pontuar()).result()
 
 
 def ranqueador_do_pacote() -> Ranqueador:
@@ -93,6 +109,8 @@ def ranqueador_do_pacote() -> Ranqueador:
 
 def ic_bootstrap(valores: list[float], rnd: random.Random) -> tuple[float, float]:
     """Intervalo de 95% da média, reamostrando as perguntas com reposição."""
+    if not valores:
+        return 0.0, 0.0
     m = len(valores)
     medias = sorted(sum(rnd.choice(valores) for _ in range(m)) / m for _ in range(N_BOOT))
     return medias[int(0.025 * N_BOOT)], medias[int(0.975 * N_BOOT) - 1]
@@ -101,6 +119,8 @@ def ic_bootstrap(valores: list[float], rnd: random.Random) -> tuple[float, float
 def ic_bootstrap_pareado(a: list[float], b: list[float], rnd: random.Random) -> tuple[float, float, float]:
     """Diferença média a - b, pergunta a pergunta, e o intervalo de 95% dessa diferença."""
     d = [x - y for x, y in zip(a, b)]
+    if not d:
+        return 0.0, 0.0, 0.0
     m = len(d)
     medias = sorted(sum(d[rnd.randrange(m)] for _ in range(m)) / m for _ in range(N_BOOT))
     return sum(d) / m, medias[int(0.025 * N_BOOT)], medias[int(0.975 * N_BOOT) - 1]
@@ -124,18 +144,23 @@ def medir(itens: list[dict], metodo: str, ranquear: Ranqueador, k: int = 5) -> d
             }
         )
     rnd = random.Random(SEMENTE)
-    resumo = {}
+    resumo: dict = {}
     for nome in ("precisao_ragas", "precisao_posicao"):
         valores = [p[nome] for p in por_pergunta]
         baixo, alto = ic_bootstrap(valores, rnd)
-        resumo[nome] = {"media": sum(valores) / len(valores), "ic95": [baixo, alto]}
-    resumo["teto_precisao_ragas"] = sum(p["teto_precisao_ragas"] for p in por_pergunta) / len(por_pergunta)
+        media = (sum(valores) / len(valores)) if valores else 0.0
+        resumo[nome] = {"media": media, "ic95": [baixo, alto]}
+    resumo["teto_precisao_ragas"] = (
+        (sum(p["teto_precisao_ragas"] for p in por_pergunta) / len(por_pergunta)) if por_pergunta else 0.0
+    )
     resumo["perguntas_sem_acerto"] = sum(1 for p in por_pergunta if p["acertos"] == 0)
     return {"metodo": metodo, "k": k, "n_perguntas": len(por_pergunta), "resumo": resumo, "por_pergunta": por_pergunta}
 
 
 def acaso(itens: list[dict], n_base: int) -> float:
     """Precisão esperada de 5 trechos sorteados da base: a média de (trechos certos / trechos da base)."""
+    if not itens or n_base <= 0:
+        return 0.0
     return sum(len(i["trechos_relevantes"]) for i in itens) / len(itens) / n_base
 
 
@@ -145,8 +170,10 @@ def _texto(resultados: list[dict], piso: float, n_base: int, comparacao: dict | 
         f"CONTEXT PRECISION (RAGAS) DA BUSCA: {n} perguntas do gabarito v0, k={resultados[0]['k']}, base de {n_base} trechos.",
         "Sem LLM juiz e sem modelo treinado: contagem de identificadores contra o gabarito (marcado por modelo,",
         f"sem conferência humana). IC 95% por bootstrap ({N_BOOT} reamostras, semente {SEMENTE}).",
-        f"Acaso (5 trechos sorteados, por fórmula): {piso:.4f}. "
-        f"Teto da precisão por identificador neste gabarito: {resultados[0]['resumo']['teto_precisao_ragas']:.2f}.",
+        (
+            f"Acaso (5 trechos sorteados, por fórmula): {piso:.4f}. "
+            f"Teto da precisão por identificador neste gabarito: {resultados[0]['resumo']['teto_precisao_ragas']:.2f}."
+        ),
         "",
         f"{'método':18s}{'precisão RAGAS (id)':>24s}{'precisão c/ posição (AP@5)':>30s}{'sem nenhum acerto':>20s}",
     ]

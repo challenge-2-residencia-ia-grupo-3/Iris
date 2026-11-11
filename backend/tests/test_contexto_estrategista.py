@@ -64,6 +64,15 @@ class TestMapeadorDeContexto(unittest.TestCase):
         self.assertEqual(r["contexto"].count("AVISO DE USO:"), 1)
         self.assertIsNone(r["fontes"][1]["aviso_de_uso"])
 
+    def test_nota_uso_sem_nao_usar_para_e_fallback_sem_nota_acompanham_trecho(self) -> None:
+        so_nota = _trecho("a", nao_usar_para=[], nota_uso="Baseia-se na versão 2.0.")
+        so_flag = _trecho("b", nao_usar_para=["norma_vigente"], nota_uso="")
+        r = montar_contexto_estrategista([_busca("carac_um", [so_nota, so_flag])])
+        self.assertEqual(r["fontes"][0]["aviso_de_uso"], "Baseia-se na versão 2.0.")
+        self.assertEqual(r["fontes"][1]["aviso_de_uso"], "Não usar para: norma_vigente.")
+        self.assertIn("AVISO DE USO: Baseia-se na versão 2.0.", r["contexto"])
+        self.assertIn("AVISO DE USO: Não usar para: norma_vigente.", r["contexto"])
+
     def test_invariantes_entram_so_quando_informados(self) -> None:
         busca = [_busca("carac_um", [_trecho("a")])]
         self.assertNotIn("INVARIANTES", montar_contexto_estrategista(busca)["contexto"])
@@ -83,6 +92,13 @@ class TestMapeadorDeContexto(unittest.TestCase):
         self.assertEqual(c["citacoes_inexistentes"], ["T7"])
         self.assertEqual(c["frases_sem_citacao"], ["Reduza o texto pela metade."])
         self.assertEqual(c["referencias"], ["Título a, p. 12. Disponível em: https://exemplo.org/a"])
+
+    def test_conferencia_das_citacoes_em_lista_com_quebra_de_linha(self) -> None:
+        fontes = montar_contexto_estrategista([_busca("carac_um", [_trecho("a")])])["fontes"]
+        diretiva = "- Divida o enunciado em etapas [T1]\n- Reduza distrações visuais na margem"
+        c = conferir_citacoes(diretiva, fontes)
+        self.assertEqual(c["citados"], ["T1"])
+        self.assertEqual(c["frases_sem_citacao"], ["- Reduza distrações visuais na margem"])
 
 
 class TestMapeadorComBuscaReal(unittest.TestCase):

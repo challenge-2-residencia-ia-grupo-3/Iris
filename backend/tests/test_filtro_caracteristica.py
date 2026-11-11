@@ -23,8 +23,14 @@ SRC_DIR = BACKEND_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from iris.rag import buscar_evidencias, buscar_por_caracteristica_atomica, garantir_chunks_locais, obter_trechos_base
 from iris.schemas.catalog import BARREIRAS_RAG_VALIDAS, load_all_catalogs
+
+from iris.rag import (
+    buscar_evidencias,
+    buscar_por_caracteristica_atomica,
+    garantir_chunks_locais,
+    obter_trechos_base,
+)
 
 
 class TestFiltroEstritoPorCaracteristica(unittest.TestCase):
@@ -67,7 +73,7 @@ class TestFiltroEstritoPorCaracteristica(unittest.TestCase):
             self.assertGreaterEqual(contagem[carac.barreira_rag_associada], 5, carac.id_caracteristica)
 
     def test_caracteristica_ou_nivel_inexistente_e_recusado(self) -> None:
-        with self.assertRaises(Exception):
+        with self.assertRaises(KeyError):
             buscar_por_caracteristica_atomica("caracteristica_que_nao_existe", metodo="bm25")
         with self.assertRaises(ValueError):
             buscar_por_caracteristica_atomica(self.caracteristicas[0].id_caracteristica, nivel=4, metodo="bm25")

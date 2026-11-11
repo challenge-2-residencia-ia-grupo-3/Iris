@@ -27,6 +27,7 @@ perguntas (bootstrap). A prova (passagem copiada do trecho) é conferida por scr
 """
 from __future__ import annotations
 
+import math
 import random
 import subprocess
 import sys
@@ -34,6 +35,7 @@ import tempfile
 import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 import medir_respostas as mr
 
@@ -48,24 +50,24 @@ CLASSES = ("apoiada", "parcial", "nao_apoiada", "rejeitado")
 
 def chamar_codex(texto: str) -> tuple[str, dict]:
     """Uma chamada isolada ao Codex: pasta vazia, sem escrita, sem sessão gravada. Devolve a última mensagem."""
-    vazio = tempfile.mkdtemp(prefix="iris-codex-")
-    destino = f"{vazio}/saida.txt"
-    cmd = ["codex", "exec", "--skip-git-repo-check", "--ephemeral", "-s", "read-only",
-           "-c", f'model_reasoning_effort="{ESFORCO}"', "-o", destino, "-"]
-    entrada = mr.SISTEMA_JUIZ + " Não rode comando nenhum: tudo o que você precisa está nesta mensagem.\n\n" + texto
-    for tentativa in range(3):
-        t0 = time.time()
-        r = subprocess.run(cmd, input=entrada, capture_output=True, text=True, cwd=vazio, timeout=900)
-        try:
-            bruto = open(destino, encoding="utf-8").read().strip()
-        except FileNotFoundError:
-            bruto = ""
-        if r.returncode == 0 and bruto:
-            log = r.stdout + r.stderr
-            modelo = next((ln.split(":", 1)[1].strip() for ln in log.splitlines() if ln.startswith("model:")), "")
-            return bruto, {"modelo": modelo, "esforco": ESFORCO, "s": round(time.time() - t0)}
-        time.sleep(10 * (tentativa + 1))
-    raise RuntimeError(f"chamada ao Codex falhou: {r.stderr[-300:]}")
+    with tempfile.TemporaryDirectory(prefix="iris-codex-") as vazio:
+        destino = Path(vazio) / "saida.txt"
+        cmd = ["codex", "exec", "--skip-git-repo-check", "--ephemeral", "-s", "read-only",
+               "-c", f'model_reasoning_effort="{ESFORCO}"', "-o", str(destino), "-"]
+        entrada = mr.SISTEMA_JUIZ + " Não rode comando nenhum: tudo o que você precisa está nesta mensagem.\n\n" + texto
+        for tentativa in range(3):
+            t0 = time.time()
+            r = subprocess.run(cmd, check=False, input=entrada, capture_output=True, text=True, cwd=vazio, timeout=900)
+            try:
+                bruto = destino.read_text(encoding="utf-8").strip()
+            except FileNotFoundError:
+                bruto = ""
+            if r.returncode == 0 and bruto:
+                log = r.stdout + r.stderr
+                modelo = next((ln.split(":", 1)[1].strip() for ln in log.splitlines() if ln.startswith("model:")), "")
+                return bruto, {"modelo": modelo, "esforco": ESFORCO, "s": round(time.time() - t0)}
+            time.sleep(10 * (tentativa + 1))
+        raise RuntimeError(f"chamada ao Codex falhou: {r.stderr[-300:]}")
 
 
 def julgar(g: str) -> None:
@@ -156,8 +158,10 @@ def medir() -> None:
     L = ["FIDELIDADE DAS RESPOSTAS COM UM JUIZ DE OUTRO FABRICANTE (regra versão 2, as mesmas 80 respostas e frases).",
          f"Juízes: Claude Sonnet A e B (gravados em 05/11/2026, reaproveitados) e Codex ({modelo}, esforço {ESFORCO}).",
          "Geradores Claude Haiku e Opus, não o modelo configurado no protótipo. Sem conferência humana: a nota é prata.",
-         f"Técnica: modelos prontos julgam; contagem; kappa de Cohen; sorteio de perguntas ({mr.N_BOOT} sorteios, semente "
-         f"{mr.SEMENTE}). Nenhum modelo treinado.",
+         (
+             f"Técnica: modelos prontos julgam; contagem; kappa de Cohen; sorteio de perguntas ({mr.N_BOOT} sorteios, semente "
+             f"{mr.SEMENTE}). Nenhum modelo treinado."
+         ),
          "Fidelidade = frases que o trecho citado sustenta por inteiro / frases de conteúdo, média por resposta.",
          "'Em parte' e prova rejeitada (passagem que não existe no trecho) contam como não sustentada. Recusas ficam fora.",
          f"Meta (FAITHFULNESS_MIN): {META:.2f}.", ""]
@@ -186,15 +190,27 @@ def medir() -> None:
                 if "sem_veredito" not in (x["A"], x["X"])]
         div = [(q, x) for q, ls in t.items() for x in ls if x["dividida"]]
         rej = Counter(x["X"] for ls in t.values() for x in ls)
-        L += ["", f"Sonnet A e Codex concordam no tipo da frase (conteúdo ou comentário) em {sum(a == b for a, b in tipo)} "
-                  f"de {len(tipo)}.",
-              f"Vereditos do Codex rejeitados por passagem que não existe no trecho citado: {rej['rejeitado']} de "
-              f"{sum(rej[k] for k in CLASSES)} frases de conteúdo. Sem veredito: {rej['sem_veredito']}.",
-              f"Frases reprovadas por inteiro (nao_apoiada) pelos três juízes: "
-              f"{sum(x['A'] == x['B'] == x['X'] == 'nao_apoiada' for ls in t.values() for x in ls)}; "
-              f"só pelo Codex: {sum(x['X'] == 'nao_apoiada' and 'nao_apoiada' not in (x['A'], x['B']) for ls in t.values() for x in ls)}.",
-              f"Frases divididas (os dois Sonnet de um lado e o Codex do outro, ou empate): {len(div)}, em "
-              f"{len({q for q, _ in div})} respostas."]
+        L += [
+            "",
+            (
+                f"Sonnet A e Codex concordam no tipo da frase (conteúdo ou comentário) em "
+                f"{sum(a == b for a, b in tipo)} de {len(tipo)}."
+            ),
+            (
+                f"Vereditos do Codex rejeitados por passagem que não existe no trecho citado: {rej['rejeitado']} de "
+                f"{sum(rej[k] for k in CLASSES)} frases de conteúdo. Sem veredito: {rej['sem_veredito']}."
+            ),
+            (
+                "Frases reprovadas por inteiro (nao_apoiada) pelos três juízes: "
+                f"{sum(x['A'] == x['B'] == x['X'] == 'nao_apoiada' for ls in t.values() for x in ls)}; "
+                "só pelo Codex: "
+                f"{sum(x['X'] == 'nao_apoiada' and 'nao_apoiada' not in (x['A'], x['B']) for ls in t.values() for x in ls)}."
+            ),
+            (
+                f"Frases divididas (os dois Sonnet de um lado e o Codex do outro, ou empate): {len(div)}, em "
+                f"{len({q for q, _ in div})} respostas."
+            ),
+        ]
         if tem_opus:
             o = Counter((binario(x["A"]) if x["A"] == x["B"] or binario(x["A"]) == binario(x["B"]) else "empate",
                          binario(x["X"]), binario(x["O"])) for _, x in div)
@@ -208,7 +224,7 @@ def medir() -> None:
     a, b = tabs["haiku"], tabs["opus"]
     comuns = [q for q in a if q in b]
     d = [fidelidade({q: b[q]}, "final")[0] - fidelidade({q: a[q]}, "final")[0] for q in comuns]
-    d = [x for x in d if x == x]
+    d = [x for x in d if not math.isnan(x)]
     rnd = random.Random(mr.SEMENTE)
     ms = sorted(sum(rnd.choice(d) for _ in d) / len(d) for _ in range(mr.N_BOOT))
     L.append(f"Opus menos Haiku na fidelidade final, pergunta a pergunta ({len(d)} perguntas respondidas pelos dois): "
@@ -281,8 +297,8 @@ def desempatar() -> None:
         feito = mr.ler(destino, {})
         faltam = [i for i in base["itens"] if i["id"] in quais and i["id"] not in feito]
 
-        def um(item: dict) -> tuple[str, dict]:
-            p = mr.prompt_do_juiz2(item, resp[g][item["id"]]["resposta"], base["frase_sem_resposta"])
+        def um(item: dict, gerador: str = g) -> tuple[str, dict]:
+            p = mr.prompt_do_juiz2(item, resp[gerador][item["id"]]["resposta"], base["frase_sem_resposta"])
             for _ in range(2):
                 bruto, uso = mr.chamar_claude("opus", mr.SISTEMA_JUIZ, p)
                 d = mr.extrair_json(bruto)
