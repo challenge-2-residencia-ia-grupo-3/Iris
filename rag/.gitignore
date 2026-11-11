@@ -1,7 +1,6 @@
 # Gerados pela ingestão e pela indexação; não versionar
 iris-rag/pacote/chunks.jsonl
 iris-rag/pacote/cache/
-iris-rag/pacote/chroma/
 iris-rag/pacote/.venv/
 iris-rag/raw/
 

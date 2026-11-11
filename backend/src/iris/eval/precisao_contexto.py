@@ -100,7 +100,7 @@ def pontuar_ragas_por_id(recuperados: list[str], referencia: list[str]) -> float
 
 
 def ranqueador_do_pacote() -> Ranqueador:
-    """Ranqueador real: ``consultar.ranking`` do pacote RAG (lê RAG_BANCO e RAG_CHROMA na importação)."""
+    """Ranqueador real: ``consultar.ranking`` do pacote RAG (consulta o PostgreSQL com pgvector indicado em RAG_PG_DSN)."""
     from iris.rag.bridge import carregar_modulos_rag
 
     _, consultar, _ = carregar_modulos_rag()

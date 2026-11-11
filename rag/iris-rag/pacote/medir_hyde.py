@@ -27,7 +27,7 @@ Conjuntos de perguntas:
 Técnica: nenhum modelo é treinado. Modelos prontos (Qwen3-Embedding, reranker mMiniLM e o Claude Haiku, que escreve os
 textos), contagem e sorteio de perguntas (bootstrap). O Haiku NÃO é o modelo configurado no protótipo (Qwen, via Groq):
 o que se mede aqui é a técnica, com outro escritor. A busca é a conta exata do cosseno (como o pgvector faz no servidor),
-e não o índice aproximado do Chroma, para que a mesma pergunta dê sempre a mesma lista.
+e não o índice aproximado (HNSW), para que a mesma pergunta dê sempre a mesma lista.
 Os dois gabaritos são de modelo, sem conferência humana.
 Expectativa e critério: GABARITO-RASCUNHO.md, "Resposta imaginária (HyDE) e reescrita", commitados antes de `gerar`.
 Segunda medida: "Quem o reranker lê, e quantos candidatos", commitados antes de `notas-leitor`.
@@ -44,7 +44,7 @@ from pathlib import Path
 AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 import avaliar            # noqa: E402
-import medir_variacoes as mv  # noqa: E402  (gabaritos, diferença pareada; fixa RAG_BANCO=chroma)
+import medir_variacoes as mv  # noqa: E402  (gabaritos, diferença pareada)
 
 SAIDAS = AQUI.parents[1] / "outputs"
 CURTAS = AQUI / "perguntas_curtas.json"            # versionado: a medida depende dele
@@ -96,9 +96,9 @@ class Busca:
         import numpy as np
         import consultar
         self.np, self.consultar = np, consultar
-        tudo = consultar._colecao("qwen3").get(include=["embeddings"])
-        self.ids = list(tudo["ids"])
-        E = np.asarray(tudo["embeddings"], dtype=np.float64)
+        bp, con = consultar._pg()
+        self.ids, vetores = bp.todos_vetores(con, "qwen3")
+        E = np.asarray(vetores, dtype=np.float64)
         self.E = E / np.linalg.norm(E, axis=1, keepdims=True)
         self.modelo = consultar._modelo("qwen3")
 

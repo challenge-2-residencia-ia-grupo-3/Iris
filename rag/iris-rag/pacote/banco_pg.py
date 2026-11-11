@@ -2,7 +2,7 @@
 
 Uma tabela só (iris_trechos): cada linha é um trecho, com o texto, os metadados e uma coluna de
 vetor por modelo (vec_mpnet: 768 números; vec_qwen3: 1024). Índice HNSW com distância cosseno em
-cada coluna de vetor. A busca por palavra (BM25) continua em Python, igual à versão com Chroma.
+cada coluna de vetor. A busca por palavra (BM25) é feita em Python, fora do banco.
 
 Conexão: variável RAG_PG_DSN (padrão: postgresql://iris:iris@127.0.0.1:5433/iris).
 Subir o banco no Mac ou na VPS (uma vez):
@@ -35,8 +35,8 @@ def conectar():
 
 
 def criar_tabela(con) -> None:
-    """Cria a tabela se não existir. Os metadados viram colunas de verdade (com tipo), não texto
-    com '|' como no Chroma: barreiras e tema são listas (text[]), página é inteiro."""
+    """Cria a tabela se não existir. Os metadados viram colunas de verdade (com tipo):
+    barreiras e tema são listas (text[]), página é inteiro."""
     cols_vetor = ",\n".join(f"  vec_{m} vector({d})" for m, d in DIM.items())
     con.execute(f"""
 CREATE TABLE IF NOT EXISTS {TABELA} (
@@ -114,6 +114,13 @@ def buscar_denso(con, vetor, apelido: str, n: int, filtro: dict | None = None) -
     return [(r[0], float(r[1])) for r in con.execute(sql, [v, *params, v, n]).fetchall()]
 
 
+def todos_vetores(con, apelido: str) -> tuple[list[str], list]:
+    """Todos os vetores gravados do modelo, em ordem de chunk_id: serve à conta exata do cosseno."""
+    linhas = con.execute(f"SELECT chunk_id, vec_{apelido} FROM {TABELA} "
+                         f"WHERE vec_{apelido} IS NOT NULL ORDER BY chunk_id").fetchall()
+    return [r[0] for r in linhas], [r[1] for r in linhas]
+
+
 def tamanho_tabela(con) -> str:
     return con.execute(f"SELECT pg_size_pretty(pg_total_relation_size('{TABELA}'))").fetchone()[0]
 
@@ -138,6 +145,25 @@ def rodar(apelidos: list[str] | None = None) -> None:
         except KeyboardInterrupt:
             raise
     print("prontos:", colunas_prontas(con), "| tamanho da tabela com índices:", tamanho_tabela(con))
+    gravar_relatorio(con, len(chunks))
+
+
+def gravar_relatorio(con, n_chunks: int) -> None:
+    """Grava outputs/02-indexacao.txt com o que está no banco. Tempo e tamanho em disco ficam de fora:
+    mudam a cada rodada, e o arquivo precisa sair igual quando nada mudou."""
+    versao = con.execute("SELECT extversion FROM pg_extension WHERE extname = 'vector'").fetchone()[0]
+    L = ["RELATÓRIO DE INDEXAÇÃO - Íris: base de conhecimento no PostgreSQL com pgvector",
+         f"pgvector {versao} | tabela {TABELA} | índice HNSW (cosseno) em cada coluna de vetor", "",
+         f"Trechos em chunks.jsonl: {n_chunks} (ver outputs/01-chunking.txt)",
+         f"Linhas na tabela: {con.execute(f'SELECT count(*) FROM {TABELA}').fetchone()[0]}", "",
+         "modelo   coluna          n   dim"]
+    for a, dim in DIM.items():
+        n = con.execute(f"SELECT count(vec_{a}) FROM {TABELA}").fetchone()[0]
+        L.append(f"{a:8s} vec_{a:8s} {n:5d} {dim:5d}")
+    L += ["", "BM25 (rank_bm25): montado em memória a cada processo; não é gravado no banco."]
+    saida = os.path.join(os.path.dirname(os.path.abspath(__file__)), "outputs", "02-indexacao.txt")
+    with open(saida, "w", encoding="utf-8") as f:
+        f.write("\n".join(L) + "\n")
 
 
 if __name__ == "__main__":

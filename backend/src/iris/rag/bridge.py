@@ -212,7 +212,7 @@ def buscar_evidencias(
 ) -> list[dict[str, Any]]:
     """Executa a recuperação de trechos científicos no RAG de forma resiliente.
 
-    Se o banco vetorial (`pgvector`/`chroma`) não estiver acessível no ambiente local
+    Se o banco vetorial (`pgvector`) não estiver acessível no ambiente local
     e `fallback_bm25_se_sem_banco=True`, utiliza automaticamente o método lexical `bm25`
     sobre os trechos carregados em memória.
     """
