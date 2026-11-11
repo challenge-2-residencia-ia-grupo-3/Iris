@@ -123,6 +123,8 @@ def decompose_material_service(raw_text: str) -> MaterialStructure:
 
     # Garante sanitização de PII antes de decompor
     sanitized, _ = sanitize_pii(raw_text)
+    # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
+    validate_material_content(sanitized)
     return decompose_material(sanitized)
 
 
