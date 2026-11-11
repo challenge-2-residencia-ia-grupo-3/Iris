@@ -51,7 +51,7 @@ RE_CONTEXT_MARKER = re.compile(
     r"|"
     r"(?:texto\s+(?:para\s+a\s+quest[aã]o|referente\s+[aà]\s+quest[aã]o)\s+(\d{1,3}))"
     r"|"
-    r"(?:texto\s*[-–]?\s*base|texto\s+de\s+apoio|texto\s+\d+|texto\s+[a-z])\s*[:.\-–]?"
+    r"(?:texto\s*[-–]?\s*base|texto\s+de\s+apoio|texto\s+\d+\b|texto\s+[a-z](?=\s*(?:[:.\-–]|$)))\s*[:.\-–]?"
     r")",
 )
 
@@ -99,6 +99,23 @@ RE_HEADER_INDICATORS = re.compile(
 )
 
 
+# Título de bloco de instruções gerais (ex.: "Instruções:", "Orientações gerais")
+RE_INSTRUCTIONS_HEADING = re.compile(
+    r"(?i)^[ \t]*(?:instru[cç][oõ]es|orienta[cç][oõ]es)(?:\s+gerais)?\s*[:.\-–]?\s*$"
+)
+
+# Lacuna de preenchimento (três ou mais sublinhados)
+RE_GAP = re.compile(r"_{3,}")
+
+
+def _is_fill_in_the_blank(line: str) -> bool:
+    """Distingue enunciado com lacuna ("O Brasil foi descoberto em ____.") de rótulo com linha ("Nome: ____")."""
+    before = RE_GAP.split(line.strip(), maxsplit=1)[0].strip()
+    if not before or before.endswith(":"):
+        return False
+    return len(before.split()) >= 3
+
+
 def _extract_target_questions(text: str) -> list[str]:
     """Extrai os números das questões vinculadas a uma diretiva de texto de apoio."""
     m_range = RE_TARGET_RANGE.search(text)
@@ -128,19 +145,29 @@ def _parse_question_body(
     body_text: str,
     raw_block: str,
     index: int,
-) -> QuestionItem:
-    """Decompõe o corpo de uma questão em enunciado, alternativas e linhas de resposta."""
+) -> tuple[QuestionItem, Optional[str]]:
+    """Decompõe o corpo de uma questão em enunciado, alternativas e linhas de resposta.
+
+    Retorna também o trecho que aparece depois das alternativas sem pertencer a elas
+    (separado por linha em branco), para que seja preservado em `unclassified_blocks`.
+    """
     lines = body_text.split("\n")
     statement_lines: list[str] = []
     options: list[AlternativeItem] = []
     answer_space_lines: list[str] = []
 
+    trailing_lines: list[str] = []
+
     in_options = False
+    options_closed = False
 
     for line in lines:
         stripped = line.strip()
         if not stripped:
-            if not in_options and not answer_space_lines:
+            if in_options:
+                # Linha em branco encerra a continuação da última alternativa
+                options_closed = True
+            elif not answer_space_lines:
                 statement_lines.append("")
             continue
 
@@ -151,6 +178,7 @@ def _parse_question_body(
             if prefix:
                 statement_lines.append(prefix)
             in_options = True
+            options_closed = False
             for m in inline_matches:
                 let = (m.group(1) or m.group(2) or m.group(3)).upper()
                 opt_txt = m.group(4).strip()
@@ -161,19 +189,23 @@ def _parse_question_body(
         m_opt = RE_OPTION_LINE.match(line)
         if m_opt:
             in_options = True
+            options_closed = False
             letter = (m_opt.group(1) or m_opt.group(2) or m_opt.group(3)).upper()
             text = m_opt.group(4).strip()
             options.append(AlternativeItem(letter=letter, text=text))
             continue
 
         # Verifica se é uma linha de espaço de resposta
-        if RE_ANSWER_SPACE_LINE.match(line):
+        if RE_ANSWER_SPACE_LINE.match(line) and not _is_fill_in_the_blank(line):
             in_options = False
             answer_space_lines.append(stripped)
             continue
 
         # Linha normal ou continuação
-        if in_options:
+        if in_options and options_closed:
+            # Texto após as alternativas, separado por linha em branco: não pertence à última alternativa
+            trailing_lines.append(stripped)
+        elif in_options:
             # Continuação da alternativa anterior (ex.: parágrafo longo de opção)
             if options:
                 options[-1].text += " " + stripped
@@ -209,7 +241,7 @@ def _parse_question_body(
     else:
         question_type = "dissertativa"
 
-    return QuestionItem(
+    question = QuestionItem(
         id=f"q_{index}",
         original_number=original_number,
         statement=statement,
@@ -219,11 +251,13 @@ def _parse_question_body(
         context_refs=[],
         raw_text=raw_block.strip(),
     )
+    return question, ("\n".join(trailing_lines) if trailing_lines else None)
 
 
 def _parse_context_block(block_text: str, index: int) -> ContextBlock:
     """Decompõe um bloco de texto de apoio em título, diretiva e conteúdo."""
-    lines = [l.strip() for l in block_text.split("\n") if l.strip()]
+    raw_lines = block_text.split("\n")
+    lines = [l.strip() for l in raw_lines if l.strip()]
     if not lines:
         return ContextBlock(id=f"ctx_{index}", text="")
 
@@ -262,7 +296,13 @@ def _parse_context_block(block_text: str, index: int) -> ContextBlock:
                     instruction = l
                 break
 
-    text_body = "\n\n".join(lines[body_start_idx:]).strip() if body_start_idx < len(lines) else block_text.strip()
+    # Corpo com as quebras de linha originais (parágrafos e estrofes preservados)
+    if body_start_idx < len(lines):
+        non_empty_positions = [pos for pos, l in enumerate(raw_lines) if l.strip()]
+        body_first_line = non_empty_positions[body_start_idx]
+        text_body = "\n".join(l.rstrip() for l in raw_lines[body_first_line:]).strip()
+    else:
+        text_body = block_text.strip()
 
     return ContextBlock(
         id=f"ctx_{index}",
@@ -300,14 +340,31 @@ def decompose_material(raw_text: str) -> MaterialStructure:
     # 2. Escanear marcadores estruturais (questões e textos de apoio)
     # Lista de tuplas: (tipo, linha_idx, match, numeração_original)
     markers: list[tuple[str, int, Any, str]] = []
+    instruction_idx: set[int] = set()
+    in_instructions = False
 
     for idx, line in enumerate(lines):
         m_c = RE_CONTEXT_MARKER.match(line)
+        m_q = RE_QUESTION_MARKER.match(line)
+
+        # Bloco de instruções gerais antes da primeira questão: itens numerados não são questões.
+        # O bloco termina em linha em branco, em texto de apoio ou em questão com rótulo ("Questão 1").
+        if in_instructions:
+            labeled_question = bool(m_q and (m_q.group(1) or m_q.group(3)))
+            if not line.strip() or m_c or labeled_question:
+                in_instructions = False
+            else:
+                instruction_idx.add(idx)
+                continue
+        elif not markers and RE_INSTRUCTIONS_HEADING.match(line):
+            in_instructions = True
+            instruction_idx.add(idx)
+            continue
+
         if m_c:
             markers.append(("context", idx, m_c, ""))
             continue
 
-        m_q = RE_QUESTION_MARKER.match(line)
         if m_q:
             # Extrai a numeração original da questão
             orig_num = (
@@ -337,7 +394,9 @@ def decompose_material(raw_text: str) -> MaterialStructure:
     first_marker_line = markers[0][1]
     header_text: Optional[str] = None
     if first_marker_line > 0:
-        candidate_header = "\n".join(lines[:first_marker_line]).strip()
+        candidate_header = "\n".join(
+            l for pos, l in enumerate(lines[:first_marker_line]) if pos not in instruction_idx
+        ).strip()
         if candidate_header:
             header_text = candidate_header
 
@@ -347,6 +406,7 @@ def decompose_material(raw_text: str) -> MaterialStructure:
     questions: list[QuestionItem] = []
     unclassified_blocks: list[str] = []
     context_subsequent_questions: dict[str, list[QuestionItem]] = {}
+    context_question_offset: dict[str, int] = {}
     current_ctx_id: Optional[str] = None
 
     q_counter = 1
@@ -372,6 +432,7 @@ def decompose_material(raw_text: str) -> MaterialStructure:
             context_blocks.append(cb)
             current_ctx_id = cb.id
             context_subsequent_questions[cb.id] = []
+            context_question_offset[cb.id] = len(questions)
             ctx_counter += 1
 
         elif mtype == "question":
@@ -381,13 +442,15 @@ def decompose_material(raw_text: str) -> MaterialStructure:
             body_first_line = first_line[marker_len:].strip()
             rest_of_body = "\n".join([body_first_line] + block_lines[1:])
 
-            q_item = _parse_question_body(
+            q_item, trailing_text = _parse_question_body(
                 original_number=orig_num if orig_num else str(q_counter),
                 body_text=rest_of_body,
                 raw_block=block_text,
                 index=q_counter,
             )
             questions.append(q_item)
+            if trailing_text:
+                unclassified_blocks.append(trailing_text)
             if current_ctx_id and current_ctx_id in context_subsequent_questions:
                 context_subsequent_questions[current_ctx_id].append(q_item)
             q_counter += 1
@@ -398,19 +461,25 @@ def decompose_material(raw_text: str) -> MaterialStructure:
         i += 1
 
     # 5. Associação Relacional entre Textos de Apoio e Questões
-    # Cria mapa de numeração normalizada (apenas dígitos) para encontrar questões
-    question_digit_map: dict[str, QuestionItem] = {}
+    # Numeração normalizada (apenas dígitos) de cada questão, na ordem do documento
+    question_digits: list[Optional[str]] = []
     for q in questions:
         digits = re.findall(r"\d+", q.original_number)
-        if digits:
-            question_digit_map[digits[0]] = q
+        question_digits.append(digits[0] if digits else None)
+
+    def _find_target(number: str, offset: int) -> Optional[QuestionItem]:
+        """Primeira questão com esse número depois do texto de apoio; se não houver, a mais próxima antes dele."""
+        for pos in list(range(offset, len(questions))) + list(range(offset - 1, -1, -1)):
+            if question_digits[pos] == number:
+                return questions[pos]
+        return None
 
     for cb in context_blocks:
         # Se tem alvos explícitos
         if cb.target_questions:
             for t in cb.target_questions:
-                # Tenta match exato ou numérico
-                target_q = question_digit_map.get(t)
+                # Numeração pode se repetir entre seções: resolve pela posição do texto de apoio
+                target_q = _find_target(t, context_question_offset.get(cb.id, 0))
                 if target_q and cb.id not in target_q.context_refs:
                     target_q.context_refs.append(cb.id)
         else:
@@ -434,7 +503,7 @@ def decompose_material(raw_text: str) -> MaterialStructure:
 
     return MaterialStructure(
         header=header_text,
-        instructions=None,
+        instructions="\n".join(lines[pos].strip() for pos in sorted(instruction_idx)) or None,
         context_blocks=context_blocks,
         questions=questions,
         unclassified_blocks=unclassified_blocks,
