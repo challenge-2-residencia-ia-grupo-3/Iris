@@ -41,7 +41,7 @@ rel = auditor.executar_ciclo(enunciado, inv, adaptar, nao_sel)
 |---|---|---|
 | TRCC | `iris.eval.trcc.avaliar_trcc` (determinístico) | < 95%; trava vazia também reprova |
 | Termos intocáveis | `avaliar_trcc` sobre `termos_tecnicos_intocaveis` | qualquer termo ausente |
-| Resolução indevida | regras + juiz LLM | marca de gabarito nova, cálculo já resolvido (`12 × 25 = 300`), alternativas reduzidas a ≤ 1, ou juiz aponta |
+| Resolução indevida | regras + juiz LLM | marca de gabarito nova, cálculo já resolvido (`12 × 25 = 300`), alternativas reduzidas a ≤ 1 (contadas pelo conteúdo, não pela letra: renumerar `a)` como `1.` não é eliminar), ou juiz aponta |
 | Intrusão | juiz LLM, só com características NÃO selecionadas | juiz aponta (ou só avisa, com `intrusao_bloqueia=False`) |
 | Juiz inválido | JSON inválido após 2 tentativas (a 2ª com temperatura 0,3 e o dobro de tokens) | sempre reprova (falha fechada) |
 

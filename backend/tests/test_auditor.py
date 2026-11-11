@@ -70,6 +70,19 @@ def test_alternativas_eliminadas_ate_sobrar_uma():
     assert any("eliminadas" in m for m in sinais_resolucao_deterministicos(ORIG, adap))
 
 
+@pytest.mark.parametrize("formato", ["{n}. {c}", "[ ] {l}) {c}", "- {c}"])
+def test_alternativas_renumeradas_nao_sao_eliminacao(formato):
+    linhas = [formato.format(n=i, l=l, c=c) for i, (l, c) in enumerate(
+        [("A", "R$ 300"), ("B", "R$ 420"), ("C", "R$ 500"), ("D", "R$ 120")], 1)]
+    adap = BOA.split("A)")[0] + "\n".join(linhas)
+    assert sinais_resolucao_deterministicos(ORIG, adap) == []
+
+
+def test_raciocinio_entre_tags_think_e_ignorado():
+    r = AgenteAuditor(Juiz("<think>talvez {resolveu} ...</think>\n" + OK)).auditar(ORIG, BOA, TRAVAS)
+    assert r.juiz_valido and r.aprovado
+
+
 def test_juiz_detecta_resolucao_sutil():
     j = json.dumps({"resolveu_questao": True, "evidencia_resolucao": "Vendeu também 8 bonés a R$ 15 cada", "modificacoes_intrusivas": []})
     r = AgenteAuditor(Juiz(j)).auditar(ORIG, BOA, TRAVAS)
