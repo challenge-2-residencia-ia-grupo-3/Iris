@@ -115,6 +115,49 @@ def _is_question_line(line: str) -> bool:
     return False
 
 
+def _ordered_marker(line: str) -> Optional[str]:
+    """Devolve o marcador de um item de lista ordenada ("3", "b"), ou None se a linha não for item."""
+    match = RE_ORDERED_ITEM.match(line)
+    return (match.group(1) or match.group(2)) if match else None
+
+
+def _is_next_marker(previous: Optional[str], current: Optional[str]) -> bool:
+    """Indica se `current` é o marcador seguinte a `previous` (2 depois de 1, b depois de a)."""
+    if not previous or not current:
+        return False
+    if previous.isdigit() and current.isdigit():
+        return int(current) == int(previous) + 1
+    if len(previous) == 1 and len(current) == 1 and previous.isalpha() and current.isalpha():
+        return ord(current) == ord(previous) + 1
+    return False
+
+
+def _nearest_filled_line(raw_lines: list[str], idx: int, step: int) -> Optional[str]:
+    """Devolve a linha não vazia mais próxima de `idx` na direção `step`, saltando linhas em branco."""
+    idx += step
+    while 0 <= idx < len(raw_lines):
+        if raw_lines[idx].strip():
+            return raw_lines[idx].strip()
+        idx += step
+    return None
+
+
+def _continues_after_blank(raw_lines: list[str], idx: int) -> bool:
+    """Indica se o item seguinte, separado por linha em branco, continua a numeração deste."""
+    if idx + 1 >= len(raw_lines) or raw_lines[idx + 1].strip():
+        return False
+    following = _nearest_filled_line(raw_lines, idx, 1)
+    return following is not None and _is_next_marker(_ordered_marker(raw_lines[idx]), _ordered_marker(following))
+
+
+def _follows_after_blank(raw_lines: list[str], idx: int) -> bool:
+    """Indica se este item continua a numeração do item anterior, separado por linha em branco."""
+    if idx == 0 or raw_lines[idx - 1].strip():
+        return False
+    preceding = _nearest_filled_line(raw_lines, idx, -1)
+    return preceding is not None and _is_next_marker(_ordered_marker(preceding), _ordered_marker(raw_lines[idx]))
+
+
 def _detect_heading(
     line: str,
     is_first_line: bool = False,
@@ -320,8 +363,19 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
                 is_in_ordered_list = True
             elif len(units) > 0 and units[-1]["kind"] == "list_item":
                 is_in_ordered_list = True
+            # Itens separados por linha em branco contam quando a numeração é consecutiva
+            elif _continues_after_blank(raw_lines, idx) or _follows_after_blank(raw_lines, idx):
+                is_in_ordered_list = True
 
-            if is_in_ordered_list and not _is_question_line(line):
+            # Um verbo de comando não encerra a lista quando o item continua a numeração dela
+            continues_open_list = (
+                len(units) > 0
+                and units[-1]["kind"] == "list_item"
+                and units[-1]["metadata"].get("list_type") == "ordered"
+                and _is_next_marker(units[-1]["metadata"].get("marker"), marker_str)
+            )
+
+            if is_in_ordered_list and (continues_open_list or not _is_question_line(line)):
                 units.append({
                     "kind": "list_item",
                     "element_type": "list_item",
@@ -345,6 +399,8 @@ def organize_prose_structure(raw_text: str) -> ProseStructure:
             if RE_BULLET_ITEM.match(next_l) or _detect_heading(next_l, False, False, False):
                 break
             if RE_ORDERED_ITEM.match(next_l) and idx + 1 < total_lines and RE_ORDERED_ITEM.match(raw_lines[idx + 1].strip()):
+                break
+            if RE_ORDERED_ITEM.match(next_l) and _continues_after_blank(raw_lines, idx):
                 break
             para_lines.append(next_str)
             idx += 1

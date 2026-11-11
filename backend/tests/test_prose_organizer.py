@@ -425,6 +425,48 @@ class TestProseOrganizer(unittest.TestCase):
         self.assertIn("Higienize", lists[0].children[0].content)
         self.assertIn("Coloque", lists[0].children[1].content)
 
+    def test_item_iniciado_por_verbo_de_comando_permanece_na_lista(self) -> None:
+        """Um item que continua a numeração da lista não sai dela por começar com verbo de comando."""
+        doc = (
+            "Siga os passos abaixo:\n"
+            "1. Abra o livro.\n"
+            "2. Leia o texto.\n"
+            "3. Responda no caderno.\n"
+            "4. Entregue a folha."
+        )
+        res = organize_prose_structure(doc)
+        lists = res.get_lists()
+        self.assertEqual(len(lists), 1)
+        self.assertEqual(
+            [item.content for item in lists[0].children],
+            ["Abra o livro.", "Leia o texto.", "Responda no caderno.", "Entregue a folha."],
+        )
+        self.assertEqual([p.content for p in res.get_paragraphs()], ["Siga os passos abaixo:"])
+
+    def test_itens_numerados_separados_por_linha_em_branco_formam_lista(self) -> None:
+        """Itens de numeração consecutiva separados por linha em branco formam uma única lista."""
+        doc = "Passos:\n1. Abra o livro.\n\n2. Leia o texto.\n\n3. Responda no caderno."
+        res = organize_prose_structure(doc)
+        lists = res.get_lists()
+        self.assertEqual(len(lists), 1)
+        self.assertEqual(lists[0].content, "1. Abra o livro.\n2. Leia o texto.\n3. Responda no caderno.")
+        self.assertEqual([p.content for p in res.get_paragraphs()], ["Passos:"])
+
+    def test_enunciados_numerados_nao_viram_lista(self) -> None:
+        """Enunciados de questão numerados, juntos ou separados por linha em branco, não formam lista."""
+        for doc in (
+            "1. Explique o ciclo da água.\n2. Calcule a área do quadrado.",
+            "1. Explique o ciclo da água.\n\n2. Calcule a área do quadrado.",
+        ):
+            with self.subTest(doc=doc):
+                self.assertEqual(organize_prose_structure(doc).get_lists(), [])
+
+    def test_secoes_numeradas_separadas_por_linha_em_branco_continuam_secoes(self) -> None:
+        """Títulos de seção numerados e separados por linha em branco não são tratados como lista."""
+        res = organize_prose_structure("1. Introdução\n\n2. Método\n\n3. Resultados")
+        self.assertEqual(res.get_lists(), [])
+        self.assertEqual([n.element_type for n in res.flatten()], ["section", "section", "section"])
+
     def test_servico_organize_prose_rejeita_janela_de_contexto_excedida(self) -> None:
         """O serviço deve rejeitar materiais que ultrapassam a janela de contexto segura."""
         texto_longo = "Texto de teste para validação de contexto.\n" * 4_000  # > 160.000 caracteres
