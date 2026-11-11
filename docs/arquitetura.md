@@ -338,3 +338,8 @@ O dataset contém **30 questões escolares reais** cobrindo Português, Matemát
 ### 7.3. Métricas de Fidelidade Pedagógica (`iris.eval.metrics`)
 * **TRCC (Taxa de Retenção de Conceitos-Chave):** Razão entre os conceitos obrigatórios da trava curricular retidos no material adaptado versus os conceitos originais (critério inegociável: $\ge 0.95$).
 * **SAEN (Aderência Estrutural ao Nível):** Verificador estrutural das exigências formais de cada nível (Nível 1: destaque tipográfico; Nível 2: checklists e decomposição; Nível 3: escalonamento passo a passo).
+
+### 7.4. Telemetria e Analytics do Agente Extrator (`iris.eval.extractor_analytics`)
+* **Separação *Cold Start* vs. Inferência Real:** O `OllamaLLMProvider` captura nativamente `load_duration`, `prompt_eval_duration` e `eval_duration` em milissegundos, permitindo auditar o desempenho real de inferência (RNF-07) sem distorção do carregamento inicial de pesos em GPU/RAM.
+* **Registro Anônimo (Zero-PII):** A execução registra apenas metadados operacionais em `reports/extractor_telemetry.jsonl` (`disciplina`, `faixa_etaria`, `comando_conjugado`, `inference_ms`, `tokens_per_sec`, `trava_recall` Zero-Hint), mantendo conformidade integral com o princípio Zero-Database.
+* **Consultas Dinâmicas:** Disponível via menu interativo (`make extrator`), CLI (`make extrator-analytics`) e endpoint REST `GET /api/v1/eval/extractor-analytics` com filtros por disciplina, faixa etária e tipo de questão.

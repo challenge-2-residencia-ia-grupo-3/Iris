@@ -14,6 +14,9 @@ from iris.schemas.catalog import (
 from iris.schemas.curriculum import (
     CurriculumInvariants,
     ExtractionRequest,
+    ExtractionResult,
+    ExtractionTelemetry,
+    classificar_faixa_etaria,
 )
 from iris.schemas.materials import (
     MAX_FILE_SIZE_BYTES,
@@ -37,6 +40,9 @@ __all__ = [
     "CharacteristicItem",
     "CurriculumInvariants",
     "ExtractionRequest",
+    "ExtractionResult",
+    "ExtractionTelemetry",
+    "classificar_faixa_etaria",
     "ScaffoldingLevelGuideline",
     "get_characteristic_by_id",
     "load_all_catalogs",

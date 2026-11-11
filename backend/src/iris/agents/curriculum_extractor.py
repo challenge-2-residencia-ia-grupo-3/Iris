@@ -6,70 +6,53 @@ da BNCC e alertas anti-muleta), impedindo o empobrecimento cognitivo da avaliaç
 """
 from __future__ import annotations
 
+import inspect
 import json
 import logging
 import re
-from typing import TYPE_CHECKING, Optional
+import time
+from datetime import datetime, timezone
+from typing import TYPE_CHECKING, Iterable, Optional
 
-from iris.core.llm_client import HybridLLMClient, get_llm_client, strip_thinking_tags
-from iris.schemas.curriculum import CurriculumInvariants, ExtractionRequest
+from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, strip_thinking_tags
+from iris.eval.trcc import avaliar_trcc
+from iris.schemas.curriculum import (
+    CurriculumInvariants,
+    ExtractionRequest,
+    ExtractionResult,
+    ExtractionTelemetry,
+    classificar_faixa_etaria,
+)
 
 if TYPE_CHECKING:
     from iris.eval.benchmark import GoldenQuestion
 
 logger = logging.getLogger(__name__)
 
-SYSTEM_PROMPT_EXTRATOR = """Você é o Agente Extrator Curricular da plataforma Íris (Copiloto Pedagógico Baseado em Evidências).
-Sua missão é atuar como autoridade em currículo escolar brasileiro (BNCC) e Desenho Universal para a Aprendizagem (DUA).
+# Prompt de sistema enxuto e estável para maximizar reaproveitamento de KV-cache no Ollama
+SYSTEM_PROMPT_EXTRATOR = """Você é o Agente Extrator Curricular da plataforma Íris (BNCC e DUA).
+Extraia os INVARIANTES CURRICULARES de uma questão escolar em JSON estrito.
+REGRA CRÍTICA PARA TRCC: em "conceitos_obrigatorios", liste TERMOS LITERAIS exatamente como aparecem no enunciado (incluindo nomes próprios, dados numéricos, equações, elementos da frase analisada e termos-chave com o mesmo plural/flexão do texto original). NUNCA use rótulos genéricos ausentes do texto (como "personagem" ou "ação").
 
-Ao analisar uma questão ou atividade didática, você DEVE extrair com precisão cirúrgica os INVARIANTES CURRICULARES:
-1. conceitos_obrigatorios: lista dos termos nucleares e conceitos científicos inegociáveis. Se a questão avalia fotossíntese, termos como "fotossíntese", "oxigênio" e "glicose" são invariantes.
-2. termos_tecnicos_intocaveis: termos próprios da matéria que NÃO podem ser simplificados ou substituídos por linguagem infantil/gírias.
-3. verbo_comando_bncc: verbo taxonômico (ex.: 'identificar', 'calcular', 'analisar', 'inferir', 'comparar', 'diferenciar') que indica o nível de exigência cognitiva da questão.
-4. operacao_cognitiva: descrição clara do raciocínio que o estudante DEVE realizar para solucionar a atividade.
-5. habilidade_bncc_sugerida: código BNCC inferido (ex: 'EF06CI05', 'EF08MA03', 'EM13LP01') ou null se não identificável.
-6. alerta_anti_muleta: instrução clara e imperativa para o Agente Adaptador proibindo que ele resolva a questão, dê dicas que entreguem a resposta ou suprima o esforço cognitivo do aluno.
-7. justificativa_preservacao: fundamentação pedagógica sucinta da importância de manter essa trava.
+Campos JSON:
+- conceitos_obrigatorios: termos literais do enunciado essenciais para preservar a questão.
+- termos_tecnicos_intocaveis: vocabulário disciplinar ou dados que NÃO podem ser trocados.
+- verbo_comando_bncc: verbo principal no infinitivo (ex: calcular, explicar, identificar, circular, ler).
+- operacao_cognitiva: 1 frase curta com o raciocínio exigido do aluno.
+- habilidade_bncc_sugerida: código BNCC (ex: EF06CI05, EF07MA18) ou null.
+- alerta_anti_muleta: 1 frase proibindo entregar a resposta ou resolver pelo aluno.
+- justificativa_preservacao: 1 frase curta justificando a trava.
 
-Retorne EXCLUSIVAMENTE um objeto JSON válido no formato:
-{
-  "conceitos_obrigatorios": ["conceito 1", "conceito 2"],
-  "termos_tecnicos_intocaveis": ["termo 1", "termo 2"],
-  "verbo_comando_bncc": "verbo",
-  "operacao_cognitiva": "descrição da operação cognitiva",
-  "habilidade_bncc_sugerida": "EFxxYYzz",
-  "alerta_anti_muleta": "O que NÃO pode ser entregue ou simplificado",
-  "justificativa_preservacao": "Por que a trava é inegociável"
-}
-"""
+Ex1 (Ciências): "Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese."
+-> {"conceitos_obrigatorios":["fotossíntese","cloroplastos","luz solar","glicose","oxigênio"],"termos_tecnicos_intocaveis":["cloroplastos","glicose"],"verbo_comando_bncc":"explicar","operacao_cognitiva":"explicar a conversão de energia solar em glicose","habilidade_bncc_sugerida":"EF06CI05","alerta_anti_muleta":"Não explique a função do cloroplasto nem dê a reação pronta.","justificativa_preservacao":"Exige articulação causal."}
 
-FEW_SHOT_EXEMPLOS = """
-Exemplo 1 (Ciências):
-ENUNCIADO: "Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese."
-RESPOSTA:
-{
-  "conceitos_obrigatorios": ["fotossíntese", "cloroplastos", "glicose", "oxigênio"],
-  "termos_tecnicos_intocaveis": ["cloroplastos", "energia solar", "glicose"],
-  "verbo_comando_bncc": "explicar",
-  "operacao_cognitiva": "explicar o processo biológico de transformação de energia luminosa em energia química",
-  "habilidade_bncc_sugerida": "EF06CI05",
-  "alerta_anti_muleta": "Não explique a função do cloroplasto nem descreva a reação química pelo aluno; limite a intervenção à organização visual do enunciado.",
-  "justificativa_preservacao": "A habilidade exige que o próprio estudante articule a relação entre organela e síntese de nutrientes."
-}
+Ex2 (Matemática): "Determine o valor da incógnita na equação 2x + 6 = 14."
+-> {"conceitos_obrigatorios":["equação","incógnita","2x + 6 = 14"],"termos_tecnicos_intocaveis":["2x + 6 = 14","incógnita"],"verbo_comando_bncc":"determinar","operacao_cognitiva":"isolar a incógnita aplicando operações inversas","habilidade_bncc_sugerida":"EF07MA18","alerta_anti_muleta":"Proibido antecipar x = 4 ou resolver 14 - 6 = 8.","justificativa_preservacao":"Avalia resolução algébrica."}
 
-Exemplo 2 (Matemática):
-ENUNCIADO: "Determine o valor da incógnita na equação 2x + 6 = 14."
-RESPOSTA:
-{
-  "conceitos_obrigatorios": ["equação", "incógnita", "2x + 6 = 14"],
-  "termos_tecnicos_intocaveis": ["2x + 6 = 14", "incógnita"],
-  "verbo_comando_bncc": "determinar",
-  "operacao_cognitiva": "resolver equação polinomial de 1º grau aplicando operações inversas para isolar a incógnita",
-  "habilidade_bncc_sugerida": "EF07MA18",
-  "alerta_anti_muleta": "Proibido antecipar a resposta x = 4 ou realizar os passos aritméticos (14 - 6 = 8); o aluno deve efetuar os cálculos.",
-  "justificativa_preservacao": "A avaliação afere o domínio procedimental de resolução de equações."
-}
-"""
+Ex3 (Português): "Identifique o sujeito: Maria e João foram ao mercado."
+-> {"conceitos_obrigatorios":["sujeito","Maria","João","mercado"],"termos_tecnicos_intocaveis":["sujeito","Maria","João"],"verbo_comando_bncc":"identificar","operacao_cognitiva":"reconhecer o sujeito da oração dada","habilidade_bncc_sugerida":"EF06LP06","alerta_anti_muleta":"Não aponte quem é o sujeito da frase.","justificativa_preservacao":"Preserva os elementos literais avaliados."}
+
+Retorne APENAS o JSON válido."""
 
 VERBOS_BNCC_COMUNS = (
     "analisar", "analise", "avalie", "avaliar", "calcular", "calcule",
@@ -90,8 +73,9 @@ VERBOS_BNCC_COMUNS = (
 class CurriculumExtractorAgent:
     """Agente de IA especializado na identificação e blindagem de invariantes curriculares."""
 
-    def __init__(self, llm_client: Optional[HybridLLMClient] = None) -> None:
+    def __init__(self, llm_client: Optional[HybridLLMClient] = None, max_tokens: int = 500) -> None:
         self.llm_client = llm_client or get_llm_client()
+        self.max_tokens = max_tokens
 
     def extract(
         self,
@@ -102,65 +86,182 @@ class CurriculumExtractorAgent:
         trava_manual_docente: Optional[list[str]] = None,
     ) -> CurriculumInvariants:
         """Extrai os invariantes curriculares inegociáveis do insumo pedagógico."""
+        return self.extract_with_telemetry(
+            request=request,
+            contexto_apoio=contexto_apoio,
+            disciplina=disciplina,
+            ano_escolar=ano_escolar,
+            trava_manual_docente=trava_manual_docente,
+        ).invariants
+
+    def extract_with_telemetry(
+        self,
+        request: ExtractionRequest | str,
+        contexto_apoio: Optional[str] = None,
+        disciplina: Optional[str] = None,
+        ano_escolar: Optional[str] = None,
+        trava_manual_docente: Optional[list[str]] = None,
+        question_id: Optional[str] = None,
+        tema: Optional[str] = None,
+        comando_conjugado: Optional[bool] = None,
+        trava_referencia: Optional[Iterable[str]] = None,
+    ) -> ExtractionResult:
+        """Extrai invariantes curriculares retornando métricas operacionais de execução."""
+        req = self._normalizar_request(
+            request,
+            contexto_apoio=contexto_apoio,
+            disciplina=disciplina,
+            ano_escolar=ano_escolar,
+            trava_manual_docente=trava_manual_docente,
+        )
+        prompt_usuario = self._montar_prompt_usuario(req)
+
+        t0 = time.perf_counter()
+        used_fallback = False
+        json_valido_direto = True
+        resposta_llm: Optional[LLMResponse] = None
+
+        provider_configurado = getattr(self.llm_client, "provider_name", "custom")
+        if provider_configurado in {"extractive", "mock", "offline"}:
+            used_fallback = True
+            invariantes = self._extracao_deterministica_fallback(req)
+        else:
+            try:
+                resposta_llm = self._chamar_llm(prompt_usuario)
+                invariantes, json_valido_direto = self._parse_json_response(resposta_llm.text, req)
+            except Exception as e:
+                logger.warning(
+                    "Falha na chamada ou parsing do LLM para o Agente Extrator: %s. "
+                    "Aplicando extração determinística de salvaguarda.",
+                    e,
+                )
+                used_fallback = True
+                json_valido_direto = False
+                invariantes = self._extracao_deterministica_fallback(req)
+
+        total_ms = round((time.perf_counter() - t0) * 1000, 2)
+        usage = resposta_llm.raw_usage if resposta_llm else {}
+        load_ms = float(usage.get("load_ms") or 0.0)
+        prompt_eval_ms = float(usage.get("prompt_eval_ms") or 0.0)
+        eval_ms = float(usage.get("eval_ms") or 0.0)
+        inference_ms = float(
+            usage.get("inference_ms")
+            or (round(max(0.0, total_ms - load_ms), 2) if resposta_llm else total_ms)
+        )
+        tokens_per_sec = float(usage.get("tokens_per_sec") or 0.0)
+
+        trava_recall: Optional[float] = None
+        if trava_referencia:
+            texto_extraido = " ".join(
+                invariantes.conceitos_obrigatorios + invariantes.termos_tecnicos_intocaveis
+            )
+            trava_recall = avaliar_trcc(trava_referencia, texto_extraido).trcc
+
+        telemetria = ExtractionTelemetry(
+            question_id=question_id,
+            disciplina=(req.disciplina or "Não informada").strip(),
+            ano_escolar=(req.ano_escolar or "Não informado").strip(),
+            faixa_etaria=classificar_faixa_etaria(req.ano_escolar),
+            tema=(tema or "Não informado").strip(),
+            comando_conjugado=comando_conjugado,
+            tamanho_enunciado_chars=len(req.enunciado),
+            provider=resposta_llm.provider if resposta_llm else str(provider_configurado),
+            model=resposta_llm.model if resposta_llm else "deterministic-fallback",
+            used_fallback=used_fallback,
+            json_valido_direto=json_valido_direto,
+            total_ms=total_ms,
+            load_ms=load_ms,
+            prompt_eval_ms=prompt_eval_ms,
+            eval_ms=eval_ms,
+            inference_ms=inference_ms,
+            prompt_tokens=resposta_llm.prompt_tokens if resposta_llm else 0,
+            completion_tokens=resposta_llm.completion_tokens if resposta_llm else 0,
+            tokens_per_sec=tokens_per_sec,
+            trava_recall=trava_recall,
+            timestamp_utc=datetime.now(timezone.utc).isoformat(),
+        )
+        return ExtractionResult(invariants=invariantes, telemetry=telemetria)
+
+    def extract_from_golden_question(
+        self, question: GoldenQuestion, include_trava_hint: bool = True
+    ) -> CurriculumInvariants:
+        """Atalho de extração para itens do Golden Benchmark oficial."""
+        return self.extract_golden_with_telemetry(
+            question, include_trava_hint=include_trava_hint
+        ).invariants
+
+    def extract_golden_with_telemetry(
+        self, question: GoldenQuestion, include_trava_hint: bool = False
+    ) -> ExtractionResult:
+        """Extrai invariantes e telemetria para uma GoldenQuestion (padrão Zero-Hint para eval)."""
+        trava_lista = list(question.trava_curricular) if (include_trava_hint and question.trava_curricular) else None
+        return self.extract_with_telemetry(
+            request=question.enunciado,
+            disciplina=question.disciplina,
+            ano_escolar=question.ano,
+            trava_manual_docente=trava_lista,
+            question_id=question.id,
+            tema=question.tema,
+            comando_conjugado=question.comando_conjugado_esperado,
+            trava_referencia=question.trava_curricular,
+        )
+
+    @staticmethod
+    def _normalizar_request(
+        request: ExtractionRequest | str,
+        *,
+        contexto_apoio: Optional[str],
+        disciplina: Optional[str],
+        ano_escolar: Optional[str],
+        trava_manual_docente: Optional[list[str]],
+    ) -> ExtractionRequest:
         if isinstance(request, str):
-            req = ExtractionRequest(
+            return ExtractionRequest(
                 enunciado=request,
                 contexto_apoio=contexto_apoio,
                 disciplina=disciplina,
                 ano_escolar=ano_escolar,
                 trava_manual_docente=trava_manual_docente,
             )
-        else:
-            req = request
+        return request
 
-        # Monta prompt contextualizado
-        prompt = self._montar_prompt(req)
+    def _chamar_llm(self, prompt_usuario: str) -> LLMResponse:
+        sig = inspect.signature(self.llm_client.generate)
+        params = sig.parameters
+        accepts_kwargs = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
+        if accepts_kwargs or ("system_prompt" in params and "json_mode" in params):
+            return self.llm_client.generate(
+                prompt=prompt_usuario,
+                temperature=0.0,
+                max_tokens=self.max_tokens,
+                system_prompt=SYSTEM_PROMPT_EXTRATOR,
+                json_mode=True,
+            )
+        prompt_legado = f"{SYSTEM_PROMPT_EXTRATOR}\n\n{prompt_usuario}"
+        return self.llm_client.generate(prompt=prompt_legado, temperature=0.0, max_tokens=self.max_tokens)
 
-        # Invoca modelo de linguagem
-        try:
-            resposta_llm = self.llm_client.generate(prompt=prompt, temperature=0.0, max_tokens=1000)
-            invariantes = self._parse_json_response(resposta_llm.text, req)
-            return invariantes
-        except Exception as e:
-            logger.warning("Falha na chamada ou parsing do LLM para o Agente Extrator: %s. Aplicando extração determinística de salvaguarda.", e)
-            return self._extracao_deterministica_fallback(req)
-
-    def extract_from_golden_question(self, question: GoldenQuestion) -> CurriculumInvariants:
-        """Atalho de extração para itens do Golden Benchmark oficial."""
-        trava_lista = list(question.trava_curricular) if question.trava_curricular else None
-        return self.extract(
-            request=question.enunciado,
-            disciplina=question.disciplina,
-            ano_escolar=question.ano,
-            trava_manual_docente=trava_lista,
-        )
-
-    def _montar_prompt(self, req: ExtractionRequest) -> str:
-        partes = [
-            SYSTEM_PROMPT_EXTRATOR,
-            FEW_SHOT_EXEMPLOS,
-            "--- AGORA ANALISE A SEGUINTE QUESTÃO ---",
-        ]
+    def _montar_prompt_usuario(self, req: ExtractionRequest) -> str:
+        partes: list[str] = []
         if req.disciplina:
             partes.append(f"DISCIPLINA: {req.disciplina}")
         if req.ano_escolar:
             partes.append(f"ANO/ETAPA: {req.ano_escolar}")
         if req.contexto_apoio:
-            partes.append(f"TEXTO OU CONTEXTO DE APOIO: {req.contexto_apoio}")
-        partes.append(f"ENUNCIADO DA QUESTÃO:\n{req.enunciado}")
+            partes.append(f"CONTEXTO DE APOIO: {req.contexto_apoio}")
+        partes.append(f"ENUNCIADO:\n{req.enunciado}")
         if req.trava_manual_docente:
             partes.append(
-                f"TRAVAS CURRICULARES JÁ FORNECIDAS PELO PROFESSOR (DEVE INCORPORÁ-LAS): {req.trava_manual_docente}"
+                f"TRAVAS DO PROFESSOR (INCLUIR EM conceitos_obrigatorios): {req.trava_manual_docente}"
             )
-        partes.append("\nRESPOSTA JSON:")
-        return "\n\n".join(partes)
+        return "\n".join(partes)
 
-    def _parse_json_response(self, text: str, req: ExtractionRequest) -> CurriculumInvariants:
+    def _parse_json_response(self, text: str, req: ExtractionRequest) -> tuple[CurriculumInvariants, bool]:
         limpo = strip_thinking_tags(text).strip()
-        # Busca bloco delimitado por ```json ... ``` ou primeiro objeto JSON {...}
+        json_direto = limpo.startswith("{") and limpo.endswith("}")
         match_code = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", limpo, flags=re.DOTALL)
         if match_code:
             json_str = match_code.group(1)
+            json_direto = False
         else:
             match_brace = re.search(r"(\{.*\})", limpo, flags=re.DOTALL)
             json_str = match_brace.group(1) if match_brace else limpo
@@ -174,7 +275,7 @@ class CurriculumExtractorAgent:
                 if t.lower() not in existentes:
                     dados.setdefault("conceitos_obrigatorios", []).append(t)
 
-        return CurriculumInvariants.model_validate(dados)
+        return CurriculumInvariants.model_validate(dados), json_direto
 
     def _extracao_deterministica_fallback(self, req: ExtractionRequest) -> CurriculumInvariants:
         """Gera invariantes determinísticos a partir de regex e regras léxicas em caso de falha de IA."""

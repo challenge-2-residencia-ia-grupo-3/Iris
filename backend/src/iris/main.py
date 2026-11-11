@@ -309,9 +309,10 @@ FRONTEND_HTML = """<!DOCTYPE html>
 
 
 def _handle_catalog() -> dict[str, Any]:
-    from iris.schemas.catalog import load_official_tdah_catalog
+    from iris.config import CATALOGS_DIR
+    from iris.schemas.catalog import load_catalog_file
 
-    return load_official_tdah_catalog().to_dict()
+    return load_catalog_file(CATALOGS_DIR / "tdah_caracteristicas_funcionais.json").to_dict()
 
 
 def _handle_rag_build() -> dict[str, Any]:
@@ -410,6 +411,30 @@ def _handle_eval_metrics(gerador: str = "haiku") -> dict[str, Any]:
     return dados
 
 
+def _handle_extractor_analytics(
+    disciplina: str | None = None,
+    faixa_etaria: str | None = None,
+    ano_escolar: str | None = None,
+    tema: str | None = None,
+    comando_conjugado: bool | None = None,
+    provider: str | None = None,
+    model: str | None = None,
+) -> dict[str, Any]:
+    from iris.eval.extractor_analytics import carregar_telemetria, gerar_analytics
+
+    registros = carregar_telemetria()
+    return gerar_analytics(
+        registros,
+        disciplina=disciplina,
+        faixa_etaria=faixa_etaria,
+        ano_escolar=ano_escolar,
+        tema=tema,
+        comando_conjugado=comando_conjugado,
+        provider=provider,
+        model=model,
+    )
+
+
 def create_app() -> Any:
     """Cria e configura a aplicação FastAPI stateless (com rotas de API, Materiais e Frontend Web)."""
     from fastapi import Body, FastAPI, Query
@@ -472,6 +497,26 @@ def create_app() -> Any:
     def eval_metrics(gerador: str = Query("haiku", pattern="^(haiku|opus)$")) -> dict[str, Any]:
         return _handle_eval_metrics(gerador=gerador)
 
+    @app.get("/api/v1/eval/extractor-analytics", tags=["eval"])
+    def eval_extractor_analytics(
+        disciplina: str | None = Query(None),
+        faixa_etaria: str | None = Query(None),
+        ano_escolar: str | None = Query(None),
+        tema: str | None = Query(None),
+        comando_conjugado: bool | None = Query(None),
+        provider: str | None = Query(None),
+        model: str | None = Query(None),
+    ) -> dict[str, Any]:
+        return _handle_extractor_analytics(
+            disciplina=disciplina,
+            faixa_etaria=faixa_etaria,
+            ano_escolar=ano_escolar,
+            tema=tema,
+            comando_conjugado=comando_conjugado,
+            provider=provider,
+            model=model,
+        )
+
     return app
 
 
@@ -524,6 +569,21 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 qs = parse_qs(parsed.query)
                 gerador = qs.get("gerador", ["haiku"])[0]
                 self._send_json(_handle_eval_metrics(gerador=gerador))
+            elif parsed.path.startswith("/api/v1/eval/extractor-analytics"):
+                qs = parse_qs(parsed.query)
+                cmd_raw = qs.get("comando_conjugado", [None])[0]
+                cmd_bool = True if cmd_raw == "true" else (False if cmd_raw == "false" else None)
+                self._send_json(
+                    _handle_extractor_analytics(
+                        disciplina=qs.get("disciplina", [None])[0],
+                        faixa_etaria=qs.get("faixa_etaria", [None])[0],
+                        ano_escolar=qs.get("ano_escolar", [None])[0],
+                        tema=qs.get("tema", [None])[0],
+                        comando_conjugado=cmd_bool,
+                        provider=qs.get("provider", [None])[0],
+                        model=qs.get("model", [None])[0],
+                    )
+                )
             else:
                 self._send_json({"error": "Not found", "path": self.path}, status=404)
 

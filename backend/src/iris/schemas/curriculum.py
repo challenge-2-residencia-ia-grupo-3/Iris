@@ -92,3 +92,52 @@ class ExtractionRequest(BaseModel):
     disciplina: Optional[str] = Field(default=None, description="Componente curricular (ex: Português, Matemática, Ciências).")
     ano_escolar: Optional[str] = Field(default=None, description="Ano ou etapa escolar (ex: '6º ano', 'Ensino Médio').")
     trava_manual_docente: Optional[list[str]] = Field(default=None, description="Travas pré-existentes fornecidas pelo professor.")
+
+
+def classificar_faixa_etaria(ano_escolar: Optional[str]) -> str:
+    """Mapeia o ano escolar informado para uma faixa etária/etapa pedagógica padronizada."""
+    if not ano_escolar or not ano_escolar.strip():
+        return "Não informado"
+    norm = ano_escolar.strip().lower()
+    if any(k in norm for k in ("médio", "medio", "em", "1ª série", "2ª série", "3ª série")):
+        return "Ensino Médio (15-17 anos)"
+    if any(k in norm for k in ("4º", "4°", "4o", "5º", "5°", "5o")):
+        return "Fund. I (9-10 anos)"
+    if any(k in norm for k in ("6º", "6°", "6o", "7º", "7°", "7o")):
+        return "Fund. II Inicial (11-12 anos)"
+    if any(k in norm for k in ("8º", "8°", "8o", "9º", "9°", "9o")):
+        return "Fund. II Final (13-14 anos)"
+    return "Outro"
+
+
+class ExtractionTelemetry(BaseModel):
+    """Métricas operacionais anônimas da execução do Agente Extrator (Zero-PII / LGPD)."""
+
+    question_id: Optional[str] = None
+    disciplina: str = "Não informada"
+    ano_escolar: str = "Não informado"
+    faixa_etaria: str = "Não informado"
+    tema: str = "Não informado"
+    comando_conjugado: Optional[bool] = None
+    tamanho_enunciado_chars: int = 0
+    provider: str = "unknown"
+    model: str = "unknown"
+    used_fallback: bool = False
+    json_valido_direto: bool = True
+    total_ms: float = 0.0
+    load_ms: float = 0.0
+    prompt_eval_ms: float = 0.0
+    eval_ms: float = 0.0
+    inference_ms: float = 0.0
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    tokens_per_sec: float = 0.0
+    trava_recall: Optional[float] = None
+    timestamp_utc: str = ""
+
+
+class ExtractionResult(BaseModel):
+    """Retorno completo do Agente Extrator: invariantes curriculares + telemetria operacional."""
+
+    invariants: CurriculumInvariants
+    telemetry: ExtractionTelemetry

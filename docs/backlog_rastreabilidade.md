@@ -393,8 +393,8 @@ Como professor, quero que o sistema analise a questão original antes de adaptá
 ### Tarefas de Implementação Técnica (INVEST)
 - [x] **[RAG / IA]** Prompt e contrato Pydantic do Agente Extrator Curricular em `src/iris/agents/curriculum_extractor.py` e `src/iris/schemas/curriculum.py`.
 - [x] **[RAG / IA]** Extração determinística de vocabulário técnico, conceitos centrais e verbos de comando taxonômicos.
-- [x] **[Backend]** Estrutura de passagem de estado em memória com a lista de invariantes intocáveis (`CurriculumInvariants`).
-- [x] **[Testes]** Teste automatizado e CLI interativo de extração manual com o modelo local Llama 3 (`backend/tests/test_curriculum_extractor.py` e `scripts/test_curriculum_extractor_cli.py`).
+- [x] **[Backend]** Estrutura de passagem de estado em memória com invariantes e telemetria (`CurriculumInvariants`, `ExtractionTelemetry`).
+- [x] **[Testes]** Testes unitários, avaliação Zero-Hint nas 30 questões do Golden Benchmark, analytics dinâmico (`src/iris/eval/extractor_analytics.py`) e menu interativo via `make extrator`.
 
 ##### História 2.1.3: Adaptação com isolamento estrito de escopo à característica selecionada
 **História de Usuário**
