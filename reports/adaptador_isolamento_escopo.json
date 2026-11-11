@@ -1,0 +1,2023 @@
+{
+  "resumo": {
+    "questoes": 30,
+    "saidas": 90,
+    "questoes_com_2_ou_mais_comandos": 17,
+    "por_nivel": {
+      "1": {
+        "saidas": 30,
+        "adaptacao_aplicada": 28,
+        "com_palavra_perdida": 0,
+        "com_palavra_nova": 0,
+        "conectivos_removidos": 0,
+        "trcc_igual_ao_original": 30,
+        "trcc_menor_que_o_original": 0,
+        "aprovadas": 30
+      },
+      "2": {
+        "saidas": 30,
+        "adaptacao_aplicada": 17,
+        "com_palavra_perdida": 0,
+        "com_palavra_nova": 0,
+        "conectivos_removidos": 15,
+        "trcc_igual_ao_original": 30,
+        "trcc_menor_que_o_original": 0,
+        "aprovadas": 30
+      },
+      "3": {
+        "saidas": 30,
+        "adaptacao_aplicada": 17,
+        "com_palavra_perdida": 0,
+        "com_palavra_nova": 0,
+        "conectivos_removidos": 15,
+        "trcc_igual_ao_original": 30,
+        "trcc_menor_que_o_original": 0,
+        "aprovadas": 30
+      }
+    },
+    "por_sabotagem": {
+      "retirar termo da trava": {
+        "1": {
+          "aplicadas": 30,
+          "acusadas": 30
+        },
+        "2": {
+          "aplicadas": 30,
+          "acusadas": 30
+        },
+        "3": {
+          "aplicadas": 30,
+          "acusadas": 30
+        }
+      },
+      "trocar palavra por sinônimo": {
+        "1": {
+          "aplicadas": 27,
+          "acusadas": 27
+        },
+        "2": {
+          "aplicadas": 27,
+          "acusadas": 27
+        },
+        "3": {
+          "aplicadas": 27,
+          "acusadas": 27
+        }
+      },
+      "inserir resposta": {
+        "1": {
+          "aplicadas": 30,
+          "acusadas": 30
+        },
+        "2": {
+          "aplicadas": 30,
+          "acusadas": 30
+        },
+        "3": {
+          "aplicadas": 30,
+          "acusadas": 30
+        }
+      },
+      "retirar comando": {
+        "1": {
+          "aplicadas": 28,
+          "acusadas": 28
+        },
+        "2": {
+          "aplicadas": 28,
+          "acusadas": 28
+        },
+        "3": {
+          "aplicadas": 28,
+          "acusadas": 28
+        }
+      },
+      "inverter duas palavras": {
+        "1": {
+          "aplicadas": 29,
+          "acusadas": 29
+        },
+        "2": {
+          "aplicadas": 29,
+          "acusadas": 29
+        },
+        "3": {
+          "aplicadas": 29,
+          "acusadas": 29
+        }
+      },
+      "inverter duas etapas": {
+        "1": {
+          "aplicadas": 0,
+          "acusadas": 0
+        },
+        "2": {
+          "aplicadas": 17,
+          "acusadas": 17
+        },
+        "3": {
+          "aplicadas": 17,
+          "acusadas": 17
+        }
+      }
+    },
+    "matriz": {
+      "integra_aprovada": 90,
+      "integra_reprovada": 0,
+      "sabotada_aprovada": 0,
+      "sabotada_reprovada": 466
+    }
+  },
+  "registros": [
+    {
+      "id": "Q01",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Leia** o texto e **responda**: quem encontrou o cachorro?\nO menino Pedro encontrou um cachorro perdido na rua. Ele levou o animal para casa e pediu ajuda à mãe para achar o dono."
+    },
+    {
+      "id": "Q01",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Leia** o texto\n2. [ ] **Responda**: quem encontrou o cachorro?\nO menino Pedro encontrou um cachorro perdido na rua. Ele levou o animal para casa e pediu ajuda à mãe para achar o dono."
+    },
+    {
+      "id": "Q01",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n[ ] **Leia** o texto\n\n**Passo 2**\n**Responda**: quem encontrou o cachorro?\nResposta: ______________________________\n\nO menino Pedro encontrou um cachorro perdido na rua. Ele levou o animal para casa e pediu ajuda à mãe para achar o dono.\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q02",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Circule** os substantivos da frase a seguir.\nO gato dorme no sofá da sala."
+    },
+    {
+      "id": "Q02",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Circule os substantivos da frase a seguir.\nO gato dorme no sofá da sala."
+    },
+    {
+      "id": "Q02",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Circule os substantivos da frase a seguir.\nO gato dorme no sofá da sala."
+    },
+    {
+      "id": "Q03",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Identifique** o sujeito da oração e **classifique**-o como simples ou composto.\nMaria e João foram ao mercado."
+    },
+    {
+      "id": "Q03",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Identifique** o sujeito da oração\n2. [ ] **Classifique**-o como simples ou composto.\nMaria e João foram ao mercado."
+    },
+    {
+      "id": "Q03",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Identifique** o sujeito da oração\nResposta: ______________________________\n\n**Passo 2**\n**Classifique**-o como simples ou composto.\nResposta: ______________________________\n\nMaria e João foram ao mercado.\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q04",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Reescreva** a frase trocando a palavra contente por um sinônimo.\nO menino estava muito contente com o presente."
+    },
+    {
+      "id": "Q04",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Reescreva a frase trocando a palavra contente por um sinônimo.\nO menino estava muito contente com o presente."
+    },
+    {
+      "id": "Q04",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Reescreva a frase trocando a palavra contente por um sinônimo.\nO menino estava muito contente com o presente."
+    },
+    {
+      "id": "Q05",
+      "nivel": 1,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Leia** o trecho, **explique** o que o autor quis dizer e **justifique** com uma passagem do texto.\nA biblioteca da escola era pequena, mas cada livro parecia abrir uma porta para outro mundo."
+    },
+    {
+      "id": "Q05",
+      "nivel": 2,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Leia** o trecho\n2. [ ] **Explique** o que o autor quis dizer\n3. [ ] **Justifique** com uma passagem do texto.\nA biblioteca da escola era pequena, mas cada livro parecia abrir uma porta para outro mundo."
+    },
+    {
+      "id": "Q05",
+      "nivel": 3,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n[ ] **Leia** o trecho\n\n**Passo 2**\n**Explique** o que o autor quis dizer\nResposta: ______________________________\n\n**Passo 3**\n**Justifique** com uma passagem do texto.\nResposta: ______________________________\n\nA biblioteca da escola era pequena, mas cada livro parecia abrir uma porta para outro mundo.\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q06",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Assinale** a alternativa em que a vírgula foi usada corretamente.\na) Ana, venha aqui.\nb) Ana venha, aqui.\nc) Ana venha aqui,"
+    },
+    {
+      "id": "Q06",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Assinale a alternativa em que a vírgula foi usada corretamente.\na) Ana, venha aqui.\nb) Ana venha, aqui.\nc) Ana venha aqui,"
+    },
+    {
+      "id": "Q06",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Assinale a alternativa em que a vírgula foi usada corretamente.\na) Ana, venha aqui.\nb) Ana venha, aqui.\nc) Ana venha aqui,"
+    },
+    {
+      "id": "Q07",
+      "nivel": 1,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Escreva** um parágrafo argumentativo sobre o uso do celular na sala de aula. **Apresente** pelo menos dois argumentos e **conclua** com uma proposta."
+    },
+    {
+      "id": "Q07",
+      "nivel": 2,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Escreva** um parágrafo argumentativo sobre o uso do celular na sala de aula.\n2. [ ] **Apresente** pelo menos dois argumentos\n3. [ ] **Conclua** com uma proposta."
+    },
+    {
+      "id": "Q07",
+      "nivel": 3,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Escreva** um parágrafo argumentativo sobre o uso do celular na sala de aula.\nResposta: ______________________________\n\n**Passo 2**\n**Apresente** pelo menos dois argumentos\nResposta: ______________________________\n\n**Passo 3**\n**Conclua** com uma proposta.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q08",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": null,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Calcule**: 345 + 278."
+    },
+    {
+      "id": "Q08",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": null,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Calcule: 345 + 278."
+    },
+    {
+      "id": "Q08",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": null,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Calcule: 345 + 278."
+    },
+    {
+      "id": "Q09",
+      "nivel": 1,
+      "comandos": 0,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": null,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Maria tem 12 balas e deu 5 para o irmão. Com quantas balas ela ficou?"
+    },
+    {
+      "id": "Q09",
+      "nivel": 2,
+      "comandos": 0,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": null,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Maria tem 12 balas e deu 5 para o irmão. Com quantas balas ela ficou?"
+    },
+    {
+      "id": "Q09",
+      "nivel": 3,
+      "comandos": 0,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": null,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Maria tem 12 balas e deu 5 para o irmão. Com quantas balas ela ficou?"
+    },
+    {
+      "id": "Q10",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Resolva** a multiplicação e **confira** o resultado com uma divisão: 24 × 6."
+    },
+    {
+      "id": "Q10",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Resolva** a multiplicação\n2. [ ] **Confira** o resultado com uma divisão: 24 × 6."
+    },
+    {
+      "id": "Q10",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Resolva** a multiplicação\nResposta: ______________________________\n\n**Passo 2**\n**Confira** o resultado com uma divisão: 24 × 6.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q11",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Calcule** a área de um retângulo com 8 cm de comprimento e 5 cm de largura. **Escreva** a resposta em centímetros quadrados."
+    },
+    {
+      "id": "Q11",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Calcule** a área de um retângulo com 8 cm de comprimento e 5 cm de largura.\n2. [ ] **Escreva** a resposta em centímetros quadrados."
+    },
+    {
+      "id": "Q11",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Calcule** a área de um retângulo com 8 cm de comprimento e 5 cm de largura.\nResposta: ______________________________\n\n**Passo 2**\n**Escreva** a resposta em centímetros quadrados.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q12",
+      "nivel": 1,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Observe** a fração 3/4, **represente**-a em um desenho e **escreva**-a na forma decimal."
+    },
+    {
+      "id": "Q12",
+      "nivel": 2,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Observe** a fração 3/4\n2. [ ] **Represente**-a em um desenho\n3. [ ] **Escreva**-a na forma decimal."
+    },
+    {
+      "id": "Q12",
+      "nivel": 3,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n[ ] **Observe** a fração 3/4\n\n**Passo 2**\n**Represente**-a em um desenho\nResposta: ______________________________\n\n**Passo 3**\n**Escreva**-a na forma decimal.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q13",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Resolva** a equação 2x + 6 = 14 e **verifique** se o valor encontrado está correto."
+    },
+    {
+      "id": "Q13",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Resolva** a equação 2x + 6 = 14\n2. [ ] **Verifique** se o valor encontrado está correto."
+    },
+    {
+      "id": "Q13",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Resolva** a equação 2x + 6 = 14\nResposta: ______________________________\n\n**Passo 2**\n**Verifique** se o valor encontrado está correto.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q14",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Determine** o valor de x na equação x² − 9 = 0."
+    },
+    {
+      "id": "Q14",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Determine o valor de x na equação x² − 9 = 0."
+    },
+    {
+      "id": "Q14",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Determine o valor de x na equação x² − 9 = 0."
+    },
+    {
+      "id": "Q15",
+      "nivel": 1,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Leia** o problema, **monte** a equação e **calcule** o resultado.\nA soma de dois números consecutivos é 37. Quais são esses números?"
+    },
+    {
+      "id": "Q15",
+      "nivel": 2,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Leia** o problema\n2. [ ] **Monte** a equação\n3. [ ] **Calcule** o resultado.\nA soma de dois números consecutivos é 37. Quais são esses números?"
+    },
+    {
+      "id": "Q15",
+      "nivel": 3,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n[ ] **Leia** o problema\n\n**Passo 2**\n**Monte** a equação\nResposta: ______________________________\n\n**Passo 3**\n**Calcule** o resultado.\nResposta: ______________________________\n\nA soma de dois números consecutivos é 37. Quais são esses números?\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q16",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Cite** dois exemplos de animais que vivem na água."
+    },
+    {
+      "id": "Q16",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Cite dois exemplos de animais que vivem na água."
+    },
+    {
+      "id": "Q16",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Cite dois exemplos de animais que vivem na água."
+    },
+    {
+      "id": "Q17",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Explique** como a chuva se forma."
+    },
+    {
+      "id": "Q17",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Explique como a chuva se forma."
+    },
+    {
+      "id": "Q17",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Explique como a chuva se forma."
+    },
+    {
+      "id": "Q18",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Leia** o texto e **responda**: por que as plantas precisam de luz?\nAs plantas produzem o próprio alimento por meio da fotossíntese, processo que usa a luz do sol."
+    },
+    {
+      "id": "Q18",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Leia** o texto\n2. [ ] **Responda**: por que as plantas precisam de luz?\nAs plantas produzem o próprio alimento por meio da fotossíntese, processo que usa a luz do sol."
+    },
+    {
+      "id": "Q18",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n[ ] **Leia** o texto\n\n**Passo 2**\n**Responda**: por que as plantas precisam de luz?\nResposta: ______________________________\n\nAs plantas produzem o próprio alimento por meio da fotossíntese, processo que usa a luz do sol.\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q19",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Compare** a célula animal e a célula vegetal, indicando duas diferenças e uma semelhança."
+    },
+    {
+      "id": "Q19",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Compare a célula animal e a célula vegetal, indicando duas diferenças e uma semelhança."
+    },
+    {
+      "id": "Q19",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Compare a célula animal e a célula vegetal, indicando duas diferenças e uma semelhança."
+    },
+    {
+      "id": "Q20",
+      "nivel": 1,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Defina** o que é um ecossistema, **cite** dois exemplos e **explique** a importância da biodiversidade."
+    },
+    {
+      "id": "Q20",
+      "nivel": 2,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Defina** o que é um ecossistema\n2. [ ] **Cite** dois exemplos\n3. [ ] **Explique** a importância da biodiversidade."
+    },
+    {
+      "id": "Q20",
+      "nivel": 3,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Defina** o que é um ecossistema\nResposta: ______________________________\n\n**Passo 2**\n**Cite** dois exemplos\nResposta: ______________________________\n\n**Passo 3**\n**Explique** a importância da biodiversidade.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q21",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Analise** a afirmação e **justifique** se ela é verdadeira ou falsa.\nTodo calor é transmitido apenas por contato direto."
+    },
+    {
+      "id": "Q21",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Analise** a afirmação\n2. [ ] **Justifique** se ela é verdadeira ou falsa.\nTodo calor é transmitido apenas por contato direto."
+    },
+    {
+      "id": "Q21",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": null,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Analise** a afirmação\nResposta: ______________________________\n\n**Passo 2**\n**Justifique** se ela é verdadeira ou falsa.\nResposta: ______________________________\n\nTodo calor é transmitido apenas por contato direto.\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q22",
+      "nivel": 1,
+      "comandos": 0,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": null,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Em que ano os portugueses chegaram ao Brasil?"
+    },
+    {
+      "id": "Q22",
+      "nivel": 2,
+      "comandos": 0,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": null,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Em que ano os portugueses chegaram ao Brasil?"
+    },
+    {
+      "id": "Q22",
+      "nivel": 3,
+      "comandos": 0,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": null,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Em que ano os portugueses chegaram ao Brasil?"
+    },
+    {
+      "id": "Q23",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Descreva** uma característica da vida dos povos indígenas antes da chegada dos europeus."
+    },
+    {
+      "id": "Q23",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Descreva uma característica da vida dos povos indígenas antes da chegada dos europeus."
+    },
+    {
+      "id": "Q23",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Descreva uma característica da vida dos povos indígenas antes da chegada dos europeus."
+    },
+    {
+      "id": "Q24",
+      "nivel": 1,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Leia** o texto, **identifique** a causa principal da Revolução Industrial e **explique** suas consequências para os trabalhadores.\nNo século XVIII, máquinas passaram a substituir o trabalho manual em muitas fábricas."
+    },
+    {
+      "id": "Q24",
+      "nivel": 2,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Leia** o texto\n2. [ ] **Identifique** a causa principal da Revolução Industrial\n3. [ ] **Explique** suas consequências para os trabalhadores.\nNo século XVIII, máquinas passaram a substituir o trabalho manual em muitas fábricas."
+    },
+    {
+      "id": "Q24",
+      "nivel": 3,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n[ ] **Leia** o texto\n\n**Passo 2**\n**Identifique** a causa principal da Revolução Industrial\nResposta: ______________________________\n\n**Passo 3**\n**Explique** suas consequências para os trabalhadores.\nResposta: ______________________________\n\nNo século XVIII, máquinas passaram a substituir o trabalho manual em muitas fábricas.\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q25",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Relacione** cada fato histórico à sua data.\n(a) Independência do Brasil\n(b) Proclamação da República\n(1) 1822\n(2) 1889"
+    },
+    {
+      "id": "Q25",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Relacione cada fato histórico à sua data.\n(a) Independência do Brasil\n(b) Proclamação da República\n(1) 1822\n(2) 1889"
+    },
+    {
+      "id": "Q25",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Relacione cada fato histórico à sua data.\n(a) Independência do Brasil\n(b) Proclamação da República\n(1) 1822\n(2) 1889"
+    },
+    {
+      "id": "Q26",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Explique**, com suas palavras, por que a Segunda Guerra Mundial foi chamada de guerra total. Em seguida, **cite** uma consequência para a população civil."
+    },
+    {
+      "id": "Q26",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Explique**, com suas palavras, por que a Segunda Guerra Mundial foi chamada de guerra total.\n2. [ ] Em seguida, **cite** uma consequência para a população civil."
+    },
+    {
+      "id": "Q26",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Explique**, com suas palavras, por que a Segunda Guerra Mundial foi chamada de guerra total.\nResposta: ______________________________\n\n**Passo 2**\nEm seguida, **cite** uma consequência para a população civil.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q27",
+      "nivel": 1,
+      "comandos": 1,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Cite** os pontos cardeais."
+    },
+    {
+      "id": "Q27",
+      "nivel": 2,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Cite os pontos cardeais."
+    },
+    {
+      "id": "Q27",
+      "nivel": 3,
+      "comandos": 1,
+      "adaptacao_aplicada": false,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "Cite os pontos cardeais."
+    },
+    {
+      "id": "Q28",
+      "nivel": 1,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Leia** as coordenadas 15° S e 47° O e **indique** em qual hemisfério o ponto está."
+    },
+    {
+      "id": "Q28",
+      "nivel": 2,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Leia** as coordenadas 15° S e 47° O\n2. [ ] **Indique** em qual hemisfério o ponto está."
+    },
+    {
+      "id": "Q28",
+      "nivel": 3,
+      "comandos": 2,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n[ ] **Leia** as coordenadas 15° S e 47° O\n\n**Passo 2**\n**Indique** em qual hemisfério o ponto está.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q29",
+      "nivel": 1,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Defina** urbanização, **explique** duas consequências do crescimento desordenado das cidades e **sugira** uma solução."
+    },
+    {
+      "id": "Q29",
+      "nivel": 2,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Defina** urbanização\n2. [ ] **Explique** duas consequências do crescimento desordenado das cidades\n3. [ ] **Sugira** uma solução."
+    },
+    {
+      "id": "Q29",
+      "nivel": 3,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Defina** urbanização\nResposta: ______________________________\n\n**Passo 2**\n**Explique** duas consequências do crescimento desordenado das cidades\nResposta: ______________________________\n\n**Passo 3**\n**Sugira** uma solução.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    },
+    {
+      "id": "Q30",
+      "nivel": 1,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 0,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": null
+      },
+      "adaptado": "**Pesquise**, **escolha** e **apresente** um exemplo de impacto ambiental da sua região."
+    },
+    {
+      "id": "Q30",
+      "nivel": 2,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "1. [ ] **Pesquise**\n2. [ ] **Escolha**\n3. [ ] **Apresente** um exemplo de impacto ambiental da sua região."
+    },
+    {
+      "id": "Q30",
+      "nivel": 3,
+      "comandos": 3,
+      "adaptacao_aplicada": true,
+      "aprovado": true,
+      "palavras_perdidas": [],
+      "palavras_novas": [],
+      "conectivos_removidos": 1,
+      "trcc_original": 1.0,
+      "trcc_adaptado": 1.0,
+      "sabotagem_acusada": {
+        "retirar termo da trava": true,
+        "trocar palavra por sinônimo": true,
+        "inserir resposta": true,
+        "retirar comando": true,
+        "inverter duas palavras": true,
+        "inverter duas etapas": true
+      },
+      "adaptado": "**Passo 1**\n**Pesquise**\nResposta: ______________________________\n\n**Passo 2**\n**Escolha**\nResposta: ______________________________\n\n**Passo 3**\n**Apresente** um exemplo de impacto ambiental da sua região.\nResposta: ______________________________\n\nRevise se você preencheu todos os passos."
+    }
+  ]
+}

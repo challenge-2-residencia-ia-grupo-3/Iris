@@ -1,4 +1,10 @@
 """Contratos de dados e schemas de validação (Catálogos, Materiais, Travas e Perfil Portátil)."""
+from iris.schemas.adaptation import (
+    AdaptationRequest,
+    AdaptationResult,
+    AdaptationTelemetry,
+    ScopeReport,
+)
 from iris.schemas.catalog import (
     BARREIRAS_RAG_VALIDAS,
     PRINCIPIOS_DUA_VALIDOS,
@@ -38,6 +44,10 @@ from iris.schemas.materials import (
 )
 
 __all__ = [
+    "AdaptationRequest",
+    "AdaptationResult",
+    "AdaptationTelemetry",
+    "ScopeReport",
     "BARREIRAS_RAG_VALIDAS",
     "PRINCIPIOS_DUA_VALIDOS",
     "BibliographicReference",
