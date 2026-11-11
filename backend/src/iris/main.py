@@ -452,6 +452,12 @@ def create_app() -> Any:
     if materials_router is not None:
         app.include_router(materials_router, prefix="/api/v1")
 
+    # Registra rotas de catálogo e seleção cirúrgica de características (História 1.2.1 - Issue #8)
+    from iris.api.routes.catalogs import router as catalogs_router
+
+    if catalogs_router is not None:
+        app.include_router(catalogs_router, prefix="/api/v1")
+
     @app.get("/api/v1/catalog", tags=["catalogo"])
     def get_catalog() -> dict[str, Any]:
         return _handle_catalog()
@@ -518,6 +524,16 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self.wfile.write(raw)
             elif parsed.path.startswith("/api/v1/health"):
                 self._send_json(get_health_status())
+            elif parsed.path.startswith("/api/v1/catalogs/characteristics"):
+                from iris.api.routes.catalogs import get_characteristics_catalog_service
+                from iris.schemas.catalog import CharacteristicSelectionError
+
+                qs = parse_qs(parsed.query)
+                id_catalogo = qs.get("id_catalogo", [None])[0]
+                try:
+                    self._send_json(get_characteristics_catalog_service(id_catalogo=id_catalogo))
+                except CharacteristicSelectionError as err:
+                    self._send_json({"detail": err.to_dict()}, status=404)
             elif parsed.path.startswith("/api/v1/catalog"):
                 self._send_json(_handle_catalog())
             elif parsed.path.startswith("/api/v1/eval/metrics"):
@@ -537,6 +553,15 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json(_handle_rag_search(body))
             elif self.path.startswith("/api/v1/rag/answer"):
                 self._send_json(_handle_rag_answer(body))
+            elif self.path.startswith("/api/v1/catalogs/characteristics/select"):
+                from iris.api.routes.catalogs import select_surgical_characteristics_service
+                from iris.schemas.catalog import CharacteristicSelectionError
+
+                try:
+                    resp = select_surgical_characteristics_service(body)
+                    self._send_json(resp.model_dump())
+                except CharacteristicSelectionError as err:
+                    self._send_json({"detail": err.to_dict()}, status=422)
             elif self.path.startswith("/api/v1/materials/text"):
                 from iris.api.routes.materials import process_material_text_service
                 from iris.schemas.materials import MaterialValidationError
