@@ -22,6 +22,7 @@ from __future__ import annotations
 import re
 import sys
 import unittest
+from collections import Counter
 from pathlib import Path
 
 # Garante inclusão de backend/src no sys.path
@@ -333,17 +334,16 @@ class TestStructuralDecomposer(unittest.TestCase):
         )
         res = decompose_material(texto)
 
-        # Todo conteúdo foi alocado em header ou questões
+        # Todo conteúdo foi alocado em header, numeração ou enunciado das questões
         conteudo_total_decomposto = (res.header or "") + " "
         for q in res.questions:
-            conteudo_total_decomposto += q.statement + " "
+            conteudo_total_decomposto += q.original_number + " " + q.statement + " "
 
-        palavras_originais = set(re.findall(r"\b\w+\b", texto.lower()))
-        palavras_decompostas = set(re.findall(r"\b\w+\b", conteudo_total_decomposto.lower()))
+        palavras_originais = Counter(re.findall(r"\b\w+\b", texto.lower()))
+        palavras_decompostas = Counter(re.findall(r"\b\w+\b", conteudo_total_decomposto.lower()))
 
-        # Todas as palavras substantivas principais devem estar presentes
-        for palavra in ["brasília", "relatividade", "einstein", "gravitacionais"]:
-            self.assertIn(palavra, palavras_decompostas)
+        # Nenhuma palavra do original pode faltar, contadas as repetições
+        self.assertEqual(dict(palavras_originais - palavras_decompostas), {})
 
     def test_decompose_material_service_empty_text_validation(self) -> None:
         """O serviço decompose_material_service deve rejeitar texto vazio com MaterialValidationError."""
