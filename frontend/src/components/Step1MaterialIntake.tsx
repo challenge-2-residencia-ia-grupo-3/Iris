@@ -32,10 +32,17 @@ import {
   uploadMaterialFile,
   validateClientFileFormat,
 } from "@/services/materialsApi";
+import {
+  clearStep1StateFromSession,
+  loadStep1StateFromSession,
+  saveStep1StateToSession,
+  Step1SelectedFileInfo,
+} from "@/services/catalogsApi";
 
 interface Step1MaterialIntakeProps {
   teacherEmail?: string;
   onBackToLogin?: () => void;
+  onAdvanceToStep2?: (materialText: string, metadata?: MaterialMetadata | null) => void;
   darkMode: boolean;
   onToggleDarkMode: () => void;
 }
@@ -64,6 +71,7 @@ Questão 1: Leia atentamente o trecho acima, identifique dois fatores que ameaç
 export function Step1MaterialIntake({
   teacherEmail = "marina.alves@escola.edu.br",
   onBackToLogin,
+  onAdvanceToStep2,
   darkMode,
   onToggleDarkMode,
 }: Step1MaterialIntakeProps) {
@@ -78,12 +86,7 @@ export function Step1MaterialIntake({
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   // Estado do arquivo enviado (apenas 1 arquivo por envio)
-  const [selectedFile, setSelectedFile] = useState<{
-    name: string;
-    sizeBytes: number;
-    extension: string;
-    status: "accepted" | "rejected" | "uploading";
-  } | null>(null);
+  const [selectedFile, setSelectedFile] = useState<Step1SelectedFileInfo | null>(null);
 
   // Resultado processado pelo Backend FastAPI (`POST /api/v1/materials/upload` ou `POST /api/v1/materials/text`)
   const [serverMetadata, setServerMetadata] = useState<MaterialMetadata | null>(null);
@@ -95,6 +98,23 @@ export function Step1MaterialIntake({
   } | null>(null);
 
   const [confirmedForStep2, setConfirmedForStep2] = useState<boolean>(false);
+
+  // Restaura o material e arquivo enviados anteriormente na sessão ao voltar da Etapa 2
+  useEffect(() => {
+    const saved = loadStep1StateFromSession();
+    if (saved && saved.textContent) {
+      setTextContent(saved.textContent);
+      setServerMetadata(saved.metadata);
+      setSelectedFile(saved.selectedFile);
+      setConfirmedForStep2(saved.confirmedForStep2);
+      setFeedbackBanner({
+        type: "info",
+        title: "Material recuperado da sessão atual",
+        message:
+          "O conteúdo e os dados do material carregado anteriormente foram mantidos em memória para sua revisão.",
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -146,13 +166,21 @@ export function Step1MaterialIntake({
 
     try {
       const response = await uploadMaterialFile(file);
-      setTextContent(response.raw_text);
-      setServerMetadata(response.metadata);
-      setSelectedFile({
+      const acceptedFileInfo: Step1SelectedFileInfo = {
         name: file.name,
         sizeBytes: file.size,
         extension: validation.extension,
         status: "accepted",
+      };
+      setTextContent(response.raw_text);
+      setServerMetadata(response.metadata);
+      setSelectedFile(acceptedFileInfo);
+
+      saveStep1StateToSession({
+        textContent: response.raw_text,
+        metadata: response.metadata,
+        selectedFile: acceptedFileInfo,
+        confirmedForStep2: false,
       });
 
       const piiNote =
@@ -259,6 +287,21 @@ export function Step1MaterialIntake({
    * antes de avançar para a Etapa 2.
    */
   const handleValidateAndAdvance = async () => {
+    if (confirmedForStep2) {
+      saveStep1StateToSession({
+        textContent,
+        metadata: serverMetadata,
+        selectedFile,
+        confirmedForStep2: true,
+      });
+      if (onAdvanceToStep2) {
+        onAdvanceToStep2(textContent, serverMetadata);
+      } else if (typeof window !== "undefined") {
+        window.location.href = "/etapa-2";
+      }
+      return;
+    }
+
     setConfirmedForStep2(false);
 
     if (!metrics.meetsMinimum) {
@@ -291,6 +334,13 @@ export function Step1MaterialIntake({
       setServerMetadata(response.metadata);
       setConfirmedForStep2(true);
 
+      saveStep1StateToSession({
+        textContent: response.raw_text,
+        metadata: response.metadata,
+        selectedFile,
+        confirmedForStep2: true,
+      });
+
       const piiInfo =
         response.metadata.sanitized && response.metadata.pii_removed_count > 0
           ? ` Foram removidos preventivamente ${response.metadata.pii_removed_count} identificador(es) pessoal(is) (PII) para conformidade com a LGPD.`
@@ -299,7 +349,7 @@ export function Step1MaterialIntake({
       setFeedbackBanner({
         type: "success",
         title: "Material validado e pronto para a Etapa 2!",
-        message: `${response.message}${piiInfo} O conteúdo em memória está homologado para o mapeamento funcional.`,
+        message: `${response.message}${piiInfo} Clique novamente em 'Conferido! Avançar para Etapa 2' para selecionar as características funcionais.`,
       });
     } catch (err) {
       if (err instanceof IrisApiError) {
@@ -329,6 +379,7 @@ export function Step1MaterialIntake({
     setServerMetadata(null);
     setFeedbackBanner(null);
     setConfirmedForStep2(false);
+    clearStep1StateFromSession();
   };
 
   const handleLoadExample = () => {

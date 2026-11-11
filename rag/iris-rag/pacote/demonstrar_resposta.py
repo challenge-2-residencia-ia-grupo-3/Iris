@@ -28,10 +28,9 @@ import json
 import re
 from pathlib import Path
 
-import consultar                                   # recuperação; lê RAG_BANCO na importação (padrão: pgvector)
+import consultar                                   # recuperação no pgvector
 import gerar                                       # instruções, verificação das citações e modelo gerador
-# medir_respostas é importado depois de consultar porque define RAG_BANCO=chroma como padrão;
-# a demonstração deve utilizar o banco configurado. São reutilizadas três funções de texto.
+# De medir_respostas são reutilizadas três funções de texto.
 from medir_respostas import citados, frases_da_resposta, limpar
 
 AQUI = Path(__file__).resolve().parent
@@ -61,22 +60,19 @@ def ler(caminho: Path, padrao=None):
 def ligar_banco() -> str | None:
     """Conecta a recuperação ao banco e retorna a identificação do banco. None = banco indisponível.
 
-    Com pgvector, a demonstração abre conexão própria, somente de leitura: banco_pg.conectar
+    A demonstração abre conexão própria, somente de leitura: banco_pg.conectar
     executa CREATE EXTENSION, que é comando de escrita."""
     try:
-        if consultar.BANCO == "pgvector":
-            import psycopg
-            from pgvector.psycopg import register_vector
-            import banco_pg
-            con = psycopg.connect(banco_pg.DSN, autocommit=True, connect_timeout=5)
-            register_vector(con)                                   # habilita o tipo vector no psycopg
-            consultar._pg = lambda: (banco_pg, con)                # a recuperação passa a utilizar esta conexão
-            pg = con.execute("show server_version").fetchone()[0].split()[0]
-            ext = con.execute("select extversion from pg_extension where extname='vector'").fetchone()[0]
-            n = con.execute(f"select count(*) from {banco_pg.TABELA}").fetchone()[0]
-            return f"PostgreSQL {pg} com pgvector {ext}, tabela {banco_pg.TABELA}, {n} trechos"
-        consultar.modelos_prontos()                                # Chroma: verifica a existência da coleção
-        return "Chroma (índice local, RAG_BANCO=chroma)"
+        import psycopg
+        from pgvector.psycopg import register_vector
+        import banco_pg
+        con = psycopg.connect(banco_pg.DSN, autocommit=True, connect_timeout=5)
+        register_vector(con)                                       # habilita o tipo vector no psycopg
+        consultar._pg = lambda: (banco_pg, con)                    # a recuperação passa a utilizar esta conexão
+        pg = con.execute("show server_version").fetchone()[0].split()[0]
+        ext = con.execute("select extversion from pg_extension where extname='vector'").fetchone()[0]
+        n = con.execute(f"select count(*) from {banco_pg.TABELA}").fetchone()[0]
+        return f"PostgreSQL {pg} com pgvector {ext}, tabela {banco_pg.TABELA}, {n} trechos"
     except Exception as e:                                         # sem banco, as respostas registradas ainda são exibidas
         print(f"[banco indisponível: {type(e).__name__}] a recuperação não será reproduzida; --ao-vivo requer o banco")
         return None

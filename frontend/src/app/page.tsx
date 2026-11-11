@@ -4,18 +4,20 @@ import React, { useEffect, useState } from "react";
 import { ArrowRight, Eye, EyeOff, Lock, Mail, Moon, Sun } from "lucide-react";
 import { IrisLogoBanner } from "@/components/IrisLogoBanner";
 import { Step1MaterialIntake } from "@/components/Step1MaterialIntake";
+import { Step2FunctionalProfile } from "@/components/Step2FunctionalProfile";
 
 /**
  * Página inicial da Plataforma Íris de Adaptação:
  * - Renderiza a tela de Acesso/Boas-vindas fiel ao protótipo do Figma (split screen Midnight Violet #0D0221 + Lavender Blush #F5EDF0).
- * - Ao clicar em "Entrar ->", conduz diretamente para a Etapa 1 (Issue 1.1.1 — Entrada de Material Didático via Texto e Upload).
+ * - Ao clicar em "Entrar ->", conduz para a Etapa 1 (Issue 1.1.1) e, em seguida, para a Etapa 2 (Issue 1.2.1 — Seleção Cirúrgica de Características Funcionais).
  */
 export default function HomePage() {
-  const [view, setView] = useState<"login" | "step1">("login");
+  const [view, setView] = useState<"login" | "step1" | "step2">("login");
   const [email, setEmail] = useState("marina.alves@escola.edu.br");
   const [password, setPassword] = useState("••••••••");
   const [showPassword, setShowPassword] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [step1MaterialText, setStep1MaterialText] = useState<string>("");
 
   useEffect(() => {
     const root = document.documentElement;
@@ -36,6 +38,22 @@ export default function HomePage() {
       <Step1MaterialIntake
         teacherEmail={email || "marina.alves@escola.edu.br"}
         onBackToLogin={() => setView("login")}
+        onAdvanceToStep2={(materialText) => {
+          setStep1MaterialText(materialText);
+          setView("step2");
+        }}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode((prev) => !prev)}
+      />
+    );
+  }
+
+  if (view === "step2") {
+    return (
+      <Step2FunctionalProfile
+        teacherEmail={email || "marina.alves@escola.edu.br"}
+        materialPreviewText={step1MaterialText}
+        onBackToStep1={() => setView("step1")}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode((prev) => !prev)}
       />
@@ -76,14 +94,21 @@ export default function HomePage() {
         id="conteudo-principal"
         className="relative flex flex-col justify-center items-center p-8 sm:p-14 bg-[#F5EDF0] dark:bg-[#14072E]"
       >
-        {/* Botão de Tema (Lua / Sol) no canto superior direito igual ao Figma */}
+        {/* Botão de Tema (Lua / Sol) e atalhos para Etapas 1 e 2 no canto superior direito */}
         <div className="absolute top-6 right-6 flex items-center gap-3">
           <button
             type="button"
             onClick={() => setView("step1")}
             className="text-xs font-semibold text-[#335C67] dark:text-[#F5EDF0] underline hover:text-[#E35336] transition-colors"
           >
-            Ir direto para Etapa 1
+            Ir para Etapa 1
+          </button>
+          <button
+            type="button"
+            onClick={() => setView("step2")}
+            className="text-xs font-semibold text-[#E35336] underline hover:opacity-80 transition-opacity"
+          >
+            Ir para Etapa 2
           </button>
           <button
             type="button"

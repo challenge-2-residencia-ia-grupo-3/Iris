@@ -1,24 +1,11 @@
-RELATÓRIO DE INDEXAÇÃO - Íris: base de conhecimento (semana 2)
-Máquina: (identificador omitido) | 15 CPUs | Python 3.11.18 | torch 2.14.1 | dispositivo: mps
+RELATÓRIO DE INDEXAÇÃO - Íris: base de conhecimento no PostgreSQL com pgvector
+pgvector 0.8.7 | tabela iris_trechos | índice HNSW (cosseno) em cada coluna de vetor
 
-Chunks indexados: 1368 (de chunks.jsonl; ver outputs/01-chunking.txt)
-BM25 (rank_bm25, em memória): montado em 0.3 s; não vai para o Chroma.
+Trechos em chunks.jsonl: 1368 (ver outputs/01-chunking.txt)
+Linhas na tabela: 1368
 
-modelo   coleção                n   dim    embedding  por chunk  observação
-mpnet    iris_mpnet          1368   768      0.3 min      15 ms  calculado agora; mps
-qwen3    iris_qwen3          1368  1024      2.7 min     120 ms  calculado agora; mps
-  qwen3 levou 8.0x o tempo do mpnet (164 s contra 20 s), nos mesmos 1368 chunks.
+modelo   coluna          n   dim
+mpnet    vec_mpnet     1368   768
+qwen3    vec_qwen3     1368  1024
 
-Tamanho em disco:
-  chroma/ (as 2 coleções, com texto e metadados): 70.9 MB
-  cache/vetores-mpnet-a5352ece2915f2e6.npy: 4.2 MB
-  cache/vetores-mpnet-b4dc4f3734de34f6.npy: 3.2 MB
-  cache/vetores-qwen3-7e8a08ede0d2b2e1.npy: 5.6 MB
-  cache/vetores-qwen3-9527708b26448a04.npy: 4.3 MB
-  chunks.jsonl: 5.3 MB
-
-Notas:
-  - Textos indexados = 'Documento: <titulo> | Seção: <secao>' + texto do trecho.
-  - mpnet lê até 512 tokens e qwen3 até 1024; trecho maior é cortado no fim (ver ARQUITETURA.md, limitações).
-  - Os vetores ficam em cache/ com a assinatura dos textos no nome: mudou o chunking, recalcula sozinho.
-  - Na VPS não há GPU; no Mac (mps) ou na RTX (cuda) o tempo cai bastante.
+BM25 (rank_bm25): montado em memória a cada processo; não é gravado no banco.

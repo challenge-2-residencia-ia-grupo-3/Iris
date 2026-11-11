@@ -57,7 +57,7 @@ TASKS_MAP = {
 - [ ] **[Testes]** Teste automatizado de detecção de incompatibilidade pedagógica (ex.: trava de inferência vs. andaime simplificador).""",
 
     "2.1.1": """### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[RAG / IA]** Ingestão do corpus curado (DUA/CAST, MEC, Funções Executivas) no ChromaDB com metadados por característica.
+- [ ] **[RAG / IA]** Ingestão do corpus curado (DUA/CAST, MEC, Funções Executivas) no PostgreSQL com pgvector, com metadados por característica.
 - [ ] **[RAG / IA]** Função de busca vetorial filtrada deterministicamente pelo `id_caracteristica` selecionado.
 - [ ] **[RAG / IA]** Mapeador de contexto injetando trechos normativos e citações bibliográficas no prompt do Agente Estrategista.
 - [ ] **[Testes]** Teste automatizado com RAGAS avaliando Context Precision e Faithfulness do trecho recuperado.""",

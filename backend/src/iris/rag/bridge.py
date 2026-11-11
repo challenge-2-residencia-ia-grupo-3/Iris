@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import sys
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -63,6 +64,173 @@ def carregar_catalogo_fontes() -> dict[str, Any]:
     return json.loads(caminho.read_text(encoding="utf-8"))
 
 
+AVISO_LICENCA_RESTRITA = "(texto não reproduzido por restrição de licença; consultar o endereço de origem)"
+
+
+@lru_cache(maxsize=1)
+def documentos_nao_distribuidos() -> frozenset[str]:
+    """Identificadores dos documentos cujo texto não é redistribuído (`textos_nao_distribuidos.txt`).
+
+    A lista vale com ou sem os textos completos na máquina: quem obteve os textos para indexar a base
+    continua sem licença para exibi-los.
+    """
+    lista = RAG_BASE_DIR / "textos_nao_distribuidos.txt"
+    if not lista.exists():
+        return frozenset()
+    arquivos = {
+        linha.strip()
+        for linha in lista.read_text(encoding="utf-8").splitlines()
+        if linha.strip() and not linha.lstrip().startswith("#")
+    }
+    return frozenset(
+        d["id"] for d in carregar_catalogo_fontes().get("documentos", []) if d.get("arquivo_texto") in arquivos
+    )
+
+
+def _trecho_de_licenca_restrita(doc_id: str, texto: Any, n_palavras: Any) -> bool:
+    """Restrito se o documento está na lista de não distribuídos ou se o texto é o aviso que o substitui."""
+    texto_lower = str(texto or "").lower()
+    return (
+        doc_id in documentos_nao_distribuidos()
+        or "restrição de licença" in texto_lower
+        or "licença restrita" in texto_lower
+        or n_palavras == 0
+    )
+
+
+def formatar_pagina_trecho(pagina_inicio: Any, pagina_fim: Any = None) -> str | None:
+    """Formata intervalo de páginas (`'7'` ou `'7-8'`) a partir dos metadados do chunk."""
+    if pagina_inicio is None and pagina_fim is None:
+        return None
+    if pagina_inicio is None:
+        return str(pagina_fim)
+    if pagina_fim is None or pagina_fim == pagina_inicio:
+        return str(pagina_inicio)
+    return f"{pagina_inicio}-{pagina_fim}"
+
+
+def normalizar_trecho_ui(
+    trecho: dict[str, Any],
+    ref: str,
+    chunk_meta: dict[str, Any] | None = None,
+    status_gabarito: str | None = None,
+) -> dict[str, Any]:
+    """Padroniza um trecho recuperado/registrado com todos os metadados para leitura na UI."""
+    meta = chunk_meta or {}
+    chunk_id = trecho.get("chunk_id") or meta.get("chunk_id", "")
+    texto = (
+        trecho.get("texto")
+        or trecho.get("trecho")
+        or meta.get("texto")
+        or "(texto de licença restrita não distribuído no repositório)"
+    )
+    pagina = trecho.get("pagina")
+    if pagina is None:
+        pagina = formatar_pagina_trecho(
+            meta.get("pagina_inicio", meta.get("pagina_inicial")),
+            meta.get("pagina_fim"),
+        )
+    n_palavras = trecho.get("n_palavras")
+    if n_palavras is None:
+        n_palavras = meta.get("n_palavras")
+    if n_palavras is None and isinstance(texto, str):
+        n_palavras = 0 if "restrição de licença" in texto.lower() else len(texto.split())
+
+    doc_id = trecho.get("doc") or meta.get("doc_id") or (chunk_id.split("#")[0] if chunk_id else "")
+    licenca_restrita = _trecho_de_licenca_restrita(doc_id, texto, n_palavras)
+    if licenca_restrita:
+        # a visão para a interface nunca leva o texto integral de documento não distribuído
+        texto = AVISO_LICENCA_RESTRITA
+
+    return {
+        "ref": ref,
+        "chunk_id": chunk_id,
+        "doc": doc_id,
+        "titulo": trecho.get("titulo") or meta.get("titulo", ""),
+        "orgao": trecho.get("orgao") or meta.get("orgao", ""),
+        "ano": trecho.get("ano") or meta.get("ano", ""),
+        "url": trecho.get("url") or meta.get("url", ""),
+        "licenca": trecho.get("licenca") or meta.get("licenca", ""),
+        "parte": trecho.get("parte") or meta.get("parte", ""),
+        "idioma": trecho.get("idioma") or meta.get("idioma", ""),
+        "tipo_evidencia": trecho.get("tipo_evidencia") or meta.get("tipo_evidencia", ""),
+        "pagina": pagina,
+        "secao": trecho.get("secao") or meta.get("secao", ""),
+        "n_palavras": n_palavras,
+        "nao_usar_para": list(trecho.get("nao_usar_para") or meta.get("nao_usar_para") or []),
+        "nota_uso": trecho.get("nota_uso") or meta.get("nota_uso", ""),
+        "licenca_restrita": licenca_restrita,
+        "status_gabarito": status_gabarito or trecho.get("status_gabarito") or "Contexto Adicional",
+        "score": trecho.get("score"),
+        "texto": texto,
+    }
+
+
+def _enriquecer_trechos_busca(trechos: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Complementa os resultados de `consultar.buscar` com metadados extras de `chunks.jsonl`."""
+    if not trechos:
+        return trechos
+    chunks_map = {c["chunk_id"]: c for c in obter_trechos_base()}
+    enriquecidos: list[dict[str, Any]] = []
+    for item in trechos:
+        meta = chunks_map.get(item.get("chunk_id", ""), {})
+        copia = dict(item)
+        copia.setdefault("orgao", meta.get("orgao", ""))
+        copia.setdefault("ano", meta.get("ano", ""))
+        copia.setdefault("licenca", meta.get("licenca", ""))
+        copia.setdefault("n_palavras", meta.get("n_palavras"))
+        doc_id = copia.get("doc") or meta.get("doc_id") or str(copia.get("chunk_id", "")).split("#")[0]
+        copia["licenca_restrita"] = _trecho_de_licenca_restrita(doc_id, copia.get("trecho"), copia.get("n_palavras"))
+        enriquecidos.append(copia)
+    return enriquecidos
+
+
+def buscar_evidencias_com_meta(
+    pergunta: str,
+    metodo: str | None = None,
+    k: int = 5,
+    filtro_barreira: str | None = None,
+    filtro_parte: str | None = None,
+    sinonimos: bool = False,
+    fallback_bm25_se_sem_banco: bool = True,
+) -> dict[str, Any]:
+    """Executa a recuperação no RAG informando método solicitado, método efetivo e eventual fallback."""
+    _, consultar, _ = carregar_modulos_rag()
+    metodo_solicitado = metodo or consultar.METODO_PADRAO
+    try:
+        resultados = consultar.buscar(
+            pergunta=pergunta,
+            metodo=metodo_solicitado,
+            k=k,
+            filtro_barreira=filtro_barreira,
+            filtro_parte=filtro_parte,
+            sinonimos=sinonimos,
+        )
+        return {
+            "trechos": _enriquecer_trechos_busca(resultados),
+            "metodo_solicitado": metodo_solicitado,
+            "metodo_efetivo": metodo_solicitado,
+            "fallback_aplicado": False,
+        }
+    except Exception:
+        if fallback_bm25_se_sem_banco and metodo_solicitado != "bm25":
+            resultados = consultar.buscar(
+                pergunta=pergunta,
+                metodo="bm25",
+                k=k,
+                filtro_barreira=filtro_barreira,
+                filtro_parte=filtro_parte,
+                sinonimos=sinonimos,
+            )
+            return {
+                "trechos": _enriquecer_trechos_busca(resultados),
+                "metodo_solicitado": metodo_solicitado,
+                "metodo_efetivo": "bm25",
+                "fallback_aplicado": True,
+            }
+        raise
+
+
 def buscar_evidencias(
     pergunta: str,
     metodo: str | None = None,
@@ -74,32 +242,19 @@ def buscar_evidencias(
 ) -> list[dict[str, Any]]:
     """Executa a recuperação de trechos científicos no RAG de forma resiliente.
 
-    Se o banco vetorial (`pgvector`/`chroma`) não estiver acessível no ambiente local
+    Se o banco vetorial (`pgvector`) não estiver acessível no ambiente local
     e `fallback_bm25_se_sem_banco=True`, utiliza automaticamente o método lexical `bm25`
     sobre os trechos carregados em memória.
     """
-    _, consultar, _ = carregar_modulos_rag()
-    metodo_efetivo = metodo or consultar.METODO_PADRAO
-    try:
-        return consultar.buscar(
-            pergunta=pergunta,
-            metodo=metodo_efetivo,
-            k=k,
-            filtro_barreira=filtro_barreira,
-            filtro_parte=filtro_parte,
-            sinonimos=sinonimos,
-        )
-    except Exception:
-        if fallback_bm25_se_sem_banco and metodo_efetivo != "bm25":
-            return consultar.buscar(
-                pergunta=pergunta,
-                metodo="bm25",
-                k=k,
-                filtro_barreira=filtro_barreira,
-                filtro_parte=filtro_parte,
-                sinonimos=sinonimos,
-            )
-        raise
+    return buscar_evidencias_com_meta(
+        pergunta=pergunta,
+        metodo=metodo,
+        k=k,
+        filtro_barreira=filtro_barreira,
+        filtro_parte=filtro_parte,
+        sinonimos=sinonimos,
+        fallback_bm25_se_sem_banco=fallback_bm25_se_sem_banco,
+    )["trechos"]
 
 
 def responder_fundamentado(
@@ -145,7 +300,7 @@ def buscar_por_caracteristica_atomica(
         f"{carac.nome}. {diretriz.objetivo_andaime}. {termos_query}. {pergunta_adicional}".strip()
     )
 
-    trechos = buscar_evidencias(
+    busca = buscar_evidencias_com_meta(
         pergunta=consulta_composta,
         metodo=metodo,
         k=k,
@@ -156,12 +311,17 @@ def buscar_por_caracteristica_atomica(
     return {
         "id_caracteristica": carac.id_caracteristica,
         "nome_caracteristica": carac.nome,
+        "descricao_observavel": carac.descricao_observavel,
+        "exemplos_manifestacao_sala": list(carac.exemplos_manifestacao_sala),
         "barreira_rag_associada": carac.barreira_rag_associada,
         "principio_dua_primario": carac.principio_dua_primario,
         "nivel_selecionado": nivel,
         "diretriz_andaime": diretriz.to_dict(),
         "referencias_catalogo": [r.to_dict() for r in carac.referencias_bibliograficas],
-        "trechos_rag": trechos,
+        "metodo_solicitado": busca["metodo_solicitado"],
+        "metodo_efetivo": busca["metodo_efetivo"],
+        "fallback_aplicado": busca["fallback_aplicado"],
+        "trechos_rag": busca["trechos"],
     }
 
 

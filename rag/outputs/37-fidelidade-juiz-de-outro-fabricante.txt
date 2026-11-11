@@ -1,0 +1,82 @@
+FIDELIDADE DAS RESPOSTAS COM UM JUIZ DE OUTRO FABRICANTE (regra versão 2, as mesmas 80 respostas e frases).
+Juízes: Claude Sonnet A e B (gravados em 05/11/2026, reaproveitados) e Codex (gpt-6-astra, esforço medium).
+Geradores Claude Haiku e Opus, não o modelo configurado no protótipo. Sem conferência humana: a nota é prata.
+Técnica: modelos prontos julgam; contagem; kappa de Cohen; sorteio de perguntas (2000 sorteios, semente 20261105). Nenhum modelo treinado.
+Fidelidade = frases que o trecho citado sustenta por inteiro / frases de conteúdo, média por resposta.
+'Em parte' e prova rejeitada (passagem que não existe no trecho) contam como não sustentada. Recusas ficam fora.
+Meta (FAITHFULNESS_MIN): 0.90.
+
+=== gerador haiku: 38 respostas julgadas (as recusas ficam fora)
+
+quem julga                    fidelidade          IC 95%    frases sustentadas
+Sonnet A                           0.884   [0.829-0.934]            166 de 187
+Sonnet B                           0.887   [0.825-0.941]            167 de 188
+Codex                              0.922   [0.880-0.961]            172 de 186
+maioria dos três + Opus            0.905   [0.858-0.947]            170 de 187
+
+Concordância frase a frase, nas frases que os dois juízes chamam de conteúdo:
+par                     frases  igual, 4 vereditos   kappa  igual, sustenta ou não   kappa
+Sonnet A x Sonnet B        187               94.1%    0.70                   94.1%    0.70
+Sonnet A x Codex           186               91.4%    0.50                   91.9%    0.53
+Sonnet B x Codex           186               91.9%    0.52                   92.5%    0.55
+
+Matriz Sonnet A (linhas) x Codex (colunas), todas as frases:
+                         apoiada     parcial nao_apoiada   rejeitado comentario_ comentario_ sem_veredit
+apoiada                      161           4           0           0           1           0           0
+parcial                       11           9           0           0           0           0           0
+rejeitado                      0           1           0           0           0           0           0
+comentario_correto             0           0           0           0          22           1           0
+comentario_errado              0           0           0           0           0           1           0
+
+Matriz Sonnet B (linhas) x Codex (colunas), todas as frases:
+                         apoiada     parcial nao_apoiada   rejeitado comentario_ comentario_ sem_veredit
+apoiada                      162           4           0           0           1           0           0
+parcial                       10           9           0           0           0           1           0
+rejeitado                      0           1           0           0           0           0           0
+comentario_correto             0           0           0           0          22           0           0
+comentario_errado              0           0           0           0           0           1           0
+
+Sonnet A e Codex concordam no tipo da frase (conteúdo ou comentário) em 210 de 211.
+Vereditos do Codex rejeitados por passagem que não existe no trecho citado: 0 de 186 frases de conteúdo. Sem veredito: 0.
+Frases reprovadas por inteiro (nao_apoiada) pelos três juízes: 0; só pelo Codex: 0.
+Frases divididas (os dois Sonnet de um lado e o Codex do outro, ou empate): 9, em 8 respostas.
+Desempate do Opus nas divididas: ficou com os Sonnet em 5, com o Codex em 4; sem veredito de conteúdo em 0.
+
+=== gerador opus: 35 respostas julgadas (as recusas ficam fora)
+
+quem julga                    fidelidade          IC 95%    frases sustentadas
+Sonnet A                           0.944   [0.909-0.977]            167 de 177
+Sonnet B                           0.919   [0.869-0.959]            162 de 177
+Codex                              0.965   [0.935-0.989]            164 de 170
+maioria dos três + Opus            0.950   [0.922-0.978]            166 de 175
+
+Concordância frase a frase, nas frases que os dois juízes chamam de conteúdo:
+par                     frases  igual, 4 vereditos   kappa  igual, sustenta ou não   kappa
+Sonnet A x Sonnet B        175               96.0%    0.68                   96.0%    0.67
+Sonnet A x Codex           170               92.9%    0.22                   92.9%    0.22
+Sonnet B x Codex           170               92.9%    0.30                   92.9%    0.30
+
+Matriz Sonnet A (linhas) x Codex (colunas), todas as frases:
+                         apoiada     parcial nao_apoiada   rejeitado comentario_ comentario_ sem_veredit
+apoiada                      156           4           0           0           7           0           0
+parcial                        7           2           0           0           0           0           0
+rejeitado                      1           0           0           0           0           0           0
+comentario_correto             0           0           0           0          21           0           0
+comentario_errado              0           0           0           0           1           0           0
+
+Matriz Sonnet B (linhas) x Codex (colunas), todas as frases:
+                         apoiada     parcial nao_apoiada   rejeitado comentario_ comentario_ sem_veredit
+apoiada                      155           3           0           0           4           0           0
+parcial                        7           3           0           0           3           0           0
+nao_apoiada                    1           0           0           0           0           0           0
+rejeitado                      1           0           0           0           0           0           0
+comentario_correto             0           0           0           0          20           0           0
+comentario_errado              0           0           0           0           2           0           0
+
+Sonnet A e Codex concordam no tipo da frase (conteúdo ou comentário) em 192 de 199.
+Vereditos do Codex rejeitados por passagem que não existe no trecho citado: 0 de 170 frases de conteúdo. Sem veredito: 0.
+Frases reprovadas por inteiro (nao_apoiada) pelos três juízes: 0; só pelo Codex: 0.
+Frases divididas (os dois Sonnet de um lado e o Codex do outro, ou empate): 10, em 8 respostas.
+Desempate do Opus nas divididas: ficou com os Sonnet em 7, com o Codex em 2; sem veredito de conteúdo em 0.
+
+Opus menos Haiku na fidelidade final, pergunta a pergunta (35 perguntas respondidas pelos dois): +0.038 [+0.000 a +0.082].

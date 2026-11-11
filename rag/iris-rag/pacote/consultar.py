@@ -3,7 +3,7 @@
     buscar(pergunta, metodo, k=5, filtro_barreira=None, filtro_parte=None) -> trechos com doc, página,
     seção, score, URL, tipo de evidência e aviso de uso
 
-Métodos: 'bm25' (palavra), 'mpnet' e 'qwen3' (sentido, no Chroma), 'hibrido' (BM25 + denso por RRF)
+Métodos: 'bm25' (palavra), 'mpnet' e 'qwen3' (sentido, no pgvector), 'hibrido' (BM25 + denso por RRF)
 e 'hibrido+rerank' (os 20 primeiros da híbrida reordenados por um cross-encoder, que lê pergunta e
 trecho JUNTOS em vez de comparar dois vetores feitos separadamente).
 Rodar a demonstração:  .venv/bin/python consultar.py     (grava outputs/03-demonstracao.txt)
@@ -17,7 +17,6 @@ from functools import lru_cache
 from pathlib import Path
 
 import embeddings as emb
-import indexar
 import ingestao
 
 AQUI = Path(__file__).resolve().parent
@@ -46,9 +45,8 @@ RERANKER = os.environ.get("RAG_RERANKER", "mminilm")
 CANDIDATOS_RERANK = 20
 CANDIDATOS_RERANK_FUNDO = 50      # quantos o reranker lê no método qwen3+rerank50
 
-# Banco vetorial: 'pgvector' (padrão, PostgreSQL; ver banco_pg.py) ou 'chroma' (indexar.py).
-# Os dois guardam os MESMOS vetores (cache/*.npy); trocar o banco não muda o modelo nem o chunking.
-BANCO = os.environ.get("RAG_BANCO", "pgvector")
+# Banco vetorial: PostgreSQL com pgvector (ver banco_pg.py). Os vetores gravados são os de cache/*.npy.
+BANCO = "pgvector"
 # Denso usado no híbrido: qwen3 se a coleção existir (o melhor dos densos nesta base), senão mpnet.
 DENSO_DO_HIBRIDO = os.environ.get("RAG_DENSO_HIBRIDO", "")
 CANDIDATOS_RRF = 50       # quantos de cada lista entram na fusão
@@ -102,11 +100,6 @@ def reranquear(pergunta: str, candidatos: list[str], nome: str | None = None) ->
     return sorted(zip(candidatos, [float(x) for x in notas]), key=lambda x: -x[1])
 
 
-@lru_cache(maxsize=2)
-def _colecao(apelido: str):
-    return indexar.cliente_chroma().get_collection(indexar.nome_colecao(apelido))
-
-
 @lru_cache(maxsize=1)
 def _pg():
     import banco_pg
@@ -114,12 +107,9 @@ def _pg():
 
 
 def modelos_prontos() -> list[str]:
-    """Modelos densos com vetores gravados no banco em uso."""
-    if BANCO == "pgvector":
-        bp, con = _pg()
-        return bp.colunas_prontas(con)
-    nomes = [c.name for c in indexar.cliente_chroma().list_collections()]
-    return [m for m in emb.MODELOS_DENSOS if indexar.nome_colecao(m) in nomes]
+    """Modelos densos com vetores gravados no banco."""
+    bp, con = _pg()
+    return bp.colunas_prontas(con)
 
 
 def denso_do_hibrido() -> str:
@@ -139,17 +129,6 @@ def _passa_filtro(c: dict, filtro: dict | None) -> bool:
     return True
 
 
-def _where(filtro: dict | None):
-    if not filtro:
-        return None
-    conds = []
-    if filtro.get("barreira"):
-        conds.append({f"barreira_{filtro['barreira']}": True})
-    if filtro.get("parte"):
-        conds.append({"parte": filtro["parte"]})
-    return conds[0] if len(conds) == 1 else {"$and": conds}
-
-
 # ---------------------------------------------------------------- os buscadores (devolvem ids e notas)
 def _ranking_bm25(pergunta: str, n: int, filtro: dict | None) -> list[tuple[str, float]]:
     chunks, _, bm25 = _base()
@@ -166,14 +145,8 @@ def _ranking_bm25(pergunta: str, n: int, filtro: dict | None) -> list[tuple[str,
 
 def _ranking_denso(pergunta: str, apelido: str, n: int, filtro: dict | None) -> list[tuple[str, float]]:
     v = _modelo(apelido).vetor_pergunta(pergunta)
-    if BANCO == "pgvector":
-        bp, con = _pg()
-        return bp.buscar_denso(con, v, apelido, n, filtro)
-    where = _where(filtro)
-    r = _colecao(apelido).query(query_embeddings=[v.tolist()], n_results=n, where=where,
-                                include=["distances"])
-    # Chroma com 'cosine' devolve distância = 1 - cosseno
-    return [(cid, 1.0 - d) for cid, d in zip(r["ids"][0], r["distances"][0])]
+    bp, con = _pg()
+    return bp.buscar_denso(con, v, apelido, n, filtro)
 
 
 def ranking(pergunta: str, metodo: str, n: int, filtro: dict | None = None) -> list[tuple[str, float]]:
