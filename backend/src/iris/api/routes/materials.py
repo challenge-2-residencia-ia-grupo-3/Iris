@@ -16,7 +16,6 @@ from iris.parsers.document_extractor import (
 from iris.parsers.prose_organizer import organize_prose_structure
 from iris.parsers.structural_decomposer import decompose_material
 from iris.schemas.materials import (
-    MAX_SAFE_CONTEXT_CHARS,
     MaterialMetadata,
     MaterialResponse,
     MaterialSourceType,
@@ -133,7 +132,7 @@ def organize_prose_service(raw_text: str) -> ProseStructure:
     """Executa a organização estrutural automática de textos corridos (RF-02 Extensão / História 1.1.4).
 
     1. Sanitização preventiva de PII.
-    2. Validação básica de presença de conteúdo e capacidade segura da janela de contexto.
+    2. Validação básica de presença de conteúdo.
     3. Construção da árvore hierárquica (títulos, seções, subseções, parágrafos e listas).
     """
     if not isinstance(raw_text, str) or not raw_text.strip():
@@ -144,15 +143,8 @@ def organize_prose_service(raw_text: str) -> ProseStructure:
         )
 
     sanitized, _ = sanitize_pii(raw_text)
-    if len(sanitized.strip()) > MAX_SAFE_CONTEXT_CHARS:
-        raise MaterialValidationError(
-            message=(
-                "O conteúdo ultrapassa a capacidade segura de processamento da janela de contexto da IA "
-                f"({MAX_SAFE_CONTEXT_CHARS:,} caracteres). Divida o material em partes menores para garantir a qualidade da adaptação."
-            ),
-            code="CONTEXT_WINDOW_EXCEEDED",
-            field="text",
-        )
+    # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
+    validate_material_content(sanitized)
     return organize_prose_structure(sanitized)
 
 
