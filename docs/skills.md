@@ -150,5 +150,21 @@ description: >-
 3. **Apresentação do Plano Prévio:** Exibir quadro comparativo, justificativas técnicas e comandos `gh` planejados para validação do usuário.
 4. **Execução Pós-Aprovação:** Executar `gh issue edit` e atualizar a rastreabilidade na documentação.
 
+---
+
+## 6. Skill: `frontend-design`
+
+```yaml
+name: frontend-design
+description: >-
+  Guidance for distinctive, intentional visual design when building new UI or reshaping
+  an existing one. Helps with aesthetic direction, typography, and making choices that
+  don't read as templated defaults.
+license: Apache-2.0 (anthropics/skills — ver LICENSE.txt na pasta da skill)
+```
+
+### 6.1. Origem e Instalação
+* **Origem:** `anthropics/skills` (`skills/frontend-design/`), instalada em `.agents/skills/frontend-design/` sob licença Apache-2.0 (`LICENSE.txt` preservado).
+* **Compatibilidade no Projeto Íris:** Em telas voltadas ao aluno ou ao fluxo principal docente (`frontend/`), as diretrizes de acessibilidade, redução de sobrecarga visual para TDAH (`challenge2-cbl-pedagogical-adapter`) e os tokens do Figma têm precedência sobre qualquer escolha estética experimental.
 
 
