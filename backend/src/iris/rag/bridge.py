@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import sys
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -63,6 +64,40 @@ def carregar_catalogo_fontes() -> dict[str, Any]:
     return json.loads(caminho.read_text(encoding="utf-8"))
 
 
+AVISO_LICENCA_RESTRITA = "(texto não reproduzido por restrição de licença; consultar o endereço de origem)"
+
+
+@lru_cache(maxsize=1)
+def documentos_nao_distribuidos() -> frozenset[str]:
+    """Identificadores dos documentos cujo texto não é redistribuído (`textos_nao_distribuidos.txt`).
+
+    A lista vale com ou sem os textos completos na máquina: quem obteve os textos para indexar a base
+    continua sem licença para exibi-los.
+    """
+    lista = RAG_BASE_DIR / "textos_nao_distribuidos.txt"
+    if not lista.exists():
+        return frozenset()
+    arquivos = {
+        linha.strip()
+        for linha in lista.read_text(encoding="utf-8").splitlines()
+        if linha.strip() and not linha.lstrip().startswith("#")
+    }
+    return frozenset(
+        d["id"] for d in carregar_catalogo_fontes().get("documentos", []) if d.get("arquivo_texto") in arquivos
+    )
+
+
+def _trecho_de_licenca_restrita(doc_id: str, texto: Any, n_palavras: Any) -> bool:
+    """Restrito se o documento está na lista de não distribuídos ou se o texto é o aviso que o substitui."""
+    texto_lower = str(texto or "").lower()
+    return (
+        doc_id in documentos_nao_distribuidos()
+        or "restrição de licença" in texto_lower
+        or "licença restrita" in texto_lower
+        or n_palavras == 0
+    )
+
+
 def formatar_pagina_trecho(pagina_inicio: Any, pagina_fim: Any = None) -> str | None:
     """Formata intervalo de páginas (`'7'` ou `'7-8'`) a partir dos metadados do chunk."""
     if pagina_inicio is None and pagina_fim is None:
@@ -101,17 +136,16 @@ def normalizar_trecho_ui(
     if n_palavras is None and isinstance(texto, str):
         n_palavras = 0 if "restrição de licença" in texto.lower() else len(texto.split())
 
-    texto_lower = str(texto).lower()
-    licenca_restrita = (
-        "restrição de licença" in texto_lower
-        or "licença restrita" in texto_lower
-        or n_palavras == 0
-    )
+    doc_id = trecho.get("doc") or meta.get("doc_id") or (chunk_id.split("#")[0] if chunk_id else "")
+    licenca_restrita = _trecho_de_licenca_restrita(doc_id, texto, n_palavras)
+    if licenca_restrita:
+        # a visão para a interface nunca leva o texto integral de documento não distribuído
+        texto = AVISO_LICENCA_RESTRITA
 
     return {
         "ref": ref,
         "chunk_id": chunk_id,
-        "doc": trecho.get("doc") or meta.get("doc_id") or (chunk_id.split("#")[0] if chunk_id else ""),
+        "doc": doc_id,
         "titulo": trecho.get("titulo") or meta.get("titulo", ""),
         "orgao": trecho.get("orgao") or meta.get("orgao", ""),
         "ano": trecho.get("ano") or meta.get("ano", ""),
@@ -145,12 +179,8 @@ def _enriquecer_trechos_busca(trechos: list[dict[str, Any]]) -> list[dict[str, A
         copia.setdefault("ano", meta.get("ano", ""))
         copia.setdefault("licenca", meta.get("licenca", ""))
         copia.setdefault("n_palavras", meta.get("n_palavras"))
-        texto_lower = str(copia.get("trecho") or "").lower()
-        copia["licenca_restrita"] = (
-            "restrição de licença" in texto_lower
-            or "licença restrita" in texto_lower
-            or copia.get("n_palavras") == 0
-        )
+        doc_id = copia.get("doc") or meta.get("doc_id") or str(copia.get("chunk_id", "")).split("#")[0]
+        copia["licenca_restrita"] = _trecho_de_licenca_restrita(doc_id, copia.get("trecho"), copia.get("n_palavras"))
         enriquecidos.append(copia)
     return enriquecidos
 

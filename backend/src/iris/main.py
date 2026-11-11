@@ -15,6 +15,7 @@ import json
 import os
 import re
 import socket
+import threading
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -23,6 +24,11 @@ from iris import __version__
 from iris.config import RAG_PACOTE_DIR, get_settings
 
 PLAYGROUND_HTML_PATH = Path(__file__).resolve().parent / "static" / "playground.html"
+
+# O gerador do pacote RAG (gerar.py) lê RAG_LLM e RAG_LLM_MODELO do ambiente do processo no momento da
+# geração. A rota de resposta ao vivo ajusta essas variáveis por requisição; a trava impede que duas
+# requisições simultâneas troquem o provedor uma da outra ou restaurem um valor alheio.
+_RAG_LLM_LOCK = threading.Lock()
 
 
 def _load_playground_html() -> str:
@@ -200,36 +206,37 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
         else "deterministic-bm25-extractive"
     )
 
-    old_rag_llm = os.environ.get("RAG_LLM")
-    old_rag_modelo = os.environ.get("RAG_LLM_MODELO")
     llm_fallback_aplicado = False
     llm_erro: str | None = None
-    try:
-        if status_llm["primary_available"]:
-            os.environ["RAG_LLM"] = status_llm["configured_provider"]
-            os.environ["RAG_LLM_MODELO"] = modelo_resolvido
-            try:
-                res = responder_fundamentado(pergunta=pergunta, metodo=metodo_solicitado, k=k)
-            except Exception as exc:
-                llm_fallback_aplicado = True
-                llm_erro = str(exc)
+    with _RAG_LLM_LOCK:
+        old_rag_llm = os.environ.get("RAG_LLM")
+        old_rag_modelo = os.environ.get("RAG_LLM_MODELO")
+        try:
+            if status_llm["primary_available"]:
+                os.environ["RAG_LLM"] = status_llm["configured_provider"]
+                os.environ["RAG_LLM_MODELO"] = modelo_resolvido
+                try:
+                    res = responder_fundamentado(pergunta=pergunta, metodo=metodo_solicitado, k=k)
+                except Exception as exc:
+                    llm_fallback_aplicado = True
+                    llm_erro = str(exc)
+                    os.environ["RAG_LLM"] = "extractive"
+                    os.environ["RAG_LLM_MODELO"] = "deterministic-bm25-extractive"
+                    res = responder_fundamentado(pergunta=pergunta, metodo=metodo_solicitado, k=k)
+            else:
+                llm_fallback_aplicado = status_llm["configured_provider"] != "extractive"
                 os.environ["RAG_LLM"] = "extractive"
                 os.environ["RAG_LLM_MODELO"] = "deterministic-bm25-extractive"
                 res = responder_fundamentado(pergunta=pergunta, metodo=metodo_solicitado, k=k)
-        else:
-            llm_fallback_aplicado = status_llm["configured_provider"] != "extractive"
-            os.environ["RAG_LLM"] = "extractive"
-            os.environ["RAG_LLM_MODELO"] = "deterministic-bm25-extractive"
-            res = responder_fundamentado(pergunta=pergunta, metodo=metodo_solicitado, k=k)
-    finally:
-        if old_rag_llm is None:
-            os.environ.pop("RAG_LLM", None)
-        else:
-            os.environ["RAG_LLM"] = old_rag_llm
-        if old_rag_modelo is None:
-            os.environ.pop("RAG_LLM_MODELO", None)
-        else:
-            os.environ["RAG_LLM_MODELO"] = old_rag_modelo
+        finally:
+            if old_rag_llm is None:
+                os.environ.pop("RAG_LLM", None)
+            else:
+                os.environ["RAG_LLM"] = old_rag_llm
+            if old_rag_modelo is None:
+                os.environ.pop("RAG_LLM_MODELO", None)
+            else:
+                os.environ["RAG_LLM_MODELO"] = old_rag_modelo
 
     metodo_efetivo = res.get("metodo", metodo_solicitado)
     trechos = res.get("trechos_entregues") or buscar_evidencias(pergunta=pergunta, metodo=metodo_efetivo, k=k)
