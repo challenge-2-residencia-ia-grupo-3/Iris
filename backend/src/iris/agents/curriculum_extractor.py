@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING, Iterable, Optional
 from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, strip_thinking_tags
 from iris.eval.trcc import avaliar_trcc
 from iris.schemas.curriculum import (
+    IMPERATIVO_PARA_INFINITIVO,
     CurriculumInvariants,
     ExtractionRequest,
     ExtractionResult,
@@ -124,6 +125,7 @@ class CurriculumExtractorAgent:
         provider_configurado = getattr(self.llm_client, "provider_name", "custom")
         if provider_configurado in {"extractive", "mock", "offline"}:
             used_fallback = True
+            json_valido_direto = False
             invariantes = self._extracao_deterministica_fallback(req)
         else:
             try:
@@ -286,7 +288,8 @@ class CurriculumExtractorAgent:
         verbo_encontrado = "identificar"
         for p in palavras:
             if p.lower() in VERBOS_BNCC_COMUNS:
-                verbo_encontrado = p.lower()
+                # Mesma forma (infinitivo) que o contrato grava em `verbo_comando_bncc`
+                verbo_encontrado = IMPERATIVO_PARA_INFINITIVO.get(p.lower(), p.lower())
                 break
 
         # Conceitos obrigatórios a partir de travas manuais ou termos de destaque

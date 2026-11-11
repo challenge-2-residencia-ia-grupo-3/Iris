@@ -135,6 +135,34 @@ class TestCurriculumExtractorAgent(unittest.TestCase):
         self.assertTrue(any("3x" in c or "equação" in c or "valor" in c for c in res.conceitos_obrigatorios))
         self.assertIsNotNone(res.alerta_anti_muleta)
 
+    def test_provedor_sem_llm_nao_declara_json_valido(self):
+        for provedor in ("mock", "extractive", "offline"):
+            with self.subTest(provedor=provedor):
+                mock_llm = MagicMock()
+                mock_llm.provider_name = provedor
+
+                agent = CurriculumExtractorAgent(llm_client=mock_llm)
+                res = agent.extract_with_telemetry(
+                    ExtractionRequest(enunciado="Explique como ocorre a fotossíntese nas plantas.")
+                )
+
+                mock_llm.generate.assert_not_called()
+                self.assertTrue(res.telemetry.used_fallback)
+                self.assertFalse(res.telemetry.json_valido_direto)
+
+    def test_fallback_cita_o_verbo_no_infinitivo_nos_textos(self):
+        mock_llm = MagicMock()
+        mock_llm.generate.side_effect = RuntimeError("Conexão com LLM recusada ou timeout")
+
+        agent = CurriculumExtractorAgent(llm_client=mock_llm)
+        res = agent.extract(ExtractionRequest(enunciado="Calcule a soma 12 + 30 e depois anote aqui."))
+
+        self.assertEqual(res.verbo_comando_bncc, "calcular")
+        self.assertIn("'calcular'", res.alerta_anti_muleta)
+        self.assertIn("'calcular'", res.operacao_cognitiva)
+        self.assertNotIn("calcule", res.alerta_anti_muleta)
+        self.assertNotIn("calcule", res.operacao_cognitiva)
+
     def test_extracao_direta_de_golden_question(self):
         gq = GoldenQuestion(
             id="Q01",
