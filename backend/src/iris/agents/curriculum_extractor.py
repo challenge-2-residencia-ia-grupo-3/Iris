@@ -131,9 +131,9 @@ class CurriculumExtractorAgent:
                 invariantes, json_valido_direto = self._parse_json_response(resposta_llm.text, req)
             except Exception as e:
                 logger.warning(
-                    "Falha na chamada ou parsing do LLM para o Agente Extrator: %s. "
+                    "Falha na chamada ou parsing do LLM para o Agente Extrator (%s). "
                     "Aplicando extração determinística de salvaguarda.",
-                    e,
+                    type(e).__name__,
                 )
                 used_fallback = True
                 json_valido_direto = False

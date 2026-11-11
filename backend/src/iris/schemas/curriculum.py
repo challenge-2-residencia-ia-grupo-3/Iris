@@ -6,6 +6,20 @@ from typing import Optional
 from pydantic import BaseModel, Field, field_validator
 
 
+# Imperativo (forma em que o comando aparece no enunciado) -> infinitivo (forma taxonômica do contrato).
+IMPERATIVO_PARA_INFINITIVO = {
+    "analise": "analisar", "avalie": "avaliar", "calcule": "calcular", "classifique": "classificar",
+    "compare": "comparar", "conclua": "concluir", "deduza": "deduzir", "demonstre": "demonstrar",
+    "descreva": "descrever", "determine": "determinar", "diferencie": "diferenciar", "distinga": "distinguir",
+    "esboce": "esboçar", "escreva": "escrever", "estime": "estimar", "examine": "examinar",
+    "explique": "explicar", "identifique": "identificar", "ilustre": "ilustrar", "indique": "indicar",
+    "infira": "inferir", "interprete": "interpretar", "justifique": "justificar", "localize": "localizar",
+    "meça": "medir", "nomeie": "nomear", "ordene": "ordenar", "organize": "organizar",
+    "reconheça": "reconhecer", "relacione": "relacionar", "represente": "representar", "resolva": "resolver",
+    "responda": "responder", "selecione": "selecionar", "sintetize": "sintetizar", "verifique": "verificar",
+}
+
+
 class CurriculumInvariants(BaseModel):
     """Contrato estruturado dos invariantes curriculares inegociáveis de uma atividade pedagógica.
     
@@ -63,7 +77,7 @@ class CurriculumInvariants(BaseModel):
                 vistos.add(limpo.lower())
                 resultado.append(limpo)
         if not resultado:
-            resultado = ["conceito_geral"]
+            raise ValueError("conceitos_obrigatorios vazio: nenhum conceito foi extraído do enunciado.")
         return resultado
 
     @field_validator("verbo_comando_bncc", mode="before")
@@ -72,16 +86,9 @@ class CurriculumInvariants(BaseModel):
         if not v or not isinstance(v, str):
             return "identificar"
         v_limpo = v.strip().lower()
-        correcoes = {
-            "resolvar": "resolver",
-            "leer": "ler",
-            "leia": "ler",
-            "calcule": "calcular",
-            "explique": "explicar",
-            "identifique": "identificar",
-            "responda": "responder",
-        }
-        return correcoes.get(v_limpo, v_limpo)
+        correcoes = {"resolvar": "resolver", "leer": "ler", "leia": "ler"}
+        v_limpo = correcoes.get(v_limpo, v_limpo)
+        return IMPERATIVO_PARA_INFINITIVO.get(v_limpo, v_limpo)
 
 
 class ExtractionRequest(BaseModel):
@@ -99,7 +106,7 @@ def classificar_faixa_etaria(ano_escolar: Optional[str]) -> str:
     if not ano_escolar or not ano_escolar.strip():
         return "Não informado"
     norm = ano_escolar.strip().lower()
-    if any(k in norm for k in ("médio", "medio", "em", "1ª série", "2ª série", "3ª série")):
+    if re.search(r"\b(médio|medio)\b|[123]ª série", norm) or re.search(r"\bEM\b", ano_escolar):
         return "Ensino Médio (15-17 anos)"
     if any(k in norm for k in ("4º", "4°", "4o", "5º", "5°", "5o")):
         return "Fund. I (9-10 anos)"
