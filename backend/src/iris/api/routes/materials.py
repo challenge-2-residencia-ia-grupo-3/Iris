@@ -143,6 +143,8 @@ def organize_prose_service(raw_text: str) -> ProseStructure:
         )
 
     sanitized, _ = sanitize_pii(raw_text)
+    # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
+    validate_material_content(sanitized)
     return organize_prose_structure(sanitized)
 
 
