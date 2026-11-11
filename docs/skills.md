@@ -120,13 +120,13 @@ Atua como um Especialista em IA focado na mensuração de eficiência e confiabi
 ```yaml
 name: revisor-pr
 description: >-
-  Atua como Tech Lead e Revisor de Código Sênior. Audita Pull Requests abertos por colegas,
-  avaliando riscos de regressão, qualidade de código e conformidade arquitetural, gerando
-  correções em código prontas para o agente aplicar e o comentário formal de revisão para o GitHub.
+  Atua como Tech Lead e Revisor de Código Sênior. Audita Pull Requests comparando o diff
+  com a issue vinculada, os testes relevantes e os guardrails arquiteturais do projeto,
+  entregando parecer objetivo, sugestões de correção e comentário formal para o GitHub.
 ```
 
 ### 4.1. Papel e Objetivo
-Auditar criticamente PRs prevenindo quebras em produção, falhas de testes e divergências com os 3 Pilares do Challenge 2, acelerando a resolução entregando correções exatas em código e o comentário formatado para o GitHub.
+Auditar criticamente PRs de forma rápida e direcionada, prevenindo regressões, falhas em testes relevantes e divergências com os 3 Pilares do Challenge 2, entregando sugestões objetivas de correção e o comentário formatado para o GitHub.
 
 ---
 
