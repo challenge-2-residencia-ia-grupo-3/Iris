@@ -268,14 +268,28 @@ class CurriculumExtractorAgent:
             match_brace = re.search(r"(\{.*\})", limpo, flags=re.DOTALL)
             json_str = match_brace.group(1) if match_brace else limpo
 
-        dados = json.loads(json_str)
+        try:
+            dados = json.loads(json_str)
+        except json.JSONDecodeError:
+            # Mais de um objeto na resposta: aproveita o primeiro objeto JSON completo
+            inicio = limpo.find("{")
+            if inicio < 0:
+                raise
+            dados, _ = json.JSONDecoder().raw_decode(limpo[inicio:])
+            json_direto = False
 
         # Se o professor já havia definido travas manuais, garante que estejam nos conceitos obrigatórios
         if req.trava_manual_docente:
-            existentes = set(c.lower() for c in dados.get("conceitos_obrigatorios", []))
+            conceitos = dados.get("conceitos_obrigatorios")
+            if isinstance(conceitos, str):  # o contrato aceita texto separado por ";", "," ou quebra de linha
+                conceitos = re.split(r"[;\n,]", conceitos)
+            elif not isinstance(conceitos, list):
+                conceitos = []
+            existentes = {str(c).strip().lower() for c in conceitos}
             for t in req.trava_manual_docente:
                 if t.lower() not in existentes:
-                    dados.setdefault("conceitos_obrigatorios", []).append(t)
+                    conceitos.append(t)
+            dados["conceitos_obrigatorios"] = conceitos
 
         return CurriculumInvariants.model_validate(dados), json_direto
 
@@ -307,7 +321,11 @@ class CurriculumExtractorAgent:
         if not conceitos:
             # Pega palavras substantivas mais longas
             stopwords = {"para", "como", "qual", "quais", "onde", "quando", "sobre", "texto", "abaixo", "leia", "responda"}
-            candidatos = [p for p in palavras if p.lower() not in stopwords and len(p) >= 5]
+            # O verbo de comando já vai em `verbo_comando_bncc`; não é conceito do enunciado
+            candidatos = [
+                p for p in palavras
+                if p.lower() not in stopwords and p.lower() not in VERBOS_BNCC_COMUNS and len(p) >= 5
+            ]
             conceitos = candidatos[:3] if candidatos else ["conteudo_curricular"]
 
         termos_tecnicos = [c for c in conceitos if any(ch in c for ch in "=+-/*0123456789") or len(c) >= 7]
