@@ -16,7 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 from iris.eval.trcc import avaliar_trcc
 
-CAMINHO_PADRAO = Path(__file__).resolve().parents[3] / "data" / "benchmarks" / "questoes_escolares_v1.json"
+CAMINHO_PADRAO = Path(__file__).resolve().parents[4] / "data" / "benchmarks" / "questoes_escolares_v1.json"
 CATALOGOS_PADRAO = Path(__file__).resolve().parents[3] / "rag" / "catalogs"
 MINIMO_QUESTOES = 30
 
