@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Íris — Bancada de Auditoria RAG e Evidências Pedagógicas</title>
+  <style>
+    :root {
+      --ink: #0D0221;
+      --ink-soft: #312547;
+      --muted: #5F5475;
+      --paper: #FAF8FC;
+      --surface: #FFFFFF;
+      --wash: #F2ECF5;
+      --wash-strong: #E7DDEE;
+      --hairline: #DED5E8;
+      --hairline-strong: #C3B5D3;
+      --teal: #24535E;
+      --teal-soft: #EBF3F5;
+      --vermilion: #C93E22;
+      --vermilion-soft: #FDF0EC;
+      --moss: #1A6B42;
+      --moss-soft: #EAF6EF;
+      --ochre: #8C5200;
+      --ochre-soft: #FEF7E7;
+      --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    a:hover { color: var(--vermilion); }
+
+    :focus-visible {
+      outline: 2px solid var(--vermilion);
+      outline-offset: 2px;
+    }
+
+    /* Masthead — assinatura visual Íris em Midnight Violet */
+    .masthead {
+      background: var(--ink);
+      color: #FFFFFF;
+      padding: 1.25rem 1.75rem 1.15rem;
+      border-bottom: 3px solid var(--vermilion);
+    }
+    .masthead-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+    .brand-title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: #FFFFFF;
+      line-height: 1.15;
+    }
+    .brand-sub {
+      margin: 0.28rem 0 0;
+      font-size: 0.87rem;
+      color: rgba(245, 237, 240, 0.78);
+      max-width: 62ch;
+    }
+
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1rem;
+      font-size: 0.8rem;
+      color: rgba(245, 237, 240, 0.88);
+    }
+    .status-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+      background: #94A3B8;
+    }
+    .dot-ok { background: #4ADE80; }
+    .dot-warn { background: #FBBF24; }
+    .dot-danger { background: #F87171; }
+    .masthead-link {
+      color: #FFFFFF;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 0.3rem 0.68rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .masthead-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+    }
+
+    /* Navigation tabs */
+    .tab-bar-wrap {
+      background: var(--surface);
+      border-bottom: 1px solid var(--hairline);
+      padding: 0 1.75rem;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .tabs {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 0.85rem 0.9rem;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .tab-btn:hover { color: var(--ink); }
+    .tab-btn.active {
+      color: var(--ink);
+      border-bottom-color: var(--vermilion);
+    }
+
+    /* Main container */
+    main {
+      max-width: 1360px;
+      margin: 1.5rem auto 4rem;
+      padding: 0 1.75rem;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Section framing */
+    .panel-block {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 6px;
+      padding: 1.35rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .block-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      padding-bottom: 0.9rem;
+      margin-bottom: 1.15rem;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .block-title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+    .block-desc {
+      margin: 0.25rem 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 68ch;
+    }
+
+    /* Controls, inputs & buttons */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.9rem 1.1rem;
+    }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 0.3rem;
+    }
+    select, input[type="text"], textarea {
+      width: 100%;
+      padding: 0.56rem 0.72rem;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+    textarea { resize: vertical; }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.54rem 0.95rem;
+      border-radius: 4px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #FFFFFF;
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:hover:not(:disabled) { background: var(--ink-soft); border-color: var(--ink-soft); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-primary {
+      background: var(--vermilion);
+      border-color: var(--vermilion);
+    }
+    .btn-primary:hover:not(:disabled) { background: #B03219; border-color: #B03219; }
+    .btn-secondary {
+      background: var(--surface);
+      border-color: var(--hairline-strong);
+      color: var(--ink);
+    }
+    .btn-secondary:hover:not(:disabled) { background: var(--wash); border-color: var(--ink-soft); }
+    .btn-secondary.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #FFFFFF;
+    }
+    .btn-sm { padding: 0.32rem 0.65rem; font-size: 0.78rem; }
+
+    /* Executive Diagnostic Hero + Ledger (replaces 13 identical boxes) */
+    .metrics-architecture {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.9fr) minmax(320px, 1.4fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .verdict-panel {
+      background: var(--wash);
+      border-left: 4px solid var(--vermilion);
+      padding: 1.15rem 1.25rem;
+      border-radius: 0 6px 6px 0;
+    }
+    .verdict-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.9rem;
+      border-bottom: 1px solid var(--hairline-strong);
+    }
+    .verdict-num {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+    .verdict-num.ok { color: var(--moss); }
+    .verdict-num.warn { color: var(--vermilion); }
+    .verdict-cap {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-top: 0.25rem;
+    }
+    .verdict-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+    .verdict-prose {
+      margin: 0;
+      font-size: 0.86rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      max-width: 58ch;
+    }
+
+    .ledger-group + .ledger-group { margin-top: 1.25rem; }
+    .ledger-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin: 0 0 0.45rem;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .ledger-scale {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+    th, td {
+      padding: 0.52rem 0.6rem;
+      border-bottom: 1px solid var(--hairline);
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom-color: var(--hairline-strong);
+    }
+    td.num, th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+    .score-ok { color: var(--moss); }
+    .score-warn { color: var(--ochre); }
+    .score-danger { color: var(--vermilion); }
+
+    .bar-track {
+      width: 84px;
+      height: 6px;
+      background: var(--wash-strong);
+      border-radius: 999px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .bar-fill { display: block; height: 100%; border-radius: 999px; }
+
+    /* Banners */
+    .notice {
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      border-left: 3px solid;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .notice-ok { background: var(--moss-soft); border-color: var(--moss); color: #124A2E; }
+    .notice-warn { background: var(--ochre-soft); border-color: var(--ochre); color: #5C3600; }
+    .notice-danger { background: var(--vermilion-soft); border-color: var(--vermilion); color: #7C1E0C; }
+    .notice-info { background: var(--teal-soft); border-color: var(--teal); color: #17373E; }
+
+    /* Benchmark Query Selector Rail + Split Evidence Workbench */
+    .query-rail {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--hairline);
+      border-radius: 5px;
+      max-height: 290px;
+      overflow-y: auto;
+      margin-bottom: 1.25rem;
+      background: var(--paper);
+    }
+    .query-row-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--hairline);
+      padding: 0.68rem 0.9rem;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+      font-family: var(--font-sans);
+      color: var(--ink);
+    }
+    .query-row-btn:last-child { border-bottom: none; }
+    .query-row-btn:hover { background: var(--wash); }
+    .query-row-btn.active {
+      background: var(--surface);
+      border-left: 4px solid var(--vermilion);
+      padding-left: calc(0.9rem - 4px);
+    }
+    .q-id {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+    .q-text {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .q-meta {
+      display: inline-flex;
+      gap: 0.45rem;
+      align-items: center;
+      font-size: 0.76rem;
+      color: var(--muted);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Two-column Split Evidence Workbench */
+    .workbench {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.22fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .workbench-left {
+      position: sticky;
+      top: 3.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+    .question-heading {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.38;
+      color: var(--ink);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.16rem 0.52rem;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid var(--hairline-strong);
+      background: var(--paper);
+      color: var(--ink-soft);
+      font-variant-numeric: tabular-nums;
+    }
+    .tag-ok { background: var(--moss-soft); border-color: rgba(26, 107, 66, 0.35); color: var(--moss); }
+    .tag-warn { background: var(--ochre-soft); border-color: rgba(140, 82, 0, 0.35); color: var(--ochre); }
+    .tag-danger { background: var(--vermilion-soft); border-color: rgba(201, 62, 34, 0.35); color: var(--vermilion); }
+    .tag-teal { background: var(--teal-soft); border-color: rgba(36, 83, 94, 0.3); color: var(--teal); }
+
+    .answer-sheet {
+      background: var(--surface);
+      border: 1px solid var(--hairline-strong);
+      border-top: 3px solid var(--teal);
+      border-radius: 4px;
+      padding: 1.1rem 1.2rem;
+    }
+    .answer-sheet-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .answer-sheet-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+    .answer-prose {
+      font-family: var(--font-serif);
+      font-size: 0.99rem;
+      line-height: 1.68;
+      color: var(--ink);
+      max-width: 68ch;
+    }
+    .answer-prose p { margin: 0 0 0.6rem; }
+    .answer-prose p:last-child { margin-bottom: 0; }
+
+    .cite-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.04rem 0.38rem;
+      margin: 0 0.1rem;
+      border-radius: 3px;
+      border: 1px solid rgba(36, 83, 94, 0.35);
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-family: var(--font-mono);
+      font-size: 0.78em;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .cite-btn:hover { background: var(--teal); color: #FFFFFF; }
+
+    /* Two-column Directive Cards */
+    .rules-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+    .rule-sheet {
+      padding: 0.85rem 1rem;
+      border-radius: 4px;
+      border: 1px solid;
+    }
+    .rule-sheet h4 {
+      margin: 0 0 0.45rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .rule-sheet ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+    .rule-sheet li + li { margin-top: 0.35rem; }
+    .rule-allow { background: var(--moss-soft); border-color: rgba(26, 107, 66, 0.35); color: #12452B; }
+    .rule-forbid { background: var(--vermilion-soft); border-color: rgba(201, 62, 34, 0.35); color: #741D0B; }
+
+    /* Right column: Evidence Stream */
+    .sources-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .sources-title {
+      margin: 0;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .chunk-sheet {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 5px;
+      padding: 0.95rem 1.1rem;
+      margin-bottom: 0.8rem;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .chunk-sheet.highlight {
+      border-color: var(--vermilion);
+      background: #FFF9F7;
+      box-shadow: 0 0 0 2px rgba(201, 62, 34, 0.2);
+    }
+    .chunk-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.45rem 0.75rem;
+    }
+    .chunk-title-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.45rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .chunk-ref {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--teal);
+      background: var(--teal-soft);
+      padding: 0.1rem 0.42rem;
+      border-radius: 3px;
+    }
+    .chunk-sub {
+      margin-top: 0.32rem;
+      font-size: 0.79rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.85rem;
+      align-items: center;
+    }
+    .chunk-id-code {
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: var(--ink-soft);
+      background: var(--paper);
+      padding: 0.08rem 0.35rem;
+      border-radius: 3px;
+      border: 1px solid var(--hairline);
+    }
+    .usage-note {
+      margin-top: 0.6rem;
+      padding: 0.52rem 0.75rem;
+      background: var(--ochre-soft);
+      border-left: 3px solid var(--ochre);
+      border-radius: 0 4px 4px 0;
+      font-size: 0.8rem;
+      color: #5C3600;
+    }
+    .license-note {
+      margin-top: 0.6rem;
+      padding: 0.65rem 0.8rem;
+      background: var(--paper);
+      border: 1px dashed var(--hairline-strong);
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .chunk-body {
+      margin-top: 0.65rem;
+      font-family: var(--font-serif);
+      font-size: 0.94rem;
+      line-height: 1.66;
+      color: var(--ink-soft);
+      max-width: 70ch;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .chunk-toggle { margin-top: 0.5rem; }
+
+    details.audit-box {
+      border: 1px solid var(--hairline);
+      border-radius: 4px;
+      padding: 0.6rem 0.85rem;
+      background: var(--paper);
+    }
+    details.audit-box summary {
+      cursor: pointer;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    .context-box {
+      margin-top: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: var(--wash);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+    }
+    .context-box ul { margin: 0.35rem 0 0; padding-left: 1.15rem; }
+
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.55rem;
+    }
+    .preset-chip {
+      background: var(--paper);
+      border: 1px solid var(--hairline-strong);
+      color: var(--ink-soft);
+      border-radius: 999px;
+      padding: 0.25rem 0.72rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+    .preset-chip:hover { border-color: var(--vermilion); color: var(--vermilion); }
+
+    .empty-state {
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.88rem;
+      border: 1px dashed var(--hairline-strong);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .split-tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1rem;
+      margin-top: 0.9rem;
+    }
+
+    @media (max-width: 960px) {
+      .metrics-architecture,
+      .workbench {
+        grid-template-columns: 1fr;
+      }
+      .workbench-left { position: static; }
+      .masthead, .tab-bar-wrap, main { padding-left: 1rem; padding-right: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div>
+        <h1 class="brand-title">Íris — Bancada de Auditoria RAG</h1>
+        <p class="brand-sub">Inspeção de evidências DUA/MEC, métricas de fidelidade e diretrizes por característica funcional observada.</p>
+      </div>
+      <div class="status-bar" id="status-strip">
+        <span class="status-item">Verificando serviços locais...</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tab-bar-wrap" aria-label="Áreas da bancada">
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="benchmark" onclick="ativarAba('benchmark')">Auditoria do Benchmark</button>
+      <button type="button" class="tab-btn" data-tab="catalogo" onclick="ativarAba('catalogo')">Catálogo de Características TDAH</button>
+      <button type="button" class="tab-btn" data-tab="aovivo" onclick="ativarAba('aovivo')">Consulta RAG ao Vivo</button>
+      <button type="button" class="tab-btn" data-tab="ferramentas" onclick="ativarAba('ferramentas')">Ferramentas da API</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ABA 1: AUDITORIA DO BENCHMARK -->
+    <section id="tab-benchmark" class="tab-panel active">
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Desempenho do pipeline registrado</h2>
+            <p class="block-desc" id="bench-contexto">Carregando indicadores oficiais do gabarito de referência.</p>
+          </div>
+          <div class="btn-row">
+            <button type="button" id="btn-gen-haiku" class="btn btn-secondary active" onclick="selecionarGerador('haiku')">Modelo Haiku</button>
+            <button type="button" id="btn-gen-opus" class="btn btn-secondary" onclick="selecionarGerador('opus')">Modelo Opus</button>
+            <button type="button" id="btn-gen-compare" class="btn btn-secondary" onclick="alternarComparativo()">Comparar Haiku e Opus</button>
+            <button type="button" id="btn-rebuild-rag" class="btn btn-secondary" onclick="recriarBaseRAG()">Verificar índice local</button>
+          </div>
+        </div>
+
+        <div id="bench-alert"></div>
+
+        <div class="metrics-architecture">
+          <div id="exec-summary" class="verdict-panel"></div>
+          <div>
+            <div class="ledger-group">
+              <div class="ledger-heading">
+                <span>Indicadores oficiais do projeto</span>
+                <span class="ledger-scale" id="badge-amostra-iris">Avaliação no gabarito</span>
+              </div>
+              <div id="metrics-iris"></div>
+            </div>
+            <div class="ledger-group">
+              <div class="ledger-heading">
+                <span>Métricas de mercado (RAGAS)</span>
+                <span class="ledger-scale">Escala de 0,0 a 10,0</span>
+              </div>
+              <div id="metrics-ragas"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="compare-panel" style="display:none; margin-top: 1.25rem;"></div>
+      </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Inspeção de consultas e fontes citadas</h2>
+            <p class="block-desc">Escolha uma pergunta na lista para confrontar a resposta gerada, os vereditos dos juízes A e B e os trechos recuperados.</p>
+          </div>
+        </div>
+
+        <div class="controls-grid" style="margin-bottom: 1rem;">
+          <div>
+            <label for="filtro-tipo">Tipo de pergunta</label>
+            <select id="filtro-tipo" onchange="aplicarFiltrosBenchmark()">
+              <option value="">Todos os tipos</option>
+            </select>
+          </div>
+          <div>
+            <label for="filtro-barreira">Barreira mapeada</label>
+            <select id="filtro-barreira" onchange="aplicarFiltrosBenchmark()">
+              <option value="">Todas as barreiras</option>
+            </select>
+          </div>
+          <div>
+            <label for="filtro-limite">Tamanho da amostra</label>
+            <select id="filtro-limite" onchange="aplicarFiltrosBenchmark()">
+              <option value="7" selected>7 consultas (1 por tipo)</option>
+              <option value="15">15 primeiras consultas</option>
+              <option value="0">Todas as consultas (40)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="benchmark-rail" class="query-rail"></div>
+        <div id="benchmark-workbench">
+          <div class="empty-state">Carregando consultas do gabarito...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 2: CATÁLOGO DE CARACTERÍSTICAS TDAH -->
+    <section id="tab-catalogo" class="tab-panel">
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Adaptação cirúrgica por característica observada</h2>
+            <p class="block-desc">Selecione uma barreira funcional observada em sala e o nível de andaime cognitivo para recuperar a diretriz e as fontes filtradas.</p>
+          </div>
+        </div>
+
+        <div class="controls-grid">
+          <div>
+            <label for="carac-select">Característica observada em sala</label>
+            <select id="carac-select" onchange="atualizarPreviewCaracteristica()"></select>
+          </div>
+          <div>
+            <label for="cat-nivel-select">Nível de suporte (andaime)</label>
+            <select id="cat-nivel-select">
+              <option value="1">Nível 1: Adaptação leve (destaque visual)</option>
+              <option value="2" selected>Nível 2: Adaptação moderada (checklists)</option>
+              <option value="3">Nível 3: Adaptação intensiva (passo a passo)</option>
+            </select>
+          </div>
+          <div>
+            <label for="cat-metodo-select">Método de busca</label>
+            <select id="cat-metodo-select" class="metodo-rag-select">
+              <option value="bm25">BM25 léxico local (sem Docker)</option>
+              <option value="qwen3+rerank50">Qwen3 + Reranker Top-50 (requer pgvector)</option>
+              <option value="hibrido">Híbrido BM25 + Vetorial</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="carac-preview" class="context-box"></div>
+
+        <div style="margin-top: 0.9rem;">
+          <label for="cat-pergunta-input">Contexto da questão escolar (opcional)</label>
+          <input type="text" id="cat-pergunta-input" value="Aluno esquece o enunciado no meio da questão de várias etapas." />
+        </div>
+
+        <div class="btn-row" style="margin-top: 0.95rem;">
+          <button type="button" id="btn-cat-buscar" class="btn btn-primary" onclick="buscarPorCaracteristica()">Buscar diretriz e evidências</button>
+        </div>
+      </div>
+
+      <div id="catalogo-results">
+        <div class="empty-state">Selecione uma característica acima e clique em "Buscar diretriz e evidências" para abrir a bancada de leitura.</div>
+      </div>
+    </section>
+
+    <!-- ABA 3: CONSULTA AO VIVO -->
+    <section id="tab-aovivo" class="tab-panel">
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Consulta ao vivo com conferência de citações</h2>
+            <p class="block-desc">Recupera trechos relevantes da base e gera uma resposta ancorada exclusivamente nas fontes apresentadas.</p>
+          </div>
+        </div>
+
+        <div class="controls-grid">
+          <div>
+            <label for="live-metodo-select">Método de busca</label>
+            <select id="live-metodo-select" class="metodo-rag-select">
+              <option value="bm25">BM25 léxico local (sem Docker)</option>
+              <option value="qwen3+rerank50">Qwen3 + Reranker Top-50 (requer pgvector)</option>
+              <option value="hibrido">Híbrido BM25 + Vetorial</option>
+            </select>
+          </div>
+          <div>
+            <label for="live-k-select">Quantidade de fontes</label>
+            <select id="live-k-select">
+              <option value="3">Top-3 trechos</option>
+              <option value="5" selected>Top-5 trechos</option>
+              <option value="8">Top-8 trechos</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 0.9rem;">
+          <label for="live-pergunta-input">Pergunta docente ou situação em sala</label>
+          <textarea id="live-pergunta-input" rows="2">Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?</textarea>
+          <div class="preset-row">
+            <button type="button" class="preset-chip" onclick="usarExemploAoVivo('Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?')">Memória de trabalho em etapas</button>
+            <button type="button" class="preset-chip" onclick="usarExemploAoVivo('A escola pode exigir laudo médico para fazer adaptação ou oferecer atendimento educacional especializado?')">Exigência de laudo médico (MEC)</button>
+            <button type="button" class="preset-chip" onclick="usarExemploAoVivo('Tempo adicional na prova ajuda alunos com TDAH?')">Tempo adicional em prova</button>
+            <button type="button" class="preset-chip" onclick="usarExemploAoVivo('Qual a dose de metilfenidato para uma criança de 6 anos com TDAH?')">Teste de abstenção (fora da base)</button>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top: 0.9rem;">
+          <button type="button" id="btn-live-run" class="btn btn-primary" onclick="gerarRespostaAoVivo()">Executar consulta ao vivo</button>
+        </div>
+      </div>
+
+      <div id="aovivo-results">
+        <div class="empty-state">Envie uma pergunta para visualizar a resposta fundamentada ao lado dos trechos recuperados.</div>
+      </div>
+    </section>
+
+    <!-- ABA 4: FERRAMENTAS DA API -->
+    <section id="tab-ferramentas" class="tab-panel">
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Anonimização preventiva (LGPD) e decomposição de material</h2>
+            <p class="block-desc">Valida os endpoints <code>POST /api/v1/materials/text</code> e <code>POST /api/v1/materials/decompose</code> antes de qualquer envio a modelos externos.</p>
+          </div>
+        </div>
+
+        <label for="mat-input">Texto da atividade ou prova (inclua dados fictícios para validar a remoção de identificadores)</label>
+        <textarea id="mat-input" rows="5">Escola Estadual Horizonte
+Aluno: Lucas Ferreira | CPF: 123.456.789-00
+Questão 1: Leia o texto sobre o ciclo da água, identifique suas etapas principais e explique o papel da evaporação.
+Questão 2: Qual é a diferença entre condensação e precipitação?</textarea>
+        <div class="btn-row" style="margin-top: 0.85rem;">
+          <button type="button" id="btn-mat-test" class="btn btn-primary" onclick="testarSanitizacaoEDecomposicao()">Sanitizar e decompor texto</button>
+        </div>
+        <div id="mat-results" style="margin-top: 1rem;"></div>
+      </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Telemetria do extrator curricular</h2>
+            <p class="block-desc">Resumo operacional registrado em <code>GET /api/v1/eval/extractor-analytics</code> (sem dados de estudantes).</p>
+          </div>
+          <button type="button" id="btn-ext-load" class="btn btn-secondary" onclick="carregarExtratorAnalytics()">Atualizar telemetria</button>
+        </div>
+        <div id="ext-results">
+          <div class="empty-state">Carregando telemetria do extrator...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      health: null,
+      catalog: [],
+      gerador: 'haiku',
+      comparativoAtivo: false,
+      dadosPorGerador: {},
+      consultasAtuais: [],
+      consultaSelecionadaId: null,
+      trechosExpandidos: new Set(),
+      extLoaded: false
+    };
+
+    function escapeHtml(val) {
+      if (val === null || val === undefined) return '';
+      return String(val)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function safeUrl(url) {
+      if (typeof url !== 'string') return '';
+      const trimmed = url.trim();
+      return /^https?:\/\//i.test(trimmed) ? trimmed : '';
+    }
+
+    async function fetchJson(url, options) {
+      const res = await fetch(url, options);
+      let data = null;
+      try {
+        data = await res.json();
+      } catch (_) {
+        data = null;
+      }
+      if (!res.ok) {
+        const msg = (data && (data.detail?.message || data.detail?.detail || data.detail || data.error)) || `Falha HTTP ${res.status}`;
+        throw new Error(typeof msg === 'string' ? msg : JSON.stringify(msg));
+      }
+      return data;
+    }
+
+    function ativarAba(nome) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === nome);
+      });
+      document.querySelectorAll('.tab-panel').forEach(sec => {
+        sec.classList.toggle('active', sec.id === `tab-${nome}`);
+      });
+      if (nome === 'ferramentas' && !state.extLoaded) {
+        carregarExtratorAnalytics();
+      }
+    }
+
+    function setLoading(btnId, loading, labelBusy) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      if (!btn.dataset.origLabel) btn.dataset.origLabel = btn.textContent;
+      btn.disabled = loading;
+      btn.textContent = loading ? labelBusy : btn.dataset.origLabel;
+    }
+
+    function formatarTextoComCitacoes(texto, scopeId) {
+      const safe = escapeHtml(texto || '');
+      const withCites = safe.replace(/\[T(\d+)\]/g, (_, n) =>
+        `<button type="button" class="cite-btn" title="Destacar fonte T${n}" data-scope="${escapeHtml(scopeId)}" data-ref="T${n}" onclick="focarTrecho(this.dataset.scope, this.dataset.ref)">[T${n}]</button>`
+      );
+      return withCites
+        .split(/\n+/)
+        .filter(Boolean)
+        .map(p => `<p>${p}</p>`)
+        .join('') || '<p>Sem texto disponível.</p>';
+    }
+
+    function focarTrecho(scopeId, ref) {
+      const card = document.getElementById(`chunk-${scopeId}-${ref}`);
+      if (!card) return;
+      const body = document.getElementById(`chunk-body-${scopeId}-${ref}`);
+      if (body && body.dataset.collapsed === 'true') {
+        toggleTrecho(`${scopeId}-${ref}`);
+      }
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('highlight');
+      setTimeout(() => card.classList.remove('highlight'), 1800);
+    }
+
+    function toggleTrecho(uid) {
+      const box = document.getElementById(`chunk-body-${uid}`);
+      const btn = document.getElementById(`chunk-btn-${uid}`);
+      if (!box || !btn) return;
+      const isCollapsed = box.dataset.collapsed === 'true';
+      if (isCollapsed) {
+        box.textContent = box.dataset.fullText || '';
+        box.dataset.collapsed = 'false';
+        btn.textContent = 'Recolher texto';
+        state.trechosExpandidos.add(uid);
+      } else {
+        box.textContent = box.dataset.previewText || '';
+        box.dataset.collapsed = 'true';
+        btn.textContent = `Ver texto completo (${box.dataset.charCount} caracteres)`;
+        state.trechosExpandidos.delete(uid);
+      }
+    }
+
+    function copiarTexto(btn) {
+      const texto = btn?.dataset?.copy ?? '';
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(texto).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copiado';
+        setTimeout(() => { btn.textContent = orig; }, 1200);
+      });
+    }
+
+    function renderTrechoCard(t, scopeId) {
+      const ref = t.ref || 'T?';
+      const uid = `${scopeId}-${ref}`;
+      const pagText = t.pagina ? `p. ${escapeHtml(t.pagina)}` : 'Sem paginação';
+      const statusText = t.status_gabarito || 'Contexto adicional';
+      let statusCls = 'tag-teal';
+      if (statusText.includes('RELEVANTE')) statusCls = 'tag-ok';
+      else if (statusText.includes('PARCIAL')) statusCls = 'tag-warn';
+      else if (statusText === 'Contexto Adicional') statusCls = 'tag';
+
+      const subParts = [];
+      if (t.orgao || t.ano) {
+        subParts.push(`${escapeHtml(t.orgao || '')}${t.ano ? ` (${escapeHtml(t.ano)})` : ''}`);
+      }
+      if (t.secao) subParts.push(`Seção: ${escapeHtml(t.secao)}`);
+      if (typeof t.n_palavras === 'number' && t.n_palavras > 0) subParts.push(`${t.n_palavras} palavras`);
+      if (t.chunk_id) subParts.push(`<span class="chunk-id-code">${escapeHtml(t.chunk_id)}</span>`);
+
+      const urlLimpa = safeUrl(t.url);
+      const linkHtml = urlLimpa
+        ? `<a href="${escapeHtml(urlLimpa)}" target="_blank" rel="noopener noreferrer">Abrir fonte original</a>`
+        : '';
+
+      const avisos = Array.isArray(t.nao_usar_para) ? t.nao_usar_para : [];
+      const notaUso = t.nota_uso || '';
+      const warningHtml = (avisos.length || notaUso)
+        ? `<div class="usage-note"><strong>Restrição de uso${avisos.length ? ` (${escapeHtml(avisos.join(', '))})` : ''}:</strong> ${escapeHtml(notaUso || 'Verificar nota da curadoria antes de citar como prova de eficácia.')}</div>`
+        : '';
+
+      const textoBruto = t.texto || t.trecho || '';
+      const isRestrita = Boolean(t.licenca_restrita) || /restrição de licença|licença restrita/i.test(textoBruto);
+
+      let bodyHtml = '';
+      if (isRestrita) {
+        bodyHtml = `
+          <div class="license-note">
+            <span>Texto integral não redistribuído por direitos autorais (${escapeHtml(t.licenca || 'licença restrita')}).</span>
+            ${urlLimpa ? `<a href="${escapeHtml(urlLimpa)}" target="_blank" rel="noopener noreferrer">Consultar documento original</a>` : ''}
+          </div>
+        `;
+      } else {
+        const previewClean = textoBruto.replace(/\s+/g, ' ').trim();
+        const needsCollapse = previewClean.length > 360;
+        const previewText = needsCollapse ? previewClean.slice(0, 360) + '…' : textoBruto;
+        const startExpanded = state.trechosExpandidos.has(uid) || !needsCollapse;
+        bodyHtml = `
+          <div id="chunk-body-${escapeHtml(uid)}"
+               class="chunk-body"
+               data-collapsed="${startExpanded ? 'false' : 'true'}"
+               data-preview-text="${escapeHtml(previewText)}"
+               data-full-text="${escapeHtml(textoBruto)}"
+               data-char-count="${textoBruto.length}">${escapeHtml(startExpanded ? textoBruto : previewText)}</div>
+          ${needsCollapse ? `
+            <div class="chunk-toggle">
+              <button type="button" id="chunk-btn-${escapeHtml(uid)}" class="btn btn-secondary btn-sm" data-uid="${escapeHtml(uid)}" onclick="toggleTrecho(this.dataset.uid)">
+                ${startExpanded ? 'Recolher texto' : `Ver texto completo (${textoBruto.length} caracteres)`}
+              </button>
+            </div>
+          ` : ''}
+        `;
+      }
+
+      return `
+        <article id="chunk-${escapeHtml(uid)}" class="chunk-sheet">
+          <div class="chunk-head">
+            <div class="chunk-title-line">
+              <span class="chunk-ref">[${escapeHtml(ref)}]</span>
+              <span>${escapeHtml(t.titulo || t.doc || t.chunk_id)}</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag ${statusCls}">${escapeHtml(statusText)}</span>
+              <span class="tag">${pagText}</span>
+              ${t.idioma ? `<span class="tag">${escapeHtml(t.idioma)}</span>` : ''}
+              ${t.tipo_evidencia ? `<span class="tag">${escapeHtml(t.tipo_evidencia)}</span>` : ''}
+            </div>
+          </div>
+          <div class="chunk-sub">
+            ${subParts.map(p => `<span>${p}</span>`).join('')}
+            ${linkHtml}
+          </div>
+          ${warningHtml}
+          ${bodyHtml}
+        </article>
+      `;
+    }
+
+    function renderStatusStrip(h) {
+      const strip = document.getElementById('status-strip');
+      const ollamaItem = `<span class="status-item"><span class="dot ${h.ollama_online ? 'dot-ok' : 'dot-warn'}"></span>${h.ollama_online ? `Ollama ativo (${escapeHtml(h.llm_model)})` : 'LLM em fallback extrativo'}</span>`;
+      const vecItem = `<span class="status-item"><span class="dot ${h.vector_db_online ? 'dot-ok' : 'dot-warn'}"></span>${h.vector_db_online ? 'pgvector ativo' : 'Busca BM25 local'}</span>`;
+      const chunkItem = typeof h.total_chunks === 'number'
+        ? `<span class="status-item">${h.total_chunks.toLocaleString('pt-BR')} trechos indexados</span>`
+        : '';
+      const lgpdItem = h.zero_student_database
+        ? `<span class="status-item"><span class="dot dot-ok"></span>Zero-DB LGPD</span>`
+        : '';
+
+      strip.innerHTML = `${ollamaItem}${vecItem}${chunkItem}${lgpdItem}<a class="masthead-link" href="/docs" target="_blank" rel="noopener">Documentação da API (/docs)</a>`;
+
+      document.querySelectorAll('.metodo-rag-select').forEach(sel => {
+        Array.from(sel.options).forEach(opt => {
+          if (opt.value === 'qwen3+rerank50') {
+            opt.textContent = h.vector_db_online
+              ? 'Qwen3 + Reranker Top-50 (pgvector ativo)'
+              : 'Qwen3 + Reranker Top-50 (pgvector offline, usa BM25)';
+          } else if (opt.value === 'hibrido') {
+            opt.textContent = h.vector_db_online
+              ? 'Híbrido BM25 + Vetorial (pgvector ativo)'
+              : 'Híbrido BM25 + Vetorial (pgvector offline, usa BM25)';
+          }
+        });
+      });
+
+      const btnRebuild = document.getElementById('btn-rebuild-rag');
+      if (btnRebuild && typeof h.total_chunks === 'number') {
+        btnRebuild.textContent = `Verificar índice local (${h.total_chunks.toLocaleString('pt-BR')} trechos)`;
+        btnRebuild.dataset.origLabel = btnRebuild.textContent;
+      }
+    }
+
+    function classeCor(ratio) {
+      if (ratio >= 0.8) return { cls: 'score-ok', fill: '#1A6B42' };
+      if (ratio >= 0.55) return { cls: 'score-warn', fill: '#8C5200' };
+      return { cls: 'score-danger', fill: '#C93E22' };
+    }
+
+    function renderMetricasBenchmark(m) {
+      const ir = m.metricas_relatorio_iris;
+      const mk = m.metricas_mercado_ragas;
+      const n10 = m.notas_0_a_10;
+
+      document.getElementById('bench-contexto').textContent =
+        `Gerador ${ir.gerador.toUpperCase()} com busca ${ir.metodo_busca} sobre ${ir.n_consultas_com_resposta} perguntas com resposta e ${ir.n_consultas_sem_resposta} testes de abstenção.`;
+      document.getElementById('badge-amostra-iris').textContent =
+        `${ir.gerador.toUpperCase()} / ${ir.metodo_busca}`;
+
+      document.getElementById('exec-summary').innerHTML = `
+        <div class="verdict-pair">
+          <div>
+            <div class="verdict-num ok">${n10['1_fidelidade'].toFixed(1)}/10</div>
+            <div class="verdict-cap">Fidelidade factual</div>
+            <div class="verdict-sub">${ir.citacoes_invalidas} citações inválidas</div>
+          </div>
+          <div>
+            <div class="verdict-num warn">${ir.recall_at_5}</div>
+            <div class="verdict-cap">Recall@5 (busca)</div>
+            <div class="verdict-sub">${ir.consultas_atendidas_pct}% atendidas no Top-5</div>
+          </div>
+        </div>
+        <p class="verdict-prose">
+          O gerador <strong>${escapeHtml(ir.gerador.toUpperCase())}</strong> sustenta <strong>${ir.frases_sustentadas_pct}%</strong> das frases integralmente nos trechos citados (+${ir.frases_parcialmente_sustentadas_pct}% parciais) com concordância Kappa de <strong>${ir.kappa_cohen}</strong>. O principal gargalo está na recuperação aberta em perguntas coloquiais (Recall@5 de ${ir.recall_at_5}), compensado na prática pelo filtro determinístico de barreiras do catálogo TDAH.
+        </p>
+      `;
+
+      const irisRows = [
+        ['Recall@5', ir.recall_at_5, ir.recall_at_5, 'Fração dos trechos do gabarito no Top-5 (100x acima do acaso)'],
+        ['Consultas atendidas', `${ir.consultas_atendidas_pct}%`, ir.consultas_atendidas_pct / 100, 'Perguntas com ao menos 1 trecho relevante no Top-5'],
+        ['MRR (1º relevante)', ir.mrr, ir.mrr, 'Posição média do 1º trecho relevante (~1º-2º lugar)'],
+        ['Frases sustentadas', `${ir.frases_sustentadas_pct}%`, (ir.frases_sustentadas_pct + ir.frases_parcialmente_sustentadas_pct) / 100, `+${ir.frases_parcialmente_sustentadas_pct}% parciais sem alucinação`],
+        ['Citações inválidas', ir.citacoes_invalidas, ir.citacoes_invalidas === 0 ? 1 : 0.2, `${ir.frases_sem_citacao} frases sem citação no texto`],
+        ['Acordo entre juízes', `${ir.concordancia_bruta_pct}% (κ=${ir.kappa_cohen})`, ir.concordancia_bruta_pct / 100, 'Consenso entre avaliador A e avaliador B']
+      ];
+      document.getElementById('metrics-iris').innerHTML = `
+        <table>
+          <thead><tr><th>Indicador</th><th>Leitura</th><th>Proporção</th><th class="num">Valor</th></tr></thead>
+          <tbody>
+            ${irisRows.map(([nome, valor, ratio, desc]) => {
+              const st = classeCor(ratio);
+              const pct = Math.max(4, Math.min(100, Math.round(ratio * 100)));
+              return `
+                <tr>
+                  <td><strong>${escapeHtml(nome)}</strong></td>
+                  <td style="color:var(--muted); font-size:0.8rem;">${escapeHtml(desc)}</td>
+                  <td><span class="bar-track"><span class="bar-fill" style="width:${pct}%; background:${st.fill};"></span></span></td>
+                  <td class="num ${st.cls}">${escapeHtml(valor)}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+
+      const ragasRows = [
+        ['1. Fidelidade', n10['1_fidelidade'], 'Ancoragem estrita nos trechos entregues'],
+        ['2. Relevância da resposta', n10['2_relevancia_respostas'], 'Utilidade direta para a dúvida do docente'],
+        ['3. Recuperação de contexto', n10['3_recuperacao_contexto'], 'Cobertura das evidências previstas no gabarito'],
+        ['4. Precisão de contexto', n10['4_precisao_contexto'], 'Posicionamento dos trechos úteis no topo (AP@5)'],
+        ['5. Relevância de contexto', n10['5_relevancia_contexto'], 'Equilíbrio entre amplitude e especificidade'],
+        ['6. Similaridade semântica', n10['6_similaridade_semantica'], 'Proximidade com a justificativa de referência'],
+        ['7. Correção geral', n10['7_correcao_respostas'], 'Síntese ponderada (60% fidelidade + 40% similaridade)']
+      ];
+      document.getElementById('metrics-ragas').innerHTML = `
+        <table>
+          <thead><tr><th>Métrica RAGAS</th><th>Critério</th><th>Proporção</th><th class="num">Nota</th></tr></thead>
+          <tbody>
+            ${ragasRows.map(([nome, nota, desc]) => {
+              const ratio = Number(nota) / 10;
+              const st = classeCor(ratio);
+              const pct = Math.max(4, Math.min(100, Math.round(ratio * 100)));
+              return `
+                <tr>
+                  <td><strong>${escapeHtml(nome)}</strong></td>
+                  <td style="color:var(--muted); font-size:0.8rem;">${escapeHtml(desc)}</td>
+                  <td><span class="bar-track"><span class="bar-fill" style="width:${pct}%; background:${st.fill};"></span></span></td>
+                  <td class="num ${st.cls}">${Number(nota).toFixed(1)}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+
+      if (m.comparativo_geradores) {
+        renderTabelaComparativa(m.comparativo_geradores);
+      }
+    }
+
+    function renderTabelaComparativa(comp) {
+      const panel = document.getElementById('compare-panel');
+      if (!state.comparativoAtivo || !comp.haiku || !comp.opus) {
+        panel.style.display = 'none';
+        return;
+      }
+      const h = comp.haiku;
+      const o = comp.opus;
+      const rows = [
+        ['Recall@5', h.iris.recall_at_5, o.iris.recall_at_5, ''],
+        ['Consultas atendidas (%)', h.iris.consultas_atendidas_pct, o.iris.consultas_atendidas_pct, '%'],
+        ['MRR', h.iris.mrr, o.iris.mrr, ''],
+        ['Frases sustentadas (%)', h.iris.frases_sustentadas_pct, o.iris.frases_sustentadas_pct, '%'],
+        ['Kappa entre juízes', h.iris.kappa_cohen, o.iris.kappa_cohen, ''],
+        ['Fidelidade RAGAS (0-10)', h.notas_0_a_10['1_fidelidade'], o.notas_0_a_10['1_fidelidade'], ''],
+        ['Relevância da resposta (0-10)', h.notas_0_a_10['2_relevancia_respostas'], o.notas_0_a_10['2_relevancia_respostas'], ''],
+        ['Correção geral (0-10)', h.notas_0_a_10['7_correcao_respostas'], o.notas_0_a_10['7_correcao_respostas'], '']
+      ];
+      panel.style.display = 'block';
+      panel.innerHTML = `
+        <div class="ledger-heading">
+          <span>Comparativo Haiku versus Opus</span>
+          <span class="ledger-scale">Diferença Δ = Opus − Haiku</span>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Indicador</th><th class="num">Haiku</th><th class="num">Opus</th><th class="num">Diferença (Δ)</th></tr>
+          </thead>
+          <tbody>
+            ${rows.map(([nome, vh, vo, suf]) => {
+              const delta = (Number(vo) - Number(vh)).toFixed(2);
+              const dNum = Number(delta);
+              const cls = dNum > 0 ? 'score-ok' : (dNum < 0 ? 'score-warn' : '');
+              const sign = dNum > 0 ? '+' : '';
+              return `<tr><td>${escapeHtml(nome)}</td><td class="num">${escapeHtml(vh)}${suf}</td><td class="num">${escapeHtml(vo)}${suf}</td><td class="num ${cls}">${sign}${delta}${suf}</td></tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function renderRailEWorkbench(consultas) {
+      state.consultasAtuais = consultas || [];
+      const rail = document.getElementById('benchmark-rail');
+      const wb = document.getElementById('benchmark-workbench');
+
+      if (!state.consultasAtuais.length) {
+        rail.innerHTML = '';
+        wb.innerHTML = '<div class="empty-state">Nenhuma pergunta corresponde aos filtros escolhidos. Limpe um filtro para ampliar a seleção.</div>';
+        return;
+      }
+
+      if (!state.consultasAtuais.some(c => c.id === state.consultaSelecionadaId)) {
+        state.consultaSelecionadaId = state.consultasAtuais[0].id;
+      }
+
+      rail.innerHTML = state.consultasAtuais.map(c => {
+        const mc = c.metricas_consulta || {};
+        const vd = c.veredito_detalhado || {};
+        const active = c.id === state.consultaSelecionadaId;
+        const statusTxt = c.sem_resposta_esperada
+          ? (vd.recusou ? 'Abstenção correta' : 'Falhou abstenção')
+          : (mc.atendida_top5 ? `Top-5 ✓ | Recall ${mc.recall_at_5}` : `Fora do Top-5 | Recall ${mc.recall_at_5}`);
+        return `
+          <button type="button" class="query-row-btn ${active ? 'active' : ''}" data-qid="${escapeHtml(c.id)}" onclick="selecionarConsultaBenchmark(this.dataset.qid)">
+            <span class="q-id">${escapeHtml(c.id)}</span>
+            <span class="q-text">${escapeHtml(c.pergunta)}</span>
+            <span class="q-meta">
+              <span class="tag">${escapeHtml(c.tipo)}</span>
+              <span>${escapeHtml(statusTxt)}</span>
+            </span>
+          </button>
+        `;
+      }).join('');
+
+      const atual = state.consultasAtuais.find(c => c.id === state.consultaSelecionadaId) || state.consultasAtuais[0];
+      renderWorkbenchConsulta(atual);
+    }
+
+    function selecionarConsultaBenchmark(qid) {
+      state.consultaSelecionadaId = qid;
+      renderRailEWorkbench(state.consultasAtuais);
+    }
+
+    function renderWorkbenchConsulta(c) {
+      const wb = document.getElementById('benchmark-workbench');
+      const scopeId = `bench-${c.id}`;
+      const mc = c.metricas_consulta || {};
+      const vd = c.veredito_detalhado || {};
+      const respAB = mc.veredito_responde || vd.responde || {};
+      const hitOk = Boolean(mc.atendida_top5);
+
+      const tags = [
+        `<span class="tag">${escapeHtml(c.id)}</span>`,
+        c.tipo ? `<span class="tag tag-teal">${escapeHtml(c.tipo)}</span>` : '',
+        c.barreira ? `<span class="tag">${escapeHtml(c.barreira)}</span>` : '',
+        c.sem_resposta_esperada
+          ? `<span class="tag ${vd.recusou ? 'tag-ok' : 'tag-danger'}">${vd.recusou ? 'Abstenção correta' : 'Deveria abster'}</span>`
+          : `<span class="tag ${hitOk ? 'tag-ok' : 'tag-danger'}">${hitOk ? 'Atendida no Top-5' : 'Não atendida no Top-5'}</span>`,
+        !c.sem_resposta_esperada ? `<span class="tag">Recall@5 ${mc.recall_at_5 ?? '-'}</span>` : '',
+        !c.sem_resposta_esperada ? `<span class="tag">MRR ${mc.mrr ?? '-'}</span>` : '',
+        !c.sem_resposta_esperada ? `<span class="tag">AP@5 ${mc.precisao_contexto_ap5 ?? '-'}</span>` : '',
+        c.fidelidade_frase ? `<span class="tag tag-teal">${escapeHtml(c.fidelidade_frase)}</span>` : '',
+        (respAB.A || respAB.B) ? `<span class="tag">Responde: A=${escapeHtml(respAB.A || '-')} / B=${escapeHtml(respAB.B || '-')}</span>` : ''
+      ].filter(Boolean).join('');
+
+      const frases = Array.isArray(vd.frases) ? vd.frases : [];
+      const frasesTable = frases.length ? `
+        <table style="margin-top:0.55rem;">
+          <thead><tr><th>Frase</th><th>Tipo</th><th>Juiz A</th><th>Juiz B</th><th>Consenso</th></tr></thead>
+          <tbody>
+            ${frases.map(f => `
+              <tr>
+                <td class="num">${escapeHtml(f.n)}</td>
+                <td>${escapeHtml(f.tipo)}</td>
+                <td>${escapeHtml(f.A)}</td>
+                <td>${escapeHtml(f.B)}</td>
+                <td><strong>${escapeHtml(f.comum)}</strong></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      ` : '<p style="font-size:0.82rem; color:var(--muted); margin:0.4rem 0 0;">Sem avaliação por frase (consulta de abstenção).</p>';
+
+      const trechos = c.trechos_recuperados || [];
+      wb.innerHTML = `
+        <div class="workbench">
+          <div class="workbench-left">
+            <h3 class="question-heading">${escapeHtml(c.pergunta)}</h3>
+            <div class="tag-row">${tags}</div>
+            <div class="answer-sheet">
+              <div class="answer-sheet-head">
+                <span class="answer-sheet-title">Resposta fundamentada (${escapeHtml(state.gerador.toUpperCase())})</span>
+                <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(c.resposta || '')}" onclick="copiarTexto(this)">Copiar resposta</button>
+              </div>
+              <div class="answer-prose">${formatarTextoComCitacoes(c.resposta || '', scopeId)}</div>
+            </div>
+            <details class="audit-box">
+              <summary>Inspecionar justificativa do gabarito e veredito frase a frase</summary>
+              <div style="margin-top:0.55rem;">
+                ${c.justificativa_gabarito ? `<p style="font-size:0.83rem; color:var(--ink-soft); margin:0 0 0.5rem;"><strong>Gabarito:</strong> ${escapeHtml(c.justificativa_gabarito)}</p>` : ''}
+                ${frasesTable}
+              </div>
+            </details>
+          </div>
+
+          <div>
+            <div class="sources-head">
+              <h4 class="sources-title">Fontes entregues ao gerador (${trechos.length} trechos)</h4>
+              <span style="font-size:0.78rem; color:var(--muted);">Clique em [T1..T${trechos.length}] na resposta para localizar</span>
+            </div>
+            ${trechos.map(t => renderTrechoCard(t, scopeId)).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    async function selecionarGerador(gerador) {
+      state.gerador = gerador;
+      document.getElementById('btn-gen-haiku').classList.toggle('active', gerador === 'haiku');
+      document.getElementById('btn-gen-opus').classList.toggle('active', gerador === 'opus');
+      await aplicarFiltrosBenchmark();
+    }
+
+    function alternarComparativo() {
+      state.comparativoAtivo = !state.comparativoAtivo;
+      document.getElementById('btn-gen-compare').classList.toggle('active', state.comparativoAtivo);
+      const atual = state.dadosPorGerador[state.gerador];
+      if (atual && atual.comparativo_geradores) {
+        renderTabelaComparativa(atual.comparativo_geradores);
+      }
+    }
+
+    async function aplicarFiltrosBenchmark() {
+      const alertBox = document.getElementById('bench-alert');
+      alertBox.innerHTML = '';
+      const tipo = document.getElementById('filtro-tipo').value;
+      const barreira = document.getElementById('filtro-barreira').value;
+      const limite = document.getElementById('filtro-limite').value;
+      const qs = new URLSearchParams({ gerador: state.gerador, limite });
+      if (tipo) qs.set('tipo', tipo);
+      if (barreira) qs.set('barreira', barreira);
+      try {
+        const m = await fetchJson(`/api/v1/eval/metrics?${qs.toString()}`);
+        state.dadosPorGerador[state.gerador] = m;
+        preencherFiltrosGabarito(m.filtros_gabarito);
+        renderMetricasBenchmark(m);
+        renderRailEWorkbench(m.consultas_com_textos || []);
+      } catch (err) {
+        alertBox.innerHTML = `<div class="notice notice-danger">Não foi possível carregar as métricas (${escapeHtml(err.message)}). Verifique se o backend FastAPI está em execução.</div>`;
+      }
+    }
+
+    function preencherFiltrosGabarito(fg) {
+      if (!fg) return;
+      const selTipo = document.getElementById('filtro-tipo');
+      const selBar = document.getElementById('filtro-barreira');
+      if (selTipo.options.length <= 1 && Array.isArray(fg.tipos)) {
+        fg.tipos.forEach(tp => {
+          const opt = document.createElement('option');
+          opt.value = tp;
+          opt.textContent = tp;
+          selTipo.appendChild(opt);
+        });
+      }
+      if (selBar.options.length <= 1 && Array.isArray(fg.barreiras)) {
+        fg.barreiras.forEach(br => {
+          const opt = document.createElement('option');
+          opt.value = br;
+          opt.textContent = br;
+          selBar.appendChild(opt);
+        });
+      }
+    }
+
+    async function recriarBaseRAG() {
+      const alertBox = document.getElementById('bench-alert');
+      setLoading('btn-rebuild-rag', true, 'Verificando índice...');
+      try {
+        const res = await fetchJson('/api/v1/rag/build', { method: 'POST' });
+        alertBox.innerHTML = `<div class="notice notice-ok"><strong>Índice local verificado:</strong> ${escapeHtml(res.total_chunks)} trechos disponíveis (${escapeHtml((res.barreiras || []).length)} barreiras mapeadas).</div>`;
+      } catch (err) {
+        alertBox.innerHTML = `<div class="notice notice-danger">Não foi possível verificar o índice (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        setLoading('btn-rebuild-rag', false);
+      }
+    }
+
+    function atualizarPreviewCaracteristica() {
+      const id = document.getElementById('carac-select').value;
+      const item = state.catalog.find(c => c.id_caracteristica === id);
+      const box = document.getElementById('carac-preview');
+      if (!item) {
+        box.innerHTML = '';
+        return;
+      }
+      const exs = (item.exemplos_manifestacao_sala || []).map(e => `<li>${escapeHtml(e)}</li>`).join('');
+      box.innerHTML = `
+        <div class="tag-row" style="margin-bottom:0.45rem;">
+          <span class="tag tag-teal">Barreira: ${escapeHtml(item.barreira_rag_associada)}</span>
+          <span class="tag">Princípio DUA: ${escapeHtml(item.principio_dua_primario)}</span>
+        </div>
+        <div><strong>O que se observa em sala:</strong> ${escapeHtml(item.descricao_observavel || '')}</div>
+        ${exs ? `<div style="margin-top:0.35rem;"><strong>Exemplos típicos:</strong><ul>${exs}</ul></div>` : ''}
+      `;
+    }
+
+    async function buscarPorCaracteristica() {
+      const container = document.getElementById('catalogo-results');
+      setLoading('btn-cat-buscar', true, 'Buscando diretriz...');
+      try {
+        const payload = {
+          id_caracteristica: document.getElementById('carac-select').value,
+          nivel: parseInt(document.getElementById('cat-nivel-select').value, 10),
+          pergunta: document.getElementById('cat-pergunta-input').value,
+          metodo: document.getElementById('cat-metodo-select').value
+        };
+        const res = await fetchJson('/api/v1/rag/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const dir = res.diretriz_andaime || {};
+        const fallbackBanner = res.fallback_aplicado
+          ? `<div class="notice notice-warn">Busca vetorial (${escapeHtml(res.metodo_solicitado)}) indisponível localmente. Resultados recuperados com <strong>${escapeHtml(res.metodo_efetivo)}</strong>.</div>`
+          : '';
+
+        const refsHtml = (res.referencias_catalogo || []).map(r => `
+          <li><strong>${escapeHtml(r.doc_id)}</strong>${r.ponto_verificacao_dua ? ` (${escapeHtml(r.ponto_verificacao_dua)})` : ''}: ${escapeHtml(r.citacao_curta)}</li>
+        `).join('');
+
+        const trechos = res.trechos_recuperados || (res.trechos_rag || []).map((t, idx) => ({
+          ...t,
+          ref: `T${idx + 1}`,
+          texto: t.trecho || t.texto,
+          status_gabarito: 'Filtrado por Barreira'
+        }));
+
+        container.innerHTML = `
+          <div class="panel-block">
+            ${fallbackBanner}
+            <div class="workbench">
+              <div class="workbench-left">
+                <h3 class="question-heading">${escapeHtml(res.nome_caracteristica)}</h3>
+                <div class="tag-row">
+                  <span class="tag tag-ok">Nível ${escapeHtml(res.nivel_selecionado)}: ${escapeHtml(dir.rotulo || '')}</span>
+                  <span class="tag tag-teal">Barreira: ${escapeHtml(res.barreira_rag_associada)}</span>
+                  <span class="tag">Método: ${escapeHtml(res.metodo_efetivo || payload.metodo)}</span>
+                </div>
+                <div class="notice notice-info" style="margin-bottom:0;">
+                  <strong>Objetivo do andaime:</strong> ${escapeHtml(dir.objetivo_andaime || '')}
+                </div>
+                <div class="rules-split">
+                  <div class="rule-sheet rule-allow">
+                    <h4>Ações permitidas</h4>
+                    <ul>${(dir.acoes_permitidas || []).map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>
+                  </div>
+                  <div class="rule-sheet rule-forbid">
+                    <h4>Restrições da trava curricular</h4>
+                    <ul>${(dir.restricoes_escopo || []).map(r => `<li>${escapeHtml(r)}</li>`).join('')}</ul>
+                  </div>
+                </div>
+                ${refsHtml ? `<div class="context-box" style="margin-top:0;"><strong>Referências do catálogo:</strong><ul>${refsHtml}</ul></div>` : ''}
+              </div>
+
+              <div>
+                <div class="sources-head">
+                  <h4 class="sources-title">Evidências filtradas por barreira (${trechos.length} trechos)</h4>
+                </div>
+                ${trechos.map(t => renderTrechoCard(t, 'cat')).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="notice notice-danger">Não foi possível consultar o catálogo (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        setLoading('btn-cat-buscar', false);
+      }
+    }
+
+    function usarExemploAoVivo(texto) {
+      document.getElementById('live-pergunta-input').value = texto;
+    }
+
+    async function gerarRespostaAoVivo() {
+      const container = document.getElementById('aovivo-results');
+      setLoading('btn-live-run', true, 'Consultando base e gerando...');
+      try {
+        const payload = {
+          pergunta: document.getElementById('live-pergunta-input').value,
+          metodo: document.getElementById('live-metodo-select').value,
+          k: parseInt(document.getElementById('live-k-select').value, 10)
+        };
+        const res = await fetchJson('/api/v1/rag/answer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const tel = res.telemetria_consulta || {};
+        const fallbackBanner = tel.fallback_aplicado
+          ? `<div class="notice notice-warn">Busca vetorial (${escapeHtml(tel.metodo_solicitado)}) indisponível; consulta executada com <strong>${escapeHtml(tel.metodo_efetivo)}</strong>.</div>`
+          : '';
+        const llmFallbackBanner = tel.llm_fallback_aplicado
+          ? `<div class="notice notice-warn">O modelo configurado não respondeu (${escapeHtml(tel.llm_erro || 'indisponível')}); resposta gerada em modo extrativo local.</div>`
+          : '';
+        const avisoCitadoBanner = (tel.citou_trecho_com_aviso && tel.citou_trecho_com_aviso.length)
+          ? `<div class="notice notice-warn">A resposta citou fonte com aviso de uso: <strong>${escapeHtml(tel.citou_trecho_com_aviso.join(', '))}</strong>.</div>`
+          : '';
+
+        const tags = [
+          `<span class="tag tag-teal">Método: ${escapeHtml(tel.metodo_efetivo || res.metodo)}</span>`,
+          `<span class="tag">LLM: ${escapeHtml(tel.llm || res.llm)}</span>`,
+          `<span class="tag">Tempo: ${escapeHtml(tel.segundos_total ?? res.segundos_total)}s</span>`,
+          `<span class="tag ${Number(tel.fidelidade_lexica) >= 0.7 ? 'tag-ok' : 'tag-warn'}">Fidelidade léxica: ${escapeHtml(tel.fidelidade_lexica ?? '-')}</span>`,
+          `<span class="tag">Relevância: ${escapeHtml(tel.relevancia_lexica ?? '-')}</span>`,
+          `<span class="tag ${(tel.citacoes_invalidas || 0) === 0 ? 'tag-ok' : 'tag-danger'}">Citações inválidas: ${escapeHtml(tel.citacoes_invalidas ?? 0)}</span>`,
+          tel.absteve ? `<span class="tag tag-warn">Absteve por falta de evidência</span>` : ''
+        ].filter(Boolean).join('');
+
+        const trechos = res.trechos_recuperados || [];
+        container.innerHTML = `
+          <div class="panel-block">
+            ${fallbackBanner}
+            ${llmFallbackBanner}
+            ${avisoCitadoBanner}
+            <div class="workbench">
+              <div class="workbench-left">
+                <h3 class="question-heading">${escapeHtml(payload.pergunta)}</h3>
+                <div class="tag-row">${tags}</div>
+                <div class="answer-sheet">
+                  <div class="answer-sheet-head">
+                    <span class="answer-sheet-title">Resposta gerada ao vivo</span>
+                    <button type="button" class="btn btn-secondary btn-sm" data-copy="${escapeHtml(res.resposta || '')}" onclick="copiarTexto(this)">Copiar resposta</button>
+                  </div>
+                  <div class="answer-prose">${formatarTextoComCitacoes(res.resposta || '', 'live')}</div>
+                </div>
+              </div>
+
+              <div>
+                <div class="sources-head">
+                  <h4 class="sources-title">Trechos recuperados (${trechos.length} fontes)</h4>
+                  <span style="font-size:0.78rem; color:var(--muted);">Clique em [T1..T${trechos.length}] na resposta para localizar</span>
+                </div>
+                ${trechos.map(t => renderTrechoCard(t, 'live')).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="notice notice-danger">Falha ao executar consulta ao vivo (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        setLoading('btn-live-run', false);
+      }
+    }
+
+    async function testarSanitizacaoEDecomposicao() {
+      const box = document.getElementById('mat-results');
+      setLoading('btn-mat-test', true, 'Processando...');
+      try {
+        const text = document.getElementById('mat-input').value;
+        const [mat, dec] = await Promise.all([
+          fetchJson('/api/v1/materials/text', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text })
+          }),
+          fetchJson('/api/v1/materials/decompose', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text })
+          })
+        ]);
+        const meta = mat.metadata || {};
+        const questoes = dec.questions || [];
+        box.innerHTML = `
+          <div class="tag-row" style="margin-bottom:0.6rem;">
+            <span class="tag ${meta.sanitized ? 'tag-warn' : 'tag-ok'}">Identificadores removidos: ${escapeHtml(meta.pii_removed_count ?? 0)}</span>
+            <span class="tag">${escapeHtml(meta.word_count ?? 0)} palavras (~${escapeHtml(meta.estimated_tokens ?? 0)} tokens)</span>
+            <span class="tag tag-teal">${escapeHtml(dec.total_questions ?? questoes.length)} questões detectadas</span>
+          </div>
+          <div class="split-tools">
+            <div class="context-box" style="margin-top:0;">
+              <strong>Texto sanitizado em memória</strong>
+              <div class="chunk-body" style="margin-top:0.45rem;">${escapeHtml(mat.raw_text || '')}</div>
+            </div>
+            <div class="context-box" style="margin-top:0;">
+              <strong>Estrutura decomposta</strong>
+              ${dec.header ? `<div style="margin-top:0.35rem; color:var(--muted);"><em>Cabeçalho:</em> ${escapeHtml(dec.header)}</div>` : ''}
+              <ul>
+                ${questoes.map(q => `<li><strong>${escapeHtml(q.original_number || q.id)}</strong> (${escapeHtml(q.question_type)}): ${escapeHtml(q.statement)}</li>`).join('') || '<li>Nenhuma questão isolada no texto.</li>'}
+              </ul>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">${escapeHtml(err.message)}</div>`;
+      } finally {
+        setLoading('btn-mat-test', false);
+      }
+    }
+
+    async function carregarExtratorAnalytics() {
+      const box = document.getElementById('ext-results');
+      setLoading('btn-ext-load', true, 'Atualizando...');
+      try {
+        const an = await fetchJson('/api/v1/eval/extractor-analytics');
+        state.extLoaded = true;
+        const r = an.resumo_geral || {};
+        if (!r.total_execucoes) {
+          box.innerHTML = '<div class="empty-state">Nenhum registro de telemetria encontrado ainda. Execute o benchmark do extrator para popular este painel.</div>';
+          return;
+        }
+        const inf = r.inference_ms || {};
+        const rec = r.trava_recall_medio !== null && r.trava_recall_medio !== undefined
+          ? `${(r.trava_recall_medio * 100).toFixed(1)}%` : 'n/a';
+        const porDisc = Object.entries(an.por_disciplina || {});
+        box.innerHTML = `
+          <div class="verdict-panel" style="border-left-color:var(--teal); margin-bottom:1rem;">
+            <div class="verdict-pair" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); border-bottom:none; margin-bottom:0; padding-bottom:0;">
+              <div><div class="verdict-num" style="color:var(--teal);">${escapeHtml(r.total_execucoes)}</div><div class="verdict-cap">Execuções</div><div class="verdict-sub">IA: ${escapeHtml(r.execucoes_ia)} | Fallbacks: ${escapeHtml(r.fallbacks)}</div></div>
+              <div><div class="verdict-num ok">${escapeHtml(rec)}</div><div class="verdict-cap">Recall da trava</div><div class="verdict-sub">JSON válido: ${escapeHtml(r.json_valido_direto_pct)}%</div></div>
+              <div><div class="verdict-num" style="color:var(--ink);">${Math.round(inf.media || 0)} ms</div><div class="verdict-cap">Inferência média</div><div class="verdict-sub">P50 ${Math.round(inf.p50 || 0)}ms / P95 ${Math.round(inf.p95 || 0)}ms</div></div>
+              <div><div class="verdict-num ok">${escapeHtml(r.aderencia_rnf07?.pct_ate_15s_inference ?? '-')}%</div><div class="verdict-cap">Dentro de 15s</div><div class="verdict-sub">${escapeHtml(r.tokens?.tokens_per_sec_medio ?? '-')} tok/s</div></div>
+            </div>
+          </div>
+          ${porDisc.length ? `
+            <table>
+              <thead><tr><th>Disciplina</th><th class="num">Execuções</th><th class="num">Inferência média</th><th class="num">Recall da trava</th></tr></thead>
+              <tbody>
+                ${porDisc.map(([nome, m]) => `
+                  <tr>
+                    <td>${escapeHtml(nome)}</td>
+                    <td class="num">${escapeHtml(m.total_execucoes)}</td>
+                    <td class="num">${Math.round(m.inference_ms?.media || 0)} ms</td>
+                    <td class="num">${m.trava_recall_medio !== null && m.trava_recall_medio !== undefined ? (m.trava_recall_medio * 100).toFixed(1) + '%' : 'n/a'}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          ` : ''}
+        `;
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">Não foi possível carregar a telemetria (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        setLoading('btn-ext-load', false);
+      }
+    }
+
+    async function init() {
+      try {
+        const [h, cat] = await Promise.all([
+          fetchJson('/api/v1/health'),
+          fetchJson('/api/v1/catalog')
+        ]);
+        state.health = h;
+        state.catalog = cat.caracteristicas || [];
+        renderStatusStrip(h);
+
+        const sel = document.getElementById('carac-select');
+        state.catalog.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.id_caracteristica;
+          opt.textContent = `${c.nome} [${c.barreira_rag_associada}]`;
+          sel.appendChild(opt);
+        });
+        atualizarPreviewCaracteristica();
+      } catch (err) {
+        document.getElementById('status-strip').innerHTML =
+          `<span class="status-item"><span class="dot dot-danger"></span>Falha ao conectar na API (${escapeHtml(err.message)})</span>`;
+      }
+      await aplicarFiltrosBenchmark();
+    }
+
+    init();
+  </script>
+</body>
+</html>
