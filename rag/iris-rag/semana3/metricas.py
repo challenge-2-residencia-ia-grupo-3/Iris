@@ -245,6 +245,7 @@ def pareado_d(ls: list[dict]) -> dict:
 
 # ---------------------------------------------------------------- principal
 def main() -> None:
+    C.exigir(C.TRECHOS_BUSCA, C.SAIDAS / "respostas_B.jsonl")
     busca = {l["id"]: l for l in C.ler_jsonl(C.TRECHOS_BUSCA)}
     itens = {it["id"]: it for it in C.itens_gabarito()}
     grupo_doc = {k: v["doc_dominante"] for k, v in itens.items()}

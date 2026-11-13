@@ -111,6 +111,7 @@ def holm_e_poder(resp: list[dict]) -> tuple[dict, list[str]]:
 
 
 def main() -> None:
+    C.exigir(C.SAIDAS / "trechos_busca.jsonl", C.AQUI / "saidas_r50" / "trechos_busca.jsonl")
     chave, ver, _ = A.carregar()
     resp, _, _ = A.expandir(chave, ver)
     r1, l1 = busca_certa_x_errada(resp)

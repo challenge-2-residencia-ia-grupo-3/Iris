@@ -1,5 +1,5 @@
 SEMANA 3 - MÉTRICAS DO JUIZ (Claude Opus; juiz NÃO validado por pessoa)
-gerado em 2026-11-13T01:02:06+00:00 | commit a99faf2-modificado
+gerado em 2026-11-13T11:19:48+00:00 | commit 733e270-modificado
 
 Cobertura do julgamento (respostas por condição, já expandidas pelas repetições):
   julgada|A|gpt-oss-20b: 120
@@ -13,6 +13,9 @@ Cobertura do julgamento (respostas por condição, já expandidas pelas repetiç
   julgada|C|llama3.1-8b: 120
   julgada|D|llama3.1-8b|completo: 90
   julgada|D|llama3.1-8b|sem_rag: 90
+  julgada|NA|llama3.1-8b: 6
+  julgada|NC50|llama3.1-8b: 21
+  julgada|NC|llama3.1-8b: 24
 
 Respostas ao professor, por condição; [média entre perguntas, IC95 inferior, superior]:
   A|gpt-oss-20b  respostas=120 perguntas=40 frases=32/688 contradizem=51 útil={'não': 42, 'parcial': 40, 'sim': 38}
@@ -239,6 +242,30 @@ Respostas ao professor, por condição; [média entre perguntas, IC95 inferior, 
           factual        0.357 [0.143, 0.643]  n=14
           sintese        0.125 [0.000, 0.250]  n=24
           fora_da_base   0.000 [0.000, 0.000]  n=2
+  NA|llama3.1-8b  respostas=6 perguntas=2 frases=0/26 contradizem=0 útil={'não': 3, 'sim': 3}
+      fidelidade                 0.000 [0.000, 0.000]  n=2  por documento 0.000 [0.000, 0.000]
+      fidelidade_sem_abstencao   0.000 [0.000, 0.000]  n=2  por documento 0.000 [0.000, 0.000]
+      util_sim                   0.500 [0.000, 1.000]  n=2  por documento 0.500 [0.500, 0.500]
+      util_sim_ou_parcial        0.500 [0.000, 1.000]  n=2  por documento 0.500 [0.500, 0.500]
+      inventou                   0.333 [0.000, 0.667]  n=2  por documento 0.333 [0.333, 0.333]
+      absteve_juiz               0.000 [0.000, 0.000]  n=2  por documento 0.000 [0.000, 0.000]
+      tem_frase_que_contradiz    0.000 [0.000, 0.000]  n=2  por documento 0.000 [0.000, 0.000]
+  NC50|llama3.1-8b  respostas=21 perguntas=7 frases=63/120 contradizem=3 útil={'não': 15, 'parcial': 6}
+      fidelidade                 0.619 [0.333, 0.869]  n=7  por documento 0.619 [0.619, 0.619]
+      fidelidade_sem_abstencao   0.467 [0.183, 0.817]  n=5  por documento 0.467 [0.467, 0.467]
+      util_sim                   0.000 [0.000, 0.000]  n=7  por documento 0.000 [0.000, 0.000]
+      util_sim_ou_parcial        0.286 [0.000, 0.571]  n=7  por documento 0.286 [0.286, 0.286]
+      inventou                   0.143 [0.000, 0.429]  n=7  por documento 0.143 [0.143, 0.143]
+      absteve_juiz               0.286 [0.000, 0.571]  n=7  por documento 0.286 [0.286, 0.286]
+      tem_frase_que_contradiz    0.143 [0.000, 0.429]  n=7  por documento 0.143 [0.143, 0.143]
+  NC|llama3.1-8b  respostas=24 perguntas=8 frases=48/191 contradizem=0 útil={'não': 12, 'parcial': 12}
+      fidelidade                 0.205 [0.092, 0.334]  n=8  por documento 0.205 [0.205, 0.205]
+      fidelidade_sem_abstencao   0.205 [0.092, 0.334]  n=8  por documento 0.205 [0.205, 0.205]
+      util_sim                   0.000 [0.000, 0.000]  n=8  por documento 0.000 [0.000, 0.000]
+      util_sim_ou_parcial        0.500 [0.125, 0.875]  n=8  por documento 0.500 [0.500, 0.500]
+      inventou                   0.500 [0.125, 0.875]  n=8  por documento 0.500 [0.500, 0.500]
+      absteve_juiz               0.000 [0.000, 0.000]  n=8  por documento 0.000 [0.000, 0.000]
+      tem_frase_que_contradiz    0.000 [0.000, 0.000]  n=8  por documento 0.000 [0.000, 0.000]
 
 Diferenças pareadas por pergunta (segundo - primeiro):
   C - A|gpt-oss-20b

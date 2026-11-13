@@ -235,3 +235,15 @@ def embaralhar(lista: list, semente: int = SEMENTE) -> list:
 def adicionar_pacote_ao_path() -> None:
     if str(PACOTE) not in sys.path:
         sys.path.insert(0, str(PACOTE))
+
+
+def exigir(*caminhos: Path) -> None:
+    """Para com mensagem clara se faltar arquivo de entrada.
+
+    Os arquivos com texto de documento (respostas, trechos, prompts) não vão ao git; sem esta trava, um script
+    rodava sem eles e gravava a saída vazia por cima da boa.
+    """
+    falta = [str(c) for c in caminhos if not Path(c).exists() or Path(c).stat().st_size == 0]
+    if falta:
+        raise SystemExit("Faltam arquivos de entrada que não são distribuídos (ver README.md, 'Refazer a geração'):\n  "
+                         + "\n  ".join(falta))

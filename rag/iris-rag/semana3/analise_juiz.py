@@ -176,8 +176,14 @@ def analisar_d(adapt: list[dict]) -> dict:
     val = {"util_sim": lambda m: sim(m["util"])} | {c: (lambda m, c=c: sim(m[c])) for c in campos[1:]}
     out = {}
     for modelo in sorted({m["modelo"] for m in adapt}):
-        reserva = {(l["config"], l["id"], l["repeticao"]): bool(l.get("reserva"))
-                   for l in C.ler_jsonl(C.SAIDAS / f"respostas_D_{modelo}.jsonl") if not l.get("erro")}
+        # quais saídas do D foram a reserva: lido do arquivo de respostas e guardado, só as marcas (sem texto),
+        # em d_reserva_<modelo>.json, para a análise rodar onde o arquivo de respostas não é distribuído
+        marcas = C.SAIDAS / f"d_reserva_{modelo}.json"
+        linhas_d = [l for l in C.ler_jsonl(C.SAIDAS / f"respostas_D_{modelo}.jsonl") if not l.get("erro")]
+        if linhas_d:
+            C.escrever_json(marcas, [[l["config"], l["id"], l["repeticao"], bool(l.get("reserva"))] for l in linhas_d])
+        reserva = ({(cfg_, q_, rep_): b for cfg_, q_, rep_, b in json.loads(marcas.read_text(encoding="utf-8"))}
+                   if marcas.exists() else {})
         ms = [m | {"reserva": reserva.get((m["config"], m["id"], m["repeticao"]))} for m in adapt if m["modelo"] == modelo]
         r: dict = {"saidas_julgadas": len(ms), "por_config": {}, "por_config_e_reserva": {}}
         for cfg in ("completo", "sem_rag"):

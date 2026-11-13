@@ -138,6 +138,7 @@ def ic_proporcao(por_pergunta: list[float]) -> list[float]:
 
 
 def abstencao() -> None:
+    C.exigir(*(arq_resp(c) for c in CONDICOES))
     res, L = {}, ["RODADA COMPLEMENTAR - PERGUNTAS FORA DA BASE: taxa de abstenção (detector de código)",
                   f"gerado em {C.agora_iso()} | commit {C.commit_atual()} | modelo {MODELO} | 3 repetições", "",
                   "[média entre perguntas, IC95 inferior, superior]; 'sempre' = absteve nas 3 repetições"]
@@ -188,6 +189,7 @@ def auc(pos: list[float], neg: list[float]) -> float:
 
 
 def limiar() -> None:
+    C.exigir(C.SAIDAS / "trechos_busca.jsonl", arq_trechos("C"), arq_trechos("C50"))
     res, L = {}, ["RODADA COMPLEMENTAR - LIMIAR DE ESCORE DA BUSCA",
                   "O escore do reordenador separa as perguntas com resposta (38) das sem resposta (Q39, Q40 e as 25 novas)?",
                   "AUC = chance de uma pergunta com resposta ter escore maior que uma sem; 0,5 é acaso, 1,0 é separação perfeita.",
@@ -277,6 +279,7 @@ def lotes() -> None:
 
 
 def analise() -> None:
+    C.exigir(*(arq_resp(c) for c in CONDICOES))
     import analise_juiz as A
     chave, ver, avisos = A.carregar()
     resp, _, cobertura = A.expandir(chave, ver)

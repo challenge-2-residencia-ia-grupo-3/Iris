@@ -167,7 +167,7 @@ def analise() -> None:
                "cobertura_38": g["cobertura_38"], "pct_frases_com_citacao": g["pct_frases_com_citacao_media"],
                "texto_identico_nas_3": g["estabilidade"]["texto_identico_em_todas"]}
     res = {"gerado_em": C.agora_iso(), "commit": C.commit_atual(), "candidatos_rerank": CANDIDATOS,
-           "cobertura": {k: v for k, v in cobertura.items() if "50" in k}, "avisos": avisos,
+           "cobertura": {k: v for k, v in cobertura.items() if "|B50|" in k or "|C50|" in k}, "avisos": avisos,
            "portoes_C50": portoes, "B50_busca": sj["B"], "condicoes": conds, "pareados": pares}
     L = [f"SEMANA 3 - RODADA COMPLEMENTAR, REORDENAÇÃO SOBRE {CANDIDATOS} CANDIDATOS (juiz Claude Opus, não validado por pessoa)",
          f"gerado em {res['gerado_em']} | commit {res['commit']}", "", f"cobertura: {res['cobertura']}",

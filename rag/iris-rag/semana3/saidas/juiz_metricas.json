@@ -1,6 +1,6 @@
 {
-  "gerado_em": "2026-11-13T01:02:06+00:00",
-  "commit": "a99faf2-modificado",
+  "gerado_em": "2026-11-13T11:19:48+00:00",
+  "commit": "733e270-modificado",
   "juiz": "Claude Opus (assinatura), não validado por pessoa",
   "cobertura": {
     "julgada|A|gpt-oss-20b": 120,
@@ -13,7 +13,10 @@
     "julgada|C|gpt-oss-20b": 120,
     "julgada|C|llama3.1-8b": 120,
     "julgada|D|llama3.1-8b|completo": 90,
-    "julgada|D|llama3.1-8b|sem_rag": 90
+    "julgada|D|llama3.1-8b|sem_rag": 90,
+    "julgada|NA|llama3.1-8b": 6,
+    "julgada|NC50|llama3.1-8b": 21,
+    "julgada|NC|llama3.1-8b": 24
   },
   "avisos": [],
   "condicoes": {
@@ -2213,6 +2216,348 @@
             ]
           }
         }
+      }
+    },
+    "NA|llama3.1-8b": {
+      "respostas": 6,
+      "perguntas": 2,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "frases_julgadas": 26,
+      "frases_sustentadas": 0,
+      "frases_que_contradizem": 0,
+      "util_contagem": {
+        "não": 3,
+        "sim": 3
+      },
+      "fidelidade": {
+        "n_perguntas": 2,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {}
+      },
+      "fidelidade_sem_abstencao": {
+        "n_perguntas": 2,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {}
+      },
+      "util_sim": {
+        "n_perguntas": 2,
+        "media_ic95": [
+          0.5,
+          0.0,
+          1.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "por_categoria": {}
+      },
+      "util_sim_ou_parcial": {
+        "n_perguntas": 2,
+        "media_ic95": [
+          0.5,
+          0.0,
+          1.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "por_categoria": {}
+      },
+      "inventou": {
+        "n_perguntas": 2,
+        "media_ic95": [
+          0.3333,
+          0.0,
+          0.6667
+        ],
+        "ic95_agrupado_por_documento": [
+          0.3333,
+          0.3333,
+          0.3333
+        ],
+        "por_categoria": {}
+      },
+      "absteve_juiz": {
+        "n_perguntas": 2,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {}
+      },
+      "tem_frase_que_contradiz": {
+        "n_perguntas": 2,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {}
+      }
+    },
+    "NC50|llama3.1-8b": {
+      "respostas": 21,
+      "perguntas": 7,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "frases_julgadas": 120,
+      "frases_sustentadas": 63,
+      "frases_que_contradizem": 3,
+      "util_contagem": {
+        "não": 15,
+        "parcial": 6
+      },
+      "fidelidade": {
+        "n_perguntas": 7,
+        "media_ic95": [
+          0.619,
+          0.3333,
+          0.869
+        ],
+        "ic95_agrupado_por_documento": [
+          0.619,
+          0.619,
+          0.619
+        ],
+        "por_categoria": {}
+      },
+      "fidelidade_sem_abstencao": {
+        "n_perguntas": 5,
+        "media_ic95": [
+          0.4667,
+          0.1833,
+          0.8167
+        ],
+        "ic95_agrupado_por_documento": [
+          0.4667,
+          0.4667,
+          0.4667
+        ],
+        "por_categoria": {}
+      },
+      "util_sim": {
+        "n_perguntas": 7,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {}
+      },
+      "util_sim_ou_parcial": {
+        "n_perguntas": 7,
+        "media_ic95": [
+          0.2857,
+          0.0,
+          0.5714
+        ],
+        "ic95_agrupado_por_documento": [
+          0.2857,
+          0.2857,
+          0.2857
+        ],
+        "por_categoria": {}
+      },
+      "inventou": {
+        "n_perguntas": 7,
+        "media_ic95": [
+          0.1429,
+          0.0,
+          0.4286
+        ],
+        "ic95_agrupado_por_documento": [
+          0.1429,
+          0.1429,
+          0.1429
+        ],
+        "por_categoria": {}
+      },
+      "absteve_juiz": {
+        "n_perguntas": 7,
+        "media_ic95": [
+          0.2857,
+          0.0,
+          0.5714
+        ],
+        "ic95_agrupado_por_documento": [
+          0.2857,
+          0.2857,
+          0.2857
+        ],
+        "por_categoria": {}
+      },
+      "tem_frase_que_contradiz": {
+        "n_perguntas": 7,
+        "media_ic95": [
+          0.1429,
+          0.0,
+          0.4286
+        ],
+        "ic95_agrupado_por_documento": [
+          0.1429,
+          0.1429,
+          0.1429
+        ],
+        "por_categoria": {}
+      }
+    },
+    "NC|llama3.1-8b": {
+      "respostas": 24,
+      "perguntas": 8,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "frases_julgadas": 191,
+      "frases_sustentadas": 48,
+      "frases_que_contradizem": 0,
+      "util_contagem": {
+        "não": 12,
+        "parcial": 12
+      },
+      "fidelidade": {
+        "n_perguntas": 8,
+        "media_ic95": [
+          0.2052,
+          0.0922,
+          0.3342
+        ],
+        "ic95_agrupado_por_documento": [
+          0.2052,
+          0.2052,
+          0.2052
+        ],
+        "por_categoria": {}
+      },
+      "fidelidade_sem_abstencao": {
+        "n_perguntas": 8,
+        "media_ic95": [
+          0.2052,
+          0.0922,
+          0.3342
+        ],
+        "ic95_agrupado_por_documento": [
+          0.2052,
+          0.2052,
+          0.2052
+        ],
+        "por_categoria": {}
+      },
+      "util_sim": {
+        "n_perguntas": 8,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {}
+      },
+      "util_sim_ou_parcial": {
+        "n_perguntas": 8,
+        "media_ic95": [
+          0.5,
+          0.125,
+          0.875
+        ],
+        "ic95_agrupado_por_documento": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "por_categoria": {}
+      },
+      "inventou": {
+        "n_perguntas": 8,
+        "media_ic95": [
+          0.5,
+          0.125,
+          0.875
+        ],
+        "ic95_agrupado_por_documento": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "por_categoria": {}
+      },
+      "absteve_juiz": {
+        "n_perguntas": 8,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {}
+      },
+      "tem_frase_que_contradiz": {
+        "n_perguntas": 8,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {}
       }
     }
   },

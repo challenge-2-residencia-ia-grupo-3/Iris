@@ -1,5 +1,5 @@
 SEMANA 3 - RODADA COMPLEMENTAR, REORDENAÇÃO SOBRE 50 CANDIDATOS (juiz Claude Opus, não validado por pessoa)
-gerado em 2026-11-13T01:00:50+00:00 | commit a99faf2-modificado
+gerado em 2026-11-13T11:19:51+00:00 | commit 733e270-modificado
 
 cobertura: {'julgada|B50|busca-top1': 40, 'julgada|B50|busca-top3': 40, 'julgada|C50|llama3.1-8b': 120}
 portões do C50 (código): {"abstencao_q39_q40": "3/6", "passa_abstencao": false, "latencia_p95_s": 5.72, "passa_latencia": true, "cobertura_38": 0.8421, "pct_frases_com_citacao": 0.6403, "texto_identico_nas_3": 39}
