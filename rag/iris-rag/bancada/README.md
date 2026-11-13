@@ -45,12 +45,25 @@ Abra http://127.0.0.1:8777 e clique em cada verificação. O servidor descobre s
 
 Os dados de teste são sintéticos: CPF com dígito verificador errado, DDD 00, e-mails em `@exemplo.test`.
 
+## Retrato dos resultados com modelo (`bancada/referencia/`)
+
+Algumas abas precisam de modelo para ter dado: juízes, fidelidade das respostas, LLM x RAG e o histórico de vereditos
+por commit. Para o painel abrir completo em qualquer máquina, essas saídas vêm de um **retrato** em
+`bancada/referencia/`, medido antes. O `MANIFESTO.json` diz a data e o commit do grupo em que foram medidas, e o painel
+mostra uma faixa âmbar avisando que essa parte não é do commit que está rodando (e quando o código já é mais novo).
+
+- O que `make qualidade` gera na sua máquina **sempre vence** o retrato.
+- O retrato nunca leva texto de documento sem licença aberta: `exportar.py` compara cada arquivo com os textos
+  restritos e recusa o que tiver trecho deles.
+- Para atualizar o retrato (quem tem os textos restritos e rodou as avaliações com modelo):
+  `python bancada/referencia/exportar.py --origem pacote/outputs --textos texto --destino bancada/referencia`
+
 ## O que não vem neste repositório
 
 - **Texto de documentos sem licença aberta.** O painel pode mostrar trechos da base; por isso `pacote/reports/` está no
   `.gitignore`. Gere o painel na sua máquina e não o publique.
-- **Abas que dependem de modelo** (juízes, RAG com LLM, LLM x RAG): aparecem vazias até alguém rodar as avaliações
-  com modelo e gravar as saídas em `pacote/outputs/`.
+- **Respostas completas com os 5 trechos** (`17-respostas*.jsonl`) e os votos dos juízes frase a frase: levam texto
+  restrito. As abas usam os números agregados do retrato.
 
 ## Se algo der errado
 
