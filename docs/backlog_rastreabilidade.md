@@ -286,10 +286,10 @@ Como professor, quero informar as potencialidades e áreas de interesse do estud
 * **E** o uso de interesses não deve substituir os conceitos obrigatórios exigidos na avaliação.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Backend]** Schema Pydantic para metadados de potencialidades, interesses e canais preferenciais (Princípio I DUA).
-- [ ] **[Frontend]** Seletor de interesses temáticos (esportes, natureza, tecnologia) e campo de potencialidades na Etapa 2.
-- [ ] **[RAG / IA]** Mapeamento dos metadados de potencialidade para injeção de contexto motivacional no prompt de adaptação.
-- [ ] **[Testes]** Teste unitário verificando que a injeção de potencialidades não substitui os conceitos da trava curricular.
+- [x] **[Backend]** Schema Pydantic para metadados de potencialidades, interesses e canais preferenciais (Princípio I DUA).
+- [x] **[Frontend]** Seletor de interesses temáticos (esportes, natureza, tecnologia) e campo de potencialidades na Etapa 2.
+- [x] **[RAG / IA]** Mapeamento dos metadados de potencialidade para injeção de contexto motivacional no prompt de adaptação.
+- [x] **[Testes]** Teste unitário verificando que a injeção de potencialidades não substitui os conceitos da trava curricular.
 
 ##### História 1.2.3: Transcrição de observações pedagógicas docentes via entrada de áudio
 **História de Usuário**

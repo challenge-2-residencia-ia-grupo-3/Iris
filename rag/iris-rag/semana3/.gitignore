@@ -1,0 +1,24 @@
+# Arquivos com texto integral de trechos (inclui documentos sem licença aberta): fora do git,
+# mesma regra de pacote/outputs/17-respostas*.jsonl. Vão para o PC num zip (ver RODAR-NO-PC.md).
+saidas/trechos_busca.jsonl
+saidas/prompts_ac.jsonl
+saidas/respostas_*.jsonl
+saidas/d_execucao/
+juiz/*lote-*.jsonl
+juiz/ficha-humana.jsonl
+logs/
+*.zip
+__pycache__/
+.venv/
+# rodada complementar (50 candidatos): mesma regra, texto integral de trechos fica fora do git
+saidas_r50/trechos_busca.jsonl
+saidas_r50/prompts_ac.jsonl
+saidas_r50/respostas_*.jsonl
+saidas_r50/metricas_por_resposta.jsonl
+saidas/metricas_por_resposta.jsonl
+# rodada complementar (perguntas fora da base) e D com cliente corrigido: mesma regra
+saidas_fora/trechos_busca_*.jsonl
+saidas_fora/prompts.jsonl
+saidas_fora/respostas_*.jsonl
+saidas_d_corrigido/respostas_*.jsonl
+saidas_d_corrigido/d_execucao/

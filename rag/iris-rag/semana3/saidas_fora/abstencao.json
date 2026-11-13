@@ -1,0 +1,165 @@
+{
+  "A": {
+    "respostas": 75,
+    "erros": 0,
+    "perto": {
+      "n_perguntas": 20,
+      "taxa_ic95": [
+        0.9,
+        0.75,
+        1.0
+      ],
+      "sempre": 18,
+      "nunca": 2,
+      "instavel": []
+    },
+    "longe": {
+      "n_perguntas": 5,
+      "taxa_ic95": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "sempre": 5,
+      "nunca": 0,
+      "instavel": []
+    },
+    "todas": {
+      "n_perguntas": 25,
+      "taxa_ic95": [
+        0.92,
+        0.8,
+        1.0
+      ],
+      "sempre": 23,
+      "nunca": 2,
+      "instavel": []
+    },
+    "nao_absteve": [
+      "N08",
+      "N11"
+    ]
+  },
+  "C": {
+    "respostas": 75,
+    "erros": 0,
+    "perto": {
+      "n_perguntas": 20,
+      "taxa_ic95": [
+        0.6,
+        0.4,
+        0.8
+      ],
+      "sempre": 12,
+      "nunca": 8,
+      "instavel": []
+    },
+    "longe": {
+      "n_perguntas": 5,
+      "taxa_ic95": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "sempre": 5,
+      "nunca": 0,
+      "instavel": []
+    },
+    "todas": {
+      "n_perguntas": 25,
+      "taxa_ic95": [
+        0.68,
+        0.48,
+        0.84
+      ],
+      "sempre": 17,
+      "nunca": 8,
+      "instavel": []
+    },
+    "nao_absteve": [
+      "N05",
+      "N08",
+      "N11",
+      "N12",
+      "N15",
+      "N16",
+      "N18",
+      "N19"
+    ]
+  },
+  "C50": {
+    "respostas": 75,
+    "erros": 0,
+    "perto": {
+      "n_perguntas": 20,
+      "taxa_ic95": [
+        0.7,
+        0.5,
+        0.9
+      ],
+      "sempre": 14,
+      "nunca": 6,
+      "instavel": []
+    },
+    "longe": {
+      "n_perguntas": 5,
+      "taxa_ic95": [
+        0.8,
+        0.4,
+        1.0
+      ],
+      "sempre": 4,
+      "nunca": 1,
+      "instavel": []
+    },
+    "todas": {
+      "n_perguntas": 25,
+      "taxa_ic95": [
+        0.72,
+        0.52,
+        0.88
+      ],
+      "sempre": 18,
+      "nunca": 7,
+      "instavel": []
+    },
+    "nao_absteve": [
+      "F04",
+      "N02",
+      "N08",
+      "N11",
+      "N12",
+      "N18",
+      "N19"
+    ]
+  },
+  "com_q39_q40": {
+    "A": {
+      "n_perguntas": 27,
+      "taxa_ic95": [
+        0.9259,
+        0.8148,
+        1.0
+      ],
+      "sempre": 25
+    },
+    "C": {
+      "n_perguntas": 27,
+      "taxa_ic95": [
+        0.6667,
+        0.4815,
+        0.8519
+      ],
+      "sempre": 18
+    },
+    "C50": {
+      "n_perguntas": 27,
+      "taxa_ic95": [
+        0.7037,
+        0.5185,
+        0.8889
+      ],
+      "sempre": 19
+    }
+  }
+}

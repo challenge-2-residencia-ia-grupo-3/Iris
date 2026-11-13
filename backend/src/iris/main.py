@@ -790,6 +790,10 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self.wfile.write(raw)
             elif parsed.path.startswith("/api/v1/health"):
                 self._send_json(get_health_status())
+            elif parsed.path == "/api/v1/catalogs/engagement-options":
+                from iris.api.routes.catalogs import get_engagement_options_service
+
+                self._send_json(get_engagement_options_service())
             elif parsed.path == "/api/v1/catalogs/characteristics":
                 from iris.api.routes.catalogs import get_characteristics_catalog_service
                 from iris.schemas.catalog import (
@@ -976,19 +980,26 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json(_handle_rag_escolar_run(body))
                 except ValueError as err:
                     self._send_json({"detail": str(err)}, status=422)
+            elif self.path.startswith("/api/v1/catalogs/engagement"):
+                from iris.api.routes.catalogs import register_engagement_profile_service
+                from iris.schemas.engagement import EngagementValidationError
+
+                try:
+                    self._send_json(register_engagement_profile_service(body))
+                except EngagementValidationError as err:
+                    self._send_json({"detail": err.to_dict()}, status=422)
             elif urlparse(self.path).path == "/api/v1/catalogs/characteristics/select":
-                from iris.api.routes.catalogs import (
-                    select_surgical_characteristics_service,
-                )
+                from iris.api.routes.catalogs import select_surgical_characteristics_service
                 from iris.schemas.catalog import (
                     CatalogValidationError,
                     CharacteristicSelectionError,
                 )
+                from iris.schemas.engagement import EngagementValidationError
 
                 try:
                     resp = select_surgical_characteristics_service(body)
                     self._send_json(resp.model_dump())
-                except CharacteristicSelectionError as err:
+                except (CharacteristicSelectionError, EngagementValidationError) as err:
                     self._send_json({"detail": err.to_dict()}, status=422)
                 except CatalogValidationError as err:
                     self._send_json(
