@@ -1,4 +1,7 @@
-.PHONY: help up dev front rag extrator extractor extrator-bench extrator-analytics check test db-up db-down docs setup backend
+.PHONY: help up setup install dev front rag extrator extractor extrator-bench extrator-analytics check test db-up db-down docs backend ensure-uv ensure-env
+
+SHELL := /bin/bash
+export PATH := $(shell echo "$$HOME/.local/bin:$$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$$PATH")
 
 HOST ?= 127.0.0.1
 PORT ?= 8000
@@ -7,15 +10,16 @@ DOCS_PORT ?= 8001
 LLM_MODEL ?= llama3:latest
 PYTHONPATH := $(CURDIR)/backend/src:$(CURDIR)/rag/iris-rag/pacote
 VENV_PY := $(CURDIR)/.venv/bin/python3
-PYTHON_BIN := $(shell if [ -x "$(VENV_PY)" ]; then echo "$(VENV_PY)"; else echo "python3"; fi)
 
-PYTHON_RUN = PYTHONPATH=$(PYTHONPATH) $(PYTHON_BIN)
+# Resolve o binário Python em tempo de execução (após ensure-env criar o .venv se necessário)
+PYTHON_RUN = PYTHONPATH="$(PYTHONPATH)" $$(if [ -x "$(VENV_PY)" ]; then echo "$(VENV_PY)"; else echo "python3"; fi)
 
 help:
 	@echo "=========================================================================================="
 	@echo "  Íris — Comandos Essenciais do Projeto (Makefile)"
 	@echo "=========================================================================================="
-	@echo "  make up                  Verifica tudo (uv/npm install/Ollama/RAG) e sobe Backend + Frontend"
+	@echo "  make setup (ou install)  Instala tudo que faltar (uv, .venv, npm, RAG, Ollama) e pula o que já existe"
+	@echo "  make up                  Verifica/instala tudo (pulando o que já existe) e sobe Backend + Frontend"
 	@echo "  make check               Smoke-check rápido de ambiente, catálogo, PII, API, RAG e Extrator"
 	@echo "  make test                Executa toda a bateria de testes automatizados em backend/tests"
 	@echo "  make dev                 Sobe o Backend API e abre o Playground RAG em http://$(HOST):$(PORT)"
@@ -26,59 +30,85 @@ help:
 	@echo "  make extrator-bench      Roda o Benchmark Zero-Hint do Extrator no Golden Benchmark (30 questões)"
 	@echo "  make extrator-analytics  Exibe o painel Analytics de latência, tokens e recall por disciplina/idade"
 	@echo "  make docs                Sobe o portal de documentação MkDocs em http://$(HOST):$(DOCS_PORT)"
-	@echo "  make setup               Sincroniza dependências Python (uv) e Node.js (npm) + base RAG"
 	@echo "  make db-up               Sobe o banco vetorial PostgreSQL + pgvector via Docker"
 	@echo "  make db-down             Para o container do banco vetorial pgvector"
 	@echo "=========================================================================================="
 
-# Verifica ambiente, instala o que faltar e sobe Backend + Frontend Next.js juntos
+# Garante que o uv está instalado no sistema (pula se já existir)
+ensure-uv:
+	@if ! command -v uv >/dev/null 2>&1; then \
+		echo "==> [INSTALANDO] 'uv' não encontrado. Instalando automaticamente (https://astral.sh/uv)..."; \
+		if command -v curl >/dev/null 2>&1; then \
+			curl -LsSf https://astral.sh/uv/install.sh | sh; \
+		elif command -v wget >/dev/null 2>&1; then \
+			wget -qO- https://astral.sh/uv/install.sh | sh; \
+		elif command -v brew >/dev/null 2>&1; then \
+			brew install uv; \
+		else \
+			python3 -m pip install --user uv || pip install uv; \
+		fi; \
+	fi
+
+# Garante silenciosamente que uv + .venv + chunks.jsonl existem antes de qualquer comando avulso
+ensure-env:
+	@./scripts/start_all.sh --quick-env
+
+# Verifica ambiente completo, instala o que faltar (pulando o que já existe) e sobe Backend + Frontend Next.js juntos
 up:
 	@IRIS_HOST=$(HOST) IRIS_PORT=$(PORT) FRONT_PORT=$(FRONT_PORT) LLM_MODEL=$(LLM_MODEL) ./scripts/start_all.sh
 
+# Instala/configura tudo que um novo integrante precisa após clonar o repositório (pula etapas já instaladas)
+setup:
+	@IRIS_HOST=$(HOST) IRIS_PORT=$(PORT) FRONT_PORT=$(FRONT_PORT) LLM_MODEL=$(LLM_MODEL) ./scripts/start_all.sh --setup-only
+
+install: setup
+
 # Sobe Backend e abre Playground RAG / API Web
-dev:
+dev: ensure-env
 	@echo "Iniciando Backend e abrindo Painel Web em http://$(HOST):$(PORT) ..."
 	@(sleep 1 && open "http://$(HOST):$(PORT)" >/dev/null 2>&1 || true) &
 	@$(MAKE) backend
 
-# Sobe o Frontend Next.js (porta 3000) garantindo dependências instaladas
+# Sobe o Frontend Next.js (porta 3000) garantindo dependências instaladas (pula npm install se já existir)
 front:
 	@echo "Verificando e iniciando Frontend Next.js em http://localhost:$(FRONT_PORT) ..."
 	@cd frontend && ( \
 		if [ ! -d node_modules ] || [ package.json -nt node_modules ] || [ package-lock.json -nt node_modules ]; then \
-			npm install && touch node_modules; \
+			echo "      -> [INSTALANDO] Executando npm install..." && npm install && touch node_modules; \
+		else \
+			echo "      -> [OK] frontend/node_modules já instalado — pulando npm install."; \
 		fi && \
 		PORT=$(FRONT_PORT) npx next dev -p $(FRONT_PORT) \
 	)
 
 # Central Interativa do RAG (Menu limpo: métricas, Llama 3 ao vivo, perguntas livres e chunks)
-rag:
+rag: ensure-env
 	@./rag/setup_rag.sh --menu
 
 # Central Interativa do Agente Extrator Curricular (Issue #17)
-extrator:
+extrator: ensure-env
 	@$(PYTHON_RUN) scripts/test_curriculum_extractor_cli.py --menu --model $(LLM_MODEL)
 
 extractor: extrator
 
-extrator-bench:
+extrator-bench: ensure-env
 	@$(PYTHON_RUN) scripts/test_curriculum_extractor_cli.py --benchmark --model $(LLM_MODEL)
 
-extrator-analytics:
+extrator-analytics: ensure-env
 	@$(PYTHON_RUN) scripts/test_curriculum_extractor_cli.py --analytics
 
 # Smoke-check completo de ambiente, API, PII, RAG e Extrator
-check:
+check: ensure-env
 	@$(PYTHON_RUN) scripts/smoke_check.py
 
 # Execução de testes automatizados
-test:
+test: ensure-env
 	@$(PYTHON_RUN) -m unittest discover -s backend/tests -v
 
 # Documentação MkDocs
-docs:
-	@if $(PYTHON_BIN) -m mkdocs --version >/dev/null 2>&1; then \
-		$(PYTHON_BIN) -m mkdocs serve -a $(HOST):$(DOCS_PORT); \
+docs: ensure-env
+	@if $(PYTHON_RUN) -m mkdocs --version >/dev/null 2>&1; then \
+		$(PYTHON_RUN) -m mkdocs serve -a $(HOST):$(DOCS_PORT); \
 	elif command -v uv >/dev/null 2>&1; then \
 		uv run --group docs mkdocs serve -a $(HOST):$(DOCS_PORT); \
 	else \
@@ -92,15 +122,9 @@ db-up:
 db-down:
 	docker compose stop pgvector
 
-# Setup e sincronização de dependências (Python + Node.js + RAG)
-setup:
-	@if command -v uv >/dev/null 2>&1; then uv sync --all-groups; fi
-	@if command -v npm >/dev/null 2>&1; then cd frontend && npm install; fi
-	@./rag/setup_rag.sh --padrao
-
 # Servidor Backend individual
-backend:
-	@if $(PYTHON_BIN) -c "import uvicorn, fastapi" >/dev/null 2>&1; then \
+backend: ensure-env
+	@if $(PYTHON_RUN) -c "import uvicorn, fastapi" >/dev/null 2>&1; then \
 		$(PYTHON_RUN) -m uvicorn iris.main:app --app-dir $(CURDIR)/backend/src --host $(HOST) --port $(PORT) --reload; \
 	elif command -v uv >/dev/null 2>&1 && uv run python -c "import uvicorn, fastapi" >/dev/null 2>&1; then \
 		PYTHONPATH=$(PYTHONPATH) uv run uvicorn iris.main:app --app-dir $(CURDIR)/backend/src --host $(HOST) --port $(PORT) --reload; \

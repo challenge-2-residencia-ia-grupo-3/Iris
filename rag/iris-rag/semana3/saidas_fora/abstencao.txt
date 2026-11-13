@@ -1,0 +1,27 @@
+RODADA COMPLEMENTAR - PERGUNTAS FORA DA BASE: taxa de abstenção (detector de código)
+gerado em 2026-11-13T10:07:14+00:00 | commit 6f1d34a-modificado | modelo llama3.1-8b | 3 repetições
+
+[média entre perguntas, IC95 inferior, superior]; 'sempre' = absteve nas 3 repetições
+
+A  respostas=75
+    perto  n=20 taxa=[0.9, 0.75, 1.0] sempre=18 nunca=2 instável=[]
+    longe  n= 5 taxa=[1.0, 1.0, 1.0] sempre=5 nunca=0 instável=[]
+    todas  n=25 taxa=[0.92, 0.8, 1.0] sempre=23 nunca=2 instável=[]
+    não se absteve em: ['N08', 'N11']
+
+C  respostas=75
+    perto  n=20 taxa=[0.6, 0.4, 0.8] sempre=12 nunca=8 instável=[]
+    longe  n= 5 taxa=[1.0, 1.0, 1.0] sempre=5 nunca=0 instável=[]
+    todas  n=25 taxa=[0.68, 0.48, 0.84] sempre=17 nunca=8 instável=[]
+    não se absteve em: ['N05', 'N08', 'N11', 'N12', 'N15', 'N16', 'N18', 'N19']
+
+C50  respostas=75
+    perto  n=20 taxa=[0.7, 0.5, 0.9] sempre=14 nunca=6 instável=[]
+    longe  n= 5 taxa=[0.8, 0.4, 1.0] sempre=4 nunca=1 instável=[]
+    todas  n=25 taxa=[0.72, 0.52, 0.88] sempre=18 nunca=7 instável=[]
+    não se absteve em: ['F04', 'N02', 'N08', 'N11', 'N12', 'N18', 'N19']
+
+Com Q39 e Q40 da análise principal (27 perguntas sem resposta):
+    A    n=27 taxa=[0.9259, 0.8148, 1.0] sempre=25
+    C    n=27 taxa=[0.6667, 0.4815, 0.8519] sempre=18
+    C50  n=27 taxa=[0.7037, 0.5185, 0.8889] sempre=19

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:${PATH}"
+
 # Diretórios absolutos
 RAG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${RAG_DIR}/.." && pwd)"
@@ -19,12 +21,12 @@ fi
 MODEL="${LLM_MODEL:-${IRIS_LLM_MODEL:-${RAG_LLM_MODELO:-${DETECTED_MODEL:-llama3:latest}}}}"
 
 # Detecta o executor Python
-if command -v uv >/dev/null 2>&1 && uv run python -c "import sys" >/dev/null 2>&1; then
-    PY_CMD="PYTHONPATH=${SRC_DIR} uv run python"
-elif [ -x "${REPO_ROOT}/.venv/bin/python" ] && "${REPO_ROOT}/.venv/bin/python" -c "import sys" >/dev/null 2>&1; then
-    PY_CMD="PYTHONPATH=${SRC_DIR} ${REPO_ROOT}/.venv/bin/python"
+if [ -x "${REPO_ROOT}/.venv/bin/python3" ]; then
+    PY_CMD="PYTHONPATH=${SRC_DIR}:${PACOTE_DIR} ${REPO_ROOT}/.venv/bin/python3"
+elif command -v uv >/dev/null 2>&1 && uv run python -c "import sys" >/dev/null 2>&1; then
+    PY_CMD="PYTHONPATH=${SRC_DIR}:${PACOTE_DIR} uv run python"
 else
-    PY_CMD="PYTHONPATH=${SRC_DIR} python3"
+    PY_CMD="PYTHONPATH=${SRC_DIR}:${PACOTE_DIR} python3"
 fi
 
 garantir_chunks_silencioso() {

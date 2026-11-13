@@ -1,0 +1,300 @@
+{
+  "gpt-oss-20b": {
+    "completo": {
+      "execucoes": 88,
+      "motivo_reserva": {
+        "falha_llm:JSONDecodeError": 68,
+        "None": 19,
+        "escopo_reprovado": 1
+      },
+      "com_minuta": 20,
+      "minuta_aprovada_no_laudo": 19,
+      "questoes_com_minuta_aprovada_em_todas_as_rodadas": [
+        "Q08",
+        "Q11",
+        "Q13",
+        "Q14",
+        "Q16",
+        "Q17",
+        "Q23",
+        "Q28",
+        "Q29"
+      ],
+      "violacoes_nas_reprovadas": {
+        "acrescentou palavras fora do andaime": 1
+      },
+      "palavras_minuta_sobre_original_mediana": 1.14,
+      "trcc_minuta": 1.0,
+      "trcc_entregue": 1.0,
+      "flesch_original": 54.9451,
+      "flesch_minuta": 55.3945,
+      "flesch_entregue": 55.874,
+      "cmd_conjugado_resolvido_minuta": 1.0,
+      "cmd_conjugado_resolvido_entregue": 0.9318
+    },
+    "sem_rag": {
+      "execucoes": 88,
+      "motivo_reserva": {
+        "falha_llm:JSONDecodeError": 72,
+        "None": 16
+      },
+      "com_minuta": 16,
+      "minuta_aprovada_no_laudo": 16,
+      "questoes_com_minuta_aprovada_em_todas_as_rodadas": [
+        "Q03",
+        "Q08",
+        "Q11",
+        "Q13",
+        "Q14",
+        "Q16",
+        "Q17",
+        "Q27",
+        "Q28"
+      ],
+      "violacoes_nas_reprovadas": {},
+      "palavras_minuta_sobre_original_mediana": 1.17,
+      "trcc_minuta": 1.0,
+      "trcc_entregue": 1.0,
+      "flesch_original": 54.9451,
+      "flesch_minuta": 60.7425,
+      "flesch_entregue": 55.8292,
+      "cmd_conjugado_resolvido_minuta": 1.0,
+      "cmd_conjugado_resolvido_entregue": 0.9545
+    },
+    "completo_x_sem_rag": {
+      "pares_com_minuta_nas_duas": 11,
+      "minuta_identica": 7,
+      "pareado": {
+        "minuta aprovada no laudo": {
+          "n": 7,
+          "dif_media_ic95": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": 1.0
+        },
+        "TRCC da minuta": {
+          "n": 7,
+          "dif_media_ic95": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": 1.0
+        },
+        "Flesch da minuta": {
+          "n": 7,
+          "dif_media_ic95": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": 1.0
+        }
+      }
+    }
+  },
+  "llama3.1-8b": {
+    "completo": {
+      "execucoes": 88,
+      "motivo_reserva": {
+        "escopo_reprovado": 73,
+        "None": 15
+      },
+      "com_minuta": 88,
+      "minuta_aprovada_no_laudo": 15,
+      "questoes_com_minuta_aprovada_em_todas_as_rodadas": [
+        "Q08",
+        "Q12",
+        "Q15",
+        "Q20",
+        "Q25"
+      ],
+      "violacoes_nas_reprovadas": {
+        "acrescentou palavras fora do andaime": 67,
+        "tirou palavras do original": 20,
+        "perdeu conceito da trava curricular": 11
+      },
+      "palavras_minuta_sobre_original_mediana": 2.5,
+      "trcc_minuta": 0.9523,
+      "trcc_entregue": 1.0,
+      "flesch_original": 54.9451,
+      "flesch_minuta": 56.4488,
+      "flesch_entregue": 55.1158,
+      "cmd_conjugado_resolvido_minuta": 0.4091,
+      "cmd_conjugado_resolvido_entregue": 1.0
+    },
+    "sem_rag": {
+      "execucoes": 88,
+      "motivo_reserva": {
+        "escopo_reprovado": 73,
+        "None": 15
+      },
+      "com_minuta": 88,
+      "minuta_aprovada_no_laudo": 15,
+      "questoes_com_minuta_aprovada_em_todas_as_rodadas": [
+        "Q11",
+        "Q12",
+        "Q20",
+        "Q25",
+        "Q29"
+      ],
+      "violacoes_nas_reprovadas": {
+        "acrescentou palavras fora do andaime": 58,
+        "tirou palavras do original": 35,
+        "perdeu conceito da trava curricular": 21,
+        "mudou a ordem das palavras": 14
+      },
+      "palavras_minuta_sobre_original_mediana": 1.69,
+      "trcc_minuta": 0.8528,
+      "trcc_entregue": 1.0,
+      "flesch_original": 54.9451,
+      "flesch_minuta": 52.8826,
+      "flesch_entregue": 55.1158,
+      "cmd_conjugado_resolvido_minuta": 0.3182,
+      "cmd_conjugado_resolvido_entregue": 1.0
+    },
+    "completo_x_sem_rag": {
+      "pares_com_minuta_nas_duas": 88,
+      "minuta_identica": 6,
+      "pareado": {
+        "minuta aprovada no laudo": {
+          "n": 30,
+          "dif_media_ic95": [
+            0.0,
+            -0.1333,
+            0.1333
+          ],
+          "wilcoxon_p": 1.0
+        },
+        "TRCC da minuta": {
+          "n": 30,
+          "dif_media_ic95": [
+            0.0889,
+            -0.0256,
+            0.215
+          ],
+          "wilcoxon_p": 0.1837
+        },
+        "Flesch da minuta": {
+          "n": 30,
+          "dif_media_ic95": [
+            3.4883,
+            -6.124,
+            14.108
+          ],
+          "wilcoxon_p": 0.7897
+        }
+      }
+    }
+  },
+  "gpt-oss-20b (cliente corrigido)": {
+    "completo": {
+      "execucoes": 30,
+      "motivo_reserva": {
+        "escopo_reprovado": 24,
+        "None": 6
+      },
+      "com_minuta": 30,
+      "minuta_aprovada_no_laudo": 6,
+      "questoes_com_minuta_aprovada_em_todas_as_rodadas": [
+        "Q07",
+        "Q12",
+        "Q21",
+        "Q23",
+        "Q26",
+        "Q27"
+      ],
+      "violacoes_nas_reprovadas": {
+        "acrescentou palavras fora do andaime": 21,
+        "tirou palavras do original": 13,
+        "perdeu conceito da trava curricular": 7,
+        "mudou a ordem das palavras": 6
+      },
+      "palavras_minuta_sobre_original_mediana": 1.27,
+      "trcc_minuta": 0.9528,
+      "trcc_entregue": 1.0,
+      "flesch_original": 55.5777,
+      "flesch_minuta": 57.661,
+      "flesch_entregue": 56.7547,
+      "cmd_conjugado_resolvido_minuta": 0.6667,
+      "cmd_conjugado_resolvido_entregue": 1.0
+    },
+    "sem_rag": {
+      "execucoes": 30,
+      "motivo_reserva": {
+        "escopo_reprovado": 13,
+        "None": 17
+      },
+      "com_minuta": 30,
+      "minuta_aprovada_no_laudo": 17,
+      "questoes_com_minuta_aprovada_em_todas_as_rodadas": [
+        "Q02",
+        "Q03",
+        "Q07",
+        "Q08",
+        "Q11",
+        "Q12",
+        "Q13",
+        "Q15",
+        "Q16",
+        "Q17",
+        "Q18",
+        "Q20",
+        "Q24",
+        "Q25",
+        "Q27",
+        "Q28",
+        "Q29"
+      ],
+      "violacoes_nas_reprovadas": {
+        "acrescentou palavras fora do andaime": 10,
+        "tirou palavras do original": 7,
+        "perdeu conceito da trava curricular": 3,
+        "mudou a ordem das palavras": 2
+      },
+      "palavras_minuta_sobre_original_mediana": 1.13,
+      "trcc_minuta": 0.9833,
+      "trcc_entregue": 1.0,
+      "flesch_original": 55.5777,
+      "flesch_minuta": 51.7317,
+      "flesch_entregue": 55.3917,
+      "cmd_conjugado_resolvido_minuta": 0.6667,
+      "cmd_conjugado_resolvido_entregue": 0.8667
+    },
+    "completo_x_sem_rag": {
+      "pares_com_minuta_nas_duas": 30,
+      "minuta_identica": 1,
+      "pareado": {
+        "minuta aprovada no laudo": {
+          "n": 30,
+          "dif_media_ic95": [
+            -0.3667,
+            -0.6,
+            -0.1
+          ],
+          "wilcoxon_p": 0.0076
+        },
+        "TRCC da minuta": {
+          "n": 30,
+          "dif_media_ic95": [
+            -0.0306,
+            -0.0972,
+            0.0333
+          ],
+          "wilcoxon_p": 0.3573
+        },
+        "Flesch da minuta": {
+          "n": 30,
+          "dif_media_ic95": [
+            5.9293,
+            -3.852,
+            17.4803
+          ],
+          "wilcoxon_p": 0.8791
+        }
+      }
+    }
+  }
+}

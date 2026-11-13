@@ -81,11 +81,14 @@ nav:
       - Requisitos Não Funcionais: requisitos_nao_funcionais.md
       - Backlog & Rastreabilidade: backlog_rastreabilidade.md
   - Arquitetura: arquitetura.md
+  - Agentes:
+      - Agente Auditor: agente_auditor.md
   - Perfil Pedagógico: perfil_pedagogico.md
   - Base de Conhecimento e RAG:
       - Relatório Técnico: rag/relatorio.md
       - Arquitetura do RAG: rag/arquitetura.md
       - Avaliação do RAG: rag/avaliacao.md
+      - LLM x RAG (Semana 3): rag/semana3/relatorio.md
   - Metodologia CBL: cbl.md
   - Catálogo de Skills: skills.md
   - Roteiro de Testes: roteiro_testes.md

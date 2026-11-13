@@ -1,0 +1,20 @@
+SEMANA 3 - MÉTRICAS DETERMINÍSTICAS (sem juiz; fidelidade e utilidade vêm do julgamento)
+gerado em 2026-11-13T00:55:51+00:00 | commit a99faf2-modificado
+
+Integridade (antes de pontuar):
+  respostas_B.jsonl                        linhas=80 válidas=80/80 erros=0 vazias=0 duplicatas=0 cortadas=0
+  respostas_C_llama3.1-8b.jsonl            linhas=120 válidas=120/120 erros=0 vazias=0 duplicatas=0 cortadas=3
+
+A (LLM sozinho) e C (RAG + LLM, prompt v1), só repetições completas:
+  C|llama3.1-8b          reps=[1, 2, 3] abstenção Q39/Q40=3/6 cobertura38=0.8421 frases c/ citação=0.6403 cit. inválida=0 palavras=185.8788 lat. mediana=2.42 s p95=5.72 s tokens=2820.85+279.1167 US$/mil=0.0
+                         estabilidade: texto idêntico 39/40, abstenção igual 40/40
+
+B (só busca, qwen3+rerank):
+  recall@5 [0.4206, 0.3211, 0.5263] | hit@5 33/38 | MRR [0.6, 0.4913, 0.7099] | recall@5 IC por documento [0.4206, 0.3458, 0.5312]
+  top-1 relevante 15/38 | top-3 com algum relevante 30/38
+  Flesch top1 25.52 top3 24.85 | palavras top1 270.0 top3 789.7
+  busca: mediana 0.12 s, p95 0.13 s (VPS, CPU)
+
+Leitura: só diferença com IC que exclui o zero conta. Uma pergunta vale 2,6 pontos (38); uma questão do D, 3,3.
+Latências de A e C incluem espera do limite do Groq na geração? Não: 'segundos_geracao' é só a chamada que deu certo;
+a espera fica em 'segundos_espera_limite'. No C soma-se o tempo da busca daquela pergunta (VPS, CPU).

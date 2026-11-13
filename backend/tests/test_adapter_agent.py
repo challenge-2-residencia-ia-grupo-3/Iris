@@ -15,6 +15,7 @@ from unittest.mock import MagicMock
 from iris.agents.adapter_agent import (
     LEMBRETE_DE_CONFERENCIA,
     AdapterAgent,
+    CicloComAuditor,
     decompor_em_etapas,
     destacar_comandos,
     resumir_ciclo,
@@ -131,6 +132,46 @@ class TestCaminhosDoAgente(_SemLog):
         self.assertIn("sujeito", prompt)
         self.assertIn("Reduzir a carga de memória de trabalho.", prompt)
         self.assertIn(ENUNCIADO, prompt)
+
+
+class TestCicloComAuditor(_SemLog):
+    """Contrato do ``executar_ciclo`` do Agente Auditor (#19): ``adaptar(feedback, minuta_anterior) -> str``."""
+
+    def _prompts(self, agente: AdapterAgent) -> list[str]:
+        return [c.kwargs["prompt"] for c in agente.llm_client.generate.call_args_list]
+
+    def test_primeira_chamada_sem_feedback(self) -> None:
+        agente = _agente(LISTA)
+        texto = CicloComAuditor(agente, _pedido())(None, None)
+        self.assertEqual(texto, LISTA)
+        self.assertNotIn("CORREÇÃO PEDIDA PELO AUDITOR", self._prompts(agente)[0])
+
+    def test_feedback_e_minuta_anterior_entram_no_prompt_antes_do_enunciado(self) -> None:
+        agente = _agente(LISTA)
+        ciclo = CicloComAuditor(agente, _pedido())
+        primeira = ciclo(None, None)
+        ciclo("Reinclua os conceitos-chave ausentes: sujeito.", primeira)
+        prompt = self._prompts(agente)[1]
+        self.assertIn("CORREÇÃO PEDIDA PELO AUDITOR", prompt)
+        self.assertIn("Reinclua os conceitos-chave ausentes: sujeito.", prompt)
+        self.assertIn("MINUTA ANTERIOR REPROVADA", prompt)
+        self.assertLess(prompt.index("CORREÇÃO PEDIDA PELO AUDITOR"), prompt.index("ENUNCIADO ORIGINAL"))
+        # O enunciado continua sendo o original, não a minuta anterior.
+        self.assertTrue(prompt.endswith(ENUNCIADO))
+
+    def test_tentativas_numeradas_e_telemetria_de_cada_uma(self) -> None:
+        ciclo = CicloComAuditor(_agente(LISTA), _pedido(nivel=3))
+        for feedback in (None, "Remova a dica.", "Remova a dica."):
+            ciclo(feedback, None)
+        self.assertEqual([t.tentativa for t in ciclo.telemetrias], [1, 2, 3])
+        self.assertEqual(resumir_ciclo(ciclo.telemetrias, nivel=3)["chamadas"], 3)
+
+    def test_pedido_original_nao_e_alterado(self) -> None:
+        pedido = _pedido()
+        CicloComAuditor(_agente(LISTA), pedido)("Remova a dica.", "minuta")
+        self.assertIsNone(pedido.feedback_auditor)
+        self.assertIsNone(pedido.minuta_anterior)
+
 
 
 class TestTelemetria(_SemLog):

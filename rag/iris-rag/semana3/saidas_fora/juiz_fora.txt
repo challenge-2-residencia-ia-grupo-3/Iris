@@ -1,0 +1,20 @@
+RODADA COMPLEMENTAR - PERGUNTAS FORA DA BASE: o que o juiz achou das respostas dadas
+(juiz Claude Opus, não validado por pessoa; só os textos em que o detector de código não viu abstenção)
+gerado em 2026-11-13T10:11:08+00:00 | commit 6f1d34a-modificado
+cobertura: {'julgada|NA|llama3.1-8b': 6, 'julgada|NC50|llama3.1-8b': 21, 'julgada|NC|llama3.1-8b': 24}
+
+A: geradas 75; sem abstenção e julgadas 6 (em 2 perguntas); juiz viu abstenção em 0
+    inventou fato ou fonte: 2 respostas = 0.0267 de todas as geradas; perguntas: ['N11']
+    frases sustentadas 0/26; contradizem 0; útil {'não': 3, 'sim': 3}
+    por estrato: {'perto': {'julgadas': 6, 'inventou_sim': 2}, 'longe': {'julgadas': 0, 'inventou_sim': 0}}
+
+C: geradas 75; sem abstenção e julgadas 24 (em 8 perguntas); juiz viu abstenção em 0
+    inventou fato ou fonte: 12 respostas = 0.16 de todas as geradas; perguntas: ['N05', 'N12', 'N16', 'N18']
+    frases sustentadas 48/191; contradizem 0; útil {'não': 12, 'parcial': 12}
+    por estrato: {'perto': {'julgadas': 24, 'inventou_sim': 12}, 'longe': {'julgadas': 0, 'inventou_sim': 0}}
+
+C50: geradas 75; sem abstenção e julgadas 21 (em 7 perguntas); juiz viu abstenção em 6
+    inventou fato ou fonte: 3 respostas = 0.04 de todas as geradas; perguntas: ['N18']
+    frases sustentadas 63/120; contradizem 3; útil {'não': 15, 'parcial': 6}
+    por estrato: {'perto': {'julgadas': 18, 'inventou_sim': 3}, 'longe': {'julgadas': 3, 'inventou_sim': 0}}
+

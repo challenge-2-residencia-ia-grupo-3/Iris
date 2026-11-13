@@ -60,16 +60,21 @@ uv run mkdocs serve
 uv run mkdocs build
 ```
 
-### Comandos Rápidos via `Makefile` (Recomendado)
+### Comandos Rápidos via `Makefile` (Recomendado — Zero Configuração Manual)
+
+Se você acabou de clonar o repositório, **não precisa instalar nada manualmente antes**: os comandos do `Makefile` verificam o que falta (`uv`, `.venv`, pacotes Python, `node_modules`, base RAG, `pgvector` e `Ollama`/`Llama 3`), instalam o que for necessário e **pulam automaticamente tudo o que já estiver instalado**:
 
 ```bash
-# 1. Verificar ambiente, catálogo, PII, API, RAG e Agente Extrator
-make check
+# 1. Preparar todo o ambiente após o git clone (instala o que faltar e pula o que já existe)
+make setup
 
-# 2. Subir tudo (preflight + Ollama + RAG + Backend :8000 + Frontend Next.js :3000)
+# 2. Subir tudo (verifica/instala dependências + Ollama + RAG + Backend :8000 + Frontend Next.js :3000)
 make up
 
-# 3. Abrir menus interativos de validação no terminal
+# 3. Verificar integridade do ambiente, catálogo, PII, API, RAG e Agente Extrator
+make check
+
+# 4. Abrir menus interativos de validação e testes no terminal
 make rag         # Central do RAG, 12 métricas e consulta ao vivo
 make extrator    # Agente Extrator Curricular (#17), Benchmark e Analytics
 make test        # Bateria completa de testes unitários

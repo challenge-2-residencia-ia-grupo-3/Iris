@@ -1,0 +1,73 @@
+{
+  "respostas_A_gpt-oss-20b.jsonl": {
+    "linhas": 120,
+    "esperado": 120,
+    "erros_api": 0,
+    "vazias": 0,
+    "duplicatas": 0,
+    "validas_unicas": 120,
+    "cortadas_por_limite_de_tokens": 0,
+    "faltantes": 0
+  },
+  "respostas_A_llama3.1-8b.jsonl": {
+    "linhas": 120,
+    "esperado": 120,
+    "erros_api": 0,
+    "vazias": 0,
+    "duplicatas": 0,
+    "validas_unicas": 120,
+    "cortadas_por_limite_de_tokens": 0,
+    "faltantes": 0
+  },
+  "respostas_B.jsonl": {
+    "linhas": 80,
+    "esperado": 80,
+    "erros_api": 0,
+    "vazias": 0,
+    "duplicatas": 0,
+    "validas_unicas": 80,
+    "cortadas_por_limite_de_tokens": 0,
+    "faltantes": 0
+  },
+  "respostas_C_gpt-oss-20b.jsonl": {
+    "linhas": 120,
+    "esperado": 120,
+    "erros_api": 0,
+    "vazias": 0,
+    "duplicatas": 0,
+    "validas_unicas": 120,
+    "cortadas_por_limite_de_tokens": 0,
+    "faltantes": 0
+  },
+  "respostas_C_llama3.1-8b.jsonl": {
+    "linhas": 120,
+    "esperado": 120,
+    "erros_api": 0,
+    "vazias": 0,
+    "duplicatas": 0,
+    "validas_unicas": 120,
+    "cortadas_por_limite_de_tokens": 0,
+    "faltantes": 0
+  },
+  "respostas_D_gpt-oss-20b.jsonl": {
+    "linhas": 180,
+    "esperado": 180,
+    "erros_api": 0,
+    "vazias": 0,
+    "duplicatas": 0,
+    "validas_unicas": 180,
+    "cortadas_por_limite_de_tokens": 0,
+    "faltantes": 0
+  },
+  "respostas_D_llama3.1-8b.jsonl": {
+    "linhas": 180,
+    "esperado": 180,
+    "erros_api": 0,
+    "vazias": 0,
+    "duplicatas": 0,
+    "validas_unicas": 180,
+    "cortadas_por_limite_de_tokens": 0,
+    "faltantes": 0
+  },
+  "_gerado_em": "2026-11-13T00:42:45+00:00"
+}
