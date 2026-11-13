@@ -1,0 +1,37 @@
+{
+ "busca: VPS 06/11 (18, controle A_pt) x PC RTX 06/11 (19, A_controle)": {
+  "top5_identico": 38,
+  "recall_igual": 38,
+  "n": 38
+ },
+ "busca: VPS 06/11 (18, controle A_pt) x VPS 06/11 (17, controle do HyDE)": {
+  "top5_identico": 38,
+  "recall_igual": 38,
+  "n": 38
+ },
+ "busca: PC RTX 06/11 (19, A_controle) x VPS 06/11 (17, controle do HyDE)": {
+  "top5_identico": 38,
+  "recall_igual": 38,
+  "n": 38
+ },
+ "juiz: Claude Haiku 5.5": {
+  "n": 35,
+  "dif_fidelidade": [
+   0.033,
+   -0.0,
+   0.081
+  ],
+  "kappa_toda": 0.7388059701492536,
+  "kappa_util": 0.6601941747572817
+ },
+ "juiz: gpt-oss-120b (Groq)": {
+  "n": 12,
+  "dif_fidelidade": [
+   -0.0,
+   -0.042,
+   0.042
+  ],
+  "kappa_toda": 1.0,
+  "kappa_util": 1.0
+ }
+}

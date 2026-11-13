@@ -1,0 +1,1222 @@
+{
+ "gerado_em": "2026-11-12T17:05:33-03:00",
+ "repo": "challenge-2-residencia-ia-grupo-3/Iris",
+ "prs": [
+  {
+   "numero": 83,
+   "titulo": "feat(1.2.2): potencialidades, interesses tematicos e barra lateral modular (#9)",
+   "autor": "ySamantha",
+   "criado_em": "2026-11-11T20:34:23Z",
+   "idade_dias": 1.0,
+   "branch": "feat/1.2.2-potencialidades-interesses-engajamento",
+   "base": "dev",
+   "sha": "b8f7451",
+   "rascunho": false,
+   "revisao": "REVIEW_REQUIRED",
+   "arquivos": [
+    "backend/src/iris/api/routes/catalogs.py",
+    "backend/src/iris/main.py",
+    "backend/src/iris/rag/__init__.py",
+    "backend/src/iris/rag/engagement_context.py",
+    "backend/src/iris/schemas/__init__.py",
+    "backend/src/iris/schemas/catalog.py",
+    "backend/src/iris/schemas/engagement.py",
+    "backend/src/iris/security/__init__.py",
+    "backend/src/iris/security/pii_scrubber.py",
+    "backend/tests/api/test_engagement_profile.py",
+    "docs/backlog_rastreabilidade.md",
+    "frontend/src/app/etapa-1/page.tsx",
+    "frontend/src/app/etapa-2/page.tsx",
+    "frontend/src/app/layout.tsx",
+    "frontend/src/app/page.tsx",
+    "frontend/src/components/IrisSidebar.tsx",
+    "frontend/src/components/Step1MaterialIntake.tsx",
+    "frontend/src/components/Step2FunctionalProfile.tsx",
+    "frontend/src/components/Stepper5Etapas.tsx",
+    "frontend/src/contexts/ThemeContext.tsx",
+    "frontend/src/services/catalogsApi.ts"
+   ],
+   "ci": "sem_check",
+   "issues": [
+    9
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/pull/83"
+  },
+  {
+   "numero": 82,
+   "titulo": "test(adaptador): latência do ciclo Extrator + Adaptador contra o RNF-07",
+   "autor": "matheushpr94",
+   "criado_em": "2026-11-11T20:10:37Z",
+   "idade_dias": 1.0,
+   "branch": "feat/2.1.3-adaptador-ciclo",
+   "base": "dev",
+   "sha": "ff0c85a",
+   "rascunho": false,
+   "revisao": "REVIEW_REQUIRED",
+   "arquivos": [
+    "backend/src/iris/eval/adaptador_ciclo.py",
+    "backend/tests/test_adaptador_ciclo.py",
+    "reports/adaptador_ciclo.json",
+    "reports/adaptador_ciclo.png",
+    "reports/adaptador_ciclo.txt"
+   ],
+   "ci": "sucesso",
+   "issues": [
+    18
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/pull/82"
+  },
+  {
+   "numero": 81,
+   "titulo": "feat(agents): Agente Estrategista RAG com filtro estrito, conferencia de citacoes e reserva sem modelo (#16)",
+   "autor": "matheushpr94",
+   "criado_em": "2026-11-11T19:49:21Z",
+   "idade_dias": 1.0,
+   "branch": "feat/2.1.1-agente-estrategista",
+   "base": "dev",
+   "sha": "4479fd9",
+   "rascunho": false,
+   "revisao": "REVIEW_REQUIRED",
+   "arquivos": [
+    "backend/src/iris/agents/__init__.py",
+    "backend/src/iris/agents/strategist_agent.py",
+    "backend/src/iris/schemas/__init__.py",
+    "backend/src/iris/schemas/strategy.py",
+    "backend/tests/test_strategist_agent.py"
+   ],
+   "ci": "sucesso",
+   "issues": [
+    16
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/pull/81"
+  },
+  {
+   "numero": 80,
+   "titulo": "feat(adaptador): feedback do Auditor e CicloComAuditor para a auto-correção",
+   "autor": "matheushpr94",
+   "criado_em": "2026-11-11T19:49:02Z",
+   "idade_dias": 1.0,
+   "branch": "feat/2.1.3-adaptador-feedback",
+   "base": "dev",
+   "sha": "0513128",
+   "rascunho": false,
+   "revisao": "REVIEW_REQUIRED",
+   "arquivos": [
+    "backend/src/iris/agents/__init__.py",
+    "backend/src/iris/agents/adapter_agent.py",
+    "backend/src/iris/schemas/adaptation.py",
+    "backend/tests/test_adapter_agent.py"
+   ],
+   "ci": "sucesso",
+   "issues": [
+    18,
+    19
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/pull/80"
+  },
+  {
+   "numero": 74,
+   "titulo": "feat(agents): Agente Auditor com TRCC, resolução indevida, intrusão e…",
+   "autor": "Madu030",
+   "criado_em": "2026-11-11T18:44:01Z",
+   "idade_dias": 1.1,
+   "branch": "feat/19-agente-auditor",
+   "base": "dev",
+   "sha": "289d9ee",
+   "rascunho": false,
+   "revisao": "APPROVED",
+   "arquivos": [
+    "backend/src/iris/agents/auditor.py",
+    "backend/src/iris/eval/juiz_auditor.py",
+    "backend/tests/test_auditor.py",
+    "backend/tests/test_juiz_auditor.py",
+    "data/benchmarks/juiz_auditor_v1.json",
+    "docs/agente_auditor.md",
+    "mkdocs.yml"
+   ],
+   "ci": "sucesso",
+   "issues": [
+    19
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/pull/74"
+  }
+ ],
+ "issues": [
+  {
+   "numero": 2,
+   "titulo": "Tema 1: Gestão de Insumos e Parametrização Pedagógica",
+   "tipo": "theme",
+   "donos": [],
+   "rotulos": [
+    "type: theme"
+   ],
+   "criado_em": "2026-11-04T19:10:51Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/2"
+  },
+  {
+   "numero": 3,
+   "titulo": "Épico 1.1: Identificação e Entrada de Materiais Didáticos",
+   "tipo": "epic",
+   "donos": [],
+   "rotulos": [
+    "type: epic"
+   ],
+   "criado_em": "2026-11-04T19:10:53Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/3"
+  },
+  {
+   "numero": 6,
+   "titulo": "História 1.1.3: Extração multimodal de provas digitalizadas via OCR e análise visual",
+   "tipo": "story",
+   "donos": [
+    "sarahgleice"
+   ],
+   "rotulos": [
+    "type: story",
+    "priority: should",
+    "scope: api",
+    "scope: agents"
+   ],
+   "criado_em": "2026-11-04T19:11:00Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/6"
+  },
+  {
+   "numero": 7,
+   "titulo": "Épico 1.2: Mapeamento de Perfil Funcional por Características Atômicas",
+   "tipo": "epic",
+   "donos": [],
+   "rotulos": [
+    "type: epic"
+   ],
+   "criado_em": "2026-11-04T19:11:05Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/7"
+  },
+  {
+   "numero": 9,
+   "titulo": "História 1.2.2: Registro de potencialidades, interesses e canais de engajamento",
+   "tipo": "story",
+   "donos": [
+    "ySamantha"
+   ],
+   "rotulos": [
+    "type: story",
+    "priority: should",
+    "scope: front-web",
+    "scope: api"
+   ],
+   "criado_em": "2026-11-04T19:11:10Z",
+   "idade_dias": 8.0,
+   "prs": [
+    83
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/9"
+  },
+  {
+   "numero": 10,
+   "titulo": "História 1.2.3: Transcrição de observações pedagógicas docentes via entrada de áudio",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: could",
+    "scope: api",
+    "scope: agents"
+   ],
+   "criado_em": "2026-11-04T19:11:13Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/10"
+  },
+  {
+   "numero": 11,
+   "titulo": "Épico 1.3: Calibragem de Nível de Suporte e Travas Curriculares",
+   "tipo": "epic",
+   "donos": [],
+   "rotulos": [
+    "type: epic"
+   ],
+   "criado_em": "2026-11-04T19:11:17Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/11"
+  },
+  {
+   "numero": 12,
+   "titulo": "História 1.3.1: Calibragem do nível de andaime cognitivo em 3 níveis (Leve, Moderado, Intensivo)",
+   "tipo": "story",
+   "donos": [
+    "ySamantha"
+   ],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: front-web",
+    "scope: agents"
+   ],
+   "criado_em": "2026-11-04T19:11:19Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/12"
+  },
+  {
+   "numero": 13,
+   "titulo": "História 1.3.2: Definição de Travas Curriculares Inegociáveis e alerta preventivo anti-muleta",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: front-web",
+    "scope: agents"
+   ],
+   "criado_em": "2026-11-04T19:11:22Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/13"
+  },
+  {
+   "numero": 14,
+   "titulo": "Tema 2: Motor de Adaptação Inteligente e Revisão Docente",
+   "tipo": "theme",
+   "donos": [],
+   "rotulos": [
+    "type: theme"
+   ],
+   "criado_em": "2026-11-04T19:11:26Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/14"
+  },
+  {
+   "numero": 15,
+   "titulo": "Épico 2.1: Geração de Materiais Adaptados Baseada em Evidências",
+   "tipo": "epic",
+   "donos": [],
+   "rotulos": [
+    "type: epic"
+   ],
+   "criado_em": "2026-11-04T19:11:28Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/15"
+  },
+  {
+   "numero": 16,
+   "titulo": "História 2.1.1: Recuperação de estratégias psicopedagógicas baseadas em evidências (RAG)",
+   "tipo": "story",
+   "donos": [
+    "matheushpr94"
+   ],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: rag"
+   ],
+   "criado_em": "2026-11-04T19:11:30Z",
+   "idade_dias": 8.0,
+   "prs": [
+    81
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/16"
+  },
+  {
+   "numero": 18,
+   "titulo": "História 2.1.3: Adaptação com isolamento estrito de escopo à característica selecionada",
+   "tipo": "story",
+   "donos": [
+    "iancostag",
+    "matheushpr94"
+   ],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: rag",
+    "scope: agents"
+   ],
+   "criado_em": "2026-11-04T19:11:35Z",
+   "idade_dias": 8.0,
+   "prs": [
+    80,
+    82
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/18"
+  },
+  {
+   "numero": 19,
+   "titulo": "História 2.1.4: Auditoria automatizada de retenção curricular (TRCC) e não-intrusividade",
+   "tipo": "story",
+   "donos": [
+    "Madu030"
+   ],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: agents",
+    "scope: infra-eval"
+   ],
+   "criado_em": "2026-11-04T19:11:38Z",
+   "idade_dias": 8.0,
+   "prs": [
+    74,
+    80
+   ],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/19"
+  },
+  {
+   "numero": 20,
+   "titulo": "Épico 2.2: Edição Lado a Lado e Exportação de Materiais",
+   "tipo": "epic",
+   "donos": [],
+   "rotulos": [
+    "type: epic"
+   ],
+   "criado_em": "2026-11-04T19:11:44Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/20"
+  },
+  {
+   "numero": 21,
+   "titulo": "História 2.2.1: Visualização comparativa lado a lado com justificativas pedagógicas do DUA",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: front-web"
+   ],
+   "criado_em": "2026-11-04T19:11:47Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/21"
+  },
+  {
+   "numero": 22,
+   "titulo": "História 2.2.2: Edição livre docente em tempo real e aprovação Human-in-the-Loop",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: front-web",
+    "scope: api"
+   ],
+   "criado_em": "2026-11-04T19:11:50Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/22"
+  },
+  {
+   "numero": 23,
+   "titulo": "História 2.2.3: Exportação do material adaptado em PDF diagramado econômico e DOCX editável",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: front-web",
+    "scope: api"
+   ],
+   "criado_em": "2026-11-04T19:11:54Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/23"
+  },
+  {
+   "numero": 24,
+   "titulo": "Tema 3: Continuidade Pedagógica e Portabilidade",
+   "tipo": "theme",
+   "donos": [],
+   "rotulos": [
+    "type: theme"
+   ],
+   "criado_em": "2026-11-04T19:11:58Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/24"
+  },
+  {
+   "numero": 25,
+   "titulo": "Épico 3.1: Criação e Gestão do Perfil Pedagógico Portátil",
+   "tipo": "epic",
+   "donos": [],
+   "rotulos": [
+    "type: epic"
+   ],
+   "criado_em": "2026-11-04T19:12:00Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/25"
+  },
+  {
+   "numero": 26,
+   "titulo": "História 3.1.1: Geração de Perfil Pedagógico Portátil com identificador anônimo aleatório",
+   "tipo": "story",
+   "donos": [
+    "Madu030"
+   ],
+   "rotulos": [
+    "type: story",
+    "priority: should",
+    "scope: api",
+    "scope: privacy-lgpd"
+   ],
+   "criado_em": "2026-11-04T19:12:03Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/26"
+  },
+  {
+   "numero": 27,
+   "titulo": "História 3.1.2: Registro de histórico de eficácia das intervenções por característica",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: should",
+    "scope: front-web",
+    "scope: privacy-lgpd"
+   ],
+   "criado_em": "2026-11-04T19:12:05Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/27"
+  },
+  {
+   "numero": 29,
+   "titulo": "Épico 3.2: Exportação e Importação Descentralizada de Perfis",
+   "tipo": "epic",
+   "donos": [],
+   "rotulos": [
+    "type: epic"
+   ],
+   "criado_em": "2026-11-04T19:12:11Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/29"
+  },
+  {
+   "numero": 30,
+   "titulo": "História 3.2.1: Exportação local do Perfil Pedagógico Portátil em JSON e PDF",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: should",
+    "scope: api",
+    "scope: privacy-lgpd"
+   ],
+   "criado_em": "2026-11-04T19:12:14Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/30"
+  },
+  {
+   "numero": 31,
+   "titulo": "História 3.2.2: Importação e restauração de sessão a partir de arquivo JSON portátil",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: should",
+    "scope: front-web",
+    "scope: privacy-lgpd"
+   ],
+   "criado_em": "2026-11-04T19:12:17Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/31"
+  },
+  {
+   "numero": 32,
+   "titulo": "Tema 4: Privacidade desde a Concepção (Privacy by Design) e Governança Científica",
+   "tipo": "theme",
+   "donos": [],
+   "rotulos": [
+    "type: theme"
+   ],
+   "criado_em": "2026-11-04T19:12:21Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/32"
+  },
+  {
+   "numero": 33,
+   "titulo": "Épico 4.1: Proteção de Dados e Conformidade LGPD",
+   "tipo": "epic",
+   "donos": [],
+   "rotulos": [
+    "type: epic"
+   ],
+   "criado_em": "2026-11-04T19:12:22Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/33"
+  },
+  {
+   "numero": 35,
+   "titulo": "História 4.1.2: Execução em arquitetura stateless Zero-Database sem persistência de alunos",
+   "tipo": "story",
+   "donos": [
+    "iancostag"
+   ],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: privacy-lgpd",
+    "scope: infra-eval"
+   ],
+   "criado_em": "2026-11-04T19:12:29Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/35"
+  },
+  {
+   "numero": 36,
+   "titulo": "História 4.1.3: Descarte preventivo de PII acidental e formatação de cabeçalho escolar neutro",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: front-web",
+    "scope: privacy-lgpd"
+   ],
+   "criado_em": "2026-11-04T19:12:32Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/36"
+  },
+  {
+   "numero": 37,
+   "titulo": "História 4.1.4: Auditoria de não-retenção de payloads sensíveis em logs de execução",
+   "tipo": "story",
+   "donos": [],
+   "rotulos": [
+    "type: story",
+    "priority: must",
+    "scope: privacy-lgpd",
+    "scope: infra-eval"
+   ],
+   "criado_em": "2026-11-04T19:12:34Z",
+   "idade_dias": 8.0,
+   "prs": [],
+   "url": "https://github.com/challenge-2-residencia-ia-grupo-3/Iris/issues/37"
+  }
+ ],
+ "ci_historico": [
+  {
+   "sha": "65e1f09",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "queued",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T20:44:43Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "b8f7451",
+   "branch": "feat/1.2.2-potencialidades-interesses-engajamento",
+   "evento": "pull_request",
+   "conclusao": "queued",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T20:34:27Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "ff0c85a",
+   "branch": "feat/2.1.3-adaptador-ciclo",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T20:10:41Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "289d9ee",
+   "branch": "feat/19-agente-auditor",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T20:06:39Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "de155a2",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T19:54:39Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "39a7892",
+   "branch": "feat/28-bloqueio-dados-clinicos",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T19:51:51Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "4479fd9",
+   "branch": "feat/2.1.1-agente-estrategista",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T19:49:24Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "0513128",
+   "branch": "feat/2.1.3-adaptador-feedback",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T19:49:06Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "9bf8163",
+   "branch": "feat/28-bloqueio-dados-clinicos",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T19:17:43Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "d926016",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:55:16Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "47b295f",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "cancelled",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:54:31Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "cb2a510",
+   "branch": "feat/2.1.3-adaptador-medicao-modelo",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:53:02Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "7884e29",
+   "branch": "fix/bancada-rag-licenca-e-modelo",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:47:57Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "b1f853b",
+   "branch": "feat/19-agente-auditor",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:44:07Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "b51bdce",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:39:08Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "efe40d9",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:36:06Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "f7ca56c",
+   "branch": "chore/remove-chroma-pgvector-unico",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:34:01Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "d257f16",
+   "branch": "gh-pages",
+   "evento": "dynamic",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:25:31Z",
+   "workflow": "pages build and deployment"
+  },
+  {
+   "sha": "4bb6d50",
+   "branch": "main",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:25:16Z",
+   "workflow": "Deploy MkDocs to GitHub Pages"
+  },
+  {
+   "sha": "7425627",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:20:40Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "7425627",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:20:40Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "7425627",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:19:11Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "6519e72",
+   "branch": "feat/2.1.1-teste-ragas",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:17:27Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "9617cad",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:09:44Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "542ef7b",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:08:45Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "28764c3",
+   "branch": "feat/2.1.3-agente-adaptador",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T18:05:53Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "b144146",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T17:57:59Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "d243d6d",
+   "branch": "docs/atualizar-backlog-rastreabilidade",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T17:57:28Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "232d669",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T17:46:11Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "50bf4ab",
+   "branch": "feat/1.2.1-selecao-caracteristicas-funcionais",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T17:44:01Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "f2b9411",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T17:34:12Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "cf41470",
+   "branch": "feat/trcc-deterministico",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T17:33:21Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "6a66cb5",
+   "branch": "feat/1.2.1-selecao-caracteristicas-funcionais",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T14:29:43Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "a6d84a7",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T14:29:16Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "4d53450",
+   "branch": "dev",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T14:27:03Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "fb0d236",
+   "branch": "test/suite-backend-e-ci",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T14:25:33Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "9e73d94",
+   "branch": "test/suite-backend-e-ci",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T14:03:32Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "b5695a6",
+   "branch": "test/suite-backend-e-ci",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T13:55:31Z",
+   "workflow": "Testes do backend"
+  },
+  {
+   "sha": "a1e541b",
+   "branch": "feat/1.2.1-selecao-caracteristicas-funcionais",
+   "evento": "pull_request",
+   "conclusao": "failure",
+   "tentativa": 1,
+   "criado_em": "2026-11-11T12:17:02Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "e4c1a1e",
+   "branch": "gh-pages",
+   "evento": "dynamic",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T19:51:34Z",
+   "workflow": "pages build and deployment"
+  },
+  {
+   "sha": "7206d4b",
+   "branch": "main",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T19:51:19Z",
+   "workflow": "Deploy MkDocs to GitHub Pages"
+  },
+  {
+   "sha": "57822e1",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T19:47:50Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "6162acc",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T19:42:27Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "d6af43f",
+   "branch": "feat/trcc-deterministico",
+   "evento": "pull_request",
+   "conclusao": "failure",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T19:40:44Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "f82964a",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T18:50:29Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "3102e84",
+   "branch": "feat/trcc-deterministico",
+   "evento": "pull_request",
+   "conclusao": "failure",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T18:48:57Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "5c71762",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "failure",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T18:27:25Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "7593668",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T18:11:34Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "2d3c8e5",
+   "branch": "feat/eda-readability",
+   "evento": "pull_request",
+   "conclusao": "failure",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T18:04:05Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "a288bd3",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T14:15:18Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "79d397f",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T14:06:01Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "689fa2d",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T13:38:00Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "fe79e94",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T12:36:44Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "bfd6cdd",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-09T12:08:44Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "7407b64",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T20:30:06Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "817a59a",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T20:20:20Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "809452d",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T20:08:50Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "7c7c9b7",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T20:02:15Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "e9521cf",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T19:51:22Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "1bc7ac2",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T19:26:27Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "e8e6dce",
+   "branch": "gh-pages",
+   "evento": "dynamic",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T18:51:02Z",
+   "workflow": "pages build and deployment"
+  },
+  {
+   "sha": "72317c3",
+   "branch": "main",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T18:50:52Z",
+   "workflow": "Deploy MkDocs to GitHub Pages"
+  },
+  {
+   "sha": "698707c",
+   "branch": "dev",
+   "evento": "pull_request",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T18:46:47Z",
+   "workflow": "Validar Origem do Pull Request"
+  },
+  {
+   "sha": "3c2d524",
+   "branch": "gh-pages",
+   "evento": "dynamic",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T18:01:43Z",
+   "workflow": "pages build and deployment"
+  },
+  {
+   "sha": "9df71b3",
+   "branch": "main",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T18:01:30Z",
+   "workflow": "Deploy MkDocs to GitHub Pages"
+  },
+  {
+   "sha": "823802d",
+   "branch": "gh-pages",
+   "evento": "dynamic",
+   "conclusao": "cancelled",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T18:01:30Z",
+   "workflow": "pages build and deployment"
+  },
+  {
+   "sha": "a34cfe4",
+   "branch": "main",
+   "evento": "push",
+   "conclusao": "success",
+   "tentativa": 1,
+   "criado_em": "2026-11-04T17:53:38Z",
+   "workflow": "Deploy MkDocs to GitHub Pages"
+  }
+ ],
+ "instaveis": [],
+ "erro": null
+}

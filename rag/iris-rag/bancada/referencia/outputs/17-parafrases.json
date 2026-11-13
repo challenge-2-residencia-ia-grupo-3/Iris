@@ -1,0 +1,230 @@
+{
+ "Q01": {
+  "original": "Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?",
+  "parafrase": "Um aluno esquece o que a questão pede no meio de uma tarefa com várias etapas; como ajudar sem dar a resposta?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q02": {
+  "original": "Meu aluno com TDAH perde o foco depois de uns 10 minutos de tarefa. Como dividir a atividade para ele manter a atenção até o fim?",
+  "parafrase": "Meu aluno tem dificuldade de prestar atenção e perde o foco depois de uns 10 minutos de tarefa, como posso dividir a atividade para ele conseguir ficar concentrado até terminar?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q03": {
+  "original": "Como ajudar um aluno com TDAH que se perde na ordem dos passos de um problema, sem saber o que vem primeiro e o que vem depois?",
+  "parafrase": "Como apoiar um aluno que tem dificuldade de atenção e se confunde na ordem das etapas de um problema, sem saber o que fazer primeiro?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q04": {
+  "original": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+  "parafrase": "O estudante não começa a fazer a atividade, mesmo sabendo o que fazer; que jeito pode ajudar ele a iniciar?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q05": {
+  "original": "A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?",
+  "parafrase": "A prova tem muita coisa na mesma página e o aluno se perde; como montar a atividade de forma mais clara para quem tem dificuldade de atenção?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q06": {
+  "original": "Aluno responde por impulso antes de terminar de ler a pergunta. O que posso fazer em sala para ele parar e conferir?",
+  "parafrase": "Um aluno costuma responder antes de terminar de ler a pergunta; como posso fazer para ele parar e ler tudo antes de responder?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q07": {
+  "original": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+  "parafrase": "Se eu ler o texto em voz alta ou deixá‑lo mais simples para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q08": {
+  "original": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+  "parafrase": "Que tipo de coisas como elogios, recompensas, um quadro de pontos ou conversar todo dia com a família ajudam o aluno que tem dificuldade de atenção a ficar concentrado na tarefa?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q09": {
+  "original": "Onde devo sentar o aluno com TDAH e que ajustes no ambiente da sala ajudam a reduzir a distração?",
+  "parafrase": "Em que lugar da sala devo colocar a criança que tem dificuldade de prestar atenção e que mudanças na sala ajudam a diminuir as distrações?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q10": {
+  "original": "Como dar instruções para um aluno com TDAH: falo tudo de uma vez ou em partes? Devo pedir para ele repetir o que entendeu?",
+  "parafrase": "Para um aluno que se distrai fácil, devo dar as instruções de uma vez ou em etapas, e ainda pedir que ele repita o que entendeu?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q11": {
+  "original": "Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?",
+  "parafrase": "Quais são os três princípios dessa forma de organizar as aulas para atender a todos os alunos?",
+  "aprovada": false,
+  "revisao": "'dessa forma de organizar as aulas' não diz de que método se trata: a pergunta perdeu o referente (DUA) (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q12": {
+  "original": "O que mudou na versão 3.0 das diretrizes do DUA em relação às versões anteriores?",
+  "parafrase": "O que mudou na versão 3.0 das orientações de como ensinar para todos os alunos em comparação com as versões anteriores?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q13": {
+  "original": "Dê exemplos de múltiplas formas de representação para apresentar um mesmo conteúdo aos alunos.",
+  "parafrase": "Mostre maneiras diferentes de ensinar a mesma coisa para a turma.",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q14": {
+  "original": "Como oferecer múltiplos meios de ação e expressão numa avaliação, para o aluno mostrar o que sabe de outro jeito?",
+  "parafrase": "Como dar várias formas de fazer e mostrar numa prova, para o aluno poder demonstrar o que aprendeu de outro jeito?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q15": {
+  "original": "O que o DUA recomenda para o engajamento: como despertar o interesse e sustentar o esforço e a persistência dos alunos?",
+  "parafrase": "O que as ideias de ensino que atendem a todos sugerem para envolver a turma: como despertar o interesse dos alunos e manter eles se esforçando e persistindo?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q16": {
+  "original": "DUA é a mesma coisa que adaptação curricular individual? Qual a diferença entre planejar para todos e adaptar para um aluno?",
+  "parafrase": "É a mesma coisa usar estratégias diferentes para todos os alunos e mudar a lição só para um, ou tem diferença entre preparar a aula para a turma inteira e adaptar só para um aluno?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q17": {
+  "original": "Nas diretrizes do DUA, o que se recomenda sobre estabelecer metas, planejar estratégias e monitorar o próprio progresso (as antigas 'funções executivas')?",
+  "parafrase": "Nas regras de como ensinar para todos, o que se recomenda sobre definir metas, planejar estratégias e acompanhar o próprio progresso?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q18": {
+  "original": "Como aplicar o DUA no planejamento de aula numa sala comum inclusiva da escola brasileira? Tem exemplos práticos?",
+  "parafrase": "Como organizar a aula para que todos os alunos aprendam bem na sala regular da escola e pode dar exemplos práticos?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q19": {
+  "original": "O que a Lei 14.254/2021 garante aos alunos com TDAH e dislexia na escola?",
+  "parafrase": "O que essa lei de 2021 garante para os estudantes que têm dificuldade de atenção e hiperatividade ou dificuldade de leitura na escola?",
+  "aprovada": false,
+  "revisao": "'essa lei de 2021' sem número: há várias leis de 2021, a pergunta deixou de identificar a Lei 14.254 (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q20": {
+  "original": "A escola pode exigir laudo médico para oferecer atendimento educacional ao aluno?",
+  "parafrase": "A escola pode pedir um atestado de saúde para poder dar o apoio educacional que o aluno precisa?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q21": {
+  "original": "Como a Lei Brasileira de Inclusão (LBI) define barreiras e adaptações razoáveis?",
+  "parafrase": "Como a lei que garante a inclusão das pessoas com deficiência descreve os obstáculos e os ajustes que a escola pode fazer?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q22": {
+  "original": "O que a LDB diz sobre a avaliação do aluno: contínua, cumulativa, com prevalência dos aspectos qualitativos?",
+  "parafrase": "O que a lei que organiza a educação no Brasil diz sobre avaliar o aluno de forma constante, acumulando os resultados e dando mais importância ao que ele demonstra qualitativamente?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q23": {
+  "original": "O que é o AEE (atendimento educacional especializado), quem tem direito e ele substitui a sala de aula comum?",
+  "parafrase": "O que é a ajuda extra na escola para quem tem dificuldade, quem pode receber e se ela troca as aulas normais?",
+  "aprovada": false,
+  "revisao": "'ajuda extra para quem tem dificuldade' muda quem tem direito ao AEE (público-alvo da educação especial, não qualquer dificuldade) (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q24": {
+  "original": "O que a nova Política Nacional de Educação Especial Inclusiva (Decreto 12.686/2025 e Portaria MEC 421/2026) estabelece?",
+  "parafrase": "O que a nova regra do governo sobre como incluir alunos com necessidades especiais na escola determina?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q25": {
+  "original": "Aluno com dislexia no ENEM: que atendimento ele tem na redação e como a correção considera a dislexia?",
+  "parafrase": "Um estudante com dificuldade de leitura no ENEM tem que tipo de apoio na prova de redação e como a correção leva essa dificuldade em conta?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q26": {
+  "original": "Aluno com TDAH é público-alvo da educação especial? Ele tem direito ao AEE?",
+  "parafrase": "Um aluno com TDAH conta como alguém que precisa de apoio da educação especial e tem direito ao Atendimento Educacional Especializado?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q27": {
+  "original": "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?",
+  "parafrase": "Será que dar mais tempo na prova ajuda quem tem dificuldade de atenção ou outras dificuldades de aprendizado, segundo as pesquisas?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q28": {
+  "original": "Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com TDAH? Qual o tamanho do efeito?",
+  "parafrase": "Será que as estratégias usadas na sala de aula diminuem as atitudes que não têm a ver com a atividade e que atrapalham crianças com TDAH, e qual é o tamanho desse efeito?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q29": {
+  "original": "Treino cognitivo (por exemplo, treino de memória de trabalho no computador) melhora os sintomas do TDAH?",
+  "parafrase": "Será que fazer exercícios mentais no computador, como treinar a capacidade de lembrar coisas por um curto período, ajuda a melhorar os problemas do TDAH?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q30": {
+  "original": "Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o desempenho acadêmico deles?",
+  "parafrase": "Colocar crianças que precisam de apoio especial na turma normal ajuda ou prejudica o aprendizado delas?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q31": {
+  "original": "O ensino diferenciado (diferenciação) no ensino médio/secundário tem efeito comprovado no desempenho dos alunos?",
+  "parafrase": "Ajustar as aulas para cada estudante no ensino médio realmente melhora as notas deles?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q32": {
+  "original": "Intervenções escolares para TDAH testadas em ensaios randomizados melhoram o desempenho acadêmico ou só o comportamento?",
+  "parafrase": "Ações na escola para crianças com dificuldade de atenção e hiperatividade, testadas em estudos que dividem os alunos ao acaso, ajudam a melhorar as notas ou só mudam o jeito que eles se comportam?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q33": {
+  "original": "Vale a pena ensinar de acordo com o estilo de aprendizagem do aluno (visual, auditivo, cinestésico)?",
+  "parafrase": "Vale a pena adaptar o ensino ao jeito que cada aluno aprende melhor, seja vendo, ouvindo ou praticando?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q34": {
+  "original": "Usar uma fonte especial para dislexia, como OpenDyslexic ou Dyslexie, ajuda o aluno a ler melhor?",
+  "parafrase": "Usar um tipo de letra feita para quem tem dislexia, como OpenDyslexic ou Dyslexie, ajuda o aluno a ler melhor?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q35": {
+  "original": "Aumentar o espaçamento entre as letras ajuda a leitura de quem tem dislexia?",
+  "parafrase": "Deixar as letras mais afastadas facilita a leitura das crianças que têm dislexia?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q36": {
+  "original": "Quantos professores acreditam em neuromitos? E como é isso entre educadores no Brasil?",
+  "parafrase": "Quantos professores acreditam em ideias erradas sobre o cérebro e como isso acontece entre os professores no Brasil?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q37": {
+  "original": "Sistemas automáticos de simplificação de texto preservam o sentido original? Dá para confiar que o texto simplificado mantém a informação?",
+  "parafrase": "Os programas que deixam o texto mais fácil de ler ainda passam a mesma ideia e dá para confiar que a versão simplificada tem todas as informações?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ },
+ "Q38": {
+  "original": "Modelos de linguagem (LLMs) conseguem reescrever um material didático em diferentes níveis de leitura mantendo o conteúdo correto?",
+  "parafrase": "Os programas de computador que escrevem textos conseguem mudar um material de aula para ficar mais fácil ou mais difícil de ler, sem mudar o que ele ensina?",
+  "aprovada": true,
+  "revisao": "mesmo sentido (Ana, 06/11, antes de rodar a busca)"
+ }
+}

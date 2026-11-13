@@ -1,0 +1,38 @@
+JUÍZES COMPARADOS - respostas do prompt v1 (17-respostas.jsonl)
+Mesma instrução de juiz (JUIZ_INSTR) e mesmas respostas; só muda o modelo que julga.
+IC 95% bootstrap por resposta (2000, semente 20261106). Nenhum juiz validado por humano ainda.
+
+juiz                   n         fidelidade      citação certa  100% sustentada  útil sim/parc/não
+groq gpt-oss-120b     35   0.95 [0.91-0.98]   0.96 [0.92-0.99]      28 de 35     30/5/0
+haiku 5.5             35   0.80 [0.73-0.86]   0.91 [0.87-0.95]       9 de 35     17/18/0
+local gpt-oss-20b     35   0.96 [0.93-0.99]   0.99 [0.96-1.00]      28 de 35     31/4/0
+
+Concordância entre juízes, por resposta (só as que os dois julgaram):
+  groq gpt-oss-120b x haiku 5.5 (n=35): '100% sustentada' igual em 16/35 (kappa 0.16); 'útil' igual em 22/35 (kappa 0.27)
+  groq gpt-oss-120b x local gpt-oss-20b (n=35): '100% sustentada' igual em 27/35 (kappa 0.29); 'útil' igual em 28/35 (kappa 0.11)
+  haiku 5.5 x local gpt-oss-20b (n=35): '100% sustentada' igual em 16/35 (kappa 0.16); 'útil' igual em 21/35 (kappa 0.22)
+
+Respostas em que os juízes discordam sobre '100% sustentada' (para ler primeiro):
+  Q01: groq=sim | haiku=não | local=sim
+  Q02: groq=sim | haiku=não | local=sim
+  Q03: groq=sim | haiku=não | local=sim
+  Q04: groq=não | haiku=não | local=sim
+  Q08: groq=não | haiku=não | local=sim
+  Q11: groq=não | haiku=não | local=sim
+  Q15: groq=sim | haiku=não | local=sim
+  Q17: groq=sim | haiku=não | local=sim
+  Q18: groq=sim | haiku=não | local=sim
+  Q19: groq=sim | haiku=não | local=sim
+  Q23: groq=sim | haiku=não | local=sim
+  Q25: groq=sim | haiku=não | local=não
+  Q27: groq=sim | haiku=não | local=sim
+  Q28: groq=sim | haiku=não | local=não
+  Q29: groq=sim | haiku=não | local=sim
+  Q30: groq=não | haiku=não | local=sim
+  Q31: groq=sim | haiku=não | local=sim
+  Q32: groq=sim | haiku=não | local=sim
+  Q34: groq=sim | haiku=não | local=sim
+  Q35: groq=sim | haiku=não | local=sim
+  Q36: groq=sim | haiku=não | local=não
+  Q37: groq=sim | haiku=não | local=sim
+  Q38: groq=sim | haiku=não | local=não

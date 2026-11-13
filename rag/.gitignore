@@ -13,3 +13,14 @@ iris-rag/texto/fe_abda_guia_professores.md
 iris-rag/texto/fe_diamond2013.md
 iris-rag/texto/fe_nice_ng87.txt
 iris-rag/texto/mec_pneei_caderno4_praticas_inclusivas_2026.txt
+
+# Painel de qualidade (rag/iris-rag/bancada): o painel e os rastros levam texto da base; saídas geradas na sua máquina
+iris-rag/pacote/reports/
+iris-rag/pacote/outputs/2[1-9]-*
+iris-rag/pacote/outputs/3[0-9]-*
+iris-rag/pacote/outputs/40-*
+iris-rag/pacote/outputs/execucoes*.jsonl
+iris-rag/pacote/outputs/1[7-9]-*
+iris-rag/pacote/outputs/20-*
+iris-rag/pacote/outputs/.retrato.json
+iris-rag/bancada/langgraph/.montado/

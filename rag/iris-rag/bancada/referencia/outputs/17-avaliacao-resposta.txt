@@ -1,0 +1,75 @@
+AVALIAÇÃO DA RESPOSTA DO ÍRIS (busca + geração) - ver avaliacao/PREREG-resposta.md
+Sistema: qwen3+rerank, top-5, groq:qwen/qwen3.8-27b, temperatura 0.
+Juiz: openai/gpt-oss-120b (outra família), 2 rodadas. JUIZ NÃO VALIDADO POR HUMANO.
+Gabarito rascunho (1 marcador, modelo). IC 95% bootstrap por pergunta (2000, semente 20261106).
+
+1. ABSTENÇÃO (decidida pelo código)
+   Q39 (fora da base): absteve, correto
+   Q40 (fora da base): absteve, correto
+   Cobertura nas 38 com resposta: respondeu 35 (92%), absteve 3
+
+2. BUSCA x ABSTENÇÃO (a busca trouxe trecho de nota 2 no top-5?)
+   hit@5=sim: 29 perguntas; respondeu 27, absteve 2
+   hit@5=não: 9 perguntas; respondeu 8, absteve 1
+
+3. JUIZ, rodada 1 (35 respostas julgadas, 196 frases)
+   Fidelidade (frases sustentadas, média por resposta): 0.95 [0.91-0.98]
+   Citação correta (trecho citado sustenta a frase):    0.96 [0.92-0.99]
+   Útil: sim 30 | parcial 5 | não 0
+   Acerto condicional (todas as frases sustentadas E útil=sim) entre as que respondeu: 0.77 [0.63-0.91]
+   Funil: 38 perguntas -> 35 respondidas -> 28 100% sustentadas -> 27 sustentadas e úteis
+
+3. JUIZ, rodada 2 (12 respostas julgadas, 69 frases)
+   Fidelidade (frases sustentadas, média por resposta): 0.87 [0.79-0.94]
+   Citação correta (trecho citado sustenta a frase):    0.89 [0.81-0.96]
+   Útil: sim 8 | parcial 4 | não 0
+   Acerto condicional (todas as frases sustentadas E útil=sim) entre as que respondeu: 0.42 [0.17-0.67]
+   Funil: 38 perguntas -> 35 respondidas -> 6 100% sustentadas -> 5 sustentadas e úteis
+
+4. ESTABILIDADE DO JUIZ: mesma decisão de 'sustentada' em 67/69 frases (97%) entre as rodadas
+
+5. PARÁFRASE (35 perguntas aprovadas, mesmo gabarito)
+   recall@5 original 0.35 [0.25-0.45] | paráfrase 0.22 [0.13-0.31]
+   diferença pareada -0.13 [-0.23--0.04]
+   hit@5 original 26/35 | paráfrase 19/35
+
+7. HyDE (só busca, qwen3+rerank, 38 perguntas com resposta)
+   pergunta           recall@5 0.36 [0.26-0.45] | hit@5 29/38
+   hyde_pt            recall@5 0.23 [0.16-0.31] | hit@5 24/38
+   hyde_en            recall@5 0.22 [0.14-0.30] | hit@5 24/38
+   pergunta+hyde_en   recall@5 0.20 [0.14-0.27] | hit@5 25/38
+   hyde_pt            - pergunta (pareado) -0.12 [-0.21--0.04]
+   hyde_en            - pergunta (pareado) -0.14 [-0.24--0.05]
+   pergunta+hyde_en   - pergunta (pareado) -0.16 [-0.26--0.06]
+   recall@5 por tipo: pergunta | hyde_pt | hyde_en | pergunta+hyde_en
+     dua          (n= 8) 0.41  0.37  0.28  0.30
+     estrategia   (n=10) 0.16  0.12  0.05  0.09
+     evidencia    (n= 6) 0.25  0.19  0.28  0.30
+     mito         (n= 4) 0.40  0.25  0.26  0.24
+     norma        (n= 8) 0.61  0.25  0.34  0.16
+     so_ingles    (n= 2) 0.37  0.27  0.00  0.10
+
+6. CASOS PARA LER (respondeu com hit@5=não, ou alguma frase não sustentada na rodada 1)
+   Q04 [estrategia] hit5=False util=sim: O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia aju
+      - (parcial/nao) Oferecer indicações explícitas para cada etapa em qualquer processo sequencial reduz a ambiguidade que pode travar o iní | trecho cobre a indicação explícita, mas não menciona redução de ambiguidade
+   Q05 [estrategia] hit5=False util=parcial: A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma ativid
+      - (parcial/sim) Permitir pausas regulares entre as atividades é importante para que os alunos possam relaxar e recuperar a capacidade at | T3 menciona pausa e relaxamento, mas não explicitamente recuperação da atenção
+      - (nao/nao) Essas orientações provêm de uma cartilha sem referências, servindo para linguagem prática com o professor, e não como ev | Nenhum trecho confirma a afirmação sobre falta de referências ou validade
+   Q06 [estrategia] hit5=False util=sim: Aluno responde por impulso antes de terminar de ler a pergunta. O que posso fazer em sala 
+   Q07 [estrategia] hit5=False util=parcial: Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno co
+      - (parcial/nao) A leitura em voz alta é um recurso de acessibilidade previsto para garantir a equidade na avaliação de redações, sem alt | T1 confirma o recurso de leitura e a equidade, mas não menciona que a competência não é al
+      - (parcial/nao) A simplificação do texto não é citada como estratégia, mas a divisão de trabalhos em etapas é sugerida para facilitar a  | T3 apoia a divisão de trabalhos, mas não trata da ausência de simplificação
+      - (parcial/nao) O objetivo das adaptações é promover a inclusão por meio de medidas adaptativas durante os momentos do exame, mantendo o | T1 menciona inclusão e medidas adaptativas, mas não afirma explicitamente a manutenção dos
+   Q08 [estrategia] hit5=True util=parcial: Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário 
+      - (nao/nao) É importante destacar que a cartilha serve apenas para orientação prática e linguagem, não constituindo evidência de efi | T1 não afirma falta de evidência científica
+   Q09 [estrategia] hit5=True util=sim: Onde devo sentar o aluno com TDAH e que ajustes no ambiente da sala ajudam a reduzir a dis
+      - (parcial/nao) Essas adaptações físicas e organizacionais são orientações práticas para reduzir prejuízos atencionais sem alterar a hab | parte não consta nos trechos
+   Q11 [dua] hit5=True util=sim: Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?
+      - (parcial/nao) Esses princípios estruturam as diretrizes para garantir flexibilidade na apresentação, na expressão e na motivação dos e | apenas parte suportada por T5
+   Q24 [norma] hit5=True util=sim: O que a nova Política Nacional de Educação Especial Inclusiva (Decreto 12.686/2025 e Porta
+      - (sim/nao) O Decreto nº 12.686/2025 institui a política e a Rede Nacional de Educação Especial Inclusiva, estabelecendo princípios  | cita T2,T5, mas a parte sobre a Rede Nacional está em T1, não citado
+   Q28 [evidencia] hit5=False util=sim: Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianç
+   Q30 [evidencia] hit5=False util=parcial: Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o de
+      - (parcial/sim) Portanto, não há uma resposta única, pois o efeito depende das características específicas do aluno e da sala de aula [T | T5 indica dependência de moderadores, mas não afirma explicitamente 'não há resposta única
+   Q31 [evidencia] hit5=False util=sim: O ensino diferenciado (diferenciação) no ensino médio/secundário tem efeito comprovado no 
+   Q32 [evidencia] hit5=False util=sim: Intervenções escolares para TDAH testadas em ensaios randomizados melhoram o desempenho ac

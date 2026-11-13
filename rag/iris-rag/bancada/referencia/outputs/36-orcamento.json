@@ -1,0 +1,1212 @@
+{
+ "gerado_em": "2026-11-12T20:53:19+00:00",
+ "commit_grupo": "65e1f09",
+ "commits_grupo_nos_rastros": [
+  "0513128",
+  "65e1f09"
+ ],
+ "commit_grupo_clone_lido": "65e1f09",
+ "provedor": "eco",
+ "modelo": "eco-stub-deterministico",
+ "aviso": "provedor determinístico: mede o encanamento, não a qualidade de um modelo",
+ "aviso_tempo": "Com o modelo substituto, o tempo de modelo é quase zero (ele responde na hora, sem gerar texto). Por isso o tempo medido na VPS só informa e não reprova. O orçamento de tempo passa a reprovar quando o pipeline rodar com modelo real. A projeção ao lado estima esse tempo a partir de medições já feitas pelo grupo.",
+ "orcamento": "bancada/orcamento/orcamento.json",
+ "orcamento_versao": "1",
+ "tabela_precos_data": "2026-11-12",
+ "entradas": {
+  "resumo": "pacote/outputs/26-rastro-pipeline-resumo.json",
+  "rastros_normais": 18,
+  "rastros_adversariais": 80,
+  "custo": "pacote/outputs/23-custo.json",
+  "grupo": [
+   "reports/adaptador_com_modelo.json",
+   "reports/extractor_telemetry.jsonl"
+  ]
+ },
+ "portao": {
+  "status": "aprovado",
+  "regra": "reprova se algum limite 'duro' estourar: chamadas ao modelo por questão (> 3) ou por atividade de 5 questões (> 15), ou tokens da cadeia do grupo projetados para 5 questões (> 8.000, RNF-08). Tempo: informativo com eco; com provedor real (fora do eco), o p95 do material acima do RNF-07 também reprova. 'alerta' só avisa.",
+  "n_duros": 0,
+  "n_alertas": 6,
+  "n_informativos": 1,
+  "projecao_modelo_real_estoura": [
+   "nível 1, 1 questão(ões), com_estrategista: p95 37.92 s > 15.0 s",
+   "nível 1, 1 questão(ões), completo_com_auditor: p95 43.5 s > 15.0 s",
+   "nível 1, 5 questão(ões), grupo_hoje: p95 66.29 s > 15.0 s",
+   "nível 1, 5 questão(ões), com_estrategista: p95 184.39 s > 15.0 s",
+   "nível 1, 5 questão(ões), completo_com_auditor: p95 211.31 s > 15.0 s",
+   "nível 2, 1 questão(ões), com_estrategista: p95 40.02 s > 40.0 s",
+   "nível 2, 1 questão(ões), completo_com_auditor: p95 46.39 s > 40.0 s",
+   "nível 2, 5 questão(ões), grupo_hoje: p95 71.17 s > 40.0 s",
+   "nível 2, 5 questão(ões), com_estrategista: p95 189.26 s > 40.0 s",
+   "nível 2, 5 questão(ões), completo_com_auditor: p95 219.34 s > 40.0 s",
+   "nível 3, 1 questão(ões), com_estrategista: p95 40.32 s > 40.0 s",
+   "nível 3, 1 questão(ões), completo_com_auditor: p95 53.01 s > 40.0 s",
+   "nível 3, 5 questão(ões), grupo_hoje: p95 81.1 s > 40.0 s",
+   "nível 3, 5 questão(ões), com_estrategista: p95 199.28 s > 40.0 s",
+   "nível 3, 5 questão(ões), completo_com_auditor: p95 236.91 s > 40.0 s"
+  ]
+ },
+ "por_etapa": [
+  {
+   "etapa": "agente_adaptador",
+   "n": 42,
+   "status": {
+    "ok": 42
+   },
+   "latencia_p50_s": 0.0033,
+   "latencia_p95_s": 0.0059,
+   "ic95_latencia_p95_s": [
+    0.0052,
+    0.0118
+   ],
+   "latencia_max_s": 0.0121,
+   "limite_latencia_p95_s": 8.0,
+   "folga_latencia_s": 7.9941,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (medição cb2a510 do grupo: p90 de 6,3 a 8,1 s; saída limitada por max_tokens=900 no código)",
+   "chamadas_modelo_por_questao_max": 1,
+   "limite_chamadas_por_questao": 1,
+   "tokens_entrada_media": 304.7143,
+   "ic95_tokens_entrada_media": [
+    303.9524,
+    305.4774
+   ],
+   "tokens_entrada_max": 309,
+   "tokens_saida_max": 36,
+   "limite_tokens_entrada": 1000,
+   "limite_tokens_saida": 900,
+   "folga_tokens_entrada_max": 691,
+   "folga_tokens_saida_max": 864
+  },
+  {
+   "etapa": "agente_auditor",
+   "n": 0,
+   "status": {
+    "nao_implementada": 42
+   },
+   "observacao": "sem execução 'ok' (etapa não implementada no commit do grupo)"
+  },
+  {
+   "etapa": "agente_estrategista",
+   "n": 0,
+   "status": {
+    "nao_implementada": 42
+   },
+   "observacao": "sem execução 'ok' (etapa não implementada no commit do grupo)"
+  },
+  {
+   "etapa": "busca_rag",
+   "n": 42,
+   "status": {
+    "ok": 42
+   },
+   "latencia_p50_s": 0.0222,
+   "latencia_p95_s": 1.6436,
+   "ic95_latencia_p95_s": [
+    0.0318,
+    1.7413
+   ],
+   "latencia_max_s": 1.7455,
+   "limite_latencia_p95_s": 1.0,
+   "folga_latencia_s": -0.6436,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (23-custo: busca qwen3 + bge-m3 no PC = 0,47 s de mediana; a 1ª busca do processo carrega o índice e é mais lenta)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0,
+   "nota": "a 1ª busca de cada processo carrega o índice (partida a frio) e puxa o p95 para cima; as demais ficam em ~0,02 s"
+  },
+  {
+   "etapa": "ciclo_rnf07",
+   "n": 42,
+   "status": {
+    "ok": 42
+   },
+   "latencia_p50_s": 0.0,
+   "latencia_p95_s": 0.0001,
+   "ic95_latencia_p95_s": [
+    0.0001,
+    0.0001
+   ],
+   "latencia_max_s": 0.0001,
+   "observacao": "Não tem limite próprio: é a etapa em que o código do grupo (resumir_ciclo) compara a soma de UMA questão com o teto da atividade inteira. A conferência anota quando isso é mais frouxo que o RNF-07 (o teto vale para até 5 questões juntas)."
+  },
+  {
+   "etapa": "conferencia_citacoes",
+   "n": 42,
+   "status": {
+    "ok": 42
+   },
+   "latencia_p50_s": 0.0,
+   "latencia_p95_s": 0.0003,
+   "ic95_latencia_p95_s": [
+    0.0001,
+    0.0003
+   ],
+   "latencia_max_s": 0.0003,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.4997,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "contexto_rag",
+   "n": 42,
+   "status": {
+    "ok": 42
+   },
+   "latencia_p50_s": 0.0001,
+   "latencia_p95_s": 0.0001,
+   "ic95_latencia_p95_s": [
+    0.0001,
+    0.0002
+   ],
+   "latencia_max_s": 0.0002,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.4999,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "decomposicao_estrutural",
+   "n": 18,
+   "status": {
+    "ok": 18
+   },
+   "latencia_p50_s": 0.0008,
+   "latencia_p95_s": 0.0029,
+   "ic95_latencia_p95_s": [
+    0.0022,
+    0.0032
+   ],
+   "latencia_max_s": 0.0032,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.4971,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "diretiva_substituta_arnes",
+   "n": 42,
+   "status": {
+    "ok": 42
+   },
+   "latencia_p50_s": 0.0007,
+   "latencia_p95_s": 0.0012,
+   "ic95_latencia_p95_s": [
+    0.0011,
+    0.0016
+   ],
+   "latencia_max_s": 0.0016,
+   "limite_latencia_p95_s": 8.0,
+   "folga_latencia_s": 7.9988,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo. Esta etapa é do ARNÊS (substitui o Agente Estrategista, que não existe no 65e1f09); serve de ensaio do custo que o estrategista vai ter",
+   "chamadas_modelo_por_questao_max": 1,
+   "limite_chamadas_por_questao": 1,
+   "tokens_entrada_media": 2180.7143,
+   "ic95_tokens_entrada_media": [
+    2165.325,
+    2198.5679
+   ],
+   "tokens_entrada_max": 2226,
+   "tokens_saida_max": 10,
+   "limite_tokens_entrada": 4000,
+   "limite_tokens_saida": 500,
+   "folga_tokens_entrada_max": 1774,
+   "folga_tokens_saida_max": 490
+  },
+  {
+   "etapa": "extracao_documento",
+   "n": 18,
+   "status": {
+    "ok": 18
+   },
+   "latencia_p50_s": 0.0098,
+   "latencia_p95_s": 0.0205,
+   "ic95_latencia_p95_s": [
+    0.0187,
+    0.0206
+   ],
+   "latencia_max_s": 0.0206,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.4795,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "extrator_curricular",
+   "n": 42,
+   "status": {
+    "ok": 42
+   },
+   "latencia_p50_s": 0.0006,
+   "latencia_p95_s": 0.0015,
+   "ic95_latencia_p95_s": [
+    0.0009,
+    0.0017
+   ],
+   "latencia_max_s": 0.0017,
+   "limite_latencia_p95_s": 8.0,
+   "folga_latencia_s": 7.9985,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (telemetria real do grupo com llama3: 0,9 mil tokens de entrada; saída limitada por max_tokens=500 no código)",
+   "chamadas_modelo_por_questao_max": 1,
+   "limite_chamadas_por_questao": 1,
+   "tokens_entrada_media": 283.5714,
+   "ic95_tokens_entrada_media": [
+    282.4512,
+    284.7387
+   ],
+   "tokens_entrada_max": 289,
+   "tokens_saida_max": 48,
+   "limite_tokens_entrada": 1000,
+   "limite_tokens_saida": 500,
+   "folga_tokens_entrada_max": 711,
+   "folga_tokens_saida_max": 452
+  },
+  {
+   "etapa": "filtro_pii",
+   "n": 18,
+   "status": {
+    "ok": 18
+   },
+   "latencia_p50_s": 0.0004,
+   "latencia_p95_s": 0.0005,
+   "ic95_latencia_p95_s": [
+    0.0005,
+    0.0005
+   ],
+   "latencia_max_s": 0.0005,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.4995,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "laudo_isolamento_escopo",
+   "n": 42,
+   "status": {
+    "ok": 42
+   },
+   "latencia_p50_s": 0.001,
+   "latencia_p95_s": 0.0014,
+   "ic95_latencia_p95_s": [
+    0.0014,
+    0.0016
+   ],
+   "latencia_max_s": 0.0016,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.4986,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "organizacao_texto_corrido",
+   "n": 18,
+   "status": {
+    "ok": 18
+   },
+   "latencia_p50_s": 0.0002,
+   "latencia_p95_s": 0.001,
+   "ic95_latencia_p95_s": [
+    0.0008,
+    0.0013
+   ],
+   "latencia_max_s": 0.0013,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.499,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "perfil_pedagogico",
+   "n": 15,
+   "status": {
+    "ok": 15,
+    "nao_implementada": 3
+   },
+   "latencia_p50_s": 0.0012,
+   "latencia_p95_s": 0.0016,
+   "ic95_latencia_p95_s": [
+    0.0014,
+    0.0017
+   ],
+   "latencia_max_s": 0.0017,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.4984,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "selecao_caracteristicas",
+   "n": 18,
+   "status": {
+    "ok": 18
+   },
+   "latencia_p50_s": 0.0016,
+   "latencia_p95_s": 0.0027,
+   "ic95_latencia_p95_s": [
+    0.0018,
+    0.0031
+   ],
+   "latencia_max_s": 0.0031,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.4973,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "upload_tamanho",
+   "n": 18,
+   "status": {
+    "ok": 18
+   },
+   "latencia_p50_s": 0.0,
+   "latencia_p95_s": 0.0,
+   "ic95_latencia_p95_s": [
+    0.0,
+    0.0
+   ],
+   "latencia_max_s": 0.0,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.5,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  },
+  {
+   "etapa": "validacao_conteudo",
+   "n": 18,
+   "status": {
+    "ok": 18
+   },
+   "latencia_p50_s": 0.0,
+   "latencia_p95_s": 0.0,
+   "ic95_latencia_p95_s": [
+    0.0,
+    0.0
+   ],
+   "latencia_max_s": 0.0,
+   "limite_latencia_p95_s": 0.5,
+   "folga_latencia_s": 0.5,
+   "tipo_portao_latencia": "informativo",
+   "fonte_limite": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+   "chamadas_modelo_por_questao_max": 0,
+   "limite_chamadas_por_questao": 0
+  }
+ ],
+ "por_material": [
+  {
+   "material_id": "M1-ciencias-docx",
+   "run_id": "20261112-154323-eco-M1-ciencias-docx",
+   "nivel": 2,
+   "n_questoes": 2,
+   "palavras": 100,
+   "dentro_da_atividade_padrao": true,
+   "latencia": {
+    "medido_s": 1.6314,
+    "limite_s": 40.0,
+    "folga_s": 38.3686,
+    "tipo_portao": "informativo (eco)",
+    "fonte_limite": "RNF-07 literal"
+   },
+   "tokens_cadeia_grupo": {
+    "medido": 1319,
+    "projetado_5_questoes": 3298,
+    "limite_5_questoes": 8000,
+    "folga": 4702,
+    "tipo_portao": "duro",
+    "fonte_limite": "RNF-08 literal",
+    "unidade": "palavras contadas pelo eco (um modelo real conta mais tokens)"
+   },
+   "tokens_cadeia_com_arnes": {
+    "medido": 5642,
+    "projetado_5_questoes": 14105,
+    "limite_5_questoes": 8000,
+    "folga": -6105,
+    "tipo_portao": "alerta",
+    "nota": "inclui a diretiva do arnês (substituta do Estrategista, que não existe no commit)"
+   },
+   "tokens_estimados_modelo_real_5q": {
+    "cadeia_grupo": 6934,
+    "cadeia_com_arnes": 30560,
+    "limite": 8000,
+    "tipo_portao": "alerta",
+    "como": "entrada do eco x 1.96 (tokens reais por palavra, medido no Adaptador cb2a510); saída = mediana real do Extrator e do Adaptador no nível; diretiva = teto max_tokens 500"
+   },
+   "chamadas_modelo": {
+    "medido": 6,
+    "do_grupo": 4,
+    "do_arnes": 2,
+    "projetado_5_questoes": 15,
+    "limite_5_questoes": 15,
+    "por_questao_max": 3,
+    "limite_por_questao": 3,
+    "fonte_limite": "proposta da bancada, a confirmar com o grupo",
+    "tipo_portao": "duro"
+   },
+   "custo_usd_por_modelo": {
+    "eco-stub-deterministico": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "llama3.1:8b": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "llama3:latest": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "gpt-oss-20b": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "claude-haiku-5.5": {
+     "medido_tokens_eco_usd": 0.000633,
+     "estimado_modelo_real_5q_usd": 0.004536
+    },
+    "claude-haiku-4.5": {
+     "medido_tokens_eco_usd": 0.006326,
+     "estimado_modelo_real_5q_usd": 0.04536
+    },
+    "claude-sonnet-5.5": {
+     "medido_tokens_eco_usd": 0.012652,
+     "estimado_modelo_real_5q_usd": 0.09072
+    }
+   },
+   "custo_referencia": {
+    "modelo": "claude-haiku-5.5",
+    "estimado_5q_usd": 0.004536,
+    "limite_usd": 0.01,
+    "folga_usd": 0.005464,
+    "tipo_portao": "alerta",
+    "fonte_limite": "proposta da bancada, a confirmar com o grupo"
+   },
+   "ciclo_rnf07_do_grupo": [
+    {
+     "questao": "q_1",
+     "total_ms": 4.18,
+     "limite_ms": 40000.0,
+     "dentro_do_limite": true
+    },
+    {
+     "questao": "q_2",
+     "total_ms": 3.56,
+     "limite_ms": 40000.0,
+     "dentro_do_limite": true
+    }
+   ],
+   "nota_ciclo_rnf07": "o resumir_ciclo do grupo compara UMA questão (2 chamadas) com o teto que o RNF-07 dá para a atividade inteira (até 5 questões); a bancada soma o material todo",
+   "estouros": [
+    {
+     "onde": "material:M1-ciencias-docx",
+     "medida": "tokens_cadeia_com_arnes_5q",
+     "medido": 14105,
+     "limite": 8000,
+     "tipo": "alerta"
+    },
+    {
+     "onde": "material:M1-ciencias-docx",
+     "medida": "tokens_modelo_real_com_arnes_5q",
+     "medido": 30560,
+     "limite": 8000,
+     "tipo": "alerta"
+    }
+   ]
+  },
+  {
+   "material_id": "M2-matematica-pdf",
+   "run_id": "20261112-154323-eco-M2-matematica-pdf",
+   "nivel": 2,
+   "n_questoes": 2,
+   "palavras": 52,
+   "dentro_da_atividade_padrao": true,
+   "latencia": {
+    "medido_s": 0.0661,
+    "limite_s": 40.0,
+    "folga_s": 39.9339,
+    "tipo_portao": "informativo (eco)",
+    "fonte_limite": "RNF-07 literal"
+   },
+   "tokens_cadeia_grupo": {
+    "medido": 1329,
+    "projetado_5_questoes": 3322,
+    "limite_5_questoes": 8000,
+    "folga": 4678,
+    "tipo_portao": "duro",
+    "fonte_limite": "RNF-08 literal",
+    "unidade": "palavras contadas pelo eco (um modelo real conta mais tokens)"
+   },
+   "tokens_cadeia_com_arnes": {
+    "medido": 5714,
+    "projetado_5_questoes": 14285,
+    "limite_5_questoes": 8000,
+    "folga": -6285,
+    "tipo_portao": "alerta",
+    "nota": "inclui a diretiva do arnês (substituta do Estrategista, que não existe no commit)"
+   },
+   "tokens_estimados_modelo_real_5q": {
+    "cadeia_grupo": 6964,
+    "cadeia_com_arnes": 30894,
+    "limite": 8000,
+    "tipo_portao": "alerta",
+    "como": "entrada do eco x 1.96 (tokens reais por palavra, medido no Adaptador cb2a510); saída = mediana real do Extrator e do Adaptador no nível; diretiva = teto max_tokens 500"
+   },
+   "chamadas_modelo": {
+    "medido": 6,
+    "do_grupo": 4,
+    "do_arnes": 2,
+    "projetado_5_questoes": 15,
+    "limite_5_questoes": 15,
+    "por_questao_max": 3,
+    "limite_por_questao": 3,
+    "fonte_limite": "proposta da bancada, a confirmar com o grupo",
+    "tipo_portao": "duro"
+   },
+   "custo_usd_por_modelo": {
+    "eco-stub-deterministico": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "llama3.1:8b": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "llama3:latest": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "gpt-oss-20b": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "claude-haiku-5.5": {
+     "medido_tokens_eco_usd": 0.000641,
+     "estimado_modelo_real_5q_usd": 0.004569
+    },
+    "claude-haiku-4.5": {
+     "medido_tokens_eco_usd": 0.006414,
+     "estimado_modelo_real_5q_usd": 0.045694
+    },
+    "claude-sonnet-5.5": {
+     "medido_tokens_eco_usd": 0.012828,
+     "estimado_modelo_real_5q_usd": 0.091388
+    }
+   },
+   "custo_referencia": {
+    "modelo": "claude-haiku-5.5",
+    "estimado_5q_usd": 0.004569,
+    "limite_usd": 0.01,
+    "folga_usd": 0.005431,
+    "tipo_portao": "alerta",
+    "fonte_limite": "proposta da bancada, a confirmar com o grupo"
+   },
+   "ciclo_rnf07_do_grupo": [
+    {
+     "questao": "q_1",
+     "total_ms": 5.25,
+     "limite_ms": 40000.0,
+     "dentro_do_limite": true
+    },
+    {
+     "questao": "q_2",
+     "total_ms": 2.93,
+     "limite_ms": 40000.0,
+     "dentro_do_limite": true
+    }
+   ],
+   "nota_ciclo_rnf07": "o resumir_ciclo do grupo compara UMA questão (2 chamadas) com o teto que o RNF-07 dá para a atividade inteira (até 5 questões); a bancada soma o material todo",
+   "estouros": [
+    {
+     "onde": "material:M2-matematica-pdf",
+     "medida": "tokens_cadeia_com_arnes_5q",
+     "medido": 14285,
+     "limite": 8000,
+     "tipo": "alerta"
+    },
+    {
+     "onde": "material:M2-matematica-pdf",
+     "medida": "tokens_modelo_real_com_arnes_5q",
+     "medido": 30894,
+     "limite": 8000,
+     "tipo": "alerta"
+    }
+   ]
+  },
+  {
+   "material_id": "M3-historia-txt",
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "nivel": 2,
+   "n_questoes": 3,
+   "palavras": 76,
+   "dentro_da_atividade_padrao": true,
+   "latencia": {
+    "medido_s": 0.084,
+    "limite_s": 40.0,
+    "folga_s": 39.916,
+    "tipo_portao": "informativo (eco)",
+    "fonte_limite": "RNF-07 literal"
+   },
+   "tokens_cadeia_grupo": {
+    "medido": 2006,
+    "projetado_5_questoes": 3343,
+    "limite_5_questoes": 8000,
+    "folga": 4657,
+    "tipo_portao": "duro",
+    "fonte_limite": "RNF-08 literal",
+    "unidade": "palavras contadas pelo eco (um modelo real conta mais tokens)"
+   },
+   "tokens_cadeia_com_arnes": {
+    "medido": 8633,
+    "projetado_5_questoes": 14388,
+    "limite_5_questoes": 8000,
+    "folga": -6388,
+    "tipo_portao": "alerta",
+    "nota": "inclui a diretiva do arnês (substituta do Estrategista, que não existe no commit)"
+   },
+   "tokens_estimados_modelo_real_5q": {
+    "cadeia_grupo": 7013,
+    "cadeia_com_arnes": 31105,
+    "limite": 8000,
+    "tipo_portao": "alerta",
+    "como": "entrada do eco x 1.96 (tokens reais por palavra, medido no Adaptador cb2a510); saída = mediana real do Extrator e do Adaptador no nível; diretiva = teto max_tokens 500"
+   },
+   "chamadas_modelo": {
+    "medido": 9,
+    "do_grupo": 6,
+    "do_arnes": 3,
+    "projetado_5_questoes": 15,
+    "limite_5_questoes": 15,
+    "por_questao_max": 3,
+    "limite_por_questao": 3,
+    "fonte_limite": "proposta da bancada, a confirmar com o grupo",
+    "tipo_portao": "duro"
+   },
+   "custo_usd_por_modelo": {
+    "eco-stub-deterministico": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "llama3.1:8b": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "llama3:latest": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "gpt-oss-20b": {
+     "medido_tokens_eco_usd": 0.0,
+     "estimado_modelo_real_5q_usd": 0.0
+    },
+    "claude-haiku-5.5": {
+     "medido_tokens_eco_usd": 0.000967,
+     "estimado_modelo_real_5q_usd": 0.004591
+    },
+    "claude-haiku-4.5": {
+     "medido_tokens_eco_usd": 0.009673,
+     "estimado_modelo_real_5q_usd": 0.045905
+    },
+    "claude-sonnet-5.5": {
+     "medido_tokens_eco_usd": 0.019346,
+     "estimado_modelo_real_5q_usd": 0.09181
+    }
+   },
+   "custo_referencia": {
+    "modelo": "claude-haiku-5.5",
+    "estimado_5q_usd": 0.004591,
+    "limite_usd": 0.01,
+    "folga_usd": 0.005409,
+    "tipo_portao": "alerta",
+    "fonte_limite": "proposta da bancada, a confirmar com o grupo"
+   },
+   "ciclo_rnf07_do_grupo": [
+    {
+     "questao": "q_1",
+     "total_ms": 3.21,
+     "limite_ms": 40000.0,
+     "dentro_do_limite": true
+    },
+    {
+     "questao": "q_2",
+     "total_ms": 3.23,
+     "limite_ms": 40000.0,
+     "dentro_do_limite": true
+    },
+    {
+     "questao": "q_3",
+     "total_ms": 4.35,
+     "limite_ms": 40000.0,
+     "dentro_do_limite": true
+    }
+   ],
+   "nota_ciclo_rnf07": "o resumir_ciclo do grupo compara UMA questão (2 chamadas) com o teto que o RNF-07 dá para a atividade inteira (até 5 questões); a bancada soma o material todo",
+   "estouros": [
+    {
+     "onde": "material:M3-historia-txt",
+     "medida": "tokens_cadeia_com_arnes_5q",
+     "medido": 14388,
+     "limite": 8000,
+     "tipo": "alerta"
+    },
+    {
+     "onde": "material:M3-historia-txt",
+     "medida": "tokens_modelo_real_com_arnes_5q",
+     "medido": 31105,
+     "limite": 8000,
+     "tipo": "alerta"
+    }
+   ]
+  }
+ ],
+ "por_questao": {
+  "n": 42,
+  "rodadas": 18,
+  "tokens_cadeia_grupo": {
+   "media": 664.8571,
+   "ic95_media": [
+    661.9012,
+    667.9292
+   ],
+   "limite": 1600,
+   "fracao_dentro": 1.0,
+   "ic95_fracao_wilson": [
+    0.9162,
+    1.0
+   ]
+  },
+  "tokens_com_arnes": {
+   "media": 2855.5714,
+   "ic95_media": [
+    2839.8982,
+    2869.3423
+   ],
+   "limite": 1600,
+   "fracao_dentro": 0.0,
+   "ic95_fracao_wilson": [
+    0.0,
+    0.0838
+   ]
+  },
+  "latencia_s": {
+   "media": 0.2589,
+   "ic95_media": [
+    0.1049,
+    0.4479
+   ],
+   "p95": 1.6512,
+   "tipo_portao": "informativo (eco)"
+  },
+  "adversariais_chamadas": {
+   "n_questoes": 56,
+   "max": 3,
+   "limite": 3,
+   "fracao_dentro": 1.0,
+   "ic95_fracao_wilson": [
+    0.9358,
+    1.0
+   ]
+  }
+ },
+ "projecao_modelo_real": {
+  "aviso": "projeção, não medição: soma medições reais feitas em momentos e máquinas diferentes, supondo chamadas em sequência (uma questão depois da outra, como no código do grupo hoje)",
+  "maquina_das_medicoes_de_modelo": "PC do grupo com Ollama (a mesma do cb2a510); tempo de modelo na VPS não foi medido",
+  "medicoes": {
+   "adaptador_llama3.1_8b": {
+    "fonte": "grupo reports/adaptador_com_modelo.json (cb2a510)",
+    "n_por_nivel": {
+     "1": 30,
+     "2": 30,
+     "3": 30
+    },
+    "mediana_s_por_nivel": {
+     "1": 5.1,
+     "2": 5.13,
+     "3": 6.78
+    },
+    "max_s_por_nivel": {
+     "1": 6.6,
+     "2": 9.72,
+     "3": 16.22
+    }
+   },
+   "extrator_llama3": {
+    "fonte": "grupo reports/extractor_telemetry.jsonl (1db2dd8)",
+    "n": 30,
+    "mediana_s": 6.74,
+    "max_s": 8.52
+   },
+   "busca": {
+    "fonte": "pacote/outputs/23-custo.json (qwen3 + bge-m3, PC RTX)",
+    "mediana_s": 0.47
+   },
+   "etapas_sem_modelo": {
+    "fonte": "pacote/reports/pipeline/*.jsonl (VPS, código do grupo)",
+    "n_questoes": 42,
+    "mediana_s_por_questao": 0.0012
+   },
+   "diretiva_estimada": {
+    "tokens_entrada_estimados": 4350,
+    "tokens_saida_teto": 500,
+    "leitura_tokens_por_s": 2629.9,
+    "geracao_tokens_por_s": 22.8,
+    "segundos": 23.63,
+    "nota": "não há medição real do Estrategista; é conta a partir das velocidades medidas"
+   },
+   "fator_tokens_reais_por_palavra_eco": 1.964
+  },
+  "cenarios": {
+   "grupo_hoje": "Extrator + Adaptador (o que existe no commit do grupo)",
+   "com_estrategista": "Extrator + diretiva/Estrategista (prompt do RAG, até 500 tokens de saída) + Adaptador",
+   "completo_com_auditor": "como 'com_estrategista' + Auditor (hipótese: custa como mais uma chamada do Adaptador)"
+  },
+  "n_simulacoes": 20000,
+  "reamostras_ic": 200,
+  "semente": 20261112,
+  "resultado": [
+   {
+    "nivel": 1,
+    "n_questoes": 1,
+    "cenario": "grupo_hoje",
+    "limite_s": 15.0,
+    "p50_s": 12.43,
+    "p95_s": 14.27,
+    "ic95_p95_s": [
+     13.69,
+     14.85
+    ],
+    "folga_p95_s": 0.73,
+    "fracao_simulacoes_dentro": 0.9885,
+    "veredito_projetado": "dentro do RNF-07"
+   },
+   {
+    "nivel": 1,
+    "n_questoes": 1,
+    "cenario": "com_estrategista",
+    "limite_s": 15.0,
+    "p50_s": 36.07,
+    "p95_s": 37.92,
+    "ic95_p95_s": [
+     37.29,
+     38.44
+    ],
+    "folga_p95_s": -22.92,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 1,
+    "n_questoes": 1,
+    "cenario": "completo_com_auditor",
+    "limite_s": 15.0,
+    "p50_s": 41.22,
+    "p95_s": 43.5,
+    "ic95_p95_s": [
+     42.65,
+     44.04
+    ],
+    "folga_p95_s": -28.5,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 1,
+    "n_questoes": 5,
+    "cenario": "grupo_hoje",
+    "limite_s": 15.0,
+    "p50_s": 62.16,
+    "p95_s": 66.29,
+    "ic95_p95_s": [
+     64.04,
+     68.15
+    ],
+    "folga_p95_s": -51.29,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 1,
+    "n_questoes": 5,
+    "cenario": "com_estrategista",
+    "limite_s": 15.0,
+    "p50_s": 180.28,
+    "p95_s": 184.39,
+    "ic95_p95_s": [
+     182.25,
+     186.56
+    ],
+    "folga_p95_s": -169.39,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 1,
+    "n_questoes": 5,
+    "cenario": "completo_com_auditor",
+    "limite_s": 15.0,
+    "p50_s": 206.3,
+    "p95_s": 211.31,
+    "ic95_p95_s": [
+     208.43,
+     214.61
+    ],
+    "folga_p95_s": -196.31,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 2,
+    "n_questoes": 1,
+    "cenario": "grupo_hoje",
+    "limite_s": 40.0,
+    "p50_s": 12.56,
+    "p95_s": 16.4,
+    "ic95_p95_s": [
+     14.71,
+     17.46
+    ],
+    "folga_p95_s": 23.6,
+    "fracao_simulacoes_dentro": 1.0,
+    "veredito_projetado": "dentro do RNF-07"
+   },
+   {
+    "nivel": 2,
+    "n_questoes": 1,
+    "cenario": "com_estrategista",
+    "limite_s": 40.0,
+    "p50_s": 36.19,
+    "p95_s": 40.02,
+    "ic95_p95_s": [
+     38.46,
+     41.05
+    ],
+    "folga_p95_s": -0.02,
+    "fracao_simulacoes_dentro": 0.9478,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 2,
+    "n_questoes": 1,
+    "cenario": "completo_com_auditor",
+    "limite_s": 40.0,
+    "p50_s": 41.77,
+    "p95_s": 46.39,
+    "ic95_p95_s": [
+     44.64,
+     48.02
+    ],
+    "folga_p95_s": -6.39,
+    "fracao_simulacoes_dentro": 0.1928,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 2,
+    "n_questoes": 5,
+    "cenario": "grupo_hoje",
+    "limite_s": 40.0,
+    "p50_s": 64.01,
+    "p95_s": 71.17,
+    "ic95_p95_s": [
+     66.27,
+     76.01
+    ],
+    "folga_p95_s": -31.17,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 2,
+    "n_questoes": 5,
+    "cenario": "com_estrategista",
+    "limite_s": 40.0,
+    "p50_s": 182.16,
+    "p95_s": 189.26,
+    "ic95_p95_s": [
+     184.32,
+     193.76
+    ],
+    "folga_p95_s": -149.26,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 2,
+    "n_questoes": 5,
+    "cenario": "completo_com_auditor",
+    "limite_s": 40.0,
+    "p50_s": 210.11,
+    "p95_s": 219.34,
+    "ic95_p95_s": [
+     211.94,
+     225.68
+    ],
+    "folga_p95_s": -179.34,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 3,
+    "n_questoes": 1,
+    "cenario": "grupo_hoje",
+    "limite_s": 40.0,
+    "p50_s": 14.04,
+    "p95_s": 16.62,
+    "ic95_p95_s": [
+     15.53,
+     23.54
+    ],
+    "folga_p95_s": 23.38,
+    "fracao_simulacoes_dentro": 1.0,
+    "veredito_projetado": "dentro do RNF-07"
+   },
+   {
+    "nivel": 3,
+    "n_questoes": 1,
+    "cenario": "com_estrategista",
+    "limite_s": 40.0,
+    "p50_s": 37.67,
+    "p95_s": 40.32,
+    "ic95_p95_s": [
+     39.19,
+     47.42
+    ],
+    "folga_p95_s": -0.32,
+    "fracao_simulacoes_dentro": 0.9344,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 3,
+    "n_questoes": 1,
+    "cenario": "completo_com_auditor",
+    "limite_s": 40.0,
+    "p50_s": 44.54,
+    "p95_s": 53.01,
+    "ic95_p95_s": [
+     46.31,
+     55.17
+    ],
+    "folga_p95_s": -13.01,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 3,
+    "n_questoes": 5,
+    "cenario": "grupo_hoje",
+    "limite_s": 40.0,
+    "p50_s": 70.74,
+    "p95_s": 81.1,
+    "ic95_p95_s": [
+     72.88,
+     87.5
+    ],
+    "folga_p95_s": -41.1,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 3,
+    "n_questoes": 5,
+    "cenario": "com_estrategista",
+    "limite_s": 40.0,
+    "p50_s": 188.88,
+    "p95_s": 199.28,
+    "ic95_p95_s": [
+     190.6,
+     206.11
+    ],
+    "folga_p95_s": -159.28,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   },
+   {
+    "nivel": 3,
+    "n_questoes": 5,
+    "cenario": "completo_com_auditor",
+    "limite_s": 40.0,
+    "p50_s": 223.83,
+    "p95_s": 236.91,
+    "ic95_p95_s": [
+     224.27,
+     249.42
+    ],
+    "folga_p95_s": -196.91,
+    "fracao_simulacoes_dentro": 0.0,
+    "veredito_projetado": "estoura o RNF-07"
+   }
+  ]
+ },
+ "estouros": [
+  {
+   "onde": "etapa:busca_rag",
+   "medida": "latencia_p95_s",
+   "medido": 1.6436,
+   "limite": 1.0,
+   "tipo": "informativo",
+   "nota": "tempo medido na VPS com eco: só informa"
+  },
+  {
+   "onde": "material:M1-ciencias-docx",
+   "medida": "tokens_cadeia_com_arnes_5q",
+   "medido": 14105,
+   "limite": 8000,
+   "tipo": "alerta"
+  },
+  {
+   "onde": "material:M1-ciencias-docx",
+   "medida": "tokens_modelo_real_com_arnes_5q",
+   "medido": 30560,
+   "limite": 8000,
+   "tipo": "alerta"
+  },
+  {
+   "onde": "material:M2-matematica-pdf",
+   "medida": "tokens_cadeia_com_arnes_5q",
+   "medido": 14285,
+   "limite": 8000,
+   "tipo": "alerta"
+  },
+  {
+   "onde": "material:M2-matematica-pdf",
+   "medida": "tokens_modelo_real_com_arnes_5q",
+   "medido": 30894,
+   "limite": 8000,
+   "tipo": "alerta"
+  },
+  {
+   "onde": "material:M3-historia-txt",
+   "medida": "tokens_cadeia_com_arnes_5q",
+   "medido": 14388,
+   "limite": 8000,
+   "tipo": "alerta"
+  },
+  {
+   "onde": "material:M3-historia-txt",
+   "medida": "tokens_modelo_real_com_arnes_5q",
+   "medido": 31105,
+   "limite": 8000,
+   "tipo": "alerta"
+  }
+ ]
+}

@@ -1,0 +1,284 @@
+{
+ "titulo": "métricas de RAG do grupo com a biblioteca RAGAS",
+ "gerado_em": "2026-11-12T21:02:39+00:00",
+ "commit_grupo": "65e1f09",
+ "ragas_versao": "0.4.3",
+ "credito": "funções do grupo: iris.eval.precisao_contexto (PR #68) e iris.eval.fidelidade_frases; a bancada só chama",
+ "precisao_contexto": {
+  "metrica": "ragas.metrics.IDBasedContextPrecision (via iris.eval.precisao_contexto.pontuar_ragas_por_id)",
+  "busca": "top-5 gravados da configuração padrão (qwen3+rerank) em outputs/17-respostas.jsonl",
+  "n": 38,
+  "media": 0.2789,
+  "ic95": [
+   0.2105,
+   0.3474
+  ],
+  "teto_medio": 0.8211,
+  "leitura": "fração dos 5 trechos recuperados que está no gabarito; o teto não é 1 porque muitas perguntas têm menos de 5 trechos certos",
+  "por_pergunta": [
+   {
+    "id": "Q01",
+    "precisao_ragas": 0.2,
+    "teto": 1.0,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q02",
+    "precisao_ragas": 0.4,
+    "teto": 1.0,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q03",
+    "precisao_ragas": 0.2,
+    "teto": 1.0,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q04",
+    "precisao_ragas": 0.0,
+    "teto": 0.4,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q05",
+    "precisao_ragas": 0.0,
+    "teto": 0.8,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q06",
+    "precisao_ragas": 0.0,
+    "teto": 0.4,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q07",
+    "precisao_ragas": 0.0,
+    "teto": 1.0,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q08",
+    "precisao_ragas": 0.2,
+    "teto": 1.0,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q09",
+    "precisao_ragas": 0.4,
+    "teto": 0.6,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q10",
+    "precisao_ragas": 0.0,
+    "teto": 0.8,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q11",
+    "precisao_ragas": 0.2,
+    "teto": 1.0,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q12",
+    "precisao_ragas": 0.2,
+    "teto": 0.2,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q13",
+    "precisao_ragas": 0.4,
+    "teto": 1.0,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q14",
+    "precisao_ragas": 0.4,
+    "teto": 1.0,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q15",
+    "precisao_ragas": 0.4,
+    "teto": 1.0,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q16",
+    "precisao_ragas": 0.4,
+    "teto": 0.8,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q17",
+    "precisao_ragas": 0.6,
+    "teto": 1.0,
+    "acertos_no_top5": 3
+   },
+   {
+    "id": "Q18",
+    "precisao_ragas": 0.2,
+    "teto": 1.0,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q19",
+    "precisao_ragas": 0.8,
+    "teto": 1.0,
+    "acertos_no_top5": 4
+   },
+   {
+    "id": "Q20",
+    "precisao_ragas": 0.2,
+    "teto": 0.8,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q21",
+    "precisao_ragas": 0.4,
+    "teto": 0.4,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q22",
+    "precisao_ragas": 0.2,
+    "teto": 0.2,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q23",
+    "precisao_ragas": 0.4,
+    "teto": 1.0,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q24",
+    "precisao_ragas": 0.8,
+    "teto": 1.0,
+    "acertos_no_top5": 4
+   },
+   {
+    "id": "Q25",
+    "precisao_ragas": 0.4,
+    "teto": 0.8,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q26",
+    "precisao_ragas": 0.2,
+    "teto": 0.8,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q27",
+    "precisao_ragas": 0.6,
+    "teto": 0.6,
+    "acertos_no_top5": 3
+   },
+   {
+    "id": "Q28",
+    "precisao_ragas": 0.0,
+    "teto": 1.0,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q29",
+    "precisao_ragas": 0.4,
+    "teto": 0.8,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q30",
+    "precisao_ragas": 0.0,
+    "teto": 1.0,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q31",
+    "precisao_ragas": 0.0,
+    "teto": 0.8,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q32",
+    "precisao_ragas": 0.0,
+    "teto": 0.8,
+    "acertos_no_top5": 0
+   },
+   {
+    "id": "Q33",
+    "precisao_ragas": 0.4,
+    "teto": 1.0,
+    "acertos_no_top5": 2
+   },
+   {
+    "id": "Q34",
+    "precisao_ragas": 0.2,
+    "teto": 1.0,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q35",
+    "precisao_ragas": 0.6,
+    "teto": 0.8,
+    "acertos_no_top5": 3
+   },
+   {
+    "id": "Q36",
+    "precisao_ragas": 0.2,
+    "teto": 0.8,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q37",
+    "precisao_ragas": 0.2,
+    "teto": 0.6,
+    "acertos_no_top5": 1
+   },
+   {
+    "id": "Q38",
+    "precisao_ragas": 0.4,
+    "teto": 1.0,
+    "acertos_no_top5": 2
+   }
+  ]
+ },
+ "fidelidade_por_frase": {
+  "metrica": "iris.eval.fidelidade_frases.medir (Faithfulness do RAGAS com a frase como unidade, vereditos versionados)",
+  "meta": 0.9,
+  "por_gerador": {
+   "haiku": {
+    "fidelidade_final": {
+     "media": 0.9048,
+     "ic95": [
+      0.8583333333333334,
+      0.9473684210526315
+     ],
+     "sustentadas": 170,
+     "frases_de_conteudo": 187,
+     "respostas": 38
+    },
+    "leitura": "não se distingue da meta",
+    "kappa_AxB": 0.699
+   },
+   "opus": {
+    "fidelidade_final": {
+     "media": 0.95,
+     "ic95": [
+      0.9219047619047619,
+      0.9780952380952381
+     ],
+     "sustentadas": 166,
+     "frases_de_conteudo": 175,
+     "respostas": 35
+    },
+    "leitura": "atinge a meta",
+    "kappa_AxB": 0.675
+   }
+  },
+  "aviso": "vereditos de juízes-modelo (Sonnet A, Sonnet B, Codex, Opus); não calibrados contra pessoas (ver 33-juiz-calibracao.json)"
+ }
+}

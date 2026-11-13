@@ -1,0 +1,154 @@
+{
+  "versao": "1",
+  "criado_em": "2026-11-12",
+  "commit_grupo_referencia": "65e1f09",
+  "como_ler": "Pense num orçamento de casa: cada gasto tem um teto. Aqui os 'gastos' de uma adaptação são tempo (segundos), tokens (pedaços de texto que o modelo lê e escreve), chamadas ao modelo e dólares. Cada teto diz de onde veio: 'RNF-07 literal' ou 'RNF-08 literal' quando está escrito no documento do grupo; 'derivado do RNF-xx' quando é a conta do teto dividido pelas 5 questões; 'proposta da bancada, a confirmar com o grupo' quando o grupo não escreveu número nenhum. 'tipo_portao' diz se um estouro reprova ('duro') ou só avisa ('alerta'); o tempo é sempre 'informativo' com o provedor eco, porque o eco não gasta tempo de modelo.",
+  "fontes": {
+    "RNF-07": {
+      "arquivo": "docs/requisitos_nao_funcionais.md (clone do grupo, 65e1f09)",
+      "descricao_literal": "O processamento completo de uma atividade didática padrão (composta por até 5 questões ou até 1.500 palavras) pelo pipeline multiagentes não deve exceder os limites operacionais toleráveis em ambiente docente.",
+      "criterio_literal": [
+        "Adaptação em Nível 1: Tempo total de resposta <= 15 segundos.",
+        "Adaptação em Níveis 2 e 3 (com orquestração completa e auditoria): Tempo total <= 40 segundos para requisições síncronas."
+      ],
+      "validacao_literal": "Testes de carga e medição de latência ponta a ponta na API."
+    },
+    "RNF-08": {
+      "arquivo": "docs/requisitos_nao_funcionais.md (clone do grupo, 65e1f09)",
+      "criterio_literal": "O volume de tokens consumidos em cada ciclo de adaptação de 5 questões não deve exceder 8.000 tokens no total da cadeia de agentes.",
+      "validacao_literal": "Telemetria de consumo de tokens por ciclo de geração."
+    },
+    "codigo_limite_latencia": "backend/src/iris/schemas/adaptation.py: LIMITE_LATENCIA_MS = {1: 15000, 2: 40000, 3: 40000}; usado por iris.agents.adapter_agent:resumir_ciclo (etapa ciclo_rnf07 do arnês)",
+    "codigo_max_tokens": "iris.agents.curriculum_extractor:CurriculumExtractorAgent(max_tokens=500); iris.agents.adapter_agent:AdapterAgent(max_tokens=900); arnês da bancada: diretiva substituta com max_tokens=500"
+  },
+  "atividade_padrao": {
+    "max_questoes": 5,
+    "max_palavras": 1500,
+    "fonte": "RNF-07 literal"
+  },
+  "tabela_precos": {
+    "unidade": "US$ por milhão de tokens (entrada / saída), preço de lista, sem desconto de lote nem cache",
+    "data_consulta": "2026-11-12",
+    "fontes": [
+      "https://platform.claude.com/docs/en/about-claude/pricing (página oficial da Anthropic, consultada em 2026-11-12)",
+      "https://models.litellm.ai/providers/anthropic (tabela aberta do LiteLLM, 'Prices updated November 12, 2026')",
+      "pacote/bancada_checks.py da bancada: PRECO_HAIKU = 0.10 / 0.50 (11/2026), o mesmo usado no 23-custo"
+    ],
+    "observacao": "Os modelos locais (Ollama no PC) custam 0 em dólar: o custo real deles é energia e tempo de GPU, que não entram aqui. O eco custa 0 porque não é modelo.",
+    "modelos": {
+      "eco-stub-deterministico": {"entrada": 0.0, "saida": 0.0, "local": true, "fonte": "provedor determinístico do arnês (trace.py), sem custo"},
+      "llama3.1:8b": {"entrada": 0.0, "saida": 0.0, "local": true, "fonte": "modelo local via Ollama (medição cb2a510 do grupo)"},
+      "llama3:latest": {"entrada": 0.0, "saida": 0.0, "local": true, "fonte": "modelo local via Ollama (telemetria do Extrator, 1db2dd8 do grupo)"},
+      "gpt-oss-20b": {"entrada": 0.0, "saida": 0.0, "local": true, "fonte": "modelo local via Ollama (juiz local do 23-custo)"},
+      "claude-haiku-5.5": {"entrada": 0.10, "saida": 0.50, "local": false, "fonte": "Anthropic, preço para prompts de até 100 mil tokens; acima disso as tarifas são 5x maiores"},
+      "claude-haiku-4.5": {"entrada": 1.00, "saida": 5.00, "local": false, "fonte": "Anthropic, preço de lista"},
+      "claude-sonnet-5.5": {"entrada": 2.00, "saida": 10.00, "local": false, "fonte": "Anthropic, preço de lista"}
+    }
+  },
+  "limites_por_adaptacao": {
+    "latencia_total_s": {
+      "nivel_1": 15.0,
+      "nivel_2": 40.0,
+      "nivel_3": 40.0,
+      "medida": "soma do tempo de todas as etapas de uma atividade de até 5 questões (ponta a ponta)",
+      "fonte": "RNF-07 literal",
+      "tipo_portao": "duro com modelo real no PC; informativo com o provedor eco"
+    },
+    "tokens_total_cadeia": {
+      "max": 8000,
+      "medida": "tokens de entrada + saída de todas as chamadas ao modelo, numa atividade de 5 questões",
+      "fonte": "RNF-08 literal",
+      "etapas_do_grupo_com_modelo": ["extrator_curricular", "agente_adaptador"],
+      "etapas_do_arnes_com_modelo": ["diretiva_substituta_arnes"],
+      "tipo_portao": "duro só para a cadeia do grupo (extrator + adaptador), medida no rastro; alerta para a cadeia com a diretiva do arnês (ensaio do Estrategista que ainda não existe) e para a projeção com tokens de modelo real",
+      "cuidado": "o eco conta 'tokens' como palavras separadas por espaço; um modelo real conta mais (a projeção usa o fator medido no Adaptador do grupo)"
+    },
+    "chamadas_modelo": {
+      "max": 15,
+      "medida": "número de chamadas ao modelo numa atividade de 5 questões (3 por questão: extrator, estrategista, adaptador)",
+      "fonte": "proposta da bancada, a confirmar com o grupo",
+      "tipo_portao": "duro"
+    },
+    "custo_usd": {
+      "max": 0.01,
+      "medida": "custo em dólar de uma atividade de 5 questões, com o modelo de API mais barato da tabela (claude-haiku-5.5); modelo local = 0",
+      "fonte": "proposta da bancada, a confirmar com o grupo",
+      "tipo_portao": "alerta"
+    }
+  },
+  "limites_por_questao": {
+    "latencia_s": {
+      "nivel_1": 3.0,
+      "nivel_2": 8.0,
+      "nivel_3": 8.0,
+      "fonte": "derivado do RNF-07 (teto da atividade dividido por 5 questões)",
+      "tipo_portao": "informativo"
+    },
+    "tokens_total": {
+      "max": 1600,
+      "fonte": "derivado do RNF-08 (8.000 / 5 questões)",
+      "tipo_portao": "alerta"
+    },
+    "chamadas_modelo": {
+      "max": 3,
+      "fonte": "proposta da bancada, a confirmar com o grupo",
+      "tipo_portao": "duro"
+    }
+  },
+  "limites_por_etapa": {
+    "_padrao_deterministica": {
+      "latencia_p95_s": 0.5,
+      "chamadas_modelo_por_questao": 0,
+      "fonte": "proposta da bancada, a confirmar com o grupo (etapas sem modelo: código Python puro)",
+      "tipo_portao_latencia": "informativo"
+    },
+    "busca_rag": {
+      "latencia_p95_s": 1.0,
+      "chamadas_modelo_por_questao": 0,
+      "fonte": "proposta da bancada, a confirmar com o grupo (23-custo: busca qwen3 + bge-m3 no PC = 0,47 s de mediana; a 1ª busca do processo carrega o índice e é mais lenta)",
+      "tipo_portao_latencia": "informativo"
+    },
+    "extrator_curricular": {
+      "latencia_p95_s": 8.0,
+      "tokens_entrada_max": 1000,
+      "tokens_saida_max": 500,
+      "chamadas_modelo_por_questao": 1,
+      "fonte": "proposta da bancada, a confirmar com o grupo (telemetria real do grupo com llama3: 0,9 mil tokens de entrada; saída limitada por max_tokens=500 no código)",
+      "tipo_portao_latencia": "informativo",
+      "tipo_portao_tokens": "alerta"
+    },
+    "diretiva_substituta_arnes": {
+      "latencia_p95_s": 8.0,
+      "tokens_entrada_max": 4000,
+      "tokens_saida_max": 500,
+      "chamadas_modelo_por_questao": 1,
+      "fonte": "proposta da bancada, a confirmar com o grupo. Esta etapa é do ARNÊS (substitui o Agente Estrategista, que não existe no 65e1f09); serve de ensaio do custo que o estrategista vai ter",
+      "tipo_portao_latencia": "informativo",
+      "tipo_portao_tokens": "alerta"
+    },
+    "agente_adaptador": {
+      "latencia_p95_s": 8.0,
+      "tokens_entrada_max": 1000,
+      "tokens_saida_max": 900,
+      "chamadas_modelo_por_questao": 1,
+      "fonte": "proposta da bancada, a confirmar com o grupo (medição cb2a510 do grupo: p90 de 6,3 a 8,1 s; saída limitada por max_tokens=900 no código)",
+      "tipo_portao_latencia": "informativo",
+      "tipo_portao_tokens": "alerta"
+    },
+    "ciclo_rnf07": {
+      "observacao": "Não tem limite próprio: é a etapa em que o código do grupo (resumir_ciclo) compara a soma de UMA questão com o teto da atividade inteira. A conferência anota quando isso é mais frouxo que o RNF-07 (o teto vale para até 5 questões juntas).",
+      "fonte": "RNF-07 literal (via LIMITE_LATENCIA_MS do grupo)"
+    }
+  },
+  "projecao_modelo_real": {
+    "medicoes_usadas": [
+      "clone do grupo reports/adaptador_com_modelo.json (cb2a510, 'resultado da medicao com llama3.1:8b'): 90 chamadas do Adaptador, 30 por nível",
+      "clone do grupo reports/extractor_telemetry.jsonl (1db2dd8, llama3:latest): 30 chamadas do Extrator",
+      "pacote/outputs/23-custo.json da bancada: latência da busca qwen3 + bge-m3 no PC RTX",
+      "pacote/reports/pipeline/*.jsonl: tempo real das etapas determinísticas (código Python do grupo na VPS)"
+    ],
+    "simulacoes": 20000,
+    "reamostras_ic": 200,
+    "semente": 20261112
+  }
+}
