@@ -4,39 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Íris — Bancada de Auditoria RAG e Evidências Pedagógicas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --ink: #0D0221;
-      --ink-soft: #312547;
-      --muted: #5F5475;
-      --paper: #FAF8FC;
-      --surface: #FFFFFF;
-      --wash: #F2ECF5;
-      --wash-strong: #E7DDEE;
-      --hairline: #DED5E8;
-      --hairline-strong: #C3B5D3;
-      --teal: #24535E;
-      --teal-soft: #EBF3F5;
-      --vermilion: #C93E22;
-      --vermilion-soft: #FDF0EC;
-      --moss: #1A6B42;
-      --moss-soft: #EAF6EF;
-      --ochre: #8C5200;
-      --ochre-soft: #FEF7E7;
-      --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-      --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-      --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      --rail: #143d40;
+      --rail-elevated: #1b4d50;
+      --rail-active: #236165;
+      --rail-border: #26595d;
+      --rail-ink: #edf2f2;
+      --rail-muted: #9ec5c7;
+
+      --ink: #132325;
+      --ink-soft: #2a3e40;
+      --muted: #4b6163;
+      --paper: #eef3f3;
+      --surface: #ffffff;
+      --wash: #e4ecec;
+      --wash-strong: #d4e0e0;
+      --hairline: #d1dddd;
+      --hairline-strong: #b6c7c7;
+
+      --teal: #143d40;
+      --teal-soft: #eaf2f2;
+      --vermilion: #b83523;
+      --vermilion-hover: #9e2a1a;
+      --vermilion-soft: #fbeae7;
+      --moss: #156f4e;
+      --moss-soft: #e8f5f0;
+      --ochre: #9e5b08;
+      --ochre-soft: #fef5e7;
+
+      --font-sans: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-prose: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
     }
 
     * { box-sizing: border-box; }
+
+    ::selection {
+      background: var(--vermilion);
+      color: #ffffff;
+    }
+
+    html {
+      scrollbar-color: var(--hairline-strong) var(--paper);
+    }
 
     body {
       margin: 0;
       background: var(--paper);
       color: var(--ink);
       font-family: var(--font-sans);
-      font-size: 15px;
+      font-size: 14.5px;
       line-height: 1.55;
+      caret-color: var(--vermilion);
       -webkit-font-smoothing: antialiased;
     }
 
@@ -52,124 +75,161 @@
       outline-offset: 2px;
     }
 
-    /* Masthead — assinatura visual Íris em Midnight Violet */
-    .masthead {
-      background: var(--ink);
-      color: #FFFFFF;
-      padding: 1.25rem 1.75rem 1.15rem;
-      border-bottom: 3px solid var(--vermilion);
+    /* Layout Cartografia de Campo: Trilho Lateral Fixo + Área de Trabalho */
+    .app-shell {
+      display: grid;
+      grid-template-columns: 268px minmax(0, 1fr);
+      min-height: 100vh;
     }
-    .masthead-inner {
-      max-width: 1360px;
-      margin: 0 auto;
+
+    .field-rail {
+      background: var(--rail);
+      color: var(--rail-ink);
+      padding: 1.5rem 1.15rem;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: flex-end;
-      gap: 1rem;
+      gap: 1.5rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--rail-border);
+    }
+
+    .brand-block {
+      padding: 0 0.35rem 1.1rem;
+      border-bottom: 1px solid var(--rail-border);
     }
     .brand-title {
       margin: 0;
-      font-family: var(--font-serif);
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.015em;
-      color: #FFFFFF;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #ffffff;
       line-height: 1.15;
     }
     .brand-sub {
-      margin: 0.28rem 0 0;
-      font-size: 0.87rem;
-      color: rgba(245, 237, 240, 0.78);
-      max-width: 62ch;
+      margin: 0.35rem 0 0;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: var(--rail-muted);
     }
 
+    .tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-top: 1rem;
+    }
+    .tab-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 0.68rem 0.85rem;
+      font-family: var(--font-sans);
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--rail-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .tab-btn:hover {
+      background: var(--rail-elevated);
+      color: #ffffff;
+    }
+    .tab-btn.active {
+      background: var(--rail-active);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+    .tab-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+
+    .rail-footer {
+      border-top: 1px solid var(--rail-border);
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .rail-section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--rail-muted);
+      padding: 0 0.25rem;
+    }
     .status-bar {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem 1rem;
-      font-size: 0.8rem;
-      color: rgba(245, 237, 240, 0.88);
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.78rem;
+      color: var(--rail-ink);
+      padding: 0 0.25rem;
     }
     .status-item {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.48rem;
+      line-height: 1.35;
     }
     .dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
+      flex-shrink: 0;
       display: inline-block;
-      background: #94A3B8;
+      background: #94a3b8;
     }
-    .dot-ok { background: #4ADE80; }
-    .dot-warn { background: #FBBF24; }
-    .dot-danger { background: #F87171; }
+    .dot-ok { background: #34d399; }
+    .dot-warn { background: #fbbf24; }
+    .dot-danger { background: #f87171; }
+
     .masthead-link {
-      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
       text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      padding: 0.3rem 0.68rem;
-      border-radius: 4px;
+      background: var(--rail-elevated);
+      border: 1px solid var(--rail-border);
+      padding: 0.48rem 0.75rem;
+      border-radius: 6px;
       font-size: 0.78rem;
       font-weight: 600;
     }
     .masthead-link:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #FFFFFF;
+      background: var(--rail-active);
+      color: #ffffff;
     }
 
-    /* Navigation tabs */
-    .tab-bar-wrap {
-      background: var(--surface);
-      border-bottom: 1px solid var(--hairline);
-      padding: 0 1.75rem;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-    .tabs {
-      max-width: 1360px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .tab-btn {
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      padding: 0.85rem 0.9rem;
-      font-family: var(--font-sans);
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--muted);
-      cursor: pointer;
-    }
-    .tab-btn:hover { color: var(--ink); }
-    .tab-btn.active {
-      color: var(--ink);
-      border-bottom-color: var(--vermilion);
-    }
-
-    /* Main container */
+    /* Main Workspace */
     main {
-      max-width: 1360px;
-      margin: 1.5rem auto 4rem;
-      padding: 0 1.75rem;
+      min-width: 0;
+      padding: 1.75rem 2.25rem 3.5rem;
+      max-width: 1380px;
     }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* Section framing */
+    /* Survey Sheets / Section Framing */
     .panel-block {
       background: var(--surface);
       border: 1px solid var(--hairline);
-      border-radius: 6px;
-      padding: 1.35rem 1.5rem;
-      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.35rem;
     }
     .block-head {
       display: flex;
@@ -177,21 +237,21 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 1rem;
-      padding-bottom: 0.9rem;
+      padding-bottom: 0.95rem;
       margin-bottom: 1.15rem;
       border-bottom: 1px solid var(--hairline);
     }
     .block-title {
       margin: 0;
-      font-family: var(--font-serif);
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 700;
+      letter-spacing: -0.02em;
       color: var(--ink);
-      line-height: 1.25;
+      line-height: 1.22;
     }
     .block-desc {
-      margin: 0.25rem 0 0;
-      font-size: 0.85rem;
+      margin: 0.3rem 0 0;
+      font-size: 0.86rem;
       color: var(--muted);
       max-width: 68ch;
     }
@@ -204,23 +264,27 @@
     }
     label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.79rem;
       font-weight: 600;
       color: var(--ink-soft);
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.32rem;
     }
     select, input[type="text"], textarea {
       width: 100%;
       padding: 0.56rem 0.72rem;
       border: 1px solid var(--hairline-strong);
-      border-radius: 4px;
+      border-radius: 6px;
       background: var(--surface);
       color: var(--ink);
       font-family: var(--font-sans);
-      font-size: 0.88rem;
+      font-size: 0.87rem;
       line-height: 1.45;
     }
+    select:hover, input[type="text"]:hover, textarea:hover {
+      border-color: var(--teal);
+    }
     textarea { resize: vertical; }
+
     .btn-row {
       display: flex;
       flex-wrap: wrap;
@@ -231,23 +295,25 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.54rem 0.95rem;
-      border-radius: 4px;
+      padding: 0.55rem 1rem;
+      border-radius: 6px;
       border: 1px solid var(--ink);
       background: var(--ink);
-      color: #FFFFFF;
+      color: #ffffff;
       font-family: var(--font-sans);
       font-size: 0.83rem;
       font-weight: 600;
       cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
     }
     .btn:hover:not(:disabled) { background: var(--ink-soft); border-color: var(--ink-soft); }
     .btn:disabled { opacity: 0.55; cursor: not-allowed; }
     .btn-primary {
       background: var(--vermilion);
       border-color: var(--vermilion);
+      color: #ffffff;
     }
-    .btn-primary:hover:not(:disabled) { background: #B03219; border-color: #B03219; }
+    .btn-primary:hover:not(:disabled) { background: var(--vermilion-hover); border-color: var(--vermilion-hover); }
     .btn-secondary {
       background: var(--surface);
       border-color: var(--hairline-strong);
@@ -255,13 +321,18 @@
     }
     .btn-secondary:hover:not(:disabled) { background: var(--wash); border-color: var(--ink-soft); }
     .btn-secondary.active {
-      background: var(--ink);
-      border-color: var(--ink);
-      color: #FFFFFF;
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #ffffff;
+    }
+    .btn-secondary.active:hover:not(:disabled) {
+      background: var(--rail-active);
+      border-color: var(--rail-active);
+      color: #ffffff;
     }
     .btn-sm { padding: 0.32rem 0.65rem; font-size: 0.78rem; }
 
-    /* Executive Diagnostic Hero + Ledger (replaces 13 identical boxes) */
+    /* Diagnostic Summary + Ledger */
     .metrics-architecture {
       display: grid;
       grid-template-columns: minmax(260px, 0.9fr) minmax(320px, 1.4fr);
@@ -270,9 +341,9 @@
     }
     .verdict-panel {
       background: var(--wash);
-      border-left: 4px solid var(--vermilion);
+      border: 1px solid var(--hairline-strong);
       padding: 1.15rem 1.25rem;
-      border-radius: 0 6px 6px 0;
+      border-radius: 8px;
     }
     .verdict-pair {
       display: grid;
@@ -283,9 +354,9 @@
       border-bottom: 1px solid var(--hairline-strong);
     }
     .verdict-num {
-      font-family: var(--font-serif);
       font-size: 2rem;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: -0.03em;
       line-height: 1.05;
       font-variant-numeric: tabular-nums;
     }
@@ -293,7 +364,7 @@
     .verdict-num.warn { color: var(--vermilion); }
     .verdict-cap {
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--ink);
       margin-top: 0.25rem;
     }
@@ -332,14 +403,16 @@
       font-size: 0.84rem;
     }
     th, td {
-      padding: 0.52rem 0.6rem;
+      padding: 0.54rem 0.6rem;
       border-bottom: 1px solid var(--hairline);
       text-align: left;
       vertical-align: middle;
     }
     th {
-      font-size: 0.76rem;
-      font-weight: 600;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
       color: var(--muted);
       border-bottom-color: var(--hairline-strong);
     }
@@ -364,25 +437,84 @@
     }
     .bar-fill { display: block; height: 100%; border-radius: 999px; }
 
+    /* Hover / Focus Tooltips para explicação de métricas */
+    .metric-tip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: help;
+      border-bottom: 1px dotted var(--hairline-strong);
+    }
+    .metric-tip-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--wash);
+      border: 1px solid var(--hairline-strong);
+      color: var(--teal);
+      font-size: 0.68rem;
+      font-weight: 700;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .metric-tip::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 0;
+      bottom: calc(100% + 8px);
+      width: max-content;
+      max-width: 300px;
+      padding: 0.55rem 0.72rem;
+      border-radius: 6px;
+      background: var(--rail);
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 500;
+      line-height: 1.45;
+      white-space: normal;
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 0.14s ease, transform 0.14s ease;
+    }
+    .metric-tip:hover::after,
+    .metric-tip:focus-visible::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    tbody tr:first-child .metric-tip::after {
+      bottom: auto;
+      top: calc(100% + 8px);
+    }
+    @media (min-width: 760px) {
+      .ledger-group .table-scroll { overflow: visible; }
+    }
+
     /* Banners */
     .notice {
-      padding: 0.75rem 1rem;
-      border-radius: 4px;
-      border-left: 3px solid;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      border: 1px solid;
       font-size: 0.85rem;
       margin-bottom: 1rem;
     }
-    .notice-ok { background: var(--moss-soft); border-color: var(--moss); color: #124A2E; }
-    .notice-warn { background: var(--ochre-soft); border-color: var(--ochre); color: #5C3600; }
-    .notice-danger { background: var(--vermilion-soft); border-color: var(--vermilion); color: #7C1E0C; }
-    .notice-info { background: var(--teal-soft); border-color: var(--teal); color: #17373E; }
+    .notice-ok { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.35); color: #0f4f37; }
+    .notice-warn { background: var(--ochre-soft); border-color: rgba(158, 91, 8, 0.35); color: #693c04; }
+    .notice-danger { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.38); color: #7e2215; }
+    .notice-info { background: var(--teal-soft); border-color: rgba(20, 61, 64, 0.28); color: #143d40; }
 
     /* Benchmark Query Selector Rail + Split Evidence Workbench */
     .query-rail {
       display: flex;
       flex-direction: column;
       border: 1px solid var(--hairline);
-      border-radius: 5px;
+      border-radius: 6px;
       max-height: 290px;
       overflow-y: auto;
       margin-bottom: 1.25rem;
@@ -407,12 +539,11 @@
     .query-row-btn:hover { background: var(--wash); }
     .query-row-btn.active {
       background: var(--surface);
-      border-left: 4px solid var(--vermilion);
-      padding-left: calc(0.9rem - 4px);
+      box-shadow: inset 3px 0 0 var(--vermilion);
     }
     .q-id {
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 700;
       color: var(--teal);
     }
@@ -443,15 +574,14 @@
     }
     .workbench-left {
       position: sticky;
-      top: 3.6rem;
+      top: 1.25rem;
       display: flex;
       flex-direction: column;
       gap: 0.95rem;
     }
     .question-heading {
       margin: 0;
-      font-family: var(--font-serif);
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 700;
       line-height: 1.38;
       color: var(--ink);
@@ -467,24 +597,23 @@
       display: inline-flex;
       align-items: center;
       padding: 0.16rem 0.52rem;
-      border-radius: 3px;
-      font-size: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.74rem;
       font-weight: 600;
       border: 1px solid var(--hairline-strong);
       background: var(--paper);
       color: var(--ink-soft);
       font-variant-numeric: tabular-nums;
     }
-    .tag-ok { background: var(--moss-soft); border-color: rgba(26, 107, 66, 0.35); color: var(--moss); }
-    .tag-warn { background: var(--ochre-soft); border-color: rgba(140, 82, 0, 0.35); color: var(--ochre); }
-    .tag-danger { background: var(--vermilion-soft); border-color: rgba(201, 62, 34, 0.35); color: var(--vermilion); }
-    .tag-teal { background: var(--teal-soft); border-color: rgba(36, 83, 94, 0.3); color: var(--teal); }
+    .tag-ok { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.35); color: var(--moss); }
+    .tag-warn { background: var(--ochre-soft); border-color: rgba(158, 91, 8, 0.35); color: var(--ochre); }
+    .tag-danger { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.35); color: var(--vermilion); }
+    .tag-teal { background: var(--teal-soft); border-color: rgba(20, 61, 64, 0.28); color: var(--teal); }
 
     .answer-sheet {
       background: var(--surface);
       border: 1px solid var(--hairline-strong);
-      border-top: 3px solid var(--teal);
-      border-radius: 4px;
+      border-radius: 6px;
       padding: 1.1rem 1.2rem;
     }
     .answer-sheet-head {
@@ -502,8 +631,8 @@
       color: var(--teal);
     }
     .answer-prose {
-      font-family: var(--font-serif);
-      font-size: 0.99rem;
+      font-family: var(--font-prose);
+      font-size: 0.98rem;
       line-height: 1.68;
       color: var(--ink);
       max-width: 68ch;
@@ -517,7 +646,7 @@
       padding: 0.04rem 0.38rem;
       margin: 0 0.1rem;
       border-radius: 3px;
-      border: 1px solid rgba(36, 83, 94, 0.35);
+      border: 1px solid rgba(20, 61, 64, 0.3);
       background: var(--teal-soft);
       color: var(--teal);
       font-family: var(--font-mono);
@@ -525,9 +654,8 @@
       font-weight: 700;
       cursor: pointer;
     }
-    .cite-btn:hover { background: var(--teal); color: #FFFFFF; }
+    .cite-btn:hover { background: var(--teal); color: #ffffff; }
 
-    /* Two-column Directive Cards */
     .rules-split {
       display: grid;
       grid-template-columns: 1fr;
@@ -535,7 +663,7 @@
     }
     .rule-sheet {
       padding: 0.85rem 1rem;
-      border-radius: 4px;
+      border-radius: 6px;
       border: 1px solid;
     }
     .rule-sheet h4 {
@@ -550,8 +678,8 @@
       line-height: 1.55;
     }
     .rule-sheet li + li { margin-top: 0.35rem; }
-    .rule-allow { background: var(--moss-soft); border-color: rgba(26, 107, 66, 0.35); color: #12452B; }
-    .rule-forbid { background: var(--vermilion-soft); border-color: rgba(201, 62, 34, 0.35); color: #741D0B; }
+    .rule-allow { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.32); color: #0f4f37; }
+    .rule-forbid { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.32); color: #7e2215; }
 
     /* Right column: Evidence Stream */
     .sources-head {
@@ -571,15 +699,14 @@
     .chunk-sheet {
       background: var(--surface);
       border: 1px solid var(--hairline);
-      border-radius: 5px;
+      border-radius: 6px;
       padding: 0.95rem 1.1rem;
       margin-bottom: 0.8rem;
       transition: border-color 0.2s, background-color 0.2s;
     }
     .chunk-sheet.highlight {
       border-color: var(--vermilion);
-      background: #FFF9F7;
-      box-shadow: 0 0 0 2px rgba(201, 62, 34, 0.2);
+      background: #fff9f7;
     }
     .chunk-head {
       display: flex;
@@ -599,11 +726,11 @@
     }
     .chunk-ref {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--teal);
       background: var(--teal-soft);
       padding: 0.1rem 0.42rem;
-      border-radius: 3px;
+      border-radius: 4px;
     }
     .chunk-sub {
       margin-top: 0.32rem;
@@ -625,19 +752,19 @@
     }
     .usage-note {
       margin-top: 0.6rem;
-      padding: 0.52rem 0.75rem;
+      padding: 0.55rem 0.78rem;
       background: var(--ochre-soft);
-      border-left: 3px solid var(--ochre);
-      border-radius: 0 4px 4px 0;
+      border: 1px solid rgba(158, 91, 8, 0.32);
+      border-radius: 6px;
       font-size: 0.8rem;
-      color: #5C3600;
+      color: #693c04;
     }
     .license-note {
       margin-top: 0.6rem;
       padding: 0.65rem 0.8rem;
       background: var(--paper);
       border: 1px dashed var(--hairline-strong);
-      border-radius: 4px;
+      border-radius: 6px;
       font-size: 0.82rem;
       color: var(--muted);
       display: flex;
@@ -648,7 +775,7 @@
     }
     .chunk-body {
       margin-top: 0.65rem;
-      font-family: var(--font-serif);
+      font-family: var(--font-prose);
       font-size: 0.94rem;
       line-height: 1.66;
       color: var(--ink-soft);
@@ -660,7 +787,7 @@
 
     details.audit-box {
       border: 1px solid var(--hairline);
-      border-radius: 4px;
+      border-radius: 6px;
       padding: 0.6rem 0.85rem;
       background: var(--paper);
     }
@@ -675,7 +802,8 @@
       margin-top: 0.85rem;
       padding: 0.85rem 1rem;
       background: var(--wash);
-      border-radius: 4px;
+      border: 1px solid var(--hairline);
+      border-radius: 6px;
       font-size: 0.85rem;
       color: var(--ink-soft);
     }
@@ -704,24 +832,72 @@
       color: var(--muted);
       font-size: 0.88rem;
       border: 1px dashed var(--hairline-strong);
-      border-radius: 6px;
+      border-radius: 8px;
       background: var(--surface);
     }
 
     .split-tools {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.15rem;
       margin-top: 0.9rem;
     }
+    .split-tools > * { min-width: 0; }
+    .table-scroll { width: 100%; overflow-x: auto; }
+    .recorte-cell {
+      overflow-wrap: normal;
+      word-break: normal;
+      min-width: 210px;
+    }
+    .recorte-sub {
+      display: block;
+      margin-top: 0.12rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+    .segment-group-row td {
+      background: var(--wash);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--teal);
+      padding: 0.48rem 0.6rem;
+      border-top: 1px solid var(--hairline-strong);
+      border-bottom: 1px solid var(--hairline-strong);
+    }
+    th.num .metric-tip::after {
+      left: auto;
+      right: 0;
+      text-align: left;
+      text-transform: none;
+      letter-spacing: normal;
+    }
 
-    @media (max-width: 960px) {
+    @media (max-width: 1024px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+      .field-rail {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 2px solid var(--rail-border);
+      }
+      .tabs {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .tab-btn { width: auto; }
+      main { padding: 1.25rem 1rem 3rem; }
       .metrics-architecture,
       .workbench {
         grid-template-columns: 1fr;
       }
       .workbench-left { position: static; }
-      .masthead, .tab-bar-wrap, main { padding-left: 1rem; padding-right: 1rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -730,26 +906,45 @@
   </style>
 </head>
 <body>
-  <header class="masthead">
-    <div class="masthead-inner">
+  <div class="app-shell">
+    <aside class="field-rail" aria-label="Navegação e telemetria">
       <div>
-        <h1 class="brand-title">Íris — Bancada de Auditoria RAG</h1>
-        <p class="brand-sub">Inspeção de evidências DUA/MEC, métricas de fidelidade e diretrizes por característica funcional observada.</p>
-      </div>
-      <div class="status-bar" id="status-strip">
-        <span class="status-item">Verificando serviços locais...</span>
-      </div>
-    </div>
-  </header>
+        <div class="brand-block">
+          <h1 class="brand-title">Íris · Bancada RAG</h1>
+          <p class="brand-sub">Auditoria de evidências DUA/MEC, fidelidade e 39 barreiras TDAH.</p>
+        </div>
 
-  <nav class="tab-bar-wrap" aria-label="Áreas da bancada">
-    <div class="tabs">
-      <button type="button" class="tab-btn active" data-tab="benchmark" onclick="ativarAba('benchmark')">Auditoria do Benchmark</button>
-      <button type="button" class="tab-btn" data-tab="catalogo" onclick="ativarAba('catalogo')">Catálogo de Características TDAH</button>
-      <button type="button" class="tab-btn" data-tab="aovivo" onclick="ativarAba('aovivo')">Consulta RAG ao Vivo</button>
-      <button type="button" class="tab-btn" data-tab="ferramentas" onclick="ativarAba('ferramentas')">Ferramentas da API</button>
-    </div>
-  </nav>
+        <nav class="tabs" aria-label="Áreas da bancada">
+          <button type="button" class="tab-btn active" data-tab="benchmark" onclick="ativarAba('benchmark')">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 3 5-6"/></svg>
+            <span>Auditoria do Benchmark</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="escolar" onclick="ativarAba('escolar')">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6M7 17h4"/></svg>
+            <span>Benchmark Escolar (136)</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="catalogo" onclick="ativarAba('catalogo')">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Catálogo de Características TDAH</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="aovivo" onclick="ativarAba('aovivo')">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            <span>Consulta RAG ao Vivo</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="ferramentas" onclick="ativarAba('ferramentas')">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            <span>Ferramentas da API</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="rail-footer">
+        <div class="rail-section-title">Telemetria dos serviços</div>
+        <div class="status-bar" id="status-strip">
+          <span class="status-item">Verificando serviços locais...</span>
+        </div>
+      </div>
+    </aside>
 
   <main>
     <!-- ABA 1: AUDITORIA DO BENCHMARK -->
@@ -827,6 +1022,133 @@
         <div id="benchmark-rail" class="query-rail"></div>
         <div id="benchmark-workbench">
           <div class="empty-state">Carregando consultas do gabarito...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 2: BENCHMARK ESCOLAR (136 QUESTÕES POR CONTEXTO) -->
+    <section id="tab-escolar" class="tab-panel">
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Avaliação do RAG nas questões escolares por contexto</h2>
+            <p class="block-desc">Use as questões curadas como bateria de entrada (nunca indexadas no RAG) para medir recuperação e fundamentação por faixa etária, disciplina, operação cognitiva e barreira.</p>
+          </div>
+          <div class="btn-row">
+            <button type="button" id="btn-esc-curar" class="btn btn-secondary" onclick="curarDatasetEscolarUI()">Atualizar camada curada</button>
+            <button type="button" id="btn-esc-run" class="btn btn-primary" onclick="executarBateriaEscolarNoRag()">Executar bateria filtrada no RAG</button>
+          </div>
+        </div>
+
+        <div id="esc-alert"></div>
+
+        <div class="controls-grid">
+          <div>
+            <label for="esc-metodo-select">Método de busca</label>
+            <select id="esc-metodo-select" class="metodo-rag-select">
+              <option value="bm25">BM25 léxico local (sem Docker)</option>
+              <option value="qwen3+rerank50">Qwen3 + Reranker Top-50 (pgvector)</option>
+              <option value="hibrido">Híbrido BM25 + Vetorial</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-estrategia-select">Estratégia da consulta ao RAG</label>
+            <select id="esc-estrategia-select">
+              <option value="contexto_pedagogico" selected>Barreira + contexto pedagógico</option>
+              <option value="barreira">Só barreira e diretriz (baseline)</option>
+              <option value="enunciado_completo">Barreira + enunciado completo</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-nivel-select">Nível de andaime</label>
+            <select id="esc-nivel-select">
+              <option value="1">Nível 1: Adaptação leve</option>
+              <option value="2" selected>Nível 2: Adaptação moderada</option>
+              <option value="3">Nível 3: Adaptação intensiva</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-modo-select">Escopo da execução em lote</label>
+            <select id="esc-modo-select">
+              <option value="retrieval" selected>Só recuperação (rápido)</option>
+              <option value="full_sonnet">Busca + Geração (Sonnet) + Juiz Sonnet</option>
+              <option value="full_lexico">Busca + Geração (Sonnet) + Juiz Léxico</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="controls-grid" style="margin-top:0.85rem;">
+          <div>
+            <label for="esc-filtro-faixa">Faixa etária</label>
+            <select id="esc-filtro-faixa" onchange="aplicarFiltrosEscolar()">
+              <option value="">Todas as faixas</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-filtro-ano">Ano escolar</label>
+            <select id="esc-filtro-ano" onchange="aplicarFiltrosEscolar()">
+              <option value="">Todos os anos</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-filtro-disc">Disciplina (conteúdo)</label>
+            <select id="esc-filtro-disc" onchange="aplicarFiltrosEscolar()">
+              <option value="">Todas as disciplinas</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-filtro-carac">Característica TDAH</label>
+            <select id="esc-filtro-carac" onchange="aplicarFiltrosEscolar()">
+              <option value="">Todas as características</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-filtro-op">Operação cognitiva</label>
+            <select id="esc-filtro-op" onchange="aplicarFiltrosEscolar()">
+              <option value="">Todas as operações</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-filtro-porte">Porte do texto</label>
+            <select id="esc-filtro-porte" onchange="aplicarFiltrosEscolar()">
+              <option value="">Todos os tamanhos</option>
+            </select>
+          </div>
+          <div>
+            <label for="esc-filtro-busca">Buscar por ID ou termo</label>
+            <input type="text" id="esc-filtro-busca" placeholder="Ex.: ENEM2023, frações..." oninput="agendarFiltroEscolar()" />
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Desempenho segmentado por contexto</h2>
+            <p class="block-desc" id="esc-run-caption">Compare como o RAG responde em cada faixa etária, disciplina, característica e tamanho de texto.</p>
+          </div>
+          <div>
+            <label for="esc-run-select" style="margin-bottom:0.2rem;">Rodada registrada</label>
+            <select id="esc-run-select" onchange="carregarAnalyticsEscolar(this.value)">
+              <option value="">Mais recente</option>
+            </select>
+          </div>
+        </div>
+        <div id="esc-analytics-box">
+          <div class="empty-state">Clique em "Executar bateria filtrada no RAG" para gerar a primeira medição sobre as questões escolares.</div>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title" id="esc-lista-titulo">Inspetor individual de questões</h2>
+            <p class="block-desc">Selecione uma questão filtrada para testar ao vivo no RAG e confrontar o enunciado curado com os trechos recuperados.</p>
+          </div>
+        </div>
+        <div id="esc-rail" class="query-rail"></div>
+        <div id="esc-workbench">
+          <div class="empty-state">Carregando questões escolares curadas...</div>
         </div>
       </div>
     </section>
@@ -966,6 +1288,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       </div>
     </section>
   </main>
+  </div>
 
   <script>
     const state = {
@@ -977,7 +1300,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       consultasAtuais: [],
       consultaSelecionadaId: null,
       trechosExpandidos: new Set(),
-      extLoaded: false
+      extLoaded: false,
+      escolarLoaded: false,
+      escolarFacetas: null,
+      escolarQuestoes: [],
+      escolarSelecionadaId: null,
+      escolarRunData: null,
+      escolarFiltroTimer: null
     };
 
     function escapeHtml(val) {
@@ -1020,6 +1349,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       });
       if (nome === 'ferramentas' && !state.extLoaded) {
         carregarExtratorAnalytics();
+      }
+      if (nome === 'escolar' && !state.escolarLoaded) {
+        inicializarBenchmarkEscolar();
       }
     }
 
@@ -1172,26 +1504,39 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     function renderStatusStrip(h) {
       const strip = document.getElementById('status-strip');
       const ollamaItem = `<span class="status-item"><span class="dot ${h.ollama_online ? 'dot-ok' : 'dot-warn'}"></span>${h.ollama_online ? `Ollama ativo (${escapeHtml(h.llm_model)})` : 'LLM em fallback extrativo'}</span>`;
-      const vecItem = `<span class="status-item"><span class="dot ${h.vector_db_online ? 'dot-ok' : 'dot-warn'}"></span>${h.vector_db_online ? 'pgvector ativo' : 'Busca BM25 local'}</span>`;
+      const denseReady = Boolean(h.vector_db_online) && (h.vector_deps_ready !== false);
+      const vecLabel = denseReady
+        ? 'pgvector ativo'
+        : (h.vector_db_online
+          ? `pgvector conectado (faltam pacotes RAG: ${escapeHtml((h.vector_deps_missing || []).join(', '))})`
+          : 'Busca BM25 local');
+      const vecItem = `<span class="status-item"><span class="dot ${denseReady ? 'dot-ok' : 'dot-warn'}"></span>${vecLabel}</span>`;
       const chunkItem = typeof h.total_chunks === 'number'
         ? `<span class="status-item">${h.total_chunks.toLocaleString('pt-BR')} trechos indexados</span>`
         : '';
+      const sonnetItem = h.sonnet_judge_ready
+        ? `<span class="status-item"><span class="dot dot-ok"></span>Juiz Sonnet ativo (${escapeHtml(h.sonnet_judge_model || 'sonnet')})</span>`
+        : `<span class="status-item" title="Cole ANTHROPIC_API_KEY em iris/.env para ativar o Juiz Claude Sonnet"><span class="dot dot-warn"></span>Juiz Sonnet (.env sem chave)</span>`;
       const lgpdItem = h.zero_student_database
         ? `<span class="status-item"><span class="dot dot-ok"></span>Zero-DB LGPD</span>`
         : '';
 
-      strip.innerHTML = `${ollamaItem}${vecItem}${chunkItem}${lgpdItem}<a class="masthead-link" href="/docs" target="_blank" rel="noopener">Documentação da API (/docs)</a>`;
+      strip.innerHTML = `${ollamaItem}${vecItem}${sonnetItem}${chunkItem}${lgpdItem}<a class="masthead-link" href="/docs" target="_blank" rel="noopener">Documentação da API (/docs)</a>`;
 
       document.querySelectorAll('.metodo-rag-select').forEach(sel => {
         Array.from(sel.options).forEach(opt => {
           if (opt.value === 'qwen3+rerank50') {
-            opt.textContent = h.vector_db_online
+            opt.textContent = denseReady
               ? 'Qwen3 + Reranker Top-50 (pgvector ativo)'
-              : 'Qwen3 + Reranker Top-50 (pgvector offline, usa BM25)';
+              : (h.vector_db_online
+                ? 'Qwen3 + Reranker Top-50 (requer uv sync --group rag; usa BM25)'
+                : 'Qwen3 + Reranker Top-50 (pgvector offline, usa BM25)');
           } else if (opt.value === 'hibrido') {
-            opt.textContent = h.vector_db_online
+            opt.textContent = denseReady
               ? 'Híbrido BM25 + Vetorial (pgvector ativo)'
-              : 'Híbrido BM25 + Vetorial (pgvector offline, usa BM25)';
+              : (h.vector_db_online
+                ? 'Híbrido BM25 + Vetorial (requer uv sync --group rag; usa BM25)'
+                : 'Híbrido BM25 + Vetorial (pgvector offline, usa BM25)');
           }
         });
       });
@@ -1652,12 +1997,16 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           ? `<div class="notice notice-warn">A resposta citou fonte com aviso de uso: <strong>${escapeHtml(tel.citou_trecho_com_aviso.join(', '))}</strong>.</div>`
           : '';
 
+        const fidEfetiva = tel.fidelidade_efetiva ?? tel.fidelidade_lexica;
+        const ehSonnetLive = tel.avaliador_fidelidade === 'claude_sonnet';
         const tags = [
           `<span class="tag tag-teal">Método: ${escapeHtml(tel.metodo_efetivo || res.metodo)}</span>`,
           `<span class="tag">LLM: ${escapeHtml(tel.llm || res.llm)}</span>`,
           `<span class="tag">Tempo: ${escapeHtml(tel.segundos_total ?? res.segundos_total)}s</span>`,
-          `<span class="tag ${Number(tel.fidelidade_lexica) >= 0.7 ? 'tag-ok' : 'tag-warn'}">Fidelidade léxica: ${escapeHtml(tel.fidelidade_lexica ?? '-')}</span>`,
-          `<span class="tag">Relevância: ${escapeHtml(tel.relevancia_lexica ?? '-')}</span>`,
+          ehSonnetLive
+            ? `<span class="tag ${Number(fidEfetiva) >= 0.7 ? 'tag-ok' : 'tag-warn'}">Fidelidade Sonnet v2: ${escapeHtml(fidEfetiva)} (Léxica: ${escapeHtml(tel.fidelidade_lexica ?? '-')})</span>`
+            : `<span class="tag ${Number(tel.fidelidade_lexica) >= 0.7 ? 'tag-ok' : 'tag-warn'}">Fidelidade léxica: ${escapeHtml(tel.fidelidade_lexica ?? '-')}</span>`,
+          `<span class="tag">Relevância: ${escapeHtml(tel.relevancia_efetiva ?? tel.relevancia_lexica ?? '-')}</span>`,
           `<span class="tag ${(tel.citacoes_invalidas || 0) === 0 ? 'tag-ok' : 'tag-danger'}">Citações inválidas: ${escapeHtml(tel.citacoes_invalidas ?? 0)}</span>`,
           tel.absteve ? `<span class="tag tag-warn">Absteve por falta de evidência</span>` : ''
         ].filter(Boolean).join('');
@@ -1679,6 +2028,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
                   </div>
                   <div class="answer-prose">${formatarTextoComCitacoes(res.resposta || '', 'live')}</div>
                 </div>
+                ${renderBlocoJuizSonnet(res.juiz_sonnet, tel.juiz_sonnet_erro)}
               </div>
 
               <div>
@@ -1791,7 +2141,744 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       }
     }
 
+    function lerFiltrosEscolar() {
+      return {
+        faixa_etaria: document.getElementById('esc-filtro-faixa').value,
+        ano_escolar: document.getElementById('esc-filtro-ano').value,
+        disciplina: document.getElementById('esc-filtro-disc').value,
+        id_caracteristica_alvo: document.getElementById('esc-filtro-carac').value,
+        operacao_cognitiva: document.getElementById('esc-filtro-op').value,
+        porte_texto: document.getElementById('esc-filtro-porte').value,
+        q: document.getElementById('esc-filtro-busca').value.trim()
+      };
+    }
+
+    function preencherSelectOpcoes(selectId, valores) {
+      const sel = document.getElementById(selectId);
+      if (!sel || sel.options.length > 1 || !Array.isArray(valores)) return;
+      valores.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v;
+        sel.appendChild(opt);
+      });
+    }
+
+    function agendarFiltroEscolar() {
+      clearTimeout(state.escolarFiltroTimer);
+      state.escolarFiltroTimer = setTimeout(() => aplicarFiltrosEscolar(), 250);
+    }
+
+    async function inicializarBenchmarkEscolar() {
+      state.escolarLoaded = true;
+      await Promise.all([
+        aplicarFiltrosEscolar(),
+        carregarAnalyticsEscolar('')
+      ]);
+    }
+
+    async function aplicarFiltrosEscolar() {
+      const alertBox = document.getElementById('esc-alert');
+      const f = lerFiltrosEscolar();
+      const qs = new URLSearchParams();
+      Object.entries(f).forEach(([k, v]) => { if (v) qs.set(k, v); });
+      try {
+        const res = await fetchJson(`/api/v1/benchmarks/escolar?${qs.toString()}`);
+        if (res.facetas) {
+          preencherSelectOpcoes('esc-filtro-faixa', res.facetas.faixas_etarias);
+          preencherSelectOpcoes('esc-filtro-ano', res.facetas.anos_escolares);
+          preencherSelectOpcoes('esc-filtro-disc', res.facetas.disciplinas);
+          preencherSelectOpcoes('esc-filtro-carac', res.facetas.caracteristicas);
+          preencherSelectOpcoes('esc-filtro-op', res.facetas.operacoes_cognitivas);
+          preencherSelectOpcoes('esc-filtro-porte', res.facetas.portes_texto);
+        }
+        state.escolarQuestoes = res.itens || [];
+        document.getElementById('esc-lista-titulo').textContent =
+          `Inspetor individual de questões (${res.total_filtrado} de ${res.total_base} — camada ${res.camada_curada_ativa ? 'curada' : 'saneada em memória'})`;
+        const btnRun = document.getElementById('btn-esc-run');
+        if (btnRun) {
+          const rotulo = `Executar bateria filtrada (${res.total_filtrado} ${res.total_filtrado === 1 ? 'questão' : 'questões'})`;
+          btnRun.dataset.origLabel = rotulo;
+          if (!btnRun.disabled) btnRun.textContent = rotulo;
+        }
+        renderRailEscolar();
+        const runSel = document.getElementById('esc-run-select').value;
+        if (state.escolarRunData) {
+          await carregarAnalyticsEscolar(runSel);
+        }
+      } catch (err) {
+        alertBox.innerHTML = `<div class="notice notice-danger">Falha ao carregar questões escolares (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    function descreverEscalaMetodo(metodo) {
+      const m = String(metodo || '').toLowerCase();
+      if (m.includes('rerank')) return 'Cross-encoder (logit: maior = mais relevante)';
+      if (m === 'hibrido') return 'RRF (0,01–0,03: soma por posição)';
+      if (m === 'qwen3' || m === 'mpnet') return 'Cosseno (0,00–1,00: maior = mais próximo)';
+      return 'BM25 (livre ≥ 0: compare só dentro do BM25)';
+    }
+
+    function nomeCaracteristicaPorId(idCarac) {
+      const item = (state.catalog || []).find(c => c.id_caracteristica === idCarac);
+      return item ? item.nome : '';
+    }
+
+    function classePct(pct, bom = 90, alerta = 60) {
+      const v = Number(pct || 0);
+      if (v >= bom) return 'score-ok';
+      if (v >= alerta) return 'score-warn';
+      return 'score-danger';
+    }
+
+    function renderBlocoJuizSonnet(juiz, erroMsg) {
+      if (erroMsg && !juiz) {
+        return `<div class="notice notice-warn" style="margin-top:0.65rem;">Juiz Claude Sonnet não executado: <code>${escapeHtml(erroMsg)}</code>. Cole sua chave <code>ANTHROPIC_API_KEY=sk-ant-...</code> em <code>iris/.env</code> (exibindo Fidelidade Léxica como fallback).</div>`;
+      }
+      if (!juiz || !Array.isArray(juiz.frases)) return '';
+      const respA = juiz.responde?.A || '-';
+      const origemCache = juiz.cache_hit ? 'Cache local (0 ms)' : `${escapeHtml(juiz.latencia_ms)} ms`;
+      return `
+        <details class="audit-box" open style="margin-top:0.75rem;">
+          <summary>Auditoria do Juiz Claude Sonnet (Regra v2 + Prova Literal) — ${escapeHtml(juiz.modelo)}</summary>
+          <div style="margin-top:0.55rem;">
+            <div class="tag-row" style="margin-bottom:0.5rem;">
+              <span class="tag tag-ok">Fidelidade Sonnet: ${Number(juiz.fidelidade_sonnet ?? 0).toFixed(2)}</span>
+              <span class="tag">Responde à pergunta: <strong>${escapeHtml(respA)}</strong></span>
+              <span class="tag">${origemCache}</span>
+            </div>
+            ${juiz.motivo_responde ? `<p style="font-size:0.82rem; color:var(--ink-soft); margin:0 0 0.55rem;"><strong>Avaliação geral:</strong> ${escapeHtml(juiz.motivo_responde)}</p>` : ''}
+            ${juiz.frases.length ? `
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Veredito</th>
+                      <th>Trecho</th>
+                      <th>Passagem literal copiada e conferida no trecho</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${juiz.frases.map(f => {
+                      const v = f.comum || f.A || '-';
+                      const cls = v === 'apoiada' || v === 'comentario_correto' ? 'score-ok' : (v === 'parcial' ? 'score-warn' : 'score-danger');
+                      return `
+                        <tr>
+                          <td class="num">S${escapeHtml(f.n)}</td>
+                          <td class="${cls}"><strong>${escapeHtml(v)}</strong></td>
+                          <td><code>${escapeHtml(f.trecho || '-')}</code></td>
+                          <td style="font-size:0.79rem;">
+                            ${f.citacao ? `<em>"${escapeHtml(f.citacao)}"</em>` : ''}
+                            ${f.motivo ? `<div style="color:var(--muted); margin-top:0.15rem;">${escapeHtml(f.motivo)}</div>` : ''}
+                          </td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+            ` : '<p style="font-size:0.82rem; color:var(--muted);">Resposta de abstenção avaliada pelo juiz.</p>'}
+          </div>
+        </details>
+      `;
+    }
+
+    function renderTabelaSegmentadaUnificadaEscolar(an) {
+      const secoes = [
+        { titulo: 'Por faixa etária', mapa: an.por_faixa_etaria, caracteristica: false },
+        { titulo: 'Por ano escolar', mapa: an.por_ano_escolar, caracteristica: false },
+        { titulo: 'Por disciplina (conteúdo)', mapa: an.por_disciplina, caracteristica: false },
+        { titulo: 'Por porte do texto', mapa: an.por_porte_texto, caracteristica: false },
+        { titulo: 'Por operação cognitiva', mapa: an.por_operacao_cognitiva, caracteristica: false },
+        { titulo: 'Por característica TDAH (barra a barra)', mapa: an.por_caracteristica, caracteristica: true }
+      ].filter(s => Object.keys(s.mapa || {}).length > 0);
+
+      if (!secoes.length) return '';
+
+      const linhasHtml = secoes.map(sec => {
+        const entries = Object.entries(sec.mapa || {});
+        const headerGrupo = `
+          <tr class="segment-group-row">
+            <td colspan="7">${escapeHtml(sec.titulo)} · ${entries.length} grupo(s)</td>
+          </tr>
+        `;
+        const rows = entries.map(([nome, m]) => {
+          const nomeAmigavel = sec.caracteristica ? nomeCaracteristicaPorId(nome) : '';
+          const celulaRecorte = nomeAmigavel
+            ? `<strong>${escapeHtml(nomeAmigavel)}</strong><span class="recorte-sub">${escapeHtml(nome)}</span>`
+            : `<strong>${escapeHtml(nome)}</strong>`;
+          const txtUtil = m.texto_util_pct !== undefined ? m.texto_util_pct : 100;
+          const semAviso = m.trechos_sem_aviso_pct !== undefined ? m.trechos_sem_aviso_pct : 100;
+          const fid = m.fidelidade_media !== undefined && m.fidelidade_media !== null ? m.fidelidade_media : m.fidelidade_lexica_media;
+          const fidStr = fid !== null && fid !== undefined ? Number(fid).toFixed(2) : '—';
+          const fidCls = fid !== null && fid !== undefined ? classeCor(Number(fid)).cls : '';
+          return `
+            <tr>
+              <td class="recorte-cell">${celulaRecorte}</td>
+              <td class="num">${escapeHtml(m.total)}</td>
+              <td class="num ${classePct(txtUtil, 95, 70)}">${escapeHtml(txtUtil)}%</td>
+              <td class="num ${classePct(semAviso, 75, 45)}">${escapeHtml(semAviso)}%</td>
+              <td class="num">${Number(m.score_top1_medio || 0).toFixed(3)}</td>
+              <td class="num">${escapeHtml(m.latencia_busca_ms)} ms</td>
+              <td class="num ${fidCls}">${fidStr}</td>
+            </tr>
+          `;
+        }).join('');
+        return headerGrupo + rows;
+      }).join('');
+
+      return `
+        <div class="ledger-group">
+          <div class="ledger-heading">
+            <span>Segmentação por contexto da questão</span>
+            <span class="ledger-scale">${secoes.length} dimensões</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Recorte</th>
+                  <th class="num">${renderMetricTip('Qtd', 'Quantidade de questões avaliadas neste recorte.')}</th>
+                  <th class="num">${renderMetricTip('Texto útil', 'Percentual dos trechos retornados com texto completo disponível (sem bloqueio de licença).')}</th>
+                  <th class="num">${renderMetricTip('Sem aviso', 'Percentual dos trechos sem restrição editorial nao_usar_para.')}</th>
+                  <th class="num">${renderMetricTip('Score Top-1', 'Pontuação média do primeiro trecho recuperado (BM25 ≥ 0; Reranker pode ser negativo).')}</th>
+                  <th class="num">${renderMetricTip('Busca', 'Latência média apenas da etapa de recuperação no RAG.')}</th>
+                  <th class="num">${renderMetricTip('Fidelidade', 'Média de fidelidade (0–1) do Claude Sonnet v2 ou fallback léxico.')}</th>
+                </tr>
+              </thead>
+              <tbody>${linhasHtml}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMetricTip(label, tip) {
+      return `<span class="metric-tip" tabindex="0" data-tip="${escapeHtml(tip)}" aria-label="${escapeHtml(label)}: ${escapeHtml(tip)}">${escapeHtml(label)}<span class="metric-tip-badge" aria-hidden="true">?</span></span>`;
+    }
+
+    function renderLedgerIndicadoresEscolar(r, opts = {}) {
+      if (!r) return '';
+      const temGen = Number(r.com_geracao || 0) > 0;
+      const fid = r.fidelidade_media !== null && r.fidelidade_media !== undefined ? Number(r.fidelidade_media) : (r.fidelidade_lexica_media !== null && r.fidelidade_lexica_media !== undefined ? Number(r.fidelidade_lexica_media) : null);
+      const rel = r.relevancia_media !== null && r.relevancia_media !== undefined ? Number(r.relevancia_media) : (r.relevancia_lexica_media !== null && r.relevancia_lexica_media !== undefined ? Number(r.relevancia_lexica_media) : null);
+      const ehSonnet = r.avaliador_fidelidade === 'claude_sonnet';
+      const txtUtil = Number(r.texto_util_pct ?? 100);
+      const semAviso = Number(r.trechos_sem_aviso_pct ?? 100);
+      const aderencia = Number(r.aderencia_barreira_pct ?? 0);
+      const retorno = Number(r.taxa_retorno_pct ?? 0);
+      const sustentadasPct = r.frases_sustentadas_pct !== null && r.frases_sustentadas_pct !== undefined ? Number(r.frases_sustentadas_pct) : null;
+      const parciaisPct = r.frases_parciais_pct !== null && r.frases_parciais_pct !== undefined ? Number(r.frases_parciais_pct) : null;
+      const semCit = Number(r.frases_sem_citacao_total ?? 0);
+      const invalidas = Number(r.citacoes_invalidas_total ?? 0);
+      const abstencao = r.taxa_abstencao_pct !== null && r.taxa_abstencao_pct !== undefined ? Number(r.taxa_abstencao_pct) : null;
+
+      const bar = (pct, cls) => {
+        const w = Math.max(0, Math.min(100, Number(pct || 0)));
+        const cor = cls === 'score-ok' ? 'var(--moss)' : (cls === 'score-warn' ? 'var(--ochre)' : 'var(--vermilion)');
+        return `<span class="bar-track"><span class="bar-fill" style="width:${w}%;background:${cor};"></span></span>`;
+      };
+
+      const linhas = [
+        {
+          nome: 'Taxa de retorno Top-5',
+          tip: 'Percentual de questões que receberam pelo menos 1 trecho recuperado no Top-5 do RAG.',
+          leitura: `${escapeHtml(r.media_trechos ?? 0)} trechos/questão em média`,
+          pct: retorno,
+          cls: classePct(retorno, 95, 70),
+          val: `${retorno.toFixed(1)}%`
+        },
+        {
+          nome: 'Aderência à barreira TDAH',
+          tip: 'Proporção dos trechos retornados que pertencem exatamente à barreira funcional TDAH associada à questão.',
+          leitura: 'Filtro determinístico pré-ranqueamento',
+          pct: aderencia,
+          cls: classePct(aderencia, 90, 60),
+          val: `${aderencia.toFixed(1)}%`
+        },
+        {
+          nome: 'Trechos com texto útil',
+          tip: 'Trechos sem bloqueio de licença restrita disponíveis integralmente para o LLM ler e citar.',
+          leitura: `Sem aviso nao_usar_para: ${semAviso.toFixed(1)}%`,
+          pct: txtUtil,
+          cls: classePct(txtUtil, 95, 70),
+          val: `${txtUtil.toFixed(1)}%`
+        },
+        {
+          nome: 'Latência média (busca / total)',
+          tip: 'Tempo médio só da recuperação no índice vs. tempo completo com LLM local + juiz.',
+          leitura: `Busca: ${escapeHtml(r.latencia_busca_ms ?? 0)} ms`,
+          pct: Math.max(5, Math.min(100, 100 - (Number(r.latencia_total_ms || 0) / 1000))),
+          cls: Number(r.latencia_total_ms || 0) <= 15000 ? 'score-ok' : (Number(r.latencia_total_ms || 0) <= 60000 ? 'score-warn' : 'score-danger'),
+          val: `${(Number(r.latencia_total_ms || 0) / 1000).toFixed(1)}s`
+        }
+      ];
+
+      if (temGen) {
+        linhas.push(
+          {
+            nome: ehSonnet ? 'Fidelidade (Claude Sonnet)' : 'Fidelidade (Léxica)',
+            tip: 'Fração média das frases da resposta comprovadas nos trechos [Tn] citados (0 a 1). Meta recomendada ≥ 0,80.',
+            leitura: ehSonnet && r.fidelidade_lexica_media != null ? `Léxica paralela: ${Number(r.fidelidade_lexica_media).toFixed(2)}` : 'Avaliador por sobreposição de palavras',
+            pct: (fid || 0) * 100,
+            cls: classeCor(fid || 0).cls,
+            val: fid !== null ? fid.toFixed(2) : '—'
+          },
+          {
+            nome: 'Relevância da resposta',
+            tip: 'Mede se a resposta realmente atendeu à pergunta pedagógica e à adaptação solicitada (0 a 1).',
+            leitura: ehSonnet ? 'Veredito semântico Claude Sonnet' : 'Similaridade léxica com a consulta',
+            pct: (rel || 0) * 100,
+            cls: classeCor(rel || 0).cls,
+            val: rel !== null ? rel.toFixed(2) : '—'
+          },
+          {
+            nome: 'Frases sustentadas',
+            tip: 'Percentual de frases de conteúdo classificadas como apoiadas integralmente pelo trecho citado.',
+            leitura: sustentadasPct !== null ? `${escapeHtml(r.frases_apoiadas_total)}/${escapeHtml(r.frases_total)} frases (+${parciaisPct !== null ? parciaisPct.toFixed(1) : 0}% parciais)` : 'Disponível com Juiz Sonnet',
+            pct: sustentadasPct !== null ? sustentadasPct : 0,
+            cls: sustentadasPct !== null ? classePct(sustentadasPct, 80, 50) : 'score-warn',
+            val: sustentadasPct !== null ? `${sustentadasPct.toFixed(1)}%` : '—'
+          },
+          {
+            nome: 'Frases sem citação [Tn]',
+            tip: 'Quantidade de frases geradas sem nenhuma tag [T1..T5]. Cada frase sem citação derruba a fidelidade para 0 nessa frase.',
+            leitura: semCit === 0 ? 'Todas as frases citam fontes' : 'Principal causa de queda na fidelidade',
+            pct: semCit === 0 ? 100 : Math.max(10, 100 - semCit * 10),
+            cls: semCit === 0 ? 'score-ok' : 'score-danger',
+            val: `${semCit}`
+          },
+          {
+            nome: 'Citações inválidas',
+            tip: 'Citações [Tn] que apontam para um número de trecho inexistente ou não entregue ao LLM.',
+            leitura: invalidas === 0 ? 'Nenhuma alucinação de índice' : 'LLM inventou referência [Tn]',
+            pct: invalidas === 0 ? 100 : 15,
+            cls: invalidas === 0 ? 'score-ok' : 'score-danger',
+            val: `${invalidas}`
+          },
+          {
+            nome: 'Taxa de abstenção',
+            tip: 'Percentual de questões em que o LLM recusou responder alegando falta de evidências nos trechos.',
+            leitura: (abstencao || 0) <= 10 ? 'Dentro do esperado (próximo de 0%)' : 'Alta recusa: revise o prompt ou cobertura dos trechos',
+            pct: abstencao !== null ? abstencao : 0,
+            cls: (abstencao || 0) <= 10 ? 'score-ok' : ((abstencao || 0) <= 40 ? 'score-warn' : 'score-danger'),
+            val: abstencao !== null ? `${abstencao.toFixed(1)}%` : '0.0%'
+          }
+        );
+      }
+
+      const titulo = opts.aoVivo ? 'Indicadores em tempo real (rodada em andamento)' : 'Indicadores detalhados da rodada';
+      const escala = ehSonnet ? 'Juiz: Claude Sonnet' : (temGen ? 'Avaliador: Léxico local' : 'Escopo: Só recuperação');
+
+      return `
+        <div class="ledger-group">
+          <div class="ledger-heading">
+            <span>${escapeHtml(titulo)}</span>
+            <span class="ledger-scale">${escapeHtml(escala)}</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th style="min-width:195px;">Indicador</th><th>Leitura</th><th>Proporção</th><th class="num">Valor</th></tr>
+              </thead>
+              <tbody>
+                ${linhas.map(l => `
+                  <tr>
+                    <td style="white-space:nowrap;"><strong>${renderMetricTip(l.nome, l.tip)}</strong></td>
+                    <td style="color:var(--muted);">${escapeHtml(l.leitura)}</td>
+                    <td>${bar(l.pct, l.cls)}</td>
+                    <td class="num ${l.cls}">${escapeHtml(l.val)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAnalyticsEscolar(an) {
+      const box = document.getElementById('esc-analytics-box');
+      const runSel = document.getElementById('esc-run-select');
+      if (Array.isArray(an.runs_disponiveis)) {
+        const atual = runSel.value;
+        runSel.innerHTML = '<option value="">Mais recente</option>' + an.runs_disponiveis.map(r =>
+          `<option value="${escapeHtml(r.run_id)}">${escapeHtml(r.metodo_efetivo)} | ${escapeHtml(r.estrategia_query)} (${escapeHtml(r.total_itens)} itens)</option>`
+        ).join('');
+        if (atual && an.runs_disponiveis.some(r => r.run_id === atual)) {
+          runSel.value = atual;
+        }
+      }
+
+      if (!an.tem_rodada) {
+        box.innerHTML = '<div class="empty-state">Nenhuma bateria registrada ainda. Clique em "Executar bateria filtrada no RAG" acima para gerar o diagnóstico por faixa etária e conteúdo.</div>';
+        return;
+      }
+
+      const info = an.run_info || {};
+      const r = an.resumo_geral || {};
+      const escalaTxt = descreverEscalaMetodo(info.metodo_efetivo);
+
+      document.getElementById('esc-run-caption').textContent =
+        `Rodada ${info.run_id || '-'} | Método efetivo: ${info.metodo_efetivo || '-'} | Estratégia: ${info.estrategia_query || '-'} | Nível ${info.nivel || 2} | ${info.duracao_total_s || 0}s total.`;
+
+      const fallbackBanner = info.fallback_aplicado
+        ? `<div class="notice notice-warn">Você solicitou <strong>${escapeHtml(info.metodo_solicitado)}</strong>, mas a execução caiu em fallback para <strong>${escapeHtml(info.metodo_efetivo)}</strong>${info.fallback_motivo ? ` (<code>${escapeHtml(info.fallback_motivo)}</code>)` : ''}. Se faltarem dependências densas, rode <code>uv sync --group rag</code> em <code>iris/</code> e reinicie o servidor.</div>`
+        : '';
+      const sonnetWarnBanner = info.juiz_sonnet_erro
+        ? `<div class="notice notice-warn">Juiz Claude Sonnet: <code>${escapeHtml(info.juiz_sonnet_erro)}</code>. Exibindo Fidelidade Léxica como fallback.</div>`
+        : '';
+
+      const fidGeral = r.fidelidade_media !== undefined && r.fidelidade_media !== null ? r.fidelidade_media : r.fidelidade_lexica_media;
+      const ehSonnetGeral = r.avaliador_fidelidade === 'claude_sonnet';
+      const labelFid = ehSonnetGeral ? 'Fidelidade Sonnet' : 'Fidelidade léxica';
+      const diagProse = r.com_geracao
+        ? `Em <strong>${escapeHtml(r.total)}</strong> questão(ões), o buscador <strong>${escapeHtml(info.metodo_efetivo || '-')}</strong> entregou <strong>${escapeHtml(r.taxa_retorno_pct)}%</strong> com evidências e <strong>${escapeHtml(r.aderencia_barreira_pct)}%</strong> de aderência à barreira. ${Number(r.frases_sem_citacao_total || 0) > 0 ? `Foram detectadas <strong>${escapeHtml(r.frases_sem_citacao_total)}</strong> frase(s) sem citação <code>[Tn]</code>, o que penaliza a fidelidade.` : 'Todas as frases analisadas citaram fontes.'}`
+        : `Rodada de recuperação pura sobre <strong>${escapeHtml(r.total)}</strong> questão(ões) via <strong>${escapeHtml(info.metodo_efetivo || '-')}</strong> (${escapeHtml(escalaTxt)}). Selecione um escopo com geração para medir fidelidade e vereditos frase a frase.`;
+
+      box.innerHTML = `
+        ${fallbackBanner}
+        ${sonnetWarnBanner}
+        <div class="metrics-architecture" style="margin-bottom:1.25rem;">
+          <div class="verdict-panel">
+            <div class="verdict-pair">
+              <div>
+                <div class="verdict-num ${r.com_geracao ? classeCor(Number(fidGeral || 0)).cls : 'ok'}">${r.com_geracao ? Number(fidGeral || 0).toFixed(2) : `${escapeHtml(r.latencia_busca_ms)} ms`}</div>
+                <div class="verdict-cap">${renderMetricTip(r.com_geracao ? labelFid : 'Latência da busca', r.com_geracao ? 'Média de fidelidade (0–1) das respostas geradas frente aos trechos citados.' : 'Tempo médio de recuperação no índice sem etapa de LLM.')}</div>
+                <div class="verdict-sub">${r.com_geracao ? `${escapeHtml(r.citacoes_invalidas_total || 0)} citações inválidas` : 'Escopo: só recuperação'}</div>
+              </div>
+              <div>
+                <div class="verdict-num ${classePct(Number(r.taxa_retorno_pct || 0), 95, 70) === 'score-ok' ? 'ok' : 'warn'}">${escapeHtml(r.taxa_retorno_pct)}%</div>
+                <div class="verdict-cap">${renderMetricTip('Retorno Top-5', 'Percentual de questões que receberam evidências no Top-5.')}</div>
+                <div class="verdict-sub">${escapeHtml(r.aderencia_barreira_pct)}% aderência à barreira</div>
+              </div>
+            </div>
+            <p class="verdict-prose">${diagProse}</p>
+          </div>
+          <div>
+            ${renderLedgerIndicadoresEscolar(r, { aoVivo: false })}
+          </div>
+        </div>
+        ${renderTabelaSegmentadaUnificadaEscolar(an)}
+      `;
+    }
+
+    async function carregarAnalyticsEscolar(runId) {
+      const f = lerFiltrosEscolar();
+      const qs = new URLSearchParams();
+      if (runId) qs.set('run_id', runId);
+      ['faixa_etaria', 'ano_escolar', 'disciplina', 'id_caracteristica_alvo', 'operacao_cognitiva', 'porte_texto'].forEach(k => {
+        if (f[k]) qs.set(k, f[k]);
+      });
+      try {
+        const an = await fetchJson(`/api/v1/eval/rag-escolar/analytics?${qs.toString()}`);
+        state.escolarRunData = an;
+        renderAnalyticsEscolar(an);
+        renderRailEscolar();
+      } catch (err) {
+        document.getElementById('esc-analytics-box').innerHTML =
+          `<div class="notice notice-danger">Falha ao carregar analytics (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    function renderRailEscolar() {
+      const rail = document.getElementById('esc-rail');
+      const wb = document.getElementById('esc-workbench');
+      const lista = state.escolarQuestoes || [];
+      if (!lista.length) {
+        rail.innerHTML = '';
+        wb.innerHTML = '<div class="empty-state">Nenhuma questão escolar corresponde aos filtros selecionados.</div>';
+        return;
+      }
+      if (!lista.some(q => q.id === state.escolarSelecionadaId)) {
+        state.escolarSelecionadaId = lista[0].id;
+      }
+
+      const mapaRun = new Map(((state.escolarRunData && state.escolarRunData.itens) || []).map(i => [i.id, i]));
+      rail.innerHTML = lista.map(q => {
+        const active = q.id === state.escolarSelecionadaId;
+        const hit = mapaRun.get(q.id);
+        const runTag = hit
+          ? `Score ${Number(hit.score_top1 || 0).toFixed(2)} | ${hit.n_trechos} trechos`
+          : `${q.porte_texto} (${q.char_count} chars)`;
+        return `
+          <button type="button" class="query-row-btn ${active ? 'active' : ''}" data-qid="${escapeHtml(q.id)}" onclick="selecionarQuestaoEscolar(this.dataset.qid)">
+            <span class="q-id">${escapeHtml(q.id)}</span>
+            <span class="q-text">${escapeHtml(q.enunciado_original)}</span>
+            <span class="q-meta">
+              <span class="tag tag-teal">${escapeHtml(q.disciplina)}</span>
+              <span class="tag">${escapeHtml(q.ano_escolar)}</span>
+              <span>${escapeHtml(runTag)}</span>
+            </span>
+          </button>
+        `;
+      }).join('');
+
+      const atual = lista.find(q => q.id === state.escolarSelecionadaId) || lista[0];
+      const hitAtual = mapaRun.get(atual.id) || null;
+      renderWorkbenchEscolar(atual, null, hitAtual);
+    }
+
+    function selecionarQuestaoEscolar(qid) {
+      state.escolarSelecionadaId = qid;
+      renderRailEscolar();
+    }
+
+    function renderResumoRodadaNoInspetor(hit) {
+      const runInfo = state.escolarRunData?.run_info || {};
+      const fid = hit.fidelidade_sonnet != null ? Number(hit.fidelidade_sonnet) : (hit.fidelidade_lexica != null ? Number(hit.fidelidade_lexica) : null);
+      const rel = hit.relevancia_sonnet != null ? Number(hit.relevancia_sonnet) : (hit.relevancia_lexica != null ? Number(hit.relevancia_lexica) : null);
+      const titulos = Array.isArray(hit.titulos_top3) ? hit.titulos_top3 : [];
+      const chunks = Array.isArray(hit.chunk_ids) ? hit.chunk_ids : [];
+      return `
+        <div class="context-box" style="margin-top:0; margin-bottom:0.85rem;">
+          <strong>Resultado desta questão na rodada registrada (${escapeHtml(runInfo.run_id || 'mais recente')})</strong>
+          <div class="tag-row" style="margin-top:0.55rem;">
+            <span class="tag tag-teal">Método: ${escapeHtml(runInfo.metodo_efetivo || '-')}</span>
+            <span class="tag">Score Top-1: ${Number(hit.score_top1 || 0).toFixed(3)}</span>
+            <span class="tag ${Number(hit.trechos_sem_aviso_pct ?? 100) >= 80 ? 'tag-ok' : 'tag-warn'}">Sem aviso: ${escapeHtml(hit.trechos_sem_aviso_pct ?? 100)}%</span>
+            ${fid !== null ? `<span class="tag ${fid >= 0.8 ? 'tag-ok' : 'tag-warn'}">Fidelidade: ${fid.toFixed(2)}</span>` : ''}
+            ${rel !== null ? `<span class="tag ${rel >= 0.7 ? 'tag-ok' : 'tag-warn'}">Relevância: ${rel.toFixed(2)}</span>` : ''}
+            ${hit.absteve ? '<span class="tag tag-warn">Absteve nesta questão</span>' : ''}
+          </div>
+          ${hit.resposta ? `<div class="answer-sheet" style="margin-top:0.75rem;"><div class="answer-sheet-head"><span class="answer-sheet-title">Resposta registrada na rodada</span></div><div class="answer-prose"><p>${escapeHtml(hit.resposta)}</p></div></div>` : ''}
+          ${titulos.length ? `<div style="margin-top:0.65rem; font-size:0.82rem;"><strong>Top-3 fontes recuperadas:</strong><ul style="margin:0.35rem 0 0 1.1rem;">${titulos.map((t, idx) => `<li>${escapeHtml(t)} <code style="font-size:0.75rem;color:var(--muted);">${escapeHtml(chunks[idx] || '')}</code></li>`).join('')}</ul></div>` : ''}
+          <p style="margin:0.65rem 0 0; font-size:0.8rem; color:var(--muted);">Clique em <strong>"Testar esta questão no RAG agora"</strong> ao lado para ver os 5 trechos completos e o detalhamento frase a frase do juiz.</p>
+        </div>
+      `;
+    }
+
+    function renderWorkbenchEscolar(q, resultadoRag, batchHit = null) {
+      const wb = document.getElementById('esc-workbench');
+      const altsHtml = Array.isArray(q.alternativas) && q.alternativas.length
+        ? `<ul>${q.alternativas.map(a => `<li><strong>${escapeHtml(a.letra)})</strong> ${escapeHtml(a.texto)}</li>`).join('')}</ul>`
+        : '<p style="font-size:0.82rem; color:var(--muted);">Questão discursiva (sem alternativas).</p>';
+
+      let painelRagHtml = batchHit
+        ? renderResumoRodadaNoInspetor(batchHit)
+        : '<div class="empty-state">Clique em "Testar esta questão no RAG agora" para ver a consulta montada e os trechos recuperados.</div>';
+      if (resultadoRag) {
+        const m = resultadoRag.metricas || {};
+        const trechos = resultadoRag.trechos_recuperados || [];
+        const scopeId = `esc-${q.id}`;
+        const respHtml = resultadoRag.resposta
+          ? `<div class="answer-sheet" style="margin-bottom:0.85rem;"><div class="answer-sheet-head"><span class="answer-sheet-title">Resposta fundamentada (${escapeHtml(m.llm || 'RAG')})</span></div><div class="answer-prose">${formatarTextoComCitacoes(resultadoRag.resposta, scopeId)}</div></div>`
+          : '';
+        const fallbackOne = resultadoRag.fallback_aplicado
+          ? `<div class="notice notice-warn">Método <strong>${escapeHtml(resultadoRag.metodo_solicitado)}</strong> caiu em fallback para <strong>${escapeHtml(resultadoRag.metodo_efetivo)}</strong>${resultadoRag.fallback_motivo ? ` (<code>${escapeHtml(resultadoRag.fallback_motivo)}</code>)` : ''}.</div>`
+          : '';
+        painelRagHtml = `
+          ${fallbackOne}
+          <div class="context-box" style="margin-top:0; margin-bottom:0.85rem;">
+            <strong>Consulta enviada ao RAG (${escapeHtml(resultadoRag.consulta?.estrategia_query)} | barreira: ${escapeHtml(resultadoRag.consulta?.barreira_rag_associada)}):</strong>
+            <div style="margin-top:0.35rem; font-size:0.84rem; color:var(--ink-soft);">${escapeHtml(resultadoRag.consulta?.consulta_composta || '')}</div>
+          </div>
+          <div class="tag-row" style="margin-bottom:0.75rem;">
+            <span class="tag tag-teal">Método: ${escapeHtml(resultadoRag.metodo_efetivo)}</span>
+            <span class="tag">Score Top-1: ${Number(m.score_top1 || 0).toFixed(3)}</span>
+            <span class="tag ${Number(m.texto_util_pct ?? 100) >= 80 ? 'tag-ok' : 'tag-warn'}">Texto útil: ${escapeHtml(m.texto_util_pct ?? 100)}%</span>
+            <span class="tag">Sem aviso: ${escapeHtml(m.trechos_sem_aviso_pct ?? 100)}%</span>
+            <span class="tag">Busca: ${Math.round((m.segundos_busca || 0) * 1000)} ms</span>
+            ${m.fidelidade_sonnet !== undefined && m.fidelidade_sonnet !== null
+              ? `<span class="tag tag-ok">Fidelidade Sonnet v2: ${Number(m.fidelidade_sonnet).toFixed(2)} (Léxica: ${escapeHtml(m.fidelidade_lexica)})</span>`
+              : (m.fidelidade_lexica !== undefined ? `<span class="tag tag-ok">Fidelidade léxica: ${escapeHtml(m.fidelidade_lexica)}</span>` : '')}
+          </div>
+          ${respHtml}
+          ${renderBlocoJuizSonnet(resultadoRag.juiz_sonnet, m.juiz_sonnet_erro)}
+          <div class="sources-head">
+            <h4 class="sources-title">Trechos recuperados (${trechos.length} fontes)</h4>
+          </div>
+          ${trechos.map(t => renderTrechoCard(t, scopeId)).join('') || '<div class="empty-state">Nenhum trecho recuperado.</div>'}
+        `;
+      }
+
+      wb.innerHTML = `
+        <div class="workbench">
+          <div class="workbench-left">
+            <div class="tag-row">
+              <span class="tag">${escapeHtml(q.id)}</span>
+              <span class="tag tag-teal">${escapeHtml(q.disciplina)}</span>
+              <span class="tag">${escapeHtml(q.ano_escolar)} (${escapeHtml(q.faixa_etaria)})</span>
+              <span class="tag">${escapeHtml(q.habilidade_bncc)}</span>
+              <span class="tag">${escapeHtml(q.operacao_cognitiva)}</span>
+              <span class="tag">${escapeHtml(q.barreira_rag_associada)}</span>
+            </div>
+            <div class="answer-sheet">
+              <div class="answer-sheet-head">
+                <span class="answer-sheet-title">Enunciado curado (${escapeHtml(q.char_count)} chars · ${escapeHtml(q.porte_texto)})</span>
+                <button type="button" id="btn-esc-test-one" class="btn btn-primary btn-sm" data-qid="${escapeHtml(q.id)}" onclick="testarQuestaoEscolarNoRag(this.dataset.qid)">Testar esta questão no RAG agora</button>
+              </div>
+              <div class="answer-prose"><p>${escapeHtml(q.enunciado_original).replace(/\n+/g, '</p><p>')}</p>${altsHtml}</div>
+            </div>
+            <div class="context-box">
+              <strong>Trava curricular:</strong> ${(q.conceitos_trava_curricular || []).map(c => `<span class="tag">${escapeHtml(c)}</span>`).join(' ')}
+              <div style="margin-top:0.45rem;"><strong>Característica alvo:</strong> ${escapeHtml(q.nome_caracteristica)} (<code>${escapeHtml(q.id_caracteristica_alvo)}</code>)</div>
+              ${q.fonte ? `<div style="margin-top:0.3rem; color:var(--muted);"><strong>Fonte:</strong> ${escapeHtml(q.fonte.origem)} ${q.fonte.referencia ? `(${escapeHtml(q.fonte.referencia)})` : ''}</div>` : ''}
+            </div>
+          </div>
+          <div id="esc-rag-output">${painelRagHtml}</div>
+        </div>
+      `;
+    }
+
+    function lerEscopoExecucaoEscolar() {
+      const modo = document.getElementById('esc-modo-select').value;
+      if (modo === 'full_sonnet') return { gerar_resposta: true, avaliador_geracao: 'sonnet' };
+      if (modo === 'full_lexico') return { gerar_resposta: true, avaliador_geracao: 'lexico' };
+      if (modo === 'full') return { gerar_resposta: true, avaliador_geracao: 'auto' };
+      return { gerar_resposta: false, avaliador_geracao: 'auto' };
+    }
+
+    async function testarQuestaoEscolarNoRag(questionId) {
+      const q = state.escolarQuestoes.find(item => item.id === questionId);
+      if (!q) return;
+      const outBox = document.getElementById('esc-rag-output');
+      const escopo = lerEscopoExecucaoEscolar();
+      setLoading('btn-esc-test-one', true, escopo.gerar_resposta ? 'Gerando e julgando...' : 'Consultando RAG...');
+      try {
+        const res = await fetchJson('/api/v1/rag/test-question', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question_id: questionId,
+            metodo: document.getElementById('esc-metodo-select').value,
+            estrategia_query: document.getElementById('esc-estrategia-select').value,
+            nivel: Number(document.getElementById('esc-nivel-select').value),
+            k: 5,
+            gerar_resposta: escopo.gerar_resposta,
+            avaliador_geracao: escopo.avaliador_geracao
+          })
+        });
+        renderWorkbenchEscolar(q, res);
+      } catch (err) {
+        if (outBox) {
+          outBox.innerHTML = `<div class="notice notice-danger">Falha ao testar questão no RAG (${escapeHtml(err.message)}).</div>`;
+        }
+      } finally {
+        setLoading('btn-esc-test-one', false);
+      }
+    }
+
+    async function curarDatasetEscolarUI() {
+      const alertBox = document.getElementById('esc-alert');
+      setLoading('btn-esc-curar', true, 'Curando...');
+      try {
+        const res = await fetchJson('/api/v1/benchmarks/escolar/curar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+        alertBox.innerHTML = `<div class="notice notice-warn">Camada curada atualizada: <strong>${escapeHtml(res.modificadas)}/${escapeHtml(res.total)}</strong> questões saneadas e validadas.</div>`;
+        await aplicarFiltrosEscolar();
+      } catch (err) {
+        alertBox.innerHTML = `<div class="notice notice-danger">Erro ao curar dataset (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        setLoading('btn-esc-curar', false);
+      }
+    }
+
+    function renderProgressoEscolar(p) {
+      const alertBox = document.getElementById('esc-alert');
+      if (!alertBox || !p) return;
+      const total = Number(p.total || 0);
+      const atual = Number(p.atual || 0);
+      const pct = total > 0 ? Math.min(100, Math.round((atual / total) * 100)) : 0;
+      const linhas = Array.isArray(p.log_linhas) ? p.log_linhas.slice(-8) : [];
+      const questao = p.questao_atual ? `<strong>${escapeHtml(p.questao_atual)}</strong>` : 'preparando...';
+      const tempo = p.tempo_decorrido_s != null ? `${Number(p.tempo_decorrido_s).toFixed(1)}s` : '0.0s';
+      const logHtml = linhas.length
+        ? `<pre style="margin:8px 0 0;padding:8px 10px;background:#143d40;color:#edf2f2;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;line-height:1.45;max-height:150px;overflow:auto;white-space:pre-wrap;">${escapeHtml(linhas.join('\n'))}</pre>`
+        : '';
+      alertBox.innerHTML = `
+        <div class="notice notice-warn" style="display:block;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px;">
+            <span>Executando bateria: <strong>${atual}/${total || '?'}</strong> (${pct}%) · Questão: ${questao} · Etapa: <code>${escapeHtml(p.etapa || 'iniciando')}</code></span>
+            <span style="font-variant-numeric:tabular-nums;">Tempo: ${escapeHtml(tempo)}</span>
+          </div>
+          <div style="width:100%;height:8px;background:var(--wash-strong);border-radius:999px;overflow:hidden;">
+            <div style="width:${pct}%;height:100%;background:var(--vermilion);transition:width 0.3s ease;"></div>
+          </div>
+          ${logHtml}
+        </div>`;
+
+      if (p.resumo_parcial && Number(p.resumo_parcial.total || 0) > 0) {
+        const analyticsBox = document.getElementById('esc-analytics-box');
+        if (analyticsBox) {
+          analyticsBox.innerHTML = renderLedgerIndicadoresEscolar(p.resumo_parcial, { aoVivo: true });
+        }
+      }
+    }
+
+    async function executarBateriaEscolarNoRag() {
+      const alertBox = document.getElementById('esc-alert');
+      const f = lerFiltrosEscolar();
+      const escopo = lerEscopoExecucaoEscolar();
+      setLoading('btn-esc-run', true, escopo.gerar_resposta ? 'Executando RAG + LLM + Juiz...' : 'Executando bateria...');
+      renderProgressoEscolar({ atual: 0, total: 0, etapa: 'iniciando', tempo_decorrido_s: 0, log_linhas: [] });
+      let pollId = null;
+      const atualizarProgresso = async () => {
+        try {
+          const p = await fetchJson('/api/v1/eval/rag-escolar/progress');
+          if (p && (p.running || (p.log_linhas && p.log_linhas.length > 0))) {
+            renderProgressoEscolar(p);
+          }
+        } catch (_) {
+          // ignora falha transitória de polling
+        }
+      };
+      pollId = setInterval(atualizarProgresso, 1500);
+      try {
+        const an = await fetchJson('/api/v1/eval/rag-escolar/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            metodo: document.getElementById('esc-metodo-select').value,
+            estrategia_query: document.getElementById('esc-estrategia-select').value,
+            nivel: Number(document.getElementById('esc-nivel-select').value),
+            k: 5,
+            gerar_resposta: escopo.gerar_resposta,
+            avaliador_geracao: escopo.avaliador_geracao,
+            faixa_etaria: f.faixa_etaria || null,
+            ano_escolar: f.ano_escolar || null,
+            disciplina: f.disciplina || null,
+            id_caracteristica_alvo: f.id_caracteristica_alvo || null,
+            operacao_cognitiva: f.operacao_cognitiva || null,
+            porte_texto: f.porte_texto || null
+          })
+        });
+        alertBox.innerHTML = '';
+        state.escolarRunData = an;
+        renderAnalyticsEscolar(an);
+        renderRailEscolar();
+      } catch (err) {
+        alertBox.innerHTML = `<div class="notice notice-danger">Falha ao executar bateria (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        if (pollId) clearInterval(pollId);
+        setLoading('btn-esc-run', false);
+      }
+    }
+
+    function configurarPreferenciasEscolar() {
+      const ids = ['esc-metodo-select', 'esc-estrategia-select', 'esc-nivel-select', 'esc-modo-select'];
+      const key = 'iris_esc_prefs_v1';
+      try {
+        const salvo = JSON.parse(localStorage.getItem(key) || '{}');
+        ids.forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          if (salvo[id] && Array.from(el.options).some(o => o.value === salvo[id])) {
+            el.value = salvo[id];
+          }
+          el.addEventListener('change', () => {
+            try {
+              const atual = JSON.parse(localStorage.getItem(key) || '{}');
+              atual[id] = el.value;
+              localStorage.setItem(key, JSON.stringify(atual));
+            } catch (_) {}
+          });
+        });
+      } catch (_) {}
+    }
+
     async function init() {
+      configurarPreferenciasEscolar();
       try {
         const [h, cat] = await Promise.all([
           fetchJson('/api/v1/health'),

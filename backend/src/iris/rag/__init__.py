@@ -41,3 +41,10 @@ __all__ = [
     "verify_motivational_adaptation_preserves_curriculum",
 ]
 
+try:
+    from iris.rag.contexto import conferir_citacoes, montar_contexto_estrategista
+
+    __all__.extend(["conferir_citacoes", "montar_contexto_estrategista"])
+except ModuleNotFoundError:
+    pass
+
