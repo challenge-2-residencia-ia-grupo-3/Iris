@@ -1,5 +1,7 @@
 "use client";
 
+import { PortableProfilePanel } from "@/components/PortableProfilePanel";
+
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import {
   AlertCircle,
@@ -721,6 +723,13 @@ export function Step2FunctionalProfile({
                 );
               })}
             </div>
+          )}
+
+          {selectedCount > 0 && (
+            <PortableProfilePanel
+              selectedIds={selectedIds}
+              validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
+            />
           )}
 
           {/* Botões de Ação no Rodapé */}
