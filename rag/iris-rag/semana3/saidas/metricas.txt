@@ -1,0 +1,57 @@
+SEMANA 3 - MÉTRICAS DETERMINÍSTICAS (sem juiz; fidelidade e utilidade vêm do julgamento)
+gerado em 2026-11-13T00:42:45+00:00 | commit 4ac290d-modificado
+
+Integridade (antes de pontuar):
+  respostas_A_gpt-oss-20b.jsonl            linhas=120 válidas=120/120 erros=0 vazias=0 duplicatas=0 cortadas=0
+  respostas_A_llama3.1-8b.jsonl            linhas=120 válidas=120/120 erros=0 vazias=0 duplicatas=0 cortadas=0
+  respostas_B.jsonl                        linhas=80 válidas=80/80 erros=0 vazias=0 duplicatas=0 cortadas=0
+  respostas_C_gpt-oss-20b.jsonl            linhas=120 válidas=120/120 erros=0 vazias=0 duplicatas=0 cortadas=0
+  respostas_C_llama3.1-8b.jsonl            linhas=120 válidas=120/120 erros=0 vazias=0 duplicatas=0 cortadas=0
+  respostas_D_gpt-oss-20b.jsonl            linhas=180 válidas=180/180 erros=0 vazias=0 duplicatas=0 cortadas=0
+  respostas_D_llama3.1-8b.jsonl            linhas=180 válidas=180/180 erros=0 vazias=0 duplicatas=0 cortadas=0
+
+A (LLM sozinho) e C (RAG + LLM, prompt v1), só repetições completas:
+  A|gpt-oss-20b          reps=[1, 2, 3] abstenção Q39/Q40=0/6 cobertura38=1.0 frases c/ citação=None cit. inválida=0 palavras=126.1583 lat. mediana=1.5 s p95=1.86 s tokens=236.325+220.2 US$/mil=0.0
+                         estabilidade: texto idêntico 7/40, abstenção igual 40/40
+  A|llama3.1-8b          reps=[1, 2, 3] abstenção Q39/Q40=6/6 cobertura38=0.6842 frases c/ citação=None cit. inválida=0 palavras=82.1795 lat. mediana=0.75 s p95=1.6 s tokens=209.075+92.8083 US$/mil=0.0
+                         estabilidade: texto idêntico 20/40, abstenção igual 40/40
+  C|gpt-oss-20b          reps=[1, 2, 3] abstenção Q39/Q40=3/6 cobertura38=0.9912 frases c/ citação=0.9592 cit. inválida=0 palavras=162.8276 lat. mediana=11.04 s p95=16.56 s tokens=2487.525+277.0833 US$/mil=0.0
+                         estabilidade: texto idêntico 13/40, abstenção igual 39/40
+  C|llama3.1-8b          reps=[1, 2, 3] abstenção Q39/Q40=3/6 cobertura38=0.8947 frases c/ citação=0.6192 cit. inválida=0 palavras=144.0952 lat. mediana=11.3 s p95=16.3 s tokens=2887.6+230.625 US$/mil=0.0
+                         estabilidade: texto idêntico 38/40, abstenção igual 40/40
+
+B (só busca, qwen3+rerank):
+  recall@5 [0.357, 0.2588, 0.4588] | hit@5 29/38 | MRR [0.5645, 0.436, 0.6908] | recall@5 IC por documento [0.357, 0.2752, 0.4662]
+  top-1 relevante 16/38 | top-3 com algum relevante 27/38
+  Flesch top1 23.665 top3 22.8475 | palavras top1 283.4 top3 806.05
+  busca: mediana 9.64 s, p95 14.06 s (VPS, CPU)
+
+Pareado por pergunta, C - A (gpt-oss-20b); [média, IC95 inferior, superior]:
+  absteve (C - A)      n=40 dif=[0.0333, 0.0, 0.0917] IC por documento=[0.0333, 0.0, 0.0952] Wilcoxon p=0.1797
+  palavras (C - A)     n=40 dif=[31.575, 16.4333, 44.7917] IC por documento=[31.575, 14.1176, 43.5392] Wilcoxon p=0.0001
+  latencia_s (C - A)   n=40 dif=[10.2201, 8.763, 12.2528] IC por documento=[10.2201, 8.136, 11.7849] Wilcoxon p=0.0
+
+Pareado por pergunta, C - A (llama3.1-8b); [média, IC95 inferior, superior]:
+  absteve (C - A)      n=40 dif=[-0.225, -0.4, -0.05] IC por documento=[-0.225, -0.4242, -0.0526] Wilcoxon p=0.0201
+  palavras (C - A)     n=40 dif=[72.6167, 42.9167, 106.0917] IC por documento=[72.6167, 44.4624, 95.3757] Wilcoxon p=0.0002
+  latencia_s (C - A)   n=40 dif=[11.192, 9.8188, 13.1807] IC por documento=[11.192, 9.1346, 12.8535] Wilcoxon p=0.0
+
+D (Adaptador, Golden Benchmark, gpt-oss-20b; rodadas [1, 2, 3]; liberação externa ['None']):
+  completo  válidas=90 erros=0 TRCC=1.0 TRCC>=0,95=1.0 Flesch 55.5777->56.493 cmd conj. resolvido=0.9333 nível=0.7444 escopo=1.0 reserva=0.7889 tokens=7129.7111 ciclo p95=10.16 s RNF-07=1.0
+  sem_rag   válidas=90 erros=0 TRCC=1.0 TRCC>=0,95=1.0 Flesch 55.5777->56.4492 cmd conj. resolvido=0.9556 nível=0.7444 escopo=1.0 reserva=0.8111 tokens=2832.7556 ciclo p95=10.32 s RNF-07=1.0
+  completo - sem_rag trcc                     n=30 dif=[0.0, 0.0, 0.0] Wilcoxon p=1.0
+  completo - sem_rag flesch_depois            n=30 dif=[0.0438, 0.0, 0.1313] Wilcoxon p=0.3173
+  completo - sem_rag cmd_conjugado_resolvido  n=15 dif=[-0.0222, -0.0667, 0.0] Wilcoxon p=0.3173
+  completo - sem_rag aderencia_nivel          n=30 dif=[0.0, -0.0667, 0.0889] Wilcoxon p=0.9156
+
+D (Adaptador, Golden Benchmark, llama3.1-8b; rodadas [1, 2, 3]; liberação externa ['None']):
+  completo  válidas=90 erros=0 TRCC=1.0 TRCC>=0,95=1.0 Flesch 55.5777->55.7517 cmd conj. resolvido=1.0 nível=0.6667 escopo=1.0 reserva=0.8333 tokens=7146.9889 ciclo p95=3.1 s RNF-07=1.0
+  sem_rag   válidas=90 erros=0 TRCC=1.0 TRCC>=0,95=1.0 Flesch 55.5777->55.7517 cmd conj. resolvido=1.0 nível=0.6333 escopo=1.0 reserva=0.8333 tokens=1768.9333 ciclo p95=2.93 s RNF-07=1.0
+  completo - sem_rag trcc                     n=30 dif=[0.0, 0.0, 0.0] Wilcoxon p=1.0
+  completo - sem_rag flesch_depois            n=30 dif=[0.0, 0.0, 0.0] Wilcoxon p=1.0
+  completo - sem_rag cmd_conjugado_resolvido  n=15 dif=[0.0, 0.0, 0.0] Wilcoxon p=1.0
+  completo - sem_rag aderencia_nivel          n=30 dif=[0.0333, 0.0, 0.1] Wilcoxon p=0.3173
+
+Leitura: só diferença com IC que exclui o zero conta. Uma pergunta vale 2,6 pontos (38); uma questão do D, 3,3.
+Latências de A e C incluem espera do limite do Groq na geração? Não: 'segundos_geracao' é só a chamada que deu certo;
+a espera fica em 'segundos_espera_limite'. No C soma-se o tempo da busca daquela pergunta (VPS, CPU).

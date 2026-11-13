@@ -1,0 +1,6409 @@
+{
+  "semente": 20261112,
+  "gerado_em": "2026-11-13T10:07:27+00:00",
+  "n": 541,
+  "aviso": "NÃO entregar ao juiz.",
+  "chave": {
+    "R0001": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0002": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0003": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0004": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0005": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0006": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0007": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0008": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0009": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0010": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0011": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0012": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0013": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0014": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0015": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0016": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0017": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0018": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0019": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0020": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0021": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0022": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0023": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0024": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0025": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0026": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0027": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0028": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0029": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0030": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0031": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0032": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0033": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0034": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0035": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0036": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0037": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0038": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0039": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0040": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-01"
+    },
+    "R0041": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0042": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0043": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0044": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0045": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0046": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0047": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0048": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0049": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0050": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0051": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0052": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0053": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0054": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0055": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0056": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0057": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0058": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0059": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0060": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0061": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0062": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0063": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0064": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0065": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0066": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0067": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0068": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0069": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0070": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0071": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0072": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0073": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0074": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0075": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0076": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0077": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0078": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0079": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0080": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-02"
+    },
+    "R0081": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0082": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0083": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0084": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0085": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0086": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0087": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0088": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0089": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0090": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0091": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0092": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0093": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0094": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0095": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0096": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0097": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0098": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0099": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0100": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0101": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0102": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0103": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0104": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0105": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0106": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0107": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0108": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0109": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0110": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0111": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0112": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0113": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0114": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0115": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0116": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0117": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0118": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0119": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0120": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-03"
+    },
+    "R0121": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0122": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0123": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0124": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0125": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0126": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0127": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0128": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0129": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0130": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0131": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0132": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0133": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0134": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0135": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0136": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0137": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0138": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0139": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0140": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0141": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0142": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0143": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0144": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0145": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0146": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0147": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0148": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0149": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0150": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0151": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0152": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0153": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0154": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0155": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0156": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0157": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0158": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0159": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0160": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-04"
+    },
+    "R0161": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0162": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0163": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0164": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0165": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0166": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0167": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0168": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0169": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0170": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0171": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0172": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0173": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0174": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0175": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0176": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0177": {
+      "teste": "C",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0178": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0179": {
+      "teste": "B",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0180": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0181": {
+      "teste": "B",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0182": {
+      "teste": "A",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-05"
+    },
+    "R0183": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0184": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0185": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0186": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0187": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0188": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0189": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0190": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0191": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0192": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0193": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0194": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0195": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0196": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0197": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0198": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0199": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0200": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0201": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0202": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0203": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0204": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0205": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0206": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0207": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0208": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0209": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0210": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0211": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0212": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0213": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0214": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0215": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0216": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0217": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0218": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0219": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0220": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0221": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0222": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-01"
+    },
+    "R0223": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0224": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0225": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0226": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0227": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0228": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0229": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0230": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0231": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0232": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0233": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0234": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0235": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0236": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0237": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0238": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0239": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0240": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0241": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "completo",
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0242": {
+      "teste": "D",
+      "modelo": "llama3.1-8b",
+      "config": "sem_rag",
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "adapt-lote-02"
+    },
+    "R0243": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0244": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0245": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0246": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0247": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0248": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0249": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0250": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0251": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0252": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0253": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0254": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0255": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0256": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0257": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0258": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0259": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0260": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0261": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0262": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0263": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0264": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0265": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0266": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0267": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0268": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0269": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0270": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0271": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0272": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0273": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0274": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0275": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0276": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0277": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0278": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0279": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0280": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0281": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0282": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-06"
+    },
+    "R0283": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0284": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0285": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0286": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0287": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0288": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0289": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0290": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0291": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0292": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0293": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0294": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0295": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0296": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0297": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0298": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0299": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0300": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0301": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0302": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0303": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0304": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0305": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0306": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0307": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0308": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0309": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0310": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0311": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0312": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0313": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0314": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0315": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0316": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0317": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0318": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0319": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0320": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0321": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0322": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-07"
+    },
+    "R0323": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0324": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0325": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0326": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0327": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0328": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0329": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0330": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0331": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0332": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0333": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0334": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0335": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0336": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0337": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0338": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0339": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0340": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0341": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0342": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0343": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0344": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0345": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0346": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0347": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0348": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0349": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0350": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0351": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0352": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0353": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0354": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0355": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0356": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0357": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0358": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0359": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0360": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0361": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0362": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-08"
+    },
+    "R0363": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0364": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0365": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0366": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0367": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0368": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0369": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0370": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0371": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0372": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0373": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0374": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0375": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0376": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0377": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0378": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0379": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0380": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0381": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0382": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0383": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0384": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0385": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0386": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0387": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0388": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0389": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0390": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0391": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0392": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0393": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 3,
+      "repeticoes": [
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0394": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0395": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0396": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 2,
+      "repeticoes": [
+        2
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0397": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0398": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0399": {
+      "teste": "C",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0400": {
+      "teste": "A",
+      "modelo": "gpt-oss-20b",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-09"
+    },
+    "R0401": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0402": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0403": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0404": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0405": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0406": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0407": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0408": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0409": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0410": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0411": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0412": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0413": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0414": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0415": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0416": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0417": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q16",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0418": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0419": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0420": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0421": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0422": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0423": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0424": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0425": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0426": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0427": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0428": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0429": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0430": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0431": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0432": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0433": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0434": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0435": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0436": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0437": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q25",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0438": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0439": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0440": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-10"
+    },
+    "R0441": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0442": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0443": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q13",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0444": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0445": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0446": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0447": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0448": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0449": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0450": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0451": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0452": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0453": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0454": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0455": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0456": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0457": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0458": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0459": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q32",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0460": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q22",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0461": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0462": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0463": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0464": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q30",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0465": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0466": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q11",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0467": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0468": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q38",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0469": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q36",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0470": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q09",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0471": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q10",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0472": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0473": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0474": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0475": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0476": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q05",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0477": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0478": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0479": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q01",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0480": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-11"
+    },
+    "R0481": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0482": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0483": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0484": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0485": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0486": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q26",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0487": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0488": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q14",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0489": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q19",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0490": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0491": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q03",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0492": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q40",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0493": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q33",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0494": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q24",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0495": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0496": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q15",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0497": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0498": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0499": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q31",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0500": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q07",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0501": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q20",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0502": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0503": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q04",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0504": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0505": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q21",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0506": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q08",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0507": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q39",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0508": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q35",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0509": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q02",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0510": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0511": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q28",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0512": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q27",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0513": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q06",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0514": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0515": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q34",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0516": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q18",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0517": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q37",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0518": {
+      "teste": "C50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "Q23",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0519": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q17",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0520": {
+      "teste": "B50",
+      "modelo": "busca-top1",
+      "config": null,
+      "id_pergunta": "Q12",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-12"
+    },
+    "R0521": {
+      "teste": "B50",
+      "modelo": "busca-top3",
+      "config": null,
+      "id_pergunta": "Q29",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-13"
+    },
+    "R0522": {
+      "teste": "NC50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N02",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0523": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N15",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0524": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N12",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0525": {
+      "teste": "NA",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N11",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0526": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N19",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0527": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N08",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0528": {
+      "teste": "NC50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N12",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0529": {
+      "teste": "NA",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N11",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0530": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N11",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0531": {
+      "teste": "NC50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N18",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0532": {
+      "teste": "NC50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N11",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0533": {
+      "teste": "NA",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N08",
+      "repeticao": 2,
+      "repeticoes": [
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0534": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N11",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0535": {
+      "teste": "NC50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N08",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0536": {
+      "teste": "NC50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N19",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0537": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N18",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0538": {
+      "teste": "NC50",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "F04",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0539": {
+      "teste": "NA",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N08",
+      "repeticao": 1,
+      "repeticoes": [
+        1
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0540": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N16",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    },
+    "R0541": {
+      "teste": "NC",
+      "modelo": "llama3.1-8b",
+      "config": null,
+      "id_pergunta": "N05",
+      "repeticao": 1,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "lote": "resp-lote-14"
+    }
+  }
+}
