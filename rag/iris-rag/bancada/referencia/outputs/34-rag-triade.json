@@ -1,0 +1,7273 @@
+{
+ "titulo": "Tríade do RAG: busca -> fidelidade -> citação (+ abstenção), por configuração e por pergunta",
+ "gerado_em": "2026-11-12T20:50:28+00:00",
+ "commit_bancada": {
+  "commit": "não versionado",
+  "data": "2026-11-12"
+ },
+ "commit_grupo": "65e1f09",
+ "nota_commit_grupo": "as respostas medidas aqui vêm do protótipo pacote/ (gerar.py), não do código do grupo",
+ "gabarito": {
+  "arquivo": "gabarito/gabarito_rascunho_v0.json",
+  "n_perguntas": 40,
+  "sem_resposta": [
+   "Q39",
+   "Q40"
+  ],
+  "aviso": "gabarito rascunho de 1 marcador (modelo): recall pode estar subestimado"
+ },
+ "provedor": "respostas geradas por groq:qwen/qwen3.8-27b (temperatura 0), não pelo provedor 'eco'; nada foi gerado nem julgado nesta execução (só leitura de outputs/)",
+ "origem_dos_numeros": {
+  "deterministico": [
+   "1_busca",
+   "3_citacao",
+   "4_abstencao"
+  ],
+  "juiz_modelo_nao_calibrado": [
+   "2_fidelidade"
+  ],
+  "aviso": "juízes discordam muito entre si (kappa 0,16-0,29 em '100% sustentada', ver 17-juizes-comparados.txt); fidelidade serve para observar, não para reprovar"
+ },
+ "estados": {
+  "ok": "elo segurou",
+  "quebrou": "elo falhou",
+  "duvida": "juízes divididos ou só 'parcial'",
+  "nao_se_aplica": "não cabe (ex.: abstenção não tem citação)",
+  "sem_medida": "não há dado"
+ },
+ "ordem_dos_elos": [
+  "busca",
+  "abstencao",
+  "fidelidade",
+  "citacao"
+ ],
+ "regra_primeiro_elo": "percorre busca, abstenção, fidelidade, citação e devolve o primeiro 'quebrou'",
+ "conferencias": {
+  "recall": {
+   "comparado_com": "17-hyde.jsonl[pergunta].recall5 (tolerância 0,001: aqui é arredondado em 4 casas)",
+   "n": 38,
+   "diverge": []
+  },
+  "citacao": [
+   {
+    "arquivo": "17-respostas.jsonl",
+    "diverge_de_gerar_conferir": []
+   },
+   {
+    "arquivo": "17-respostas-v2.jsonl",
+    "diverge_de_gerar_conferir": []
+   },
+   {
+    "arquivo": "17-respostas-v3.jsonl",
+    "diverge_de_gerar_conferir": []
+   },
+   {
+    "arquivo": "17-respostas-v2-busca-nova.jsonl",
+    "diverge_de_gerar_conferir": []
+   }
+  ]
+ },
+ "configuracoes": [
+  {
+   "config": "v1",
+   "descricao": "prompt v1, busca qwen3+rerank (sistema atual)",
+   "arquivo_respostas": "17-respostas.jsonl",
+   "llm_gerador": "groq:qwen/qwen3.8-27b",
+   "perguntas_rodadas": 40,
+   "perguntas_no_gabarito": 40,
+   "metricas": {
+    "1_busca": {
+     "origem": "deterministico (gabarito rascunho, 1 marcador-modelo)",
+     "recall@5": {
+      "n": 38,
+      "v": 0.357,
+      "ic95": [
+       0.261,
+       0.454
+      ],
+      "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)"
+     },
+     "hit@5": {
+      "k": 29,
+      "n": 38,
+      "v": 0.763,
+      "ic95": [
+       0.608,
+       0.87
+      ],
+      "metodo_ic": "wilson"
+     }
+    },
+    "2_fidelidade": {
+     "origem": "juiz-modelo NÃO calibrado contra humano (fração de frases 'sim', média por resposta)",
+     "por_juiz": {
+      "gpt-oss-120b r1": {
+       "n": 35,
+       "v": 0.951,
+       "ic95": [
+        0.912,
+        0.985
+       ],
+       "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)",
+       "cobertura": "35 de 35 respostas julgadas",
+       "toda_sustentada": {
+        "k": 28,
+        "n": 35,
+        "v": 0.8,
+        "ic95": [
+         0.641,
+         0.9
+        ],
+        "metodo_ic": "wilson"
+       }
+      },
+      "gpt-oss-120b r2": {
+       "n": 12,
+       "v": 0.872,
+       "ic95": [
+        0.792,
+        0.944
+       ],
+       "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)",
+       "cobertura": "12 de 35 respostas julgadas",
+       "toda_sustentada": {
+        "k": 6,
+        "n": 12,
+        "v": 0.5,
+        "ic95": [
+         0.254,
+         0.746
+        ],
+        "metodo_ic": "wilson"
+       }
+      },
+      "gpt-oss-20b local": {
+       "n": 35,
+       "v": 0.96,
+       "ic95": [
+        0.93,
+        0.986
+       ],
+       "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)",
+       "cobertura": "35 de 35 respostas julgadas",
+       "toda_sustentada": {
+        "k": 28,
+        "n": 35,
+        "v": 0.8,
+        "ic95": [
+         0.641,
+         0.9
+        ],
+        "metodo_ic": "wilson"
+       }
+      },
+      "Haiku 5.5 r1": {
+       "n": 35,
+       "v": 0.8,
+       "ic95": [
+        0.734,
+        0.86
+       ],
+       "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)",
+       "cobertura": "35 de 35 respostas julgadas",
+       "toda_sustentada": {
+        "k": 9,
+        "n": 35,
+        "v": 0.257,
+        "ic95": [
+         0.142,
+         0.421
+        ],
+        "metodo_ic": "wilson"
+       }
+      },
+      "Haiku 5.5 r2": {
+       "n": 35,
+       "v": 0.833,
+       "ic95": [
+        0.77,
+        0.889
+       ],
+       "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)",
+       "cobertura": "35 de 35 respostas julgadas",
+       "toda_sustentada": {
+        "k": 13,
+        "n": 35,
+        "v": 0.371,
+        "ic95": [
+         0.232,
+         0.537
+        ],
+        "metodo_ic": "wilson"
+       }
+      }
+     }
+    },
+    "3_citacao": {
+     "origem": "deterministico (regex [Tn] por frase, mesma regra de pacote/gerar.py conferir())",
+     "prop_frases_citadas": {
+      "n": 35,
+      "v": 0.995,
+      "ic95": [
+       0.986,
+       1.0
+      ],
+      "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)"
+     },
+     "respostas_100pct_citadas": {
+      "k": 34,
+      "n": 35,
+      "v": 0.971,
+      "ic95": [
+       0.855,
+       0.995
+      ],
+      "metodo_ic": "wilson"
+     },
+     "frases_total": 197,
+     "frases_sem_citacao_total": 1,
+     "citacoes_a_trecho_inexistente_total": 0
+    },
+    "4_abstencao": {
+     "origem": "deterministico (frase-padrão de abstenção detectada pelo código)",
+     "absteve_certo_sem_resposta": {
+      "k": 2,
+      "n": 2,
+      "v": 1.0,
+      "ic95": [
+       0.342,
+       1
+      ],
+      "metodo_ic": "wilson"
+     },
+     "absteve_com_trecho_certo": {
+      "k": 2,
+      "n": 38,
+      "v": 0.053,
+      "ic95": [
+       0.015,
+       0.173
+      ],
+      "metodo_ic": "wilson"
+     },
+     "cobertura_respondeu": {
+      "k": 35,
+      "n": 38,
+      "v": 0.921,
+      "ic95": [
+       0.792,
+       0.973
+      ],
+      "metodo_ic": "wilson"
+     }
+    }
+   },
+   "primeiro_elo_quebrado_contagem": {
+    "nenhum": 27,
+    "busca": 9,
+    "fidelidade": 1,
+    "abstencao": 2,
+    "citacao": 1
+   },
+   "portao": {
+    "aprovado": true,
+    "motivos": [],
+    "regra": "reprova se: abstenção certa < 100% nas sem_resposta; >=1 citação a trecho inexistente; frases citadas < 0,95; ou >3 abstenções com trecho certo no top-5. Fidelidade (juiz) só avisa."
+   },
+   "fontes": {
+    "17-respostas.jsonl": {
+     "commit": "não versionado",
+     "data": "2026-11-06"
+    },
+    "17-juiz-r1.jsonl": {
+     "commit": "baaf0ab",
+     "data": "2026-11-06"
+    },
+    "17-juiz-r2.jsonl": {
+     "commit": "55204f7",
+     "data": "2026-11-06"
+    },
+    "17-juiz-local.jsonl": {
+     "commit": "0f46084",
+     "data": "2026-11-06"
+    },
+    "17-juiz-haiku.jsonl": {
+     "commit": "0f46084",
+     "data": "2026-11-06"
+    },
+    "17-juiz-haiku-r2.jsonl": {
+     "commit": "8d34b60",
+     "data": "2026-11-06"
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "descricao": "prompt v2, mesmos 5 trechos da v1",
+   "arquivo_respostas": "17-respostas-v2.jsonl",
+   "llm_gerador": "groq:qwen/qwen3.8-27b",
+   "perguntas_rodadas": 40,
+   "perguntas_no_gabarito": 40,
+   "metricas": {
+    "1_busca": {
+     "origem": "deterministico (gabarito rascunho, 1 marcador-modelo)",
+     "recall@5": {
+      "n": 38,
+      "v": 0.357,
+      "ic95": [
+       0.261,
+       0.454
+      ],
+      "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)"
+     },
+     "hit@5": {
+      "k": 29,
+      "n": 38,
+      "v": 0.763,
+      "ic95": [
+       0.608,
+       0.87
+      ],
+      "metodo_ic": "wilson"
+     }
+    },
+    "2_fidelidade": {
+     "origem": "juiz-modelo NÃO calibrado contra humano (fração de frases 'sim', média por resposta)",
+     "por_juiz": null,
+     "aviso": "nenhum juiz rodou nesta configuração: fidelidade não medida"
+    },
+    "3_citacao": {
+     "origem": "deterministico (regex [Tn] por frase, mesma regra de pacote/gerar.py conferir())",
+     "prop_frases_citadas": {
+      "n": 34,
+      "v": 0.995,
+      "ic95": [
+       0.985,
+       1.0
+      ],
+      "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)"
+     },
+     "respostas_100pct_citadas": {
+      "k": 33,
+      "n": 34,
+      "v": 0.971,
+      "ic95": [
+       0.851,
+       0.995
+      ],
+      "metodo_ic": "wilson"
+     },
+     "frases_total": 188,
+     "frases_sem_citacao_total": 1,
+     "citacoes_a_trecho_inexistente_total": 0
+    },
+    "4_abstencao": {
+     "origem": "deterministico (frase-padrão de abstenção detectada pelo código)",
+     "absteve_certo_sem_resposta": {
+      "k": 2,
+      "n": 2,
+      "v": 1.0,
+      "ic95": [
+       0.342,
+       1
+      ],
+      "metodo_ic": "wilson"
+     },
+     "absteve_com_trecho_certo": {
+      "k": 2,
+      "n": 38,
+      "v": 0.053,
+      "ic95": [
+       0.015,
+       0.173
+      ],
+      "metodo_ic": "wilson"
+     },
+     "cobertura_respondeu": {
+      "k": 34,
+      "n": 38,
+      "v": 0.895,
+      "ic95": [
+       0.759,
+       0.958
+      ],
+      "metodo_ic": "wilson"
+     }
+    }
+   },
+   "primeiro_elo_quebrado_contagem": {
+    "nenhum": 28,
+    "busca": 9,
+    "abstencao": 2,
+    "citacao": 1
+   },
+   "portao": {
+    "aprovado": true,
+    "motivos": [],
+    "regra": "reprova se: abstenção certa < 100% nas sem_resposta; >=1 citação a trecho inexistente; frases citadas < 0,95; ou >3 abstenções com trecho certo no top-5. Fidelidade (juiz) só avisa."
+   },
+   "fontes": {
+    "17-respostas-v2.jsonl": {
+     "commit": "não versionado",
+     "data": "2026-11-07"
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "descricao": "prompt v3, mesmos 5 trechos da v1",
+   "arquivo_respostas": "17-respostas-v3.jsonl",
+   "llm_gerador": "groq:qwen/qwen3.8-27b",
+   "perguntas_rodadas": 40,
+   "perguntas_no_gabarito": 40,
+   "metricas": {
+    "1_busca": {
+     "origem": "deterministico (gabarito rascunho, 1 marcador-modelo)",
+     "recall@5": {
+      "n": 38,
+      "v": 0.357,
+      "ic95": [
+       0.261,
+       0.454
+      ],
+      "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)"
+     },
+     "hit@5": {
+      "k": 29,
+      "n": 38,
+      "v": 0.763,
+      "ic95": [
+       0.608,
+       0.87
+      ],
+      "metodo_ic": "wilson"
+     }
+    },
+    "2_fidelidade": {
+     "origem": "juiz-modelo NÃO calibrado contra humano (fração de frases 'sim', média por resposta)",
+     "por_juiz": null,
+     "aviso": "nenhum juiz rodou nesta configuração: fidelidade não medida"
+    },
+    "3_citacao": {
+     "origem": "deterministico (regex [Tn] por frase, mesma regra de pacote/gerar.py conferir())",
+     "prop_frases_citadas": {
+      "n": 33,
+      "v": 1.0,
+      "ic95": [
+       1.0,
+       1.0
+      ],
+      "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)"
+     },
+     "respostas_100pct_citadas": {
+      "k": 33,
+      "n": 33,
+      "v": 1.0,
+      "ic95": [
+       0.896,
+       1.0
+      ],
+      "metodo_ic": "wilson"
+     },
+     "frases_total": 176,
+     "frases_sem_citacao_total": 0,
+     "citacoes_a_trecho_inexistente_total": 0
+    },
+    "4_abstencao": {
+     "origem": "deterministico (frase-padrão de abstenção detectada pelo código)",
+     "absteve_certo_sem_resposta": {
+      "k": 2,
+      "n": 2,
+      "v": 1.0,
+      "ic95": [
+       0.342,
+       1
+      ],
+      "metodo_ic": "wilson"
+     },
+     "absteve_com_trecho_certo": {
+      "k": 2,
+      "n": 38,
+      "v": 0.053,
+      "ic95": [
+       0.015,
+       0.173
+      ],
+      "metodo_ic": "wilson"
+     },
+     "cobertura_respondeu": {
+      "k": 33,
+      "n": 38,
+      "v": 0.868,
+      "ic95": [
+       0.727,
+       0.942
+      ],
+      "metodo_ic": "wilson"
+     }
+    }
+   },
+   "primeiro_elo_quebrado_contagem": {
+    "nenhum": 29,
+    "busca": 9,
+    "abstencao": 2
+   },
+   "portao": {
+    "aprovado": true,
+    "motivos": [],
+    "regra": "reprova se: abstenção certa < 100% nas sem_resposta; >=1 citação a trecho inexistente; frases citadas < 0,95; ou >3 abstenções com trecho certo no top-5. Fidelidade (juiz) só avisa."
+   },
+   "fontes": {
+    "17-respostas-v3.jsonl": {
+     "commit": "não versionado",
+     "data": "2026-11-07"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "descricao": "prompt v2 com a busca rodada de novo (33 de 40, posta de lado)",
+   "arquivo_respostas": "17-respostas-v2-busca-nova.jsonl",
+   "llm_gerador": "groq:qwen/qwen3.8-27b",
+   "perguntas_rodadas": 33,
+   "perguntas_no_gabarito": 40,
+   "metricas": {
+    "1_busca": {
+     "origem": "deterministico (gabarito rascunho, 1 marcador-modelo)",
+     "recall@5": {
+      "n": 33,
+      "v": 0.353,
+      "ic95": [
+       0.244,
+       0.465
+      ],
+      "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)"
+     },
+     "hit@5": {
+      "k": 24,
+      "n": 33,
+      "v": 0.727,
+      "ic95": [
+       0.558,
+       0.849
+      ],
+      "metodo_ic": "wilson"
+     }
+    },
+    "2_fidelidade": {
+     "origem": "juiz-modelo NÃO calibrado contra humano (fração de frases 'sim', média por resposta)",
+     "por_juiz": {
+      "gpt-oss-120b r1": {
+       "n": 4,
+       "v": 0.917,
+       "ic95": [
+        0.75,
+        1.0
+       ],
+       "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)",
+       "cobertura": "4 de 29 respostas julgadas",
+       "toda_sustentada": {
+        "k": 3,
+        "n": 4,
+        "v": 0.75,
+        "ic95": [
+         0.301,
+         0.954
+        ],
+        "metodo_ic": "wilson"
+       }
+      }
+     }
+    },
+    "3_citacao": {
+     "origem": "deterministico (regex [Tn] por frase, mesma regra de pacote/gerar.py conferir())",
+     "prop_frases_citadas": {
+      "n": 29,
+      "v": 1.0,
+      "ic95": [
+       1.0,
+       1.0
+      ],
+      "metodo_ic": "bootstrap por pergunta (2000, semente 20261106)"
+     },
+     "respostas_100pct_citadas": {
+      "k": 29,
+      "n": 29,
+      "v": 1.0,
+      "ic95": [
+       0.883,
+       1.0
+      ],
+      "metodo_ic": "wilson"
+     },
+     "frases_total": 161,
+     "frases_sem_citacao_total": 0,
+     "citacoes_a_trecho_inexistente_total": 0
+    },
+    "4_abstencao": {
+     "origem": "deterministico (frase-padrão de abstenção detectada pelo código)",
+     "absteve_certo_sem_resposta": {
+      "k": 0,
+      "n": 0,
+      "v": null,
+      "ic95": null,
+      "metodo_ic": "wilson"
+     },
+     "absteve_com_trecho_certo": {
+      "k": 2,
+      "n": 33,
+      "v": 0.061,
+      "ic95": [
+       0.017,
+       0.196
+      ],
+      "metodo_ic": "wilson"
+     },
+     "cobertura_respondeu": {
+      "k": 29,
+      "n": 33,
+      "v": 0.879,
+      "ic95": [
+       0.727,
+       0.952
+      ],
+      "metodo_ic": "wilson"
+     }
+    }
+   },
+   "primeiro_elo_quebrado_contagem": {
+    "nenhum": 29,
+    "busca": 9,
+    "abstencao": 2
+   },
+   "portao": {
+    "aprovado": true,
+    "motivos": [],
+    "regra": "reprova se: abstenção certa < 100% nas sem_resposta; >=1 citação a trecho inexistente; frases citadas < 0,95; ou >3 abstenções com trecho certo no top-5. Fidelidade (juiz) só avisa."
+   },
+   "fontes": {
+    "17-respostas-v2-busca-nova.jsonl": {
+     "commit": "não versionado",
+     "data": "2026-11-06"
+    },
+    "17-juiz-v2-busca-nova-r1.jsonl": {
+     "commit": "não versionado",
+     "data": "2026-11-06"
+    }
+   }
+  }
+ ],
+ "matriz": [
+  {
+   "config": "v1",
+   "id": "Q01",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-120b r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 1 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q02",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-120b r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q03",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-120b r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 1 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q04",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 2,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "gpt-oss-120b r2": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.3333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 4
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.3333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 4
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 4 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q05",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "quebrou",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "quebrou",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 1,
+       "parcial": 1
+      },
+      "gpt-oss-120b r2": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 1,
+       "parcial": 1
+      },
+      "gpt-oss-20b local": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 1,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 1,
+       "parcial": 1
+      }
+     },
+     "motivo": "4 de 5 juízes viram frase não sustentada"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q06",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 2,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-120b r2": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q07",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 5,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 0.5,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 3
+      },
+      "gpt-oss-120b r2": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      },
+      "gpt-oss-20b local": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.5,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 3
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.3333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 4
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 5 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q08",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "quebrou",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "fidelidade",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "quebrou",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 1,
+       "parcial": 0
+      },
+      "gpt-oss-120b r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 1,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.3333,
+       "frases": 6,
+       "nao": 1,
+       "parcial": 3
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.3333,
+       "frases": 6,
+       "nao": 1,
+       "parcial": 3
+      }
+     },
+     "motivo": "4 de 5 juízes viram frase não sustentada"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q09",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.6667,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "gpt-oss-120b r2": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "gpt-oss-20b local": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 5 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q10",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true,
+     "motivo": "absteve porque a busca falhou (coerente; o elo quebrado é a busca)"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q11",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "gpt-oss-120b r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 4 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q12",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 1
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-120b r2": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q13",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-120b r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q14",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q15",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q16",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q17",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 9
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q18",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q19",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.8,
+     "hit5": true,
+     "certos_no_top5": 4,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q20",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q21",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 2
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q22",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 1
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 3,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 3,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 3,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 3,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 3,
+     "frases_com_citacao_valida": 3,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q23",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q24",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.6667,
+     "hit5": true,
+     "certos_no_top5": 4,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q25",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q26",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "quebrou",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "abstencao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "quebrou",
+     "absteve": true,
+     "motivo": "absteve mesmo com trecho certo no top-5"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q27",
+   "tipo": "evidencia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q28",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 5,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 3,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 0.6667,
+       "frases": 3,
+       "nao": 1,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.3333,
+       "frases": 3,
+       "nao": 0,
+       "parcial": 2
+      },
+      "Haiku 5.5 r2": {
+       "fid": 1.0,
+       "frases": 3,
+       "nao": 0,
+       "parcial": 0
+      }
+     },
+     "motivo": "1 juiz(es) viram frase não sustentada, 1 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 3,
+     "frases_com_citacao_valida": 3,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q29",
+   "tipo": "evidencia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q30",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 6,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 3 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q31",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q32",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q33",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "quebrou",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "abstencao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "quebrou",
+     "absteve": true,
+     "motivo": "absteve mesmo com trecho certo no top-5"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q34",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q35",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "quebrou",
+   "primeiro_elo_quebrado": "citacao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.75,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "quebrou",
+     "frases": 6,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 1,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 0.8333,
+     "motivo": "1 frase(s) sem [Tn], 0 citação(ões) a trecho que não existe"
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q36",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8,
+       "frases": 5,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 3 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q37",
+   "tipo": "so_ingles",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 2 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q38",
+   "tipo": "so_ingles",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      },
+      "gpt-oss-20b local": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r1": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      },
+      "Haiku 5.5 r2": {
+       "fid": 0.8333,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 1
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 3 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q39",
+   "tipo": "sem_resposta",
+   "busca": "nao_se_aplica",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "nao_se_aplica",
+     "motivo": "pergunta sem resposta no corpus"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v1",
+   "id": "Q40",
+   "tipo": "sem_resposta",
+   "busca": "nao_se_aplica",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "nao_se_aplica",
+     "motivo": "pergunta sem resposta no corpus"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q01",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q02",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q03",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q04",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 2,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q05",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q06",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 2,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q07",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 5,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true,
+     "motivo": "absteve porque a busca falhou (coerente; o elo quebrado é a busca)"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q08",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q09",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.6667,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q10",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true,
+     "motivo": "absteve porque a busca falhou (coerente; o elo quebrado é a busca)"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q11",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q12",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 1
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q13",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q14",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q15",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q16",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q17",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 9
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q18",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q19",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.8,
+     "hit5": true,
+     "certos_no_top5": 4,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q20",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q21",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 2
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 4,
+     "frases_com_citacao_valida": 4,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q22",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 1
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 3,
+     "frases_com_citacao_valida": 3,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q23",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q24",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.6667,
+     "hit5": true,
+     "certos_no_top5": 4,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q25",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q26",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "quebrou",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "abstencao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "quebrou",
+     "absteve": true,
+     "motivo": "absteve mesmo com trecho certo no top-5"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q27",
+   "tipo": "evidencia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q28",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 5,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 4,
+     "frases_com_citacao_valida": 4,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q29",
+   "tipo": "evidencia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q30",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 6,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q31",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q32",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q33",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "quebrou",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "abstencao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "quebrou",
+     "absteve": true,
+     "motivo": "absteve mesmo com trecho certo no top-5"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q34",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q35",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "quebrou",
+   "primeiro_elo_quebrado": "citacao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.75,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "quebrou",
+     "frases": 6,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 1,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 0.8333,
+     "motivo": "1 frase(s) sem [Tn], 0 citação(ões) a trecho que não existe"
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q36",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q37",
+   "tipo": "so_ingles",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q38",
+   "tipo": "so_ingles",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q39",
+   "tipo": "sem_resposta",
+   "busca": "nao_se_aplica",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "nao_se_aplica",
+     "motivo": "pergunta sem resposta no corpus"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2",
+   "id": "Q40",
+   "tipo": "sem_resposta",
+   "busca": "nao_se_aplica",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "nao_se_aplica",
+     "motivo": "pergunta sem resposta no corpus"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q01",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q02",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q03",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q04",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 2,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q05",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q06",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 2,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q07",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 5,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true,
+     "motivo": "absteve porque a busca falhou (coerente; o elo quebrado é a busca)"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q08",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q09",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.6667,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q10",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true,
+     "motivo": "absteve porque a busca falhou (coerente; o elo quebrado é a busca)"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q11",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q12",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 1
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 4,
+     "frases_com_citacao_valida": 4,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q13",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q14",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q15",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q16",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q17",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 9
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q18",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q19",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.8,
+     "hit5": true,
+     "certos_no_top5": 4,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q20",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 4,
+     "frases_com_citacao_valida": 4,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q21",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 2
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 4,
+     "frases_com_citacao_valida": 4,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q22",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 1
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 3,
+     "frases_com_citacao_valida": 3,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q23",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q24",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.6667,
+     "hit5": true,
+     "certos_no_top5": 4,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q25",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q26",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "quebrou",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "abstencao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "quebrou",
+     "absteve": true,
+     "motivo": "absteve mesmo com trecho certo no top-5"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q27",
+   "tipo": "evidencia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q28",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 5,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true,
+     "motivo": "absteve porque a busca falhou (coerente; o elo quebrado é a busca)"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q29",
+   "tipo": "evidencia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q30",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 6,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q31",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 4,
+     "frases_com_citacao_valida": 4,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q32",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q33",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "quebrou",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "abstencao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "quebrou",
+     "absteve": true,
+     "motivo": "absteve mesmo com trecho certo no top-5"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q34",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q35",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.75,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q36",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q37",
+   "tipo": "so_ingles",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q38",
+   "tipo": "so_ingles",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q39",
+   "tipo": "sem_resposta",
+   "busca": "nao_se_aplica",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "nao_se_aplica",
+     "motivo": "pergunta sem resposta no corpus"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v3",
+   "id": "Q40",
+   "tipo": "sem_resposta",
+   "busca": "nao_se_aplica",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "nao_se_aplica",
+     "motivo": "pergunta sem resposta no corpus"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q01",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q02",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q03",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "ok",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "ok",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 1.0,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 0
+      }
+     }
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q04",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "duvida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 2,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "duvida",
+     "juizes": {
+      "gpt-oss-120b r1": {
+       "fid": 0.6667,
+       "frases": 6,
+       "nao": 0,
+       "parcial": 2
+      }
+     },
+     "motivo": "0 juiz(es) viram frase não sustentada, 1 viram só 'parcial'"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q05",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q06",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 2,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q07",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 5,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true,
+     "motivo": "absteve porque a busca falhou (coerente; o elo quebrado é a busca)"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q08",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.1667,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q09",
+   "tipo": "estrategia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.6667,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q10",
+   "tipo": "estrategia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": true,
+     "motivo": "absteve porque a busca falhou (coerente; o elo quebrado é a busca)"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q11",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q12",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 1
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q13",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q14",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q15",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q16",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q17",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.3333,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 9
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q18",
+   "tipo": "dua",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.2,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q19",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.8,
+     "hit5": true,
+     "certos_no_top5": 4,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q20",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q21",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 2
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 4,
+     "frases_com_citacao_valida": 4,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q22",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 1
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 3,
+     "frases_com_citacao_valida": 3,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q23",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q24",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.6667,
+     "hit5": true,
+     "certos_no_top5": 4,
+     "relevantes_no_gabarito": 6
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q25",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q26",
+   "tipo": "norma",
+   "busca": "ok",
+   "abstencao": "quebrou",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "abstencao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.25,
+     "hit5": true,
+     "certos_no_top5": 1,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "quebrou",
+     "absteve": true,
+     "motivo": "absteve mesmo com trecho certo no top-5"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q27",
+   "tipo": "evidencia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 1.0,
+     "hit5": true,
+     "certos_no_top5": 3,
+     "relevantes_no_gabarito": 3
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q28",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 5,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 4,
+     "frases_com_citacao_valida": 4,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q29",
+   "tipo": "evidencia",
+   "busca": "ok",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.5,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 4
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q30",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 6,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q31",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 5,
+     "frases_com_citacao_valida": 5,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q32",
+   "tipo": "evidencia",
+   "busca": "quebrou",
+   "abstencao": "ok",
+   "fidelidade": "sem_medida",
+   "citacao": "ok",
+   "primeiro_elo_quebrado": "busca",
+   "detalhe": {
+    "busca": {
+     "estado": "quebrou",
+     "recall5": 0.0,
+     "hit5": false,
+     "certos_no_top5": 0,
+     "relevantes_no_gabarito": 4,
+     "motivo": "nenhum trecho do gabarito entre os 5 trazidos"
+    },
+    "abstencao": {
+     "estado": "ok",
+     "absteve": false
+    },
+    "fidelidade": {
+     "estado": "sem_medida",
+     "motivo": "nenhum juiz julgou esta resposta"
+    },
+    "citacao": {
+     "estado": "ok",
+     "frases": 6,
+     "frases_com_citacao_valida": 6,
+     "frases_sem_citacao": 0,
+     "frases_so_com_citacao_invalida": 0,
+     "citacoes_a_trecho_inexistente": 0,
+     "prop_frases_citadas": 1.0
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q33",
+   "tipo": "mito",
+   "busca": "ok",
+   "abstencao": "quebrou",
+   "fidelidade": "nao_se_aplica",
+   "citacao": "nao_se_aplica",
+   "primeiro_elo_quebrado": "abstencao",
+   "detalhe": {
+    "busca": {
+     "estado": "ok",
+     "recall5": 0.4,
+     "hit5": true,
+     "certos_no_top5": 2,
+     "relevantes_no_gabarito": 5
+    },
+    "abstencao": {
+     "estado": "quebrou",
+     "absteve": true,
+     "motivo": "absteve mesmo com trecho certo no top-5"
+    },
+    "fidelidade": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    },
+    "citacao": {
+     "estado": "nao_se_aplica",
+     "motivo": "absteve"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q34",
+   "tipo": "mito",
+   "busca": "sem_medida",
+   "abstencao": "sem_medida",
+   "fidelidade": "sem_medida",
+   "citacao": "sem_medida",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "sem_medida",
+     "motivo": "configuração não rodou esta pergunta"
+    },
+    "abstencao": {
+     "estado": "sem_medida"
+    },
+    "fidelidade": {
+     "estado": "sem_medida"
+    },
+    "citacao": {
+     "estado": "sem_medida"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q35",
+   "tipo": "mito",
+   "busca": "sem_medida",
+   "abstencao": "sem_medida",
+   "fidelidade": "sem_medida",
+   "citacao": "sem_medida",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "sem_medida",
+     "motivo": "configuração não rodou esta pergunta"
+    },
+    "abstencao": {
+     "estado": "sem_medida"
+    },
+    "fidelidade": {
+     "estado": "sem_medida"
+    },
+    "citacao": {
+     "estado": "sem_medida"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q36",
+   "tipo": "mito",
+   "busca": "sem_medida",
+   "abstencao": "sem_medida",
+   "fidelidade": "sem_medida",
+   "citacao": "sem_medida",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "sem_medida",
+     "motivo": "configuração não rodou esta pergunta"
+    },
+    "abstencao": {
+     "estado": "sem_medida"
+    },
+    "fidelidade": {
+     "estado": "sem_medida"
+    },
+    "citacao": {
+     "estado": "sem_medida"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q37",
+   "tipo": "so_ingles",
+   "busca": "sem_medida",
+   "abstencao": "sem_medida",
+   "fidelidade": "sem_medida",
+   "citacao": "sem_medida",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "sem_medida",
+     "motivo": "configuração não rodou esta pergunta"
+    },
+    "abstencao": {
+     "estado": "sem_medida"
+    },
+    "fidelidade": {
+     "estado": "sem_medida"
+    },
+    "citacao": {
+     "estado": "sem_medida"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q38",
+   "tipo": "so_ingles",
+   "busca": "sem_medida",
+   "abstencao": "sem_medida",
+   "fidelidade": "sem_medida",
+   "citacao": "sem_medida",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "sem_medida",
+     "motivo": "configuração não rodou esta pergunta"
+    },
+    "abstencao": {
+     "estado": "sem_medida"
+    },
+    "fidelidade": {
+     "estado": "sem_medida"
+    },
+    "citacao": {
+     "estado": "sem_medida"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q39",
+   "tipo": "sem_resposta",
+   "busca": "nao_se_aplica",
+   "abstencao": "sem_medida",
+   "fidelidade": "sem_medida",
+   "citacao": "sem_medida",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "nao_se_aplica",
+     "motivo": "pergunta sem resposta no corpus"
+    },
+    "abstencao": {
+     "estado": "sem_medida"
+    },
+    "fidelidade": {
+     "estado": "sem_medida"
+    },
+    "citacao": {
+     "estado": "sem_medida"
+    }
+   }
+  },
+  {
+   "config": "v2-busca-nova",
+   "id": "Q40",
+   "tipo": "sem_resposta",
+   "busca": "nao_se_aplica",
+   "abstencao": "sem_medida",
+   "fidelidade": "sem_medida",
+   "citacao": "sem_medida",
+   "primeiro_elo_quebrado": null,
+   "detalhe": {
+    "busca": {
+     "estado": "nao_se_aplica",
+     "motivo": "pergunta sem resposta no corpus"
+    },
+    "abstencao": {
+     "estado": "sem_medida"
+    },
+    "fidelidade": {
+     "estado": "sem_medida"
+    },
+    "citacao": {
+     "estado": "sem_medida"
+    }
+   }
+  }
+ ]
+}

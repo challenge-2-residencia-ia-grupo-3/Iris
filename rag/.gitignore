@@ -20,4 +20,7 @@ iris-rag/pacote/outputs/2[1-9]-*
 iris-rag/pacote/outputs/3[0-9]-*
 iris-rag/pacote/outputs/40-*
 iris-rag/pacote/outputs/execucoes*.jsonl
+iris-rag/pacote/outputs/1[7-9]-*
+iris-rag/pacote/outputs/20-*
+iris-rag/pacote/outputs/.retrato.json
 iris-rag/bancada/langgraph/.montado/

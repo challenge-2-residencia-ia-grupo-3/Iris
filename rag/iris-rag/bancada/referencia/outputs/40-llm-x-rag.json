@@ -1,0 +1,7277 @@
+{
+ "gerado_em": "2026-11-13T11:02:49+00:00",
+ "fontes": [
+  "semana3/saidas/juiz_metricas.json",
+  "semana3/saidas/metricas.json",
+  "semana3/saidas_r50/juiz_r50.json",
+  "semana3/saidas_r50/metricas.json",
+  "semana3/saidas/juiz_concordancia.json",
+  "semana3/saidas/juiz_por_resposta.jsonl"
+ ],
+ "relatorio": "challenges/challenge-02-qualidade-de-vida/entregas/2026-11-13-llm-x-rag/relatorio.pdf",
+ "commit_geracao": "4ac290d-modificado",
+ "condicoes": {
+  "A": {
+   "fonte": "saidas/juiz_metricas.json#condicoes/A|llama3.1-8b",
+   "respostas": 120,
+   "perguntas": 40,
+   "util_contagem": {
+    "parcial": 42,
+    "não": 59,
+    "sim": 19
+   },
+   "fidelidade": [
+    0.4431,
+    0.3093,
+    0.5813
+   ],
+   "fidelidade_categoria": {
+    "factual": [
+     0.5105,
+     0.2857,
+     0.7596
+    ],
+    "sintese": [
+     0.3574,
+     0.1951,
+     0.528
+    ],
+    "fora_da_base": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "fidelidade_sem_abstencao": [
+    0.1433,
+    0.0699,
+    0.2254
+   ],
+   "fidelidade_sem_abstencao_categoria": {
+    "factual": [
+     0.1434,
+     0.0324,
+     0.269
+    ],
+    "sintese": [
+     0.1432,
+     0.0556,
+     0.2358
+    ]
+   },
+   "util_sim": [
+    0.1583,
+    0.0583,
+    0.275
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.0714,
+     0.0,
+     0.2143
+    ],
+    "sintese": [
+     0.2222,
+     0.0694,
+     0.3889
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.5083,
+    0.3583,
+    0.6583
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     0.4762,
+     0.2143,
+     0.7381
+    ],
+    "sintese": [
+     0.5694,
+     0.3611,
+     0.7639
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "inventou": [
+    0.3167,
+    0.175,
+    0.4583
+   ],
+   "inventou_categoria": {
+    "factual": [
+     0.3333,
+     0.119,
+     0.5714
+    ],
+    "sintese": [
+     0.3333,
+     0.1667,
+     0.5139
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tem_frase_que_contradiz": [
+    0.2167,
+    0.1,
+    0.35
+   ],
+   "tem_frase_que_contradiz_categoria": {
+    "factual": [
+     0.119,
+     0.0,
+     0.3095
+    ],
+    "sintese": [
+     0.2917,
+     0.125,
+     0.4583
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "absteve_juiz": [
+    0.35,
+    0.2,
+    0.5
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.4286,
+     0.2143,
+     0.7143
+    ],
+    "sintese": [
+     0.25,
+     0.0833,
+     0.4583
+    ],
+    "fora_da_base": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "abstencao_correta_q39_q40": "6/6",
+   "cobertura_38": 0.6842,
+   "pct_frases_com_citacao_media": null,
+   "latencia_p95_s": 1.6,
+   "latencia_mediana_s": 0.75,
+   "tokens_entrada_media": 209.075,
+   "tokens_saida_media": 92.8083,
+   "texto_identico_nas_3": 20
+  },
+  "B1": {
+   "fonte": "saidas/juiz_metricas.json#condicoes/B|busca-top1",
+   "respostas": 40,
+   "perguntas": 40,
+   "util_contagem": {
+    "parcial": 21,
+    "não": 12,
+    "sim": 7
+   },
+   "fidelidade": null,
+   "fidelidade_categoria": {},
+   "fidelidade_sem_abstencao": null,
+   "fidelidade_sem_abstencao_categoria": {},
+   "util_sim": [
+    0.175,
+    0.075,
+    0.3
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.2917,
+     0.125,
+     0.4583
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.7,
+    0.55,
+    0.825
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     0.7143,
+     0.5,
+     0.9286
+    ],
+    "sintese": [
+     0.75,
+     0.5417,
+     0.9167
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "inventou": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "inventou_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tem_frase_que_contradiz": null,
+   "tem_frase_que_contradiz_categoria": {},
+   "absteve_juiz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "B3": {
+   "fonte": "saidas/juiz_metricas.json#condicoes/B|busca-top3",
+   "respostas": 40,
+   "perguntas": 40,
+   "util_contagem": {
+    "parcial": 21,
+    "sim": 13,
+    "não": 6
+   },
+   "fidelidade": null,
+   "fidelidade_categoria": {},
+   "fidelidade_sem_abstencao": null,
+   "fidelidade_sem_abstencao_categoria": {},
+   "util_sim": [
+    0.325,
+    0.175,
+    0.475
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.1429,
+     0.0,
+     0.3571
+    ],
+    "sintese": [
+     0.4583,
+     0.25,
+     0.6667
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.85,
+    0.725,
+    0.95
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     0.9286,
+     0.7857,
+     1.0
+    ],
+    "sintese": [
+     0.875,
+     0.7083,
+     1.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "inventou": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "inventou_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tem_frase_que_contradiz": null,
+   "tem_frase_que_contradiz_categoria": {},
+   "absteve_juiz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "C": {
+   "fonte": "saidas/juiz_metricas.json#condicoes/C|llama3.1-8b",
+   "respostas": 120,
+   "perguntas": 40,
+   "util_contagem": {
+    "sim": 60,
+    "não": 18,
+    "parcial": 42
+   },
+   "fidelidade": [
+    0.7719,
+    0.6879,
+    0.8446
+   ],
+   "fidelidade_categoria": {
+    "factual": [
+     0.7015,
+     0.5846,
+     0.8189
+    ],
+    "sintese": [
+     0.8263,
+     0.73,
+     0.9155
+    ],
+    "fora_da_base": [
+     0.6111,
+     0.2222,
+     1.0
+    ]
+   },
+   "fidelidade_sem_abstencao": [
+    0.7414,
+    0.6544,
+    0.829
+   ],
+   "fidelidade_sem_abstencao_categoria": {
+    "factual": [
+     0.701,
+     0.5651,
+     0.8313
+    ],
+    "sintese": [
+     0.7916,
+     0.6838,
+     0.8958
+    ],
+    "fora_da_base": [
+     0.2222,
+     0.2222,
+     0.2222
+    ]
+   },
+   "util_sim": [
+    0.5,
+    0.35,
+    0.65
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.2857,
+     0.0714,
+     0.5714
+    ],
+    "sintese": [
+     0.625,
+     0.4167,
+     0.7917
+    ],
+    "fora_da_base": [
+     0.5,
+     0.0,
+     1.0
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.85,
+    0.725,
+    0.95
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     0.9286,
+     0.7857,
+     1.0
+    ],
+    "sintese": [
+     0.8333,
+     0.6667,
+     0.9583
+    ],
+    "fora_da_base": [
+     0.5,
+     0.0,
+     1.0
+    ]
+   },
+   "inventou": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "inventou_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tem_frase_que_contradiz": [
+    0.2,
+    0.1,
+    0.325
+   ],
+   "tem_frase_que_contradiz_categoria": {
+    "factual": [
+     0.3571,
+     0.1429,
+     0.6429
+    ],
+    "sintese": [
+     0.125,
+     0.0,
+     0.25
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "absteve_juiz": [
+    0.175,
+    0.05,
+    0.3
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.1429,
+     0.0,
+     0.3571
+    ],
+    "sintese": [
+     0.1667,
+     0.0417,
+     0.3333
+    ],
+    "fora_da_base": [
+     0.5,
+     0.0,
+     1.0
+    ]
+   },
+   "abstencao_correta_q39_q40": "3/6",
+   "cobertura_38": 0.8947,
+   "pct_frases_com_citacao_media": 0.6192,
+   "latencia_p95_s": 16.3,
+   "latencia_mediana_s": 11.3,
+   "tokens_entrada_media": 2887.6,
+   "tokens_saida_media": 230.625,
+   "texto_identico_nas_3": 38
+  },
+  "C50": {
+   "fonte": "saidas_r50/juiz_r50.json#condicoes/C50|llama3.1-8b",
+   "respostas": 120,
+   "perguntas": 40,
+   "util_contagem": {
+    "parcial": 39,
+    "sim": 60,
+    "não": 21
+   },
+   "fidelidade": [
+    0.7887,
+    0.7037,
+    0.8648
+   ],
+   "fidelidade_categoria": {
+    "factual": [
+     0.8545,
+     0.7632,
+     0.9389
+    ],
+    "sintese": [
+     0.7651,
+     0.6474,
+     0.8643
+    ],
+    "fora_da_base": [
+     0.6111,
+     0.2222,
+     1.0
+    ]
+   },
+   "fidelidade_sem_abstencao": [
+    0.7439,
+    0.6529,
+    0.8307
+   ],
+   "fidelidade_sem_abstencao_categoria": {
+    "factual": [
+     0.8149,
+     0.7152,
+     0.9121
+    ],
+    "sintese": [
+     0.7315,
+     0.5974,
+     0.8485
+    ],
+    "fora_da_base": [
+     0.2222,
+     0.2222,
+     0.2222
+    ]
+   },
+   "util_sim": [
+    0.5,
+    0.35,
+    0.65
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.5,
+     0.2143,
+     0.7857
+    ],
+    "sintese": [
+     0.5417,
+     0.3333,
+     0.75
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.825,
+    0.7,
+    0.925
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     0.7857,
+     0.5714,
+     1.0
+    ],
+    "sintese": [
+     0.875,
+     0.75,
+     1.0
+    ],
+    "fora_da_base": [
+     0.5,
+     0.0,
+     1.0
+    ]
+   },
+   "inventou": [
+    0.05,
+    0.0,
+    0.125
+   ],
+   "inventou_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0833,
+     0.0,
+     0.2083
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tem_frase_que_contradiz": [
+    0.125,
+    0.025,
+    0.225
+   ],
+   "tem_frase_que_contradiz_categoria": {
+    "factual": [
+     0.2143,
+     0.0,
+     0.4286
+    ],
+    "sintese": [
+     0.0833,
+     0.0,
+     0.2083
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "absteve_juiz": [
+    0.175,
+    0.075,
+    0.3
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.2143,
+     0.0,
+     0.4286
+    ],
+    "sintese": [
+     0.125,
+     0.0,
+     0.25
+    ],
+    "fora_da_base": [
+     0.5,
+     0.0,
+     1.0
+    ]
+   },
+   "abstencao_correta_q39_q40": "3/6",
+   "cobertura_38": 0.8421,
+   "pct_frases_com_citacao_media": 0.6403,
+   "latencia_p95_s": 5.72,
+   "texto_identico_nas_3": 39
+  },
+  "B1-50": {
+   "fonte": "saidas_r50/juiz_r50.json#condicoes/B50|busca-top1",
+   "respostas": 40,
+   "perguntas": 40,
+   "util_contagem": {
+    "não": 12,
+    "sim": 9,
+    "parcial": 19
+   },
+   "fidelidade": null,
+   "fidelidade_categoria": {},
+   "fidelidade_sem_abstencao": null,
+   "fidelidade_sem_abstencao_categoria": {},
+   "util_sim": [
+    0.225,
+    0.1,
+    0.35
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.2857,
+     0.0714,
+     0.5714
+    ],
+    "sintese": [
+     0.2083,
+     0.0417,
+     0.375
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.7,
+    0.55,
+    0.825
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     0.7857,
+     0.5714,
+     1.0
+    ],
+    "sintese": [
+     0.7083,
+     0.5417,
+     0.875
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "inventou": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "inventou_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tem_frase_que_contradiz": null,
+   "tem_frase_que_contradiz_categoria": {},
+   "absteve_juiz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "B3-50": {
+   "fonte": "saidas_r50/juiz_r50.json#condicoes/B50|busca-top3",
+   "respostas": 40,
+   "perguntas": 40,
+   "util_contagem": {
+    "sim": 21,
+    "parcial": 15,
+    "não": 4
+   },
+   "fidelidade": null,
+   "fidelidade_categoria": {},
+   "fidelidade_sem_abstencao": null,
+   "fidelidade_sem_abstencao_categoria": {},
+   "util_sim": [
+    0.525,
+    0.375,
+    0.675
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.5714,
+     0.2857,
+     0.7857
+    ],
+    "sintese": [
+     0.5417,
+     0.3333,
+     0.75
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.9,
+    0.8,
+    0.975
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "sintese": [
+     0.9167,
+     0.7917,
+     1.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "inventou": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "inventou_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tem_frase_que_contradiz": null,
+   "tem_frase_que_contradiz_categoria": {},
+   "absteve_juiz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "A-gptoss": {
+   "fonte": "saidas/juiz_metricas.json#condicoes/A|gpt-oss-20b",
+   "respostas": 120,
+   "perguntas": 40,
+   "util_contagem": {
+    "não": 42,
+    "parcial": 40,
+    "sim": 38
+   },
+   "fidelidade": [
+    0.0454,
+    0.0214,
+    0.0725
+   ],
+   "fidelidade_categoria": {
+    "factual": [
+     0.0278,
+     0.0079,
+     0.0516
+    ],
+    "sintese": [
+     0.0456,
+     0.0155,
+     0.0836
+    ],
+    "fora_da_base": [
+     0.1666,
+     0.0,
+     0.3333
+    ]
+   },
+   "fidelidade_sem_abstencao": [
+    0.0454,
+    0.0214,
+    0.0725
+   ],
+   "fidelidade_sem_abstencao_categoria": {
+    "factual": [
+     0.0278,
+     0.0079,
+     0.0516
+    ],
+    "sintese": [
+     0.0456,
+     0.0155,
+     0.0836
+    ],
+    "fora_da_base": [
+     0.1666,
+     0.0,
+     0.3333
+    ]
+   },
+   "util_sim": [
+    0.3167,
+    0.1833,
+    0.4583
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.0714,
+     0.0,
+     0.1905
+    ],
+    "sintese": [
+     0.4861,
+     0.3056,
+     0.6806
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.65,
+    0.5083,
+    0.7917
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     0.619,
+     0.381,
+     0.8333
+    ],
+    "sintese": [
+     0.6806,
+     0.5,
+     0.8611
+    ],
+    "fora_da_base": [
+     0.5,
+     0.0,
+     1.0
+    ]
+   },
+   "inventou": [
+    0.95,
+    0.8833,
+    0.9917
+   ],
+   "inventou_categoria": {
+    "factual": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "sintese": [
+     0.9167,
+     0.8194,
+     0.9861
+    ],
+    "fora_da_base": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "tem_frase_que_contradiz": [
+    0.325,
+    0.1917,
+    0.4667
+   ],
+   "tem_frase_que_contradiz_categoria": {
+    "factual": [
+     0.3571,
+     0.1429,
+     0.5714
+    ],
+    "sintese": [
+     0.3333,
+     0.1667,
+     0.5417
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "absteve_juiz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "sintese": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "abstencao_correta_q39_q40": "0/6",
+   "cobertura_38": 1.0,
+   "pct_frases_com_citacao_media": null,
+   "latencia_p95_s": 1.86,
+   "latencia_mediana_s": 1.5,
+   "tokens_entrada_media": 236.325,
+   "tokens_saida_media": 220.2,
+   "texto_identico_nas_3": 7
+  },
+  "C-gptoss": {
+   "fonte": "saidas/juiz_metricas.json#condicoes/C|gpt-oss-20b",
+   "respostas": 120,
+   "perguntas": 40,
+   "util_contagem": {
+    "parcial": 14,
+    "sim": 96,
+    "não": 10
+   },
+   "fidelidade": [
+    0.5848,
+    0.5012,
+    0.6651
+   ],
+   "fidelidade_categoria": {
+    "factual": [
+     0.6426,
+     0.523,
+     0.7621
+    ],
+    "sintese": [
+     0.5359,
+     0.4176,
+     0.6461
+    ],
+    "fora_da_base": [
+     0.7667,
+     0.5333,
+     1.0
+    ]
+   },
+   "fidelidade_sem_abstencao": [
+    0.5624,
+    0.4712,
+    0.6522
+   ],
+   "fidelidade_sem_abstencao_categoria": {
+    "factual": [
+     0.6393,
+     0.509,
+     0.7675
+    ],
+    "sintese": [
+     0.522,
+     0.3972,
+     0.6384
+    ],
+    "fora_da_base": [
+     0.5333,
+     0.5333,
+     0.5333
+    ]
+   },
+   "util_sim": [
+    0.8,
+    0.6667,
+    0.9083
+   ],
+   "util_sim_categoria": {
+    "factual": [
+     0.7619,
+     0.5476,
+     0.9524
+    ],
+    "sintese": [
+     0.875,
+     0.7083,
+     1.0
+    ],
+    "fora_da_base": [
+     0.1667,
+     0.0,
+     0.3333
+    ]
+   },
+   "util_sim_ou_parcial": [
+    0.9167,
+    0.825,
+    0.9917
+   ],
+   "util_sim_ou_parcial_categoria": {
+    "factual": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "sintese": [
+     0.9028,
+     0.7778,
+     1.0
+    ],
+    "fora_da_base": [
+     0.5,
+     0.0,
+     1.0
+    ]
+   },
+   "inventou": [
+    0.1083,
+    0.025,
+    0.2083
+   ],
+   "inventou_categoria": {
+    "factual": [
+     0.0476,
+     0.0,
+     0.1429
+    ],
+    "sintese": [
+     0.1528,
+     0.0278,
+     0.2917
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tem_frase_que_contradiz": [
+    0.2083,
+    0.1,
+    0.3417
+   ],
+   "tem_frase_que_contradiz_categoria": {
+    "factual": [
+     0.2619,
+     0.0714,
+     0.4762
+    ],
+    "sintese": [
+     0.1944,
+     0.0417,
+     0.3611
+    ],
+    "fora_da_base": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "absteve_juiz": [
+    0.0583,
+    0.0,
+    0.1333
+   ],
+   "absteve_juiz_categoria": {
+    "factual": [
+     0.0714,
+     0.0,
+     0.2143
+    ],
+    "sintese": [
+     0.0139,
+     0.0,
+     0.0417
+    ],
+    "fora_da_base": [
+     0.5,
+     0.0,
+     1.0
+    ]
+   },
+   "abstencao_correta_q39_q40": "3/6",
+   "cobertura_38": 0.9912,
+   "pct_frases_com_citacao_media": 0.9592,
+   "latencia_p95_s": 16.56,
+   "latencia_mediana_s": 11.04,
+   "tokens_entrada_media": 2487.525,
+   "tokens_saida_media": 277.0833,
+   "texto_identico_nas_3": 13
+  }
+ },
+ "pareados": {
+  "C − A": {
+   "fidelidade": {
+    "n": 40,
+    "dif": [
+     0.3288,
+     0.1517,
+     0.4985
+    ],
+    "dif_doc": [
+     0.3288,
+     0.0734,
+     0.5137
+    ],
+    "p": 0.0016,
+    "melhoraram": 26,
+    "pioraram": 10,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.191,
+       -0.0894,
+       0.4613
+      ],
+      "p": 0.1955
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.4689,
+       0.2461,
+       0.6667
+      ],
+      "p": 0.0015
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       -0.3889,
+       -0.7778,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "fidelidade_sem_abstencao": {
+    "n": 22,
+    "dif": [
+     0.6815,
+     0.5756,
+     0.7847
+    ],
+    "dif_doc": [
+     0.6815,
+     0.5376,
+     0.7779
+    ],
+    "p": 0.0,
+    "melhoraram": 22,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 7,
+      "dif": [
+       0.6453,
+       0.4507,
+       0.8284
+      ],
+      "p": 0.0156
+     },
+     "sintese": {
+      "n": 15,
+      "dif": [
+       0.6985,
+       0.5732,
+       0.8182
+      ],
+      "p": 0.0006
+     }
+    }
+   },
+   "util_sim": {
+    "n": 40,
+    "dif": [
+     0.3417,
+     0.1917,
+     0.4917
+    ],
+    "dif_doc": [
+     0.3417,
+     0.2258,
+     0.4828
+    ],
+    "p": 0.0002,
+    "melhoraram": 14,
+    "pioraram": 1,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.2143,
+       0.0,
+       0.4286
+      ],
+      "p": 0.0833
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.4028,
+       0.1944,
+       0.6111
+      ],
+      "p": 0.0019
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.5,
+       0.0,
+       1.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim_ou_parcial": {
+    "n": 40,
+    "dif": [
+     0.3417,
+     0.1917,
+     0.5
+    ],
+    "dif_doc": [
+     0.3417,
+     0.2143,
+     0.5161
+    ],
+    "p": 0.0002,
+    "melhoraram": 15,
+    "pioraram": 1,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.4524,
+       0.2143,
+       0.7143
+      ],
+      "p": 0.0114
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.2639,
+       0.0556,
+       0.4583
+      ],
+      "p": 0.0104
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.5,
+       0.0,
+       1.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "inventou": {
+    "n": 40,
+    "dif": [
+     -0.3167,
+     -0.45,
+     -0.1833
+    ],
+    "dif_doc": [
+     -0.3167,
+     -0.4277,
+     -0.1759
+    ],
+    "p": 0.0004,
+    "melhoraram": 0,
+    "pioraram": 15,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.3333,
+       -0.5714,
+       -0.119
+      ],
+      "p": 0.0231
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.3333,
+       -0.5139,
+       -0.1667
+      ],
+      "p": 0.005
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "absteve_juiz": {
+    "n": 40,
+    "dif": [
+     -0.175,
+     -0.35,
+     0.0
+    ],
+    "dif_doc": [
+     -0.175,
+     -0.375,
+     0.0
+    ],
+    "p": 0.0707,
+    "melhoraram": 4,
+    "pioraram": 11,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.2857,
+       -0.5714,
+       0.0
+      ],
+      "p": 0.1025
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.0833,
+       -0.2917,
+       0.1667
+      ],
+      "p": 0.4795
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       -0.5,
+       -1.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "tem_frase_que_contradiz": {
+    "n": 40,
+    "dif": [
+     -0.0167,
+     -0.2,
+     0.175
+    ],
+    "dif_doc": [
+     -0.0167,
+     -0.1802,
+     0.2258
+    ],
+    "p": 0.9749,
+    "melhoraram": 7,
+    "pioraram": 8,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.2381,
+       -0.119,
+       0.5714
+      ],
+      "p": 0.1245
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.1667,
+       -0.375,
+       0.0417
+      ],
+      "p": 0.1573
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   }
+  },
+  "C − B1": {
+   "util_sim": {
+    "n": 40,
+    "dif": [
+     0.325,
+     0.15,
+     0.5
+    ],
+    "dif_doc": [
+     0.325,
+     0.1786,
+     0.431
+    ],
+    "p": 0.0008,
+    "melhoraram": 14,
+    "pioraram": 1,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.2857,
+       0.0714,
+       0.5
+      ],
+      "p": 0.0455
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.3333,
+       0.125,
+       0.5417
+      ],
+      "p": 0.0114
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.5,
+       0.0,
+       1.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim_ou_parcial": {
+    "n": 40,
+    "dif": [
+     0.15,
+     0.0,
+     0.3
+    ],
+    "dif_doc": [
+     0.15,
+     -0.027,
+     0.3
+    ],
+    "p": 0.0578,
+    "melhoraram": 8,
+    "pioraram": 2,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.2143,
+       0.0,
+       0.4286
+      ],
+      "p": 0.0833
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0833,
+       -0.125,
+       0.2917
+      ],
+      "p": 0.4142
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.5,
+       0.0,
+       1.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "inventou": {
+    "n": 40,
+    "dif": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "dif_doc": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "p": 1.0,
+    "melhoraram": 0,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   }
+  },
+  "C − B3": {
+   "util_sim": {
+    "n": 40,
+    "dif": [
+     0.175,
+     0.025,
+     0.325
+    ],
+    "dif_doc": [
+     0.175,
+     0.0,
+     0.3125
+    ],
+    "p": 0.0348,
+    "melhoraram": 9,
+    "pioraram": 2,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.1429,
+       0.0,
+       0.3571
+      ],
+      "p": 0.1573
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.1667,
+       -0.0417,
+       0.375
+      ],
+      "p": 0.1573
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.5,
+       0.0,
+       1.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim_ou_parcial": {
+    "n": 40,
+    "dif": [
+     0.0,
+     -0.125,
+     0.125
+    ],
+    "dif_doc": [
+     0.0,
+     -0.1935,
+     0.1304
+    ],
+    "p": 1.0,
+    "melhoraram": 4,
+    "pioraram": 4,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0,
+       -0.2143,
+       0.2143
+      ],
+      "p": 1.0
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.0417,
+       -0.2083,
+       0.125
+      ],
+      "p": 0.6547
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.5,
+       0.0,
+       1.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "inventou": {
+    "n": 40,
+    "dif": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "dif_doc": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "p": 1.0,
+    "melhoraram": 0,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   }
+  },
+  "A − B1": {
+   "util_sim": {
+    "n": 40,
+    "dif": [
+     -0.0167,
+     -0.2,
+     0.1583
+    ],
+    "dif_doc": [
+     -0.0167,
+     -0.2143,
+     0.1135
+    ],
+    "p": 0.8084,
+    "melhoraram": 7,
+    "pioraram": 7,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0714,
+       0.0,
+       0.2143
+      ],
+      "p": 0.3173
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.0694,
+       -0.3611,
+       0.2222
+      ],
+      "p": 0.5903
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim_ou_parcial": {
+    "n": 40,
+    "dif": [
+     -0.1917,
+     -0.4167,
+     0.0333
+    ],
+    "dif_doc": [
+     -0.1917,
+     -0.4583,
+     0.0167
+    ],
+    "p": 0.0558,
+    "melhoraram": 8,
+    "pioraram": 15,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.2381,
+       -0.6429,
+       0.1429
+      ],
+      "p": 0.1779
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.1806,
+       -0.4722,
+       0.125
+      ],
+      "p": 0.1766
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "inventou": {
+    "n": 40,
+    "dif": [
+     0.3167,
+     0.1833,
+     0.45
+    ],
+    "dif_doc": [
+     0.3167,
+     0.1759,
+     0.4277
+    ],
+    "p": 0.0004,
+    "melhoraram": 15,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.3333,
+       0.119,
+       0.5714
+      ],
+      "p": 0.0231
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.3333,
+       0.1667,
+       0.5139
+      ],
+      "p": 0.005
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   }
+  },
+  "C − A (gpt-oss)": {
+   "fidelidade": {
+    "n": 40,
+    "dif": [
+     0.5394,
+     0.4599,
+     0.6214
+    ],
+    "dif_doc": [
+     0.5394,
+     0.4801,
+     0.6116
+    ],
+    "p": 0.0,
+    "melhoraram": 39,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.6148,
+       0.5032,
+       0.723
+      ],
+      "p": 0.001
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.4903,
+       0.3817,
+       0.6002
+      ],
+      "p": 0.0
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.6,
+       0.5333,
+       0.6667
+      ],
+      "p": 0.5
+     }
+    }
+   },
+   "fidelidade_sem_abstencao": {
+    "n": 38,
+    "dif": [
+     0.5263,
+     0.4405,
+     0.6139
+    ],
+    "dif_doc": [
+     0.5263,
+     0.4583,
+     0.6044
+    ],
+    "p": 0.0,
+    "melhoraram": 36,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 13,
+      "dif": [
+       0.6179,
+       0.4944,
+       0.738
+      ],
+      "p": 0.0002
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.4764,
+       0.3595,
+       0.5933
+      ],
+      "p": 0.0
+     },
+     "fora_da_base": {
+      "n": 1,
+      "dif": [
+       0.5333,
+       0.5333,
+       0.5333
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim": {
+    "n": 40,
+    "dif": [
+     0.4833,
+     0.3333,
+     0.6333
+    ],
+    "dif_doc": [
+     0.4833,
+     0.3678,
+     0.6667
+    ],
+    "p": 0.0,
+    "melhoraram": 23,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.6905,
+       0.4524,
+       0.9048
+      ],
+      "p": 0.0023
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.3889,
+       0.2083,
+       0.5694
+      ],
+      "p": 0.0015
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.1667,
+       0.0,
+       0.3333
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim_ou_parcial": {
+    "n": 40,
+    "dif": [
+     0.2667,
+     0.1417,
+     0.4
+    ],
+    "dif_doc": [
+     0.2667,
+     0.1597,
+     0.4253
+    ],
+    "p": 0.001,
+    "melhoraram": 13,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.381,
+       0.1667,
+       0.619
+      ],
+      "p": 0.0158
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.2222,
+       0.0833,
+       0.3889
+      ],
+      "p": 0.0196
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "inventou": {
+    "n": 40,
+    "dif": [
+     -0.8417,
+     -0.9333,
+     -0.7333
+    ],
+    "dif_doc": [
+     -0.8417,
+     -0.9298,
+     -0.7576
+    ],
+    "p": 0.0,
+    "melhoraram": 0,
+    "pioraram": 36,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.9524,
+       -1.0,
+       -0.8571
+      ],
+      "p": 0.0003
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.7639,
+       -0.9028,
+       -0.5972
+      ],
+      "p": 0.0
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       -1.0,
+       -1.0,
+       -1.0
+      ],
+      "p": 0.5
+     }
+    }
+   },
+   "absteve_juiz": {
+    "n": 40,
+    "dif": [
+     0.0583,
+     0.0,
+     0.1333
+    ],
+    "dif_doc": [
+     0.0583,
+     0.0,
+     0.1389
+    ],
+    "p": 0.1025,
+    "melhoraram": 3,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0714,
+       0.0,
+       0.2143
+      ],
+      "p": 0.3173
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0139,
+       0.0,
+       0.0417
+      ],
+      "p": 0.3173
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.5,
+       0.0,
+       1.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "tem_frase_que_contradiz": {
+    "n": 40,
+    "dif": [
+     -0.1167,
+     -0.2833,
+     0.0417
+    ],
+    "dif_doc": [
+     -0.1167,
+     -0.3125,
+     0.0345
+    ],
+    "p": 0.1659,
+    "melhoraram": 5,
+    "pioraram": 11,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.0952,
+       -0.4524,
+       0.2619
+      ],
+      "p": 0.6493
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.1389,
+       -0.3056,
+       0.0139
+      ],
+      "p": 0.066
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   }
+  },
+  "C50 − C": {
+   "fidelidade": {
+    "n": 40,
+    "dif": [
+     0.0168,
+     -0.064,
+     0.1069
+    ],
+    "dif_doc": [
+     0.0168,
+     -0.0662,
+     0.1126
+    ],
+    "p": 1.0,
+    "melhoraram": 12,
+    "pioraram": 14,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.153,
+       0.0207,
+       0.3142
+      ],
+      "p": 0.1139
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.0613,
+       -0.1548,
+       0.0408
+      ],
+      "p": 0.1087
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "fidelidade_sem_abstencao": {
+    "n": 31,
+    "dif": [
+     0.0101,
+     -0.0753,
+     0.1085
+    ],
+    "dif_doc": [
+     0.0101,
+     -0.0757,
+     0.1263
+    ],
+    "p": 0.7949,
+    "melhoraram": 10,
+    "pioraram": 12,
+    "categoria": {
+     "factual": {
+      "n": 10,
+      "dif": [
+       0.1285,
+       0.0017,
+       0.2941
+      ],
+      "p": 0.2188
+     },
+     "sintese": {
+      "n": 20,
+      "dif": [
+       -0.0485,
+       -0.1523,
+       0.062
+      ],
+      "p": 0.1725
+     },
+     "fora_da_base": {
+      "n": 1,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim": {
+    "n": 40,
+    "dif": [
+     0.0,
+     -0.125,
+     0.125
+    ],
+    "dif_doc": [
+     0.0,
+     -0.1321,
+     0.175
+    ],
+    "p": 1.0,
+    "melhoraram": 4,
+    "pioraram": 4,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.2143,
+       0.0,
+       0.4286
+      ],
+      "p": 0.0833
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.0833,
+       -0.25,
+       0.0833
+      ],
+      "p": 0.3173
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       -0.5,
+       -1.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim_ou_parcial": {
+    "n": 40,
+    "dif": [
+     -0.025,
+     -0.15,
+     0.075
+    ],
+    "dif_doc": [
+     -0.025,
+     -0.1579,
+     0.0769
+    ],
+    "p": 0.6547,
+    "melhoraram": 2,
+    "pioraram": 3,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.1429,
+       -0.4286,
+       0.1429
+      ],
+      "p": 0.3173
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0417,
+       0.0,
+       0.125
+      ],
+      "p": 0.3173
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "inventou": {
+    "n": 40,
+    "dif": [
+     0.05,
+     0.0,
+     0.125
+    ],
+    "dif_doc": [
+     0.05,
+     0.0,
+     0.1389
+    ],
+    "p": 0.1573,
+    "melhoraram": 2,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0833,
+       0.0,
+       0.2083
+      ],
+      "p": 0.1573
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "absteve_juiz": {
+    "n": 40,
+    "dif": [
+     0.0,
+     -0.1,
+     0.1
+    ],
+    "dif_doc": [
+     0.0,
+     -0.1,
+     0.1111
+    ],
+    "p": 1.0,
+    "melhoraram": 2,
+    "pioraram": 2,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0714,
+       -0.1429,
+       0.2857
+      ],
+      "p": 0.5637
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.0417,
+       -0.125,
+       0.0
+      ],
+      "p": 0.3173
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "tem_frase_que_contradiz": {
+    "n": 40,
+    "dif": [
+     -0.075,
+     -0.175,
+     0.0
+    ],
+    "dif_doc": [
+     -0.075,
+     -0.1875,
+     0.0
+    ],
+    "p": 0.0833,
+    "melhoraram": 0,
+    "pioraram": 3,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.1429,
+       -0.3571,
+       0.0
+      ],
+      "p": 0.1573
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.0417,
+       -0.125,
+       0.0
+      ],
+      "p": 0.3173
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   }
+  },
+  "C50 − B3-50": {
+   "util_sim": {
+    "n": 40,
+    "dif": [
+     -0.025,
+     -0.175,
+     0.125
+    ],
+    "dif_doc": [
+     -0.025,
+     -0.2,
+     0.1212
+    ],
+    "p": 0.7389,
+    "melhoraram": 4,
+    "pioraram": 5,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.0714,
+       -0.2857,
+       0.1429
+      ],
+      "p": 0.5637
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0,
+       -0.2083,
+       0.2083
+      ],
+      "p": 1.0
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim_ou_parcial": {
+    "n": 40,
+    "dif": [
+     -0.075,
+     -0.225,
+     0.05
+    ],
+    "dif_doc": [
+     -0.075,
+     -0.2759,
+     0.0566
+    ],
+    "p": 0.3173,
+    "melhoraram": 3,
+    "pioraram": 6,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       -0.2143,
+       -0.4286,
+       0.0
+      ],
+      "p": 0.0833
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       -0.0417,
+       -0.2083,
+       0.125
+      ],
+      "p": 0.6547
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.5,
+       0.0,
+       1.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "inventou": {
+    "n": 40,
+    "dif": [
+     0.05,
+     0.0,
+     0.125
+    ],
+    "dif_doc": [
+     0.05,
+     0.0,
+     0.1389
+    ],
+    "p": 0.1573,
+    "melhoraram": 2,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0833,
+       0.0,
+       0.2083
+      ],
+      "p": 0.1573
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   }
+  },
+  "B3-50 − B3": {
+   "util_sim": {
+    "n": 40,
+    "dif": [
+     0.2,
+     0.075,
+     0.35
+    ],
+    "dif_doc": [
+     0.2,
+     0.0545,
+     0.3889
+    ],
+    "p": 0.0114,
+    "melhoraram": 9,
+    "pioraram": 1,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.4286,
+       0.1429,
+       0.6429
+      ],
+      "p": 0.0143
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0833,
+       -0.0833,
+       0.25
+      ],
+      "p": 0.3173
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "util_sim_ou_parcial": {
+    "n": 40,
+    "dif": [
+     0.05,
+     0.0,
+     0.125
+    ],
+    "dif_doc": [
+     0.05,
+     0.0,
+     0.1026
+    ],
+    "p": 0.1573,
+    "melhoraram": 2,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0714,
+       0.0,
+       0.2143
+      ],
+      "p": 0.3173
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0417,
+       0.0,
+       0.125
+      ],
+      "p": 0.3173
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   },
+   "inventou": {
+    "n": 40,
+    "dif": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "dif_doc": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "p": 1.0,
+    "melhoraram": 0,
+    "pioraram": 0,
+    "categoria": {
+     "factual": {
+      "n": 14,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     },
+     "sintese": {
+      "n": 24,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     },
+     "fora_da_base": {
+      "n": 2,
+      "dif": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "p": 1.0
+     }
+    }
+   }
+  }
+ },
+ "decisao": {
+  "gpt-oss-20b": {
+   "candidatas": {
+    "A": {
+     "portao_a_abstencao_q39_q40": "0/6",
+     "portao_a_passa": false,
+     "portao_b_latencia_p95_s": 1.86,
+     "portao_b_passa": true,
+     "fidelidade": [
+      0.0454,
+      0.0214,
+      0.0725
+     ],
+     "concorre": false
+    },
+    "C": {
+     "portao_a_abstencao_q39_q40": "3/6",
+     "portao_a_passa": false,
+     "portao_b_latencia_p95_s": 16.56,
+     "portao_b_passa": true,
+     "fidelidade": [
+      0.5848,
+      0.5012,
+      0.6651
+     ],
+     "concorre": false
+    },
+    "B": {
+     "portao_a_passa": false,
+     "concorre": false,
+     "motivo": "B sempre devolve trechos: não tem como se abster (PREREG); entra como referência de utilidade"
+    }
+   },
+   "concorrem": [],
+   "vencedor": null,
+   "motivo": "nenhuma condição passou nos dois portões"
+  },
+  "llama3.1-8b": {
+   "candidatas": {
+    "A": {
+     "portao_a_abstencao_q39_q40": "6/6",
+     "portao_a_passa": true,
+     "portao_b_latencia_p95_s": 1.6,
+     "portao_b_passa": true,
+     "fidelidade": [
+      0.4431,
+      0.3093,
+      0.5813
+     ],
+     "concorre": true
+    },
+    "C": {
+     "portao_a_abstencao_q39_q40": "3/6",
+     "portao_a_passa": false,
+     "portao_b_latencia_p95_s": 16.3,
+     "portao_b_passa": true,
+     "fidelidade": [
+      0.7719,
+      0.6879,
+      0.8446
+     ],
+     "concorre": false
+    },
+    "B": {
+     "portao_a_passa": false,
+     "concorre": false,
+     "motivo": "B sempre devolve trechos: não tem como se abster (PREREG); entra como referência de utilidade"
+    }
+   },
+   "concorrem": [
+    "A"
+   ],
+   "vencedor": "A",
+   "motivo": "única condição que passou nos portões"
+  }
+ },
+ "hipoteses": {
+  "H1 (C mais sustentada que A)": "dif C - A na fidelidade = [0.3288, 0.1517, 0.4985]: confirmada",
+  "H2 (B menos útil que C), busca-top1": "dif C - B em útil = [0.325, 0.15, 0.5]: confirmada",
+  "H2 (B menos útil que C), busca-top3": "dif C - B em útil = [0.175, 0.025, 0.325]: confirmada",
+  "H3 (RAG não piora o Adaptador), métricas do grupo": "limite inferior do IC de completo - sem_rag acima do limiar? {'trcc': True, 'cmd_conjugado_resolvido': True, 'flesch_depois': True}: confirmada",
+  "H3, juiz: 'entrega a resposta' em completo - sem_rag": "[0.0, 0.0, 0.0]: o juiz não aponta mais entrega no completo",
+  "H4 (modelo maior não muda a decisão)": "vencedores por modelo: {'gpt-oss-20b': None, 'llama3.1-8b': 'A'}: não confirmada (a decisão continua com o Llama)"
+ },
+ "decisao_r50": {
+  "abstencao_q39_q40": "3/6",
+  "passa_abstencao": false,
+  "latencia_p95_s": 5.72,
+  "passa_latencia": true,
+  "cobertura_38": 0.8421,
+  "pct_frases_com_citacao": 0.6403,
+  "texto_identico_nas_3": 39
+ },
+ "busca": {
+  "k20": {
+   "perguntas_com_gabarito": 38,
+   "recall@5": [
+    0.357,
+    0.2588,
+    0.4588
+   ],
+   "hit@5": "29/38",
+   "MRR": [
+    0.5645,
+    0.436,
+    0.6908
+   ],
+   "recall@5_ic_agrupado_por_documento": [
+    0.357,
+    0.2752,
+    0.4662
+   ],
+   "top1_relevante": "16/38",
+   "top3_com_algum_relevante": "27/38",
+   "flesch_top1_media": 23.665,
+   "flesch_top3_media": 22.8475,
+   "palavras_top1_media": 283.4,
+   "palavras_top3_media": 806.05,
+   "latencia_busca_mediana_s": 9.64,
+   "latencia_busca_p95_s": 14.06,
+   "por_categoria": {
+    "factual": {
+     "n": 14,
+     "recall@5": 0.4988,
+     "hit@5": 0.7143
+    },
+    "sintese": {
+     "n": 24,
+     "recall@5": 0.2743,
+     "hit@5": 0.7917
+    }
+   }
+  },
+  "k50": {
+   "perguntas_com_gabarito": 38,
+   "recall@5": [
+    0.4206,
+    0.3211,
+    0.5263
+   ],
+   "hit@5": "33/38",
+   "MRR": [
+    0.6,
+    0.4913,
+    0.7099
+   ],
+   "recall@5_ic_agrupado_por_documento": [
+    0.4206,
+    0.3458,
+    0.5312
+   ],
+   "top1_relevante": "15/38",
+   "top3_com_algum_relevante": "30/38",
+   "flesch_top1_media": 25.52,
+   "flesch_top3_media": 24.85,
+   "palavras_top1_media": 270.0,
+   "palavras_top3_media": 789.7,
+   "latencia_busca_mediana_s": 0.12,
+   "latencia_busca_p95_s": 0.13,
+   "por_categoria": {
+    "factual": {
+     "n": 14,
+     "recall@5": 0.5798,
+     "hit@5": 0.8571
+    },
+    "sintese": {
+     "n": 24,
+     "recall@5": 0.3278,
+     "hit@5": 0.875
+    }
+   }
+  }
+ },
+ "D": {
+  "llama3.1-8b": {
+   "saidas_julgadas": 180,
+   "por_config": {
+    "completo": {
+     "saidas": 90,
+     "reserva": 75,
+     "util_contagem": {
+      "não": 39,
+      "sim": 39,
+      "parcial": 12
+     },
+     "util_sim": [
+      0.4333,
+      0.2667,
+      0.6
+     ],
+     "entrega_resposta": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "mudou_o_que_avalia": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "inventou": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "nivel_respeitado": [
+      0.5333,
+      0.3333,
+      0.7
+     ]
+    },
+    "sem_rag": {
+     "saidas": 90,
+     "reserva": 75,
+     "util_contagem": {
+      "sim": 42,
+      "parcial": 9,
+      "não": 39
+     },
+     "util_sim": [
+      0.4667,
+      0.3,
+      0.6333
+     ],
+     "entrega_resposta": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "mudou_o_que_avalia": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "inventou": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "nivel_respeitado": [
+      0.5667,
+      0.4,
+      0.7333
+     ]
+    }
+   },
+   "por_config_e_reserva": {
+    "completo|reserva": {
+     "saidas": 75,
+     "questoes": 25,
+     "util_sim": 0.44,
+     "entrega_resposta": 0.0,
+     "mudou_o_que_avalia": 0.0,
+     "inventou": 0.0,
+     "nivel_respeitado": 0.56
+    },
+    "completo|adaptador_passou": {
+     "saidas": 15,
+     "questoes": 5,
+     "util_sim": 0.4,
+     "entrega_resposta": 0.0,
+     "mudou_o_que_avalia": 0.0,
+     "inventou": 0.0,
+     "nivel_respeitado": 0.4
+    },
+    "sem_rag|reserva": {
+     "saidas": 75,
+     "questoes": 25,
+     "util_sim": 0.44,
+     "entrega_resposta": 0.0,
+     "mudou_o_que_avalia": 0.0,
+     "inventou": 0.0,
+     "nivel_respeitado": 0.52
+    },
+    "sem_rag|adaptador_passou": {
+     "saidas": 15,
+     "questoes": 5,
+     "util_sim": 0.6,
+     "entrega_resposta": 0.0,
+     "mudou_o_que_avalia": 0.0,
+     "inventou": 0.0,
+     "nivel_respeitado": 0.8
+    }
+   },
+   "pareado_completo_menos_sem_rag_todas": {
+    "util_sim": {
+     "n": 30,
+     "dif_media_ic95": [
+      -0.0333,
+      -0.1,
+      0.0
+     ],
+     "wilcoxon_p": 0.3173
+    },
+    "entrega_resposta": {
+     "n": 30,
+     "dif_media_ic95": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "wilcoxon_p": 1.0
+    },
+    "mudou_o_que_avalia": {
+     "n": 30,
+     "dif_media_ic95": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "wilcoxon_p": 1.0
+    },
+    "inventou": {
+     "n": 30,
+     "dif_media_ic95": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "wilcoxon_p": 1.0
+    },
+    "nivel_respeitado": {
+     "n": 30,
+     "dif_media_ic95": [
+      -0.0333,
+      -0.1,
+      0.0
+     ],
+     "wilcoxon_p": 0.3173
+    }
+   },
+   "adaptador_passou_nas_duas": {
+    "pares_questao_rodada": 9,
+    "questoes": [
+     "Q12",
+     "Q20",
+     "Q25"
+    ],
+    "por_rodada": {
+     "1": 3,
+     "2": 3,
+     "3": 3
+    },
+    "completo": {
+     "util_sim": 0.3333,
+     "entrega_resposta": 0.0,
+     "mudou_o_que_avalia": 0.0,
+     "inventou": 0.0,
+     "nivel_respeitado": 0.3333
+    },
+    "sem_rag": {
+     "util_sim": 0.3333,
+     "entrega_resposta": 0.0,
+     "mudou_o_que_avalia": 0.0,
+     "inventou": 0.0,
+     "nivel_respeitado": 0.6667
+    },
+    "aviso": "poucas questões: não sustenta conclusão"
+   }
+  },
+  "metricas": {
+   "gpt-oss-20b": {
+    "completo": {
+     "saidas_validas": 90,
+     "erros": 0,
+     "trcc_media": 1.0,
+     "pct_trcc_ge_095": 1.0,
+     "flesch_antes_media": 55.5777,
+     "flesch_depois_media": 56.493,
+     "questoes_com_cmd_conjugado_antes": 45,
+     "pct_cmd_conjugado_resolvido": 0.9333,
+     "cmd_conjugados_depois_media": 0.0667,
+     "pct_aderencia_nivel": 0.7444,
+     "pct_alterou_texto": 0.6778,
+     "pct_escopo_aprovado": 1.0,
+     "pct_reserva": 0.7889,
+     "tokens_media": 7129.7111,
+     "ciclo_ms_mediana": 9591.28,
+     "ciclo_s_p95": 10.16,
+     "pct_dentro_rnf07": 1.0,
+     "latencia_s_mediana": 13.26
+    },
+    "sem_rag": {
+     "saidas_validas": 90,
+     "erros": 0,
+     "trcc_media": 1.0,
+     "pct_trcc_ge_095": 1.0,
+     "flesch_antes_media": 55.5777,
+     "flesch_depois_media": 56.4492,
+     "questoes_com_cmd_conjugado_antes": 45,
+     "pct_cmd_conjugado_resolvido": 0.9556,
+     "cmd_conjugados_depois_media": 0.0444,
+     "pct_aderencia_nivel": 0.7444,
+     "pct_alterou_texto": 0.6778,
+     "pct_escopo_aprovado": 1.0,
+     "pct_reserva": 0.8111,
+     "tokens_media": 2832.7556,
+     "ciclo_ms_mediana": 9556.03,
+     "ciclo_s_p95": 10.32,
+     "pct_dentro_rnf07": 1.0,
+     "latencia_s_mediana": 9.67
+    },
+    "pareado_completo_menos_sem_rag": {
+     "trcc": {
+      "n": 30,
+      "dif_media_ic95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "wilcoxon_p": 1.0
+     },
+     "flesch_depois": {
+      "n": 30,
+      "dif_media_ic95": [
+       0.0438,
+       0.0,
+       0.1313
+      ],
+      "wilcoxon_p": 0.3173
+     },
+     "cmd_conjugado_resolvido": {
+      "n": 15,
+      "dif_media_ic95": [
+       -0.0222,
+       -0.0667,
+       0.0
+      ],
+      "wilcoxon_p": 0.3173
+     },
+     "aderencia_nivel": {
+      "n": 30,
+      "dif_media_ic95": [
+       0.0,
+       -0.0667,
+       0.0889
+      ],
+      "wilcoxon_p": 0.9156
+     }
+    },
+    "liberacao_externa": [
+     "None"
+    ],
+    "rodadas": [
+     1,
+     2,
+     3
+    ]
+   },
+   "llama3.1-8b": {
+    "completo": {
+     "saidas_validas": 90,
+     "erros": 0,
+     "trcc_media": 1.0,
+     "pct_trcc_ge_095": 1.0,
+     "flesch_antes_media": 55.5777,
+     "flesch_depois_media": 55.7517,
+     "questoes_com_cmd_conjugado_antes": 45,
+     "pct_cmd_conjugado_resolvido": 1.0,
+     "cmd_conjugados_depois_media": 0.0,
+     "pct_aderencia_nivel": 0.6667,
+     "pct_alterou_texto": 0.6333,
+     "pct_escopo_aprovado": 1.0,
+     "pct_reserva": 0.8333,
+     "tokens_media": 7146.9889,
+     "ciclo_ms_mediana": 2331.3,
+     "ciclo_s_p95": 3.1,
+     "pct_dentro_rnf07": 1.0,
+     "latencia_s_mediana": 6.64
+    },
+    "sem_rag": {
+     "saidas_validas": 90,
+     "erros": 0,
+     "trcc_media": 1.0,
+     "pct_trcc_ge_095": 1.0,
+     "flesch_antes_media": 55.5777,
+     "flesch_depois_media": 55.7517,
+     "questoes_com_cmd_conjugado_antes": 45,
+     "pct_cmd_conjugado_resolvido": 1.0,
+     "cmd_conjugados_depois_media": 0.0,
+     "pct_aderencia_nivel": 0.6333,
+     "pct_alterou_texto": 0.6,
+     "pct_escopo_aprovado": 1.0,
+     "pct_reserva": 0.8333,
+     "tokens_media": 1768.9333,
+     "ciclo_ms_mediana": 1969.72,
+     "ciclo_s_p95": 2.93,
+     "pct_dentro_rnf07": 1.0,
+     "latencia_s_mediana": 2.08
+    },
+    "pareado_completo_menos_sem_rag": {
+     "trcc": {
+      "n": 30,
+      "dif_media_ic95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "wilcoxon_p": 1.0
+     },
+     "flesch_depois": {
+      "n": 30,
+      "dif_media_ic95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "wilcoxon_p": 1.0
+     },
+     "cmd_conjugado_resolvido": {
+      "n": 15,
+      "dif_media_ic95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "wilcoxon_p": 1.0
+     },
+     "aderencia_nivel": {
+      "n": 30,
+      "dif_media_ic95": [
+       0.0333,
+       0.0,
+       0.1
+      ],
+      "wilcoxon_p": 0.3173
+     }
+    },
+    "liberacao_externa": [
+     "None"
+    ],
+    "rodadas": [
+     1,
+     2,
+     3
+    ]
+   }
+  }
+ },
+ "concordancia_juiz": {
+  "frase_sustentada": {
+   "n": 196,
+   "iguais": 189,
+   "concordancia": 0.964,
+   "kappa": 0.928
+  },
+  "util": {
+   "n": 80,
+   "iguais": 70,
+   "concordancia": 0.875,
+   "kappa": 0.806
+  },
+  "inventou": {
+   "n": 80,
+   "iguais": 78,
+   "concordancia": 0.975,
+   "kappa": 0.914
+  },
+  "absteve": {
+   "n": 80,
+   "iguais": 80,
+   "concordancia": 1.0,
+   "kappa": 1.0
+  }
+ },
+ "perguntas": [
+  {
+   "id": "Q01",
+   "pergunta": "Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?",
+   "categoria": "sintese",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "A": {
+     "fid": 0.1667,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.3333,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.6667,
+     "parcial": 0.3333,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.3889,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8968,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q02",
+   "pergunta": "Meu aluno com TDAH perde o foco depois de uns 10 minutos de tarefa. Como dividir a atividade para ele manter a atenção até o fim?",
+   "categoria": "sintese",
+   "doc": "ABDA-GUIA-PROFESSORES-2012",
+   "notas": {
+    "C": {
+     "fid": 0.75,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.5,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.3333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8571,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q03",
+   "pergunta": "Como ajudar um aluno com TDAH que se perde na ordem dos passos de um problema, sem saber o que vem primeiro e o que vem depois?",
+   "categoria": "sintese",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.6667,
+     "parcial": 0.3333,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.3333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8889,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q04",
+   "pergunta": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+   "categoria": "sintese",
+   "doc": "ABDA-GUIA-PROFESSORES-2012",
+   "notas": {
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.6667,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.6667,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.7333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.25,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q05",
+   "pergunta": "A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?",
+   "categoria": "sintese",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 0.3333,
+     "parcial": 0.6667,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.6667,
+     "parcial": 0.3333,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q06",
+   "pergunta": "Aluno responde por impulso antes de terminar de ler a pergunta. O que posso fazer em sala para ele parar e conferir?",
+   "categoria": "sintese",
+   "doc": "DIAMOND-2013-FUNCOES-EXECUTIVAS",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.5,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.2222,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.0588,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q07",
+   "pergunta": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+   "categoria": "sintese",
+   "doc": "NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.6667,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "C-gptoss": {
+     "fid": 0.3333,
+     "util": 0.0,
+     "parcial": 0.6667,
+     "inventou": 0.0,
+     "absteve": 0.3333
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.3333,
+     "inventou": 0.6667,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.5,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q08",
+   "pergunta": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+   "categoria": "sintese",
+   "doc": "CDC-ADHD-CLASSROOM-2026",
+   "notas": {
+    "C": {
+     "fid": 0.9444,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "C-gptoss": {
+     "fid": 0.3333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0556,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.6667,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q09",
+   "pergunta": "Onde devo sentar o aluno com TDAH e que ajustes no ambiente da sala ajudam a reduzir a distração?",
+   "categoria": "sintese",
+   "doc": "ABDA-GUIA-PROFESSORES-2012",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.6667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.5,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0556,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.5,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q10",
+   "pergunta": "Como dar instruções para um aluno com TDAH: falo tudo de uma vez ou em partes? Devo pedir para ele repetir o que entendeu?",
+   "categoria": "sintese",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.4545,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.1667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.5385,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q11",
+   "pergunta": "Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?",
+   "categoria": "sintese",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.2,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0833,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.6667,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q12",
+   "pergunta": "O que mudou na versão 3.0 das diretrizes do DUA em relação às versões anteriores?",
+   "categoria": "factual",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "C": {
+     "fid": 0.7143,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.1667,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.6667,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8261,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q13",
+   "pergunta": "Dê exemplos de múltiplas formas de representação para apresentar um mesmo conteúdo aos alunos.",
+   "categoria": "sintese",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.5556,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.5556,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.6667,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q14",
+   "pergunta": "Como oferecer múltiplos meios de ação e expressão numa avaliação, para o aluno mostrar o que sabe de outro jeito?",
+   "categoria": "sintese",
+   "doc": "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.5833,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.2222,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.8889,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q15",
+   "pergunta": "O que o DUA recomenda para o engajamento: como despertar o interesse e sustentar o esforço e a persistência dos alunos?",
+   "categoria": "sintese",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0556,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.8,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q16",
+   "pergunta": "DUA é a mesma coisa que adaptação curricular individual? Qual a diferença entre planejar para todos e adaptar para um aluno?",
+   "categoria": "sintese",
+   "doc": "RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA",
+   "notas": {
+    "A": {
+     "fid": 0.2222,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.7222,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.3333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q17",
+   "pergunta": "Nas diretrizes do DUA, o que se recomenda sobre estabelecer metas, planejar estratégias e monitorar o próprio progresso (as antigas 'funções executivas')?",
+   "categoria": "sintese",
+   "doc": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",
+   "notas": {
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.9333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q18",
+   "pergunta": "Como aplicar o DUA no planejamento de aula numa sala comum inclusiva da escola brasileira? Tem exemplos práticos?",
+   "categoria": "factual",
+   "doc": "MEC-PNEEI-CADERNO-4-PRATICAS-INCLUSIVAS-2026",
+   "notas": {
+    "C": {
+     "fid": 0.8571,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.1296,
+     "util": 0.0,
+     "parcial": 0.6667,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.8889,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.3333,
+     "parcial": 0.6667,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.9231,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q19",
+   "pergunta": "O que a Lei 14.254/2021 garante aos alunos com TDAH e dislexia na escola?",
+   "categoria": "factual",
+   "doc": "LEI-14254-2021-DISLEXIA-TDAH",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.8667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q20",
+   "pergunta": "A escola pode exigir laudo médico para oferecer atendimento educacional ao aluno?",
+   "categoria": "sintese",
+   "doc": "MEC-SECADI-NT-04-2014-LAUDO",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.3333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.75,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q21",
+   "pergunta": "Como a Lei Brasileira de Inclusão (LBI) define barreiras e adaptações razoáveis?",
+   "categoria": "factual",
+   "doc": "LEI-13146-2015-LBI-RECORTE-EDUCACAO",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.75,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0556,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.7333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.6667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q22",
+   "pergunta": "O que a LDB diz sobre a avaliação do aluno: contínua, cumulativa, com prevalência dos aspectos qualitativos?",
+   "categoria": "factual",
+   "doc": "LEI-9394-1996-LDB-RECORTE-AVALIACAO-EDESPECIAL",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.5,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.1111,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q23",
+   "pergunta": "O que é o AEE (atendimento educacional especializado), quem tem direito e ele substitui a sala de aula comum?",
+   "categoria": "sintese",
+   "doc": "DECRETO-12686-2025-PNEEI",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.6667,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.6667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.1667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.8333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q24",
+   "pergunta": "O que a nova Política Nacional de Educação Especial Inclusiva (Decreto 12.686/2025 e Portaria MEC 421/2026) estabelece?",
+   "categoria": "sintese",
+   "doc": "DECRETO-12686-2025-PNEEI",
+   "notas": {
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q25",
+   "pergunta": "Aluno com dislexia no ENEM: que atendimento ele tem na redação e como a correção considera a dislexia?",
+   "categoria": "factual",
+   "doc": "INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA",
+   "notas": {
+    "A": {
+     "fid": 0.3174,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.5,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.8,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q26",
+   "pergunta": "Aluno com TDAH é público-alvo da educação especial? Ele tem direito ao AEE?",
+   "categoria": "sintese",
+   "doc": "DECRETO-12686-2025-PNEEI",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "A-gptoss": {
+     "fid": 0.1222,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.2,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    }
+   }
+  },
+  {
+   "id": "Q27",
+   "pergunta": "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?",
+   "categoria": "factual",
+   "doc": "NCEO-TOOLKIT-TEMPO-EXTRA-2026",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.3333,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.8571,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.6667,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.5333,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.7143,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q28",
+   "pergunta": "Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com TDAH? Qual o tamanho do efeito?",
+   "categoria": "factual",
+   "doc": "GAASTRA-2016-META-INTERVENCOES-SALA",
+   "notas": {
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.9091,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.1111,
+     "util": 0.0,
+     "parcial": 0.3333,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.6857,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.6667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q29",
+   "pergunta": "Treino cognitivo (por exemplo, treino de memória de trabalho no computador) melhora os sintomas do TDAH?",
+   "categoria": "sintese",
+   "doc": "CORTESE-2015-META-TREINO-COGNITIVO",
+   "notas": {
+    "C": {
+     "fid": 0.25,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "C-gptoss": {
+     "fid": 0.4667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.6667,
+     "parcial": 0.3333,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.5714,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q30",
+   "pergunta": "Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o desempenho acadêmico deles?",
+   "categoria": "factual",
+   "doc": "DALGAARD-2022-INCLUSAO-META",
+   "notas": {
+    "A": {
+     "fid": 0.2,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.5,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.4833,
+     "util": 0.6667,
+     "parcial": 0.3333,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.1111,
+     "util": 0.6667,
+     "parcial": 0.3333,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q31",
+   "pergunta": "O ensino diferenciado (diferenciação) no ensino médio/secundário tem efeito comprovado no desempenho dos alunos?",
+   "categoria": "factual",
+   "doc": "SMALEJACOBSE-2019-DIFERENCIACAO-RS",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.3333,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.5,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.75,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.6667,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q32",
+   "pergunta": "Intervenções escolares para TDAH testadas em ensaios randomizados melhoram o desempenho acadêmico ou só o comportamento?",
+   "categoria": "factual",
+   "doc": "YEGENCIK-2025-META-RCT-ESCOLA",
+   "notas": {
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.3333,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.3778,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.6667,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q33",
+   "pergunta": "Vale a pena ensinar de acordo com o estilo de aprendizagem do aluno (visual, auditivo, cinestésico)?",
+   "categoria": "sintese",
+   "doc": "ROGOWSKY-2020-ESTILOS-APRENDIZAGEM",
+   "notas": {
+    "A": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.8,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q34",
+   "pergunta": "Usar uma fonte especial para dislexia, como OpenDyslexic ou Dyslexie, ajuda o aluno a ler melhor?",
+   "categoria": "sintese",
+   "doc": "KUSTER-2018-FONTE-DYSLEXIE",
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 0.35,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.5667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q35",
+   "pergunta": "Aumentar o espaçamento entre as letras ajuda a leitura de quem tem dislexia?",
+   "categoria": "factual",
+   "doc": "GALLIUSSI-2020-ESPACAMENTO-DISLEXIA",
+   "notas": {
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.4,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.8,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    }
+   }
+  },
+  {
+   "id": "Q36",
+   "pergunta": "Quantos professores acreditam em neuromitos? E como é isso entre educadores no Brasil?",
+   "categoria": "sintese",
+   "doc": "DEKKER-2012-NEUROMITOS",
+   "notas": {
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 0.6,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.1667,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.1667,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q37",
+   "pergunta": "Sistemas automáticos de simplificação de texto preservam o sentido original? Dá para confiar que o texto simplificado mantém a informação?",
+   "categoria": "factual",
+   "doc": "AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE",
+   "notas": {
+    "C": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.4667,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    }
+   }
+  },
+  {
+   "id": "Q38",
+   "pergunta": "Modelos de linguagem (LLMs) conseguem reescrever um material didático em diferentes níveis de leitura mantendo o conteúdo correto?",
+   "categoria": "factual",
+   "doc": "HUANG-2024-LLM-NIVEIS-LEITURA",
+   "notas": {
+    "C": {
+     "fid": 0.5,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.4444,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.5,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  },
+  {
+   "id": "Q39",
+   "pergunta": "Qual a dose inicial de metilfenidato para uma criança de 6 anos com TDAH e como ajustar?",
+   "categoria": "fora_da_base",
+   "doc": null,
+   "notas": {
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "A-gptoss": {
+     "fid": 0.3333,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    }
+   }
+  },
+  {
+   "id": "Q40",
+   "pergunta": "Como montar uma prancha de comunicação alternativa (CAA) para um aluno com TEA nível 3, não verbal, na aula de matemática?",
+   "categoria": "fora_da_base",
+   "doc": null,
+   "notas": {
+    "B3": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A": {
+     "fid": 1.0,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 1.0
+    },
+    "C": {
+     "fid": 0.2222,
+     "util": 1.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "A-gptoss": {
+     "fid": 0.0,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 1.0,
+     "absteve": 0.0
+    },
+    "C-gptoss": {
+     "fid": 0.5333,
+     "util": 0.3333,
+     "parcial": 0.6667,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "C50": {
+     "fid": 0.2222,
+     "util": 0.0,
+     "parcial": 1.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B3-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    },
+    "B1-50": {
+     "fid": null,
+     "util": 0.0,
+     "parcial": 0.0,
+     "inventou": 0.0,
+     "absteve": 0.0
+    }
+   }
+  }
+ ],
+ "reforco": {
+  "fontes": [
+   "semana3/saidas_fora/abstencao.json",
+   "semana3/saidas_fora/limiar.json",
+   "semana3/saidas_fora/juiz_fora.json",
+   "semana3/saidas/analise_complementar.json",
+   "semana3/saidas/d_diagnostico.json"
+  ],
+  "abstencao": {
+   "A": {
+    "perto": {
+     "n_perguntas": 20,
+     "taxa_ic95": [
+      0.9,
+      0.75,
+      1.0
+     ],
+     "sempre": 18,
+     "nunca": 2,
+     "instavel": []
+    },
+    "longe": {
+     "n_perguntas": 5,
+     "taxa_ic95": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "sempre": 5,
+     "nunca": 0,
+     "instavel": []
+    },
+    "todas25": {
+     "n_perguntas": 25,
+     "taxa_ic95": [
+      0.92,
+      0.8,
+      1.0
+     ],
+     "sempre": 23,
+     "nunca": 2,
+     "instavel": []
+    },
+    "todas27": {
+     "n_perguntas": 27,
+     "taxa_ic95": [
+      0.9259,
+      0.8148,
+      1.0
+     ],
+     "sempre": 25
+    },
+    "nao_absteve": [
+     "N08",
+     "N11"
+    ]
+   },
+   "C": {
+    "perto": {
+     "n_perguntas": 20,
+     "taxa_ic95": [
+      0.6,
+      0.4,
+      0.8
+     ],
+     "sempre": 12,
+     "nunca": 8,
+     "instavel": []
+    },
+    "longe": {
+     "n_perguntas": 5,
+     "taxa_ic95": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "sempre": 5,
+     "nunca": 0,
+     "instavel": []
+    },
+    "todas25": {
+     "n_perguntas": 25,
+     "taxa_ic95": [
+      0.68,
+      0.48,
+      0.84
+     ],
+     "sempre": 17,
+     "nunca": 8,
+     "instavel": []
+    },
+    "todas27": {
+     "n_perguntas": 27,
+     "taxa_ic95": [
+      0.6667,
+      0.4815,
+      0.8519
+     ],
+     "sempre": 18
+    },
+    "nao_absteve": [
+     "N05",
+     "N08",
+     "N11",
+     "N12",
+     "N15",
+     "N16",
+     "N18",
+     "N19"
+    ]
+   },
+   "C50": {
+    "perto": {
+     "n_perguntas": 20,
+     "taxa_ic95": [
+      0.7,
+      0.5,
+      0.9
+     ],
+     "sempre": 14,
+     "nunca": 6,
+     "instavel": []
+    },
+    "longe": {
+     "n_perguntas": 5,
+     "taxa_ic95": [
+      0.8,
+      0.4,
+      1.0
+     ],
+     "sempre": 4,
+     "nunca": 1,
+     "instavel": []
+    },
+    "todas25": {
+     "n_perguntas": 25,
+     "taxa_ic95": [
+      0.72,
+      0.52,
+      0.88
+     ],
+     "sempre": 18,
+     "nunca": 7,
+     "instavel": []
+    },
+    "todas27": {
+     "n_perguntas": 27,
+     "taxa_ic95": [
+      0.7037,
+      0.5185,
+      0.8889
+     ],
+     "sempre": 19
+    },
+    "nao_absteve": [
+     "F04",
+     "N02",
+     "N08",
+     "N11",
+     "N12",
+     "N18",
+     "N19"
+    ]
+   }
+  },
+  "juiz_fora": {
+   "A": {
+    "perguntas": 2,
+    "inventou_sim": 2,
+    "perguntas_com_invencao": [
+     "N11"
+    ],
+    "frases_julgadas": 26,
+    "frases_sustentadas": 0,
+    "util": {
+     "não": 3,
+     "sim": 3
+    },
+    "juiz_viu_abstencao": 0
+   },
+   "C": {
+    "perguntas": 8,
+    "inventou_sim": 12,
+    "perguntas_com_invencao": [
+     "N05",
+     "N12",
+     "N16",
+     "N18"
+    ],
+    "frases_julgadas": 191,
+    "frases_sustentadas": 48,
+    "util": {
+     "não": 12,
+     "parcial": 12
+    },
+    "juiz_viu_abstencao": 0
+   },
+   "C50": {
+    "perguntas": 7,
+    "inventou_sim": 3,
+    "perguntas_com_invencao": [
+     "N18"
+    ],
+    "frases_julgadas": 120,
+    "frases_sustentadas": 63,
+    "util": {
+     "não": 15,
+     "parcial": 6
+    },
+    "juiz_viu_abstencao": 6
+   }
+  },
+  "limiar": {
+   "n_com": 38,
+   "n_sem": 27,
+   "auc_ic95": [
+    0.911,
+    0.833,
+    0.973
+   ],
+   "corte_youden": 1.51,
+   "com_resposta_acima_do_corte": 32,
+   "sem_resposta_abaixo_do_corte": 26,
+   "sem_resposta_acima_do_corte": [
+    "Q39"
+   ],
+   "com_resposta_abaixo_do_corte": [
+    "Q01",
+    "Q02",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07"
+   ],
+   "mediana_com": 4.86,
+   "mediana_sem": -1.24,
+   "fora_da_amostra_com_resposta_liberadas": 31,
+   "fora_da_amostra_sem_resposta_barradas": 25
+  },
+  "limiar_50": {
+   "n_com": 38,
+   "n_sem": 27,
+   "auc_ic95": [
+    0.919,
+    0.844,
+    0.98
+   ],
+   "corte_youden": 1.51,
+   "com_resposta_acima_do_corte": 32,
+   "sem_resposta_abaixo_do_corte": 26,
+   "sem_resposta_acima_do_corte": [
+    "Q39"
+   ],
+   "com_resposta_abaixo_do_corte": [
+    "Q01",
+    "Q02",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07"
+   ],
+   "mediana_com": 4.94,
+   "mediana_sem": -0.82,
+   "fora_da_amostra_com_resposta_liberadas": 31,
+   "fora_da_amostra_sem_resposta_barradas": 24
+  },
+  "busca_certa": {
+   "C|llama3.1-8b": {
+    "perguntas_busca_certa": 29,
+    "perguntas_busca_errada": 9,
+    "ids_busca_errada": [
+     "Q04",
+     "Q05",
+     "Q06",
+     "Q07",
+     "Q10",
+     "Q28",
+     "Q30",
+     "Q31",
+     "Q32"
+    ],
+    "campos": {
+     "fidelidade_sem_abstencao": {
+      "certa": [
+       0.7996,
+       0.7097,
+       0.8835
+      ],
+      "n_certa": 26,
+      "errada": [
+       0.5757,
+       0.4293,
+       0.75
+      ],
+      "n_errada": 6,
+      "dif_certa_menos_errada": [
+       0.2239,
+       0.0168,
+       0.3946
+      ]
+     },
+     "util_sim": {
+      "certa": [
+       0.6207,
+       0.4483,
+       0.7931
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.1111,
+       0.0,
+       0.3333
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       0.5096,
+       0.2184,
+       0.7586
+      ]
+     },
+     "util_sim_ou_parcial": {
+      "certa": [
+       0.8621,
+       0.7241,
+       0.9655
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.8889,
+       0.6667,
+       1.0
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       -0.0268,
+       -0.2414,
+       0.2299
+      ]
+     },
+     "inventou": {
+      "certa": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "tem_frase_que_contradiz": {
+      "certa": [
+       0.2069,
+       0.069,
+       0.3793
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.2222,
+       0.0,
+       0.5556
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       -0.0153,
+       -0.341,
+       0.2759
+      ]
+     },
+     "absteve_juiz": {
+      "certa": [
+       0.1034,
+       0.0,
+       0.2069
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.3333,
+       0.1111,
+       0.6667
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       -0.2299,
+       -0.5632,
+       0.069
+      ]
+     }
+    }
+   },
+   "C50|llama3.1-8b": {
+    "perguntas_busca_certa": 33,
+    "perguntas_busca_errada": 5,
+    "ids_busca_errada": [
+     "Q04",
+     "Q05",
+     "Q10",
+     "Q30",
+     "Q31"
+    ],
+    "campos": {
+     "fidelidade_sem_abstencao": {
+      "certa": [
+       0.7882,
+       0.6934,
+       0.8754
+      ],
+      "n_certa": 28,
+      "errada": [
+       0.5638,
+       0.3542,
+       0.7346
+      ],
+      "n_errada": 4,
+      "dif_certa_menos_errada": [
+       0.2244,
+       0.019,
+       0.4491
+      ]
+     },
+     "util_sim": {
+      "certa": [
+       0.6061,
+       0.4242,
+       0.7576
+      ],
+      "n_certa": 33,
+      "errada": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "n_errada": 5,
+      "dif_certa_menos_errada": [
+       0.6061,
+       0.4242,
+       0.7576
+      ]
+     },
+     "util_sim_ou_parcial": {
+      "certa": [
+       0.8485,
+       0.7273,
+       0.9697
+      ],
+      "n_certa": 33,
+      "errada": [
+       0.8,
+       0.4,
+       1.0
+      ],
+      "n_errada": 5,
+      "dif_certa_menos_errada": [
+       0.0485,
+       -0.2424,
+       0.4788
+      ]
+     },
+     "inventou": {
+      "certa": [
+       0.0606,
+       0.0,
+       0.1515
+      ],
+      "n_certa": 33,
+      "errada": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "n_errada": 5,
+      "dif_certa_menos_errada": [
+       0.0606,
+       0.0,
+       0.1515
+      ]
+     },
+     "tem_frase_que_contradiz": {
+      "certa": [
+       0.1212,
+       0.0303,
+       0.2424
+      ],
+      "n_certa": 33,
+      "errada": [
+       0.2,
+       0.0,
+       0.6
+      ],
+      "n_errada": 5,
+      "dif_certa_menos_errada": [
+       -0.0788,
+       -0.5091,
+       0.2121
+      ]
+     },
+     "absteve_juiz": {
+      "certa": [
+       0.1515,
+       0.0606,
+       0.2727
+      ],
+      "n_certa": 33,
+      "errada": [
+       0.2,
+       0.0,
+       0.6
+      ],
+      "n_errada": 5,
+      "dif_certa_menos_errada": [
+       -0.0485,
+       -0.4788,
+       0.2424
+      ]
+     }
+    }
+   },
+   "B|busca-top3": {
+    "perguntas_busca_certa": 29,
+    "perguntas_busca_errada": 9,
+    "ids_busca_errada": [
+     "Q04",
+     "Q05",
+     "Q06",
+     "Q07",
+     "Q10",
+     "Q28",
+     "Q30",
+     "Q31",
+     "Q32"
+    ],
+    "campos": {
+     "util_sim": {
+      "certa": [
+       0.4483,
+       0.2759,
+       0.6207
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       0.4483,
+       0.2759,
+       0.6207
+      ]
+     },
+     "util_sim_ou_parcial": {
+      "certa": [
+       0.9655,
+       0.8966,
+       1.0
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.6667,
+       0.3333,
+       1.0
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       0.2989,
+       0.0,
+       0.6322
+      ]
+     }
+    }
+   },
+   "B50|busca-top3": {
+    "perguntas_busca_certa": 33,
+    "perguntas_busca_errada": 5,
+    "ids_busca_errada": [
+     "Q04",
+     "Q05",
+     "Q10",
+     "Q30",
+     "Q31"
+    ],
+    "campos": {
+     "util_sim": {
+      "certa": [
+       0.6364,
+       0.4848,
+       0.7879
+      ],
+      "n_certa": 33,
+      "errada": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "n_errada": 5,
+      "dif_certa_menos_errada": [
+       0.6364,
+       0.4848,
+       0.7879
+      ]
+     },
+     "util_sim_ou_parcial": {
+      "certa": [
+       0.9697,
+       0.9091,
+       1.0
+      ],
+      "n_certa": 33,
+      "errada": [
+       0.8,
+       0.4,
+       1.0
+      ],
+      "n_errada": 5,
+      "dif_certa_menos_errada": [
+       0.1697,
+       -0.0909,
+       0.6
+      ]
+     }
+    }
+   },
+   "A|llama3.1-8b": {
+    "perguntas_busca_certa": 29,
+    "perguntas_busca_errada": 9,
+    "ids_busca_errada": [
+     "Q04",
+     "Q05",
+     "Q06",
+     "Q07",
+     "Q10",
+     "Q28",
+     "Q30",
+     "Q31",
+     "Q32"
+    ],
+    "campos": {
+     "fidelidade_sem_abstencao": {
+      "certa": [
+       0.1855,
+       0.0883,
+       0.2822
+      ],
+      "n_certa": 19,
+      "errada": [
+       0.0286,
+       0.0,
+       0.0857
+      ],
+      "n_errada": 7,
+      "dif_certa_menos_errada": [
+       0.1569,
+       0.0425,
+       0.2677
+      ]
+     },
+     "util_sim": {
+      "certa": [
+       0.1724,
+       0.0345,
+       0.3103
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.1481,
+       0.0,
+       0.3704
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       0.0243,
+       -0.2375,
+       0.2414
+      ]
+     },
+     "util_sim_ou_parcial": {
+      "certa": [
+       0.4713,
+       0.2989,
+       0.6437
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.7407,
+       0.4444,
+       1.0
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       -0.2695,
+       -0.5607,
+       0.0843
+      ]
+     },
+     "inventou": {
+      "certa": [
+       0.3333,
+       0.1724,
+       0.5057
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.3333,
+       0.0741,
+       0.5926
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       0.0,
+       -0.3167,
+       0.3103
+      ]
+     },
+     "tem_frase_que_contradiz": {
+      "certa": [
+       0.2989,
+       0.1379,
+       0.4713
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       0.2989,
+       0.1379,
+       0.4713
+      ]
+     },
+     "absteve_juiz": {
+      "certa": [
+       0.3448,
+       0.1724,
+       0.5172
+      ],
+      "n_certa": 29,
+      "errada": [
+       0.2222,
+       0.0,
+       0.5556
+      ],
+      "n_errada": 9,
+      "dif_certa_menos_errada": [
+       0.1226,
+       -0.2107,
+       0.4138
+      ]
+     }
+    }
+   }
+  },
+  "holm": [
+   {
+    "comparacao": "C - A, frases sustentadas",
+    "n": 40,
+    "dif_media": 0.3288,
+    "dp_das_diferencas": 0.5691,
+    "p_wilcoxon": 0.001570457106311418,
+    "menor_diferenca_detectavel": 0.252,
+    "p_holm": 0.009422742637868508
+   },
+   {
+    "comparacao": "C - A, útil",
+    "n": 40,
+    "dif_media": 0.3417,
+    "dp_das_diferencas": 0.492,
+    "p_wilcoxon": 0.00020858763308495394,
+    "menor_diferenca_detectavel": 0.218,
+    "p_holm": 0.0018772886977645854
+   },
+   {
+    "comparacao": "C - A, inventou",
+    "n": 40,
+    "dif_media": -0.3167,
+    "dp_das_diferencas": 0.4463,
+    "p_wilcoxon": 0.0003529848692118181,
+    "menor_diferenca_detectavel": 0.198,
+    "p_holm": 0.002823878953694545
+   },
+   {
+    "comparacao": "C - B1, útil",
+    "n": 40,
+    "dif_media": 0.325,
+    "dp_das_diferencas": 0.5256,
+    "p_wilcoxon": 0.0007891129890156299,
+    "menor_diferenca_detectavel": 0.233,
+    "p_holm": 0.00552379092310941
+   },
+   {
+    "comparacao": "C - B3, útil",
+    "n": 40,
+    "dif_media": 0.175,
+    "dp_das_diferencas": 0.5006,
+    "p_wilcoxon": 0.034808478811867126,
+    "menor_diferenca_detectavel": 0.222,
+    "p_holm": 0.17404239405933564
+   },
+   {
+    "comparacao": "A - B1, útil",
+    "n": 40,
+    "dif_media": -0.0167,
+    "dp_das_diferencas": 0.5796,
+    "p_wilcoxon": 0.8083651559145103,
+    "menor_diferenca_detectavel": 0.257,
+    "p_holm": 1.0
+   },
+   {
+    "comparacao": "A - B3, útil",
+    "n": 40,
+    "dif_media": -0.1667,
+    "dp_das_diferencas": 0.6405,
+    "p_wilcoxon": 0.09432654301821687,
+    "menor_diferenca_detectavel": 0.284,
+    "p_holm": 0.3773061720728675
+   },
+   {
+    "comparacao": "C - B1, inventou",
+    "n": 40,
+    "dif_media": 0.0,
+    "dp_das_diferencas": 0.0,
+    "p_wilcoxon": 1.0,
+    "menor_diferenca_detectavel": 0.0,
+    "p_holm": 1.0
+   },
+   {
+    "comparacao": "C - B3, inventou",
+    "n": 40,
+    "dif_media": 0.0,
+    "dp_das_diferencas": 0.0,
+    "p_wilcoxon": 1.0,
+    "menor_diferenca_detectavel": 0.0,
+    "p_holm": 1.0
+   }
+  ],
+  "D_minuta": {
+   "llama3.1-8b": {
+    "completo": {
+     "execucoes": 88,
+     "minuta_aprovada_no_laudo": 15,
+     "violacoes_nas_reprovadas": {
+      "acrescentou palavras fora do andaime": 67,
+      "tirou palavras do original": 20,
+      "perdeu conceito da trava curricular": 11
+     },
+     "palavras_minuta_sobre_original_mediana": 2.5,
+     "tokens_media": null
+    },
+    "sem_rag": {
+     "execucoes": 88,
+     "minuta_aprovada_no_laudo": 15,
+     "violacoes_nas_reprovadas": {
+      "acrescentou palavras fora do andaime": 58,
+      "tirou palavras do original": 35,
+      "perdeu conceito da trava curricular": 21,
+      "mudou a ordem das palavras": 14
+     },
+     "palavras_minuta_sobre_original_mediana": 1.69,
+     "tokens_media": null
+    },
+    "pareado": {
+     "minuta aprovada no laudo": {
+      "n": 30,
+      "dif_media_ic95": [
+       0.0,
+       -0.1333,
+       0.1333
+      ],
+      "wilcoxon_p": 1.0
+     },
+     "TRCC da minuta": {
+      "n": 30,
+      "dif_media_ic95": [
+       0.0889,
+       -0.0256,
+       0.215
+      ],
+      "wilcoxon_p": 0.1837
+     },
+     "Flesch da minuta": {
+      "n": 30,
+      "dif_media_ic95": [
+       3.4883,
+       -6.124,
+       14.108
+      ],
+      "wilcoxon_p": 0.7897
+     }
+    }
+   },
+   "gpt-oss-20b (cliente corrigido)": {
+    "completo": {
+     "execucoes": 30,
+     "minuta_aprovada_no_laudo": 6,
+     "violacoes_nas_reprovadas": {
+      "acrescentou palavras fora do andaime": 21,
+      "tirou palavras do original": 13,
+      "perdeu conceito da trava curricular": 7,
+      "mudou a ordem das palavras": 6
+     },
+     "palavras_minuta_sobre_original_mediana": 1.27,
+     "tokens_media": null
+    },
+    "sem_rag": {
+     "execucoes": 30,
+     "minuta_aprovada_no_laudo": 17,
+     "violacoes_nas_reprovadas": {
+      "acrescentou palavras fora do andaime": 10,
+      "tirou palavras do original": 7,
+      "perdeu conceito da trava curricular": 3,
+      "mudou a ordem das palavras": 2
+     },
+     "palavras_minuta_sobre_original_mediana": 1.13,
+     "tokens_media": null
+    },
+    "pareado": {
+     "minuta aprovada no laudo": {
+      "n": 30,
+      "dif_media_ic95": [
+       -0.3667,
+       -0.6,
+       -0.1
+      ],
+      "wilcoxon_p": 0.0076
+     },
+     "TRCC da minuta": {
+      "n": 30,
+      "dif_media_ic95": [
+       -0.0306,
+       -0.0972,
+       0.0333
+      ],
+      "wilcoxon_p": 0.3573
+     },
+     "Flesch da minuta": {
+      "n": 30,
+      "dif_media_ic95": [
+       5.9293,
+       -3.852,
+       17.4803
+      ],
+      "wilcoxon_p": 0.8791
+     }
+    }
+   }
+  }
+ }
+}

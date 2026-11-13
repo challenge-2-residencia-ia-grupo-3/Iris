@@ -177,6 +177,7 @@ mark{background:#5A1A22;color:#FFE3E3;border-radius:3px;padding:1px 4px;box-shad
 /* matriz de portões */
 
 
+.retrato-aviso{margin:12px 0 4px;padding:10px 14px;border:1px solid var(--atbd);background:var(--atbg);color:var(--tx);border-radius:10px;font-size:13px}.retrato-aviso b{color:var(--at)}.retrato-aviso details{margin-top:4px;color:var(--tx2)}.retrato-aviso summary{cursor:pointer}
 .mat{display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap}.fase,.painel .mat .fase{width:calc(var(--n)*16px + 6px);min-width:88px;flex:none;display:flex;flex-direction:column;gap:3px}
 .mat-cab .fase{font:500 11.5px/1.2 "IBM Plex Sans",sans-serif;color:var(--tx2);flex-direction:row;flex-wrap:wrap;gap:0 4px;align-items:baseline;white-space:normal;overflow-wrap:anywhere}.mat-cab .fase small{color:var(--tx3);font:10px "IBM Plex Mono",monospace}
 .fase-cel{display:flex;flex-direction:column;gap:3px}.fq{display:flex;gap:3px;flex-wrap:nowrap}.leg-mat{font-size:12px;display:inline-flex;flex-wrap:wrap;gap:14px;align-items:center}.fq i{width:13px;height:13px;border-radius:3px;display:grid;place-items:center;font:700 9px/1 "IBM Plex Mono",monospace;font-style:normal}.fn{font:11px "IBM Plex Mono",monospace;color:var(--tx3)}.fn.er{color:var(--er);font-weight:600}
@@ -770,6 +771,8 @@ ev.addEventListener('fim',m=>{const f=JSON.parse(m.data);if(alvo=='atualizar'){N
 ev.addEventListener('painel',()=>{ev.close();$('job-st').innerHTML+=' <button class="btn sec mini" onclick="location.reload()">painel atualizado: recarregar</button>'});
 ev.onerror=()=>{ev.close();JOB=null}}
 
+/* ---------- retrato ---------- */
+function retratoAviso(){const R=D.retrato;if(!R||!R.arquivos||!R.arquivos.length)return;const el=document.createElement('div');el.className='retrato-aviso';const dt=(R.gerado_em||'').slice(0,10).split('-').reverse().join('/');el.innerHTML=`<b>Parte deste painel é um retrato, não deste commit.</b> ${R.arquivos.length} resultados (os que precisam de modelo: juízes, fidelidade, LLM x RAG, histórico de vereditos) vêm de <code>rag/iris-rag/bancada/referencia</code>, medidos até ${esc(dt)}${R.commit_grupo?` no commit <code>${esc(R.commit_grupo)}</code> do grupo`:''}${R.commit_grupo&&D.commits&&D.commits.grupo&&D.commits.grupo[0]&&!String(D.commits.grupo[0].sha||'').startsWith(R.commit_grupo)?' (o código aqui já é mais novo: esses números podem não valer mais)':''}. O que <code>make qualidade</code> gerou nesta máquina tem prioridade. <details><summary>quais arquivos</summary><code>${R.arquivos.map(esc).join(' · ')}</code></details>`;const m=document.querySelector('main');m.insertBefore(el,m.children[1]||null)}
 /* ---------- vigia ---------- */
 async function vigiar(){try{const r=await fetch('status.json',{cache:'no-store'});if(!r.ok)return;const st=await r.json();topo(st);const rep=(st.portoes||[]).find(p=>p.ok===false);
 $('reprovado').innerHTML=(st.aprovado===false&&rep)?`<div class="alerta er" role=alert><div class=n>!</div><h2>Último commit reprovado no portão “${esc(rep.portao)}”</h2><button class="btn claro" onclick="ir('commits')">ver portões</button><ul><li>commit do grupo <code>${esc(st.commit_grupo)}</code> ${esc((st.commit_grupo_titulo||'').slice(0,70))}</li><li>este painel continua mostrando a última versão aprovada (${esc(st.publicado&&st.publicado.grupo||'')}, ${esc(quando(st.publicado&&st.publicado.em))})</li><li class=mono style="font-size:12px">${esc((rep.detalhe||'').slice(0,220))}</li></ul></div>`:'';
@@ -903,4 +906,4 @@ def gerar(dados: dict, testes: list[tuple[str, str, str]]) -> str:
 <aside class=lado><div class=marca><i></i><div><b>Íris</b><small>bancada de acompanhamento</small></div></div><nav aria-label=seções>{''.join(nav)}</nav>{legenda}</aside>
 <main><div class=topo><span id=topo-estado></span><span id=topo-grupo></span><span id=topo-priv></span><span id=topo-quando></span><span id=topo-local style="display:none"></span>
 <button id=novo class=novo onclick="location.reload()">nova versão publicada: recarregar</button></div><div id=reprovado></div><div id=alerta></div>{corpo}</main></div>
-<script>{_vendor_js()}</script><script>const DADOS={dados_json};</script><script>{JS}\n{_qualidade_js()}\nqualidadeTudo();langgraphSec();llmxragSec();glAplicar();</script></body></html>"""
+<script>{_vendor_js()}</script><script>const DADOS={dados_json};</script><script>{JS}\n{_qualidade_js()}\nqualidadeTudo();langgraphSec();llmxragSec();glAplicar();retratoAviso();</script></body></html>"""

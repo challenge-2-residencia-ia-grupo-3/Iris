@@ -18,6 +18,7 @@ import html
 import json
 import random
 import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime
@@ -31,6 +32,28 @@ REGISTRO = OUT / "execucoes.jsonl"
 SEMENTE = 20261106
 AVISO = re.compile(r"sem refer[êe]ncias|n[ãa]o (constitui|serve como|é) evid[êe]ncia|"
                    r"n[ãa]o (usar|deve ser usad)|instru[çc][ãa]o de uso|aviso de uso", re.I)
+
+
+# ---------------------------------------------------------------- retrato (bancada/referencia)
+REF = AQUI.parent / "bancada" / "referencia"
+
+
+def usar_retrato() -> list[str]:
+    """Saídas que esta máquina não gerou (as que precisam de modelo, por exemplo) vêm do retrato em bancada/referencia,
+    medido antes, com data e commit no MANIFESTO.json. Nunca sobrescreve saída local. Devolve a lista do que veio."""
+    veio = []
+    if not (REF / "outputs").is_dir():
+        return veio
+    OUT.mkdir(exist_ok=True)
+    for p in sorted((REF / "outputs").iterdir()):
+        if p.is_file() and p.name not in ("execucoes.jsonl",) and not (OUT / p.name).exists():
+            shutil.copy2(p, OUT / p.name)
+            veio.append(p.name)
+    if veio:
+        (OUT / ".retrato.json").write_text(json.dumps(veio, ensure_ascii=False), encoding="utf-8")
+    elif (OUT / ".retrato.json").exists():
+        veio = json.loads((OUT / ".retrato.json").read_text(encoding="utf-8"))
+    return veio
 
 
 # ---------------------------------------------------------------- leitura
@@ -484,14 +507,31 @@ def _sem_itens(d):
 def etapa_html() -> None:
     import os
     import painel
-    if not REGISTRO.exists():
+    retrato = usar_retrato()
+    if retrato or not REGISTRO.exists():
         etapa_registrar()
     registro = [json.loads(l) for l in REGISTRO.read_text(encoding="utf-8").splitlines() if l.strip()]
+    # configurações que só o retrato tem (juízes e fidelidade dependem das respostas completas, que não saem daqui)
+    reg_ref = REF / "outputs" / "execucoes.jsonl"
+    if reg_ref.exists():
+        tem = {(r["experimento"], r["variante"]) for r in registro}
+        extra = [dict(r, retrato=True) for r in (json.loads(l) for l in reg_ref.read_text(encoding="utf-8").splitlines() if l.strip())
+                 if (r["experimento"], r["variante"]) not in tem]
+        if extra:
+            registro += extra
+            retrato.append(f"execucoes.jsonl ({len(extra)} configurações)")
     perguntas, textos = montar_rastro()
     status = json.loads(os.environ["BANCADA_STATUS"]) if os.environ.get("BANCADA_STATUS") else None
     hist_arq = Path(os.environ.get("BANCADA_HISTORICO", ""))
     historico = ([json.loads(l) for l in hist_arq.read_text(encoding="utf-8").splitlines() if l.strip()]
                  if os.environ.get("BANCADA_HISTORICO") and hist_arq.exists() else [])
+    manifesto = json.loads((REF / "MANIFESTO.json").read_text(encoding="utf-8")) if (REF / "MANIFESTO.json").exists() else None
+    if manifesto and status is None and (REF / "status.json").exists():
+        status = json.loads((REF / "status.json").read_text(encoding="utf-8"))
+        retrato.append("status.json")
+    if manifesto and not historico and (REF / "historico.jsonl").exists():
+        historico = [json.loads(l) for l in (REF / "historico.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+        retrato.append("historico.jsonl")
     historico = [h for h in historico if not h.get("sabotagem")]     # testes de sabotagem provam o portão; não são veredito
     # uma linha por commit do grupo (dev ou cabeça de PR): rodadas repetidas do mesmo commit, disparadas antes por
     # commits do repositório privado, ficam só com a mais recente
@@ -515,7 +555,9 @@ def etapa_html() -> None:
              "llmxrag": _opcional("40-llm-x-rag.json"), "llmxrag_textos": _opcional("40-llm-x-rag-textos.json"),
              "q_ragas": _opcional("38-ragas-grupo.json"),
              "gitnexus": _opcional("29-gitnexus.json"), "github": _opcional("30-github.json"),
-             "etapas": _opcional("31-etapas.json"), "commits": montar_commits(historico)}
+             "etapas": _opcional("31-etapas.json"), "commits": montar_commits(historico),
+             "retrato": {"arquivos": retrato, "gerado_em": (manifesto or {}).get("gerado_em"),
+                         "commit_grupo": (manifesto or {}).get("commit_grupo")} if retrato else None}
     pagina = painel.gerar(dados, TESTES)
     REPORTS.mkdir(exist_ok=True)
     destino = REPORTS / "bancada.html"

@@ -1,0 +1,9 @@
+PROMPTS COMPARADOS (mesmos trechos da v1; juiz Claude Haiku 5.5) - ver avaliacao/PREREG-resposta.md
+
+v2: falta 17-respostas-v2.jsonl
+v3: falta 17-respostas-v3.jsonl
+versão respondeu  abstenção Q39/Q40 copia aviso   fidelidade (Haiku) 100% sustent. útil sim
+v1            35              ok/ok           1     0.80 [0.73-0.86]      9 de 35        17
+
+ESTABILIDADE DO HAIKU (mesmas respostas v1, 2 rodadas, n=35): fidelidade +0.03 [-0.00 a +0.08] IC passa pelo zero; '100% sustentada' igual em 31/35
+   Uma diferença entre versões menor que essa oscilação não conta como melhora.

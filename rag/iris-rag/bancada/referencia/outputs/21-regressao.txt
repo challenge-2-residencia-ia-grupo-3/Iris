@@ -1,0 +1,33 @@
+REGRESSÃO: registro atual x linha de base (outputs/execucoes-base.jsonl)
+Regra: cai quando a média atual fica abaixo do limite inferior do IC 95% da base (mesma configuração).
+Só compara configurações presentes nos dois; configuração nova ou removida é listada à parte.
+
+  igual  16 métodos de busca            bm25                         recall@5   base 0.20 [0.12-0.29] -> atual 0.20  (f1fae96 -> f1fae96)
+  igual  16 métodos de busca            hibrido                      recall@5   base 0.24 [0.15-0.33] -> atual 0.24  (f1fae96 -> f1fae96)
+  igual  16 métodos de busca            hibrido+rerank               recall@5   base 0.33 [0.24-0.43] -> atual 0.33  (f1fae96 -> f1fae96)
+  igual  16 métodos de busca            mpnet                        recall@5   base 0.11 [0.05-0.18] -> atual 0.11  (f1fae96 -> f1fae96)
+  igual  16 métodos de busca            qwen3                        recall@5   base 0.28 [0.19-0.37] -> atual 0.28  (f1fae96 -> f1fae96)
+  igual  16 métodos de busca            qwen3+rerank                 recall@5   base 0.36 [0.26-0.46] -> atual 0.36  (f1fae96 -> f1fae96)
+  igual  17 HyDE                        hyde_en                      recall@5   base 0.21 [0.14-0.30] -> atual 0.21  (baaf0ab -> baaf0ab)
+  igual  17 HyDE                        hyde_pt                      recall@5   base 0.23 [0.16-0.31] -> atual 0.23  (baaf0ab -> baaf0ab)
+  igual  17 HyDE                        pergunta                     recall@5   base 0.36 [0.26-0.45] -> atual 0.36  (baaf0ab -> baaf0ab)
+  igual  17 HyDE                        pergunta+hyde_en             recall@5   base 0.20 [0.14-0.27] -> atual 0.20  (baaf0ab -> baaf0ab)
+  igual  17 juízes da resposta (prompt  Claude Haiku 5.5, rodada 1   fidelidade base 0.80 [0.73-0.86] -> atual 0.80  (0f46084 -> 0f46084)
+  igual  17 juízes da resposta (prompt  Claude Haiku 5.5, rodada 2   fidelidade base 0.83 [0.77-0.89] -> atual 0.83  (8d34b60 -> 8d34b60)
+  igual  17 juízes da resposta (prompt  gpt-oss-120b (Groq)          fidelidade base 0.95 [0.91-0.98] -> atual 0.95  (baaf0ab -> baaf0ab)
+  igual  17 juízes da resposta (prompt  gpt-oss-20b (local, PC)      fidelidade base 0.96 [0.93-0.99] -> atual 0.96  (0f46084 -> 0f46084)
+  igual  17 paráfrase leiga             original                     recall@5   base 0.35 [0.25-0.45] -> atual 0.35  (55204f7 -> 55204f7)
+  igual  17 paráfrase leiga             parafrase                    recall@5   base 0.21 [0.13-0.31] -> atual 0.21  (55204f7 -> 55204f7)
+  igual  18 busca bilíngue              A_pt                         recall@5   base 0.36 [0.26-0.45] -> atual 0.36  (55204f7 -> 55204f7)
+  igual  18 busca bilíngue              B_en                         recall@5   base 0.41 [0.32-0.50] -> atual 0.41  (55204f7 -> 55204f7)
+  igual  18 busca bilíngue              C_rrf                        recall@5   base 0.38 [0.29-0.47] -> atual 0.38  (55204f7 -> 55204f7)
+  igual  18 busca bilíngue              D_uniao_pt                   recall@5   base 0.45 [0.35-0.54] -> atual 0.45  (55204f7 -> 55204f7)
+  igual  18 busca bilíngue              E_uniao_pt_en                recall@5   base 0.42 [0.33-0.51] -> atual 0.42  (55204f7 -> 55204f7)
+  igual  18 busca bilíngue              F_4listas                    recall@5   base 0.44 [0.34-0.54] -> atual 0.44  (55204f7 -> 55204f7)
+  igual  19 modelos maiores (PC)        A_controle                   recall@5   base 0.36 [0.26-0.45] -> atual 0.36  (ba8d412 -> ba8d412)
+  igual  19 modelos maiores (PC)        B_reranker_bge               recall@5   base 0.37 [0.28-0.47] -> atual 0.37  (ba8d412 -> ba8d412)
+  igual  19 modelos maiores (PC)        C_embedding_4b               recall@5   base 0.45 [0.35-0.55] -> atual 0.45  (ba8d412 -> ba8d412)
+  igual  19 modelos maiores (PC)        D_os_dois                    recall@5   base 0.47 [0.38-0.56] -> atual 0.47  (ba8d412 -> ba8d412)
+
+Comparadas: 26. Caíram: 0. Novas: 0. Sumiram do registro: 0.
+RESULTADO: ok

@@ -1,0 +1,1127 @@
+{
+ "titulo": "Rastro de produção: o que as professoras fazem com as adaptações",
+ "SINTETICO": true,
+ "aviso_sintetico": "Dados sintéticos: números inventados com semente fixa para mostrar como a tela ficaria. Não medem uso real.",
+ "semente": 20261112,
+ "commit_grupo": "65e1f09",
+ "data": "2026-11-12T20:55:59+00:00",
+ "versao_esquema": 1,
+ "proposta": "bancada/producao/PROPOSTA.md",
+ "listas_fechadas": {
+  "decisoes": [
+   "aceitou",
+   "editou",
+   "recusou",
+   "sem_retorno"
+  ],
+  "motivos_recusa": [
+   "mudou_o_que_a_questao_avalia",
+   "andaime_nao_ajuda_esta_caracteristica",
+   "linguagem_infantilizada",
+   "formatacao_quebrada",
+   "erro_de_conteudo",
+   "demorou_demais",
+   "outro"
+  ],
+  "motivos_reserva": [
+   "nenhum",
+   "provedor_sem_modelo",
+   "escopo_reprovado",
+   "falha_llm"
+  ],
+  "etapas": [
+   "upload_tamanho",
+   "extracao_documento",
+   "filtro_pii",
+   "validacao_conteudo",
+   "decomposicao_estrutural",
+   "selecao_caracteristicas",
+   "perfil_pedagogico",
+   "extrator_curricular",
+   "busca_rag",
+   "contexto_rag",
+   "agente_estrategista",
+   "agente_adaptador",
+   "laudo_isolamento_escopo",
+   "saida_de_reserva",
+   "agente_auditor",
+   "exportacao"
+  ]
+ },
+ "n_eventos": 448,
+ "metricas": {
+  "n_requisicoes": 48,
+  "n_adaptacoes": 200,
+  "n_retornos": 200,
+  "n_materiais_distintos_no_dia_max": 4,
+  "geral": {
+   "n_retornos": 200,
+   "n_com_decisao": 183,
+   "aceite_sem_edicao": {
+    "n": 183,
+    "k": 68,
+    "p": 0.3716,
+    "ic95": [
+     0.3049,
+     0.4436
+    ],
+    "metodo_ic": "wilson"
+   },
+   "aceite_com_ou_sem_edicao": {
+    "n": 183,
+    "k": 151,
+    "p": 0.8251,
+    "ic95": [
+     0.7636,
+     0.8733
+    ],
+    "metodo_ic": "wilson"
+   },
+   "recusa": {
+    "n": 183,
+    "k": 32,
+    "p": 0.1749,
+    "ic95": [
+     0.1267,
+     0.2364
+    ],
+    "metodo_ic": "wilson"
+   },
+   "edicao_media_pct_quando_editou": {
+    "n": 83,
+    "media": 22.23,
+    "ic95": [
+     18.92,
+     25.72
+    ],
+    "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+   },
+   "sem_retorno": {
+    "n": 200,
+    "k": 17,
+    "p": 0.085,
+    "ic95": [
+     0.0537,
+     0.1319
+    ],
+    "metodo_ic": "wilson"
+   }
+  },
+  "por_caracteristica": [
+   {
+    "caracteristica": "atencao_sustentada_textos_longos",
+    "n_retornos": 28,
+    "n_com_decisao": 27,
+    "aceite_sem_edicao": {
+     "n": 27,
+     "k": 8,
+     "p": 0.2963,
+     "ic95": [
+      0.1585,
+      0.4848
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 27,
+     "k": 19,
+     "p": 0.7037,
+     "ic95": [
+      0.5152,
+      0.8415
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 27,
+     "k": 8,
+     "p": 0.2963,
+     "ic95": [
+      0.1585,
+      0.4848
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 11,
+     "media": 19.55,
+     "ic95": [
+      12.27,
+      28.64
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 28,
+     "k": 1,
+     "p": 0.0357,
+     "ic95": [
+      0.0063,
+      0.1771
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "bloqueio_iniciacao_tarefas_abertas",
+    "n_retornos": 9,
+    "n_com_decisao": 9,
+    "aceite_sem_edicao": {
+     "n": 9,
+     "k": 4,
+     "p": 0.4444,
+     "ic95": [
+      0.1888,
+      0.7334
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 9,
+     "k": 8,
+     "p": 0.8889,
+     "ic95": [
+      0.565,
+      0.9801
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 9,
+     "k": 1,
+     "p": 0.1111,
+     "ic95": [
+      0.0199,
+      0.435
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 4,
+     "suprimido": true
+    },
+    "sem_retorno": {
+     "n": 9,
+     "k": 0,
+     "p": 0.0,
+     "ic95": [
+      0.0,
+      0.2992
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "distratibilidade_poluicao_visual_layout",
+    "n_retornos": 34,
+    "n_com_decisao": 31,
+    "aceite_sem_edicao": {
+     "n": 31,
+     "k": 12,
+     "p": 0.3871,
+     "ic95": [
+      0.2373,
+      0.5618
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 31,
+     "k": 27,
+     "p": 0.871,
+     "ic95": [
+      0.7115,
+      0.9487
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 31,
+     "k": 4,
+     "p": 0.129,
+     "ic95": [
+      0.0513,
+      0.2885
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 15,
+     "media": 19.33,
+     "ic95": [
+      14.0,
+      25.67
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 34,
+     "k": 3,
+     "p": 0.0882,
+     "ic95": [
+      0.0305,
+      0.2296
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "fadiga_executiva_autorregulacao_provas_extensas",
+    "n_retornos": 8,
+    "n_com_decisao": 8,
+    "aceite_sem_edicao": {
+     "n": 8,
+     "k": 4,
+     "p": 0.5,
+     "ic95": [
+      0.2152,
+      0.7848
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 8,
+     "k": 6,
+     "p": 0.75,
+     "ic95": [
+      0.4093,
+      0.9285
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 8,
+     "k": 2,
+     "p": 0.25,
+     "ic95": [
+      0.0715,
+      0.5907
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 2,
+     "suprimido": true
+    },
+    "sem_retorno": {
+     "n": 8,
+     "k": 0,
+     "p": 0.0,
+     "ic95": [
+      0.0,
+      0.3244
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+    "n_retornos": 15,
+    "n_com_decisao": 14,
+    "aceite_sem_edicao": {
+     "n": 14,
+     "k": 4,
+     "p": 0.2857,
+     "ic95": [
+      0.1172,
+      0.5465
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 14,
+     "k": 12,
+     "p": 0.8571,
+     "ic95": [
+      0.6006,
+      0.9599
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 14,
+     "k": 2,
+     "p": 0.1429,
+     "ic95": [
+      0.0401,
+      0.3994
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 8,
+     "media": 24.38,
+     "ic95": [
+      12.5,
+      38.75
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 15,
+     "k": 1,
+     "p": 0.0667,
+     "ic95": [
+      0.0119,
+      0.2982
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "impulsividade_leitura_superficial_negacoes",
+    "n_retornos": 8,
+    "n_com_decisao": 8,
+    "aceite_sem_edicao": {
+     "n": 8,
+     "k": 0,
+     "p": 0.0,
+     "ic95": [
+      0.0,
+      0.3244
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 8,
+     "k": 5,
+     "p": 0.625,
+     "ic95": [
+      0.3057,
+      0.8632
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 8,
+     "k": 3,
+     "p": 0.375,
+     "ic95": [
+      0.1368,
+      0.6943
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 5,
+     "media": 20.0,
+     "ic95": [
+      5.0,
+      47.0
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 8,
+     "k": 0,
+     "p": 0.0,
+     "ic95": [
+      0.0,
+      0.3244
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "organizacao_sequencial_expressao_escrita",
+    "n_retornos": 7,
+    "n_com_decisao": 7,
+    "aceite_sem_edicao": {
+     "n": 7,
+     "k": 2,
+     "p": 0.2857,
+     "ic95": [
+      0.0822,
+      0.6411
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 7,
+     "k": 5,
+     "p": 0.7143,
+     "ic95": [
+      0.3589,
+      0.9178
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 7,
+     "k": 2,
+     "p": 0.2857,
+     "ic95": [
+      0.0822,
+      0.6411
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 3,
+     "suprimido": true
+    },
+    "sem_retorno": {
+     "n": 7,
+     "k": 0,
+     "p": 0.0,
+     "ic95": [
+      0.0,
+      0.3543
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "retencao_dados_intermediarios_problemas_multietapas",
+    "n_retornos": 16,
+    "n_com_decisao": 13,
+    "aceite_sem_edicao": {
+     "n": 13,
+     "k": 5,
+     "p": 0.3846,
+     "ic95": [
+      0.1771,
+      0.6448
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 13,
+     "k": 9,
+     "p": 0.6923,
+     "ic95": [
+      0.4237,
+      0.8732
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 13,
+     "k": 4,
+     "p": 0.3077,
+     "ic95": [
+      0.1268,
+      0.5763
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 4,
+     "suprimido": true
+    },
+    "sem_retorno": {
+     "n": 16,
+     "k": 3,
+     "p": 0.1875,
+     "ic95": [
+      0.0659,
+      0.4301
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "ritmo_processamento_pressao_temporal",
+    "n_retornos": 12,
+    "n_com_decisao": 10,
+    "aceite_sem_edicao": {
+     "n": 10,
+     "k": 4,
+     "p": 0.4,
+     "ic95": [
+      0.1682,
+      0.6873
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 10,
+     "k": 10,
+     "p": 1.0,
+     "ic95": [
+      0.7225,
+      1.0
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 10,
+     "k": 0,
+     "p": 0.0,
+     "ic95": [
+      0.0,
+      0.2775
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 6,
+     "media": 22.5,
+     "ic95": [
+      14.17,
+      32.5
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 12,
+     "k": 2,
+     "p": 0.1667,
+     "ic95": [
+      0.047,
+      0.448
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
+    "n_retornos": 63,
+    "n_com_decisao": 56,
+    "aceite_sem_edicao": {
+     "n": 56,
+     "k": 25,
+     "p": 0.4464,
+     "ic95": [
+      0.3239,
+      0.5759
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 56,
+     "k": 50,
+     "p": 0.8929,
+     "ic95": [
+      0.7853,
+      0.95
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 56,
+     "k": 6,
+     "p": 0.1071,
+     "ic95": [
+      0.05,
+      0.2147
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 25,
+     "media": 20.8,
+     "ic95": [
+      15.4,
+      27.0
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 63,
+     "k": 7,
+     "p": 0.1111,
+     "ic95": [
+      0.0549,
+      0.212
+     ],
+     "metodo_ic": "wilson"
+    }
+   }
+  ],
+  "por_nivel": [
+   {
+    "nivel": 1,
+    "n_retornos": 71,
+    "n_com_decisao": 65,
+    "aceite_sem_edicao": {
+     "n": 65,
+     "k": 20,
+     "p": 0.3077,
+     "ic95": [
+      0.2089,
+      0.428
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 65,
+     "k": 52,
+     "p": 0.8,
+     "ic95": [
+      0.6873,
+      0.8792
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 65,
+     "k": 13,
+     "p": 0.2,
+     "ic95": [
+      0.1208,
+      0.3127
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 32,
+     "media": 20.62,
+     "ic95": [
+      16.25,
+      25.31
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 71,
+     "k": 6,
+     "p": 0.0845,
+     "ic95": [
+      0.0393,
+      0.1724
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "nivel": 2,
+    "n_retornos": 87,
+    "n_com_decisao": 77,
+    "aceite_sem_edicao": {
+     "n": 77,
+     "k": 32,
+     "p": 0.4156,
+     "ic95": [
+      0.3121,
+      0.5271
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 77,
+     "k": 66,
+     "p": 0.8571,
+     "ic95": [
+      0.762,
+      0.9183
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 77,
+     "k": 11,
+     "p": 0.1429,
+     "ic95": [
+      0.0817,
+      0.238
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 34,
+     "media": 18.68,
+     "ic95": [
+      15.0,
+      22.35
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 87,
+     "k": 10,
+     "p": 0.1149,
+     "ic95": [
+      0.0636,
+      0.1988
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "nivel": 3,
+    "n_retornos": 42,
+    "n_com_decisao": 41,
+    "aceite_sem_edicao": {
+     "n": 41,
+     "k": 16,
+     "p": 0.3902,
+     "ic95": [
+      0.2566,
+      0.5427
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 41,
+     "k": 33,
+     "p": 0.8049,
+     "ic95": [
+      0.6599,
+      0.8977
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 41,
+     "k": 8,
+     "p": 0.1951,
+     "ic95": [
+      0.1023,
+      0.3401
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 17,
+     "media": 32.35,
+     "ic95": [
+      21.18,
+      44.12
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 42,
+     "k": 1,
+     "p": 0.0238,
+     "ic95": [
+      0.0042,
+      0.1232
+     ],
+     "metodo_ic": "wilson"
+    }
+   }
+  ],
+  "por_uso_de_reserva": [
+   {
+    "usou_reserva": false,
+    "n_retornos": 182,
+    "n_com_decisao": 166,
+    "aceite_sem_edicao": {
+     "n": 166,
+     "k": 67,
+     "p": 0.4036,
+     "ic95": [
+      0.332,
+      0.4796
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 166,
+     "k": 139,
+     "p": 0.8373,
+     "ic95": [
+      0.7737,
+      0.8857
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 166,
+     "k": 27,
+     "p": 0.1627,
+     "ic95": [
+      0.1143,
+      0.2263
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 72,
+     "media": 21.81,
+     "ic95": [
+      18.47,
+      25.49
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 182,
+     "k": 16,
+     "p": 0.0879,
+     "ic95": [
+      0.0548,
+      0.138
+     ],
+     "metodo_ic": "wilson"
+    }
+   },
+   {
+    "usou_reserva": true,
+    "n_retornos": 18,
+    "n_com_decisao": 17,
+    "aceite_sem_edicao": {
+     "n": 17,
+     "k": 1,
+     "p": 0.0588,
+     "ic95": [
+      0.0105,
+      0.2698
+     ],
+     "metodo_ic": "wilson"
+    },
+    "aceite_com_ou_sem_edicao": {
+     "n": 17,
+     "k": 12,
+     "p": 0.7059,
+     "ic95": [
+      0.4687,
+      0.8672
+     ],
+     "metodo_ic": "wilson"
+    },
+    "recusa": {
+     "n": 17,
+     "k": 5,
+     "p": 0.2941,
+     "ic95": [
+      0.1328,
+      0.5313
+     ],
+     "metodo_ic": "wilson"
+    },
+    "edicao_media_pct_quando_editou": {
+     "n": 11,
+     "media": 25.0,
+     "ic95": [
+      15.45,
+      36.36
+     ],
+     "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+    },
+    "sem_retorno": {
+     "n": 18,
+     "k": 1,
+     "p": 0.0556,
+     "ic95": [
+      0.0099,
+      0.2576
+     ],
+     "metodo_ic": "wilson"
+    }
+   }
+  ],
+  "recusas_por_motivo": [
+   {
+    "motivo": "mudou_o_que_a_questao_avalia",
+    "n": 32,
+    "k": 6,
+    "p": 0.1875,
+    "ic95": [
+     0.0889,
+     0.3531
+    ],
+    "metodo_ic": "wilson",
+    "contagem": 6
+   },
+   {
+    "motivo": "andaime_nao_ajuda_esta_caracteristica",
+    "n": 32,
+    "k": 9,
+    "p": 0.2812,
+    "ic95": [
+     0.1556,
+     0.4537
+    ],
+    "metodo_ic": "wilson",
+    "contagem": 9
+   },
+   {
+    "motivo": "linguagem_infantilizada",
+    "n": 32,
+    "k": 3,
+    "p": 0.0938,
+    "ic95": [
+     0.0324,
+     0.2422
+    ],
+    "metodo_ic": "wilson",
+    "contagem": 3
+   },
+   {
+    "motivo": "formatacao_quebrada",
+    "n": 32,
+    "k": 4,
+    "p": 0.125,
+    "ic95": [
+     0.0497,
+     0.2807
+    ],
+    "metodo_ic": "wilson",
+    "contagem": 4
+   },
+   {
+    "motivo": "erro_de_conteudo",
+    "n": 32,
+    "k": 4,
+    "p": 0.125,
+    "ic95": [
+     0.0497,
+     0.2807
+    ],
+    "metodo_ic": "wilson",
+    "contagem": 4
+   },
+   {
+    "motivo": "demorou_demais",
+    "n": 32,
+    "k": 3,
+    "p": 0.0938,
+    "ic95": [
+     0.0324,
+     0.2422
+    ],
+    "metodo_ic": "wilson",
+    "contagem": 3
+   },
+   {
+    "motivo": "outro",
+    "n": 32,
+    "k": 3,
+    "p": 0.0938,
+    "ic95": [
+     0.0324,
+     0.2422
+    ],
+    "metodo_ic": "wilson",
+    "contagem": 3
+   }
+  ],
+  "reserva": {
+   "n": 200,
+   "k": 27,
+   "p": 0.135,
+   "ic95": [
+    0.0945,
+    0.1893
+   ],
+   "metodo_ic": "wilson"
+  },
+  "motivos_reserva": {
+   "nenhum": 173,
+   "provedor_sem_modelo": 0,
+   "escopo_reprovado": 9,
+   "falha_llm": 18
+  },
+  "escopo_aprovado": {
+   "n": 200,
+   "k": 200,
+   "p": 1.0,
+   "ic95": [
+    0.9812,
+    1.0
+   ],
+   "metodo_ic": "wilson"
+  },
+  "dentro_limite_rnf07": {
+   "n": 200,
+   "k": 197,
+   "p": 0.985,
+   "ic95": [
+    0.9568,
+    0.9949
+   ],
+   "metodo_ic": "wilson"
+  },
+  "latencia_por_etapa": [
+   {
+    "etapa": "filtro_pii",
+    "n": 48,
+    "mediana_ms": 3.7,
+    "p90_ms": 6.2
+   },
+   {
+    "etapa": "validacao_conteudo",
+    "n": 48,
+    "mediana_ms": 1.0,
+    "p90_ms": 1.3
+   },
+   {
+    "etapa": "decomposicao_estrutural",
+    "n": 48,
+    "mediana_ms": 27.5,
+    "p90_ms": 43.7
+   },
+   {
+    "etapa": "extrator_curricular",
+    "n": 200,
+    "mediana_ms": 2352.9,
+    "p90_ms": 5215.5
+   },
+   {
+    "etapa": "busca_rag",
+    "n": 200,
+    "mediana_ms": 187.3,
+    "p90_ms": 285.4
+   },
+   {
+    "etapa": "agente_adaptador",
+    "n": 200,
+    "mediana_ms": 4703.2,
+    "p90_ms": 12115.2
+   },
+   {
+    "etapa": "laudo_isolamento_escopo",
+    "n": 200,
+    "mediana_ms": 6.0,
+    "p90_ms": 8.6
+   },
+   {
+    "etapa": "saida_de_reserva",
+    "n": 27,
+    "mediana_ms": 3.4,
+    "p90_ms": 4.7
+   }
+  ],
+  "tokens_por_adaptacao": {
+   "n": 200,
+   "mediana": 1126,
+   "p90": 1313,
+   "media": {
+    "n": 200,
+    "media": 1119.36,
+    "ic95": [
+     1097.45,
+     1140.89
+    ],
+    "metodo_ic": "bootstrap 2000 reamostragens, semente 7"
+   }
+  },
+  "k_min_supressao": 5
+ },
+ "conferencia_no_codigo_do_grupo": {
+  "provedor": "eco",
+  "aviso": "provedor determinístico: mede o encanamento, não a qualidade de um modelo",
+  "materiais": 3,
+  "niveis": [
+   1,
+   2,
+   3
+  ],
+  "registros_aceitos": 51,
+  "registros_por_tipo": {
+   "requisicao": 9,
+   "adaptacao": 21,
+   "retorno": 21
+  },
+  "campos_recusados_no_fluxo_real": 0,
+  "pii_plantado": 8,
+  "pii_vazado_no_rastro": 0,
+  "trigramas_do_material_no_rastro": 0,
+  "tentativas_de_vazamento": {
+   "enunciado_em_campo_novo": "recusado: chave não declarada no esquema",
+   "texto_adaptado_em_campo_novo": "recusado: chave não declarada no esquema",
+   "nome_em_erro_codigo": "recusado: texto livre não é aceito (espaço ou mais de 64 caracteres)",
+   "nome_colado_em_erro_codigo": "recusado: valor fora da lista fechada",
+   "nome_colado_em_modelo": "recusado: contém palavra do material desta requisição",
+   "cpf_em_modelo": "recusado: parece dado pessoal (cpf)",
+   "palavra_do_material_em_erro_codigo": "recusado: valor fora da lista fechada",
+   "motivo_recusa_texto_livre": "recusado: texto livre não é aceito (espaço ou mais de 64 caracteres)"
+  },
+  "tentativas_recusadas": 8,
+  "tentativas_total": 8
+ },
+ "aviso": "provedor determinístico: mede o encanamento, não a qualidade de um modelo"
+}
