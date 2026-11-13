@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from iris.config import CATALOGS_DIR
+from iris.rag.engagement_context import build_motivational_context
 from iris.schemas.catalog import (
     CatalogValidationError,
     CharacteristicCatalog,
@@ -24,8 +25,13 @@ from iris.schemas.catalog import (
     load_official_tdah_catalog,
     validate_surgical_characteristic_selection,
 )
+from iris.schemas.engagement import (
+    EngagementValidationError,
+    get_engagement_options_catalog,
+    validate_engagement_profile,
+)
 
-ALLOWED_SELECTION_PAYLOAD_FIELDS = {"selected_ids", "id_catalogo"}
+ALLOWED_SELECTION_PAYLOAD_FIELDS = {"selected_ids", "id_catalogo", "engagement_profile"}
 
 
 def _resolve_catalog(id_catalogo: str | None = None, directory: Path = CATALOGS_DIR) -> CharacteristicCatalog:
@@ -65,16 +71,46 @@ def get_characteristics_catalog_service(
     return data
 
 
+def get_engagement_options_service() -> dict[str, Any]:
+    """Retorna o catálogo oficial de interesses temáticos e canais preferenciais (Princípio I DUA)."""
+    return get_engagement_options_catalog()
+
+
+def register_engagement_profile_service(
+    payload: dict[str, Any] | None,
+    travas_curriculares: list[str] | str | None = None,
+    fetch_rag_evidence: bool = False,
+) -> dict[str, Any]:
+    """Valida potencialidades/interesses (RF-05) e gera contexto motivacional vinculado ao Princípio I DUA."""
+    engagement_meta = validate_engagement_profile(payload)
+    motivational_ctx = build_motivational_context(
+        engagement=engagement_meta,
+        travas_curriculares=travas_curriculares,
+        fetch_rag_evidence=fetch_rag_evidence,
+    )
+    return {
+        "status": "success",
+        "message": (
+            "Metadados de engajamento vinculados ao Princípio I do DUA registrados na sessão."
+            if engagement_meta.possui_ancoras_motivacionais
+            else "Nenhuma âncora motivacional opcional informada (seleção opcional)."
+        ),
+        "engagement_metadata": engagement_meta.model_dump(),
+        "motivational_context": motivational_ctx.model_dump(),
+    }
+
+
 def select_surgical_characteristics_service(
     payload: dict[str, Any],
     directory: Path = CATALOGS_DIR,
 ) -> SurgicalCharacteristicSelection:
-    """Valida o payload da Etapa 2 e registra o vetor cirúrgico de características ativadas (RF-04).
+    """Valida o payload da Etapa 2 e registra o vetor cirúrgico + contexto motivacional opcional (RF-04, RF-05).
 
     Garante:
     1. Proibição de envio de rótulos clínicos, CIDs ou campos extras (`extra = 'forbid'`).
     2. Seleção mínima de 1 característica funcional atômica.
     3. Isolamento estrito entre `selected_ids` (escopo permitido) e `blocked_ids` (escopo bloqueado).
+    4. Anexo opcional de metadados de potencialidades/interesses vinculados ao Princípio I do DUA.
     """
     if not isinstance(payload, dict):
         raise CharacteristicSelectionError(
@@ -105,11 +141,19 @@ def select_surgical_characteristics_service(
 
     catalog = _resolve_catalog(id_catalogo=id_catalogo, directory=directory)
     selected_ids = payload.get("selected_ids")
-    return validate_surgical_characteristic_selection(
+    selection = validate_surgical_characteristic_selection(
         selected_ids=selected_ids,
         catalog=catalog,
         directory=directory,
     )
+
+    if "engagement_profile" in payload and payload["engagement_profile"] is not None:
+        engagement_meta = validate_engagement_profile(payload["engagement_profile"])
+        motivational_ctx = build_motivational_context(engagement=engagement_meta)
+        selection.engagement_metadata = engagement_meta.model_dump()
+        selection.motivational_context = motivational_ctx.model_dump()
+
+    return selection
 
 
 # Roteamento FastAPI (quando FastAPI estiver disponível no ambiente)
@@ -146,13 +190,54 @@ try:
                 detail={"detail": str(err), "code": "CATALOG_SCHEMA_ERROR", "field": "catalog"},
             ) from err
 
+    @router.get(
+        "/engagement-options",
+        response_model=dict[str, Any],
+        summary="Opções de interesses temáticos e canais preferenciais de engajamento (Etapa 2)",
+        description=(
+            "Retorna os seletores opcionais de interesses temáticos e canais preferenciais "
+            "vinculados ao Princípio I do DUA (História 1.2.2 - Issue #9)."
+        ),
+    )
+    async def get_engagement_options() -> dict[str, Any]:
+        return get_engagement_options_service()
+
+    @router.post(
+        "/engagement",
+        response_model=dict[str, Any],
+        summary="Validação e mapeamento de potencialidades e interesses (Princípio I DUA)",
+        description=(
+            "Valida potencialidades, interesses temáticos e canais preferenciais opcionais, "
+            "sanitiza PII e gera contexto motivacional sem substituir conceitos da trava curricular."
+        ),
+    )
+    async def register_engagement_profile(
+        payload: dict[str, Any] = Body(
+            default_factory=dict,
+            examples=[
+                {
+                    "interesses_tematicos": ["esportes", "natureza"],
+                    "canais_engajamento_preferenciais": ["esquemas_visuais"],
+                    "potencialidades": "Facilidade com esquemas visuais e exemplos concretos.",
+                }
+            ],
+        ),
+    ) -> dict[str, Any]:
+        try:
+            return register_engagement_profile_service(payload=payload)
+        except EngagementValidationError as err:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=err.to_dict(),
+            ) from err
+
     @router.post(
         "/characteristics/select",
         response_model=dict[str, Any],
         summary="Seleção cirúrgica de características funcionais observadas (Etapa 2)",
         description=(
-            "Registra exclusivamente as características marcadas como escopo permitido de adaptação "
-            "e bloqueia todas as demais características não assinaladas (RF-04 / História 1.2.1)."
+            "Registra exclusivamente as características marcadas como escopo permitido de adaptação, "
+            "bloqueia as não assinaladas e anexa opcionalmente o perfil de engajamento DUA (RF-04, RF-05)."
         ),
     )
     async def select_characteristics(
@@ -162,7 +247,12 @@ try:
                 {
                     "selected_ids": [
                         "sobrecarga_memoria_trabalho_comandos_multiplos",
-                    ]
+                    ],
+                    "engagement_profile": {
+                        "interesses_tematicos": ["esportes", "tecnologia"],
+                        "canais_engajamento_preferenciais": ["esquemas_visuais"],
+                        "potencialidades": "Boa compreensão com esquemas visuais.",
+                    },
                 }
             ],
         ),
@@ -170,7 +260,7 @@ try:
         try:
             result = select_surgical_characteristics_service(payload=payload)
             return result.model_dump()
-        except CharacteristicSelectionError as err:
+        except (CharacteristicSelectionError, EngagementValidationError) as err:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail=err.to_dict(),

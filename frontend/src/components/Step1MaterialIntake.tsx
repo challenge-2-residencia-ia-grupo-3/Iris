@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   AlertCircle,
   ArrowLeft,
@@ -15,13 +16,13 @@ import {
   Moon,
   RefreshCw,
   ShieldCheck,
-  Sparkles,
   Sun,
   Trash2,
   XCircle,
 } from "lucide-react";
 import { IrisLogoBanner } from "./IrisLogoBanner";
-import { Stepper5Etapas } from "./Stepper5Etapas";
+import { IrisSidebar } from "./IrisSidebar";
+import { useTheme } from "@/contexts/ThemeContext";
 import {
   ALLOWED_EXTENSIONS,
   IrisApiError,
@@ -43,19 +44,9 @@ interface Step1MaterialIntakeProps {
   teacherEmail?: string;
   onBackToLogin?: () => void;
   onAdvanceToStep2?: (materialText: string, metadata?: MaterialMetadata | null) => void;
-  darkMode: boolean;
-  onToggleDarkMode: () => void;
+  darkMode?: boolean;
+  onToggleDarkMode?: () => void;
 }
-
-const SAMPLE_PEDAGOGICAL_ACTIVITY = `Escola Municipal Professora Cecília Meireles
-Aluno(a): Gabriel Silva de Oliveira — Turma: 7º Ano B — Matrícula: 20261045
-
-AVALIAÇÃO BIMESTRAL DE CIÊNCIAS DA NATUREZA
-
-Texto de Apoio:
-Os ecossistemas brasileiros apresentam grande diversidade biológica e dependem diretamente do equilíbrio dos ciclos biogeoquímicos (água, carbono e nitrogênio). Nas regiões de Cerrado, as matas ciliares desempenham papel essencial na proteção das bacias hidrográficas.
-
-Questão 1: Leia atentamente o trecho acima, identifique dois fatores que ameaçam a conservação das bacias hidrográficas no Cerrado, relacione-os ao ciclo da água e proponha uma ação prática de preservação ambiental.`;
 
 /**
  * Componente da Etapa 1 (Issue 1.1.1 — Entrada de Material Didático via Texto e Upload de Documentos).
@@ -75,6 +66,11 @@ export function Step1MaterialIntake({
   darkMode,
   onToggleDarkMode,
 }: Step1MaterialIntakeProps) {
+  const router = useRouter();
+  const { darkMode: contextDarkMode, toggleDarkMode: contextToggleDarkMode } = useTheme();
+  const isDarkMode = darkMode ?? contextDarkMode;
+  const handleToggleDarkMode = onToggleDarkMode ?? contextToggleDarkMode;
+
   const textareaId = useId();
   const fileInputId = useId();
   const statusRegionId = useId();
@@ -296,8 +292,8 @@ export function Step1MaterialIntake({
       });
       if (onAdvanceToStep2) {
         onAdvanceToStep2(textContent, serverMetadata);
-      } else if (typeof window !== "undefined") {
-        window.location.href = "/etapa-2";
+      } else {
+        router.push("/etapa-2");
       }
       return;
     }
@@ -382,19 +378,6 @@ export function Step1MaterialIntake({
     clearStep1StateFromSession();
   };
 
-  const handleLoadExample = () => {
-    setTextContent(SAMPLE_PEDAGOGICAL_ACTIVITY);
-    setSelectedFile(null);
-    setServerMetadata(null);
-    setConfirmedForStep2(false);
-    setFeedbackBanner({
-      type: "info",
-      title: "Exemplo de avaliação carregado",
-      message:
-        "Observe que o exemplo contém cabeçalho escolar com nome de aluno e matrícula. Ao clicar em 'Validar e Conferir no Servidor', o sanitizador Zero-Retention substituirá os dados pessoais por [ESTUDANTE] e [IDENTIFICADOR].",
-    });
-  };
-
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -434,13 +417,13 @@ export function Step1MaterialIntake({
             {/* Botão Modo Claro / Escuro idêntico ao protótipo do Figma */}
             <button
               type="button"
-              onClick={onToggleDarkMode}
-              aria-pressed={darkMode}
-              aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-              title={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+              onClick={handleToggleDarkMode}
+              aria-pressed={isDarkMode}
+              aria-label={isDarkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+              title={isDarkMode ? "Ativar modo claro" : "Ativar modo escuro"}
               className="p-2.5 rounded-xl border border-[#335C67]/25 dark:border-white/20 hover:bg-[#335C67]/10 dark:hover:bg-white/10 transition-colors"
             >
-              {darkMode ? (
+              {isDarkMode ? (
                 <Sun className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
               ) : (
                 <Moon className="w-4 h-4 text-[#0D0221]" aria-hidden="true" />
@@ -461,12 +444,22 @@ export function Step1MaterialIntake({
         </div>
       </header>
 
-      {/* Conteúdo Principal */}
-      <main id="conteudo-principal" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 space-y-6">
-        {/* Stepper das 5 Etapas (RNF-10) */}
-        <Stepper5Etapas currentStep={1} />
+      {/* Estrutura Principal com Sidebar Lateral Modular + Conteúdo */}
+      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 flex flex-col lg:flex-row gap-6 items-start">
+        <IrisSidebar
+          currentStep={1}
+          enabledSteps={confirmedForStep2 ? [1, 2] : [1]}
+          onNavigateHome={onBackToLogin}
+          onNavigateStep={(step) => {
+            if (step === 2 && confirmedForStep2) {
+              handleValidateAndAdvance();
+            }
+          }}
+        />
 
-        {/* Cabeçalho da Etapa 1 */}
+        {/* Conteúdo Principal */}
+        <main id="conteudo-principal" className="flex-1 min-w-0 space-y-6">
+          {/* Cabeçalho da Etapa 1 */}
         <section aria-labelledby="titulo-etapa-1" className="space-y-2">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E35336]">
             <span>Etapa 1 de 5 • Gestão de Insumos Pedagógicos</span>
@@ -477,27 +470,15 @@ export function Step1MaterialIntake({
                 id="titulo-etapa-1"
                 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0D0221] dark:text-white"
               >
-                Identificação e Entrada do Material Didático
+                Entrada do material didático
               </h1>
               <p className="text-sm sm:text-base text-[#0D0221]/75 dark:text-white/75 mt-1 max-w-3xl">
-                Cole diretamente o texto da sua avaliação ou faça o upload de um arquivo (
-                <code className="font-mono font-semibold text-[#335C67] dark:text-[#E35336]">.pdf</code>,{" "}
-                <code className="font-mono font-semibold text-[#335C67] dark:text-[#E35336]">.docx</code> ou{" "}
-                <code className="font-mono font-semibold text-[#335C67] dark:text-[#E35336]">.txt</code>
-                ). A extração ocorre 100% em memória com preservação da acentuação (UTF-8) e descarte imediato de dados pessoais.
+                Cole diretamente o texto da sua avaliação ou faça o upload de um arquivo.
               </p>
             </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <button
-                type="button"
-                onClick={handleLoadExample}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#335C67]/10 dark:bg-white/10 text-[#335C67] dark:text-white hover:bg-[#335C67]/20 transition-colors"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-[#E35336]" aria-hidden="true" />
-                Preencher com atividade de exemplo
-              </button>
-              {textContent.length > 0 && (
+            {textContent.length > 0 && (
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <button
                   type="button"
                   onClick={handleClearAll}
@@ -506,8 +487,8 @@ export function Step1MaterialIntake({
                   <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
                   Limpar
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </section>
 
@@ -870,7 +851,8 @@ export function Step1MaterialIntake({
             </div>
           </section>
         </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
