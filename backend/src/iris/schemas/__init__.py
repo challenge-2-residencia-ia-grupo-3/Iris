@@ -24,6 +24,13 @@ from iris.schemas.curriculum import (
     ExtractionTelemetry,
     classificar_faixa_etaria,
 )
+from iris.schemas.strategy import (
+    StrategyIntervention,
+    StrategyRequest,
+    StrategyResult,
+    StrategySource,
+    StrategyTelemetry,
+)
 from iris.schemas.materials import (
     MAX_FILE_SIZE_BYTES,
     MAX_SAFE_CONTEXT_CHARS,
@@ -48,6 +55,11 @@ __all__ = [
     "AdaptationResult",
     "AdaptationTelemetry",
     "ScopeReport",
+    "StrategyIntervention",
+    "StrategyRequest",
+    "StrategyResult",
+    "StrategySource",
+    "StrategyTelemetry",
     "BARREIRAS_RAG_VALIDAS",
     "PRINCIPIOS_DUA_VALIDOS",
     "BibliographicReference",

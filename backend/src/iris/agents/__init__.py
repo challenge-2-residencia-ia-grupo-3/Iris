@@ -4,6 +4,7 @@ from iris.agents.curriculum_extractor import (
     CurriculumExtractorAgent,
     get_curriculum_extractor,
 )
+from iris.agents.strategist_agent import StrategistAgent, get_strategist_agent
 
 __all__ = [
     "AdapterAgent",
@@ -11,5 +12,7 @@ __all__ = [
     "get_adapter_agent",
     "CurriculumExtractorAgent",
     "get_curriculum_extractor",
+    "StrategistAgent",
+    "get_strategist_agent",
 ]
 
