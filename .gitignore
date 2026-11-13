@@ -38,6 +38,7 @@ reports/saidas/
 reports/rag_escolar_progress.log
 reports/rag_escolar_runs.jsonl
 reports/rag_escolar_baseline.json
+reports/rag_escolar_recusa.json
 reports/sonnet_judge_cache.jsonl
 
 # Frontend Next.js

@@ -1,0 +1,23 @@
+{
+  "versao": "v1",
+  "descricao": "Perguntas que a base de evidências do RAG não responde. A resposta correta do sistema é a frase de recusa. 'longe' é assunto sem relação com a base; 'perto' é assunto vizinho (escola, TDAH) cujo fato pedido não está em nenhum trecho.",
+  "como_foi_conferido": "Em 13/11/2026, busca por palavra no chunks.jsonl (1.083 trechos): nenhum trecho traz o fato pedido por estas perguntas.",
+  "perguntas": [
+    {"id": "FB01", "tipo": "longe", "pergunta": "Qual é a capital da Austrália?"},
+    {"id": "FB02", "tipo": "longe", "pergunta": "Quem venceu a Copa do Mundo de futebol de 1970?"},
+    {"id": "FB03", "tipo": "longe", "pergunta": "Qual é a receita de um bolo de cenoura com cobertura de chocolate?"},
+    {"id": "FB04", "tipo": "longe", "pergunta": "Como declarar o imposto de renda sendo microempreendedor individual?"},
+    {"id": "FB05", "tipo": "longe", "pergunta": "Qual é a distância média entre a Terra e a Lua?"},
+    {"id": "FB06", "tipo": "longe", "pergunta": "Qual é a previsão do tempo para Brasília amanhã?"},
+    {"id": "FB07", "tipo": "longe", "pergunta": "Como trocar o pneu de um carro?"},
+    {"id": "FB08", "tipo": "longe", "pergunta": "Quantos deputados federais tem a Câmara dos Deputados?"},
+    {"id": "FB09", "tipo": "perto", "pergunta": "Qual é a dose de metilfenidato indicada para uma criança de 8 anos?"},
+    {"id": "FB10", "tipo": "perto", "pergunta": "Qual é o valor do piso salarial nacional dos professores em 2026?"},
+    {"id": "FB11", "tipo": "perto", "pergunta": "Qual é o telefone da Secretaria de Educação do Distrito Federal?"},
+    {"id": "FB12", "tipo": "perto", "pergunta": "Quantos estudantes com TDAH estão matriculados na rede pública do Distrito Federal?"},
+    {"id": "FB13", "tipo": "perto", "pergunta": "Em que dia começa o ano letivo de 2027 na rede pública do Distrito Federal?"},
+    {"id": "FB14", "tipo": "perto", "pergunta": "Qual é o número do artigo da Constituição que trata do salário-educação?"},
+    {"id": "FB15", "tipo": "perto", "pergunta": "Qual escola de Brasília tem a melhor nota no Ideb?"},
+    {"id": "FB16", "tipo": "perto", "pergunta": "Qual é o preço de uma avaliação neuropsicológica para TDAH?"}
+  ]
+}

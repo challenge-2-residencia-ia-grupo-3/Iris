@@ -32,6 +32,7 @@ from iris.eval.rag_metrics import (
 )
 from iris.eval.sonnet_judge import julgar_resposta_sonnet, sonnet_judge_status
 from iris.rag import bridge as rag_bridge
+from iris.schemas.adaptation import LIMITE_LATENCIA_MS
 from iris.schemas.benchmark import BenchmarkQuestionItem, carregar_questoes_escolares
 from iris.schemas.catalog import get_characteristic_by_id
 
@@ -44,6 +45,8 @@ ESTRATEGIAS_QUERY = ("contexto_pedagogico", "barreira", "enunciado_completo")
 AVALIADORES_GERACAO = ("auto", "sonnet", "lexico")
 
 BASELINE_RAG_ESCOLAR_PADRAO = REPO_ROOT / "reports" / "rag_escolar_baseline.json"
+PERGUNTAS_FORA_DA_BASE_PADRAO = BENCHMARKS_DIR / "perguntas_fora_da_base_v1.json"
+RECUSA_RAG_ESCOLAR_PADRAO = REPO_ROOT / "reports" / "rag_escolar_recusa.json"
 
 # Intervalo de confiança de 95% por reamostragem (bootstrap): sorteia as questões com reposição
 # IC_N_REAMOSTRAS vezes e guarda a faixa onde ficam 95% das médias. Semente fixa: repetir dá o mesmo intervalo.
@@ -466,8 +469,12 @@ def _executar_geracao_segura(
                     filtro_barreira=filtro_barreira,
                 )
         elif status_llm.get("primary_available"):
-            os.environ["RAG_LLM"] = str(status_llm["configured_provider"])
-            os.environ["RAG_LLM_MODELO"] = modelo_resolvido
+            provedor_cfg = str(status_llm["configured_provider"])
+            os.environ["RAG_LLM"] = provedor_cfg
+            # Provedor extrativo não chama modelo: gravar o nome do modelo configurado enganaria a procedência.
+            os.environ["RAG_LLM_MODELO"] = (
+                "deterministic-bm25-extractive" if provedor_cfg in {"extractive", "mock", "offline"} else modelo_resolvido
+            )
             try:
                 res = rag_bridge.responder_fundamentado(
                     pergunta=pergunta,
@@ -600,6 +607,7 @@ def avaliar_questao_no_rag(
             "llm_erro": res_gen.get("llm_erro"),
             "avaliador_solicitado": modo_av,
             "avaliador_fidelidade": avaliador_efetivo,
+            "modelo_juiz": sonnet_judge_status()["model"] if avaliador_efetivo == "claude_sonnet" else None,
             "fidelidade_efetiva": fidelidade_efetiva,
             "relevancia_efetiva": relevancia_efetiva,
             "fidelidade_sonnet": fidelidade_sonnet,
@@ -843,6 +851,220 @@ def _agrupar_por_dimensao(itens: list[dict[str, Any]], chave: str) -> dict[str, 
     }
 
 
+def resumir_rnf07(itens: list[dict[str, Any]], nivel: int | None) -> dict[str, Any] | None:
+    """Conta quantas questões ficaram dentro do limite de tempo do RNF-07 para o nível da rodada.
+
+    O RNF-07 limita o ciclo inteiro de adaptação (15 s no nível 1, 40 s nos níveis 2 e 3). O benchmark
+    escolar mede só a parte do RAG (busca, geração e juiz), então ficar dentro do limite aqui é condição
+    necessária, não suficiente: o Extrator, o Adaptador e o Auditor ainda somam tempo por cima.
+    """
+    tempos = [float(r["segundos_total"]) * 1000.0 for r in itens if r.get("segundos_total") is not None]
+    if not tempos:
+        return None
+    try:
+        nivel_int = int(nivel or 2)
+    except (TypeError, ValueError):
+        nivel_int = 2
+    limite_ms = LIMITE_LATENCIA_MS.get(nivel_int, LIMITE_LATENCIA_MS[2])
+    dentro = sum(1 for t in tempos if t <= limite_ms)
+    return {
+        "nivel": nivel_int,
+        "limite_ms": limite_ms,
+        "total": len(tempos),
+        "dentro": dentro,
+        "fora": len(tempos) - dentro,
+        "pct_dentro": round((dentro / len(tempos)) * 100.0, 1),
+        "maior_ms": round(max(tempos), 1),
+        "escopo": "busca + geração + juiz do RAG; o ciclo completo de adaptação soma os agentes por cima",
+    }
+
+
+def _modelo_sem_provedor(rotulo: str | None) -> str | None:
+    """`anthropic:claude-x` vira `claude-x`; o gerador grava provedor e modelo juntos, o juiz só o modelo."""
+    if not rotulo:
+        return None
+    return str(rotulo).split(":", 1)[-1].strip().lower() or None
+
+
+def resumir_modelos(itens: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Diz que modelo gerou e que modelo julgou, e em quantas questões os dois eram o mesmo.
+
+    Um juiz que é o mesmo modelo do gerador tende a aprovar o próprio texto; a nota vale como teto, não
+    como medida. Rodadas antigas não gravaram o modelo do juiz: nesses itens o campo conta como desconhecido.
+    """
+    com_gen = [r for r in itens if r.get("llm")]
+    if not com_gen:
+        return None
+    julgados = [r for r in com_gen if r.get("avaliador_fidelidade") == "claude_sonnet"]
+    iguais = sum(
+        1
+        for r in julgados
+        if r.get("modelo_juiz") and _modelo_sem_provedor(r.get("llm")) == _modelo_sem_provedor(r.get("modelo_juiz"))
+    )
+    return {
+        "geradores": sorted({str(r["llm"]) for r in com_gen}),
+        "juizes": sorted({str(r["modelo_juiz"]) for r in julgados if r.get("modelo_juiz")}),
+        "com_geracao": len(com_gen),
+        "julgados_por_modelo": len(julgados),
+        "juiz_desconhecido": sum(1 for r in julgados if not r.get("modelo_juiz")),
+        "gerador_igual_ao_juiz": iguais,
+    }
+
+
+def _resumir_recusa(itens: list[dict[str, Any]]) -> dict[str, Any]:
+    valores = [100.0 if r.get("recusou") else 0.0 for r in itens]
+    return {
+        "total": len(itens),
+        "recusou": sum(1 for r in itens if r.get("recusou")),
+        "taxa_recusa_pct": round(sum(valores) / len(valores), 1) if valores else None,
+        "ic95": intervalo_confianca_media(valores),
+    }
+
+
+def carregar_perguntas_fora_da_base(caminho: str | Path | None = None) -> list[dict[str, str]]:
+    """Lê as perguntas que a base não responde (`id`, `tipo`, `pergunta`)."""
+    origem = Path(caminho) if caminho else PERGUNTAS_FORA_DA_BASE_PADRAO
+    dados = json.loads(origem.read_text(encoding="utf-8"))
+    perguntas = dados.get("perguntas", dados) if isinstance(dados, dict) else dados
+    return [
+        {"id": str(p["id"]), "tipo": str(p.get("tipo") or "sem_tipo"), "pergunta": str(p["pergunta"])}
+        for p in perguntas
+        if str(p.get("pergunta") or "").strip()
+    ]
+
+
+def _abstencao_dentro_da_base(caminho_runs: str | Path | None, metodo_efetivo: str | None) -> dict[str, Any] | None:
+    """Abstenção da rodada mais recente com geração e a mesma busca: a régua do teste de recusa."""
+    for rodada in reversed(carregar_rodadas_rag_escolar(caminho_runs)):
+        if not rodada.get("gerar_resposta") or rodada.get("metodo_efetivo") != metodo_efetivo:
+            continue
+        com_gen = [r for r in rodada.get("itens", []) if r.get("llm")]
+        if not com_gen:
+            continue
+        valores = [100.0 if r.get("absteve") else 0.0 for r in com_gen]
+        return {
+            "run_id": rodada.get("run_id"),
+            "total": len(com_gen),
+            "taxa_abstencao_pct": round(sum(valores) / len(valores), 1),
+            "ic95": intervalo_confianca_media(valores),
+            "geradores": sorted({str(r["llm"]) for r in com_gen}),
+        }
+    return None
+
+
+def _recusa_invertida(resumo: dict[str, Any] | None, dentro: dict[str, Any] | None) -> bool:
+    """Verdadeiro quando o sistema recusa menos fora da base do que se abstém dentro dela.
+
+    Só acusa quando os dois intervalos de 95% não se tocam: o teto da recusa fora da base fica abaixo do
+    piso da abstenção dentro da base. É o contrário do desejado, e não depende de limite escolhido.
+    """
+    ic_fora = (resumo or {}).get("ic95")
+    ic_dentro = (dentro or {}).get("ic95")
+    if not ic_fora or not ic_dentro:
+        return False
+    return float(ic_fora[1]) < float(ic_dentro[0])
+
+
+def obter_teste_de_recusa(
+    *, caminho_saida: str | Path | None = None, caminho_runs: str | Path | None = None
+) -> dict[str, Any]:
+    """Devolve o último teste de recusa gravado, com a abstenção dentro da base ao lado."""
+    origem = Path(caminho_saida) if caminho_saida else RECUSA_RAG_ESCOLAR_PADRAO
+    try:
+        total_perguntas = len(carregar_perguntas_fora_da_base())
+    except (OSError, ValueError, KeyError):
+        total_perguntas = 0
+    if not origem.exists():
+        return {"tem_teste": False, "total_perguntas": total_perguntas}
+    try:
+        teste = json.loads(origem.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {"tem_teste": False, "total_perguntas": total_perguntas}
+    dentro = _abstencao_dentro_da_base(caminho_runs, teste.get("metodo_efetivo"))
+    return {
+        "tem_teste": True,
+        "total_perguntas": total_perguntas,
+        **teste,
+        "dentro_da_base": dentro,
+        "invertido": _recusa_invertida(teste.get("resumo"), dentro),
+    }
+
+
+def executar_teste_de_recusa(
+    *,
+    metodo: str | None = None,
+    k: int = 5,
+    caminho_perguntas: str | Path | None = None,
+    caminho_saida: str | Path | None = None,
+    caminho_runs: str | Path | None = None,
+    salvar: bool = True,
+) -> dict[str, Any]:
+    """Faz ao RAG perguntas que a base não responde e conta em quantas ele recusou.
+
+    Recusar é responder com a frase fixa de "não encontrei" (campo `absteve` da conferência mecânica).
+    Sem filtro de barreira: a pergunta entra como o usuário a digitaria. A taxa sozinha engana, porque um
+    sistema que recusa tudo tira 100%; por isso a leitura vem com a abstenção dentro da base ao lado.
+    """
+    origem = Path(caminho_perguntas) if caminho_perguntas else PERGUNTAS_FORA_DA_BASE_PADRAO
+    perguntas = carregar_perguntas_fora_da_base(origem)
+    if not perguntas:
+        raise ValueError("O arquivo de perguntas fora da base está vazio: o teste de recusa não foi executado.")
+
+    t0 = time.perf_counter()
+    itens: list[dict[str, Any]] = []
+    metodo_efetivo = metodo or "bm25"
+    for p in perguntas:
+        t_item = time.perf_counter()
+        res = _executar_geracao_segura(pergunta=p["pergunta"], metodo=metodo or "bm25", k=k, filtro_barreira=None)
+        conf = res.get("conferencia", {})
+        trechos = res.get("trechos_entregues") or []
+        metodo_efetivo = res.get("metodo") or metodo_efetivo
+        itens.append(
+            {
+                **p,
+                "recusou": bool(conf.get("absteve", False)),
+                "resposta": res.get("resposta", ""),
+                "llm": res.get("llm"),
+                "llm_fallback_aplicado": bool(res.get("llm_fallback_aplicado", False)),
+                "n_trechos": len(trechos),
+                "trechos_citados": list(conf.get("trechos_citados", [])),
+                "segundos_total": round(time.perf_counter() - t_item, 4),
+            }
+        )
+
+    por_tipo: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for item in itens:
+        por_tipo[item["tipo"]].append(item)
+
+    teste = {
+        "teste_id": f"recusa-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:6]}",
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "metodo_solicitado": metodo or metodo_efetivo,
+        "metodo_efetivo": metodo_efetivo,
+        "k": k,
+        "geradores": sorted({str(i["llm"]) for i in itens if i.get("llm")}),
+        "duracao_total_s": round(time.perf_counter() - t0, 3),
+        "procedencia": obter_procedencia_rodada(origem),
+        "resumo": _resumir_recusa(itens),
+        "por_tipo": {tipo: _resumir_recusa(grupo) for tipo, grupo in sorted(por_tipo.items())},
+        "itens": itens,
+    }
+
+    destino = Path(caminho_saida) if caminho_saida else RECUSA_RAG_ESCOLAR_PADRAO
+    if salvar:
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        destino.write_text(json.dumps(teste, ensure_ascii=False, indent=2), encoding="utf-8")
+        return obter_teste_de_recusa(caminho_saida=destino, caminho_runs=caminho_runs)
+    dentro = _abstencao_dentro_da_base(caminho_runs, metodo_efetivo)
+    return {
+        "tem_teste": True,
+        "total_perguntas": len(perguntas),
+        **teste,
+        "dentro_da_base": dentro,
+        "invertido": _recusa_invertida(teste["resumo"], dentro),
+    }
+
+
 def _compactar_registro_item(avaliacao: dict[str, Any]) -> dict[str, Any]:
     """Extrai o registro plano persistido em JSONL para analytics rápido sem inflar disco."""
     q = avaliacao["questao"]
@@ -1038,6 +1260,8 @@ def resumir_analytics_rag_escolar(
             "run_info": None,
             "linha_de_base": None,
             "metricas_por_construcao": METRICAS_POR_CONSTRUCAO,
+            "rnf07": None,
+            "modelos": None,
             "resumo_geral": _resumir_grupo_itens([], com_ic=True),
             "por_faixa_etaria": {},
             "por_ano_escolar": {},
@@ -1066,6 +1290,8 @@ def resumir_analytics_rag_escolar(
         "run_info": run_info,
         "linha_de_base": comparar_com_linha_de_base(rodada, rodada_base) if rodada_base else None,
         "metricas_por_construcao": METRICAS_POR_CONSTRUCAO,
+        "rnf07": resumir_rnf07(itens, rodada.get("nivel")),
+        "modelos": resumir_modelos(itens),
         "resumo_geral": _resumir_grupo_itens(itens, com_ic=True),
         "por_faixa_etaria": _agrupar_por_dimensao(itens, "faixa_etaria"),
         "por_ano_escolar": _agrupar_por_dimensao(itens, "ano_escolar"),

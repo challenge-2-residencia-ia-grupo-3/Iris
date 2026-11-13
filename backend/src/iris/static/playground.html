@@ -463,6 +463,22 @@
     .ledger-group .notice code,
     .context-box code { overflow-wrap: anywhere; }
     .btn-compact { padding: 0.34rem 0.7rem; font-size: 0.78rem; }
+    .refusal-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin: 0.75rem 0;
+    }
+    .refusal-summary > * { min-width: 0; }
+    .refusal-cell {
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 0.7rem 0.8rem;
+      background: var(--surface);
+    }
+    .refusal-cell .verdict-num { font-size: 1.5rem; }
+    .refusal-cell .verdict-sub { overflow-wrap: anywhere; }
+    .refusal-answer { color: var(--muted); overflow-wrap: anywhere; min-width: 220px; }
 
     .bar-track {
       width: 84px;
@@ -1192,6 +1208,22 @@
         </div>
         <div id="esc-analytics-box">
           <div class="empty-state">Clique em "Executar bateria filtrada no RAG" para gerar a primeira medição sobre as questões escolares.</div>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Teste de recusa: pergunta fora da base</h2>
+            <p class="block-desc">Perguntas que a base de evidências não responde. O certo é o sistema dizer que não encontrou, em vez de montar uma resposta com trechos que não tratam do assunto.</p>
+          </div>
+          <div class="btn-row">
+            <button type="button" id="btn-esc-recusa" class="btn btn-secondary" onclick="executarTesteDeRecusaEscolar()">Rodar teste de recusa</button>
+          </div>
+        </div>
+        <div id="esc-recusa-alert"></div>
+        <div id="esc-recusa-box">
+          <div class="empty-state">Carregando o último teste de recusa...</div>
         </div>
       </div>
 
@@ -2229,7 +2261,8 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       state.escolarLoaded = true;
       await Promise.all([
         aplicarFiltrosEscolar(),
-        carregarAnalyticsEscolar('')
+        carregarAnalyticsEscolar(''),
+        carregarTesteDeRecusaEscolar()
       ]);
     }
 
@@ -2439,6 +2472,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
     function renderLedgerIndicadoresEscolar(r, opts = {}) {
       if (!r) return '';
+      const rnf = opts.rnf07 || null;
       const temGen = Number(r.com_geracao || 0) > 0;
       const fid = r.fidelidade_media !== null && r.fidelidade_media !== undefined ? Number(r.fidelidade_media) : (r.fidelidade_lexica_media !== null && r.fidelidade_lexica_media !== undefined ? Number(r.fidelidade_lexica_media) : null);
       const rel = r.relevancia_media !== null && r.relevancia_media !== undefined ? Number(r.relevancia_media) : (r.relevancia_lexica_media !== null && r.relevancia_lexica_media !== undefined ? Number(r.relevancia_lexica_media) : null);
@@ -2488,10 +2522,15 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         },
         {
           nome: 'Latência média (busca / total)',
-          tip: 'Tempo médio só da recuperação no índice vs. tempo completo com LLM local + juiz.',
-          leitura: `Busca: ${escapeHtml(r.latencia_busca_ms ?? 0)} ms`,
-          pct: Math.max(5, Math.min(100, 100 - (Number(r.latencia_total_ms || 0) / 1000))),
-          cls: Number(r.latencia_total_ms || 0) <= 15000 ? 'score-ok' : (Number(r.latencia_total_ms || 0) <= 60000 ? 'score-warn' : 'score-danger'),
+          tip: rnf ? `Tempo médio só da recuperação no índice (${r.latencia_busca_ms ?? 0} ms) vs. tempo completo com LLM local + juiz. A barra mostra a proporção de questões dentro do limite do RNF-07 para o nível ${rnf.nivel} da rodada (15 s no nível 1, 40 s nos níveis 2 e 3). A questão mais lenta levou ${formatarLatencia(rnf.maior_ms)}. Mede só o RAG: o ciclo inteiro de adaptação soma os agentes por cima.`
+            : 'Tempo médio só da recuperação no índice vs. tempo completo com LLM local + juiz.',
+          leitura: rnf
+            ? `RNF-07 (${(rnf.limite_ms / 1000).toFixed(0)} s): ${rnf.dentro} de ${rnf.total} dentro`
+            : `Busca: ${r.latencia_busca_ms ?? 0} ms`,
+          pct: rnf ? Number(rnf.pct_dentro) : Math.max(5, Math.min(100, 100 - (Number(r.latencia_total_ms || 0) / 1000))),
+          cls: rnf
+            ? (rnf.fora === 0 ? 'score-ok' : (Number(rnf.pct_dentro) >= 70 ? 'score-warn' : 'score-danger'))
+            : (Number(r.latencia_total_ms || 0) <= 15000 ? 'score-ok' : (Number(r.latencia_total_ms || 0) <= 60000 ? 'score-warn' : 'score-danger')),
           ic: textoIc95(r, 'latencia_total_ms', formatarLatencia),
           val: formatarLatencia(Number(r.latencia_total_ms || 0))
         }
@@ -2583,7 +2622,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       `;
     }
 
-    function renderProcedenciaEscolar(info) {
+    function renderProcedenciaEscolar(info, modelos) {
       const p = info.procedencia;
       if (!p) {
         return '<div class="tag-row provenance-row"><span class="tag tag-warn">Rodada antiga: sem commit nem hash da prova registrados</span></div>';
@@ -2598,7 +2637,21 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       if (p.base_trechos_sha256) {
         tags.push(`<span class="tag">base de trechos <code>${escapeHtml(p.base_trechos_sha256)}</code></span>`);
       }
+      const m = modelos || null;
+      if (m) {
+        (m.geradores || []).forEach(g => tags.push(`<span class="tag">gerador <code>${escapeHtml(g)}</code></span>`));
+        (m.juizes || []).forEach(j => tags.push(`<span class="tag">juiz <code>${escapeHtml(j)}</code></span>`));
+        if (Number(m.juiz_desconhecido || 0) > 0) {
+          tags.push('<span class="tag tag-warn">juiz: modelo não registrado nesta rodada</span>');
+        }
+      }
       return `<div class="tag-row provenance-row" aria-label="Procedência da rodada">${tags.join('')}</div>`;
+    }
+
+    // Aviso quando o modelo que julga é o mesmo que gerou: a nota vira teto, não medida.
+    function renderAvisoGeradorJuizEscolar(m) {
+      if (!m || Number(m.gerador_igual_ao_juiz || 0) === 0) return '';
+      return `<div class="notice notice-warn">Em <strong>${escapeHtml(m.gerador_igual_ao_juiz)}</strong> de <strong>${escapeHtml(m.julgados_por_modelo)}</strong> questões julgadas, o juiz é o mesmo modelo que gerou a resposta. Um modelo tende a aprovar o próprio texto, então a fidelidade desta rodada vale como teto, não como medida. Para medir, use um juiz de outro modelo (variável <code>IRIS_JUDGE_MODEL</code>).</div>`;
     }
 
     function formatarValorComparado(chave, v) {
@@ -2684,6 +2737,103 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       }
     }
 
+    function textoIcSimples(ic) {
+      if (!Array.isArray(ic) || ic.length !== 2) return 'sem intervalo';
+      return `IC95 ${Number(ic[0]).toFixed(1)}% a ${Number(ic[1]).toFixed(1)}%`;
+    }
+
+    function renderTesteDeRecusaEscolar(t) {
+      const box = document.getElementById('esc-recusa-box');
+      const btn = document.getElementById('btn-esc-recusa');
+      if (!box) return;
+      if (btn && t && t.total_perguntas) {
+        btn.textContent = `Rodar teste de recusa (${t.total_perguntas} perguntas)`;
+        btn.dataset.origLabel = btn.textContent;
+      }
+      if (!t || !t.tem_teste) {
+        box.innerHTML = '<div class="empty-state">Nenhum teste de recusa registrado ainda. Ele usa a busca escolhida acima e o gerador configurado no servidor.</div>';
+        return;
+      }
+      const r = t.resumo || {};
+      const tipos = t.por_tipo || {};
+      const nomeTipo = { longe: 'Longe do tema', perto: 'Perto do tema' };
+      const descTipo = { longe: 'assunto sem relação com a base', perto: 'escola ou TDAH, mas o fato pedido não está na base' };
+      const p = t.procedencia || {};
+      const db = t.dentro_da_base;
+      const celulas = [
+        `<div class="refusal-cell">
+           <div class="verdict-num neutral">${escapeHtml(r.recusou)} de ${escapeHtml(r.total)}</div>
+           <div class="verdict-cap">Recusou quando devia</div>
+           <div class="verdict-sub">${Number(r.taxa_recusa_pct || 0).toFixed(1)}% · ${escapeHtml(textoIcSimples(r.ic95))}</div>
+         </div>`,
+        ...Object.keys(tipos).map(k => `<div class="refusal-cell">
+           <div class="verdict-num neutral">${escapeHtml(tipos[k].recusou)} de ${escapeHtml(tipos[k].total)}</div>
+           <div class="verdict-cap">${escapeHtml(nomeTipo[k] || k)}</div>
+           <div class="verdict-sub">${escapeHtml(descTipo[k] || '')}</div>
+         </div>`),
+        `<div class="refusal-cell">
+           <div class="verdict-num neutral">${db ? `${Number(db.taxa_abstencao_pct).toFixed(1)}%` : '—'}</div>
+           <div class="verdict-cap">Abstenção dentro da base</div>
+           <div class="verdict-sub">${db ? `${escapeHtml(db.total)} questões da última bateria com geração · ${escapeHtml(textoIcSimples(db.ic95))}` : 'Rode uma bateria com geração na mesma busca para ter a régua'}</div>
+         </div>`
+      ];
+      const tags = [
+        `<span class="tag">busca <code>${escapeHtml(t.metodo_efetivo || '-')}</code></span>`,
+        ...(t.geradores || []).map(g => `<span class="tag">gerador <code>${escapeHtml(g)}</code></span>`),
+        p.commit ? `<span class="tag ${p.commit_com_alteracoes_locais ? 'tag-warn' : ''}">commit <code>${escapeHtml(p.commit)}</code>${p.commit_com_alteracoes_locais ? ' + alterações locais' : ''}</span>` : '',
+        `<span class="tag">perguntas <code>${escapeHtml(p.dataset_sha256 || 'sem hash')}</code></span>`
+      ];
+      box.innerHTML = `
+        <div class="tag-row provenance-row" aria-label="Procedência do teste de recusa">${tags.join('')}</div>
+        ${t.invertido ? `<div class="notice notice-danger">Invertido: o sistema recusou ${Number(r.taxa_recusa_pct || 0).toFixed(1)}% das perguntas fora da base e se absteve em ${Number(db.taxa_abstencao_pct).toFixed(1)}% das questões dentro dela, e os dois intervalos de 95% não se tocam. Com este gerador, recusar não acompanha a falta de evidência.</div>` : ''}
+        <div class="refusal-summary">${celulas.join('')}</div>
+        <p class="baseline-rule">Como ler: recusar é responder com a frase fixa "Não encontrei nos documentos da base...". O número sozinho engana, porque um sistema que recusa tudo acerta 100% aqui. Por isso a abstenção dentro da base fica ao lado: o desejado é recusa alta fora da base e abstenção baixa dentro dela. Com ${escapeHtml(r.total)} perguntas o intervalo é largo; serve para ver defeito grande, não diferença fina. Não há limite de aprovação definido.</p>
+        <div class="table-scroll" style="margin-top:0.75rem;">
+          <table>
+            <thead><tr><th>Pergunta</th><th>Tipo</th><th>Resultado</th><th>Início da resposta</th></tr></thead>
+            <tbody>
+              ${(t.itens || []).map(i => `
+                <tr>
+                  <td style="min-width:220px;"><strong>${escapeHtml(i.id)}</strong> ${escapeHtml(i.pergunta)}</td>
+                  <td style="white-space:nowrap;">${escapeHtml(nomeTipo[i.tipo] || i.tipo)}</td>
+                  <td>${i.recusou ? '<span class="tag tag-ok">recusou</span>' : '<span class="tag tag-danger">respondeu</span>'}</td>
+                  <td class="refusal-answer">${i.recusou ? '—' : escapeHtml(String(i.resposta || '').slice(0, 160))}${!i.recusou && String(i.resposta || '').length > 160 ? '…' : ''}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    async function carregarTesteDeRecusaEscolar() {
+      try {
+        renderTesteDeRecusaEscolar(await fetchJson('/api/v1/eval/rag-escolar/recusa'));
+      } catch (err) {
+        document.getElementById('esc-recusa-box').innerHTML =
+          `<div class="notice notice-danger">Falha ao carregar o teste de recusa (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    async function executarTesteDeRecusaEscolar() {
+      const alertBox = document.getElementById('esc-recusa-alert');
+      const metodoSel = document.getElementById('esc-metodo-select');
+      setLoading('btn-esc-recusa', true, 'Rodando teste de recusa...');
+      try {
+        const t = await fetchJson('/api/v1/eval/rag-escolar/recusa', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ metodo: metodoSel ? metodoSel.value : null })
+        });
+        alertBox.innerHTML = '';
+        setLoading('btn-esc-recusa', false);
+        renderTesteDeRecusaEscolar(t);
+      } catch (err) {
+        setLoading('btn-esc-recusa', false);
+        alertBox.innerHTML = `<div class="notice notice-danger">O teste de recusa não rodou (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
     function renderAnalyticsEscolar(an) {
       const box = document.getElementById('esc-analytics-box');
       const runSel = document.getElementById('esc-run-select');
@@ -2726,7 +2876,8 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       box.innerHTML = `
         ${fallbackBanner}
         ${sonnetWarnBanner}
-        ${renderProcedenciaEscolar(info)}
+        ${renderAvisoGeradorJuizEscolar(an.modelos)}
+        ${renderProcedenciaEscolar(info, an.modelos)}
         <div class="metrics-architecture" style="margin-bottom:1.25rem;">
           <div class="verdict-panel">
             <div class="verdict-pair">
@@ -2744,7 +2895,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             <p class="verdict-prose">${diagProse}</p>
           </div>
           <div>
-            ${renderLedgerIndicadoresEscolar(r, { aoVivo: false })}
+            ${renderLedgerIndicadoresEscolar(r, { aoVivo: false, rnf07: an.rnf07 })}
           </div>
         </div>
         <div style="margin-bottom:1.25rem;">${renderLinhaDeBaseEscolar(an)}</div>
