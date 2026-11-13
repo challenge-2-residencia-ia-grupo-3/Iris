@@ -30,3 +30,10 @@ __all__ = [
     "responder_fundamentado",
 ]
 
+try:
+    from iris.rag.contexto import conferir_citacoes, montar_contexto_estrategista
+
+    __all__.extend(["conferir_citacoes", "montar_contexto_estrategista"])
+except ModuleNotFoundError:
+    pass
+

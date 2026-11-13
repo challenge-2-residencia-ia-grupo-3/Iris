@@ -175,13 +175,22 @@ def ranking(pergunta: str, metodo: str, n: int, filtro: dict | None = None) -> l
 
 
 def buscar(pergunta: str, metodo: str = METODO_PADRAO, k: int = 5, filtro_barreira: str | None = None,
-           filtro_parte: str | None = None, sinonimos: bool = False) -> list[dict]:
+           filtro_parte: str | None = None, sinonimos: bool = False,
+           priorizar_sem_aviso: bool = True) -> list[dict]:
     """Os k trechos mais bem colocados, com tudo o que é preciso para citar a fonte."""
     _, por_id, _ = _base()
     q = expandir_sinonimos(pergunta, sinonimos)
     filtro = {k_: v for k_, v in (("barreira", filtro_barreira), ("parte", filtro_parte)) if v} or None
+    n_busca = max(k * 3, k + 10) if (priorizar_sem_aviso and k > 0) else k
+    candidatos = ranking(q, metodo, n_busca, filtro)
+    if priorizar_sem_aviso and len(candidatos) > k:
+        sem_aviso = [(cid, nota) for cid, nota in candidatos if not por_id[cid].get("nao_usar_para")]
+        com_aviso = [(cid, nota) for cid, nota in candidatos if por_id[cid].get("nao_usar_para")]
+        selecionados = (sem_aviso + com_aviso)[:k]
+    else:
+        selecionados = candidatos[:k]
     out = []
-    for pos, (cid, nota) in enumerate(ranking(q, metodo, k, filtro), 1):
+    for pos, (cid, nota) in enumerate(selecionados, 1):
         c = por_id[cid]
         pag = (None if c["pagina_inicio"] is None else
                str(c["pagina_inicio"]) if c["pagina_inicio"] == c["pagina_fim"]
