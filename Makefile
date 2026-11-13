@@ -1,4 +1,4 @@
-.PHONY: help up setup install dev front rag extrator extractor extrator-bench extrator-analytics check test db-up db-down docs backend ensure-uv ensure-env
+.PHONY: qualidade qualidade-painel help up setup install dev front rag extrator extractor extrator-bench extrator-analytics check test db-up db-down docs backend ensure-uv ensure-env
 
 SHELL := /bin/bash
 export PATH := $(shell echo "$$HOME/.local/bin:$$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$$PATH")
@@ -32,6 +32,8 @@ help:
 	@echo "  make docs                Sobe o portal de documentação MkDocs em http://$(HOST):$(DOCS_PORT)"
 	@echo "  make db-up               Sobe o banco vetorial PostgreSQL + pgvector via Docker"
 	@echo "  make db-down             Para o container do banco vetorial pgvector"
+	@echo "  make qualidade           Roda as verificações de qualidade sem modelo e gera o painel (rag/iris-rag/bancada)"
+	@echo "  make qualidade-painel    Abre o painel de qualidade em http://127.0.0.1:8777 com botões para cada verificação"
 	@echo "=========================================================================================="
 
 # Garante que o uv está instalado no sistema (pula se já existir)
@@ -131,3 +133,10 @@ backend: ensure-env
 	else \
 		IRIS_HOST=$(HOST) IRIS_PORT=$(PORT) $(PYTHON_RUN) -m iris.main; \
 	fi
+
+# Painel de qualidade (rag/iris-rag/bancada/README.md): verificações sem modelo e painel local em 127.0.0.1
+qualidade: ensure-env
+	@$(MAKE) -C rag/iris-rag/pacote verificar PYB="$(VENV_PY)" PY="$(VENV_PY)" GRUPO="$(CURDIR)"
+
+qualidade-painel: ensure-env
+	@$(MAKE) -C rag/iris-rag/pacote painel PYB="$(VENV_PY)" PY="$(VENV_PY)" GRUPO="$(CURDIR)"
