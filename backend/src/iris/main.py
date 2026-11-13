@@ -557,6 +557,14 @@ def _handle_rag_escolar_run(body: dict[str, Any]) -> dict[str, Any]:
             _RAG_ESCOLAR_PROGRESSO["etapa"] = "concluido"
 
 
+def _handle_rag_escolar_baseline(body: dict[str, Any]) -> dict[str, Any]:
+    """Promove uma rodada a linha de base (`run_id`) ou remove a linha de base (`run_id` vazio)."""
+    from iris.eval.rag_escolar_benchmark import definir_linha_de_base
+
+    run_id = str(body.get("run_id") or "").strip()
+    return definir_linha_de_base(run_id or None)
+
+
 def _handle_rag_escolar_analytics(
     run_id: str | None = None,
     disciplina: str | None = None,
@@ -717,6 +725,17 @@ def create_app() -> Any:
 
         try:
             return _handle_rag_escolar_run(payload)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/rag-escolar/baseline", tags=["eval"])
+    def baseline_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:
+        from fastapi import HTTPException
+
+        try:
+            return _handle_rag_escolar_baseline(payload)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
 
@@ -978,6 +997,13 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/run":
                 try:
                     self._send_json(_handle_rag_escolar_run(body))
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/baseline":
+                try:
+                    self._send_json(_handle_rag_escolar_baseline(body))
+                except KeyError as err:
+                    self._send_json({"detail": str(err.args[0])}, status=404)
                 except ValueError as err:
                     self._send_json({"detail": str(err)}, status=422)
             elif self.path.startswith("/api/v1/catalogs/engagement"):

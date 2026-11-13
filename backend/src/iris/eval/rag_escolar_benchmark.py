@@ -12,9 +12,12 @@ corpus `iris_trechos`) em duas camadas simples de arquivo + histórico opcional 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
+import random
 import re
+import subprocess
 import time
 import uuid
 from collections import Counter, defaultdict
@@ -22,7 +25,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
-from iris.config import BENCHMARKS_DIR, REPO_ROOT, get_settings
+from iris.config import BENCHMARKS_DIR, RAG_PACOTE_DIR, REPO_ROOT, get_settings
 from iris.eval.rag_metrics import (
     calcular_similaridade_semantica,
     verificar_sustentacao_frase_no_trecho,
@@ -39,6 +42,37 @@ PROGRESSO_RAG_ESCOLAR_LOG = REPO_ROOT / "reports" / "rag_escolar_progress.log"
 
 ESTRATEGIAS_QUERY = ("contexto_pedagogico", "barreira", "enunciado_completo")
 AVALIADORES_GERACAO = ("auto", "sonnet", "lexico")
+
+BASELINE_RAG_ESCOLAR_PADRAO = REPO_ROOT / "reports" / "rag_escolar_baseline.json"
+
+# Intervalo de confiança de 95% por reamostragem (bootstrap): sorteia as questões com reposição
+# IC_N_REAMOSTRAS vezes e guarda a faixa onde ficam 95% das médias. Semente fixa: repetir dá o mesmo intervalo.
+IC_N_REAMOSTRAS = 2000
+IC_SEMENTE = 20261113
+
+# Métricas que não medem qualidade: o próprio desenho da busca garante o valor.
+METRICAS_POR_CONSTRUCAO = {
+    "taxa_retorno_pct": (
+        "A busca devolve sempre os k trechos mais bem pontuados da barreira; "
+        "só cai se a base não tiver nenhum trecho dessa barreira."
+    ),
+    "aderencia_barreira_pct": (
+        "A busca filtra pela barreira antes de ranquear; todo trecho devolvido já pertence a ela."
+    ),
+}
+
+# Campos que precisam ser iguais para duas rodadas serem comparáveis.
+CAMPOS_CONFIG_RODADA = ("metodo_efetivo", "estrategia_query", "nivel", "k", "gerar_resposta", "avaliador_efetivo")
+
+# (chave no resumo, rótulo, sentido). Sentido "neutro": a mudança é informada, sem dizer se é melhor ou pior.
+METRICAS_COMPARADAS = (
+    ("fidelidade_media", "Fidelidade", "maior_melhor"),
+    ("relevancia_media", "Relevância da resposta", "maior_melhor"),
+    ("taxa_abstencao_pct", "Taxa de abstenção (%)", "neutro"),
+    ("score_top1_medio", "Pontuação do 1º trecho", "neutro"),
+    ("latencia_busca_ms", "Latência da busca (ms)", "menor_melhor"),
+    ("latencia_total_ms", "Latência total (ms)", "menor_melhor"),
+)
 
 # Bloco bibliográfico entre parênteses contendo "Disponível em: ..."
 _RE_CITACAO_PARENTETICA = re.compile(
@@ -641,11 +675,64 @@ def _media_num(valores: list[float | int | None]) -> float | None:
     return round(sum(validos) / len(validos), 4) if validos else None
 
 
-def _resumir_grupo_itens(itens: list[dict[str, Any]]) -> dict[str, Any]:
-    """Agrega as métricas de recuperação e geração de um grupo de questões avaliadas."""
+def intervalo_confianca_media(
+    valores: Iterable[float | int | None],
+    *,
+    n_reamostras: int = IC_N_REAMOSTRAS,
+    semente: int = IC_SEMENTE,
+) -> list[float] | None:
+    """Intervalo de confiança de 95% da média, por reamostragem (bootstrap percentil) com semente fixa.
+
+    Devolve `[limite_inferior, limite_superior]`, ou `None` com menos de 2 valores (não há o que reamostrar).
+    """
+    validos = [float(v) for v in valores if v is not None]
+    n = len(validos)
+    if n < 2:
+        return None
+    rng = random.Random(semente)
+    medias = sorted(sum(rng.choices(validos, k=n)) / n for _ in range(n_reamostras))
+    return [round(medias[int(0.025 * n_reamostras)], 4), round(medias[int(0.975 * n_reamostras) - 1], 4)]
+
+
+def _intervalos_do_grupo(itens: list[dict[str, Any]], com_gen: list[dict[str, Any]]) -> dict[str, list[float]]:
+    """IC95 das métricas que são média por questão, na mesma unidade em que o resumo as mostra."""
+    series: dict[str, list[float | int | None]] = {
+        "score_top1_medio": [r.get("score_top1") for r in itens],
+        "latencia_busca_ms": [
+            float(r["segundos_busca"]) * 1000.0 if r.get("segundos_busca") is not None else None for r in itens
+        ],
+        "latencia_total_ms": [
+            float(r["segundos_total"]) * 1000.0 if r.get("segundos_total") is not None else None for r in itens
+        ],
+    }
+    if com_gen:
+        series["fidelidade_media"] = [
+            r.get("fidelidade_efetiva") if r.get("fidelidade_efetiva") is not None else r.get("fidelidade_lexica")
+            for r in com_gen
+        ]
+        series["relevancia_media"] = [
+            r.get("relevancia_efetiva") if r.get("relevancia_efetiva") is not None else r.get("relevancia_lexica")
+            for r in com_gen
+        ]
+        series["taxa_abstencao_pct"] = [100.0 if r.get("absteve") else 0.0 for r in com_gen]
+    saida: dict[str, list[float]] = {}
+    for chave, valores in series.items():
+        ic = intervalo_confianca_media(valores)
+        if ic is not None:
+            casas = 1 if chave.endswith(("_ms", "_pct")) else 4
+            saida[chave] = [round(ic[0], casas), round(ic[1], casas)]
+    return saida
+
+
+def _resumir_grupo_itens(itens: list[dict[str, Any]], *, com_ic: bool = False) -> dict[str, Any]:
+    """Agrega as métricas de recuperação e geração de um grupo de questões avaliadas.
+
+    Com `com_ic=True` acrescenta `ic95`: o intervalo de confiança de cada métrica que é média por questão.
+    """
     n = len(itens)
     if n == 0:
         return {
+            **({"ic95": {}} if com_ic else {}),
             "total": 0,
             "taxa_retorno_pct": 0.0,
             "media_trechos": 0.0,
@@ -698,6 +785,7 @@ def _resumir_grupo_itens(itens: list[dict[str, Any]]) -> dict[str, Any]:
     frases_sem_citacao = sum(int(r.get("frases_sem_citacao") or 0) for r in com_gen)
 
     return {
+        **({"ic95": _intervalos_do_grupo(itens, com_gen)} if com_ic else {}),
         "total": n,
         "taxa_retorno_pct": round((retornaram / n) * 100.0, 1),
         "media_trechos": round(total_trechos / n, 2),
@@ -750,7 +838,7 @@ def _agrupar_por_dimensao(itens: list[dict[str, Any]], chave: str) -> dict[str, 
     for item in itens:
         grupos[str(item.get(chave) or "não informado")].append(item)
     return {
-        nome: _resumir_grupo_itens(lista)
+        nome: _resumir_grupo_itens(lista, com_ic=True)
         for nome, lista in sorted(grupos.items(), key=lambda kv: (-len(kv[1]), kv[0]))
     }
 
@@ -774,6 +862,145 @@ def _compactar_registro_item(avaliacao: dict[str, Any]) -> dict[str, Any]:
         "resposta": avaliacao.get("resposta"),
         **m,
     }
+
+
+def _sha256_arquivo(caminho: Path) -> str | None:
+    """Hash sha256 do arquivo (16 primeiros caracteres), ou `None` se ele não existir."""
+    try:
+        return hashlib.sha256(caminho.read_bytes()).hexdigest()[:16]
+    except OSError:
+        return None
+
+
+def _git(*args: str) -> str | None:
+    """Roda um comando git de leitura na raiz do repositório; `None` se não houver git ou repositório."""
+    try:
+        res = subprocess.run(
+            ["git", "-C", str(REPO_ROOT), *args],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return res.stdout.strip() if res.returncode == 0 else None
+
+
+def obter_procedencia_rodada(caminho_dataset: str | Path | None = None) -> dict[str, Any]:
+    """Diz que código e que arquivos produziram a rodada: commit, hash da prova e hash da base de trechos.
+
+    Sem isso, duas rodadas com números diferentes não deixam saber se mudou o código, a prova ou a base.
+    """
+    dataset = Path(caminho_dataset) if caminho_dataset else CAMINHO_CURADO_PADRAO
+    if not dataset.exists() and caminho_dataset is None:
+        dataset = CAMINHO_BRUTO_PADRAO
+    commit = _git("rev-parse", "--short", "HEAD")
+    alterados = _git("status", "--porcelain", "--untracked-files=no")
+    return {
+        "commit": commit,
+        "commit_com_alteracoes_locais": bool(alterados) if alterados is not None else None,
+        "dataset_arquivo": dataset.name,
+        "dataset_sha256": _sha256_arquivo(dataset),
+        "base_trechos_sha256": _sha256_arquivo(RAG_PACOTE_DIR / "chunks.jsonl"),
+    }
+
+
+def carregar_linha_de_base(caminho_base: str | Path | None = None) -> dict[str, Any] | None:
+    """Lê qual rodada foi promovida a linha de base (`reports/rag_escolar_baseline.json`)."""
+    origem = Path(caminho_base) if caminho_base else BASELINE_RAG_ESCOLAR_PADRAO
+    try:
+        dados = json.loads(origem.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return dados if isinstance(dados, dict) and dados.get("run_id") else None
+
+
+def definir_linha_de_base(
+    run_id: str | None,
+    *,
+    caminho_runs: str | Path | None = None,
+    caminho_base: str | Path | None = None,
+) -> dict[str, Any]:
+    """Promove uma rodada registrada a linha de base; `run_id=None` remove a linha de base."""
+    destino = Path(caminho_base) if caminho_base else BASELINE_RAG_ESCOLAR_PADRAO
+    if not run_id:
+        try:
+            destino.unlink()
+        except FileNotFoundError:
+            pass
+        return {"linha_de_base": None}
+    rodada = next((r for r in carregar_rodadas_rag_escolar(caminho_runs) if r.get("run_id") == run_id), None)
+    if rodada is None:
+        raise KeyError(f"Rodada {run_id!r} não encontrada no registro.")
+    if not rodada.get("itens"):
+        raise ValueError("Uma rodada sem questões não pode ser linha de base.")
+    registro = {"run_id": run_id, "definida_em_utc": datetime.now(timezone.utc).isoformat()}
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    destino.write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {"linha_de_base": registro}
+
+
+def comparar_com_linha_de_base(atual: dict[str, Any], base: dict[str, Any]) -> dict[str, Any]:
+    """Compara a rodada atual com a linha de base, métrica a métrica.
+
+    Regra: a métrica "mudou" quando a média atual sai do intervalo de confiança de 95% da linha de base.
+    Dentro do intervalo, a diferença pode ser só sorteio e o veredito é "igual". As rodadas só são
+    comparadas quando têm a mesma configuração, os mesmos filtros e a mesma prova (hash do arquivo).
+    """
+    info_base = {
+        "run_id": base.get("run_id"),
+        "timestamp_utc": base.get("timestamp_utc"),
+        "commit": (base.get("procedencia") or {}).get("commit"),
+        "total_itens": len(base.get("itens", [])),
+    }
+    if atual.get("run_id") == base.get("run_id"):
+        return {"base": info_base, "mesma_rodada": True, "comparavel": True, "motivos": [], "metricas": []}
+
+    motivos = [
+        f"{campo}: linha de base {base.get(campo)!r}, esta rodada {atual.get(campo)!r}"
+        for campo in CAMPOS_CONFIG_RODADA
+        if base.get(campo) != atual.get(campo)
+    ]
+    if (base.get("filtros_execucao") or {}) != (atual.get("filtros_execucao") or {}):
+        motivos.append("filtros de execução diferentes")
+    sha_base = (base.get("procedencia") or {}).get("dataset_sha256")
+    sha_atual = (atual.get("procedencia") or {}).get("dataset_sha256")
+    if sha_base and sha_atual and sha_base != sha_atual:
+        motivos.append(f"a prova mudou: hash {sha_base} na linha de base, {sha_atual} nesta rodada")
+    if motivos:
+        return {"base": info_base, "mesma_rodada": False, "comparavel": False, "motivos": motivos, "metricas": []}
+
+    r_base = _resumir_grupo_itens(base.get("itens", []), com_ic=True)
+    r_atual = _resumir_grupo_itens(atual.get("itens", []), com_ic=True)
+    metricas: list[dict[str, Any]] = []
+    for chave, rotulo, sentido in METRICAS_COMPARADAS:
+        v_base, v_atual = r_base.get(chave), r_atual.get(chave)
+        if v_base is None or v_atual is None:
+            continue
+        ic = r_base["ic95"].get(chave)
+        if ic is None:
+            veredito = "sem_intervalo"
+        elif ic[0] <= float(v_atual) <= ic[1]:
+            veredito = "igual"
+        elif sentido == "neutro":
+            veredito = "mudou"
+        else:
+            subiu = float(v_atual) > ic[1]
+            veredito = "melhorou" if subiu == (sentido == "maior_melhor") else "piorou"
+        metricas.append(
+            {
+                "chave": chave,
+                "rotulo": rotulo,
+                "sentido": sentido,
+                "base": v_base,
+                "ic95_base": ic,
+                "atual": v_atual,
+                "diferenca": round(float(v_atual) - float(v_base), 4),
+                "veredito": veredito,
+            }
+        )
+    return {"base": info_base, "mesma_rodada": False, "comparavel": True, "motivos": [], "metricas": metricas}
 
 
 def carregar_rodadas_rag_escolar(caminho: str | Path | None = None) -> list[dict[str, Any]]:
@@ -802,13 +1029,16 @@ def resumir_analytics_rag_escolar(
     operacao_cognitiva: str | None = None,
     porte_texto: str | None = None,
     runs_disponiveis: list[dict[str, Any]] | None = None,
+    rodada_base: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Agrega uma rodada do benchmark escolar por faixa etária, conteúdo, barreira e porte."""
     if rodada is None:
         return {
             "tem_rodada": False,
             "run_info": None,
-            "resumo_geral": _resumir_grupo_itens([]),
+            "linha_de_base": None,
+            "metricas_por_construcao": METRICAS_POR_CONSTRUCAO,
+            "resumo_geral": _resumir_grupo_itens([], com_ic=True),
             "por_faixa_etaria": {},
             "por_ano_escolar": {},
             "por_disciplina": {},
@@ -834,7 +1064,9 @@ def resumir_analytics_rag_escolar(
     return {
         "tem_rodada": True,
         "run_info": run_info,
-        "resumo_geral": _resumir_grupo_itens(itens),
+        "linha_de_base": comparar_com_linha_de_base(rodada, rodada_base) if rodada_base else None,
+        "metricas_por_construcao": METRICAS_POR_CONSTRUCAO,
+        "resumo_geral": _resumir_grupo_itens(itens, com_ic=True),
         "por_faixa_etaria": _agrupar_por_dimensao(itens, "faixa_etaria"),
         "por_ano_escolar": _agrupar_por_dimensao(itens, "ano_escolar"),
         "por_disciplina": _agrupar_por_dimensao(itens, "disciplina"),
@@ -856,12 +1088,18 @@ def obter_analytics_rag_escolar(
     operacao_cognitiva: str | None = None,
     porte_texto: str | None = None,
     caminho_runs: str | Path | None = None,
+    caminho_base: str | Path | None = None,
 ) -> dict[str, Any]:
     """Carrega a rodada solicitada (ou a mais recente) e retorna o analytics segmentado."""
     rodadas = carregar_rodadas_rag_escolar(caminho_runs)
+    reg_base = carregar_linha_de_base(caminho_base)
+    id_base = reg_base["run_id"] if reg_base else None
+    rodada_base = next((r for r in rodadas if r.get("run_id") == id_base), None) if id_base else None
     runs_meta = [
         {
             "run_id": r.get("run_id"),
+            "commit": (r.get("procedencia") or {}).get("commit"),
+            "eh_linha_de_base": bool(id_base) and r.get("run_id") == id_base,
             "timestamp_utc": r.get("timestamp_utc"),
             "metodo_efetivo": r.get("metodo_efetivo"),
             "estrategia_query": r.get("estrategia_query"),
@@ -889,6 +1127,7 @@ def obter_analytics_rag_escolar(
         operacao_cognitiva=operacao_cognitiva,
         porte_texto=porte_texto,
         runs_disponiveis=runs_meta,
+        rodada_base=rodada_base,
     )
 
 
@@ -910,6 +1149,7 @@ def executar_benchmark_rag_escolar(
     limite: int | None = None,
     caminho_dataset: str | Path | None = None,
     caminho_runs: str | Path | None = None,
+    caminho_base: str | Path | None = None,
     salvar: bool = True,
     progresso: Callable[[str], None] | None = None,
     on_step: Callable[[dict[str, Any]], None] | None = None,
@@ -929,6 +1169,11 @@ def executar_benchmark_rag_escolar(
     )
     ids_selecionados = {d["id"] for d in (filtradas_dicts[:limite] if limite else filtradas_dicts)}
     itens_exec = [q for q in todas if q.id in ids_selecionados]
+    if not itens_exec:
+        # Uma rodada sem questões gravaria todas as métricas em zero, como se fosse um resultado.
+        raise ValueError(
+            "Nenhuma questão corresponde aos filtros escolhidos: a rodada não foi executada nem gravada."
+        )
 
     def _emitir_log(linha: str) -> None:
         ts_local = datetime.now().strftime("%H:%M:%S")
@@ -1040,6 +1285,7 @@ def executar_benchmark_rag_escolar(
         "avaliador_efetivo": avaliador_efetivo_final,
         "juiz_sonnet_erro": juiz_sonnet_erro_final,
         "duracao_total_s": round(time.perf_counter() - t0, 3),
+        "procedencia": obter_procedencia_rodada(caminho_dataset),
         "filtros_execucao": {
             "disciplina": disciplina,
             "ano_escolar": ano_escolar,
@@ -1059,7 +1305,11 @@ def executar_benchmark_rag_escolar(
         with destino.open("a", encoding="utf-8") as fh:
             fh.write(json.dumps(rodada, ensure_ascii=False) + "\n")
 
-    return obter_analytics_rag_escolar(run_id=rodada["run_id"], caminho_runs=caminho_runs) if salvar else resumir_analytics_rag_escolar(rodada)
+    if salvar:
+        return obter_analytics_rag_escolar(
+            run_id=rodada["run_id"], caminho_runs=caminho_runs, caminho_base=caminho_base
+        )
+    return resumir_analytics_rag_escolar(rodada)
 
 
 def main(argv: list[str] | None = None) -> None:

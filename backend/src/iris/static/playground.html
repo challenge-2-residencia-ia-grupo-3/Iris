@@ -339,6 +339,9 @@
       gap: 1.5rem;
       align-items: start;
     }
+    /* Sem isto a coluna cresce até a largura mínima da tabela e a página rola para o lado em telas estreitas. */
+    .metrics-architecture > *,
+    .workbench > * { min-width: 0; }
     .verdict-panel {
       background: var(--wash);
       border: 1px solid var(--hairline-strong);
@@ -425,6 +428,41 @@
     .score-ok { color: var(--moss); }
     .score-warn { color: var(--ochre); }
     .score-danger { color: var(--vermilion); }
+    .score-neutral { color: var(--muted); }
+    .verdict-num.neutral { color: var(--ink-soft); }
+    .ledger-ic {
+      display: block;
+      margin-top: 0.12rem;
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .ledger-name {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.3rem 0.45rem;
+    }
+    .provenance-row { margin: 0 0 1rem; }
+    .provenance-row .tag { gap: 0.3rem; }
+    .provenance-row .tag code { font-family: var(--font-mono); font-size: 0.72rem; background: none; padding: 0; color: inherit; }
+    .baseline-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem 1rem;
+      margin: 0 0 0.6rem;
+    }
+    .baseline-head .ledger-heading { margin: 0; }
+    .baseline-rule { margin: 0.55rem 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .baseline-reasons { margin: 0.35rem 0 0; padding-left: 1.1rem; }
+    .baseline-rule code,
+    .ledger-group .notice code,
+    .context-box code { overflow-wrap: anywhere; }
+    .btn-compact { padding: 0.34rem 0.7rem; font-size: 0.78rem; }
 
     .bar-track {
       width: 84px;
@@ -478,21 +516,39 @@
       line-height: 1.45;
       white-space: normal;
       z-index: 40;
-      opacity: 0;
       pointer-events: none;
-      transform: translateY(4px);
-      transition: opacity 0.14s ease, transform 0.14s ease;
+      /* Fora do fluxo enquanto escondida: uma dica invisível de 300px alargava a página em telas estreitas. */
+      display: none;
     }
     .metric-tip:hover::after,
     .metric-tip:focus-visible::after {
-      opacity: 1;
-      transform: translateY(0);
+      display: block;
+      animation: metric-tip-in 0.14s ease;
+    }
+    @keyframes metric-tip-in {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     tbody tr:first-child .metric-tip::after {
       bottom: auto;
       top: calc(100% + 8px);
     }
-    @media (min-width: 760px) {
+    @media (max-width: 760px) {
+      /* Em tela estreita a dica abre presa ao rodapé, com margem dos dois lados, para nunca sair da tela. */
+      .metric-tip::after,
+      tbody tr:first-child .metric-tip::after {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        top: auto;
+        bottom: 12px;
+        width: auto;
+        max-width: none;
+      }
+    }
+    /* Só solta a tabela (para a dica poder sair da caixa) quando a tela comporta a tabela mais larga
+       (segmentação, ~820px) ao lado da barra lateral; abaixo disso a caixa rola e a página não estoura. */
+    @media (min-width: 1240px) {
       .ledger-group .table-scroll { overflow: visible; }
     }
 
@@ -568,7 +624,7 @@
     /* Two-column Split Evidence Workbench */
     .workbench {
       display: grid;
-      grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.22fr);
+      grid-template-columns: minmax(260px, 0.92fr) minmax(300px, 1.22fr);
       gap: 1.5rem;
       align-items: start;
     }
@@ -895,13 +951,13 @@
       main { padding: 1.25rem 1rem 3rem; }
       .metrics-architecture,
       .workbench {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
       .workbench-left { position: static; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      * { scroll-behavior: auto !important; transition: none !important; }
+      * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
     }
   </style>
 </head>
@@ -1591,7 +1647,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         ['Acordo entre juízes', `${ir.concordancia_bruta_pct}% (κ=${ir.kappa_cohen})`, ir.concordancia_bruta_pct / 100, 'Consenso entre avaliador A e avaliador B']
       ];
       document.getElementById('metrics-iris').innerHTML = `
-        <table>
+        <div class="table-scroll"><table>
           <thead><tr><th>Indicador</th><th>Leitura</th><th>Proporção</th><th class="num">Valor</th></tr></thead>
           <tbody>
             ${irisRows.map(([nome, valor, ratio, desc]) => {
@@ -1607,7 +1663,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               `;
             }).join('')}
           </tbody>
-        </table>
+        </table></div>
       `;
 
       const ragasRows = [
@@ -1620,7 +1676,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         ['7. Correção geral', n10['7_correcao_respostas'], 'Síntese ponderada (60% fidelidade + 40% similaridade)']
       ];
       document.getElementById('metrics-ragas').innerHTML = `
-        <table>
+        <div class="table-scroll"><table>
           <thead><tr><th>Métrica RAGAS</th><th>Critério</th><th>Proporção</th><th class="num">Nota</th></tr></thead>
           <tbody>
             ${ragasRows.map(([nome, nota, desc]) => {
@@ -1637,7 +1693,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               `;
             }).join('')}
           </tbody>
-        </table>
+        </table></div>
       `;
 
       if (m.comparativo_geradores) {
@@ -1669,7 +1725,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           <span>Comparativo Haiku versus Opus</span>
           <span class="ledger-scale">Diferença Δ = Opus − Haiku</span>
         </div>
-        <table>
+        <div class="table-scroll"><table>
           <thead>
             <tr><th>Indicador</th><th class="num">Haiku</th><th class="num">Opus</th><th class="num">Diferença (Δ)</th></tr>
           </thead>
@@ -1682,7 +1738,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               return `<tr><td>${escapeHtml(nome)}</td><td class="num">${escapeHtml(vh)}${suf}</td><td class="num">${escapeHtml(vo)}${suf}</td><td class="num ${cls}">${sign}${delta}${suf}</td></tr>`;
             }).join('')}
           </tbody>
-        </table>
+        </table></div>
       `;
     }
 
@@ -1753,7 +1809,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
       const frases = Array.isArray(vd.frases) ? vd.frases : [];
       const frasesTable = frases.length ? `
-        <table style="margin-top:0.55rem;">
+        <div class="table-scroll"><table style="margin-top:0.55rem;">
           <thead><tr><th>Frase</th><th>Tipo</th><th>Juiz A</th><th>Juiz B</th><th>Consenso</th></tr></thead>
           <tbody>
             ${frases.map(f => `
@@ -1766,7 +1822,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               </tr>
             `).join('')}
           </tbody>
-        </table>
+        </table></div>
       ` : '<p style="font-size:0.82rem; color:var(--muted); margin:0.4rem 0 0;">Sem avaliação por frase (consulta de abstenção).</p>';
 
       const trechos = c.trechos_recuperados || [];
@@ -2119,7 +2175,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             </div>
           </div>
           ${porDisc.length ? `
-            <table>
+            <div class="table-scroll"><table>
               <thead><tr><th>Disciplina</th><th class="num">Execuções</th><th class="num">Inferência média</th><th class="num">Recall da trava</th></tr></thead>
               <tbody>
                 ${porDisc.map(([nome, m]) => `
@@ -2131,7 +2187,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
                   </tr>
                 `).join('')}
               </tbody>
-            </table>
+            </table></div>
           ` : ''}
         `;
       } catch (err) {
@@ -2358,6 +2414,29 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       return `<span class="metric-tip" tabindex="0" data-tip="${escapeHtml(tip)}" aria-label="${escapeHtml(label)}: ${escapeHtml(tip)}">${escapeHtml(label)}<span class="metric-tip-badge" aria-hidden="true">?</span></span>`;
     }
 
+    const POR_CONSTRUCAO_PADRAO = {
+      taxa_retorno_pct: 'A busca devolve sempre os k trechos mais bem pontuados da barreira; só cai se a base não tiver nenhum trecho dessa barreira.',
+      aderencia_barreira_pct: 'A busca filtra pela barreira antes de ranquear; todo trecho devolvido já pertence a ela.'
+    };
+
+    // Abaixo de 1 segundo mostra em milissegundos, para o valor e o intervalo não arredondarem diferente.
+    function formatarLatencia(ms) {
+      const v = Number(ms || 0);
+      return v < 1000 ? `${v.toFixed(0)} ms` : `${(v / 1000).toFixed(1)}s`;
+    }
+
+    function motivoPorConstrucao(chave) {
+      const doServidor = state.escolarRunData && state.escolarRunData.metricas_por_construcao;
+      return (doServidor && doServidor[chave]) || POR_CONSTRUCAO_PADRAO[chave] || '';
+    }
+
+    // Intervalo de confiança de 95% de uma métrica do resumo, já formatado; '' quando não existe.
+    function textoIc95(r, chave, formatar) {
+      const ic = r && r.ic95 ? r.ic95[chave] : null;
+      if (!Array.isArray(ic) || ic.length !== 2) return '';
+      return `IC95 ${formatar(Number(ic[0]))} a ${formatar(Number(ic[1]))}`;
+    }
+
     function renderLedgerIndicadoresEscolar(r, opts = {}) {
       if (!r) return '';
       const temGen = Number(r.com_geracao || 0) > 0;
@@ -2376,25 +2455,27 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
       const bar = (pct, cls) => {
         const w = Math.max(0, Math.min(100, Number(pct || 0)));
-        const cor = cls === 'score-ok' ? 'var(--moss)' : (cls === 'score-warn' ? 'var(--ochre)' : 'var(--vermilion)');
+        const cor = cls === 'score-ok' ? 'var(--moss)' : (cls === 'score-warn' ? 'var(--ochre)' : (cls === 'score-neutral' ? 'var(--hairline-strong)' : 'var(--vermilion)'));
         return `<span class="bar-track"><span class="bar-fill" style="width:${w}%;background:${cor};"></span></span>`;
       };
 
       const linhas = [
         {
           nome: 'Taxa de retorno Top-5',
-          tip: 'Percentual de questões que receberam pelo menos 1 trecho recuperado no Top-5 do RAG.',
-          leitura: `${escapeHtml(r.media_trechos ?? 0)} trechos/questão em média`,
+          tip: `Percentual de questões que receberam pelo menos 1 trecho recuperado no Top-5 do RAG. ${motivoPorConstrucao('taxa_retorno_pct')}`,
+          leitura: `Não mede qualidade · ${r.media_trechos ?? 0} trechos/questão`,
           pct: retorno,
-          cls: classePct(retorno, 95, 70),
+          cls: 'score-neutral',
+          porConstrucao: true,
           val: `${retorno.toFixed(1)}%`
         },
         {
           nome: 'Aderência à barreira TDAH',
-          tip: 'Proporção dos trechos retornados que pertencem exatamente à barreira funcional TDAH associada à questão.',
-          leitura: 'Filtro determinístico pré-ranqueamento',
+          tip: `Proporção dos trechos retornados que pertencem exatamente à barreira funcional TDAH associada à questão. ${motivoPorConstrucao('aderencia_barreira_pct')}`,
+          leitura: 'Não mede qualidade · filtro pré-ranqueamento',
           pct: aderencia,
-          cls: classePct(aderencia, 90, 60),
+          cls: 'score-neutral',
+          porConstrucao: true,
           val: `${aderencia.toFixed(1)}%`
         },
         {
@@ -2411,7 +2492,8 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           leitura: `Busca: ${escapeHtml(r.latencia_busca_ms ?? 0)} ms`,
           pct: Math.max(5, Math.min(100, 100 - (Number(r.latencia_total_ms || 0) / 1000))),
           cls: Number(r.latencia_total_ms || 0) <= 15000 ? 'score-ok' : (Number(r.latencia_total_ms || 0) <= 60000 ? 'score-warn' : 'score-danger'),
-          val: `${(Number(r.latencia_total_ms || 0) / 1000).toFixed(1)}s`
+          ic: textoIc95(r, 'latencia_total_ms', formatarLatencia),
+          val: formatarLatencia(Number(r.latencia_total_ms || 0))
         }
       ];
 
@@ -2423,6 +2505,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             leitura: ehSonnet && r.fidelidade_lexica_media != null ? `Léxica paralela: ${Number(r.fidelidade_lexica_media).toFixed(2)}` : 'Avaliador por sobreposição de palavras',
             pct: (fid || 0) * 100,
             cls: classeCor(fid || 0).cls,
+            ic: textoIc95(r, 'fidelidade_media', v => v.toFixed(2)),
             val: fid !== null ? fid.toFixed(2) : '—'
           },
           {
@@ -2431,6 +2514,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             leitura: ehSonnet ? 'Veredito semântico Claude Sonnet' : 'Similaridade léxica com a consulta',
             pct: (rel || 0) * 100,
             cls: classeCor(rel || 0).cls,
+            ic: textoIc95(r, 'relevancia_media', v => v.toFixed(2)),
             val: rel !== null ? rel.toFixed(2) : '—'
           },
           {
@@ -2463,6 +2547,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             leitura: (abstencao || 0) <= 10 ? 'Dentro do esperado (próximo de 0%)' : 'Alta recusa: revise o prompt ou cobertura dos trechos',
             pct: abstencao !== null ? abstencao : 0,
             cls: (abstencao || 0) <= 10 ? 'score-ok' : ((abstencao || 0) <= 40 ? 'score-warn' : 'score-danger'),
+            ic: textoIc95(r, 'taxa_abstencao_pct', v => `${v.toFixed(1)}%`),
             val: abstencao !== null ? `${abstencao.toFixed(1)}%` : '0.0%'
           }
         );
@@ -2485,10 +2570,10 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               <tbody>
                 ${linhas.map(l => `
                   <tr>
-                    <td style="white-space:nowrap;"><strong>${renderMetricTip(l.nome, l.tip)}</strong></td>
+                    <td><span class="ledger-name"><strong>${renderMetricTip(l.nome, l.tip)}</strong>${l.porConstrucao ? '<span class="tag">por construção</span>' : ''}</span></td>
                     <td style="color:var(--muted);">${escapeHtml(l.leitura)}</td>
                     <td>${bar(l.pct, l.cls)}</td>
-                    <td class="num ${l.cls}">${escapeHtml(l.val)}</td>
+                    <td class="num ${l.cls}">${escapeHtml(l.val)}${l.ic ? `<span class="ledger-ic">${escapeHtml(l.ic)}</span>` : ''}</td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -2498,13 +2583,114 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       `;
     }
 
+    function renderProcedenciaEscolar(info) {
+      const p = info.procedencia;
+      if (!p) {
+        return '<div class="tag-row provenance-row"><span class="tag tag-warn">Rodada antiga: sem commit nem hash da prova registrados</span></div>';
+      }
+      const tags = [];
+      if (p.commit) {
+        tags.push(`<span class="tag ${p.commit_com_alteracoes_locais ? 'tag-warn' : ''}">commit <code>${escapeHtml(p.commit)}</code>${p.commit_com_alteracoes_locais ? ' + alterações locais' : ''}</span>`);
+      } else {
+        tags.push('<span class="tag tag-warn">commit não identificado</span>');
+      }
+      tags.push(`<span class="tag">prova <code>${escapeHtml(p.dataset_sha256 || 'sem hash')}</code></span>`);
+      if (p.base_trechos_sha256) {
+        tags.push(`<span class="tag">base de trechos <code>${escapeHtml(p.base_trechos_sha256)}</code></span>`);
+      }
+      return `<div class="tag-row provenance-row" aria-label="Procedência da rodada">${tags.join('')}</div>`;
+    }
+
+    function formatarValorComparado(chave, v) {
+      if (v === null || v === undefined) return '—';
+      const n = Number(v);
+      if (chave.endsWith('_ms')) return `${n.toFixed(1)} ms`;
+      if (chave.endsWith('_pct')) return `${n.toFixed(1)}%`;
+      if (chave === 'score_top1_medio') return n.toFixed(2);
+      return n.toFixed(3);
+    }
+
+    function renderLinhaDeBaseEscolar(an) {
+      const info = an.run_info || {};
+      const lb = an.linha_de_base;
+      const runId = escapeHtml(info.run_id || '');
+      const btnPromover = `<button type="button" class="btn btn-secondary btn-compact" onclick="definirLinhaDeBaseEscolar('${runId}')">Usar esta rodada como linha de base</button>`;
+      const btnRemover = '<button type="button" class="btn btn-secondary btn-compact" onclick="definirLinhaDeBaseEscolar(null)">Remover linha de base</button>';
+      const regra = '<p class="baseline-rule">Regra: uma métrica só "mudou" quando o valor desta rodada sai do intervalo de confiança de 95% da linha de base. Dentro do intervalo, a diferença pode ser só sorteio. Só se comparam rodadas com a mesma configuração, os mesmos filtros e a mesma prova.</p>';
+      const cabecalho = (botoes) => `
+          <div class="baseline-head">
+            <div class="ledger-heading"><span>Comparação com a linha de base</span></div>
+            <div class="btn-row">${botoes}</div>
+          </div>`;
+
+      if (!lb) {
+        return `<div class="ledger-group">${cabecalho(btnPromover)}
+          <div class="notice notice-info">Nenhuma linha de base definida. Sem ela, um número sozinho não diz se a rodada melhorou ou piorou.</div>${regra}</div>`;
+      }
+      const base = lb.base || {};
+      const idBase = `<code>${escapeHtml(base.run_id || '-')}</code>${base.commit ? ` (commit <code>${escapeHtml(base.commit)}</code>)` : ''}`;
+      if (lb.mesma_rodada) {
+        return `<div class="ledger-group">${cabecalho(btnRemover)}
+          <div class="notice notice-ok">Esta rodada é a linha de base. As próximas rodadas com a mesma configuração serão comparadas com ela.</div>${regra}</div>`;
+      }
+      if (!lb.comparavel) {
+        return `<div class="ledger-group">${cabecalho(btnPromover + btnRemover)}
+          <div class="notice notice-warn" style="display:block;">Esta rodada não é comparável com a linha de base ${idBase}:
+            <ul class="baseline-reasons">${(lb.motivos || []).map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+          </div>${regra}</div>`;
+      }
+      const rotulos = {
+        igual: ['igual', 'tag'],
+        melhorou: ['melhorou', 'tag tag-ok'],
+        piorou: ['piorou', 'tag tag-danger'],
+        mudou: ['mudou', 'tag tag-warn'],
+        sem_intervalo: ['sem intervalo', 'tag']
+      };
+      const linhas = (lb.metricas || []).map(m => {
+        const [txt, cls] = rotulos[m.veredito] || [m.veredito, 'tag'];
+        const ic = Array.isArray(m.ic95_base) ? `<span class="ledger-ic">IC95 ${escapeHtml(formatarValorComparado(m.chave, m.ic95_base[0]))} a ${escapeHtml(formatarValorComparado(m.chave, m.ic95_base[1]))}</span>` : '';
+        const dif = Number(m.diferenca || 0);
+        const sinal = dif > 0 ? '+' : '';
+        return `<tr>
+          <td><strong>${escapeHtml(m.rotulo)}</strong></td>
+          <td class="num">${escapeHtml(formatarValorComparado(m.chave, m.base))}${ic}</td>
+          <td class="num">${escapeHtml(formatarValorComparado(m.chave, m.atual))}</td>
+          <td class="num">${escapeHtml(sinal + formatarValorComparado(m.chave, dif))}</td>
+          <td><span class="${cls}">${escapeHtml(txt)}</span></td>
+        </tr>`;
+      }).join('');
+      return `<div class="ledger-group">${cabecalho(btnPromover + btnRemover)}
+          <p class="baseline-rule" style="margin:0 0 0.5rem;">Linha de base: ${idBase}, ${escapeHtml(base.total_itens ?? '-')} questões. A comparação usa a rodada inteira, sem os filtros de exibição.</p>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th style="min-width:170px;">Métrica</th><th class="num">Linha de base</th><th class="num">Esta rodada</th><th class="num">Diferença</th><th>Veredito</th></tr></thead>
+              <tbody>${linhas}</tbody>
+            </table>
+          </div>${regra}</div>`;
+    }
+
+    async function definirLinhaDeBaseEscolar(runId) {
+      const alertBox = document.getElementById('esc-alert');
+      try {
+        await fetchJson('/api/v1/eval/rag-escolar/baseline', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ run_id: runId || null })
+        });
+        alertBox.innerHTML = '';
+        await carregarAnalyticsEscolar(document.getElementById('esc-run-select').value);
+      } catch (err) {
+        alertBox.innerHTML = `<div class="notice notice-danger">Falha ao atualizar a linha de base (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
     function renderAnalyticsEscolar(an) {
       const box = document.getElementById('esc-analytics-box');
       const runSel = document.getElementById('esc-run-select');
       if (Array.isArray(an.runs_disponiveis)) {
         const atual = runSel.value;
         runSel.innerHTML = '<option value="">Mais recente</option>' + an.runs_disponiveis.map(r =>
-          `<option value="${escapeHtml(r.run_id)}">${escapeHtml(r.metodo_efetivo)} | ${escapeHtml(r.estrategia_query)} (${escapeHtml(r.total_itens)} itens)</option>`
+          `<option value="${escapeHtml(r.run_id)}">${r.eh_linha_de_base ? '[linha de base] ' : ''}${escapeHtml(r.metodo_efetivo)} | ${escapeHtml(r.estrategia_query)} (${escapeHtml(r.total_itens)} itens)${r.commit ? ` | ${escapeHtml(r.commit)}` : ''}</option>`
         ).join('');
         if (atual && an.runs_disponiveis.some(r => r.run_id === atual)) {
           runSel.value = atual;
@@ -2534,12 +2720,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       const ehSonnetGeral = r.avaliador_fidelidade === 'claude_sonnet';
       const labelFid = ehSonnetGeral ? 'Fidelidade Sonnet' : 'Fidelidade léxica';
       const diagProse = r.com_geracao
-        ? `Em <strong>${escapeHtml(r.total)}</strong> questão(ões), o buscador <strong>${escapeHtml(info.metodo_efetivo || '-')}</strong> entregou <strong>${escapeHtml(r.taxa_retorno_pct)}%</strong> com evidências e <strong>${escapeHtml(r.aderencia_barreira_pct)}%</strong> de aderência à barreira. ${Number(r.frases_sem_citacao_total || 0) > 0 ? `Foram detectadas <strong>${escapeHtml(r.frases_sem_citacao_total)}</strong> frase(s) sem citação <code>[Tn]</code>, o que penaliza a fidelidade.` : 'Todas as frases analisadas citaram fontes.'}`
+        ? `Em <strong>${escapeHtml(r.total)}</strong> questão(ões), o buscador <strong>${escapeHtml(info.metodo_efetivo || '-')}</strong> entregou <strong>${escapeHtml(r.taxa_retorno_pct)}%</strong> com evidências e <strong>${escapeHtml(r.aderencia_barreira_pct)}%</strong> de aderência à barreira (os dois garantidos pelo filtro de barreira, não medem qualidade). ${Number(r.frases_sem_citacao_total || 0) > 0 ? `Foram detectadas <strong>${escapeHtml(r.frases_sem_citacao_total)}</strong> frase(s) sem citação <code>[Tn]</code>, o que penaliza a fidelidade.` : 'Todas as frases analisadas citaram fontes.'}`
         : `Rodada de recuperação pura sobre <strong>${escapeHtml(r.total)}</strong> questão(ões) via <strong>${escapeHtml(info.metodo_efetivo || '-')}</strong> (${escapeHtml(escalaTxt)}). Selecione um escopo com geração para medir fidelidade e vereditos frase a frase.`;
 
       box.innerHTML = `
         ${fallbackBanner}
         ${sonnetWarnBanner}
+        ${renderProcedenciaEscolar(info)}
         <div class="metrics-architecture" style="margin-bottom:1.25rem;">
           <div class="verdict-panel">
             <div class="verdict-pair">
@@ -2549,9 +2736,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
                 <div class="verdict-sub">${r.com_geracao ? `${escapeHtml(r.citacoes_invalidas_total || 0)} citações inválidas` : 'Escopo: só recuperação'}</div>
               </div>
               <div>
-                <div class="verdict-num ${classePct(Number(r.taxa_retorno_pct || 0), 95, 70) === 'score-ok' ? 'ok' : 'warn'}">${escapeHtml(r.taxa_retorno_pct)}%</div>
-                <div class="verdict-cap">${renderMetricTip('Retorno Top-5', 'Percentual de questões que receberam evidências no Top-5.')}</div>
-                <div class="verdict-sub">${escapeHtml(r.aderencia_barreira_pct)}% aderência à barreira</div>
+                <div class="verdict-num neutral">${escapeHtml(r.taxa_retorno_pct)}%</div>
+                <div class="verdict-cap">${renderMetricTip('Retorno Top-5', `Percentual de questões que receberam evidências no Top-5. ${motivoPorConstrucao('taxa_retorno_pct')}`)}</div>
+                <div class="verdict-sub">Garantido pelo filtro de barreira; não mede qualidade</div>
               </div>
             </div>
             <p class="verdict-prose">${diagProse}</p>
@@ -2560,6 +2747,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             ${renderLedgerIndicadoresEscolar(r, { aoVivo: false })}
           </div>
         </div>
+        <div style="margin-bottom:1.25rem;">${renderLinhaDeBaseEscolar(an)}</div>
         ${renderTabelaSegmentadaUnificadaEscolar(an)}
       `;
     }
@@ -2848,7 +3036,8 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         renderAnalyticsEscolar(an);
         renderRailEscolar();
       } catch (err) {
-        alertBox.innerHTML = `<div class="notice notice-danger">Falha ao executar bateria (${escapeHtml(err.message)}).</div>`;
+        await carregarAnalyticsEscolar(document.getElementById('esc-run-select').value);
+        alertBox.innerHTML = `<div class="notice notice-danger">A bateria não rodou: ${escapeHtml(err.message)}</div>`;
       } finally {
         if (pollId) clearInterval(pollId);
         setLoading('btn-esc-run', false);
