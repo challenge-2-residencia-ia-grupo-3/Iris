@@ -1,4 +1,9 @@
-"""Perfil Pedagógico Portátil e bloqueio de dados clínicos (História 3.1.3 / Issue #28; RF-15, RNF-03).
+"""Perfil Pedagógico Portátil (Histórias 3.1.1 / #26 e 3.1.3 / #28; RF-15, RNF-01, RNF-03).
+
+Identificação (#26, RNF-01): o perfil é identificado só por um código aleatório (`aluno-8f7a2c1b`), gerado por
+`gerar_codigo_anonimo()` sem nenhuma entrada do usuário, logo sem nome nem dado pessoal. Tudo vive em memória: este
+módulo não importa banco de dados, não abre arquivos e não usa rede (há testes que verificam isso). Quem recebe o
+objeto (ex.: a rota de download) é quem entrega o JSON ao navegador; o servidor não guarda cópia.
 
 O perfil guarda SOMENTE barreiras funcionais observadas em sala e o histórico de estratégias
 didáticas. É proibido armazenar CID, laudos, diagnósticos formais ou medicação.
@@ -21,11 +26,21 @@ from __future__ import annotations
 import json
 import re
 import unicodedata
-from collections.abc import Mapping
+import uuid
+from collections.abc import Collection, Iterable, Mapping
 from dataclasses import dataclass
-from typing import Any, Literal
+from datetime import datetime, timezone
+from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
+from pydantic import (
+    AwareDatetime,
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    ValidationError,
+    model_validator,
+)
 
 CODIGO_BLOQUEIO = "CLINICAL_DATA_BLOCKED"
 CODIGO_ESTRUTURA = "INVALID_STRUCTURE"
@@ -153,11 +168,12 @@ def detectar_conteudo_clinico(texto: str, campo: str = "", eh_chave: bool = Fals
     # Como nome de campo, "diagnostico" e "transtorno" não têm sentido pedagógico: contam mesmo sem complemento.
     if eh_chave and _CHAVES_DIAGNOSTICO & set(re.split(r"[\s_-]+", _norm(texto))):
         achados.append(ViolacaoClinica(campo, "diagnostico", texto))
+    texto = texto.replace("_", " ")  # "tdah_formal" e "F90_x": o sublinhado separa palavras
     for p in _PADROES_CID:
         achados += [ViolacaoClinica(campo, "cid", m.group(0)) for m in p.finditer(texto)]
     for p in _PADROES_SIGLA:
         achados += [ViolacaoClinica(campo, "diagnostico", m.group(0)) for m in p.finditer(texto)]
-    base = _norm(texto.replace("_", " ") if eh_chave else texto)
+    base = _norm(texto)
     for categoria, padroes in _PADROES_NORM.items():
         for p in padroes:
             achados += [ViolacaoClinica(campo, categoria, m.group(0)) for m in p.finditer(base)]
@@ -170,8 +186,7 @@ def detectar_conteudo_clinico(texto: str, campo: str = "", eh_chave: bool = Fals
     return unicos
 
 
-# Campos de formato fechado, já restritos por padrão no schema: o valor não é texto livre. Um código anônimo
-# aleatório como "F12-x9" é válido e seria lido como CID.
+# Campos de formato fechado, já restritos por padrão no schema: o valor não é texto livre.
 _CAMPOS_SEM_VARREDURA = frozenset({"codigo_anonimo", "versao_schema"})
 
 
@@ -234,18 +249,42 @@ class RegistroEstrategia(_Base):
     observacao: str | None = Field(default=None, max_length=500)
 
 
+PREFIXO_CODIGO = "aluno-"
+_PADRAO_CODIGO = r"^aluno-[0-9a-f]{8,32}$"
+IdCaracteristica = Annotated[str, StringConstraints(pattern=_ID_CARACTERISTICA)]
+
+
+def gerar_codigo_anonimo(n_hex: int = 8) -> str:
+    """Código aleatório (UUID4) sem relação com nome ou dado do estudante, ex.: `aluno-8f7a2c1b`.
+
+    Não recebe nenhum dado do usuário de propósito. Com 8 hex (32 bits) a chance de colisão fica em ~1% perto de
+    9 mil perfis; como não há banco para checar unicidade, use `n_hex` maior se isso importar.
+    """
+    if not 8 <= n_hex <= 32:
+        raise ValueError("n_hex deve estar entre 8 e 32.")
+    return PREFIXO_CODIGO + uuid.uuid4().hex[:n_hex]
+
+
 class PerfilPedagogico(_Base):
     versao_schema: Literal["1.0"] = "1.0"
-    codigo_anonimo: str = Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9_-]{2,39}$")
+    codigo_anonimo: str = Field(pattern=_PADRAO_CODIGO)
+    criado_em: AwareDatetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    caracteristicas_selecionadas: list[IdCaracteristica] = Field(default_factory=list, max_length=50)
     barreiras_observadas: list[BarreiraObservada] = Field(default_factory=list, max_length=50)
     historico_estrategias: list[RegistroEstrategia] = Field(default_factory=list, max_length=200)
     anotacoes_pedagogicas: list[str] = Field(default_factory=list, max_length=100)
 
     @model_validator(mode="after")
-    def _tamanho_das_anotacoes(self) -> "PerfilPedagogico":
+    def _regras_finais(self) -> "PerfilPedagogico":
         if any(len(a) > 1000 for a in self.anotacoes_pedagogicas):
             raise ValueError("Cada anotação pedagógica deve ter no máximo 1000 caracteres.")
+        if len(set(self.caracteristicas_selecionadas)) != len(self.caracteristicas_selecionadas):
+            raise ValueError("caracteristicas_selecionadas não pode ter itens repetidos.")
         return self
+
+    def para_json(self) -> dict[str, Any]:
+        """Estrutura serializável (datas em ISO 8601) para entregar ao navegador. Não grava nada."""
+        return self.model_dump(mode="json")
 
 
 _CAMPOS_DECLARADOS = frozenset(
@@ -294,3 +333,20 @@ def validar_perfil(dados: Mapping[str, Any] | str | bytes) -> PerfilPedagogico:
         return PerfilPedagogico.model_validate(dados)
     except ValidationError as exc:
         raise _traduzir(exc) from exc
+
+
+def criar_perfil(
+    caracteristicas_selecionadas: Iterable[str], ids_validos: Collection[str] | None = None
+) -> PerfilPedagogico:
+    """Cria um perfil novo EM MEMÓRIA: código aleatório, data (UTC) e características selecionadas (#26).
+
+    `ids_validos` (opcional) é o conjunto de ids do catálogo; se informado, id fora dele é erro. Nada é gravado.
+    """
+    ids = list(dict.fromkeys(caracteristicas_selecionadas))
+    if ids_validos is not None:
+        desconhecidos = [i for i in ids if i not in set(ids_validos)]
+        if desconhecidos:
+            raise PerfilInvalidoError(
+                CODIGO_ESTRUTURA, [f"Característica(s) não encontrada(s) no catálogo: {desconhecidos}."]
+            )
+    return validar_perfil({"codigo_anonimo": gerar_codigo_anonimo(), "caracteristicas_selecionadas": ids})

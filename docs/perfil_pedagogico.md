@@ -1,9 +1,28 @@
-# Perfil Pedagógico Portátil: bloqueio de dados clínicos (História 3.1.3, #28)
+# Perfil Pedagógico Portátil (Histórias 3.1.1 / #26 e 3.1.3 / #28)
 
-Implementa RF-15 e RNF-03: o perfil guarda **apenas** barreiras funcionais observadas em sala e o histórico de
+Schema oficial em `backend/src/iris/schemas/portable_profile.py`. Implementa RF-15, RNF-01 e RNF-03: o perfil guarda **apenas** barreiras funcionais observadas em sala e o histórico de
 estratégias didáticas. CID, laudos, diagnósticos formais e medicação são rejeitados.
 
-## Uso
+## Criação com identificador anônimo (#26)
+
+```python
+from iris.schemas.portable_profile import criar_perfil
+
+perfil = criar_perfil(["atencao_sustentada_textos_longos"], ids_validos=ids_do_catalogo)
+perfil.codigo_anonimo      # "aluno-8f7a2c1b": UUID4 aleatório, sem nenhuma entrada do usuário
+perfil.criado_em           # data/hora UTC
+perfil.para_json()         # dict pronto para o navegador baixar
+```
+
+- O código vem só de `gerar_codigo_anonimo()` (que não recebe dados do estudante). O schema aceita **apenas** o formato
+  `aluno-` + 8 a 32 hex: um nome digitado no lugar do código é rejeitado.
+- Com 8 hex, a chance de colisão chega a ~1% perto de 9 mil perfis. Como não há banco para checar unicidade, use
+  `gerar_codigo_anonimo(16)` se isso importar.
+- **Nada é persistido.** O módulo não importa banco, rede nem escreve arquivo; `tests/test_perfil_portatil.py` verifica isso
+  por inspeção de código (AST) e por execução (bloqueando escrita em disco e conexões).
+- Quem entrega o JSON ao docente (rota ou frontend) não deve guardar cópia no servidor.
+
+## Uso da validação
 
 ```python
 from iris.schemas.profile import validar_perfil, PerfilInvalidoError
@@ -23,7 +42,9 @@ O schema `PerfilPedagogico` também pode ser usado direto (`model_validate`); ne
 | Campo | Conteúdo |
 |---|---|
 | `versao_schema` | `"1.0"` |
-| `codigo_anonimo` | 3 a 40 caracteres (letras, números, `_`, `-`); sem e-mail nem espaços |
+| `codigo_anonimo` | `aluno-` + 8 a 32 hex minúsculos |
+| `criado_em` | data/hora com fuso (UTC por padrão) |
+| `caracteristicas_selecionadas[]` | ids do catálogo, sem repetição |
 | `barreiras_observadas[]` | `id_caracteristica` (do catálogo) + `observacao` opcional |
 | `historico_estrategias[]` | `estrategia`, `resultado` (`eficaz`/`ineficaz`), `id_caracteristica` e `observacao` opcionais |
 | `anotacoes_pedagogicas[]` | textos livres (até 1000 caracteres) |
@@ -38,20 +59,17 @@ Chaves **e** valores são varridos recursivamente.
 |---|---|
 | `cid` | `CID F90.0`, `F84`, `6A05`, "Classificação Internacional de Doenças" |
 | `laudo` | laudo, atestado médico, relatório clínico, prontuário, receita médica, neuropsicológico |
-| `diagnostico` | "diagnóstico médico", "tem diagnóstico", diagnosticado, TDAH e T.D.A.H., TEA, TOC (em maiúsculas), autismo, "no espectro", dislexia, "transtorno de/do...", síndrome |
-| `medicacao` | nomes de medicamentos, "toma Concerta", "medicação", "remédio", doses (`10 mg`, gotas, comprimidos), psiquiatra/neurologista |
+| `diagnostico` | "diagnóstico médico/clínico", "tem diagnóstico", TDAH, TEA/TOC (siglas em maiúsculas), autismo, "no espectro", dislexia, "transtorno de/do…", síndrome |
+| `medicacao` | nomes de medicamentos, "medicação", "remédio", doses (`10 mg`), psiquiatra/neurologista |
 
-Não são bloqueados: "avaliação diagnóstica", "diagnóstico pedagógico", "diagnóstico inicial da turma", "causou
-transtorno", "ele concerta os erros", "garrafa de 500 ml", "toc toc", códigos como `Q10`, "A4", "ambiente
-estimulante", "receita de bolo". Os valores de `codigo_anonimo` e `versao_schema` não são varridos: o formato já é
-restrito pelo schema e um código aleatório como `F12-x9` seria lido como CID.
+Não são bloqueados: "avaliação diagnóstica", "diagnóstico pedagógico", "diagnóstico inicial da turma",
+"a troca de sala causou transtorno", "ele concerta os erros", "garrafa de 500 ml", "toc toc", códigos como
+`Q10`, "A4", "ambiente estimulante", "receita de bolo". Como *nome de campo*, `diagnostico`/`transtorno` são sempre bloqueados.
 
 ## Privacidade
 
 `str(exc)` **não** repete o trecho digitado (pode ir para logs). O trecho só sai em
-`to_dict(incluir_trecho=True)`, para exibir ao docente na interface. Na mensagem e em `to_dict(incluir_trecho=False)`,
-nomes de campo não declarados no schema aparecem como `<campo não declarado>`, porque o próprio nome pode ser o dado
-clínico (ex.: `laudo_tdah`).
+`to_dict(incluir_trecho=True)`, para exibir ao docente na interface.
 
 ## Limites conhecidos
 
@@ -59,4 +77,6 @@ clínico (ex.: `laudo_tdah`).
 - `F\d{2}` (ex.: `F10`) é tratado como CID; um código de exercício igual a esse seria um falso positivo.
 - Deficiências sensoriais/físicas (ex.: "baixa visão") não são bloqueadas por serem informação de acessibilidade.
 - Não detecta dados pessoais (nome do aluno, CPF) em texto livre; isso é responsabilidade do `security/pii_scrubber.py`.
-- O schema do perfil é proposta a partir do RF-15; as histórias 3.1.1 e 3.1.2 podem refiná-lo.
+- Termos clínicos dentro de identificadores com sublinhado (`tdah_formal`) também são detectados.
+- O histórico de eficácia (`historico_estrategias`) é proposta da 3.1.2 (#27) e pode ser refinado lá.
+- Não há rota de API nem botão no frontend: a criação e o download ainda precisam ser ligados.
