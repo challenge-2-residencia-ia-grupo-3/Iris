@@ -1,0 +1,37 @@
+RODADA COMPLEMENTAR - LIMIAR DE ESCORE DA BUSCA
+O escore do reordenador separa as perguntas com resposta (38) das sem resposta (Q39, Q40 e as 25 novas)?
+AUC = chance de uma pergunta com resposta ter escore maior que uma sem; 0,5 é acaso, 1,0 é separação perfeita.
+O corte (índice de Youden) é escolhido e relatado no mesmo conjunto: número otimista.
+
+20 candidatos | escore do 1º trecho
+    com resposta n=38 (mediana 4.86) | sem resposta n=27 (mediana -1.24)
+    AUC [0.911, 0.833, 0.973]
+    corte 1.51: com resposta acima 32/38, sem resposta abaixo 26/27
+    sem resposta que passariam: ['Q39']
+    com resposta que seriam barradas: ['Q01', 'Q02', 'Q04', 'Q05', 'Q06', 'Q07']
+    deixando uma de fora: com resposta liberadas 31/38, sem resposta barradas 25/27
+
+20 candidatos | média dos 3 primeiros
+    com resposta n=38 (mediana 3.8) | sem resposta n=27 (mediana -2.27)
+    AUC [0.905, 0.826, 0.972]
+    corte 0.86: com resposta acima 32/38, sem resposta abaixo 26/27
+    sem resposta que passariam: ['Q39']
+    com resposta que seriam barradas: ['Q01', 'Q02', 'Q04', 'Q05', 'Q06', 'Q07']
+    deixando uma de fora: com resposta liberadas 31/38, sem resposta barradas 25/27
+
+50 candidatos | escore do 1º trecho
+    com resposta n=38 (mediana 4.94) | sem resposta n=27 (mediana -0.82)
+    AUC [0.919, 0.844, 0.98]
+    corte 1.51: com resposta acima 32/38, sem resposta abaixo 26/27
+    sem resposta que passariam: ['Q39']
+    com resposta que seriam barradas: ['Q01', 'Q02', 'Q04', 'Q05', 'Q06', 'Q07']
+    deixando uma de fora: com resposta liberadas 31/38, sem resposta barradas 24/27
+
+50 candidatos | média dos 3 primeiros
+    com resposta n=38 (mediana 4.14) | sem resposta n=27 (mediana -1.57)
+    AUC [0.915, 0.835, 0.978]
+    corte 0.1: com resposta acima 34/38, sem resposta abaixo 24/27
+    sem resposta que passariam: ['N05', 'N07', 'Q39']
+    com resposta que seriam barradas: ['Q01', 'Q04', 'Q05', 'Q06']
+    deixando uma de fora: com resposta liberadas 31/38, sem resposta barradas 24/27
+

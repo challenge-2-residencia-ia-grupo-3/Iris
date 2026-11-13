@@ -1,0 +1,2060 @@
+{
+  "gerado_em": "2026-11-13T00:21:44+00:00",
+  "commit": "f5da8ac",
+  "juiz": "Claude Opus (assinatura), não validado por pessoa",
+  "cobertura": {
+    "julgada|A|llama3.1-8b": 120,
+    "julgada|B|busca-top1": 40,
+    "julgada|B|busca-top3": 40,
+    "julgada|C|llama3.1-8b": 120,
+    "julgada|D|llama3.1-8b|completo": 90,
+    "julgada|D|llama3.1-8b|sem_rag": 90
+  },
+  "avisos": [],
+  "condicoes": {
+    "A|llama3.1-8b": {
+      "respostas": 120,
+      "perguntas": 40,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "frases_julgadas": 345,
+      "frases_sustentadas": 101,
+      "frases_que_contradizem": 44,
+      "util_contagem": {
+        "parcial": 39,
+        "não": 59,
+        "sim": 22
+      },
+      "fidelidade": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.4544,
+          0.3201,
+          0.5847
+        ],
+        "ic95_agrupado_por_documento": [
+          0.4544,
+          0.3142,
+          0.6402
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.5105,
+              0.2857,
+              0.7596
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.3762,
+              0.2206,
+              0.5414
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        }
+      },
+      "fidelidade_sem_abstencao": {
+        "n_perguntas": 26,
+        "media_ic95": [
+          0.1606,
+          0.0893,
+          0.2405
+        ],
+        "ic95_agrupado_por_documento": [
+          0.1606,
+          0.1076,
+          0.2318
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 8,
+            "media_ic95": [
+              0.1434,
+              0.0324,
+              0.269
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 18,
+            "media_ic95": [
+              0.1682,
+              0.0827,
+              0.2596
+            ]
+          }
+        }
+      },
+      "util_sim": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.1833,
+          0.075,
+          0.3083
+        ],
+        "ic95_agrupado_por_documento": [
+          0.1833,
+          0.0588,
+          0.285
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.0714,
+              0.0,
+              0.2143
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.2639,
+              0.1111,
+              0.4306
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.5083,
+          0.3583,
+          0.6583
+        ],
+        "ic95_agrupado_por_documento": [
+          0.5083,
+          0.2903,
+          0.6667
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.4762,
+              0.2143,
+              0.7381
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.5694,
+              0.3611,
+              0.7639
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "inventou": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.2917,
+          0.1583,
+          0.4333
+        ],
+        "ic95_agrupado_por_documento": [
+          0.2917,
+          0.172,
+          0.4054
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.3333,
+              0.119,
+              0.5714
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.2917,
+              0.125,
+              0.4722
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "absteve_juiz": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.35,
+          0.2,
+          0.5
+        ],
+        "ic95_agrupado_por_documento": [
+          0.35,
+          0.1957,
+          0.5588
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.4286,
+              0.2143,
+              0.7143
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.25,
+              0.0833,
+              0.4583
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        }
+      },
+      "tem_frase_que_contradiz": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.2167,
+          0.1,
+          0.35
+        ],
+        "ic95_agrupado_por_documento": [
+          0.2167,
+          0.1176,
+          0.3158
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.119,
+              0.0,
+              0.3095
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.2917,
+              0.125,
+              0.4583
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    "B|busca-top1": {
+      "respostas": 40,
+      "perguntas": 40,
+      "repeticoes": [
+        1
+      ],
+      "frases_julgadas": 0,
+      "frases_sustentadas": 0,
+      "frases_que_contradizem": 0,
+      "util_contagem": {
+        "parcial": 21,
+        "não": 11,
+        "sim": 8
+      },
+      "fidelidade": {
+        "n_perguntas": 0,
+        "media_ic95": null,
+        "ic95_agrupado_por_documento": null,
+        "por_categoria": {}
+      },
+      "fidelidade_sem_abstencao": {
+        "n_perguntas": 0,
+        "media_ic95": null,
+        "ic95_agrupado_por_documento": null,
+        "por_categoria": {}
+      },
+      "util_sim": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.2,
+          0.075,
+          0.325
+        ],
+        "ic95_agrupado_por_documento": [
+          0.2,
+          0.0857,
+          0.3421
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.0714,
+              0.0,
+              0.2143
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.2917,
+              0.125,
+              0.4583
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.725,
+          0.6,
+          0.85
+        ],
+        "ic95_agrupado_por_documento": [
+          0.725,
+          0.5667,
+          0.8649
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.7857,
+              0.5714,
+              1.0
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.75,
+              0.5417,
+              0.9167
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "inventou": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "absteve_juiz": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "tem_frase_que_contradiz": {
+        "n_perguntas": 0,
+        "media_ic95": null,
+        "ic95_agrupado_por_documento": null,
+        "por_categoria": {}
+      }
+    },
+    "B|busca-top3": {
+      "respostas": 40,
+      "perguntas": 40,
+      "repeticoes": [
+        1
+      ],
+      "frases_julgadas": 0,
+      "frases_sustentadas": 0,
+      "frases_que_contradizem": 0,
+      "util_contagem": {
+        "parcial": 16,
+        "sim": 17,
+        "não": 7
+      },
+      "fidelidade": {
+        "n_perguntas": 0,
+        "media_ic95": null,
+        "ic95_agrupado_por_documento": null,
+        "por_categoria": {}
+      },
+      "fidelidade_sem_abstencao": {
+        "n_perguntas": 0,
+        "media_ic95": null,
+        "ic95_agrupado_por_documento": null,
+        "por_categoria": {}
+      },
+      "util_sim": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.425,
+          0.275,
+          0.575
+        ],
+        "ic95_agrupado_por_documento": [
+          0.425,
+          0.25,
+          0.5556
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.2857,
+              0.0714,
+              0.5
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.5417,
+              0.3333,
+              0.75
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.825,
+          0.7,
+          0.925
+        ],
+        "ic95_agrupado_por_documento": [
+          0.825,
+          0.7105,
+          0.9412
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.9286,
+              0.7857,
+              1.0
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.8333,
+              0.6667,
+              0.9583
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "inventou": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "absteve_juiz": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "tem_frase_que_contradiz": {
+        "n_perguntas": 0,
+        "media_ic95": null,
+        "ic95_agrupado_por_documento": null,
+        "por_categoria": {}
+      }
+    },
+    "C|llama3.1-8b": {
+      "respostas": 120,
+      "perguntas": 40,
+      "repeticoes": [
+        1,
+        2,
+        3
+      ],
+      "frases_julgadas": 599,
+      "frases_sustentadas": 440,
+      "frases_que_contradizem": 51,
+      "util_contagem": {
+        "sim": 63,
+        "não": 18,
+        "parcial": 39
+      },
+      "fidelidade": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.7552,
+          0.6647,
+          0.8323
+        ],
+        "ic95_agrupado_por_documento": [
+          0.7552,
+          0.6309,
+          0.8354
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.6658,
+              0.5129,
+              0.8066
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.8194,
+              0.721,
+              0.9078
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.6111,
+              0.2222,
+              1.0
+            ]
+          }
+        }
+      },
+      "fidelidade_sem_abstencao": {
+        "n_perguntas": 33,
+        "media_ic95": [
+          0.7364,
+          0.6493,
+          0.8223
+        ],
+        "ic95_agrupado_por_documento": [
+          0.7364,
+          0.595,
+          0.833
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 12,
+            "media_ic95": [
+              0.701,
+              0.5651,
+              0.8313
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 20,
+            "media_ic95": [
+              0.7833,
+              0.6774,
+              0.8856
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 1,
+            "media_ic95": [
+              0.2222,
+              0.2222,
+              0.2222
+            ]
+          }
+        }
+      },
+      "util_sim": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.525,
+          0.375,
+          0.675
+        ],
+        "ic95_agrupado_por_documento": [
+          0.525,
+          0.3684,
+          0.6491
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.3571,
+              0.1429,
+              0.6429
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.625,
+              0.4167,
+              0.7917
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ]
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.85,
+          0.725,
+          0.95
+        ],
+        "ic95_agrupado_por_documento": [
+          0.85,
+          0.7037,
+          0.9545
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.9286,
+              0.7857,
+              1.0
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.8333,
+              0.6667,
+              0.9583
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ]
+          }
+        }
+      },
+      "inventou": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "absteve_juiz": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.175,
+          0.05,
+          0.3
+        ],
+        "ic95_agrupado_por_documento": [
+          0.175,
+          0.0667,
+          0.3415
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.1429,
+              0.0,
+              0.3571
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.1667,
+              0.0417,
+              0.3333
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ]
+          }
+        }
+      },
+      "tem_frase_que_contradiz": {
+        "n_perguntas": 40,
+        "media_ic95": [
+          0.2,
+          0.1,
+          0.325
+        ],
+        "ic95_agrupado_por_documento": [
+          0.2,
+          0.0789,
+          0.3793
+        ],
+        "por_categoria": {
+          "factual": {
+            "n_perguntas": 14,
+            "media_ic95": [
+              0.3571,
+              0.1429,
+              0.6429
+            ]
+          },
+          "sintese": {
+            "n_perguntas": 24,
+            "media_ic95": [
+              0.125,
+              0.0,
+              0.25
+            ]
+          },
+          "fora_da_base": {
+            "n_perguntas": 2,
+            "media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    }
+  },
+  "pareados": {
+    "C - A|llama3.1-8b": {
+      "fidelidade": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.3008,
+          0.1221,
+          0.4677
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.3008,
+          0.0404,
+          0.5013
+        ],
+        "wilcoxon_p": 0.003,
+        "perguntas_melhoraram": 25,
+        "perguntas_pioraram": 11,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.1553,
+              -0.1252,
+              0.4366
+            ],
+            "wilcoxon_p": 0.3103
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.4432,
+              0.2217,
+              0.6485
+            ],
+            "wilcoxon_p": 0.0019
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              -0.3889,
+              -0.7778,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "fidelidade_sem_abstencao": {
+        "n": 22,
+        "dif_media_ic95": [
+          0.6611,
+          0.5444,
+          0.7718
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.6611,
+          0.4968,
+          0.7677
+        ],
+        "wilcoxon_p": 0.0,
+        "perguntas_melhoraram": 22,
+        "perguntas_pioraram": 0,
+        "por_categoria": {
+          "factual": {
+            "n": 7,
+            "dif_media_ic95": [
+              0.6453,
+              0.4507,
+              0.8284
+            ],
+            "wilcoxon_p": 0.0156
+          },
+          "sintese": {
+            "n": 15,
+            "dif_media_ic95": [
+              0.6685,
+              0.5288,
+              0.7999
+            ],
+            "wilcoxon_p": 0.0006
+          }
+        }
+      },
+      "util_sim": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.3417,
+          0.175,
+          0.5
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.3417,
+          0.2018,
+          0.5041
+        ],
+        "wilcoxon_p": 0.0005,
+        "perguntas_melhoraram": 15,
+        "perguntas_pioraram": 2,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.2857,
+              0.0714,
+              0.5714
+            ],
+            "wilcoxon_p": 0.0455
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.3611,
+              0.125,
+              0.5833
+            ],
+            "wilcoxon_p": 0.0076
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.3417,
+          0.1917,
+          0.5
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.3417,
+          0.2143,
+          0.5161
+        ],
+        "wilcoxon_p": 0.0002,
+        "perguntas_melhoraram": 15,
+        "perguntas_pioraram": 1,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.4524,
+              0.2143,
+              0.7143
+            ],
+            "wilcoxon_p": 0.0114
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.2639,
+              0.0556,
+              0.4583
+            ],
+            "wilcoxon_p": 0.0104
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "inventou": {
+        "n": 40,
+        "dif_media_ic95": [
+          -0.2917,
+          -0.425,
+          -0.1667
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          -0.2917,
+          -0.3964,
+          -0.172
+        ],
+        "wilcoxon_p": 0.0006,
+        "perguntas_melhoraram": 0,
+        "perguntas_pioraram": 14,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              -0.3333,
+              -0.5714,
+              -0.119
+            ],
+            "wilcoxon_p": 0.0231
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              -0.2917,
+              -0.4722,
+              -0.125
+            ],
+            "wilcoxon_p": 0.0084
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "absteve_juiz": {
+        "n": 40,
+        "dif_media_ic95": [
+          -0.175,
+          -0.35,
+          0.0
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          -0.175,
+          -0.375,
+          0.0
+        ],
+        "wilcoxon_p": 0.0707,
+        "perguntas_melhoraram": 4,
+        "perguntas_pioraram": 11,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              -0.2857,
+              -0.5714,
+              0.0
+            ],
+            "wilcoxon_p": 0.1025
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              -0.0833,
+              -0.2917,
+              0.1667
+            ],
+            "wilcoxon_p": 0.4795
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              -0.5,
+              -1.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "tem_frase_que_contradiz": {
+        "n": 40,
+        "dif_media_ic95": [
+          -0.0167,
+          -0.2,
+          0.175
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          -0.0167,
+          -0.1802,
+          0.2258
+        ],
+        "wilcoxon_p": 0.9749,
+        "perguntas_melhoraram": 7,
+        "perguntas_pioraram": 8,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.2381,
+              -0.119,
+              0.5714
+            ],
+            "wilcoxon_p": 0.1245
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              -0.1667,
+              -0.375,
+              0.0417
+            ],
+            "wilcoxon_p": 0.1573
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      }
+    },
+    "C|llama3.1-8b - B|busca-top1": {
+      "util_sim": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.325,
+          0.15,
+          0.5
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.325,
+          0.1562,
+          0.4426
+        ],
+        "wilcoxon_p": 0.0016,
+        "perguntas_melhoraram": 15,
+        "perguntas_pioraram": 2,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.2857,
+              0.0,
+              0.5714
+            ],
+            "wilcoxon_p": 0.1025
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.3333,
+              0.125,
+              0.5417
+            ],
+            "wilcoxon_p": 0.0114
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.125,
+          -0.025,
+          0.275
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.125,
+          -0.0357,
+          0.2647
+        ],
+        "wilcoxon_p": 0.0956,
+        "perguntas_melhoraram": 7,
+        "perguntas_pioraram": 2,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.1429,
+              0.0,
+              0.3571
+            ],
+            "wilcoxon_p": 0.1573
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.0833,
+              -0.125,
+              0.2917
+            ],
+            "wilcoxon_p": 0.4142
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "inventou": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wilcoxon_p": 1.0,
+        "perguntas_melhoraram": 0,
+        "perguntas_pioraram": 0,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      }
+    },
+    "A|llama3.1-8b - B|busca-top1": {
+      "util_sim": {
+        "n": 40,
+        "dif_media_ic95": [
+          -0.0167,
+          -0.2,
+          0.175
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          -0.0167,
+          -0.2308,
+          0.1273
+        ],
+        "wilcoxon_p": 0.8185,
+        "perguntas_melhoraram": 8,
+        "perguntas_pioraram": 8,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.0,
+              -0.2143,
+              0.2143
+            ],
+            "wilcoxon_p": 1.0
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              -0.0278,
+              -0.3194,
+              0.2639
+            ],
+            "wilcoxon_p": 0.8084
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n": 40,
+        "dif_media_ic95": [
+          -0.2167,
+          -0.4333,
+          -0.0
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          -0.2167,
+          -0.4792,
+          -0.0202
+        ],
+        "wilcoxon_p": 0.0292,
+        "perguntas_melhoraram": 7,
+        "perguntas_pioraram": 15,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              -0.3095,
+              -0.6429,
+              0.0238
+            ],
+            "wilcoxon_p": 0.0704
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              -0.1806,
+              -0.4722,
+              0.125
+            ],
+            "wilcoxon_p": 0.1766
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "inventou": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.2917,
+          0.1667,
+          0.425
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.2917,
+          0.172,
+          0.3964
+        ],
+        "wilcoxon_p": 0.0006,
+        "perguntas_melhoraram": 14,
+        "perguntas_pioraram": 0,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.3333,
+              0.119,
+              0.5714
+            ],
+            "wilcoxon_p": 0.0231
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.2917,
+              0.125,
+              0.4722
+            ],
+            "wilcoxon_p": 0.0084
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      }
+    },
+    "C|llama3.1-8b - B|busca-top3": {
+      "util_sim": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.1,
+          -0.075,
+          0.275
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.1,
+          -0.0811,
+          0.275
+        ],
+        "wilcoxon_p": 0.285,
+        "perguntas_melhoraram": 9,
+        "perguntas_pioraram": 5,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.0714,
+              -0.2143,
+              0.3571
+            ],
+            "wilcoxon_p": 0.6547
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.0833,
+              -0.125,
+              0.2917
+            ],
+            "wilcoxon_p": 0.4795
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.025,
+          -0.1,
+          0.15
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.025,
+          -0.1481,
+          0.14
+        ],
+        "wilcoxon_p": 0.7055,
+        "perguntas_melhoraram": 4,
+        "perguntas_pioraram": 3,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.0,
+              -0.2143,
+              0.2143
+            ],
+            "wilcoxon_p": 1.0
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.0,
+              -0.1667,
+              0.1667
+            ],
+            "wilcoxon_p": 1.0
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.5,
+              0.0,
+              1.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "inventou": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wilcoxon_p": 1.0,
+        "perguntas_melhoraram": 0,
+        "perguntas_pioraram": 0,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      }
+    },
+    "A|llama3.1-8b - B|busca-top3": {
+      "util_sim": {
+        "n": 40,
+        "dif_media_ic95": [
+          -0.2417,
+          -0.45,
+          -0.0333
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          -0.2417,
+          -0.4412,
+          -0.0625
+        ],
+        "wilcoxon_p": 0.0267,
+        "perguntas_melhoraram": 6,
+        "perguntas_pioraram": 15,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              -0.2143,
+              -0.5,
+              0.0714
+            ],
+            "wilcoxon_p": 0.1797
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              -0.2778,
+              -0.5694,
+              0.0139
+            ],
+            "wilcoxon_p": 0.0754
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "util_sim_ou_parcial": {
+        "n": 40,
+        "dif_media_ic95": [
+          -0.3167,
+          -0.5083,
+          -0.125
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          -0.3167,
+          -0.5769,
+          -0.1373
+        ],
+        "wilcoxon_p": 0.0012,
+        "perguntas_melhoraram": 4,
+        "perguntas_pioraram": 16,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              -0.4524,
+              -0.7143,
+              -0.1667
+            ],
+            "wilcoxon_p": 0.0104
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              -0.2639,
+              -0.5,
+              -0.0
+            ],
+            "wilcoxon_p": 0.0389
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      },
+      "inventou": {
+        "n": 40,
+        "dif_media_ic95": [
+          0.2917,
+          0.1667,
+          0.425
+        ],
+        "dif_ic95_agrupado_por_documento": [
+          0.2917,
+          0.172,
+          0.3964
+        ],
+        "wilcoxon_p": 0.0006,
+        "perguntas_melhoraram": 14,
+        "perguntas_pioraram": 0,
+        "por_categoria": {
+          "factual": {
+            "n": 14,
+            "dif_media_ic95": [
+              0.3333,
+              0.119,
+              0.5714
+            ],
+            "wilcoxon_p": 0.0231
+          },
+          "sintese": {
+            "n": 24,
+            "dif_media_ic95": [
+              0.2917,
+              0.125,
+              0.4722
+            ],
+            "wilcoxon_p": 0.0084
+          },
+          "fora_da_base": {
+            "n": 2,
+            "dif_media_ic95": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "wilcoxon_p": 1.0
+          }
+        }
+      }
+    }
+  },
+  "decisao": {
+    "llama3.1-8b": {
+      "candidatas": {
+        "A": {
+          "portao_a_abstencao_q39_q40": "6/6",
+          "portao_a_passa": true,
+          "portao_b_latencia_p95_s": 1.6,
+          "portao_b_passa": true,
+          "fidelidade": [
+            0.4544,
+            0.3201,
+            0.5847
+          ],
+          "concorre": true
+        },
+        "C": {
+          "portao_a_abstencao_q39_q40": "3/6",
+          "portao_a_passa": false,
+          "portao_b_latencia_p95_s": 16.3,
+          "portao_b_passa": true,
+          "fidelidade": [
+            0.7552,
+            0.6647,
+            0.8323
+          ],
+          "concorre": false
+        },
+        "B": {
+          "portao_a_passa": false,
+          "concorre": false,
+          "motivo": "B sempre devolve trechos: não tem como se abster (PREREG); entra como referência de utilidade"
+        }
+      },
+      "concorrem": [
+        "A"
+      ],
+      "vencedor": "A",
+      "motivo": "única condição que passou nos portões"
+    }
+  },
+  "hipoteses": {
+    "H1 (C mais sustentada que A)": "dif C - A na fidelidade = [0.3008, 0.1221, 0.4677]: confirmada",
+    "H2 (B menos útil que C), busca-top1": "dif C - B em útil = [0.325, 0.15, 0.5]: confirmada",
+    "H2 (B menos útil que C), busca-top3": "dif C - B em útil = [0.1, -0.075, 0.275]: sem diferença (IC passa pelo zero)",
+    "H3 (RAG não piora o Adaptador), métricas do grupo": "limite inferior do IC de completo - sem_rag acima do limiar? {'trcc': True, 'cmd_conjugado_resolvido': True, 'flesch_depois': True}: confirmada",
+    "H3, juiz: 'entrega a resposta' em completo - sem_rag": "[0.0, 0.0, 0.0]: o juiz não aponta mais entrega no completo",
+    "H4 (modelo maior não muda a decisão)": "não medido nesta entrega (só um modelo julgado)"
+  },
+  "D": {
+    "llama3.1-8b": {
+      "saidas_julgadas": 180,
+      "por_config": {
+        "completo": {
+          "saidas": 90,
+          "reserva": 75,
+          "util_contagem": {
+            "não": 39,
+            "sim": 39,
+            "parcial": 12
+          },
+          "util_sim": [
+            0.4333,
+            0.2667,
+            0.6
+          ],
+          "entrega_resposta": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mudou_o_que_avalia": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inventou": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nivel_respeitado": [
+            0.5333,
+            0.3333,
+            0.7
+          ]
+        },
+        "sem_rag": {
+          "saidas": 90,
+          "reserva": 75,
+          "util_contagem": {
+            "sim": 42,
+            "parcial": 9,
+            "não": 39
+          },
+          "util_sim": [
+            0.4667,
+            0.3,
+            0.6333
+          ],
+          "entrega_resposta": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mudou_o_que_avalia": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inventou": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nivel_respeitado": [
+            0.5667,
+            0.4,
+            0.7333
+          ]
+        }
+      },
+      "por_config_e_reserva": {
+        "completo|reserva": {
+          "saidas": 75,
+          "questoes": 25,
+          "util_sim": 0.44,
+          "entrega_resposta": 0.0,
+          "mudou_o_que_avalia": 0.0,
+          "inventou": 0.0,
+          "nivel_respeitado": 0.56
+        },
+        "completo|adaptador_passou": {
+          "saidas": 15,
+          "questoes": 5,
+          "util_sim": 0.4,
+          "entrega_resposta": 0.0,
+          "mudou_o_que_avalia": 0.0,
+          "inventou": 0.0,
+          "nivel_respeitado": 0.4
+        },
+        "sem_rag|reserva": {
+          "saidas": 75,
+          "questoes": 25,
+          "util_sim": 0.44,
+          "entrega_resposta": 0.0,
+          "mudou_o_que_avalia": 0.0,
+          "inventou": 0.0,
+          "nivel_respeitado": 0.52
+        },
+        "sem_rag|adaptador_passou": {
+          "saidas": 15,
+          "questoes": 5,
+          "util_sim": 0.6,
+          "entrega_resposta": 0.0,
+          "mudou_o_que_avalia": 0.0,
+          "inventou": 0.0,
+          "nivel_respeitado": 0.8
+        }
+      },
+      "pareado_completo_menos_sem_rag_todas": {
+        "util_sim": {
+          "n": 30,
+          "dif_media_ic95": [
+            -0.0333,
+            -0.1,
+            0.0
+          ],
+          "wilcoxon_p": 0.3173
+        },
+        "entrega_resposta": {
+          "n": 30,
+          "dif_media_ic95": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": 1.0
+        },
+        "mudou_o_que_avalia": {
+          "n": 30,
+          "dif_media_ic95": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": 1.0
+        },
+        "inventou": {
+          "n": 30,
+          "dif_media_ic95": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": 1.0
+        },
+        "nivel_respeitado": {
+          "n": 30,
+          "dif_media_ic95": [
+            -0.0333,
+            -0.1,
+            0.0
+          ],
+          "wilcoxon_p": 0.3173
+        }
+      },
+      "adaptador_passou_nas_duas": {
+        "pares_questao_rodada": 9,
+        "questoes": [
+          "Q12",
+          "Q20",
+          "Q25"
+        ],
+        "por_rodada": {
+          "1": 3,
+          "2": 3,
+          "3": 3
+        },
+        "completo": {
+          "util_sim": 0.3333,
+          "entrega_resposta": 0.0,
+          "mudou_o_que_avalia": 0.0,
+          "inventou": 0.0,
+          "nivel_respeitado": 0.3333
+        },
+        "sem_rag": {
+          "util_sim": 0.3333,
+          "entrega_resposta": 0.0,
+          "mudou_o_que_avalia": 0.0,
+          "inventou": 0.0,
+          "nivel_respeitado": 0.6667
+        },
+        "aviso": "poucas questões: não sustenta conclusão"
+      }
+    }
+  }
+}

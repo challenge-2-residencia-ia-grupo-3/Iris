@@ -1,0 +1,110 @@
+{
+  "20 candidatos | escore do 1º trecho": {
+    "n_com": 38,
+    "n_sem": 27,
+    "auc_ic95": [
+      0.911,
+      0.833,
+      0.973
+    ],
+    "corte_youden": 1.51,
+    "com_resposta_acima_do_corte": 32,
+    "sem_resposta_abaixo_do_corte": 26,
+    "sem_resposta_acima_do_corte": [
+      "Q39"
+    ],
+    "com_resposta_abaixo_do_corte": [
+      "Q01",
+      "Q02",
+      "Q04",
+      "Q05",
+      "Q06",
+      "Q07"
+    ],
+    "mediana_com": 4.86,
+    "mediana_sem": -1.24,
+    "fora_da_amostra_com_resposta_liberadas": 31,
+    "fora_da_amostra_sem_resposta_barradas": 25
+  },
+  "20 candidatos | média dos 3 primeiros": {
+    "n_com": 38,
+    "n_sem": 27,
+    "auc_ic95": [
+      0.905,
+      0.826,
+      0.972
+    ],
+    "corte_youden": 0.86,
+    "com_resposta_acima_do_corte": 32,
+    "sem_resposta_abaixo_do_corte": 26,
+    "sem_resposta_acima_do_corte": [
+      "Q39"
+    ],
+    "com_resposta_abaixo_do_corte": [
+      "Q01",
+      "Q02",
+      "Q04",
+      "Q05",
+      "Q06",
+      "Q07"
+    ],
+    "mediana_com": 3.8,
+    "mediana_sem": -2.27,
+    "fora_da_amostra_com_resposta_liberadas": 31,
+    "fora_da_amostra_sem_resposta_barradas": 25
+  },
+  "50 candidatos | escore do 1º trecho": {
+    "n_com": 38,
+    "n_sem": 27,
+    "auc_ic95": [
+      0.919,
+      0.844,
+      0.98
+    ],
+    "corte_youden": 1.51,
+    "com_resposta_acima_do_corte": 32,
+    "sem_resposta_abaixo_do_corte": 26,
+    "sem_resposta_acima_do_corte": [
+      "Q39"
+    ],
+    "com_resposta_abaixo_do_corte": [
+      "Q01",
+      "Q02",
+      "Q04",
+      "Q05",
+      "Q06",
+      "Q07"
+    ],
+    "mediana_com": 4.94,
+    "mediana_sem": -0.82,
+    "fora_da_amostra_com_resposta_liberadas": 31,
+    "fora_da_amostra_sem_resposta_barradas": 24
+  },
+  "50 candidatos | média dos 3 primeiros": {
+    "n_com": 38,
+    "n_sem": 27,
+    "auc_ic95": [
+      0.915,
+      0.835,
+      0.978
+    ],
+    "corte_youden": 0.1,
+    "com_resposta_acima_do_corte": 34,
+    "sem_resposta_abaixo_do_corte": 24,
+    "sem_resposta_acima_do_corte": [
+      "N05",
+      "N07",
+      "Q39"
+    ],
+    "com_resposta_abaixo_do_corte": [
+      "Q01",
+      "Q04",
+      "Q05",
+      "Q06"
+    ],
+    "mediana_com": 4.14,
+    "mediana_sem": -1.57,
+    "fora_da_amostra_com_resposta_liberadas": 31,
+    "fora_da_amostra_sem_resposta_barradas": 24
+  }
+}

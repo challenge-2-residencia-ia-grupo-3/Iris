@@ -1,0 +1,26 @@
+ESTABILIDADE DO JUIZ: primeiro julgamento x rejulgamento (lotes 01 e 03)
+
+resp-lote-01 (40 respostas)
+    frase_sustentada   iguais 97/99 = 0.98  kappa 0.95
+    util               iguais 39/40 = 0.975  kappa 0.96
+    inventou           iguais 39/40 = 0.975  kappa 0.935
+    absteve            iguais 40/40 = 1.0  kappa 1.0
+resp-lote-03 (40 respostas)
+    frase_sustentada   iguais 92/97 = 0.948  kappa 0.89
+    util               iguais 31/40 = 0.775  kappa 0.648
+    inventou           iguais 39/40 = 0.975  kappa 0.844
+    absteve            iguais 40/40 = 1.0  kappa 1.0
+
+Os dois lotes juntos
+    frase_sustentada   iguais 189/196 = 0.964  kappa 0.928
+    util               iguais 70/80 = 0.875  kappa 0.806
+    inventou           iguais 78/80 = 0.975  kappa 0.914
+    absteve            iguais 80/80 = 1.0  kappa 1.0
+
+Fidelidade por resposta (só respostas com frases): {'n': 49, 'media_primeiro': 0.4544, 'media_rejulgamento': 0.4571, 'dif_media_absoluta': 0.0381, 'respostas_com_fidelidade_igual': 43}
+
+útil: primeiro julgamento (linha) x rejulgamento (coluna)
+                 sim   parcial       não
+    sim           24         8         0
+    parcial        0        30         1
+    não            0         1        16
