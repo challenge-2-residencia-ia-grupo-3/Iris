@@ -27,6 +27,7 @@ import importlib.util
 import json
 import operator
 import os
+import tempfile
 import re
 import time
 from dataclasses import dataclass, field
@@ -38,7 +39,7 @@ from typing import Annotated, Any, Callable, Optional, TypedDict
 AQUI = Path(__file__).resolve().parent
 IRIS_RAG = AQUI.parent.parent
 SAIDA_PADRAO = IRIS_RAG / "pacote" / "outputs" / "39-langgraph.json"
-MONTADO = Path(os.environ.get("IRIS_MONTADO") or (Path(__file__).resolve().parent / ".montado"))  # cópia montada pelo montar_codigo.py
+MONTADO = Path(os.environ.get("IRIS_MONTADO") or (Path(tempfile.gettempdir()) / "iris-montado-langgraph"))  # cópia montada pelo montar_codigo.py
 
 # Limite de voltas do Auditor ao Adaptador: o grupo decidiu max_retries = 2 (docs/arquitetura.md, ADR-06).
 # Duas voltas = até três tentativas do Adaptador, o mesmo que MAX_TENTATIVAS_PADRAO = 3 do auditor.py (PR #74).

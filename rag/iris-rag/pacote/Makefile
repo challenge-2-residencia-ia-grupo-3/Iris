@@ -122,8 +122,13 @@ langgraph:  ## protótipo da arquitetura de agentes em LangGraph (laço do Audit
 
 # o que roda no repositorio do grupo sem dados privados: o pipeline inteiro com provedor eco (sem modelo),
 # ataques ao filtro de dados pessoais, prova fixa, orcamento, producao, mapa e etapas
-verificar: precisa-chunks rastro-pipeline adversarial ablacao mapa etapas avaliacao ataque orcamento-so producao portoes html  ## roda as verificacoes sem modelo e gera o painel
+verificar: precisa-chunks rastro-pipeline adversarial ablacao mapa etapas avaliacao ataque orcamento-so producao portoes opcionais html  ## roda as verificacoes sem modelo e gera o painel
 	@echo "painel em reports/bancada.html (ou: make painel)"
+
+# abas que dependem de ferramenta externa: se faltar, avisa e segue (não derruba as outras verificações)
+opcionais:
+	@-$(MAKE) --no-print-directory github || echo "aviso: PRs e issues ficaram de fora (precisa do GitHub CLI logado: gh auth login)"
+	@-$(MAKE) --no-print-directory langgraph || echo "aviso: a aba Arquitetura com LangGraph ficou de fora (rode make setup de novo)"
 
 precisa-chunks:
 	@test -f chunks.jsonl || { echo "falta rag/iris-rag/pacote/chunks.jsonl: rode  make setup  na raiz do repositório (monta a base de trechos)"; exit 1; }

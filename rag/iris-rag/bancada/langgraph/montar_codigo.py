@@ -25,12 +25,13 @@ import subprocess
 import sys
 import tarfile
 import os
+import tempfile
 from pathlib import Path
 
 sys.dont_write_bytecode = True
 
 GRUPO = Path(os.environ.get("GRUPO", "../Iris")).expanduser()  # clone do repositório do grupo; passe GRUPO=caminho
-DESTINO_PADRAO = Path(os.environ.get("IRIS_MONTADO") or (Path(__file__).resolve().parent / ".montado"))
+DESTINO_PADRAO = Path(os.environ.get("IRIS_MONTADO") or (Path(tempfile.gettempdir()) / "iris-montado-langgraph"))
 
 # (ref do PR, rótulo, arquivos que entram)
 SOBREPOSICOES = [
@@ -71,6 +72,14 @@ def montar(destino: Path = DESTINO_PADRAO) -> dict:
 
     montagem = {"dev": dev, "sobreposto": [], "limitacoes": [], "deixados_de_fora": []}
     for ref, rotulo, arquivos in SOBREPOSICOES:
+        num = ref.rsplit("/", 1)[-1]
+        if subprocess.run(["git", "-C", str(GRUPO), "rev-parse", "--verify", "-q", ref], capture_output=True).returncode != 0:
+            # clone comum não tem as refs dos PRs: busca só leitura (git fetch não muda nenhuma branch sua)
+            subprocess.run(["git", "-C", str(GRUPO), "fetch", "-q", "origin", f"pull/{num}/head:refs/remotes/origin/pr/{num}"],
+                           capture_output=True, timeout=120)
+        if subprocess.run(["git", "-C", str(GRUPO), "rev-parse", "--verify", "-q", ref], capture_output=True).returncode != 0:
+            montagem["limitacoes"].append(f"{rotulo}: não consegui buscar {ref} (PR fechado ou sem rede); ficou o dev")
+            continue
         sha = git("rev-parse", "--short=7", ref)
         base = git("merge-base", "origin/dev", ref)[:7]
         for arq in arquivos:

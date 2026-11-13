@@ -58,5 +58,8 @@ Os dados de teste são sintéticos: CPF com dígito verificador errado, DDD 00, 
 |---|---|
 | `No module named ...` | Rode `make setup` na raiz: o `.venv` do projeto já traz tudo (pydantic, pymupdf, python-docx, rank-bm25). |
 | `falta chunks.jsonl` | `make setup` monta a base de trechos. |
+| aba **PRs e issues** vazia | Precisa do GitHub CLI logado (só leitura): `brew install gh` (Mac) ou `winget install GitHub.cli` (Windows), depois `gh auth login` e `make qualidade` de novo. |
+| aba **Arquitetura com LangGraph** vazia | Rode `make setup` (instala o `langgraph`) e `make qualidade` de novo. A primeira vez busca os PRs #74, #80 e #81 do GitHub (só leitura). |
+| **Commits e portões** sem quadradinhos verdes | Normal na sua máquina: o veredito por commit vem de uma verificação automática que roda num servidor. O resultado do seu código está na Visão geral e nas abas de Qualidade. |
 | porta 8777 ocupada | `make qualidade-painel PORTA=8778` |
 | demora demais | Rode uma verificação por vez pelo painel; `ataque` e `ablacao` são as mais longas. |
