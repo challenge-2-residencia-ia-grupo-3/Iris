@@ -565,6 +565,13 @@ def _handle_rag_escolar_baseline(body: dict[str, Any]) -> dict[str, Any]:
     return definir_linha_de_base(run_id or None)
 
 
+def _handle_rag_escolar_repetir(body: dict[str, Any]) -> dict[str, Any]:
+    """Roda de novo uma rodada registrada (sem gravar) e conta em quantas questões deu igual."""
+    from iris.eval.rag_escolar_benchmark import repetir_rodada_rag_escolar
+
+    return repetir_rodada_rag_escolar(str(body.get("run_id") or "").strip() or None)
+
+
 def _handle_rag_escolar_recusa_run(body: dict[str, Any]) -> dict[str, Any]:
     """Roda o teste de recusa: perguntas que a base não responde, contando em quantas o RAG recusou."""
     from iris.eval.rag_escolar_benchmark import executar_teste_de_recusa
@@ -747,6 +754,17 @@ def create_app() -> Any:
 
         try:
             return _handle_rag_escolar_baseline(payload)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/rag-escolar/repetir", tags=["eval"])
+    def repetir_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:
+        from fastapi import HTTPException
+
+        try:
+            return _handle_rag_escolar_repetir(payload)
         except KeyError as exc:
             raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
         except ValueError as exc:
@@ -1025,6 +1043,13 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/run":
                 try:
                     self._send_json(_handle_rag_escolar_run(body))
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/repetir":
+                try:
+                    self._send_json(_handle_rag_escolar_repetir(body))
+                except KeyError as err:
+                    self._send_json({"detail": str(err.args[0])}, status=404)
                 except ValueError as err:
                     self._send_json({"detail": str(err)}, status=422)
             elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/recusa":

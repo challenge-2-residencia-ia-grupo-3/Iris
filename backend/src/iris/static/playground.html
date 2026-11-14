@@ -463,6 +463,20 @@
     .ledger-group .notice code,
     .context-box code { overflow-wrap: anywhere; }
     .btn-compact { padding: 0.34rem 0.7rem; font-size: 0.78rem; }
+    .screen-question {
+      margin: 0 0 1rem;
+      padding: 0.6rem 0.85rem;
+      border-left: 3px solid var(--teal);
+      background: var(--teal-soft);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      overflow-wrap: anywhere;
+    }
+    .screen-question strong { color: var(--ink); }
+    .screen-question .screen-origin { display: block; margin-top: 0.2rem; color: var(--muted); }
+    .chain-note { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
     .refusal-summary {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1021,6 +1035,7 @@
   <main>
     <!-- ABA 1: AUDITORIA DO BENCHMARK -->
     <section id="tab-benchmark" class="tab-panel active">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> O pipeline registrado acha os trechos certos e sustenta o que escreve?<span class="screen-origin"><strong>De onde vem o número:</strong> perguntas do gabarito de referência (<code>gabarito_rascunho_v0.json</code>) e respostas já gravadas de Haiku e Opus. O gabarito é rascunho: os números valem para comparar configurações, não como nota final.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1100,6 +1115,7 @@
 
     <!-- ABA 2: BENCHMARK ESCOLAR (136 QUESTÕES POR CONTEXTO) -->
     <section id="tab-escolar" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> As 136 questões escolares recebem evidência e resposta fundamentada, e em que recorte o resultado é pior?<span class="screen-origin"><strong>De onde vem o número:</strong> bateria rodada aqui, com a busca e o gerador escolhidos abaixo. Cada rodada guarda o commit e o hash da prova; as questões não têm gabarito de trechos, então a tela não mede se a busca trouxe o trecho certo.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1243,6 +1259,7 @@
 
     <!-- ABA 2: CATÁLOGO DE CARACTERÍSTICAS TDAH -->
     <section id="tab-catalogo" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> Para esta característica e este nível de andaime, que diretriz e que fontes o professor recebe?<span class="screen-origin"><strong>De onde vem o número:</strong> catálogo de características e busca filtrada pela barreira associada. Esta tela mostra o que é entregue; não há nota de qualidade aqui.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1293,6 +1310,7 @@
 
     <!-- ABA 3: CONSULTA AO VIVO -->
     <section id="tab-aovivo" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> Para uma pergunta digitada agora, o que a base devolve e a resposta cita o que afirma?<span class="screen-origin"><strong>De onde vem o número:</strong> busca e geração feitas na hora. A conferência de citações é mecânica (conta os <code>[Tn]</code>); ela não diz se o conteúdo está certo.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1343,6 +1361,7 @@
 
     <!-- ABA 4: FERRAMENTAS DA API -->
     <section id="tab-ferramentas" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> O texto sai sem dados pessoais antes de ir a um modelo, e o material é decomposto nas partes certas?<span class="screen-origin"><strong>De onde vem o número:</strong> chamadas ao vivo às rotas de materiais, com o texto que você colar; esse resultado vale para o texto colado, não é taxa medida num conjunto. A telemetria do Extrator, mais abaixo, vem das execuções já registradas no servidor.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -2470,6 +2489,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       return `IC95 ${formatar(Number(ic[0]))} a ${formatar(Number(ic[1]))}`;
     }
 
+    // Barra de proporção usada nas tabelas de indicadores (0 a 100).
+    function barraProporcao(pct, cls) {
+      const w = Math.max(0, Math.min(100, Number(pct || 0)));
+      const cor = cls === 'score-ok' ? 'var(--moss)' : (cls === 'score-warn' ? 'var(--ochre)' : (cls === 'score-neutral' ? 'var(--hairline-strong)' : 'var(--vermilion)'));
+      return `<span class="bar-track"><span class="bar-fill" style="width:${w}%;background:${cor};"></span></span>`;
+    }
+
     function renderLedgerIndicadoresEscolar(r, opts = {}) {
       if (!r) return '';
       const rnf = opts.rnf07 || null;
@@ -2487,11 +2513,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       const invalidas = Number(r.citacoes_invalidas_total ?? 0);
       const abstencao = r.taxa_abstencao_pct !== null && r.taxa_abstencao_pct !== undefined ? Number(r.taxa_abstencao_pct) : null;
 
-      const bar = (pct, cls) => {
-        const w = Math.max(0, Math.min(100, Number(pct || 0)));
-        const cor = cls === 'score-ok' ? 'var(--moss)' : (cls === 'score-warn' ? 'var(--ochre)' : (cls === 'score-neutral' ? 'var(--hairline-strong)' : 'var(--vermilion)'));
-        return `<span class="bar-track"><span class="bar-fill" style="width:${w}%;background:${cor};"></span></span>`;
-      };
+      const bar = barraProporcao;
 
       const linhas = [
         {
@@ -2737,6 +2759,113 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       }
     }
 
+    const NOME_ELO = { busca: 'Busca', abstencao: 'Abstenção', citacao: 'Citação', fidelidade: 'Fidelidade' };
+
+    // Em que elo da corrente (busca, abstenção, citação, fidelidade) cada questão parou primeiro.
+    function renderElosEscolar(e) {
+      if (!e) return '';
+      const semMedida = new Set(e.elos_sem_medida || []);
+      const linhas = (e.ordem || []).map((k, idx) => {
+        const x = e.por_elo[k] || {};
+        const medido = !semMedida.has(k);
+        const parou = Number(x.parou_aqui || 0);
+        const estado = k === 'busca' && !medido
+          ? 'sem gabarito de trechos'
+          : (medido ? `medido em ${x.medido_em} de ${e.total}` : 'sem medida nesta rodada');
+        return `
+          <tr>
+            <td style="white-space:nowrap;"><strong>${idx + 1}. ${escapeHtml(NOME_ELO[k] || k)}</strong></td>
+            <td class="num ${parou > 0 ? 'score-danger' : ''}">${parou}<span class="ledger-ic">${escapeHtml(estado)}</span></td>
+            <td>${medido || parou > 0 ? barraProporcao(Number(x.pct_parou_aqui || 0), parou > 0 ? 'score-danger' : 'score-ok') : '<span class="tag">sem medida</span>'}</td>
+            <td style="color:var(--muted); min-width:200px;">${escapeHtml(x.pergunta || '')}</td>
+            <td style="color:var(--muted); min-width:220px;">${escapeHtml(x.medida || '')}</td>
+          </tr>`;
+      }).join('');
+      return `
+        <div class="ledger-group">
+          <div class="ledger-heading">
+            <span>Em que elo cada questão parou</span>
+            <span class="ledger-scale">${escapeHtml(e.total)} questões</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Elo</th><th class="num">Pararam aqui</th><th>Proporção</th><th>Pergunta que responde</th><th>Como é medido</th></tr></thead>
+              <tbody>
+                ${linhas}
+                <tr>
+                  <td><strong>Nenhuma quebra medida</strong></td>
+                  <td class="num">${escapeHtml(e.sem_quebra_medida)}</td>
+                  <td>${barraProporcao(Number(e.pct_sem_quebra_medida || 0), 'score-neutral')}</td>
+                  <td colspan="2" style="color:var(--muted);">nenhum dos elos medidos nesta rodada quebrou</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="chain-note">Como ler: cada questão conta uma vez, no primeiro elo que quebrou, na ordem da tabela. "Nenhuma quebra medida" não é o mesmo que "certa": só vale para os elos que esta rodada conseguiu medir${semMedida.size ? ` (sem medida: ${[...semMedida].map(k => (NOME_ELO[k] || k).toLowerCase()).join(' e ')})` : ''}. Busca, abstenção e citação são contadas por código; só a fidelidade depende de um modelo juiz.</p>
+        </div>`;
+    }
+
+    function renderRepeticaoEscolar(info) {
+      const runId = escapeHtml(info.run_id || '');
+      const pago = info.gerar_resposta ? ' Com gerador ou juiz pago, custa outra rodada inteira.' : '';
+      return `
+        <div class="ledger-group">
+          <div class="baseline-head">
+            <div class="ledger-heading"><span>Rodar de novo e conferir que dá igual</span></div>
+            <div class="btn-row"><button type="button" id="btn-esc-repetir" class="btn btn-secondary btn-compact" onclick="repetirRodadaEscolar('${runId}')">Repetir esta rodada</button></div>
+          </div>
+          <div id="esc-repetir-box"><div class="notice notice-info">Antes de confiar numa diferença pequena entre duas rodadas, vale saber se a mesma rodada, repetida, dá o mesmo resultado.</div></div>
+          <p class="baseline-rule">Repete a bateria com a mesma configuração e os mesmos filtros, sem gravar, e compara questão a questão: os trechos devolvidos (mesmos, na mesma ordem), o texto da resposta e a decisão de se abster. A latência fica de fora.${pago}</p>
+        </div>`;
+    }
+
+    function renderResultadoRepeticaoEscolar(r) {
+      const n = r.comparadas;
+      const linhas = [`<li>Trechos devolvidos: iguais em <strong>${escapeHtml(r.trechos_identicos)}</strong> de ${escapeHtml(n)} questões.</li>`];
+      if (r.com_geracao) {
+        linhas.push(`<li>Texto da resposta: igual em <strong>${escapeHtml(r.respostas_identicas)}</strong> de ${escapeHtml(n)}.</li>`);
+        linhas.push(`<li>Decisão de se abster: igual em <strong>${escapeHtml(r.abstencao_igual)}</strong> de ${escapeHtml(n)}.</li>`);
+        const d = r.diferenca_fidelidade;
+        if (d) {
+          linhas.push(`<li>Fidelidade, repetição menos referência: ${Number(d.media).toFixed(3)}${Array.isArray(d.ic95) ? ` (IC95 ${Number(d.ic95[0]).toFixed(3)} a ${Number(d.ic95[1]).toFixed(3)})` : ''}, em ${escapeHtml(d.n)} questões.</li>`);
+        }
+      }
+      const avisos = [];
+      if (!r.mesmas_questoes) avisos.push(`a repetição teve ${escapeHtml(r.total_repeticao)} questões e a referência ${escapeHtml(r.total_referencia)}`);
+      if (!r.mesma_prova) avisos.push('o arquivo da prova mudou desde a rodada de referência (ou ela não tinha hash)');
+      if (!r.mesma_base) avisos.push('a base de trechos mudou desde a rodada de referência (ou ela não tinha hash)');
+      if (!r.mesmo_commit) avisos.push('o código não é comprovadamente o mesmo (commit diferente ou alterações locais)');
+      const div = (r.divergentes || []).map(x => `<code>${escapeHtml(x.id)}</code> (${escapeHtml(x.mudou.join(', '))})`).join(', ');
+      const veredito = r.repete
+        ? '<div class="notice notice-ok">Repetiu: a mesma rodada, rodada de novo, deu o mesmo resultado.</div>'
+        : (r.busca_repete
+          ? '<div class="notice notice-warn">A busca repetiu, a geração não. Com modelo de linguagem isso é esperado; diferença entre rodadas menor que a diferença abaixo não quer dizer nada.</div>'
+          : '<div class="notice notice-danger">A busca não repetiu: a mesma pergunta recebeu trechos diferentes. Nenhuma comparação entre rodadas é confiável até isso ser explicado.</div>');
+      return `
+        ${veredito}
+        <ul class="baseline-reasons" style="font-size:0.84rem; margin-top:0.55rem;">${linhas.join('')}</ul>
+        ${div ? `<p class="baseline-rule">Mudaram${r.divergentes_total > r.divergentes.length ? ` (${r.divergentes.length} de ${escapeHtml(r.divergentes_total)})` : ''}: ${div}</p>` : ''}
+        ${avisos.length ? `<p class="baseline-rule">Ressalva: ${avisos.join('; ')}.</p>` : ''}
+        <p class="baseline-rule">Referência <code>${escapeHtml(r.run_id_referencia)}</code>; repetição em ${escapeHtml(r.duracao_s ?? '-')} s, não gravada.</p>`;
+    }
+
+    async function repetirRodadaEscolar(runId) {
+      const box = document.getElementById('esc-repetir-box');
+      setLoading('btn-esc-repetir', true, 'Repetindo a rodada...');
+      try {
+        const r = await fetchJson('/api/v1/eval/rag-escolar/repetir', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ run_id: runId || null })
+        });
+        setLoading('btn-esc-repetir', false);
+        box.innerHTML = renderResultadoRepeticaoEscolar(r);
+      } catch (err) {
+        setLoading('btn-esc-repetir', false);
+        box.innerHTML = `<div class="notice notice-danger">A repetição não rodou (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
     function textoIcSimples(ic) {
       if (!Array.isArray(ic) || ic.length !== 2) return 'sem intervalo';
       return `IC95 ${Number(ic[0]).toFixed(1)}% a ${Number(ic[1]).toFixed(1)}%`;
@@ -2898,7 +3027,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             ${renderLedgerIndicadoresEscolar(r, { aoVivo: false, rnf07: an.rnf07 })}
           </div>
         </div>
+        <div style="margin-bottom:1.25rem;">${renderElosEscolar(an.elos)}</div>
         <div style="margin-bottom:1.25rem;">${renderLinhaDeBaseEscolar(an)}</div>
+        <div style="margin-bottom:1.25rem;">${renderRepeticaoEscolar(info)}</div>
         ${renderTabelaSegmentadaUnificadaEscolar(an)}
       `;
     }
@@ -2980,6 +3111,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             ${fid !== null ? `<span class="tag ${fid >= 0.8 ? 'tag-ok' : 'tag-warn'}">Fidelidade: ${fid.toFixed(2)}</span>` : ''}
             ${rel !== null ? `<span class="tag ${rel >= 0.7 ? 'tag-ok' : 'tag-warn'}">Relevância: ${rel.toFixed(2)}</span>` : ''}
             ${hit.absteve ? '<span class="tag tag-warn">Absteve nesta questão</span>' : ''}
+            ${hit.estados ? (hit.primeiro_elo_quebrado ? `<span class="tag tag-danger">Parou no elo: ${escapeHtml((NOME_ELO[hit.primeiro_elo_quebrado] || hit.primeiro_elo_quebrado).toLowerCase())}</span>` : '<span class="tag">Nenhuma quebra medida</span>') : ''}
           </div>
           ${hit.resposta ? `<div class="answer-sheet" style="margin-top:0.75rem;"><div class="answer-sheet-head"><span class="answer-sheet-title">Resposta registrada na rodada</span></div><div class="answer-prose"><p>${escapeHtml(hit.resposta)}</p></div></div>` : ''}
           ${titulos.length ? `<div style="margin-top:0.65rem; font-size:0.82rem;"><strong>Top-3 fontes recuperadas:</strong><ul style="margin:0.35rem 0 0 1.1rem;">${titulos.map((t, idx) => `<li>${escapeHtml(t)} <code style="font-size:0.75rem;color:var(--muted);">${escapeHtml(chunks[idx] || '')}</code></li>`).join('')}</ul></div>` : ''}

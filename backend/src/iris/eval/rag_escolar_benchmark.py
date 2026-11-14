@@ -1065,6 +1065,89 @@ def executar_teste_de_recusa(
     }
 
 
+ORDEM_ELOS = ("busca", "abstencao", "citacao", "fidelidade")
+DESCRICAO_ELOS = {
+    "busca": {
+        "pergunta": "A busca devolveu algum trecho?",
+        "medida": "contagem de trechos; a prova não tem gabarito de trechos, então não dá para dizer se eram os certos",
+    },
+    "abstencao": {
+        "pergunta": "Com trechos em mãos, o sistema respondeu?",
+        "medida": "frase fixa de recusa detectada pelo código; toda questão da prova deveria ter resposta",
+    },
+    "citacao": {
+        "pergunta": "Cada frase diz de que trecho saiu, e o trecho existe?",
+        "medida": "contagem de frases sem [Tn] e de [Tn] que apontam para trecho não entregue",
+    },
+    "fidelidade": {
+        "pergunta": "O que foi escrito está no trecho citado?",
+        "medida": "juiz Claude Sonnet, frase a frase; quebra com uma frase não apoiada ou rejeitada. Sem juiz, não há medida",
+    },
+}
+
+
+def classificar_elos(item: dict[str, Any]) -> dict[str, Any]:
+    """Diz em que elo da corrente (busca, abstenção, citação, fidelidade) uma questão quebrou primeiro.
+
+    Estados: `ok`, `quebrou`, `sem_gabarito` (a busca voltou com trechos, mas não há gabarito para conferir),
+    `sem_medida` (falta geração ou juiz) e `nao_se_aplica` (o sistema se absteve, então não há frase a conferir).
+    Só o elo da fidelidade depende de modelo; os outros três são contados por código.
+    """
+    n_trechos = int(item.get("n_trechos") or 0)
+    tem_geracao = bool(item.get("llm")) or item.get("resposta") is not None
+    absteve = bool(item.get("absteve"))
+
+    estados: dict[str, str] = {"busca": "quebrou" if n_trechos == 0 else "sem_gabarito"}
+    if not tem_geracao:
+        estados.update({"abstencao": "sem_medida", "citacao": "sem_medida", "fidelidade": "sem_medida"})
+    elif absteve:
+        # Abster-se sem trecho nenhum é coerente: o elo quebrado é a busca.
+        estados["abstencao"] = "ok" if n_trechos == 0 else "quebrou"
+        estados.update({"citacao": "nao_se_aplica", "fidelidade": "nao_se_aplica"})
+    else:
+        estados["abstencao"] = "ok"
+        sem_citacao = int(item.get("frases_sem_citacao") or 0)
+        invalidas = int(item.get("citacoes_invalidas") or 0)
+        estados["citacao"] = "quebrou" if (sem_citacao > 0 or invalidas > 0) else "ok"
+        julgado = item.get("avaliador_fidelidade") == "claude_sonnet" and int(item.get("frases_total") or 0) > 0
+        if julgado:
+            ruins = int(item.get("frases_nao_apoiadas") or 0) + int(item.get("frases_rejeitadas") or 0)
+            estados["fidelidade"] = "quebrou" if ruins > 0 else "ok"
+        else:
+            estados["fidelidade"] = "sem_medida"
+
+    primeiro = next((e for e in ORDEM_ELOS if estados[e] == "quebrou"), None)
+    return {"estados": estados, "primeiro_elo_quebrado": primeiro}
+
+
+def resumir_elos(itens: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Conta, por elo, quantas questões pararam ali primeiro e em quantas o elo pôde ser medido."""
+    if not itens:
+        return None
+    classificados = [classificar_elos(r) for r in itens]
+    total = len(classificados)
+    por_elo: dict[str, dict[str, Any]] = {}
+    for elo in ORDEM_ELOS:
+        parou = sum(1 for c in classificados if c["primeiro_elo_quebrado"] == elo)
+        medido = sum(1 for c in classificados if c["estados"][elo] in {"ok", "quebrou"})
+        por_elo[elo] = {
+            **DESCRICAO_ELOS[elo],
+            "parou_aqui": parou,
+            "pct_parou_aqui": round((parou / total) * 100.0, 1),
+            "medido_em": medido,
+            "quebrou": sum(1 for c in classificados if c["estados"][elo] == "quebrou"),
+        }
+    sem_quebra = sum(1 for c in classificados if c["primeiro_elo_quebrado"] is None)
+    return {
+        "total": total,
+        "ordem": list(ORDEM_ELOS),
+        "por_elo": por_elo,
+        "sem_quebra_medida": sem_quebra,
+        "pct_sem_quebra_medida": round((sem_quebra / total) * 100.0, 1),
+        "elos_sem_medida": [e for e in ORDEM_ELOS if por_elo[e]["medido_em"] == 0],
+    }
+
+
 def _compactar_registro_item(avaliacao: dict[str, Any]) -> dict[str, Any]:
     """Extrai o registro plano persistido em JSONL para analytics rápido sem inflar disco."""
     q = avaliacao["questao"]
@@ -1262,6 +1345,7 @@ def resumir_analytics_rag_escolar(
             "metricas_por_construcao": METRICAS_POR_CONSTRUCAO,
             "rnf07": None,
             "modelos": None,
+            "elos": None,
             "resumo_geral": _resumir_grupo_itens([], com_ic=True),
             "por_faixa_etaria": {},
             "por_ano_escolar": {},
@@ -1284,6 +1368,7 @@ def resumir_analytics_rag_escolar(
         and _bate_igual(item.get("porte_texto"), porte_texto)
     ]
 
+    itens = [{**item, **classificar_elos(item)} for item in itens]
     run_info = {k: v for k, v in rodada.items() if k != "itens"}
     return {
         "tem_rodada": True,
@@ -1292,6 +1377,7 @@ def resumir_analytics_rag_escolar(
         "metricas_por_construcao": METRICAS_POR_CONSTRUCAO,
         "rnf07": resumir_rnf07(itens, rodada.get("nivel")),
         "modelos": resumir_modelos(itens),
+        "elos": resumir_elos(itens),
         "resumo_geral": _resumir_grupo_itens(itens, com_ic=True),
         "por_faixa_etaria": _agrupar_por_dimensao(itens, "faixa_etaria"),
         "por_ano_escolar": _agrupar_por_dimensao(itens, "ano_escolar"),
@@ -1379,6 +1465,7 @@ def executar_benchmark_rag_escolar(
     salvar: bool = True,
     progresso: Callable[[str], None] | None = None,
     on_step: Callable[[dict[str, Any]], None] | None = None,
+    registrar_log: bool = True,
 ) -> dict[str, Any]:
     """Executa o benchmark do RAG sobre as questões escolares filtradas e salva a rodada."""
     t0 = time.perf_counter()
@@ -1408,6 +1495,8 @@ def executar_benchmark_rag_escolar(
             progresso(msg_fmt)
         else:
             print(msg_fmt, flush=True)
+        if not registrar_log:
+            return  # repetição de conferência: não escreve no registro de progresso da bateria
         try:
             PROGRESSO_RAG_ESCOLAR_LOG.parent.mkdir(parents=True, exist_ok=True)
             with PROGRESSO_RAG_ESCOLAR_LOG.open("a", encoding="utf-8") as fh:
@@ -1536,6 +1625,132 @@ def executar_benchmark_rag_escolar(
             run_id=rodada["run_id"], caminho_runs=caminho_runs, caminho_base=caminho_base
         )
     return resumir_analytics_rag_escolar(rodada)
+
+
+CAMPOS_FILTRO_RODADA = (
+    "disciplina",
+    "ano_escolar",
+    "faixa_etaria",
+    "id_caracteristica_alvo",
+    "operacao_cognitiva",
+    "porte_texto",
+    "apenas_oficiais",
+    "limite",
+)
+MAX_DIVERGENTES_LISTADOS = 20
+
+
+def repetir_rodada_rag_escolar(
+    run_id: str | None = None,
+    *,
+    caminho_runs: str | Path | None = None,
+    caminho_dataset: str | Path | None = None,
+) -> dict[str, Any]:
+    """Roda de novo uma rodada registrada, com a mesma configuração, e conta em quantas questões deu igual.
+
+    A repetição não é gravada. Compara, questão a questão: os trechos devolvidos (mesmos ids na mesma ordem),
+    o texto da resposta e a decisão de se abster. Latência fica de fora, porque varia com a máquina.
+    Com gerador que sorteia (modelo de linguagem), a resposta pode mudar sem que isso seja defeito; por isso
+    a busca e a geração têm contagens separadas e a diferença de fidelidade vem com intervalo.
+    """
+    rodadas = carregar_rodadas_rag_escolar(caminho_runs)
+    if not rodadas:
+        raise ValueError("Nenhuma rodada registrada: não há o que repetir.")
+    if run_id:
+        ref = next((r for r in rodadas if r.get("run_id") == run_id), None)
+        if ref is None:
+            raise KeyError(f"Rodada não encontrada: {run_id}")
+    else:
+        ref = rodadas[-1]
+
+    filtros = {c: (ref.get("filtros_execucao") or {}).get(c) for c in CAMPOS_FILTRO_RODADA}
+    filtros["apenas_oficiais"] = bool(filtros.get("apenas_oficiais"))
+    nova = executar_benchmark_rag_escolar(
+        metodo=ref.get("metodo_solicitado") or ref.get("metodo_efetivo"),
+        nivel=int(ref.get("nivel") or 2),
+        k=int(ref.get("k") or 5),
+        estrategia_query=ref.get("estrategia_query") or "contexto_pedagogico",
+        gerar_resposta=bool(ref.get("gerar_resposta")),
+        avaliador_geracao=ref.get("avaliador_geracao") or "auto",
+        caminho_dataset=caminho_dataset,
+        salvar=False,
+        registrar_log=False,
+        progresso=lambda _msg: None,
+        **filtros,
+    )
+
+    antes = {r["id"]: r for r in ref.get("itens", [])}
+    depois = {r["id"]: r for r in nova.get("itens", [])}
+    comuns = [qid for qid in antes if qid in depois]
+    com_geracao = bool(ref.get("gerar_resposta"))
+
+    trechos_iguais = respostas_iguais = abstencao_igual = 0
+    diferencas_fid: list[float] = []
+    divergentes: list[dict[str, Any]] = []
+    for qid in comuns:
+        a, d = antes[qid], depois[qid]
+        mesmo_trecho = list(a.get("chunk_ids") or []) == list(d.get("chunk_ids") or [])
+        mesma_resposta = (a.get("resposta") or "") == (d.get("resposta") or "")
+        mesma_abstencao = bool(a.get("absteve")) == bool(d.get("absteve"))
+        trechos_iguais += mesmo_trecho
+        respostas_iguais += mesma_resposta
+        abstencao_igual += mesma_abstencao
+        fa, fd = a.get("fidelidade_efetiva"), d.get("fidelidade_efetiva")
+        if fa is not None and fd is not None:
+            diferencas_fid.append(float(fd) - float(fa))
+        mudou = [
+            nome
+            for nome, igual in (("trechos", mesmo_trecho), ("resposta", mesma_resposta), ("abstenção", mesma_abstencao))
+            if not igual and (com_geracao or nome == "trechos")
+        ]
+        if mudou and len(divergentes) < MAX_DIVERGENTES_LISTADOS:
+            divergentes.append({"id": qid, "mudou": mudou})
+
+    proc_ref = ref.get("procedencia") or {}
+    proc_agora = (nova.get("run_info") or {}).get("procedencia") or {}
+    n = len(comuns)
+    mesmas_questoes = set(antes) == set(depois)
+    busca_repete = mesmas_questoes and trechos_iguais == n
+    geracao_repete = (respostas_iguais == n and abstencao_igual == n) if com_geracao else None
+    return {
+        "run_id_referencia": ref.get("run_id"),
+        "total_referencia": len(antes),
+        "total_repeticao": len(depois),
+        "comparadas": n,
+        "mesmas_questoes": mesmas_questoes,
+        "com_geracao": com_geracao,
+        "trechos_identicos": trechos_iguais,
+        "respostas_identicas": respostas_iguais if com_geracao else None,
+        "abstencao_igual": abstencao_igual if com_geracao else None,
+        "busca_repete": busca_repete,
+        "geracao_repete": geracao_repete,
+        "repete": bool(busca_repete and geracao_repete is not False),
+        "diferenca_fidelidade": (
+            {
+                "n": len(diferencas_fid),
+                "media": round(sum(diferencas_fid) / len(diferencas_fid), 4),
+                "ic95": intervalo_confianca_media(diferencas_fid),
+            }
+            if diferencas_fid
+            else None
+        ),
+        "divergentes": divergentes,
+        "divergentes_total": sum(
+            1
+            for qid in comuns
+            if list(antes[qid].get("chunk_ids") or []) != list(depois[qid].get("chunk_ids") or [])
+            or (com_geracao and (antes[qid].get("resposta") or "") != (depois[qid].get("resposta") or ""))
+        ),
+        "procedencia_referencia": proc_ref,
+        "procedencia_agora": proc_agora,
+        "mesma_prova": bool(proc_ref) and proc_ref.get("dataset_sha256") == proc_agora.get("dataset_sha256"),
+        "mesma_base": bool(proc_ref) and proc_ref.get("base_trechos_sha256") == proc_agora.get("base_trechos_sha256"),
+        "mesmo_commit": bool(proc_ref)
+        and proc_ref.get("commit") == proc_agora.get("commit")
+        and not proc_ref.get("commit_com_alteracoes_locais")
+        and not proc_agora.get("commit_com_alteracoes_locais"),
+        "duracao_s": (nova.get("run_info") or {}).get("duracao_total_s"),
+    }
 
 
 def main(argv: list[str] | None = None) -> None:
