@@ -918,12 +918,19 @@ def resumir_modelos(itens: list[dict[str, Any]]) -> dict[str, Any] | None:
 
 
 def _resumir_recusa(itens: list[dict[str, Any]]) -> dict[str, Any]:
-    valores = [100.0 if r.get("recusou") else 0.0 for r in itens]
+    """Taxa de recusa com intervalo de Wilson.
+
+    Não se usa o sorteio com reposição aqui: com 0 recusas em 20 ele só repete zeros e devolve "0% a 0%", uma
+    certeza que 20 perguntas não dão. O de Wilson devolve 0% a 16,1% nesse caso.
+    """
+    from iris.eval.ataque_pii import wilson
+
+    k = sum(1 for r in itens if r.get("recusou"))
     return {
         "total": len(itens),
-        "recusou": sum(1 for r in itens if r.get("recusou")),
-        "taxa_recusa_pct": round(sum(valores) / len(valores), 1) if valores else None,
-        "ic95": intervalo_confianca_media(valores),
+        "recusou": k,
+        "taxa_recusa_pct": round(100.0 * k / len(itens), 1) if itens else None,
+        "ic95": wilson(k, len(itens)),
     }
 
 

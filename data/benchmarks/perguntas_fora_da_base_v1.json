@@ -1,23 +1,207 @@
 {
   "versao": "v1",
   "descricao": "Perguntas que a base de evidências do RAG não responde. A resposta correta do sistema é a frase de recusa. 'longe' é assunto sem relação com a base; 'perto' é assunto vizinho (escola, TDAH) cujo fato pedido não está em nenhum trecho.",
-  "como_foi_conferido": "Em 13/11/2026, busca por palavra no chunks.jsonl (1.083 trechos): nenhum trecho traz o fato pedido por estas perguntas.",
+  "como_foi_conferido": "Em 13/11/2026, busca por palavra no chunks.jsonl (1.083 trechos). Em 15/11/2026 a lista passou de 16 para 40 perguntas (20 longe, 20 perto) e cada pergunta 'perto' foi conferida lendo os 5 trechos que a busca bm25 devolve para ela: nenhum traz o fato pedido. A leitura é de quem montou o teste, não de especialista da área.",
   "perguntas": [
-    {"id": "FB01", "tipo": "longe", "pergunta": "Qual é a capital da Austrália?"},
-    {"id": "FB02", "tipo": "longe", "pergunta": "Quem venceu a Copa do Mundo de futebol de 1970?"},
-    {"id": "FB03", "tipo": "longe", "pergunta": "Qual é a receita de um bolo de cenoura com cobertura de chocolate?"},
-    {"id": "FB04", "tipo": "longe", "pergunta": "Como declarar o imposto de renda sendo microempreendedor individual?"},
-    {"id": "FB05", "tipo": "longe", "pergunta": "Qual é a distância média entre a Terra e a Lua?"},
-    {"id": "FB06", "tipo": "longe", "pergunta": "Qual é a previsão do tempo para Brasília amanhã?"},
-    {"id": "FB07", "tipo": "longe", "pergunta": "Como trocar o pneu de um carro?"},
-    {"id": "FB08", "tipo": "longe", "pergunta": "Quantos deputados federais tem a Câmara dos Deputados?"},
-    {"id": "FB09", "tipo": "perto", "pergunta": "Qual é a dose de metilfenidato indicada para uma criança de 8 anos?"},
-    {"id": "FB10", "tipo": "perto", "pergunta": "Qual é o valor do piso salarial nacional dos professores em 2026?"},
-    {"id": "FB11", "tipo": "perto", "pergunta": "Qual é o telefone da Secretaria de Educação do Distrito Federal?"},
-    {"id": "FB12", "tipo": "perto", "pergunta": "Quantos estudantes com TDAH estão matriculados na rede pública do Distrito Federal?"},
-    {"id": "FB13", "tipo": "perto", "pergunta": "Em que dia começa o ano letivo de 2027 na rede pública do Distrito Federal?"},
-    {"id": "FB14", "tipo": "perto", "pergunta": "Qual é o número do artigo da Constituição que trata do salário-educação?"},
-    {"id": "FB15", "tipo": "perto", "pergunta": "Qual escola de Brasília tem a melhor nota no Ideb?"},
-    {"id": "FB16", "tipo": "perto", "pergunta": "Qual é o preço de uma avaliação neuropsicológica para TDAH?"}
+    {
+      "id": "FB01",
+      "tipo": "longe",
+      "pergunta": "Qual é a capital da Austrália?"
+    },
+    {
+      "id": "FB02",
+      "tipo": "longe",
+      "pergunta": "Quem venceu a Copa do Mundo de futebol de 1970?"
+    },
+    {
+      "id": "FB03",
+      "tipo": "longe",
+      "pergunta": "Qual é a receita de um bolo de cenoura com cobertura de chocolate?"
+    },
+    {
+      "id": "FB04",
+      "tipo": "longe",
+      "pergunta": "Como declarar o imposto de renda sendo microempreendedor individual?"
+    },
+    {
+      "id": "FB05",
+      "tipo": "longe",
+      "pergunta": "Qual é a distância média entre a Terra e a Lua?"
+    },
+    {
+      "id": "FB06",
+      "tipo": "longe",
+      "pergunta": "Qual é a previsão do tempo para Brasília amanhã?"
+    },
+    {
+      "id": "FB07",
+      "tipo": "longe",
+      "pergunta": "Como trocar o pneu de um carro?"
+    },
+    {
+      "id": "FB08",
+      "tipo": "longe",
+      "pergunta": "Quantos deputados federais tem a Câmara dos Deputados?"
+    },
+    {
+      "id": "FB09",
+      "tipo": "perto",
+      "pergunta": "Qual é a dose de metilfenidato indicada para uma criança de 8 anos?"
+    },
+    {
+      "id": "FB10",
+      "tipo": "perto",
+      "pergunta": "Qual é o valor do piso salarial nacional dos professores em 2026?"
+    },
+    {
+      "id": "FB11",
+      "tipo": "perto",
+      "pergunta": "Qual é o telefone da Secretaria de Educação do Distrito Federal?"
+    },
+    {
+      "id": "FB12",
+      "tipo": "perto",
+      "pergunta": "Quantos estudantes com TDAH estão matriculados na rede pública do Distrito Federal?"
+    },
+    {
+      "id": "FB13",
+      "tipo": "perto",
+      "pergunta": "Em que dia começa o ano letivo de 2027 na rede pública do Distrito Federal?"
+    },
+    {
+      "id": "FB14",
+      "tipo": "perto",
+      "pergunta": "Qual é o número do artigo da Constituição que trata do salário-educação?"
+    },
+    {
+      "id": "FB15",
+      "tipo": "perto",
+      "pergunta": "Qual escola de Brasília tem a melhor nota no Ideb?"
+    },
+    {
+      "id": "FB16",
+      "tipo": "perto",
+      "pergunta": "Qual é o preço de uma avaliação neuropsicológica para TDAH?"
+    },
+    {
+      "id": "FB17",
+      "tipo": "longe",
+      "pergunta": "Qual é a fórmula química do ácido sulfúrico?"
+    },
+    {
+      "id": "FB18",
+      "tipo": "longe",
+      "pergunta": "Quem pintou o quadro Mona Lisa?"
+    },
+    {
+      "id": "FB19",
+      "tipo": "longe",
+      "pergunta": "Qual é o maior planeta do Sistema Solar?"
+    },
+    {
+      "id": "FB20",
+      "tipo": "longe",
+      "pergunta": "Como se faz pão de queijo mineiro?"
+    },
+    {
+      "id": "FB21",
+      "tipo": "longe",
+      "pergunta": "Qual é a altura do Monte Everest?"
+    },
+    {
+      "id": "FB22",
+      "tipo": "longe",
+      "pergunta": "Quantos jogadores de cada time ficam em quadra numa partida de vôlei?"
+    },
+    {
+      "id": "FB23",
+      "tipo": "longe",
+      "pergunta": "Qual é a moeda oficial do Japão?"
+    },
+    {
+      "id": "FB24",
+      "tipo": "longe",
+      "pergunta": "Como funciona o motor de um carro elétrico?"
+    },
+    {
+      "id": "FB25",
+      "tipo": "longe",
+      "pergunta": "Qual é a população atual do Brasil segundo o IBGE?"
+    },
+    {
+      "id": "FB26",
+      "tipo": "longe",
+      "pergunta": "Em que ano uma pessoa pisou na Lua pela primeira vez?"
+    },
+    {
+      "id": "FB27",
+      "tipo": "longe",
+      "pergunta": "Qual é a melhor época do ano para plantar tomate?"
+    },
+    {
+      "id": "FB28",
+      "tipo": "longe",
+      "pergunta": "Quem escreveu o romance Dom Casmurro?"
+    },
+    {
+      "id": "FB29",
+      "tipo": "perto",
+      "pergunta": "Quantas horas por semana de atendimento educacional especializado a rede municipal de São Paulo oferece a cada estudante com TDAH?"
+    },
+    {
+      "id": "FB30",
+      "tipo": "perto",
+      "pergunta": "Qual é o nome do atual ministro da Educação?"
+    },
+    {
+      "id": "FB31",
+      "tipo": "perto",
+      "pergunta": "Qual foi a nota de corte do Sisu 2026 para Pedagogia na UnB?"
+    },
+    {
+      "id": "FB32",
+      "tipo": "perto",
+      "pergunta": "Quantos alunos por turma são permitidos no 1º ano do ensino fundamental da rede pública do Distrito Federal?"
+    },
+    {
+      "id": "FB33",
+      "tipo": "perto",
+      "pergunta": "Qual é o horário de funcionamento da sala de recursos da Escola Classe 10 de Taguatinga?"
+    },
+    {
+      "id": "FB34",
+      "tipo": "perto",
+      "pergunta": "Qual foi a média nacional do Enem 2024 em matemática?"
+    },
+    {
+      "id": "FB35",
+      "tipo": "perto",
+      "pergunta": "Quanto custa uma consulta com neuropediatra pelo plano de saúde?"
+    },
+    {
+      "id": "FB36",
+      "tipo": "perto",
+      "pergunta": "Qual é o prazo para a matrícula escolar de 2027 na rede pública de Brasília?"
+    },
+    {
+      "id": "FB37",
+      "tipo": "perto",
+      "pergunta": "Qual é o salário inicial de um professor de educação especial na rede estadual de Goiás?"
+    },
+    {
+      "id": "FB38",
+      "tipo": "perto",
+      "pergunta": "Qual é o e-mail da coordenação pedagógica do Colégio Militar de Brasília?"
+    },
+    {
+      "id": "FB39",
+      "tipo": "perto",
+      "pergunta": "Quantos estudantes com laudo de TDAH fizeram o Enem 2025 com tempo adicional?"
+    },
+    {
+      "id": "FB40",
+      "tipo": "perto",
+      "pergunta": "Qual é o nome do aplicativo oficial da Secretaria de Educação do Distrito Federal para os pais?"
+    }
   ]
 }

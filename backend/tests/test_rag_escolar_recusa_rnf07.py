@@ -309,8 +309,8 @@ class TestTesteDeRecusa(unittest.TestCase):
             caminhos = {"caminho_saida": Path(tmp) / "recusa.json", "caminho_runs": Path(tmp) / "runs.jsonl"}
             a = executar_teste_de_recusa(metodo="bm25", **caminhos)
             b = executar_teste_de_recusa(metodo="bm25", **caminhos)
-        self.assertEqual(a["resumo"]["total"], 16)
-        self.assertEqual({k: v["total"] for k, v in a["por_tipo"].items()}, {"longe": 8, "perto": 8})
+        self.assertEqual(a["resumo"]["total"], 40)
+        self.assertEqual({k: v["total"] for k, v in a["por_tipo"].items()}, {"longe": 20, "perto": 20})
         self.assertEqual([i["recusou"] for i in a["itens"]], [i["recusou"] for i in b["itens"]])
         self.assertEqual(a["resumo"]["ic95"], b["resumo"]["ic95"])
         for item in a["itens"]:
@@ -320,7 +320,7 @@ class TestTesteDeRecusa(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             res = obter_teste_de_recusa(caminho_saida=Path(tmp) / "nao-existe.json")
         self.assertFalse(res["tem_teste"])
-        self.assertEqual(res["total_perguntas"], 16)
+        self.assertEqual(res["total_perguntas"], 40)
 
 
 class TestRotasDoTesteDeRecusa(unittest.TestCase):
@@ -345,7 +345,7 @@ class TestRotasDoTesteDeRecusa(unittest.TestCase):
 
             rodou = client.post("/api/v1/eval/rag-escolar/recusa", json={"metodo": "bm25"})
             self.assertEqual(rodou.status_code, 200)
-            self.assertEqual(rodou.json()["resumo"]["total"], 16)
+            self.assertEqual(rodou.json()["resumo"]["total"], 40)
 
             depois = client.get("/api/v1/eval/rag-escolar/recusa").json()
             self.assertTrue(depois["tem_teste"])
@@ -399,7 +399,7 @@ class TestRotasDoTesteDeRecusa(unittest.TestCase):
                 status, antes = chamar(None)
                 self.assertEqual((status, antes["tem_teste"]), (200, False))
                 status, rodou = chamar({"metodo": "bm25"})
-                self.assertEqual((status, rodou["resumo"]["total"]), (200, 16))
+                self.assertEqual((status, rodou["resumo"]["total"]), (200, 40))
                 status, depois = chamar(None)
                 self.assertEqual((status, depois["teste_id"]), (200, rodou["teste_id"]))
                 with patch.object(bench, "PERGUNTAS_FORA_DA_BASE_PADRAO", Path(tmp) / "vazio.json"):

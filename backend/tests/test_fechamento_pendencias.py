@@ -186,6 +186,20 @@ class TestRemovedorDeDadoPessoal(unittest.TestCase):
         self.assertEqual(r["prometidos_rotulo_pt"]["vazou"], 0)
 
 
+class TestTesteDeRecusaAmpliado(unittest.TestCase):
+    def test_quarenta_perguntas_metade_de_cada_tipo_e_ids_unicos(self) -> None:
+        perguntas = bench.carregar_perguntas_fora_da_base()
+        self.assertEqual(len(perguntas), 40)
+        self.assertEqual(sum(p["tipo"] == "perto" for p in perguntas), 20)
+        self.assertEqual(len({p["id"] for p in perguntas}), 40)
+
+    def test_zero_recusas_nao_da_intervalo_de_largura_zero(self) -> None:
+        r = bench._resumir_recusa([{"recusou": False}] * 20)
+        self.assertEqual(r["taxa_recusa_pct"], 0.0)
+        self.assertEqual(r["ic95"][0], 0.0)
+        self.assertGreater(r["ic95"][1], 10.0)
+
+
 class TestTextosDaTela(unittest.TestCase):
     def setUp(self) -> None:
         self.html = PLAYGROUND.read_text(encoding="utf-8")
