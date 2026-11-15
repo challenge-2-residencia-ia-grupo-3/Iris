@@ -178,7 +178,7 @@ class TestRemovedorDeDadoPessoal(unittest.TestCase):
     def test_ataque_sem_controle_apagado_e_sem_vazamento_novo(self) -> None:
         from iris.eval.ataque_pii import executar_ataque_pii
 
-        r = executar_ataque_pii(salvar=False)
+        r = executar_ataque_pii(salvar=False, formatos=())
         self.assertEqual(r["controles"]["apagou_conteudo"], 0)
         self.assertEqual(r["controles"]["total"], 9)
         self.assertEqual(r["por_tipo"]["cpf_sem_pontuacao"]["vazou"], 0)
@@ -198,6 +198,26 @@ class TestTesteDeRecusaAmpliado(unittest.TestCase):
         self.assertEqual(r["taxa_recusa_pct"], 0.0)
         self.assertEqual(r["ic95"][0], 0.0)
         self.assertGreater(r["ic95"][1], 10.0)
+
+
+class TestAtaqueEmArquivo(unittest.TestCase):
+    def test_docx_e_pdf_passam_pelo_extrator_e_dao_o_mesmo_vazamento_do_texto(self) -> None:
+        from iris.eval.ataque_pii import executar_ataque_pii
+
+        r = executar_ataque_pii(salvar=False, formatos=("docx", "pdf"))
+        texto = r["por_formato"]["texto"]
+        for formato in ("docx", "pdf"):
+            f = r["por_formato"][formato]
+            self.assertEqual(f["total"], texto["total"], formato)
+            self.assertEqual(f["por_tipo"], texto["por_tipo"], formato)
+            self.assertEqual(f["prometidos_rotulo_pt"]["vazou"], 0, formato)
+
+    def test_o_arquivo_traz_o_dado_de_verdade(self) -> None:
+        from iris.eval.ataque_pii import _texto_extraido
+
+        texto = "Atividade\nAluno: Fulano Ficticio\nQuestão 1: explique."
+        for formato in ("docx", "pdf"):
+            self.assertIn("Fulano Ficticio", _texto_extraido(formato, texto), formato)
 
 
 class TestTextosDaTela(unittest.TestCase):

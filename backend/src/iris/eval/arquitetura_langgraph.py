@@ -263,7 +263,7 @@ NOS: list[dict[str, str]] = [
 ]
 ROTULO_SETA = {
     ("proxima_questao", "extrator"): "há questão",
-    ("proxima_questao", "__end__"): "acabaram",
+    ("proxima_questao", "__end__"): "acabou",
     ("decisao", "revisao_professora"): "aprovado",
     ("decisao", "adaptador"): "refazer",
     ("decisao", "saida_de_reserva"): "limite",
@@ -287,23 +287,33 @@ GRADE: dict[str, tuple[int, int]] = {
     "revisao_professora": (1, 12),
     "saida_de_reserva": (2, 12),
 }
-CAIXA_L, CAIXA_A = 190, 44
-PASSO_X, PASSO_Y = 260, 70
-MARGEM_X, MARGEM_Y = 110, 16
-CALHA_1, CALHA_PASSO = 30, 60  # distância da 1ª calha de volta ao tronco e entre calhas
-LARGURA_LETRA = 6.6  # largura média de uma letra do rótulo, em pixels, para conferir sobreposição
+# Duas medidas de desenho: a larga, para tela de computador, e a estreita, para celular (até uns 700 px). A estreita
+# tem caixas e vãos menores e escreve os nomes longos em duas linhas, para a letra continuar legível depois de a tela
+# reduzir o desenho para caber.
+MEDIDAS: dict[str, dict[str, float]] = {
+    "largo": {"caixa_l": 190, "caixa_a": 44, "passo_x": 260, "passo_y": 70, "margem_x": 110, "margem_y": 16,
+              "calha_1": 30, "calha_passo": 60, "fonte_no": 12.5, "fonte_rotulo": 11, "letra_rotulo": 6.6,
+              "max_letras_linha": 30},
+    "estreito": {"caixa_l": 140, "caixa_a": 40, "passo_x": 186, "passo_y": 60, "margem_x": 74, "margem_y": 12,
+                 "calha_1": 16, "calha_passo": 24, "fonte_no": 14, "fonte_rotulo": 12, "letra_rotulo": 7.2,
+                 "max_letras_linha": 16},
+}
+LARGURA_LETRA = MEDIDAS["largo"]["letra_rotulo"]  # largura média de uma letra do rótulo, para conferir sobreposição
 
 
-def _caixa(no_id: str) -> dict[str, float]:
+def _caixa(no_id: str, m: dict[str, float]) -> dict[str, float]:
     col, lin = GRADE[no_id]
-    x = MARGEM_X + (col - 1) * PASSO_X
-    y = MARGEM_Y + lin * PASSO_Y
-    return {"x": x, "y": y, "l": CAIXA_L, "a": CAIXA_A}
+    return {
+        "x": m["margem_x"] + (col - 1) * m["passo_x"],
+        "y": m["margem_y"] + lin * m["passo_y"],
+        "l": m["caixa_l"],
+        "a": m["caixa_a"],
+    }
 
 
-def _rota_da_seta(origem: str, destino: str, n_volta: int) -> list[list[float]]:
+def _rota_da_seta(origem: str, destino: str, n_volta: int, m: dict[str, float]) -> list[list[float]]:
     """Pontos da seta. Para baixo: reta. Para o lado: cotovelo. Para cima: contorna pela calha da esquerda."""
-    a, b = _caixa(origem), _caixa(destino)
+    a, b = _caixa(origem, m), _caixa(destino, m)
     ax, ay = a["x"] + a["l"] / 2, a["y"] + a["a"]
     bx, by = b["x"] + b["l"] / 2, b["y"]
     (ca, la), (cb, lb) = GRADE[origem], GRADE[destino]
@@ -315,7 +325,7 @@ def _rota_da_seta(origem: str, destino: str, n_volta: int) -> list[list[float]]:
         meio = ay + (by - ay) / 2
         return [[ax, ay], [ax, meio], [bx, meio], [bx, by]]
     # volta para cima: sai pela esquerda da origem, sobe pela calha e entra pela esquerda do destino
-    calha = MARGEM_X - CALHA_1 - CALHA_PASSO * n_volta
+    calha = m["margem_x"] - m["calha_1"] - m["calha_passo"] * n_volta
     saida_y, entrada_y = a["y"] + a["a"] / 2, b["y"] + b["a"] / 2
     if ca != cb:  # origem fora do tronco: desce por baixo da linha antes de ir à calha
         baixo = a["y"] + a["a"] + 14
@@ -323,7 +333,7 @@ def _rota_da_seta(origem: str, destino: str, n_volta: int) -> list[list[float]]:
     return [[a["x"], saida_y], [calha, saida_y], [calha, entrada_y], [b["x"], entrada_y]]
 
 
-def _posicao_do_rotulo(pontos: list[list[float]], volta: bool) -> dict[str, Any]:
+def _posicao_do_rotulo(pontos: list[list[float]], volta: bool, m: dict[str, float]) -> dict[str, Any]:
     """Onde escrever o rótulo da seta condicional, escolhido para não cair em cima de caixa nem de outra seta."""
     if volta:  # à esquerda da calha, na altura do meio da subida
         x, y0, y1 = pontos[1][0], pontos[1][1], pontos[2][1]
@@ -333,8 +343,17 @@ def _posicao_do_rotulo(pontos: list[list[float]], volta: bool) -> dict[str, Any]
     if len(pontos) == 2:  # reta para o lado: acima da linha
         return {"x": (pontos[0][0] + pontos[1][0]) / 2, "y": pontos[0][1] - 6, "ancora": "middle"}
     # cotovelo: no vão entre as duas colunas, acima do trecho horizontal
-    vao = MARGEM_X + CAIXA_L + (PASSO_X - CAIXA_L) / 2
+    vao = m["margem_x"] + m["caixa_l"] + (m["passo_x"] - m["caixa_l"]) / 2
     return {"x": vao, "y": pontos[1][1] - 5, "ancora": "middle"}
+
+
+def _quebrar_nome(nome: str, max_letras: float) -> list[str]:
+    """Divide o nome em até duas linhas, no espaço mais perto do meio, quando ele não cabe numa linha só."""
+    if len(nome) <= max_letras or " " not in nome:
+        return [nome]
+    espacos = [i for i, c in enumerate(nome) if c == " "]
+    corte = min(espacos, key=lambda i: abs(i - len(nome) / 2))
+    return [nome[:corte], nome[corte + 1 :]]
 
 
 # ---------------------------------------------------------------- nós
@@ -629,30 +648,30 @@ def construir_grafo(limite_voltas: int = LIMITE_VOLTAS) -> Any:
 
 
 # ---------------------------------------------------------------- desenho
-def descrever_grafo(grafo: Any) -> dict[str, Any]:
-    """Nós e setas como o LangGraph os devolve, mais a posição de cada caixa e o traçado de cada seta."""
-    desenho = grafo.get_graph()
+def _desenho(desenho: Any, m: dict[str, float]) -> dict[str, Any]:
     descricao = {no["id"]: no for no in NOS}
     nos = []
     for no_id in desenho.nodes:
         if no_id not in GRADE:
             raise ValueError(f"Nó sem posição na grade: {no_id!r}. Acrescente em GRADE.")
         info = descricao.get(no_id, {})
+        nome = info.get("nome") or {"__start__": "Início", "__end__": "Fim"}.get(no_id, no_id)
         nos.append(
             {
                 "id": no_id,
-                "nome": info.get("nome") or {"__start__": "Início", "__end__": "Fim"}.get(no_id, no_id),
+                "nome": nome,
+                "linhas": _quebrar_nome(nome, m["max_letras_linha"]),
                 "faz": info.get("faz", ""),
                 "funcao_do_grupo": info.get("funcao_do_grupo", ""),
                 "tipo": "borda" if no_id.startswith("__") else ("pausa" if no_id == "revisao_professora" else "passo"),
-                **_caixa(no_id),
+                **_caixa(no_id, m),
             }
         )
     setas = []
     n_volta = 0
     for e in desenho.edges:
         sobe = GRADE[e.target][1] < GRADE[e.source][1]
-        pontos = _rota_da_seta(e.source, e.target, n_volta)
+        pontos = _rota_da_seta(e.source, e.target, n_volta, m)
         rotulo = ROTULO_SETA.get((e.source, e.target), "")
         setas.append(
             {
@@ -660,15 +679,25 @@ def descrever_grafo(grafo: Any) -> dict[str, Any]:
                 "para": e.target,
                 "condicional": bool(e.conditional),
                 "rotulo": rotulo,
-                "rotulo_pos": _posicao_do_rotulo(pontos, sobe) if rotulo else None,
+                "rotulo_pos": _posicao_do_rotulo(pontos, sobe, m) if rotulo else None,
                 "volta": sobe,
                 "pontos": pontos,
             }
         )
         n_volta += sobe
-    largura = MARGEM_X + PASSO_X + CAIXA_L + 20
-    altura = MARGEM_Y * 2 + max(lin for _, lin in GRADE.values()) * PASSO_Y + CAIXA_A + 14
-    return {"nos": nos, "setas": setas, "largura": largura, "altura": altura, "mermaid": desenho.draw_mermaid()}
+    largura = m["margem_x"] + m["passo_x"] + m["caixa_l"] + 20
+    altura = m["margem_y"] * 2 + max(lin for _, lin in GRADE.values()) * m["passo_y"] + m["caixa_a"] + 14
+    return {"nos": nos, "setas": setas, "largura": largura, "altura": altura, "medidas": m}
+
+
+def descrever_grafo(grafo: Any) -> dict[str, Any]:
+    """Nós e setas como o LangGraph os devolve, com a posição de cada caixa e o traçado de cada seta.
+
+    Os campos do topo são o desenho largo; `desenhos` traz os dois (largo e estreito), e a tela escolhe pelo tamanho.
+    """
+    desenho = grafo.get_graph()
+    desenhos = {nome: _desenho(desenho, m) for nome, m in MEDIDAS.items()}
+    return {**desenhos["largo"], "desenhos": desenhos, "mermaid": desenho.draw_mermaid()}
 
 
 # ---------------------------------------------------------------- execução dos cenários
@@ -742,6 +771,105 @@ def executar_cenarios() -> dict[str, Any]:
         ctx = Contexto(texto_bruto=MATERIAL_SINTETICO, cliente=cliente, juiz=JuizEco(), falhar_adaptador_uma_vez=cid == "retomada")
         execucoes.append({**cenario, **_rodar(grafo, ctx, f"cenario-{cid}")})
     return {"grafo": descrever_grafo(grafo), "execucoes": execucoes}
+
+
+# ---------------------------------------------------------------- execução com o material do professor
+# Rótulos que o removedor do grupo não reconhece (medido no ataque de dado pessoal): um nome depois deles passa.
+RE_ROTULO_NAO_RECONHECIDO = re.compile(
+    r"(?im)\b(student|teacher|parent|name|student id|al\.|prof\.ª|resp\.|mat\.)[ \t]*:?[ \t]*"
+    r"([A-ZÀ-Ý][\wÀ-ÿ'-]+(?:[ \t]+[A-ZÀ-Ý][\wÀ-ÿ'-]+){0,3})"
+)
+MAX_SESSOES = 20
+_SESSOES: dict[str, dict[str, Any]] = {}
+_GRAFO_SESSOES: dict[str, Any] = {}
+
+
+def sinais_de_dado_restante(texto: str) -> list[str]:
+    """Trechos do texto já filtrado que parecem um nome depois de rótulo que o removedor não reconhece.
+
+    Não é detector de dado pessoal: só aponta o caso que o ataque mostrou vazar sempre (rótulo em inglês ou
+    abreviado). Serve para a tela avisar o professor antes de seguir.
+    """
+    return [m.group(0).strip() for m in RE_ROTULO_NAO_RECONHECIDO.finditer(texto or "")]
+
+
+def _grafo_das_sessoes() -> Any:
+    if "grafo" not in _GRAFO_SESSOES:
+        _GRAFO_SESSOES["grafo"] = construir_grafo()
+    return _GRAFO_SESSOES["grafo"]
+
+
+def _situacao(thread_id: str, saida: dict[str, Any]) -> dict[str, Any]:
+    """O que a tela precisa saber da execução: pausada (com o texto proposto) ou concluída, e o caminho até aqui."""
+    sessao = _SESSOES[thread_id]
+    grafo, cfg = _grafo_das_sessoes(), sessao["cfg"]
+    valores = grafo.get_state(cfg).values
+    caminho = valores.get("caminho", [])
+    pausa = None
+    if saida.get("__interrupt__"):
+        valor = saida["__interrupt__"][0].value
+        idx = valores.get("indice_questao", 0)
+        pausa = {**valor, "numero": idx + 1, "de": len(valores.get("questoes", []))}
+    texto_guardado = valores.get("texto_sanitizado", "")
+    return {
+        "thread_id": thread_id,
+        "estado": "pausado" if pausa else "concluido",
+        "pausa": pausa,
+        "caminho": [{"no": no, "questao": i, "segundos": seg} for no, i, seg in caminho],
+        "questoes": len(valores.get("questoes", [])),
+        "resultados": valores.get("resultados", []),
+        "barradas_pelo_adaptador": len(valores.get("barradas_pelo_adaptador", [])),
+        "n_pii_removidos": valores.get("n_pii_removidos"),
+        "texto_guardado": texto_guardado,
+        "sinais_de_dado_restante": sinais_de_dado_restante(texto_guardado),
+        "texto_bruto_descartado": sessao["ctx"].texto_bruto is None,
+        "estados_salvos": len(list(grafo.get_state_history(cfg))),
+        "provedor": "eco (determinístico, sem modelo)",
+    }
+
+
+def iniciar_execucao(texto: str, nivel: int = NIVEL_PADRAO, caracteristica: str = CARACTERISTICA_PADRAO) -> dict[str, Any]:
+    """Roda o grafo com o texto colado pelo professor até a primeira pausa de revisão (ou até o fim).
+
+    Mesmo provedor sem modelo dos cenários: mostra o caminho do material, não a qualidade do texto adaptado.
+    O texto bruto fica só no Contexto e é descartado no nó do filtro; o estado guardado só recebe o filtrado.
+    """
+    if not LANGGRAPH_DISPONIVEL:
+        raise RuntimeError(f"langgraph não está instalado: {ERRO_IMPORTACAO}")
+    if nivel not in (1, 2, 3):
+        raise ValueError("Nível de andaime inválido: use 1, 2 ou 3.")
+    import uuid
+
+    thread_id = f"prof-{uuid.uuid4().hex[:12]}"
+    while len(_SESSOES) >= MAX_SESSOES:  # guarda só as mais recentes, em memória
+        _SESSOES.pop(next(iter(_SESSOES)))
+    ctx = Contexto(texto_bruto=texto, cliente=ProvedorEco(), juiz=JuizEco())
+    cfg = {"configurable": {"thread_id": thread_id}}
+    _SESSOES[thread_id] = {"cfg": cfg, "ctx": ctx}
+    entrada = {"material_id": thread_id, "caracteristica": caracteristica, "nivel": nivel}
+    try:
+        saida = _grafo_das_sessoes().invoke(entrada, cfg, context=ctx)
+    except ValueError:
+        _SESSOES.pop(thread_id, None)
+        raise
+    return _situacao(thread_id, saida)
+
+
+def retomar_execucao(thread_id: str, decisao: str, texto_editado: str | None = None) -> dict[str, Any]:
+    """Entrega à pausa a decisão da professora ("aceitou" ou "editou") e segue até a próxima pausa ou o fim."""
+    if thread_id not in _SESSOES:
+        raise KeyError(f"Execução não encontrada (ou já descartada): {thread_id}")
+    if decisao not in {"aceitou", "editou"}:
+        raise ValueError("Decisão inválida: use 'aceitou' ou 'editou'.")
+    if decisao == "editou" and not (texto_editado or "").strip():
+        raise ValueError("Para editar, envie o texto editado.")
+    sessao = _SESSOES[thread_id]
+    grafo = _grafo_das_sessoes()
+    if not grafo.get_state(sessao["cfg"]).next:
+        raise ValueError("Esta execução já terminou: não há pausa para retomar.")
+    resposta = {"decisao": decisao, **({"texto_editado": texto_editado} if decisao == "editou" else {})}
+    saida = grafo.invoke(Command(resume=resposta), sessao["cfg"], context=sessao["ctx"])
+    return _situacao(thread_id, saida)
 
 
 _CACHE: dict[str, Any] = {}

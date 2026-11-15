@@ -609,6 +609,7 @@
     @media (max-width: 360px) {
       table.table-compact { font-size: 0.72rem; }
       table.table-compact .tag { padding-left: 0.3rem; padding-right: 0.3rem; }
+      table.table-compact td.num { white-space: normal; }
     }
     .symbol-cell code { overflow-wrap: anywhere; }
     .symbol-where { display: block; margin-top: 0.15rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); overflow-wrap: anywhere; }
@@ -624,6 +625,18 @@
     @media (max-width: 700px) {
       .arch-zoom-note { display: block; }
     }
+    .arch-run-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.75rem; margin: 0.6rem 0 0.9rem; }
+    .arch-run-controls > div { min-width: 0; flex: 0 1 280px; }
+    .arch-pause {
+      border: 1px solid var(--teal);
+      border-radius: 10px;
+      padding: 0.8rem 0.9rem;
+      background: var(--teal-soft);
+      margin-bottom: 0.9rem;
+    }
+    .arch-pause h3 { margin: 0 0 0.4rem; font-size: 0.92rem; }
+    .arch-pause textarea { width: 100%; min-height: 9rem; font-family: var(--font-mono); font-size: 0.8rem; }
+    .arch-stored { white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--font-mono); font-size: 0.76rem; background: var(--paper); border: 1px solid var(--hairline); border-radius: 8px; padding: 0.6rem 0.7rem; max-height: 14rem; overflow-y: auto; }
     .chain-note { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
     .refusal-summary {
       display: grid;
@@ -1529,6 +1542,34 @@
           <div class="empty-state">Carregando o grafo e rodando os cenários...</div>
         </div>
       </div>
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Rodar o grafo com o seu material</h2>
+            <p class="block-desc">Cole uma atividade. O grafo passa pelo filtro de dado pessoal, separa as questões e para na revisão de cada uma, esperando a sua decisão. Mesmo provedor sem modelo dos cenários acima: o andaime vem das regras do projeto.</p>
+          </div>
+        </div>
+        <label for="arq-texto">Texto da atividade (no mínimo 50 caracteres)</label>
+        <textarea id="arq-texto" rows="7">Atividade de Ciências - 6º ano B
+Aluno: Fulano Ficticio
+Student: Beltrana Inventada
+
+Questão 1: Leia o texto sobre o ciclo da água, identifique suas etapas principais e explique o papel da evaporação.
+
+Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justifique por que a quinta-feira foi o dia mais quente.</textarea>
+        <div class="arch-run-controls">
+          <div>
+            <label for="arq-nivel">Nível de andaime</label>
+            <select id="arq-nivel">
+              <option value="1">Nível 1: destaque dos comandos</option>
+              <option value="2" selected>Nível 2: etapas numeradas</option>
+              <option value="3">Nível 3: etapas e espaço para anotar</option>
+            </select>
+          </div>
+          <button type="button" id="btn-arq-executar" class="btn btn-primary" onclick="executarGrafoComMaterial()">Rodar o grafo</button>
+        </div>
+        <div id="arq-exec-box"></div>
+      </div>
     </section>
 
     <!-- ABA: GRAFO DO CÓDIGO -->
@@ -1584,7 +1625,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         <div class="block-head">
           <div>
             <h2 class="block-title">Ataque de dado pessoal ao removedor</h2>
-            <p class="block-desc">O mesmo dado inventado é escrito de várias formas (tipo, rótulo e posição no material) e passa pelo removedor. Conta-se em quantos casos ele continua legível na saída. Sem modelo; todos os valores são fictícios.</p>
+            <p class="block-desc">O mesmo dado inventado é escrito de várias formas (tipo, rótulo e posição no material), como texto colado e como arquivo .docx e .pdf, e passa pelo removedor. Conta-se em quantos casos ele continua legível na saída. Sem modelo; todos os valores são fictícios.</p>
           </div>
           <div class="btn-row">
             <button type="button" id="btn-ataque-pii" class="btn btn-secondary" onclick="executarAtaquePii()">Rodar ataque</button>
@@ -2978,7 +3019,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         btn.dataset.origLabel = btn.textContent;
       }
       if (!a || !a.tem_ataque) {
-        box.innerHTML = '<div class="empty-state">Nenhum ataque registrado ainda. Ele roda em menos de um segundo e não chama modelo.</div>';
+        box.innerHTML = '<div class="empty-state">Nenhum ataque registrado ainda. Ele leva uns 10 segundos (monta cada caso também como .docx e .pdf) e não chama modelo.</div>';
         return;
       }
       const rot = a.rotulos || {};
@@ -3032,6 +3073,16 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             <tbody>${linhasTipo}</tbody>
           </table>
         </div>
+        ${a.por_formato ? `<div class="ledger-heading" style="margin-top:1rem;"><span>Os mesmos casos como arquivo</span></div>
+        <div class="table-scroll"><table class="table-compact">
+          <thead><tr><th>Como o material chega</th><th class="num">Vazou</th><th class="num">Prometidos, rótulo em português</th></tr></thead>
+          <tbody>${Object.keys(a.por_formato).map(k => { const f = a.por_formato[k]; return `<tr>
+            <td>${escapeHtml(f.nome)}</td>
+            <td class="num">${escapeHtml(f.vazou)} de ${escapeHtml(f.total)}<span class="ledger-ic">${Array.isArray(f.ic95) ? `IC95 ${Number(f.ic95[0]).toFixed(1)}% a ${Number(f.ic95[1]).toFixed(1)}%` : ''}</span></td>
+            <td class="num">${escapeHtml(f.prometidos_rotulo_pt.vazou)} de ${escapeHtml(f.prometidos_rotulo_pt.total)}</td>
+          </tr>`; }).join('')}</tbody>
+        </table></div>
+        <p class="baseline-rule">O arquivo é montado com o mesmo texto, uma linha por parágrafo, e lido pelo extrator do projeto antes do removedor. Se a extração quebrasse a linha entre o rótulo e o nome, o vazamento do arquivo subiria.</p>` : ''}
         ${exemplos ? `<div class="ledger-heading" style="margin-top:1rem;"><span>Exemplos do que passou (valores fictícios)</span></div>
         <div class="table-scroll"><table>
           <thead><tr><th>Tipo</th><th>Rótulo</th><th>Linha depois do removedor</th></tr></thead>
@@ -3139,7 +3190,17 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     }
 
     // ---------------- Aba Arquitetura (LangGraph)
-    function renderGrafoArquitetura(grafo, exec) {
+    // O servidor manda dois desenhos; no celular usa-se o estreito, com nomes em duas linhas.
+    const TELA_ESTREITA = window.matchMedia('(max-width: 700px)');
+    function desenhoAtual(grafo) {
+      const d = grafo.desenhos || {};
+      return (TELA_ESTREITA.matches ? d.estreito : d.largo) || grafo;
+    }
+    TELA_ESTREITA.addEventListener('change', () => { if (state.arquitetura && state.arquitetura.disponivel) renderArquitetura(); });
+
+    function renderGrafoArquitetura(grafoCompleto, exec) {
+      const grafo = desenhoAtual(grafoCompleto);
+      const m = grafo.medidas || { fonte_no: 12.5, fonte_rotulo: 11 };
       const visitas = {};
       const usadas = new Set();
       const caminho = (exec && exec.caminho) || [];
@@ -3157,7 +3218,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         const usada = usadas.has(`${sx.de}>${sx.para}`);
         const d = sx.pontos.map((pt, i) => `${i ? 'L' : 'M'}${pt[0]} ${pt[1]}`).join(' ');
         const rot = sx.rotulo && sx.rotulo_pos
-          ? `<text class="arch-label${usada ? ' used' : ''}" x="${sx.rotulo_pos.x}" y="${sx.rotulo_pos.y}" text-anchor="${sx.rotulo_pos.ancora}">${escapeHtml(sx.rotulo)}</text>`
+          ? `<text class="arch-label${usada ? ' used' : ''}" style="font-size:${m.fonte_rotulo}px" x="${sx.rotulo_pos.x}" y="${sx.rotulo_pos.y}" text-anchor="${sx.rotulo_pos.ancora}">${escapeHtml(sx.rotulo)}</text>`
           : '';
         return `<path class="arch-edge${sx.condicional ? ' cond' : ''}${usada ? ' used' : ''}" d="${d}" marker-end="url(#arq-seta${usada ? '-usada' : ''})"/>${rot}`;
       }).join('');
@@ -3167,7 +3228,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         const contagem = v > 1 && n.tipo !== 'borda' ? `<text class="arch-count" x="${n.x + n.l - 8}" y="${n.y + 14}" text-anchor="end">×${v}</text>` : '';
         return `<g class="${cls}"><title>${escapeHtml(n.faz ? `${n.faz}. Função: ${n.funcao_do_grupo}` : n.nome)}</title>
           <rect x="${n.x}" y="${n.y}" width="${n.l}" height="${n.a}" rx="${n.tipo === 'borda' ? 22 : 7}"/>
-          <text x="${n.x + n.l / 2}" y="${n.y + n.a / 2 + 4.5}" text-anchor="middle">${escapeHtml(n.nome)}</text>${contagem}</g>`;
+          ${textoDoNo(n, m)}${contagem}</g>`;
       }).join('');
       return `<svg width="${grafo.largura}" height="${grafo.altura}" viewBox="0 0 ${grafo.largura} ${grafo.altura}" role="img" aria-label="Grafo dos agentes do Íris">
         <defs>
@@ -3176,6 +3237,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         </defs>
         ${setas}${nos}
       </svg>`;
+    }
+
+    function textoDoNo(n, m) {
+      const linhas = n.linhas || [n.nome];
+      const passo = m.fonte_no * 1.15;
+      const y0 = n.y + n.a / 2 + m.fonte_no * 0.36 - (passo * (linhas.length - 1)) / 2;
+      return `<text style="font-size:${m.fonte_no}px" text-anchor="middle">${linhas.map((l, i) => `<tspan x="${n.x + n.l / 2}" y="${y0 + i * passo}">${escapeHtml(l)}</tspan>`).join('')}</text>`;
     }
 
     function renderCaminhoArquitetura(exec, nomes) {
@@ -3229,7 +3297,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         <div class="arch-grid">
           <div>
             <div class="arch-canvas">${renderGrafoArquitetura(a.grafo, exec)}</div>
-            <p class="arch-zoom-note">Na tela estreita o desenho é reduzido para caber inteiro; amplie com dois dedos para ler as caixas. O caminho percorrido, abaixo, traz os mesmos passos em texto.</p>
+            <p class="arch-zoom-note">Na tela estreita o desenho troca para uma versão mais compacta, reduzida para caber inteira. O caminho percorrido, abaixo, traz os mesmos passos em texto.</p>
           </div>
           <div>
             <div class="notice notice-info" style="display:block;"><strong>${escapeHtml(exec.nome)}.</strong> ${escapeHtml(exec.o_que_mostra)}.</div>
@@ -3253,6 +3321,92 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             <details class="audit-box" style="margin-top:0.75rem;"><summary>O mesmo grafo em Mermaid, como o LangGraph o exporta</summary><pre style="white-space:pre-wrap; overflow-wrap:anywhere; font-size:0.74rem; margin:0.5rem 0 0;">${escapeHtml(a.grafo.mermaid)}</pre></details>
           </div>
         </div>`;
+    }
+
+    // ---------------- Rodar o grafo com o material do professor (C14) e decidir na pausa (C15)
+    function renderExecucaoComMaterial(r) {
+      const box = document.getElementById('arq-exec-box');
+      const a = state.arquitetura;
+      const nomes = a && a.grafo ? Object.fromEntries(a.grafo.nos.map(n => [n.id, n.nome])) : {};
+      const sinais = r.sinais_de_dado_restante || [];
+      const avisoDado = sinais.length
+        ? `<div class="notice notice-danger" style="display:block;"><strong>Possível dado pessoal guardado.</strong> O filtro não reconhece estes rótulos, e o que vem depois deles ficou no estado salvo: ${sinais.map(x => `<code>${escapeHtml(x)}</code>`).join(', ')}. Troque o rótulo por "Aluno:" ou apague o nome antes de seguir.</div>`
+        : '<div class="notice notice-ok">Nenhum nome depois de rótulo não reconhecido no texto guardado. Isso não garante que não haja outro dado pessoal: confira o texto guardado abaixo.</div>';
+      let pausa = '';
+      if (r.estado === 'pausado') {
+        const p = r.pausa;
+        pausa = `<div class="arch-pause">
+          <h3>Revisão da questão ${escapeHtml(p.numero)} de ${escapeHtml(p.de)} (<code>${escapeHtml(p.questao_id)}</code>)</h3>
+          ${p.alerta ? `<div class="notice notice-warn">${escapeHtml(p.alerta)}</div>` : ''}
+          <label for="arq-proposto">Texto proposto; edite se quiser</label>
+          <textarea id="arq-proposto">${escapeHtml(p.texto_proposto)}</textarea>
+          <div class="btn-row" style="margin-top:0.6rem;">
+            <button type="button" id="btn-arq-aceitar" class="btn btn-primary" onclick="decidirPausaArquitetura('aceitou')">Aceitar</button>
+            <button type="button" id="btn-arq-editar" class="btn btn-secondary" onclick="decidirPausaArquitetura('editou')">Salvar a edição</button>
+          </div>
+        </div>`;
+      }
+      const linhas = (r.resultados || []).map(x => `<tr>
+          <td><strong>${escapeHtml(x.questao)}</strong> ${x.resultado === 'aprovado' ? '<span class="tag tag-ok">aprovado</span>' : (x.resultado === 'reserva' ? '<span class="tag tag-warn">reserva</span>' : `<span class="tag tag-danger">${escapeHtml(x.resultado)}</span>`)}</td>
+          <td class="num">${escapeHtml(x.tentativas_do_adaptador ?? '-')}</td>
+          <td>${escapeHtml(x.decisao_professora || x.motivo || '-')}</td>
+        </tr>`).join('');
+      box.innerHTML = `
+        <div class="tag-row provenance-row">
+          <span class="tag ${r.estado === 'pausado' ? 'tag-warn' : 'tag-ok'}">${r.estado === 'pausado' ? 'parado na revisão' : 'concluído'}</span>
+          <span class="tag">${escapeHtml(r.questoes)} questões</span>
+          <span class="tag">${escapeHtml(r.n_pii_removidos ?? 0)} ${Number(r.n_pii_removidos) === 1 ? 'dado removido' : 'dados removidos'} pelo filtro</span>
+          <span class="tag">${escapeHtml(r.estados_salvos)} estados salvos</span>
+          <span class="tag tag-warn">provedor sem modelo</span>
+        </div>
+        ${pausa}
+        ${avisoDado}
+        ${linhas ? `<div class="ledger-heading" style="margin-top:0.9rem;"><span>Questões já revisadas</span></div>
+        <div class="table-scroll"><table class="table-compact">
+          <thead><tr><th>Questão e como terminou</th><th class="num">Minutas</th><th>Decisão</th></tr></thead>
+          <tbody>${linhas}</tbody>
+        </table></div>` : ''}
+        <div class="ledger-heading" style="margin-top:0.9rem;"><span>Caminho até aqui</span><span class="ledger-scale">${escapeHtml((r.caminho || []).length)} caixas</span></div>
+        ${renderCaminhoArquitetura({ caminho: r.caminho, questoes: r.questoes }, nomes)}
+        <div class="ledger-heading" style="margin-top:0.9rem;"><span>Texto guardado no estado (depois do filtro)</span></div>
+        <div class="arch-stored">${escapeHtml(r.texto_guardado || '')}</div>
+        <p class="chain-note">O texto colado fica só na memória da requisição e é descartado no filtro${r.texto_bruto_descartado ? ' (descartado nesta execução)' : ''}; o que aparece acima é o que o grafo guarda a cada passo. A execução fica na memória do servidor e some quando ele reinicia.</p>`;
+    }
+
+    async function executarGrafoComMaterial() {
+      const box = document.getElementById('arq-exec-box');
+      setLoading('btn-arq-executar', true, 'Rodando...');
+      try {
+        state.execucaoArquitetura = await fetchJson('/api/v1/eval/arquitetura-langgraph/executar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ texto: document.getElementById('arq-texto').value, nivel: Number(document.getElementById('arq-nivel').value) })
+        });
+        renderExecucaoComMaterial(state.execucaoArquitetura);
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">O grafo não rodou (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        setLoading('btn-arq-executar', false);
+      }
+    }
+
+    async function decidirPausaArquitetura(decisao) {
+      const r = state.execucaoArquitetura;
+      if (!r) return;
+      const editado = document.getElementById('arq-proposto').value;
+      const botao = decisao === 'aceitou' ? 'btn-arq-aceitar' : 'btn-arq-editar';
+      setLoading(botao, true, 'Seguindo...');
+      try {
+        state.execucaoArquitetura = await fetchJson('/api/v1/eval/arquitetura-langgraph/retomar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ thread_id: r.thread_id, decisao, texto_editado: decisao === 'editou' ? editado : null })
+        });
+        renderExecucaoComMaterial(state.execucaoArquitetura);
+      } catch (err) {
+        setLoading(botao, false);
+        document.getElementById('arq-exec-box').insertAdjacentHTML('afterbegin', `<div class="notice notice-danger">Não foi possível seguir (${escapeHtml(err.message)}).</div>`);
+      }
     }
 
     function selecionarCenarioArquitetura(id) {

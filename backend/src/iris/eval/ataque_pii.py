@@ -205,6 +205,49 @@ def gerar_casos(semente: int = SEMENTE, repeticoes: int = REPETICOES) -> list[di
     return casos
 
 
+FORMATOS = {"texto": "Texto colado", "docx": "Arquivo .docx", "pdf": "Arquivo .pdf"}
+
+
+def montar_arquivo(formato: str, texto: str) -> bytes:
+    """Escreve o material como arquivo de verdade, uma linha por parágrafo, para passar pelo extrator do grupo."""
+    import io
+
+    if formato == "docx":
+        import docx
+
+        documento = docx.Document()
+        for linha in texto.splitlines():
+            documento.add_paragraph(linha)
+        saida = io.BytesIO()
+        documento.save(saida)
+        return saida.getvalue()
+    if formato == "pdf":
+        try:
+            import pymupdf as fitz
+        except ImportError:  # versões antigas só têm o nome fitz
+            import fitz  # type: ignore[no-redef]
+
+        doc = fitz.open()
+        pagina = doc.new_page()
+        sobra = pagina.insert_textbox(fitz.Rect(50, 50, 545, 800), texto, fontsize=10, fontname="helv")
+        if sobra < 0:
+            raise ValueError("o material não coube numa página do PDF de teste")
+        dados = doc.tobytes()
+        doc.close()
+        return dados
+    raise ValueError(f"Formato desconhecido: {formato!r}")
+
+
+def _texto_extraido(formato: str, texto: str) -> str:
+    """O texto que o removedor recebe: o próprio texto colado, ou o que o extrator do grupo tira do arquivo."""
+    if formato == "texto":
+        return texto
+    from iris.parsers.document_extractor import extract_text_from_file
+
+    extraido, _ = extract_text_from_file(f"material.{formato}", montar_arquivo(formato, texto))
+    return extraido
+
+
 def _assinatura(casos: list[dict[str, Any]]) -> str:
     bruto = json.dumps([[c["id"], c["texto"]] for c in casos], ensure_ascii=False).encode("utf-8")
     return hashlib.sha256(bruto).hexdigest()[:16]
@@ -217,14 +260,37 @@ def executar_ataque_pii(
     repeticoes: int = REPETICOES,
     caminho_saida: str | Path | None = None,
     salvar: bool = True,
+    formatos: tuple[str, ...] = ("docx", "pdf"),
 ) -> dict[str, Any]:
-    """Roda o ataque e devolve as taxas de vazamento por tipo, por rótulo e por posição."""
+    """Roda o ataque e devolve as taxas de vazamento por tipo, por rótulo e por posição.
+
+    Os números principais são os do texto colado. `formatos` repete os mesmos casos escritos como arquivo e lidos
+    pelo extrator do grupo (`extract_text_from_file`) antes do removedor; o resultado vai em `por_formato`.
+    """
     casos = gerar_casos(semente, repeticoes)
     linhas: list[dict[str, Any]] = []
     for caso in casos:
         saida, _ = sanitizar(caso["texto"])
         fundo = caso["texto"].replace(caso["valor"], " ")
         linhas.append({**caso, "saida": saida, "vazou": vazou(caso["valor"], caso["tipo"], saida, fundo)})
+
+    por_formato: dict[str, Any] = {}
+    for formato in ("texto", *formatos):
+        if formato == "texto":
+            linhas_f = linhas
+        else:
+            linhas_f = []
+            for caso in casos:
+                saida, _ = sanitizar(_texto_extraido(formato, caso["texto"]))
+                fundo = caso["texto"].replace(caso["valor"], " ")
+                linhas_f.append({**caso, "vazou": vazou(caso["valor"], caso["tipo"], saida, fundo)})
+        por_formato[formato] = {
+            "nome": FORMATOS[formato],
+            **_taxa(linhas_f),
+            "prometidos": _taxa([x for x in linhas_f if x["prometido"]]),
+            "prometidos_rotulo_pt": _taxa([x for x in linhas_f if x["prometido"] and x["rotulo"] == "pt"]),
+            "por_tipo": {t: _taxa([x for x in linhas_f if x["tipo"] == t]) for t in TIPOS},
+        }
 
     controles: list[dict[str, Any]] = []
     for nome, enunciado, protegido in CONTROLES:
@@ -292,6 +358,7 @@ def executar_ataque_pii(
         },
         "exemplos": exemplos,
         "rotulos": NOME_ROTULO,
+        "por_formato": por_formato,
     }
     if salvar:
         destino = Path(caminho_saida) if caminho_saida else ATAQUE_PII_PADRAO

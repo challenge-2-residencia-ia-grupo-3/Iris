@@ -138,19 +138,19 @@ class TestCasosDoAtaque(unittest.TestCase):
 
 class TestExecucaoDoAtaque(unittest.TestCase):
     def test_removedor_que_nao_remove_nada_vaza_tudo_e_nao_apaga_controle(self) -> None:
-        r = executar_ataque_pii(sanitizar=_nao_remove_nada, salvar=False)
+        r = executar_ataque_pii(sanitizar=_nao_remove_nada, salvar=False, formatos=())
         self.assertEqual(r["geral"]["vazou"], TOTAL_CASOS)
         self.assertEqual(r["geral"]["taxa_pct"], 100.0)
         self.assertEqual(r["controles"]["apagou_conteudo"], 0)
 
     def test_removedor_que_apaga_tudo_nao_vaza_nada_mas_apaga_todos_os_controles(self) -> None:
-        r = executar_ataque_pii(sanitizar=_remove_tudo, salvar=False)
+        r = executar_ataque_pii(sanitizar=_remove_tudo, salvar=False, formatos=())
         self.assertEqual(r["geral"]["vazou"], 0)
         self.assertEqual(r["controles"]["apagou_conteudo"], len(CONTROLES))
         self.assertEqual(r["exemplos"], [])
 
     def test_as_contagens_fecham(self) -> None:
-        r = executar_ataque_pii(salvar=False)
+        r = executar_ataque_pii(salvar=False, formatos=())
         self.assertEqual(r["geral"]["total"], TOTAL_CASOS)
         self.assertEqual(r["prometidos"]["total"] + r["nao_prometidos"]["total"], TOTAL_CASOS)
         self.assertEqual(r["prometidos"]["vazou"] + r["nao_prometidos"]["vazou"], r["geral"]["vazou"])
@@ -161,14 +161,14 @@ class TestExecucaoDoAtaque(unittest.TestCase):
             self.assertEqual(sum(x["vazou"] for x in tipo["por_rotulo"].values()), tipo["vazou"])
 
     def test_removedor_do_grupo_cumpre_a_promessa_no_cenario_mais_simples(self) -> None:
-        r = executar_ataque_pii(salvar=False)
+        r = executar_ataque_pii(salvar=False, formatos=())
         self.assertEqual(r["prometidos_rotulo_pt"]["vazou"], 0)
         self.assertEqual(r["controles"]["apagou_conteudo"], 0)
         self.assertEqual(r["por_tipo"]["cpf_pontuado"]["vazou"], 0)
         self.assertEqual(r["por_tipo"]["email"]["vazou"], 0)
 
     def test_removedor_do_grupo_depende_do_rotulo_para_nome_e_matricula(self) -> None:
-        r = executar_ataque_pii(salvar=False)
+        r = executar_ataque_pii(salvar=False, formatos=())
         for tipo in ("nome_estudante", "matricula"):
             por_rotulo = r["por_tipo"][tipo]["por_rotulo"]
             self.assertEqual(por_rotulo["pt"]["vazou"], 0)
@@ -176,13 +176,13 @@ class TestExecucaoDoAtaque(unittest.TestCase):
         self.assertEqual(r["nao_prometidos"]["vazou"], r["nao_prometidos"]["total"])
 
     def test_repetir_da_o_mesmo_resultado_e_a_mesma_assinatura(self) -> None:
-        a, b = executar_ataque_pii(salvar=False), executar_ataque_pii(salvar=False)
+        a, b = executar_ataque_pii(salvar=False, formatos=()), executar_ataque_pii(salvar=False, formatos=())
         self.assertEqual(a["assinatura_casos"], b["assinatura_casos"])
         self.assertEqual(a["geral"], b["geral"])
         self.assertEqual(a["por_tipo"], b["por_tipo"])
 
     def test_exemplos_nao_repetem_tipo_e_rotulo_e_trazem_so_a_linha(self) -> None:
-        r = executar_ataque_pii(salvar=False)
+        r = executar_ataque_pii(salvar=False, formatos=())
         pares = [(e["tipo"], e["rotulo"]) for e in r["exemplos"]]
         self.assertEqual(len(pares), len(set(pares)))
         self.assertTrue(all("\n" not in e["linha_da_saida"] for e in r["exemplos"]))
@@ -191,7 +191,7 @@ class TestExecucaoDoAtaque(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             destino = Path(tmp) / "ataque.json"
             antes = obter_ataque_pii(destino)
-            r = executar_ataque_pii(caminho_saida=destino)
+            r = executar_ataque_pii(caminho_saida=destino, formatos=())
             depois = obter_ataque_pii(destino)
         self.assertFalse(antes["tem_ataque"])
         self.assertEqual(antes["total_casos"], TOTAL_CASOS)
@@ -208,7 +208,7 @@ class TestExecucaoDoAtaque(unittest.TestCase):
     def test_o_ataque_nao_altera_o_removedor(self) -> None:
         texto = "Aluno: Fulano Ficticio\nCPF: 000.123.456-78"
         antes = sanitize_pii(texto)
-        executar_ataque_pii(salvar=False)
+        executar_ataque_pii(salvar=False, formatos=())
         self.assertEqual(sanitize_pii(texto), antes)
 
 

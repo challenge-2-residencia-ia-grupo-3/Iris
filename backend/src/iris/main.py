@@ -572,6 +572,22 @@ def _handle_arquitetura_langgraph() -> dict[str, Any]:
     return obter_arquitetura()
 
 
+def _handle_arquitetura_executar(body: dict[str, Any]) -> dict[str, Any]:
+    """Roda o grafo dos agentes com o texto colado (provedor sem modelo) até a primeira pausa de revisão."""
+    from iris.eval.arquitetura_langgraph import iniciar_execucao
+
+    return iniciar_execucao(str(body.get("texto") or ""), nivel=int(body.get("nivel") or 2))
+
+
+def _handle_arquitetura_retomar(body: dict[str, Any]) -> dict[str, Any]:
+    """Entrega a decisão da professora à pausa e segue até a próxima pausa ou o fim."""
+    from iris.eval.arquitetura_langgraph import retomar_execucao
+
+    return retomar_execucao(
+        str(body.get("thread_id") or ""), str(body.get("decisao") or ""), body.get("texto_editado")
+    )
+
+
 def _handle_mapa_codigo() -> dict[str, Any]:
     """Mapa do código: módulos lidos com `ast` e, se o arquivo existir, funções geradas pelo GitNexus."""
     from iris.eval.mapa_codigo import obter_mapa_codigo
@@ -821,6 +837,29 @@ def create_app() -> Any:
     @app.get("/api/v1/eval/arquitetura-langgraph", tags=["eval"])
     def arquitetura_langgraph() -> dict[str, Any]:
         return _handle_arquitetura_langgraph()
+
+    # Body() como valor padrão, no mesmo padrão das rotas vizinhas (ver a nota em baseline_rag_escolar).
+    @app.post("/api/v1/eval/arquitetura-langgraph/executar", tags=["eval"])
+    def arquitetura_executar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_arquitetura_executar(payload)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/arquitetura-langgraph/retomar", tags=["eval"])
+    def arquitetura_retomar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_arquitetura_retomar(payload)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     @app.get("/api/v1/eval/mapa-codigo", tags=["eval"])
     def mapa_codigo() -> dict[str, Any]:
@@ -1132,6 +1171,20 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json({"detail": str(err)}, status=422)
             elif urlparse(self.path).path == "/api/v1/eval/ataque-pii":
                 self._send_json(_handle_ataque_pii_run())
+            elif urlparse(self.path).path == "/api/v1/eval/arquitetura-langgraph/executar":
+                try:
+                    self._send_json(_handle_arquitetura_executar(body))
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
+                except RuntimeError as err:
+                    self._send_json({"detail": str(err)}, status=503)
+            elif urlparse(self.path).path == "/api/v1/eval/arquitetura-langgraph/retomar":
+                try:
+                    self._send_json(_handle_arquitetura_retomar(body))
+                except KeyError as err:
+                    self._send_json({"detail": str(err.args[0])}, status=404)
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
             elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/repetir":
                 try:
                     self._send_json(_handle_rag_escolar_repetir(body))

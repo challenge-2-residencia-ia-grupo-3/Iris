@@ -129,35 +129,125 @@ class TestDesenhoDoGrafo(unittest.TestCase):
         self.assertEqual(sum(s["volta"] for s in self.g["setas"]), 2)
 
     def test_nenhuma_caixa_se_sobrepoe_e_todas_cabem(self) -> None:
-        caixas = [(n["x"], n["y"], n["x"] + n["l"], n["y"] + n["a"]) for n in self.g["nos"]]
-        for i, a in enumerate(caixas):
-            self.assertTrue(a[0] >= 0 and a[1] >= 0 and a[2] <= self.g["largura"] and a[3] <= self.g["altura"])
-            for b in caixas[i + 1 :]:
-                self.assertFalse(_sobrepoe(a, b), (a, b))
+        for nome, d in self.g["desenhos"].items():
+            caixas = [(n["x"], n["y"], n["x"] + n["l"], n["y"] + n["a"]) for n in d["nos"]]
+            for i, a in enumerate(caixas):
+                self.assertTrue(a[0] >= 0 and a[1] >= 0 and a[2] <= d["largura"] and a[3] <= d["altura"], nome)
+                for b in caixas[i + 1 :]:
+                    self.assertFalse(_sobrepoe(a, b), (nome, a, b))
+
+    def test_nome_cabe_dentro_da_caixa_nos_dois_desenhos(self) -> None:
+        for nome, d in self.g["desenhos"].items():
+            m = d["medidas"]
+            for n in d["nos"]:
+                self.assertLessEqual(len(n["linhas"]), 2, (nome, n["id"]))
+                for linha in n["linhas"]:
+                    # 0,56 da altura da letra é a largura média de uma letra da fonte do painel
+                    self.assertLessEqual(len(linha) * m["fonte_no"] * 0.56, n["l"] - 8, (nome, n["id"], linha))
+                altura_texto = len(n["linhas"]) * m["fonte_no"] * 1.15
+                self.assertLessEqual(altura_texto, n["a"] - 4, (nome, n["id"]))
 
     def test_setas_e_rotulos_cabem_e_rotulo_nao_cai_em_caixa(self) -> None:
-        caixas = [(n["x"], n["y"], n["x"] + n["l"], n["y"] + n["a"]) for n in self.g["nos"]]
-        for s in self.g["setas"]:
-            for x, y in s["pontos"]:
-                self.assertTrue(0 <= x <= self.g["largura"] and 0 <= y <= self.g["altura"], s)
-            if not s["rotulo"]:
-                continue
-            pos, largura = s["rotulo_pos"], len(s["rotulo"]) * arq.LARGURA_LETRA
-            x0 = {"end": pos["x"] - largura, "middle": pos["x"] - largura / 2, "start": pos["x"]}[pos["ancora"]]
-            caixa_texto = (x0, pos["y"] - 10, x0 + largura, pos["y"] + 2)
-            self.assertGreaterEqual(x0, 0, s)
-            for c in caixas:
-                self.assertFalse(_sobrepoe(caixa_texto, c), (s["rotulo"], c))
+        for nome, d in self.g["desenhos"].items():
+            m = d["medidas"]
+            caixas = [(n["x"], n["y"], n["x"] + n["l"], n["y"] + n["a"]) for n in d["nos"]]
+            for s in d["setas"]:
+                for x, y in s["pontos"]:
+                    self.assertTrue(0 <= x <= d["largura"] and 0 <= y <= d["altura"], (nome, s))
+                if not s["rotulo"]:
+                    continue
+                pos, largura = s["rotulo_pos"], len(s["rotulo"]) * m["letra_rotulo"]
+                x0 = {"end": pos["x"] - largura, "middle": pos["x"] - largura / 2, "start": pos["x"]}[pos["ancora"]]
+                caixa_texto = (x0, pos["y"] - 10, x0 + largura, pos["y"] + 2)
+                self.assertGreaterEqual(x0, 0, (nome, s["rotulo"]))
+                self.assertLessEqual(x0 + largura, d["largura"], (nome, s["rotulo"]))
+                for c in caixas:
+                    self.assertFalse(_sobrepoe(caixa_texto, c), (nome, s["rotulo"], c))
 
     def test_calhas_de_volta_nao_se_cruzam(self) -> None:
-        calhas = [s["pontos"][1][0] for s in self.g["setas"] if s["volta"]]
-        self.assertEqual(len(set(calhas)), len(calhas))
+        for d in self.g["desenhos"].values():
+            calhas = [s["pontos"][1][0] for s in d["setas"] if s["volta"]]
+            self.assertEqual(len(set(calhas)), len(calhas))
+
+    def test_desenho_estreito_e_mais_estreito_e_quebra_os_nomes_longos(self) -> None:
+        largo, estreito = self.g["desenhos"]["largo"], self.g["desenhos"]["estreito"]
+        self.assertLess(estreito["largura"], 0.75 * largo["largura"])
+        self.assertTrue(any(len(n["linhas"]) == 2 for n in estreito["nos"]))
+        self.assertTrue(all(len(n["linhas"]) == 1 for n in largo["nos"]))
 
     def test_no_sem_posicao_e_acusado(self) -> None:
         with patch.dict(arq.GRADE, {}, clear=False):
             del arq.GRADE["auditor"]
             with self.assertRaises(ValueError):
                 arq.descrever_grafo(arq.construir_grafo())
+
+
+MATERIAL = (
+    "Atividade de Ciências - 6º ano B\nAluno: Fulano Ficticio\nStudent: Beltrana Inventada\n\n"
+    "Questão 1: Leia o texto sobre o ciclo da água, identifique suas etapas principais e explique o papel da "
+    "evaporação.\n\nQuestão 2: Observe a tabela, calcule a média e justifique a resposta.\n"
+)
+
+
+@unittest.skipUnless(TEM_LANGGRAPH, "langgraph não instalado")
+class TestExecucaoComMaterial(unittest.TestCase):
+    def _iniciar(self, texto: str = MATERIAL) -> dict:
+        with _ambiente_extrativo(), contextlib.redirect_stderr(io.StringIO()):
+            return arq.iniciar_execucao(texto)
+
+    def test_para_em_cada_questao_e_guarda_a_decisao(self) -> None:
+        r = self._iniciar()
+        self.assertEqual((r["estado"], r["pausa"]["numero"], r["pausa"]["de"]), ("pausado", 1, 2))
+        with _ambiente_extrativo(), contextlib.redirect_stderr(io.StringIO()):
+            r = arq.retomar_execucao(r["thread_id"], "editou", "Texto editado pela professora.")
+            self.assertEqual((r["estado"], r["pausa"]["numero"]), ("pausado", 2))
+            r = arq.retomar_execucao(r["thread_id"], "aceitou")
+        self.assertEqual(r["estado"], "concluido")
+        self.assertEqual([x["decisao_professora"] for x in r["resultados"]], ["editou", "aceitou"])
+        with self.assertRaises(ValueError):
+            arq.retomar_execucao(r["thread_id"], "aceitou")
+
+    def test_nome_com_rotulo_reconhecido_sai_e_o_outro_e_apontado(self) -> None:
+        r = self._iniciar()
+        self.assertNotIn("Fulano", r["texto_guardado"])
+        self.assertIn("Beltrana", r["texto_guardado"])
+        self.assertEqual(r["sinais_de_dado_restante"], ["Student: Beltrana Inventada"])
+        self.assertTrue(r["texto_bruto_descartado"])
+
+    def test_entrada_invalida(self) -> None:
+        with self.assertRaises(ValueError):
+            self._iniciar("curto")
+        with self.assertRaises(KeyError):
+            arq.retomar_execucao("nao-existe", "aceitou")
+        r = self._iniciar()
+        with self.assertRaises(ValueError):
+            arq.retomar_execucao(r["thread_id"], "talvez")
+        with self.assertRaises(ValueError):
+            arq.retomar_execucao(r["thread_id"], "editou", "   ")
+
+    def test_guarda_no_maximo_as_sessoes_mais_recentes(self) -> None:
+        with patch.object(arq, "MAX_SESSOES", 2):
+            ids = [self._iniciar()["thread_id"] for _ in range(3)]
+        self.assertNotIn(ids[0], arq._SESSOES)
+        self.assertIn(ids[2], arq._SESSOES)
+
+    def test_rotas_fastapi(self) -> None:
+        if app is None:
+            self.skipTest("FastAPI não disponível neste interpretador Python")
+        from fastapi.testclient import TestClient
+
+        client = TestClient(app)
+        with _ambiente_extrativo(), contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(client.post("/api/v1/eval/arquitetura-langgraph/executar", json={"texto": "x"}).status_code, 422)
+            r = client.post("/api/v1/eval/arquitetura-langgraph/executar", json={"texto": MATERIAL, "nivel": 1})
+            self.assertEqual(r.status_code, 200)
+            tid = r.json()["thread_id"]
+            self.assertEqual(
+                client.post("/api/v1/eval/arquitetura-langgraph/retomar", json={"thread_id": "x", "decisao": "aceitou"}).status_code,
+                404,
+            )
+            ok = client.post("/api/v1/eval/arquitetura-langgraph/retomar", json={"thread_id": tid, "decisao": "aceitou"})
+        self.assertEqual((ok.status_code, ok.json()["pausa"]["numero"]), (200, 2))
 
 
 class TestSemLangGraph(unittest.TestCase):
