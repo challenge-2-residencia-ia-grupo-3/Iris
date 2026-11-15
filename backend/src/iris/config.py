@@ -17,6 +17,11 @@ RAG_PACOTE_DIR = RAG_BASE_DIR / "pacote"
 CATALOGS_DIR = RAG_DIR / "catalogs"
 BENCHMARKS_DIR = REPO_ROOT / "data" / "benchmarks"
 
+# Modelo padrão do juiz (e do gerador da bateria com chave), num lugar só. Antes havia dois valores no arquivo
+# (claude-sonnet-4-5-20250929 na classe e claude-sonnet-4-20250514 na leitura do ambiente); o que valia em execução
+# era o da leitura, e é o que fica. Trocar o modelo é decisão do grupo: use a variável IRIS_JUDGE_MODEL.
+JUIZ_MODELO_PADRAO = "claude-sonnet-4-20250514"
+
 
 def _parse_dotenv_file(dotenv_path: Path) -> dict[str, str]:
     """Lê pares CHAVE=VALOR de um arquivo `.env` sem dependências externas."""
@@ -88,7 +93,7 @@ class IrisSettings:
 
     # Juiz de Auditoria RAG (Claude Sonnet via API Anthropic)
     anthropic_api_key: str = ""
-    judge_model: str = "claude-sonnet-4-5-20250929"
+    judge_model: str = JUIZ_MODELO_PADRAO
 
     # Parâmetros do RAG
     rag_banco: str = "pgvector"
@@ -121,7 +126,7 @@ def get_settings() -> IrisSettings:
         ollama_url=_get_env("OLLAMA_URL", "http://127.0.0.1:11434", dotenv_map),
         groq_api_key=_get_env("GROQ_API_KEY", "", dotenv_map),
         anthropic_api_key=_get_env("ANTHROPIC_API_KEY", "", dotenv_map),
-        judge_model=_get_env("IRIS_JUDGE_MODEL", "claude-sonnet-4-20250514", dotenv_map),
+        judge_model=_get_env("IRIS_JUDGE_MODEL", JUIZ_MODELO_PADRAO, dotenv_map),
         rag_banco=_get_env("RAG_BANCO", "pgvector", dotenv_map),
         rag_metodo=_get_env("RAG_METODO", "qwen3+rerank50", dotenv_map),
         rag_reranker=_get_env("RAG_RERANKER", "mminilm", dotenv_map),

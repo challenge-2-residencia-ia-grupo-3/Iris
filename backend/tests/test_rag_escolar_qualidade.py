@@ -134,7 +134,7 @@ class TestComparacaoComLinhaDeBase(unittest.TestCase):
         self.assertEqual(self._veredito(comp, "fidelidade_media"), "igual")
         self.assertEqual(self._veredito(comp, "relevancia_media"), "igual")
 
-    def test_latencia_maior_e_piora_e_abstencao_so_muda(self) -> None:
+    def test_latencia_maior_e_so_mais_lenta_e_abstencao_so_muda(self) -> None:
         atual = _rodada("atual", self.BASE)
         for item in atual["itens"]:
             item["segundos_total"] = 9.0
@@ -142,7 +142,8 @@ class TestComparacaoComLinhaDeBase(unittest.TestCase):
         base = _rodada("base", self.BASE)
         base["itens"][0]["segundos_total"] = 0.2
         comp = comparar_com_linha_de_base(atual, base)
-        self.assertEqual(self._veredito(comp, "latencia_total_ms"), "piorou")
+        # tempo depende da máquina: vira informação, não "piorou" (pendência C1, fechada em 15/11/2026)
+        self.assertEqual(self._veredito(comp, "latencia_total_ms"), "mais_lenta")
         self.assertEqual(self._veredito(comp, "taxa_abstencao_pct"), "mudou")
 
     def test_configuracao_filtro_ou_prova_diferente_nao_compara(self) -> None:

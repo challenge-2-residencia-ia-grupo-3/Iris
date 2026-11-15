@@ -21,7 +21,7 @@ import os
 import shutil
 import subprocess
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 VERSAO = "1.6.12"
@@ -30,7 +30,9 @@ TIPO = {"Function": "função", "Method": "método", "Class": "classe"}
 
 
 def sh(cmd: list[str], cwd: Path | None = None, env: dict | None = None, timeout: int = 1500) -> str:
-    r = subprocess.run(cmd, cwd=cwd, env={**os.environ, **(env or {})}, capture_output=True, text=True, timeout=timeout)
+    r = subprocess.run(
+        cmd, cwd=cwd, env={**os.environ, **(env or {})}, capture_output=True, text=True, timeout=timeout, check=False
+    )
     if r.returncode != 0:
         raise RuntimeError(f"{' '.join(cmd[:4])}… falhou ({r.returncode}): {(r.stdout + r.stderr)[-600:]}")
     return r.stdout
@@ -62,6 +64,7 @@ class Grafo:
                 ["npx", "-y", f"gitnexus@{VERSAO}", "cypher", "-l", "100000", cypher],
                 cwd=self.copia,
                 env={**os.environ, **self.env},
+                check=False,
                 stdout=f,
                 stderr=subprocess.PIPE,
                 text=True,
@@ -111,7 +114,7 @@ def montar(simb, membro, comun, chamadas, proc, passos, sha: str, resumo: list[s
     return {
         "ferramenta": f"GitNexus {VERSAO} (PolyForm Noncommercial 1.0.0; usado só para gerar estes dados)",
         "commit_grupo": sha[:7],
-        "gerado_em": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "gerado_em": datetime.now(UTC).isoformat(timespec="seconds"),
         "resumo_gitnexus": resumo,
         "simbolos": simbolos,
         "chamadas": [list(par) for par in arestas],

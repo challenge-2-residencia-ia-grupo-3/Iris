@@ -21,11 +21,11 @@ import subprocess
 import time
 import uuid
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
-from iris.config import BENCHMARKS_DIR, RAG_PACOTE_DIR, REPO_ROOT, get_settings
+from iris.config import BENCHMARKS_DIR, JUIZ_MODELO_PADRAO, RAG_PACOTE_DIR, REPO_ROOT, get_settings
 from iris.eval.rag_metrics import (
     calcular_similaridade_semantica,
     verificar_sustentacao_frase_no_trecho,
@@ -76,6 +76,8 @@ METRICAS_COMPARADAS = (
     ("latencia_busca_ms", "Latência da busca (ms)", "menor_melhor"),
     ("latencia_total_ms", "Latência total (ms)", "menor_melhor"),
 )
+
+METRICAS_DE_TEMPO = {"latencia_busca_ms", "latencia_total_ms"}
 
 # Bloco bibliográfico entre parênteses contendo "Disponível em: ..."
 _RE_CITACAO_PARENTETICA = re.compile(
@@ -449,7 +451,7 @@ def _executar_geracao_segura(
         if api_sonnet and old_rag_llm not in {"extractive", "mock", "offline"}:
             os.environ["ANTHROPIC_API_KEY"] = api_sonnet
             os.environ["RAG_LLM"] = "anthropic"
-            os.environ["RAG_LLM_MODELO"] = settings.judge_model or "claude-sonnet-4-5-20250929"
+            os.environ["RAG_LLM_MODELO"] = settings.judge_model or JUIZ_MODELO_PADRAO
             try:
                 res = rag_bridge.responder_fundamentado(
                     pergunta=pergunta,
@@ -795,6 +797,10 @@ def _resumir_grupo_itens(itens: list[dict[str, Any]], *, com_ic: bool = False) -
     return {
         **({"ic95": _intervalos_do_grupo(itens, com_gen)} if com_ic else {}),
         "total": n,
+        # Uma medida de busca que pode falhar: quantos conjuntos diferentes de trechos a rodada devolveu.
+        # Se 136 questões recebem só 37 conjuntos, a busca responde à característica, não à questão.
+        "conjuntos_distintos_trechos": len({tuple(r.get("chunk_ids") or []) for r in itens}),
+        "trechos_distintos": len({cid for r in itens for cid in (r.get("chunk_ids") or [])}),
         "taxa_retorno_pct": round((retornaram / n) * 100.0, 1),
         "media_trechos": round(total_trechos / n, 2),
         "score_top1_medio": _media_num([r.get("score_top1") for r in itens]) or 0.0,
@@ -1037,8 +1043,8 @@ def executar_teste_de_recusa(
         por_tipo[item["tipo"]].append(item)
 
     teste = {
-        "teste_id": f"recusa-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:6]}",
-        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "teste_id": f"recusa-{datetime.now(UTC).strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:6]}",
+        "timestamp_utc": datetime.now(UTC).isoformat(),
         "metodo_solicitado": metodo or metodo_efetivo,
         "metodo_efetivo": metodo_efetivo,
         "k": k,
@@ -1240,7 +1246,7 @@ def definir_linha_de_base(
         raise KeyError(f"Rodada {run_id!r} não encontrada no registro.")
     if not rodada.get("itens"):
         raise ValueError("Uma rodada sem questões não pode ser linha de base.")
-    registro = {"run_id": run_id, "definida_em_utc": datetime.now(timezone.utc).isoformat()}
+    registro = {"run_id": run_id, "definida_em_utc": datetime.now(UTC).isoformat()}
     destino.parent.mkdir(parents=True, exist_ok=True)
     destino.write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {"linha_de_base": registro}
@@ -1293,6 +1299,9 @@ def comparar_com_linha_de_base(atual: dict[str, Any], base: dict[str, Any]) -> d
         else:
             subiu = float(v_atual) > ic[1]
             veredito = "melhorou" if subiu == (sentido == "maior_melhor") else "piorou"
+            if chave in METRICAS_DE_TEMPO:
+                # Tempo depende da máquina e da carga: vira informação, não juízo de qualidade.
+                veredito = "mais_lenta" if veredito == "piorou" else "mais_rapida"
         metricas.append(
             {
                 "chave": chave,
@@ -1308,9 +1317,6 @@ def comparar_com_linha_de_base(atual: dict[str, Any], base: dict[str, Any]) -> d
     return {"base": info_base, "mesma_rodada": False, "comparavel": True, "motivos": [], "metricas": metricas}
 
 
-METRICAS_DE_TEMPO = {"latencia_busca_ms", "latencia_total_ms"}
-
-
 def avaliar_portao(rodada: dict[str, Any], comparacao: dict[str, Any] | None) -> dict[str, Any]:
     """Resume a comparação com a linha de base num veredito: aprovado, aviso ou reprovado.
 
@@ -1320,17 +1326,20 @@ def avaliar_portao(rodada: dict[str, Any], comparacao: dict[str, Any] | None) ->
     - a prova mudou desde a linha de base: `reprovado` (lacre rompido; quem troca a prova redefine a base de propósito);
     - outra configuração ou outros filtros: `aviso` (não comparável);
     - métrica de qualidade pior fora do intervalo de 95% da base: `reprovado`;
-    - latência pior, métrica neutra que mudou, ou código com alterações locais: `aviso`;
+    - métrica neutra que mudou (abstenção, pontuação do 1º trecho): `aviso`;
     - o resto: `aprovado`.
-    Latência só gera aviso porque depende da máquina; o limite de tempo que reprova é o do RNF-07, mostrado à parte.
+    `notas` traz o que não é resultado e por isso não muda o veredito: latência mais lenta ou mais rápida (depende
+    da máquina; o limite de tempo que vale é o do RNF-07, mostrado à parte), código com alterações locais não
+    commitadas e rodada sem hash da prova.
     """
     if not comparacao:
         return {
             "veredito": "sem_base",
             "motivos": ["Nenhuma linha de base definida: não há contra o que aprovar ou reprovar esta rodada."],
+            "notas": [],
         }
     if comparacao.get("mesma_rodada"):
-        return {"veredito": "referencia", "motivos": ["Esta rodada é a linha de base."]}
+        return {"veredito": "referencia", "motivos": ["Esta rodada é a linha de base."], "notas": []}
 
     sha_base = None
     sha_atual = (rodada.get("procedencia") or {}).get("dataset_sha256")
@@ -1341,37 +1350,47 @@ def avaliar_portao(rodada: dict[str, Any], comparacao: dict[str, Any] | None) ->
         return {
             "veredito": "reprovado",
             "lacre_rompido": True,
+            "notas": [],
             "motivos": [
-                f"Lacre rompido: {sha_base}. Uma rodada só é aprovada contra a mesma prova; se a troca foi "
-                "intencional, redefina a linha de base."
+                (
+                    f"Lacre rompido: {sha_base}. Uma rodada só é aprovada contra a mesma prova; se a troca foi "
+                    "intencional, redefina a linha de base."
+                )
             ],
         }
     if not comparacao.get("comparavel"):
         return {
             "veredito": "aviso",
             "motivos": ["Não comparável com a linha de base: " + "; ".join(comparacao.get("motivos") or [])],
+            "notas": [],
         }
 
     reprovam: list[str] = []
     avisam: list[str] = []
+    notas: list[str] = []
     for m in comparacao.get("metricas") or []:
         if m["veredito"] == "piorou":
-            texto = f"{m['rotulo']} piorou: {m['base']} na linha de base, {m['atual']} nesta rodada"
-            (avisam if m["chave"] in METRICAS_DE_TEMPO else reprovam).append(texto)
+            reprovam.append(f"{m['rotulo']} piorou: {m['base']} na linha de base, {m['atual']} nesta rodada")
         elif m["veredito"] == "mudou":
             avisam.append(f"{m['rotulo']} mudou: {m['base']} na linha de base, {m['atual']} nesta rodada")
+        elif m["veredito"] in {"mais_lenta", "mais_rapida"}:
+            notas.append(
+                f"{m['rotulo']}: {m['base']} na linha de base, {m['atual']} nesta rodada "
+                f"({'mais lenta' if m['veredito'] == 'mais_lenta' else 'mais rápida'}; depende da máquina, não entra no veredito)"
+            )
     if (rodada.get("procedencia") or {}).get("commit_com_alteracoes_locais"):
-        avisam.append("O código desta rodada tinha alterações locais não commitadas.")
+        notas.append("Procedência: o código desta rodada tinha alterações locais não commitadas.")
     if not sha_atual:
-        avisam.append("Esta rodada não registrou o hash da prova.")
+        notas.append("Procedência: esta rodada não registrou o hash da prova.")
 
     if reprovam:
-        return {"veredito": "reprovado", "lacre_rompido": False, "motivos": reprovam + avisam}
+        return {"veredito": "reprovado", "lacre_rompido": False, "motivos": reprovam + avisam, "notas": notas}
     if avisam:
-        return {"veredito": "aviso", "motivos": avisam}
+        return {"veredito": "aviso", "motivos": avisam, "notas": notas}
     return {
         "veredito": "aprovado",
         "motivos": ["Mesma prova, mesma configuração e nenhuma métrica fora do intervalo de 95% da linha de base."],
+        "notas": notas,
     }
 
 
@@ -1715,6 +1734,7 @@ def repetir_rodada_rag_escolar(
     *,
     caminho_runs: str | Path | None = None,
     caminho_dataset: str | Path | None = None,
+    on_step: Callable[[dict[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
     """Roda de novo uma rodada registrada, com a mesma configuração, e conta em quantas questões deu igual.
 
@@ -1746,6 +1766,7 @@ def repetir_rodada_rag_escolar(
         salvar=False,
         registrar_log=False,
         progresso=lambda _msg: None,
+        on_step=on_step,
         **filtros,
     )
 

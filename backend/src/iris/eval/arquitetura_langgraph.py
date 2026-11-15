@@ -23,8 +23,9 @@ import json
 import operator
 import re
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field, replace
-from typing import Annotated, Any, Callable, Optional, TypedDict
+from typing import Annotated, Any, TypedDict
 
 # Limite de voltas do Auditor ao Adaptador: o grupo decidiu max_retries = 2 (docs/arquitetura.md, ADR-06).
 LIMITE_VOLTAS = 2
@@ -72,25 +73,26 @@ class EstadoIris(TypedDict, total=False):
     nivel: int
     n_caracteristicas_bloqueadas: int
     indice_questao: int
-    questao_id: Optional[str]
+    questao_id: str | None
     enunciado: str
     invariantes: dict
     chunk_ids: list[str]
     diretiva: str
-    estrategista_reserva: Optional[str]
+    estrategista_reserva: str | None
     tentativa: int
     minuta: str
-    minuta_anterior: Optional[str]
-    feedback_auditor: Optional[str]
+    minuta_anterior: str | None
+    feedback_auditor: str | None
     auditoria: dict
     voltas_auditor: int
     rota: str
     texto_proposto: str
-    alerta_professora: Optional[str]
-    decisao_professora: Optional[str]
+    alerta_professora: str | None
+    decisao_professora: str | None
     texto_final: str
     resultados: Annotated[list[dict], operator.add]
     caminho: Annotated[list[list], operator.add]
+    barradas_pelo_adaptador: Annotated[list[dict], operator.add]
 
 
 @dataclass
@@ -101,7 +103,7 @@ class Contexto:
     arquivada a cada passo; por isso o texto com dado pessoal fica na mesa e não na ficha.
     """
 
-    texto_bruto: Optional[str] = None
+    texto_bruto: str | None = None
     cliente: Any = None
     juiz: Any = None
     buscas: dict = field(default_factory=dict)
@@ -134,7 +136,7 @@ class ProvedorEco:
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 1500,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
         json_mode: bool = False,
     ) -> Any:
         from iris.core.llm_client import LLMResponse
@@ -195,10 +197,13 @@ class ClienteForcado:
     # Marca de gabarito sem palavra nova: passa pela checagem de escopo do próprio Adaptador (que barra
     # vocabulário fora do enunciado) e é acusada pelo Auditor, que procura sinais de resposta entregue.
     MARCA = "✔"
+    # Marca com palavras novas: o próprio Adaptador barra antes do Auditor (cenário "frase de gabarito").
+    MARCA_COM_PALAVRAS = "Resposta correta: a) evaporação"
 
-    def __init__(self, base: Any, modo: str) -> None:
+    def __init__(self, base: Any, modo: str, marca: str | None = None) -> None:
         self.base = base
         self.modo = modo
+        self.marca = marca or self.MARCA
         self.provider_name = base.provider_name
         self.model = base.model
         self.estragadas = 0
@@ -211,7 +216,7 @@ class ClienteForcado:
         prompt: str,
         temperature: float = 0.0,
         max_tokens: int = 1500,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
         json_mode: bool = False,
     ) -> Any:
         r = self.base.generate(
@@ -221,7 +226,7 @@ class ClienteForcado:
         corrigindo = "CORREÇÃO PEDIDA PELO AUDITOR" in prompt
         if e_adaptador and (self.modo == "sempre" or not corrigindo):
             d = json.loads(r.text)
-            d["texto_adaptado"] = d["texto_adaptado"].rstrip() + " " + self.MARCA
+            d["texto_adaptado"] = d["texto_adaptado"].rstrip() + " " + self.marca
             r = replace(r, text=json.dumps(d, ensure_ascii=False))
             self.estragadas += 1
         return r
@@ -338,7 +343,7 @@ def _medido(no_id: str) -> Callable:
 
     def deco(fn: Callable) -> Callable:
         # sem functools.wraps: ele faria o LangGraph ler a assinatura da função de dentro
-        def no(estado: EstadoIris, runtime: "Runtime[Contexto]") -> dict:
+        def no(estado: EstadoIris, runtime: Runtime[Contexto]) -> dict:
             ctx = runtime.context
             ctx.chamadas[no_id] = ctx.chamadas.get(no_id, 0) + 1
             t0 = time.perf_counter()
@@ -496,7 +501,12 @@ def _no_adaptador(estado: EstadoIris, ctx: Contexto) -> dict:
         raise RuntimeError("falha simulada do Adaptador (por exemplo, o servidor do modelo caiu)")
     tentativa = estado.get("tentativa", 0) + 1
     res = AdapterAgent(llm_client=ctx.cliente).adapt(_pedido_adaptacao(estado), tentativa=tentativa)
-    return {"tentativa": tentativa, "minuta": res.texto_adaptado}
+    saida: dict[str, Any] = {"tentativa": tentativa, "minuta": res.texto_adaptado}
+    if res.telemetry.motivo_fallback == "escopo_reprovado":
+        # O próprio Adaptador barrou a minuta do modelo (palavra fora do enunciado) e devolveu a adaptação por
+        # regras antes de o Auditor ver qualquer coisa: uma proteção que nenhuma tela mostrava.
+        saida["barradas_pelo_adaptador"] = [{"questao": estado.get("questao_id"), "tentativa": tentativa}]
+    return saida
 
 
 @_medido("auditor")
@@ -695,6 +705,7 @@ def _rodar(grafo: Any, ctx: Contexto, thread_id: str) -> dict[str, Any]:
         "resultados": final.get("resultados", []),
         "pausas": pausas,
         "voltas_ao_adaptador": sum(int(r.get("voltas_auditor", 0)) for r in final.get("resultados", [])),
+        "barradas_pelo_adaptador": len(final.get("barradas_pelo_adaptador", [])),
         "chamadas_por_no": dict(ctx.chamadas),
         "estados_salvos": len(historico),
         "n_pii_removidos": final.get("n_pii_removidos"),
@@ -709,6 +720,7 @@ CENARIOS: list[dict[str, str]] = [
     {"id": "normal", "nome": "Fluxo normal", "o_que_mostra": "o Auditor aprova de primeira e o grafo para na revisão da professora, uma vez por questão"},
     {"id": "estragada_uma_vez", "nome": "Minuta ruim uma vez", "o_que_mostra": "a 1ª minuta traz a resposta; o Auditor reprova, o Adaptador corrige com o retorno e a 2ª passa"},
     {"id": "estragada_sempre", "nome": "Minuta ruim sempre", "o_que_mostra": f"toda minuta traz a resposta; depois de {LIMITE_VOLTAS} voltas o grafo desiste, usa a saída de reserva e avisa a professora"},
+    {"id": "frase_de_gabarito", "nome": "Frase de gabarito", "o_que_mostra": "toda minuta traz a frase \"Resposta correta: a) evaporação\"; o próprio Adaptador barra a minuta por palavra fora do enunciado e devolve a adaptação por regras, e o Auditor nem chega a ver a frase"},
     {"id": "retomada", "nome": "Queda e retomada", "o_que_mostra": "o Adaptador falha uma vez; o grafo retoma do último passo salvo, sem refazer Extrator, busca e Estrategista"},
 ]
 
@@ -725,6 +737,8 @@ def executar_cenarios() -> dict[str, Any]:
             cliente = ClienteForcado(eco, "uma_vez")
         elif cid == "estragada_sempre":
             cliente = ClienteForcado(eco, "sempre")
+        elif cid == "frase_de_gabarito":
+            cliente = ClienteForcado(eco, "sempre", marca=ClienteForcado.MARCA_COM_PALAVRAS)
         ctx = Contexto(texto_bruto=MATERIAL_SINTETICO, cliente=cliente, juiz=JuizEco(), falhar_adaptador_uma_vez=cid == "retomada")
         execucoes.append({**cenario, **_rodar(grafo, ctx, f"cenario-{cid}")})
     return {"grafo": descrever_grafo(grafo), "execucoes": execucoes}

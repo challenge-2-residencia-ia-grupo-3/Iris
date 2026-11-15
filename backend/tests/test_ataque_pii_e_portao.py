@@ -38,7 +38,11 @@ from iris.eval.ataque_pii import (
     vazou,
     wilson,
 )
-from iris.eval.rag_escolar_benchmark import avaliar_portao, comparar_com_linha_de_base, executar_benchmark_rag_escolar
+from iris.eval.rag_escolar_benchmark import (
+    avaliar_portao,
+    comparar_com_linha_de_base,
+    executar_benchmark_rag_escolar,
+)
 from iris.main import app
 from iris.security.pii_scrubber import sanitize_pii
 
@@ -285,7 +289,7 @@ class TestPortao(unittest.TestCase):
             self.assertEqual(p["veredito"], "aviso")
             self.assertIn("Não comparável", p["motivos"][0])
 
-    def test_latencia_pior_e_aviso_e_nao_reprovacao(self) -> None:
+    def test_latencia_90_vezes_maior_so_vira_nota_e_o_portao_aprova(self) -> None:
         nova = _rodada("nova", self.BASE)
         for item in nova["itens"]:
             item["segundos_total"] = 9.0
@@ -293,20 +297,21 @@ class TestPortao(unittest.TestCase):
         for i, item in enumerate(base["itens"]):
             item["segundos_total"] = 0.1 + (i % 4) * 0.01
         p = _portao(nova, base)
-        self.assertEqual(p["veredito"], "aviso")
-        self.assertTrue(any("Latência total" in m for m in p["motivos"]))
+        self.assertEqual(p["veredito"], "aprovado")
+        self.assertTrue(any("Latência total" in n and "mais lenta" in n for n in p["notas"]))
+        self.assertFalse(any("Latência" in m for m in p["motivos"]))
 
-    def test_codigo_com_alteracoes_locais_e_aviso(self) -> None:
+    def test_codigo_com_alteracoes_locais_vira_nota_e_nao_aviso(self) -> None:
         nova = _rodada(
             "nova",
             self.BASE,
             procedencia={"commit": "abc1234", "commit_com_alteracoes_locais": True, "dataset_sha256": "0123456789abcdef"},
         )
         p = _portao(nova, _rodada("base", self.BASE))
-        self.assertEqual(p["veredito"], "aviso")
-        self.assertIn("alterações locais", p["motivos"][0])
+        self.assertEqual(p["veredito"], "aprovado")
+        self.assertIn("alterações locais", p["notas"][0])
 
-    def test_reprovacao_vem_antes_do_aviso_quando_ha_os_dois(self) -> None:
+    def test_reprovacao_traz_a_nota_de_procedencia_separada(self) -> None:
         nova = _rodada(
             "nova",
             [0.1] * 40,
@@ -314,7 +319,8 @@ class TestPortao(unittest.TestCase):
         )
         p = _portao(nova, _rodada("base", self.BASE))
         self.assertEqual(p["veredito"], "reprovado")
-        self.assertEqual(len(p["motivos"]), 2)
+        self.assertEqual(len(p["motivos"]), 1)
+        self.assertEqual(len(p["notas"]), 1)
 
     def test_rodada_real_traz_o_portao_do_registro_a_tela(self) -> None:
         with tempfile.TemporaryDirectory() as tmp, _ambiente_extrativo():

@@ -23,9 +23,10 @@ import random
 import re
 import unicodedata
 import uuid
-from datetime import datetime, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from iris.config import REPO_ROOT
 from iris.security.pii_scrubber import sanitize_pii
@@ -268,8 +269,8 @@ def executar_ataque_pii(
         )
 
     relatorio = {
-        "ataque_id": f"ataque-pii-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:6]}",
-        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "ataque_id": f"ataque-pii-{datetime.now(UTC).strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:6]}",
+        "timestamp_utc": datetime.now(UTC).isoformat(),
         "semente": semente,
         "repeticoes": repeticoes,
         "assinatura_casos": _assinatura(casos),

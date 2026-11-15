@@ -593,10 +593,40 @@ def _handle_ataque_pii() -> dict[str, Any]:
 
 
 def _handle_rag_escolar_repetir(body: dict[str, Any]) -> dict[str, Any]:
-    """Roda de novo uma rodada registrada (sem gravar) e conta em quantas questões deu igual."""
+    """Roda de novo uma rodada registrada (sem gravar) e conta em quantas questões deu igual.
+
+    Usa o mesmo acompanhamento de progresso da bateria, para a tela mostrar a barra durante a repetição.
+    """
     from iris.eval.rag_escolar_benchmark import repetir_rodada_rag_escolar
 
-    return repetir_rodada_rag_escolar(str(body.get("run_id") or "").strip() or None)
+    with _RAG_ESCOLAR_LOCK:
+        _RAG_ESCOLAR_PROGRESSO.update(
+            {
+                "running": True,
+                "atual": 0,
+                "total": 0,
+                "questao_atual": None,
+                "etapa": "repetindo a rodada",
+                "inicio_utc": datetime.now(timezone.utc).isoformat(),
+                "inicio_monotonic": time.monotonic(),
+                "log_linhas": [],
+                "resumo_parcial": None,
+            }
+        )
+
+    def _on_step(step: dict[str, Any]) -> None:
+        with _RAG_ESCOLAR_LOCK:
+            _RAG_ESCOLAR_PROGRESSO["atual"] = int(step.get("atual", 0))
+            _RAG_ESCOLAR_PROGRESSO["total"] = int(step.get("total", 0))
+            _RAG_ESCOLAR_PROGRESSO["questao_atual"] = step.get("questao_atual")
+            _RAG_ESCOLAR_PROGRESSO["etapa"] = "repetindo a rodada"
+
+    try:
+        return repetir_rodada_rag_escolar(str(body.get("run_id") or "").strip() or None, on_step=_on_step)
+    finally:
+        with _RAG_ESCOLAR_LOCK:
+            _RAG_ESCOLAR_PROGRESSO["running"] = False
+            _RAG_ESCOLAR_PROGRESSO["etapa"] = "concluido"
 
 
 def _handle_rag_escolar_recusa_run(body: dict[str, Any]) -> dict[str, Any]:
@@ -776,7 +806,9 @@ def create_app() -> Any:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     @app.post("/api/v1/eval/rag-escolar/baseline", tags=["eval"])
-    def baseline_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:
+    # Body() como valor padrão, no mesmo padrão das rotas vizinhas: com anotações adiadas e o Body importado aqui
+    # dentro, a forma Annotated[..., Body()] não é resolvida pelo FastAPI e o corpo chega vazio.
+    def baseline_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
         from fastapi import HTTPException
 
         try:
@@ -803,7 +835,9 @@ def create_app() -> Any:
         return _handle_ataque_pii()
 
     @app.post("/api/v1/eval/rag-escolar/repetir", tags=["eval"])
-    def repetir_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:
+    # Body() como valor padrão, no mesmo padrão das rotas vizinhas: com anotações adiadas e o Body importado aqui
+    # dentro, a forma Annotated[..., Body()] não é resolvida pelo FastAPI e o corpo chega vazio.
+    def repetir_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
         from fastapi import HTTPException
 
         try:
@@ -814,7 +848,9 @@ def create_app() -> Any:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     @app.post("/api/v1/eval/rag-escolar/recusa", tags=["eval"])
-    def recusa_rag_escolar_run(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:
+    # Body() como valor padrão, no mesmo padrão das rotas vizinhas: com anotações adiadas e o Body importado aqui
+    # dentro, a forma Annotated[..., Body()] não é resolvida pelo FastAPI e o corpo chega vazio.
+    def recusa_rag_escolar_run(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
         from fastapi import HTTPException
 
         try:

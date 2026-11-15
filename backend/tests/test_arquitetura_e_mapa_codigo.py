@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import contextlib
-import importlib
 import io
 import json
 import os
@@ -60,7 +59,9 @@ class TestCenariosDoGrafo(unittest.TestCase):
 
     def test_os_quatro_cenarios_rodam(self) -> None:
         self.assertTrue(self.dados["disponivel"])
-        self.assertEqual(list(self.por_id), ["normal", "estragada_uma_vez", "estragada_sempre", "retomada"])
+        self.assertEqual(
+            list(self.por_id), ["normal", "estragada_uma_vez", "estragada_sempre", "frase_de_gabarito", "retomada"]
+        )
         for e in self.dados["execucoes"]:
             self.assertEqual(e["questoes"], 2, e["id"])
             self.assertEqual(len(e["pausas"]), 2, e["id"])
@@ -86,6 +87,13 @@ class TestCenariosDoGrafo(unittest.TestCase):
         self.assertEqual([r["resultado"] for r in e["resultados"]], ["reserva", "reserva"])
         self.assertTrue(all(p["com_alerta"] for p in e["pausas"]))
         self.assertEqual(e["chamadas_por_no"]["saida_de_reserva"], 2)
+
+    def test_frase_de_gabarito_e_barrada_pelo_proprio_adaptador_antes_do_auditor(self) -> None:
+        e = self.por_id["frase_de_gabarito"]
+        self.assertEqual(e["barradas_pelo_adaptador"], e["questoes"])
+        self.assertEqual(e["voltas_ao_adaptador"], 0)  # o Auditor não chegou a ver a frase
+        for outro in ("normal", "estragada_uma_vez", "estragada_sempre", "retomada"):
+            self.assertEqual(self.por_id[outro]["barradas_pelo_adaptador"], 0, outro)
 
     def test_retomada_nao_refaz_o_extrator(self) -> None:
         e = self.por_id["retomada"]
@@ -315,10 +323,13 @@ class TestRotasNovas(unittest.TestCase):
             with urllib.request.urlopen(url + "/api/v1/eval/mapa-codigo", timeout=60) as r:
                 self.assertEqual(r.status, 200)
                 self.assertIn("modulos", json.loads(r.read().decode("utf-8")))
-            with _ambiente_extrativo(), contextlib.redirect_stderr(io.StringIO()):
-                with urllib.request.urlopen(url + "/api/v1/eval/arquitetura-langgraph", timeout=120) as r:
-                    self.assertEqual(r.status, 200)
-                    self.assertIn("disponivel", json.loads(r.read().decode("utf-8")))
+            with (
+                _ambiente_extrativo(),
+                contextlib.redirect_stderr(io.StringIO()),
+                urllib.request.urlopen(url + "/api/v1/eval/arquitetura-langgraph", timeout=120) as r,
+            ):
+                self.assertEqual(r.status, 200)
+                self.assertIn("disponivel", json.loads(r.read().decode("utf-8")))
         finally:
             srv.shutdown()
             srv.server_close()

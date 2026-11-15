@@ -491,6 +491,7 @@
     .gate-banner > * { min-width: 0; }
     .gate-word { font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.8rem; white-space: nowrap; }
     .gate-reasons { margin: 0; padding-left: 1.1rem; flex: 1 1 260px; overflow-wrap: anywhere; }
+    .gate-notes { margin: -0.45rem 0 0.85rem; padding-left: 1.1rem; font-size: 0.78rem; color: var(--muted); line-height: 1.5; overflow-wrap: anywhere; }
     .gate-aprovado { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.35); color: #0f4f37; }
     .gate-aviso { background: var(--ochre-soft); border-color: rgba(158, 91, 8, 0.35); color: #693c04; }
     .gate-reprovado { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.38); color: #7e2215; }
@@ -604,6 +605,10 @@
       table.table-compact { font-size: 0.78rem; }
       table.table-compact th, table.table-compact td { padding-left: 0.3rem; padding-right: 0.3rem; }
       .symbol-cell { min-width: 0; }
+    }
+    @media (max-width: 360px) {
+      table.table-compact { font-size: 0.72rem; }
+      table.table-compact .tag { padding-left: 0.3rem; padding-right: 0.3rem; }
     }
     .symbol-cell code { overflow-wrap: anywhere; }
     .symbol-where { display: block; margin-top: 0.15rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); overflow-wrap: anywhere; }
@@ -2614,6 +2619,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       `;
     }
 
+    // Recorte com menos questões que isto tem intervalo largo demais para comparar com outro recorte.
+    const RECORTE_MINIMO = 20;
+
     function renderTabelaSegmentadaUnificadaEscolar(an) {
       const secoes = [
         { titulo: 'Por faixa etária', mapa: an.por_faixa_etaria, caracteristica: false },
@@ -2643,15 +2651,17 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           const fid = m.fidelidade_media !== undefined && m.fidelidade_media !== null ? m.fidelidade_media : m.fidelidade_lexica_media;
           const fidStr = fid !== null && fid !== undefined ? Number(fid).toFixed(2) : '—';
           const fidCls = fid !== null && fid !== undefined ? classeCor(Number(fid)).cls : '';
+          const icFid = m.ic95 && Array.isArray(m.ic95.fidelidade_media) ? m.ic95.fidelidade_media : null;
+          const pequeno = Number(m.total || 0) < RECORTE_MINIMO;
           return `
             <tr>
               <td class="recorte-cell">${celulaRecorte}</td>
-              <td class="num">${escapeHtml(m.total)}</td>
+              <td class="num">${escapeHtml(m.total)}${pequeno ? '<span class="ledger-ic">poucas questões</span>' : ''}</td>
               <td class="num ${classePct(txtUtil, 95, 70)}">${escapeHtml(txtUtil)}%</td>
               <td class="num ${classePct(semAviso, 75, 45)}">${escapeHtml(semAviso)}%</td>
               <td class="num">${Number(m.score_top1_medio || 0).toFixed(3)}</td>
               <td class="num">${escapeHtml(m.latencia_busca_ms)} ms</td>
-              <td class="num ${fidCls}">${fidStr}</td>
+              <td class="num ${pequeno ? 'score-neutral' : fidCls}">${fidStr}${icFid ? `<span class="ledger-ic">${Number(icFid[0]).toFixed(2)} a ${Number(icFid[1]).toFixed(2)}</span>` : ''}</td>
             </tr>
           `;
         }).join('');
@@ -2674,7 +2684,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
                   <th class="num">${renderMetricTip('Sem aviso', 'Percentual dos trechos sem restrição editorial nao_usar_para.')}</th>
                   <th class="num">${renderMetricTip('Score Top-1', 'Pontuação média do primeiro trecho recuperado (BM25 ≥ 0; Reranker pode ser negativo).')}</th>
                   <th class="num">${renderMetricTip('Busca', 'Latência média apenas da etapa de recuperação no RAG.')}</th>
-                  <th class="num">${renderMetricTip('Fidelidade', 'Média de fidelidade (0–1) do Claude Sonnet v2 ou fallback léxico.')}</th>
+                  <th class="num">${renderMetricTip('Fidelidade', 'Média de fidelidade (0–1) do Claude Sonnet v2 ou fallback léxico. Embaixo, o intervalo de 95% do recorte. Recorte com menos de 20 questões aparece em cinza: o intervalo é largo demais para dizer que ele vai melhor ou pior que outro.')}</th>
                 </tr>
               </thead>
               <tbody>${linhasHtml}</tbody>
@@ -2757,6 +2767,14 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           val: `${aderencia.toFixed(1)}%`
         },
         {
+          nome: 'Variedade da busca',
+          tip: 'Quantos conjuntos diferentes de 5 trechos a rodada devolveu. Ao contrário do retorno e da aderência, este número pode falhar: se muitas questões recebem os mesmos trechos, a busca está respondendo à característica, não à questão.',
+          leitura: `${r.conjuntos_distintos_trechos ?? '-'} conjuntos e ${r.trechos_distintos ?? '-'} trechos diferentes em ${r.total ?? '-'} questões`,
+          pct: r.total ? (Number(r.conjuntos_distintos_trechos || 0) / Number(r.total)) * 100 : 0,
+          cls: 'score-neutral',
+          val: r.total ? `${r.conjuntos_distintos_trechos ?? 0} de ${r.total}` : '—'
+        },
+        {
           nome: 'Trechos com texto útil',
           tip: 'Trechos sem bloqueio de licença restrita disponíveis integralmente para o LLM ler e citar.',
           leitura: `Sem aviso nao_usar_para: ${semAviso.toFixed(1)}%`,
@@ -2784,7 +2802,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         linhas.push(
           {
             nome: ehSonnet ? 'Fidelidade (Claude Sonnet)' : 'Fidelidade (Léxica)',
-            tip: 'Fração média das frases da resposta comprovadas nos trechos [Tn] citados (0 a 1). Meta recomendada ≥ 0,80.',
+            tip: 'Fração média das frases da resposta comprovadas nos trechos [Tn] citados (0 a 1). Não há meta com origem declarada para este número; as cores da barra são só uma escala visual.',
             leitura: ehSonnet && r.fidelidade_lexica_media != null ? `Léxica paralela: ${Number(r.fidelidade_lexica_media).toFixed(2)}` : 'Avaliador por sobreposição de palavras',
             pct: (fid || 0) * 100,
             cls: classeCor(fid || 0).cls,
@@ -2826,10 +2844,14 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           },
           {
             nome: 'Taxa de abstenção',
-            tip: 'Percentual de questões em que o LLM recusou responder alegando falta de evidências nos trechos.',
-            leitura: (abstencao || 0) <= 10 ? 'Dentro do esperado (próximo de 0%)' : 'Alta recusa: revise o prompt ou cobertura dos trechos',
+            tip: opts.extrativo
+              ? 'Percentual de questões em que a resposta foi a frase fixa de recusa. O gerador sem modelo descarta todo trecho com aviso de uso (nao_usar_para), mesmo quando o aviso só restringe um uso específico; quando os 5 trechos têm aviso, ele se abstém. Por isso, aqui a taxa mede quantas vezes a busca trouxe só trechos com aviso, e não a falta de evidência.'
+              : 'Percentual de questões em que o LLM recusou responder alegando falta de evidências nos trechos.',
+            leitura: opts.extrativo
+              ? 'Gerador sem modelo: abstém-se quando os 5 trechos têm aviso de uso'
+              : ((abstencao || 0) <= 10 ? 'Dentro do esperado (próximo de 0%)' : 'Alta recusa: revise o prompt ou cobertura dos trechos'),
             pct: abstencao !== null ? abstencao : 0,
-            cls: (abstencao || 0) <= 10 ? 'score-ok' : ((abstencao || 0) <= 40 ? 'score-warn' : 'score-danger'),
+            cls: opts.extrativo ? 'score-neutral' : ((abstencao || 0) <= 10 ? 'score-ok' : ((abstencao || 0) <= 40 ? 'score-warn' : 'score-danger')),
             ic: textoIc95(r, 'taxa_abstencao_pct', v => `${v.toFixed(1)}%`),
             val: abstencao !== null ? `${abstencao.toFixed(1)}%` : '0.0%'
           }
@@ -2892,6 +2914,12 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       return `<div class="tag-row provenance-row" aria-label="Procedência da rodada">${tags.join('')}</div>`;
     }
 
+    // Verdadeiro quando todas as respostas da rodada vieram do gerador extrativo (sem modelo de linguagem).
+    function geradorExtrativo(m) {
+      const g = (m && m.geradores) || [];
+      return g.length > 0 && g.every(x => String(x).toLowerCase().startsWith('extractive'));
+    }
+
     // Aviso quando o modelo que julga é o mesmo que gerou: a nota vira teto, não medida.
     function renderAvisoGeradorJuizEscolar(m) {
       if (!m || Number(m.gerador_igual_ao_juiz || 0) === 0) return '';
@@ -2922,7 +2950,8 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         <div class="gate-banner ${cls}" role="status">
           <span class="gate-word">${escapeHtml(rotulo)}</span>
           <ul class="gate-reasons">${(p.motivos || []).map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
-        </div>`;
+        </div>
+        ${(p.notas || []).length ? `<ul class="gate-notes" aria-label="Notas que não mudam o veredito">${p.notas.map(n => `<li>${escapeHtml(n)}</li>`).join('')}</ul>` : ''}`;
     }
 
     function celulaVazamento(x) {
@@ -3066,6 +3095,8 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         igual: ['igual', 'tag'],
         melhorou: ['melhorou', 'tag tag-ok'],
         piorou: ['piorou', 'tag tag-danger'],
+        mais_lenta: ['mais lenta (só informação)', 'tag'],
+        mais_rapida: ['mais rápida (só informação)', 'tag'],
         mudou: ['mudou', 'tag tag-warn'],
         sem_intervalo: ['sem intervalo', 'tag']
       };
@@ -3206,6 +3237,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             <div class="refusal-summary">
               <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.passos)}</div><div class="verdict-cap">Caixas percorridas</div><div class="verdict-sub">${escapeHtml(exec.questoes)} questões no material</div></div>
               <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.voltas_ao_adaptador)}</div><div class="verdict-cap">Voltas ao Adaptador</div><div class="verdict-sub">limite de ${escapeHtml(a.limite_voltas)} por questão</div></div>
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.barradas_pelo_adaptador ?? 0)}</div><div class="verdict-cap">Barradas pelo próprio Adaptador</div><div class="verdict-sub">minuta com palavra fora do enunciado, trocada pela adaptação por regras antes do Auditor</div></div>
               <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml((exec.pausas || []).length)}</div><div class="verdict-cap">Pausas para a professora</div><div class="verdict-sub">${escapeHtml((exec.pausas || []).filter(p => p.com_alerta).length)} com alerta</div></div>
               <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.estados_salvos)}</div><div class="verdict-cap">Estados salvos</div><div class="verdict-sub">${exec.nome_plantado_no_estado_salvo ? 'o nome plantado APARECE em estado salvo' : 'o nome plantado não aparece em nenhum'}</div></div>
             </div>
@@ -3478,17 +3510,28 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     async function repetirRodadaEscolar(runId) {
       const box = document.getElementById('esc-repetir-box');
       setLoading('btn-esc-repetir', true, 'Repetindo a rodada...');
+      box.innerHTML = '<div class="notice notice-info" id="esc-repetir-progresso">Repetindo a rodada: começando...</div>';
+      const acompanhar = setInterval(async () => {
+        try {
+          const p = await fetchJson('/api/v1/eval/rag-escolar/progress');
+          const alvo = document.getElementById('esc-repetir-progresso');
+          if (alvo && p && p.running && p.total) {
+            alvo.textContent = `Repetindo a rodada: ${p.atual} de ${p.total} questões (${p.tempo_decorrido_s} s).`;
+          }
+        } catch (_err) { /* o resultado final ainda chega pela chamada principal */ }
+      }, 700);
       try {
         const r = await fetchJson('/api/v1/eval/rag-escolar/repetir', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ run_id: runId || null })
         });
-        setLoading('btn-esc-repetir', false);
         box.innerHTML = renderResultadoRepeticaoEscolar(r);
       } catch (err) {
-        setLoading('btn-esc-repetir', false);
         box.innerHTML = `<div class="notice notice-danger">A repetição não rodou (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        clearInterval(acompanhar);
+        setLoading('btn-esc-repetir', false);
       }
     }
 
@@ -3631,6 +3674,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       box.innerHTML = `
         ${fallbackBanner}
         ${sonnetWarnBanner}
+        ${geradorExtrativo(an.modelos) ? '<div class="notice notice-warn"><strong>Rodada sem modelo de linguagem.</strong> O gerador desta rodada é o extrativo: ele não escreve resposta, recorta frases dos trechos que repetem palavras da pergunta e descarta todo trecho com aviso de uso. As notas de fidelidade, relevância e abstenção abaixo medem esse recorte, não um modelo. Para medir um modelo, configure o Ollama ou a chave e rode de novo.</div>' : ''}
         ${renderPortaoEscolar(an.portao)}
         ${renderAvisoGeradorJuizEscolar(an.modelos)}
         ${renderProcedenciaEscolar(info, an.modelos)}
@@ -3651,7 +3695,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             <p class="verdict-prose">${diagProse}</p>
           </div>
           <div>
-            ${renderLedgerIndicadoresEscolar(r, { aoVivo: false, rnf07: an.rnf07 })}
+            ${renderLedgerIndicadoresEscolar(r, { aoVivo: false, rnf07: an.rnf07, extrativo: geradorExtrativo(an.modelos) })}
           </div>
         </div>
         <div style="margin-bottom:1.25rem;">${renderElosEscolar(an.elos)}</div>

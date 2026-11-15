@@ -350,7 +350,7 @@ class TestPerguntaDeCadaTela(unittest.TestCase):
 
     def test_todas_as_abas_abrem_com_a_pergunta_e_a_origem(self) -> None:
         html = PLAYGROUND.read_text(encoding="utf-8")
-        abas = re.findall(r'<section id="(tab-[a-z]+)" class="tab-panel[^"]*">\s*(<p class="screen-question">.*?</p>)?', html, flags=re.S)
+        abas = re.findall(r'<section id="(tab-[a-z]+)" class="tab-panel[^"]*">\s*(<p class="screen-question">.*?</p>)?', html, flags=re.DOTALL)
         botoes = re.findall(r'class="tab-btn[^"]*" data-tab="([a-z]+)"', html)
         self.assertEqual([a for a, _ in abas], [f"tab-{b}" for b in botoes])
         self.assertGreaterEqual(len(abas), 5)
