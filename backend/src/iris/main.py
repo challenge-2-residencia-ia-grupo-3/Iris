@@ -565,6 +565,20 @@ def _handle_rag_escolar_baseline(body: dict[str, Any]) -> dict[str, Any]:
     return definir_linha_de_base(run_id or None)
 
 
+def _handle_arquitetura_langgraph() -> dict[str, Any]:
+    """Grafo dos agentes escrito com LangGraph e os cenários rodados sem modelo (dependência opcional)."""
+    from iris.eval.arquitetura_langgraph import obter_arquitetura
+
+    return obter_arquitetura()
+
+
+def _handle_mapa_codigo() -> dict[str, Any]:
+    """Mapa do código: módulos lidos com `ast` e, se o arquivo existir, funções geradas pelo GitNexus."""
+    from iris.eval.mapa_codigo import obter_mapa_codigo
+
+    return obter_mapa_codigo()
+
+
 def _handle_ataque_pii_run() -> dict[str, Any]:
     """Roda o ataque de dado pessoal contra o removedor `sanitize_pii` (sem modelo, valores fictícios)."""
     from iris.eval.ataque_pii import executar_ataque_pii
@@ -772,6 +786,14 @@ def create_app() -> Any:
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
 
+    @app.get("/api/v1/eval/arquitetura-langgraph", tags=["eval"])
+    def arquitetura_langgraph() -> dict[str, Any]:
+        return _handle_arquitetura_langgraph()
+
+    @app.get("/api/v1/eval/mapa-codigo", tags=["eval"])
+    def mapa_codigo() -> dict[str, Any]:
+        return _handle_mapa_codigo()
+
     @app.post("/api/v1/eval/ataque-pii", tags=["eval"])
     def ataque_pii_run() -> dict[str, Any]:
         return _handle_ataque_pii_run()
@@ -961,6 +983,10 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json(_handle_rag_escolar_recusa())
             elif parsed.path == "/api/v1/eval/ataque-pii":
                 self._send_json(_handle_ataque_pii())
+            elif parsed.path == "/api/v1/eval/arquitetura-langgraph":
+                self._send_json(_handle_arquitetura_langgraph())
+            elif parsed.path == "/api/v1/eval/mapa-codigo":
+                self._send_json(_handle_mapa_codigo())
             elif parsed.path == "/api/v1/eval/rag-escolar/analytics":
                 qs = parse_qs(parsed.query)
                 self._send_json(

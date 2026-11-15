@@ -499,6 +499,126 @@
     .leak-all { color: var(--vermilion); font-weight: 700; }
     .leak-none { color: var(--moss); font-weight: 700; }
     .leak-some { color: var(--ochre); font-weight: 700; }
+    .arch-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 620px) minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+    .arch-grid > * { min-width: 0; }
+    .arch-canvas {
+      overflow-x: auto;
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      background: var(--surface);
+      padding: 0.5rem;
+    }
+    .arch-canvas svg { display: block; }
+    .arch-node rect { fill: var(--surface); stroke: var(--hairline-strong); stroke-width: 1.2; }
+    .arch-node text { font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; fill: var(--ink-soft); }
+    .arch-node.visited rect { fill: var(--teal-soft); stroke: var(--teal); stroke-width: 1.8; }
+    .arch-node.visited text { fill: var(--teal); }
+    .arch-node.pause rect { stroke-dasharray: 5 3; }
+    .arch-node.border rect { fill: var(--wash); }
+    .arch-node .arch-count { font-size: 10.5px; font-weight: 700; fill: var(--teal); }
+    .arch-edge { fill: none; stroke: var(--hairline-strong); stroke-width: 1.3; }
+    .arch-edge.cond { stroke-dasharray: 5 4; }
+    .arch-edge.used { stroke: var(--teal); stroke-width: 2.2; }
+    .arch-label { font-family: var(--font-sans); font-size: 11px; fill: var(--muted); }
+    .arch-label.used { fill: var(--teal); font-weight: 700; }
+    .arch-path {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 0.35rem;
+      margin: 0.5rem 0 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.78rem;
+    }
+    .arch-path li {
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      padding: 0.12rem 0.55rem;
+      background: var(--surface);
+      white-space: nowrap;
+    }
+    .arch-path li.loop { border-color: var(--ochre); color: var(--ochre); background: var(--ochre-soft); }
+    .arch-path li.pause { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
+    .arch-path li.question { border: 0; background: transparent; font-weight: 700; padding-left: 0; color: var(--ink); }
+    .code-packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.75rem;
+      margin: 0.75rem 0;
+    }
+    .code-packages > * { min-width: 0; }
+    .code-package {
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 0.65rem 0.7rem;
+      background: var(--surface);
+    }
+    .code-package h3 { margin: 0 0 0.45rem; font-size: 0.82rem; font-weight: 700; color: var(--ink); }
+    .code-package h3 span { font-weight: 500; color: var(--muted); }
+    .code-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .mod-chip {
+      font-family: var(--font-mono, "JetBrains Mono", monospace);
+      font-size: 0.72rem;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 6px;
+      padding: 0.2rem 0.45rem;
+      background: var(--paper);
+      color: var(--ink-soft);
+      cursor: pointer;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      text-align: left;
+    }
+    .mod-chip:hover, .mod-chip:focus-visible { border-color: var(--teal); outline: none; }
+    .mod-chip.sem-teste { border-style: dashed; border-color: var(--vermilion); }
+    .mod-chip.pii::after { content: " DP"; font-weight: 700; color: var(--ochre); }
+    .mod-chip.sel { background: var(--teal); border-color: var(--teal); border-style: solid; color: #fff; }
+    .mod-chip.sel.pii::after { color: #fff; }
+    .mod-chip.importa { background: var(--teal-soft); border-color: var(--teal); border-style: solid; }
+    .mod-chip.importado { background: var(--ochre-soft); border-color: var(--ochre); border-style: solid; }
+    .mod-chip.dim { opacity: 0.3; }
+    .code-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; font-size: 0.78rem; color: var(--muted); margin: 0.5rem 0; }
+    .code-legend .mod-chip { cursor: default; }
+    .code-detail {
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 0.75rem 0.85rem;
+      background: var(--surface);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+    .code-detail h3 { margin: 0 0 0.3rem; font-size: 0.9rem; }
+    .code-detail ul { margin: 0.15rem 0 0.5rem; padding-left: 1.1rem; }
+    .code-search { max-width: 420px; width: 100%; }
+    .symbol-cell { min-width: 150px; overflow-wrap: anywhere; }
+    table.table-compact th, table.table-compact td { padding-left: 0.45rem; padding-right: 0.45rem; }
+    table.table-compact th, table.table-compact th.num { white-space: normal; letter-spacing: 0.02em; }
+    table.table-compact .ledger-ic { white-space: normal; }
+    @media (max-width: 420px) {
+      table.table-compact { font-size: 0.78rem; }
+      table.table-compact th, table.table-compact td { padding-left: 0.3rem; padding-right: 0.3rem; }
+      .symbol-cell { min-width: 0; }
+    }
+    .symbol-cell code { overflow-wrap: anywhere; }
+    .symbol-where { display: block; margin-top: 0.15rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); overflow-wrap: anywhere; }
+    details.flow-item { border-bottom: 1px solid var(--hairline); padding: 0.4rem 0; font-size: 0.84rem; }
+    details.flow-item summary { cursor: pointer; font-weight: 600; overflow-wrap: anywhere; }
+    details.flow-item ol { margin: 0.4rem 0 0.2rem; padding-left: 1.4rem; color: var(--ink-soft); overflow-wrap: anywhere; }
+    @media (max-width: 1500px) {
+      .arch-grid { grid-template-columns: minmax(0, 1fr); }
+      .arch-canvas { max-width: 640px; }
+    }
+    .arch-canvas svg { max-width: 100%; height: auto; }
+    .arch-zoom-note { display: none; margin: 0.4rem 0 0; font-size: 0.76rem; color: var(--muted); }
+    @media (max-width: 700px) {
+      .arch-zoom-note { display: block; }
+    }
     .chain-note { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
     .refusal-summary {
       display: grid;
@@ -1040,6 +1160,14 @@
             <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
             <span>Consulta RAG ao Vivo</span>
           </button>
+          <button type="button" class="tab-btn" data-tab="arquitetura" onclick="ativarAba('arquitetura')">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="3" y="17" width="6" height="5" rx="1"/><rect x="15" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M6 17v-3h12v3"/></svg>
+            <span>Arquitetura (LangGraph)</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="codigo" onclick="ativarAba('codigo')">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M7 7l4 9M17 7l-4 9M7.2 6h9.6"/></svg>
+            <span>Grafo do código</span>
+          </button>
           <button type="button" class="tab-btn" data-tab="ferramentas" onclick="ativarAba('ferramentas')">
             <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             <span>Ferramentas da API</span>
@@ -1382,6 +1510,49 @@
       </div>
     </section>
 
+    <!-- ABA: ARQUITETURA DOS AGENTES COM LANGGRAPH -->
+    <section id="tab-arquitetura" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> Como fica o fluxo dos agentes escrito como um grafo que o computador executa, e o que ele faz quando o Auditor reprova, quando chega ao limite e quando algo cai no meio?<span class="screen-origin"><strong>De onde vem o número:</strong> o grafo é montado com o LangGraph sobre as funções reais dos agentes e roda quatro cenários num material inventado, com um provedor sem modelo. Mostra o fluxo; não mede a qualidade do texto adaptado.</span></p>
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Fluxo dos agentes como grafo</h2>
+            <p class="block-desc">Cada caixa é um passo que chama uma função do projeto. Seta tracejada é seta com condição. Escolha um cenário para ver o caminho percorrido.</p>
+          </div>
+        </div>
+        <div id="arq-box">
+          <div class="empty-state">Carregando o grafo e rodando os cenários...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA: GRAFO DO CÓDIGO -->
+    <section id="tab-codigo" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> Que módulo depende de qual, o que não tem teste e por onde passa o dado pessoal?<span class="screen-origin"><strong>De onde vem o número:</strong> a camada de módulos é lida do próprio código a cada abertura (biblioteca padrão do Python). A camada de funções vem de um arquivo gerado por comando com o GitNexus. "Tem teste" quer dizer só que algum arquivo de teste importa o módulo; não diz se o teste é bom.</span></p>
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Módulos: quem importa quem</h2>
+            <p class="block-desc">Clique num módulo para ver o que ele importa e quem o importa.</p>
+          </div>
+        </div>
+        <div id="cod-modulos-box">
+          <div class="empty-state">Lendo o código...</div>
+        </div>
+      </div>
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Funções: chamadas, comunidades e fluxos</h2>
+            <p class="block-desc">Gerado com o GitNexus numa cópia descartável do código. Só nomes, caminhos e linhas; nenhum trecho de código.</p>
+          </div>
+        </div>
+        <div id="cod-funcoes-box">
+          <div class="empty-state">Carregando...</div>
+        </div>
+      </div>
+    </section>
+
     <!-- ABA 4: FERRAMENTAS DA API -->
     <section id="tab-ferramentas" class="tab-panel">
       <p class="screen-question"><strong>Pergunta desta tela:</strong> O texto sai sem dados pessoais antes de ir a um modelo, e o material é decomposto nas partes certas?<span class="screen-origin"><strong>De onde vem o número:</strong> chamadas ao vivo às rotas de materiais, com o texto que você colar; esse resultado vale para o texto colado, não é taxa medida num conjunto. O ataque de dado pessoal roda casos fictícios, com sorteio de semente fixa, contra o removedor, e a telemetria do Extrator, mais abaixo, vem das execuções já registradas no servidor.</span></p>
@@ -1447,6 +1618,12 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       trechosExpandidos: new Set(),
       extLoaded: false,
       escolarLoaded: false,
+      arquiteturaLoaded: false,
+      arquitetura: null,
+      cenarioArquitetura: 'normal',
+      codigoLoaded: false,
+      codigo: null,
+      moduloSelecionado: null,
       escolarFacetas: null,
       escolarQuestoes: [],
       escolarSelecionadaId: null,
@@ -1495,6 +1672,12 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       if (nome === 'ferramentas' && !state.extLoaded) {
         carregarAtaquePii();
         carregarExtratorAnalytics();
+      }
+      if (nome === 'arquitetura' && !state.arquiteturaLoaded) {
+        carregarArquitetura();
+      }
+      if (nome === 'codigo' && !state.codigoLoaded) {
+        carregarMapaCodigo();
       }
       if (nome === 'escolar' && !state.escolarLoaded) {
         inicializarBenchmarkEscolar();
@@ -2921,6 +3104,284 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         await carregarAnalyticsEscolar(document.getElementById('esc-run-select').value);
       } catch (err) {
         alertBox.innerHTML = `<div class="notice notice-danger">Falha ao atualizar a linha de base (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    // ---------------- Aba Arquitetura (LangGraph)
+    function renderGrafoArquitetura(grafo, exec) {
+      const visitas = {};
+      const usadas = new Set();
+      const caminho = (exec && exec.caminho) || [];
+      caminho.forEach((p, i) => {
+        visitas[p.no] = (visitas[p.no] || 0) + 1;
+        if (i > 0) usadas.add(`${caminho[i - 1].no}>${p.no}`);
+      });
+      if (caminho.length) {
+        usadas.add(`__start__>${caminho[0].no}`);
+        usadas.add(`${caminho[caminho.length - 1].no}>__end__`);
+        visitas.__start__ = 1;
+        visitas.__end__ = 1;
+      }
+      const setas = grafo.setas.map(sx => {
+        const usada = usadas.has(`${sx.de}>${sx.para}`);
+        const d = sx.pontos.map((pt, i) => `${i ? 'L' : 'M'}${pt[0]} ${pt[1]}`).join(' ');
+        const rot = sx.rotulo && sx.rotulo_pos
+          ? `<text class="arch-label${usada ? ' used' : ''}" x="${sx.rotulo_pos.x}" y="${sx.rotulo_pos.y}" text-anchor="${sx.rotulo_pos.ancora}">${escapeHtml(sx.rotulo)}</text>`
+          : '';
+        return `<path class="arch-edge${sx.condicional ? ' cond' : ''}${usada ? ' used' : ''}" d="${d}" marker-end="url(#arq-seta${usada ? '-usada' : ''})"/>${rot}`;
+      }).join('');
+      const nos = grafo.nos.map(n => {
+        const v = visitas[n.id] || 0;
+        const cls = ['arch-node', v ? 'visited' : '', n.tipo === 'pausa' ? 'pause' : '', n.tipo === 'borda' ? 'border' : ''].filter(Boolean).join(' ');
+        const contagem = v > 1 && n.tipo !== 'borda' ? `<text class="arch-count" x="${n.x + n.l - 8}" y="${n.y + 14}" text-anchor="end">×${v}</text>` : '';
+        return `<g class="${cls}"><title>${escapeHtml(n.faz ? `${n.faz}. Função: ${n.funcao_do_grupo}` : n.nome)}</title>
+          <rect x="${n.x}" y="${n.y}" width="${n.l}" height="${n.a}" rx="${n.tipo === 'borda' ? 22 : 7}"/>
+          <text x="${n.x + n.l / 2}" y="${n.y + n.a / 2 + 4.5}" text-anchor="middle">${escapeHtml(n.nome)}</text>${contagem}</g>`;
+      }).join('');
+      return `<svg width="${grafo.largura}" height="${grafo.altura}" viewBox="0 0 ${grafo.largura} ${grafo.altura}" role="img" aria-label="Grafo dos agentes do Íris">
+        <defs>
+          <marker id="arq-seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b6c7c7"/></marker>
+          <marker id="arq-seta-usada" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#143d40"/></marker>
+        </defs>
+        ${setas}${nos}
+      </svg>`;
+    }
+
+    function renderCaminhoArquitetura(exec, nomes) {
+      const itens = [];
+      let questaoAtual = null;
+      const vistos = {};
+      (exec.caminho || []).forEach(p => {
+        if (p.questao >= 0 && p.questao < exec.questoes && p.questao !== questaoAtual && p.no !== 'proxima_questao') {
+          questaoAtual = p.questao;
+          itens.push(`<li class="question">Questão ${p.questao + 1}:</li>`);
+        }
+        const chave = `${p.questao}|${p.no}`;
+        vistos[chave] = (vistos[chave] || 0) + 1;
+        const repetido = vistos[chave] > 1 && (p.no === 'adaptador' || p.no === 'auditor' || p.no === 'decisao');
+        const cls = p.no === 'revisao_professora' ? 'pause' : (repetido ? 'loop' : '');
+        itens.push(`<li class="${cls}">${escapeHtml(nomes[p.no] || p.no)}${repetido ? ` (${vistos[chave]}ª vez)` : ''}</li>`);
+      });
+      return `<ol class="arch-path" aria-label="Caminho percorrido">${itens.join('')}</ol>`;
+    }
+
+    function renderArquitetura() {
+      const box = document.getElementById('arq-box');
+      const a = state.arquitetura;
+      if (!box || !a) return;
+      if (!a.disponivel) {
+        box.innerHTML = `<div class="notice notice-warn" style="display:block;">${escapeHtml(a.motivo)} Esta aba é opcional e o resto do painel funciona sem ela. Para ativar: <code>${escapeHtml(a.como_instalar)}</code> e reinicie o servidor.</div>`;
+        return;
+      }
+      const exec = a.execucoes.find(e => e.id === state.cenarioArquitetura) || a.execucoes[0];
+      const nomes = Object.fromEntries(a.grafo.nos.map(n => [n.id, n.nome]));
+      const botoes = a.execucoes.map(e =>
+        `<button type="button" class="btn btn-secondary btn-compact${e.id === exec.id ? ' active' : ''}" aria-pressed="${e.id === exec.id}" onclick="selecionarCenarioArquitetura('${escapeHtml(e.id)}')">${escapeHtml(e.nome)}</button>`
+      ).join('');
+      const chamadas = exec.chamadas_por_no || {};
+      const falha = exec.falha
+        ? `<div class="notice notice-warn" style="display:block;">Falha simulada: <code>${escapeHtml(exec.falha.erro)}</code>. O próximo passo salvo era <strong>${escapeHtml((exec.falha.proximo_no_salvo || []).map(x => nomes[x] || x).join(', '))}</strong>. Depois da retomada, o Extrator rodou ${escapeHtml(chamadas.extrator)} vezes para ${escapeHtml(exec.questoes)} questões (não repetiu) e o Adaptador ${escapeHtml(chamadas.adaptador)} (a que falhou e as ${escapeHtml(exec.questoes)} que valeram).</div>`
+        : '';
+      const linhas = (exec.resultados || []).map(r => `<tr>
+          <td><strong>${escapeHtml(r.questao)}</strong> ${r.resultado === 'aprovado' ? '<span class="tag tag-ok">aprovado</span>' : '<span class="tag tag-warn">reserva</span>'}</td>
+          <td class="num">${escapeHtml(r.tentativas_do_adaptador ?? '-')}<span class="ledger-ic">${escapeHtml(r.voltas_auditor ?? '-')} de ${escapeHtml(a.limite_voltas)} voltas</span></td>
+          <td>${escapeHtml(r.decisao_professora || '-')}</td>
+        </tr>`).join('');
+      box.innerHTML = `
+        <div class="tag-row provenance-row" aria-label="Como o grafo foi gerado">
+          <span class="tag">LangGraph <code>${escapeHtml(a.versao_langgraph)}</code></span>
+          <span class="tag tag-warn">provedor sem modelo</span>
+          <span class="tag">limite de <code>${escapeHtml(a.limite_voltas)}</code> voltas ao Adaptador</span>
+          <span class="tag">${escapeHtml(a.grafo.nos.length - 2)} caixas, ${escapeHtml(a.grafo.setas.length)} setas</span>
+        </div>
+        <div class="btn-row" style="margin:0.6rem 0 0.9rem;" role="group" aria-label="Cenário">${botoes}</div>
+        <div class="arch-grid">
+          <div>
+            <div class="arch-canvas">${renderGrafoArquitetura(a.grafo, exec)}</div>
+            <p class="arch-zoom-note">Na tela estreita o desenho é reduzido para caber inteiro; amplie com dois dedos para ler as caixas. O caminho percorrido, abaixo, traz os mesmos passos em texto.</p>
+          </div>
+          <div>
+            <div class="notice notice-info" style="display:block;"><strong>${escapeHtml(exec.nome)}.</strong> ${escapeHtml(exec.o_que_mostra)}.</div>
+            ${falha}
+            <div class="refusal-summary">
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.passos)}</div><div class="verdict-cap">Caixas percorridas</div><div class="verdict-sub">${escapeHtml(exec.questoes)} questões no material</div></div>
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.voltas_ao_adaptador)}</div><div class="verdict-cap">Voltas ao Adaptador</div><div class="verdict-sub">limite de ${escapeHtml(a.limite_voltas)} por questão</div></div>
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml((exec.pausas || []).length)}</div><div class="verdict-cap">Pausas para a professora</div><div class="verdict-sub">${escapeHtml((exec.pausas || []).filter(p => p.com_alerta).length)} com alerta</div></div>
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.estados_salvos)}</div><div class="verdict-cap">Estados salvos</div><div class="verdict-sub">${exec.nome_plantado_no_estado_salvo ? 'o nome plantado APARECE em estado salvo' : 'o nome plantado não aparece em nenhum'}</div></div>
+            </div>
+            ${exec.nome_plantado_no_estado_salvo ? '<div class="notice notice-danger">O nome inventado do cabeçalho ficou gravado num estado salvo: o filtro não o tirou antes de o texto entrar no grafo.</div>' : ''}
+            <div class="ledger-heading" style="margin-top:0.9rem;"><span>Caminho percorrido</span><span class="ledger-scale">${escapeHtml(exec.segundos_total)} s</span></div>
+            ${renderCaminhoArquitetura(exec, nomes)}
+            <div class="ledger-heading" style="margin-top:1rem;"><span>Resultado por questão</span></div>
+            <div class="table-scroll"><table class="table-compact">
+              <thead><tr><th>Questão e como terminou</th><th class="num">Minutas</th><th>Professora</th></tr></thead>
+              <tbody>${linhas}</tbody>
+            </table></div>
+            <p class="chain-note">Como ler: caixa pintada foi visitada neste cenário, e "×3" é quantas vezes. A caixa tracejada é a pausa: o grafo para, guarda o estado e só continua com a decisão de uma pessoa (aqui, uma decisão simulada: aceita o aprovado e edita o que veio com alerta). Cada questão termina aprovada pelo Auditor ou na saída de reserva; "Minutas" são as tentativas do Adaptador, e embaixo as voltas do Auditor ao Adaptador, sobre o limite. O texto bruto do material fica fora do estado salvo; só entra o texto já filtrado.</p>
+            <details class="audit-box" style="margin-top:0.75rem;"><summary>O mesmo grafo em Mermaid, como o LangGraph o exporta</summary><pre style="white-space:pre-wrap; overflow-wrap:anywhere; font-size:0.74rem; margin:0.5rem 0 0;">${escapeHtml(a.grafo.mermaid)}</pre></details>
+          </div>
+        </div>`;
+    }
+
+    function selecionarCenarioArquitetura(id) {
+      state.cenarioArquitetura = id;
+      renderArquitetura();
+    }
+
+    async function carregarArquitetura() {
+      const box = document.getElementById('arq-box');
+      try {
+        state.arquitetura = await fetchJson('/api/v1/eval/arquitetura-langgraph');
+        state.arquiteturaLoaded = true;
+        renderArquitetura();
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">Falha ao montar o grafo (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    // ---------------- Aba Grafo do código
+    function nomeCurtoModulo(id) {
+      return id.split('.').slice(2).join('.') || id.split('.').slice(1).join('.') || id;
+    }
+
+    function renderModulosCodigo() {
+      const box = document.getElementById('cod-modulos-box');
+      const m = state.codigo && state.codigo.modulos;
+      if (!box || !m) return;
+      const porId = Object.fromEntries(m.modulos.map(x => [x.id, x]));
+      const sel = state.moduloSelecionado ? porId[state.moduloSelecionado] : null;
+      const filtro = (document.getElementById('cod-busca-modulo')?.value || '').trim().toLowerCase();
+      const semTeste = new Set(m.sem_teste);
+      const chip = (id) => {
+        const x = porId[id];
+        const cls = ['mod-chip'];
+        if (semTeste.has(id)) cls.push('sem-teste');
+        if (x.pii) cls.push('pii');
+        if (sel && sel.id === id) cls.push('sel');
+        else if (sel && sel.importa.includes(id)) cls.push('importa');
+        else if (sel && sel.importado_por.includes(id)) cls.push('importado');
+        if (filtro && !id.toLowerCase().includes(filtro)) cls.push('dim');
+        const rotulo = [id, semTeste.has(id) ? 'sem teste' : '', x.pii ? 'toca dado pessoal' : ''].filter(Boolean).join(', ');
+        return `<button type="button" class="${cls.join(' ')}" aria-pressed="${sel && sel.id === id}" aria-label="${escapeHtml(rotulo)}" onclick="selecionarModuloCodigo('${escapeHtml(id)}')">${escapeHtml(nomeCurtoModulo(id))}</button>`;
+      };
+      const pacotes = m.pacotes.map(p => `<div class="code-package">
+          <h3>${escapeHtml(p.nome)} <span>· ${escapeHtml(p.modulos.length)}</span></h3>
+          <div class="code-chips">${p.modulos.map(chip).join('')}</div>
+        </div>`).join('');
+      const lista = (ids, vazio) => ids.length ? `<ul>${ids.map(i => `<li><code>${escapeHtml(i)}</code></li>`).join('')}</ul>` : `<p style="margin:0.15rem 0 0.5rem; color:var(--muted);">${vazio}</p>`;
+      const detalhe = sel
+        ? `<div class="code-detail" aria-live="polite">
+            <h3><code>${escapeHtml(sel.id)}</code></h3>
+            <p style="margin:0 0 0.5rem; color:var(--muted);">${escapeHtml(sel.arquivo)} · ${escapeHtml(sel.linhas)} linhas · ${escapeHtml(sel.funcoes)} funções · ${escapeHtml(sel.classes)} classes${sel.pii === 'define' ? ' · define o removedor de dado pessoal' : (sel.pii === 'usa' ? ' · usa o removedor de dado pessoal' : '')}</p>
+            <strong>Importa (${sel.importa.length})</strong>${lista(sel.importa, 'Nenhum módulo do projeto.')}
+            <strong>É importado por (${sel.importado_por.length})</strong>${lista(sel.importado_por, 'Nenhum módulo do projeto.')}
+            <strong>Arquivos de teste que o importam (${sel.testado_por.length})</strong>${lista(sel.testado_por, 'Nenhum arquivo de teste importa este módulo diretamente.')}
+          </div>`
+        : '<div class="code-detail" style="color:var(--muted);">Nenhum módulo selecionado.</div>';
+      const k = m.metricas;
+      box.innerHTML = `
+        <div class="refusal-summary">
+          <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(k.modulos)}</div><div class="verdict-cap">Módulos</div><div class="verdict-sub">${escapeHtml(k.linhas)} linhas</div></div>
+          <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(k.importacoes)}</div><div class="verdict-cap">Importações entre módulos</div><div class="verdict-sub">só dentro do projeto</div></div>
+          <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(k.modulos_sem_teste)} de ${escapeHtml(k.modulos_com_codigo)}</div><div class="verdict-cap">Sem teste que os importe</div><div class="verdict-sub">${escapeHtml(k.arquivos_de_teste)} arquivos de teste lidos</div></div>
+          <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(k.modulos_que_tocam_pii)}</div><div class="verdict-cap">Tocam o removedor de dado pessoal</div><div class="verdict-sub">definem ou importam</div></div>
+        </div>
+        <label for="cod-busca-modulo">Filtrar módulos pelo nome</label>
+        <input type="text" id="cod-busca-modulo" class="code-search" placeholder="Ex.: rag, auditor, schemas" value="${escapeHtml(filtro)}" oninput="renderModulosCodigo(); document.getElementById('cod-busca-modulo').focus(); const c = document.getElementById('cod-busca-modulo'); c.setSelectionRange(c.value.length, c.value.length);" />
+        <div class="code-legend" aria-label="Legenda">
+          <span><span class="mod-chip sel">módulo</span> selecionado</span>
+          <span><span class="mod-chip importa">módulo</span> ele importa</span>
+          <span><span class="mod-chip importado">módulo</span> importa ele</span>
+          <span><span class="mod-chip sem-teste">módulo</span> sem teste</span>
+          <span><span class="mod-chip pii">módulo</span> toca dado pessoal</span>
+        </div>
+        <div class="code-packages">${pacotes}</div>
+        ${detalhe}
+        <p class="chain-note">Como ler: "sem teste" quer dizer que nenhum arquivo de teste importa o módulo diretamente; um módulo exercitado só por dentro de outro, ou só pela API, aparece como sem teste. Importação é lida do texto do código, inclusive a que fica dentro de função.</p>`;
+    }
+
+    function selecionarModuloCodigo(id) {
+      state.moduloSelecionado = state.moduloSelecionado === id ? null : id;
+      renderModulosCodigo();
+    }
+
+    function renderBuscaSimbolos() {
+      const alvo = document.getElementById('cod-simbolos-resultado');
+      const f = state.codigo && state.codigo.funcoes;
+      if (!alvo || !f || !f.disponivel) return;
+      const termo = (document.getElementById('cod-busca-simbolo')?.value || '').trim().toLowerCase();
+      if (termo.length < 2) {
+        alvo.innerHTML = '<p class="chain-note">Digite pelo menos 2 letras do nome de uma função, método ou classe.</p>';
+        return;
+      }
+      const achados = f.simbolos.filter(x => x.nome.toLowerCase().includes(termo));
+      const mostra = achados.slice(0, 30);
+      alvo.innerHTML = achados.length
+        ? `<p class="chain-note">${achados.length} encontrado(s)${achados.length > mostra.length ? `; mostrando os ${mostra.length} primeiros` : ''}.</p>
+           <div class="table-scroll"><table class="table-compact">
+             <thead><tr><th>Nome, onde está e comunidade</th><th class="num">Chama</th><th class="num">Chamado por</th></tr></thead>
+             <tbody>${mostra.map(x => `<tr>
+               <td class="symbol-cell"><code>${escapeHtml(x.nome)}</code> <span class="tag">${escapeHtml(x.teste ? `${x.tipo} de teste` : x.tipo)}</span><span class="symbol-where">${escapeHtml(x.arquivo)}${x.linha ? `:${escapeHtml(x.linha)}` : ''}</span><span class="symbol-where">comunidade: ${escapeHtml(x.comunidade || 'nenhuma')}</span></td>
+               <td class="num">${escapeHtml(x.chama)}</td>
+               <td class="num">${escapeHtml(x.chamado_por)}</td>
+             </tr>`).join('')}</tbody>
+           </table></div>`
+        : '<p class="chain-note">Nada encontrado com esse nome.</p>';
+    }
+
+    function renderFuncoesCodigo() {
+      const box = document.getElementById('cod-funcoes-box');
+      const f = state.codigo && state.codigo.funcoes;
+      if (!box || !f) return;
+      if (!f.disponivel) {
+        box.innerHTML = `<div class="notice notice-info" style="display:block;">${escapeHtml(f.motivo)} Para gerar, na raiz do repositório:<br><code>${escapeHtml(f.como_gerar)}</code>${f.exige ? `<br>${escapeHtml(f.exige)}` : ''}</div>`;
+        return;
+      }
+      const k = f.metricas || {};
+      const comunidades = f.comunidades.slice(0, 12).map(c => `<tr>
+          <td>${escapeHtml(c.nome)}</td><td class="num">${escapeHtml(c.simbolos)}</td><td class="num">${c.coesao != null ? Number(c.coesao).toFixed(2) : '—'}</td>
+        </tr>`).join('');
+      const fluxos = f.processos.slice(0, 12).map(p => `<details class="flow-item">
+          <summary>${escapeHtml(p.nome)} <span class="tag">${escapeHtml(p.passos.length)} passos</span></summary>
+          <ol>${p.passos.map(x => `<li><code>${escapeHtml(x.nome)}</code> <span style="color:var(--muted);">${escapeHtml(x.arquivo)}${x.linha ? `:${escapeHtml(x.linha)}` : ''}</span></li>`).join('')}</ol>
+        </details>`).join('');
+      box.innerHTML = `
+        <div class="tag-row provenance-row" aria-label="Procedência da camada de funções">
+          <span class="tag">${escapeHtml((f.ferramenta || '').split(' (')[0])}</span>
+          <span class="tag tag-warn">licença não comercial</span>
+          <span class="tag">commit <code>${escapeHtml(f.commit || '-')}</code></span>
+          <span class="tag">gerado em <code>${escapeHtml((f.gerado_em || '').slice(0, 10))}</code></span>
+        </div>
+        <div class="refusal-summary">
+          <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(k.simbolos)}</div><div class="verdict-cap">Funções, métodos e classes</div><div class="verdict-sub">código e testes</div></div>
+          <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(k.chamadas)}</div><div class="verdict-cap">Chamadas entre eles</div><div class="verdict-sub">quem chama quem</div></div>
+          <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(k.comunidades)}</div><div class="verdict-cap">Comunidades</div><div class="verdict-sub">grupos que se chamam muito entre si</div></div>
+          <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(k.processos)}</div><div class="verdict-cap">Fluxos de execução</div><div class="verdict-sub">caminhos a partir de um ponto de entrada</div></div>
+        </div>
+        <label for="cod-busca-simbolo">Procurar função, método ou classe</label>
+        <input type="text" id="cod-busca-simbolo" class="code-search" placeholder="Ex.: sanitize_pii, auditar, strategize" oninput="renderBuscaSimbolos()" />
+        <div id="cod-simbolos-resultado" style="margin-top:0.5rem;"></div>
+        <div class="ledger-heading" style="margin-top:1rem;"><span>Maiores comunidades</span><span class="ledger-scale">12 de ${escapeHtml(f.comunidades_total)}</span></div>
+        <div class="table-scroll"><table class="table-compact">
+          <thead><tr><th>Nome dado pelo GitNexus</th><th class="num">Símbolos</th><th class="num">Coesão</th></tr></thead>
+          <tbody>${comunidades}</tbody>
+        </table></div>
+        <div class="ledger-heading" style="margin-top:1rem;"><span>Fluxos mais longos, passo a passo</span><span class="ledger-scale">12 de ${escapeHtml(f.processos_total)}</span></div>
+        ${fluxos}
+        <p class="chain-note">Como ler: comunidade é um grupo de funções que se chamam mais entre si do que com o resto; o nome é escolhido pela ferramenta a partir da pasta, por isso há nomes repetidos. Coesão vai de 0 a 1; perto de 1 quer dizer grupo fechado. Fluxo é um caminho de chamadas a partir de um ponto de entrada; a ferramenta deduz do texto do código, sem executar nada.</p>`;
+      renderBuscaSimbolos();
+    }
+
+    async function carregarMapaCodigo() {
+      try {
+        state.codigo = await fetchJson('/api/v1/eval/mapa-codigo');
+        state.codigoLoaded = true;
+        renderModulosCodigo();
+        renderFuncoesCodigo();
+      } catch (err) {
+        document.getElementById('cod-modulos-box').innerHTML =
+          `<div class="notice notice-danger">Falha ao ler o código (${escapeHtml(err.message)}).</div>`;
+        document.getElementById('cod-funcoes-box').innerHTML = '';
       }
     }
 

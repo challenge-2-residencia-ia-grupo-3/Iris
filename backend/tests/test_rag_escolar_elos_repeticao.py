@@ -348,10 +348,12 @@ class TestRotaDeRepeticao(unittest.TestCase):
 class TestPerguntaDeCadaTela(unittest.TestCase):
     """Cada aba abre dizendo que pergunta responde e de onde vem o número."""
 
-    def test_as_cinco_abas_abrem_com_a_pergunta_e_a_origem(self) -> None:
+    def test_todas_as_abas_abrem_com_a_pergunta_e_a_origem(self) -> None:
         html = PLAYGROUND.read_text(encoding="utf-8")
         abas = re.findall(r'<section id="(tab-[a-z]+)" class="tab-panel[^"]*">\s*(<p class="screen-question">.*?</p>)?', html, flags=re.S)
-        self.assertEqual([a for a, _ in abas], ["tab-benchmark", "tab-escolar", "tab-catalogo", "tab-aovivo", "tab-ferramentas"])
+        botoes = re.findall(r'class="tab-btn[^"]*" data-tab="([a-z]+)"', html)
+        self.assertEqual([a for a, _ in abas], [f"tab-{b}" for b in botoes])
+        self.assertGreaterEqual(len(abas), 5)
         for aba, bloco in abas:
             with self.subTest(aba=aba):
                 self.assertIn("Pergunta desta tela:", bloco)
