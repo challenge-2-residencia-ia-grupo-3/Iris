@@ -1308,6 +1308,73 @@ def comparar_com_linha_de_base(atual: dict[str, Any], base: dict[str, Any]) -> d
     return {"base": info_base, "mesma_rodada": False, "comparavel": True, "motivos": [], "metricas": metricas}
 
 
+METRICAS_DE_TEMPO = {"latencia_busca_ms", "latencia_total_ms"}
+
+
+def avaliar_portao(rodada: dict[str, Any], comparacao: dict[str, Any] | None) -> dict[str, Any]:
+    """Resume a comparação com a linha de base num veredito: aprovado, aviso ou reprovado.
+
+    Regras, na ordem:
+    - sem linha de base: `sem_base` (não há contra o que aprovar);
+    - a própria linha de base: `referencia`;
+    - a prova mudou desde a linha de base: `reprovado` (lacre rompido; quem troca a prova redefine a base de propósito);
+    - outra configuração ou outros filtros: `aviso` (não comparável);
+    - métrica de qualidade pior fora do intervalo de 95% da base: `reprovado`;
+    - latência pior, métrica neutra que mudou, ou código com alterações locais: `aviso`;
+    - o resto: `aprovado`.
+    Latência só gera aviso porque depende da máquina; o limite de tempo que reprova é o do RNF-07, mostrado à parte.
+    """
+    if not comparacao:
+        return {
+            "veredito": "sem_base",
+            "motivos": ["Nenhuma linha de base definida: não há contra o que aprovar ou reprovar esta rodada."],
+        }
+    if comparacao.get("mesma_rodada"):
+        return {"veredito": "referencia", "motivos": ["Esta rodada é a linha de base."]}
+
+    sha_base = None
+    sha_atual = (rodada.get("procedencia") or {}).get("dataset_sha256")
+    for motivo in comparacao.get("motivos") or []:
+        if motivo.startswith("a prova mudou"):
+            sha_base = motivo
+    if sha_base:
+        return {
+            "veredito": "reprovado",
+            "lacre_rompido": True,
+            "motivos": [
+                f"Lacre rompido: {sha_base}. Uma rodada só é aprovada contra a mesma prova; se a troca foi "
+                "intencional, redefina a linha de base."
+            ],
+        }
+    if not comparacao.get("comparavel"):
+        return {
+            "veredito": "aviso",
+            "motivos": ["Não comparável com a linha de base: " + "; ".join(comparacao.get("motivos") or [])],
+        }
+
+    reprovam: list[str] = []
+    avisam: list[str] = []
+    for m in comparacao.get("metricas") or []:
+        if m["veredito"] == "piorou":
+            texto = f"{m['rotulo']} piorou: {m['base']} na linha de base, {m['atual']} nesta rodada"
+            (avisam if m["chave"] in METRICAS_DE_TEMPO else reprovam).append(texto)
+        elif m["veredito"] == "mudou":
+            avisam.append(f"{m['rotulo']} mudou: {m['base']} na linha de base, {m['atual']} nesta rodada")
+    if (rodada.get("procedencia") or {}).get("commit_com_alteracoes_locais"):
+        avisam.append("O código desta rodada tinha alterações locais não commitadas.")
+    if not sha_atual:
+        avisam.append("Esta rodada não registrou o hash da prova.")
+
+    if reprovam:
+        return {"veredito": "reprovado", "lacre_rompido": False, "motivos": reprovam + avisam}
+    if avisam:
+        return {"veredito": "aviso", "motivos": avisam}
+    return {
+        "veredito": "aprovado",
+        "motivos": ["Mesma prova, mesma configuração e nenhuma métrica fora do intervalo de 95% da linha de base."],
+    }
+
+
 def carregar_rodadas_rag_escolar(caminho: str | Path | None = None) -> list[dict[str, Any]]:
     """Lê todas as rodadas registradas em `reports/rag_escolar_runs.jsonl`."""
     origem = Path(caminho) if caminho else RUNS_RAG_ESCOLAR_PADRAO
@@ -1342,6 +1409,7 @@ def resumir_analytics_rag_escolar(
             "tem_rodada": False,
             "run_info": None,
             "linha_de_base": None,
+            "portao": None,
             "metricas_por_construcao": METRICAS_POR_CONSTRUCAO,
             "rnf07": None,
             "modelos": None,
@@ -1370,10 +1438,12 @@ def resumir_analytics_rag_escolar(
 
     itens = [{**item, **classificar_elos(item)} for item in itens]
     run_info = {k: v for k, v in rodada.items() if k != "itens"}
+    comparacao = comparar_com_linha_de_base(rodada, rodada_base) if rodada_base else None
     return {
         "tem_rodada": True,
         "run_info": run_info,
-        "linha_de_base": comparar_com_linha_de_base(rodada, rodada_base) if rodada_base else None,
+        "linha_de_base": comparacao,
+        "portao": avaliar_portao(rodada, comparacao),
         "metricas_por_construcao": METRICAS_POR_CONSTRUCAO,
         "rnf07": resumir_rnf07(itens, rodada.get("nivel")),
         "modelos": resumir_modelos(itens),

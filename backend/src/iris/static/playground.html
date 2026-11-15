@@ -476,6 +476,29 @@
     }
     .screen-question strong { color: var(--ink); }
     .screen-question .screen-origin { display: block; margin-top: 0.2rem; color: var(--muted); }
+    .gate-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.4rem 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid var(--hairline-strong);
+      margin-bottom: 0.85rem;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+    .gate-banner > * { min-width: 0; }
+    .gate-word { font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.8rem; white-space: nowrap; }
+    .gate-reasons { margin: 0; padding-left: 1.1rem; flex: 1 1 260px; overflow-wrap: anywhere; }
+    .gate-aprovado { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.35); color: #0f4f37; }
+    .gate-aviso { background: var(--ochre-soft); border-color: rgba(158, 91, 8, 0.35); color: #693c04; }
+    .gate-reprovado { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.38); color: #7e2215; }
+    .gate-neutro { background: var(--teal-soft); border-color: rgba(20, 61, 64, 0.28); color: #143d40; }
+    .leak-cell { white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .leak-all { color: var(--vermilion); font-weight: 700; }
+    .leak-none { color: var(--moss); font-weight: 700; }
+    .leak-some { color: var(--ochre); font-weight: 700; }
     .chain-note { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
     .refusal-summary {
       display: grid;
@@ -1361,7 +1384,7 @@
 
     <!-- ABA 4: FERRAMENTAS DA API -->
     <section id="tab-ferramentas" class="tab-panel">
-      <p class="screen-question"><strong>Pergunta desta tela:</strong> O texto sai sem dados pessoais antes de ir a um modelo, e o material é decomposto nas partes certas?<span class="screen-origin"><strong>De onde vem o número:</strong> chamadas ao vivo às rotas de materiais, com o texto que você colar; esse resultado vale para o texto colado, não é taxa medida num conjunto. A telemetria do Extrator, mais abaixo, vem das execuções já registradas no servidor.</span></p>
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> O texto sai sem dados pessoais antes de ir a um modelo, e o material é decomposto nas partes certas?<span class="screen-origin"><strong>De onde vem o número:</strong> chamadas ao vivo às rotas de materiais, com o texto que você colar; esse resultado vale para o texto colado, não é taxa medida num conjunto. O ataque de dado pessoal roda casos fictícios, com sorteio de semente fixa, contra o removedor, e a telemetria do Extrator, mais abaixo, vem das execuções já registradas no servidor.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1379,6 +1402,21 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           <button type="button" id="btn-mat-test" class="btn btn-primary" onclick="testarSanitizacaoEDecomposicao()">Sanitizar e decompor texto</button>
         </div>
         <div id="mat-results" style="margin-top: 1rem;"></div>
+      </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Ataque de dado pessoal ao removedor</h2>
+            <p class="block-desc">O mesmo dado inventado é escrito de várias formas (tipo, rótulo e posição no material) e passa pelo removedor. Conta-se em quantos casos ele continua legível na saída. Sem modelo; todos os valores são fictícios.</p>
+          </div>
+          <div class="btn-row">
+            <button type="button" id="btn-ataque-pii" class="btn btn-secondary" onclick="executarAtaquePii()">Rodar ataque</button>
+          </div>
+        </div>
+        <div id="ataque-pii-box">
+          <div class="empty-state">Carregando o último ataque...</div>
+        </div>
       </div>
 
       <div class="panel-block">
@@ -1455,6 +1493,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         sec.classList.toggle('active', sec.id === `tab-${nome}`);
       });
       if (nome === 'ferramentas' && !state.extLoaded) {
+        carregarAtaquePii();
         carregarExtratorAnalytics();
       }
       if (nome === 'escolar' && !state.escolarLoaded) {
@@ -2685,6 +2724,132 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       return n.toFixed(3);
     }
 
+    // Portão: resume a comparação com a linha de base em aprovado, aviso ou reprovado.
+    function renderPortaoEscolar(p) {
+      if (!p) return '';
+      const mapa = {
+        aprovado: ['gate-aprovado', 'Portão: aprovado'],
+        aviso: ['gate-aviso', 'Portão: aviso'],
+        reprovado: ['gate-reprovado', 'Portão: reprovado'],
+        referencia: ['gate-neutro', 'Portão: linha de base'],
+        sem_base: ['gate-neutro', 'Portão: sem linha de base']
+      };
+      const [cls, rotulo] = mapa[p.veredito] || ['gate-neutro', `Portão: ${p.veredito}`];
+      return `
+        <div class="gate-banner ${cls}" role="status">
+          <span class="gate-word">${escapeHtml(rotulo)}</span>
+          <ul class="gate-reasons">${(p.motivos || []).map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+        </div>`;
+    }
+
+    function celulaVazamento(x) {
+      if (!x || !x.total) return '<td class="leak-cell">—</td>';
+      const cls = x.vazou === 0 ? 'leak-none' : (x.vazou === x.total ? 'leak-all' : 'leak-some');
+      return `<td class="leak-cell ${cls}">${escapeHtml(x.vazou)} de ${escapeHtml(x.total)}</td>`;
+    }
+
+    function celulaResumoVazamento(titulo, sub, x) {
+      const ic = Array.isArray(x.ic95) ? `IC95 ${Number(x.ic95[0]).toFixed(1)}% a ${Number(x.ic95[1]).toFixed(1)}%` : 'sem intervalo';
+      return `<div class="refusal-cell">
+        <div class="verdict-num neutral">${escapeHtml(x.vazou)} de ${escapeHtml(x.total)}</div>
+        <div class="verdict-cap">${escapeHtml(titulo)}</div>
+        <div class="verdict-sub">${Number(x.taxa_pct || 0).toFixed(1)}% vazou · ${escapeHtml(ic)}${sub ? ` · ${escapeHtml(sub)}` : ''}</div>
+      </div>`;
+    }
+
+    function renderAtaquePii(a) {
+      const box = document.getElementById('ataque-pii-box');
+      const btn = document.getElementById('btn-ataque-pii');
+      if (!box) return;
+      if (btn && a && (a.total_casos || (a.geral && a.geral.total))) {
+        btn.textContent = `Rodar ataque (${a.total_casos || a.geral.total} casos)`;
+        btn.dataset.origLabel = btn.textContent;
+      }
+      if (!a || !a.tem_ataque) {
+        box.innerHTML = '<div class="empty-state">Nenhum ataque registrado ainda. Ele roda em menos de um segundo e não chama modelo.</div>';
+        return;
+      }
+      const rot = a.rotulos || {};
+      const chavesRot = Object.keys(rot);
+      const ctl = a.controles || {};
+      const promessa = a.prometidos_rotulo_pt || {};
+      const aviso = Number(promessa.vazou || 0) > 0
+        ? `<div class="notice notice-danger">Promessa quebrada: ${escapeHtml(promessa.vazou)} de ${escapeHtml(promessa.total)} casos vazaram no cenário mais simples (tipo que o removedor promete tirar, com o rótulo em português).</div>`
+        : (Number((a.prometidos || {}).vazou || 0) > 0
+          ? `<div class="notice notice-warn">No cenário para o qual foi escrito (rótulo em português) o removedor não deixou passar nada. Fora dele, ${escapeHtml(a.prometidos.vazou)} de ${escapeHtml(a.prometidos.total)} casos dos tipos prometidos vazaram: basta o rótulo vir em inglês, abreviado ou faltar.</div>`
+          : '<div class="notice notice-ok">Nenhum caso dos tipos prometidos vazou.</div>');
+      const avisoCtl = Number(ctl.apagou_conteudo || 0) > 0
+        ? `<div class="notice notice-danger">O removedor apagou conteúdo de ${escapeHtml(ctl.apagou_conteudo)} de ${escapeHtml(ctl.total)} enunciados sem dado pessoal: ${(ctl.itens || []).filter(c => c.apagou).map(c => `<code>${escapeHtml(c.protegido)}</code>`).join(', ')}.</div>`
+        : '';
+      const linhasTipo = Object.keys(a.por_tipo || {}).map(k => {
+        const t = a.por_tipo[k];
+        return `<tr>
+          <td style="min-width:150px;"><strong>${escapeHtml(t.nome)}</strong></td>
+          <td>${t.prometido ? '<span class="tag tag-teal">prometido</span>' : '<span class="tag">não prometido</span>'}</td>
+          ${celulaVazamento(t)}
+          ${chavesRot.map(r => celulaVazamento((t.por_rotulo || {})[r])).join('')}
+        </tr>`;
+      }).join('');
+      const exemplos = (a.exemplos || []).map(e => `<tr>
+          <td style="white-space:nowrap;">${escapeHtml(e.tipo)}</td>
+          <td style="white-space:nowrap;">${escapeHtml(e.rotulo)}</td>
+          <td class="refusal-answer"><code>${escapeHtml(e.linha_da_saida)}</code></td>
+        </tr>`).join('');
+      box.innerHTML = `
+        <div class="tag-row provenance-row" aria-label="Procedência do ataque">
+          <span class="tag">casos <code>${escapeHtml(a.assinatura_casos || '-')}</code></span>
+          <span class="tag">semente <code>${escapeHtml(a.semente)}</code></span>
+          <span class="tag tag-ok">valores fictícios</span>
+        </div>
+        ${aviso}
+        ${avisoCtl}
+        <div class="refusal-summary">
+          ${celulaResumoVazamento('Prometidos, rótulo em português', 'o cenário mais simples', promessa)}
+          ${celulaResumoVazamento('Tipos que o removedor promete tirar', 'todos os rótulos', a.prometidos || {})}
+          ${celulaResumoVazamento('Tipos que ele não promete', 'RG, nascimento, endereço, responsável', a.nao_prometidos || {})}
+          <div class="refusal-cell">
+            <div class="verdict-num neutral">${escapeHtml(ctl.apagou_conteudo ?? 0)} de ${escapeHtml(ctl.total ?? 0)}</div>
+            <div class="verdict-cap">Enunciados sem dado que perderam conteúdo</div>
+            <div class="verdict-sub">controle: o removedor não pode apagar matéria</div>
+          </div>
+        </div>
+        <p class="baseline-rule">Como ler: "vazou" é o dado continuar legível depois do removedor, inteiro ou num pedaço que ainda identifica. A régua é a promessa escrita no próprio módulo: os tipos marcados "prometido". Vazamento nos outros tipos não é promessa quebrada; mostra o que fica de fora. Cada célula abaixo junta as quatro posições no material (cabeçalho, meio da frase, rodapé e lista), ${escapeHtml(a.repeticoes)} valores sorteados em cada.</p>
+        <div class="table-scroll" style="margin-top:0.75rem;">
+          <table>
+            <thead><tr><th>Tipo de dado</th><th>Promessa</th><th>Vazou</th>${chavesRot.map(r => `<th>${escapeHtml(rot[r])}</th>`).join('')}</tr></thead>
+            <tbody>${linhasTipo}</tbody>
+          </table>
+        </div>
+        ${exemplos ? `<div class="ledger-heading" style="margin-top:1rem;"><span>Exemplos do que passou (valores fictícios)</span></div>
+        <div class="table-scroll"><table>
+          <thead><tr><th>Tipo</th><th>Rótulo</th><th>Linha depois do removedor</th></tr></thead>
+          <tbody>${exemplos}</tbody>
+        </table></div>` : ''}
+      `;
+    }
+
+    async function carregarAtaquePii() {
+      try {
+        renderAtaquePii(await fetchJson('/api/v1/eval/ataque-pii'));
+      } catch (err) {
+        document.getElementById('ataque-pii-box').innerHTML =
+          `<div class="notice notice-danger">Falha ao carregar o ataque (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    async function executarAtaquePii() {
+      setLoading('btn-ataque-pii', true, 'Rodando ataque...');
+      try {
+        const a = await fetchJson('/api/v1/eval/ataque-pii', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+        setLoading('btn-ataque-pii', false);
+        renderAtaquePii(a);
+      } catch (err) {
+        setLoading('btn-ataque-pii', false);
+        document.getElementById('ataque-pii-box').innerHTML =
+          `<div class="notice notice-danger">O ataque não rodou (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
     function renderLinhaDeBaseEscolar(an) {
       const info = an.run_info || {};
       const lb = an.linha_de_base;
@@ -3005,6 +3170,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       box.innerHTML = `
         ${fallbackBanner}
         ${sonnetWarnBanner}
+        ${renderPortaoEscolar(an.portao)}
         ${renderAvisoGeradorJuizEscolar(an.modelos)}
         ${renderProcedenciaEscolar(info, an.modelos)}
         <div class="metrics-architecture" style="margin-bottom:1.25rem;">

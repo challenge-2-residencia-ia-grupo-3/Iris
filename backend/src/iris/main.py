@@ -565,6 +565,19 @@ def _handle_rag_escolar_baseline(body: dict[str, Any]) -> dict[str, Any]:
     return definir_linha_de_base(run_id or None)
 
 
+def _handle_ataque_pii_run() -> dict[str, Any]:
+    """Roda o ataque de dado pessoal contra o removedor `sanitize_pii` (sem modelo, valores fictícios)."""
+    from iris.eval.ataque_pii import executar_ataque_pii
+
+    return executar_ataque_pii()
+
+
+def _handle_ataque_pii() -> dict[str, Any]:
+    from iris.eval.ataque_pii import obter_ataque_pii
+
+    return obter_ataque_pii()
+
+
 def _handle_rag_escolar_repetir(body: dict[str, Any]) -> dict[str, Any]:
     """Roda de novo uma rodada registrada (sem gravar) e conta em quantas questões deu igual."""
     from iris.eval.rag_escolar_benchmark import repetir_rodada_rag_escolar
@@ -759,6 +772,14 @@ def create_app() -> Any:
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
 
+    @app.post("/api/v1/eval/ataque-pii", tags=["eval"])
+    def ataque_pii_run() -> dict[str, Any]:
+        return _handle_ataque_pii_run()
+
+    @app.get("/api/v1/eval/ataque-pii", tags=["eval"])
+    def ataque_pii() -> dict[str, Any]:
+        return _handle_ataque_pii()
+
     @app.post("/api/v1/eval/rag-escolar/repetir", tags=["eval"])
     def repetir_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:
         from fastapi import HTTPException
@@ -938,6 +959,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json(_handle_rag_escolar_progress())
             elif parsed.path == "/api/v1/eval/rag-escolar/recusa":
                 self._send_json(_handle_rag_escolar_recusa())
+            elif parsed.path == "/api/v1/eval/ataque-pii":
+                self._send_json(_handle_ataque_pii())
             elif parsed.path == "/api/v1/eval/rag-escolar/analytics":
                 qs = parse_qs(parsed.query)
                 self._send_json(
@@ -1045,6 +1068,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json(_handle_rag_escolar_run(body))
                 except ValueError as err:
                     self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/ataque-pii":
+                self._send_json(_handle_ataque_pii_run())
             elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/repetir":
                 try:
                     self._send_json(_handle_rag_escolar_repetir(body))
