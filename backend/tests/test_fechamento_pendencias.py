@@ -220,6 +220,36 @@ class TestAtaqueEmArquivo(unittest.TestCase):
             self.assertIn("Fulano Ficticio", _texto_extraido(formato, texto), formato)
 
 
+class TestIndiceDoBancoDessincronizado(unittest.TestCase):
+    """B13: banco pgvector montado com outra base de trechos. A busca densa explica e quem chama recua para bm25."""
+
+    def test_erro_claro_e_recuo_com_motivo_legivel(self) -> None:
+        from iris.rag import bridge
+
+        _, consultar, _ = bridge.carregar_modulos_rag()
+
+        class ModeloFalso:
+            def vetor_pergunta(self, _pergunta: str) -> list[float]:
+                return [0.0]
+
+        class BancoFalso:
+            def buscar_denso(self, _con, _v, _apelido, n, _filtro):
+                return [("TRECHO-QUE-NAO-EXISTE#0001", 0.9)][:n]
+
+        with (
+            _ambiente_extrativo(),
+            patch.object(consultar, "_modelo", lambda _apelido: ModeloFalso()),
+            patch.object(consultar, "_pg", lambda: (BancoFalso(), None)),
+        ):
+            with self.assertRaises(RuntimeError) as ctx:
+                consultar._ranking_denso("pergunta", "qwen3", 5, None)
+            res = bridge.buscar_evidencias_com_meta("Como dividir um texto longo?", metodo="qwen3", k=3)
+        self.assertIn("índice do banco", str(ctx.exception))
+        self.assertTrue(res["fallback_aplicado"])
+        self.assertEqual(res["metodo_efetivo"], "bm25")
+        self.assertIn("reconstrua o índice", res["fallback_motivo"])
+
+
 class TestTextosDaTela(unittest.TestCase):
     def setUp(self) -> None:
         self.html = PLAYGROUND.read_text(encoding="utf-8")
