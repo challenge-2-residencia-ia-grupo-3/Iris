@@ -43,11 +43,27 @@ RE_MATRICULA = re.compile(
 RE_CPF = re.compile(
     r"\b(?:\d{3}\.){2}\d{3}-\d{2}\b",
 )
+# 11 dígitos corridos, sem fazer parte de número maior: CPF sem pontuação ou celular com DDD sem formatação.
+RE_ONZE_DIGITOS = re.compile(r"(?<![\d.,/-])\d{11}(?![\d.,/-])")
+
+
+def _cpf_valido(digitos: str) -> bool:
+    """Confere os dois dígitos verificadores do CPF (regra da Receita Federal)."""
+    if len(digitos) != 11 or len(set(digitos)) == 1:
+        return False
+    for tamanho in (9, 10):
+        soma = sum(int(digitos[i]) * (tamanho + 1 - i) for i in range(tamanho))
+        verificador = (soma * 10) % 11 % 10
+        if verificador != int(digitos[tamanho]):
+            return False
+    return True
 RE_EMAIL = re.compile(
     r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
 )
+# As bordas (?<![\d.]) e (?![\d]) impedem que o padrão pegue só um pedaço de número mais longo do enunciado
+# (código de 13 dígitos, ISBN, valor com casas decimais): antes, "ISBN 9788535902778" virava "978[TELEFONE]".
 RE_TELEFONE = re.compile(
-    r"(?:\+?55\s*)?(?:\(?\d{2}\)?\s*)?(?:9\s*\d{4}|\d{4})[-.\s]?\d{4}\b",
+    r"(?<![\d.])(?:\+?55\s*)?(?:\(?\d{2}\)?\s*)?(?:9\s*\d{4}|\d{4})[-.\s]?\d{4}(?![\d])",
 )
 
 
@@ -74,6 +90,13 @@ def sanitize_pii(text: str) -> tuple[str, int]:
     sanitized, count = RE_CPF.subn("[CPF]", sanitized)
     total_replacements += count
 
+    # 1b. 11 dígitos corridos: CPF sem pontuação (verificadores válidos) ou telefone com DDD. Antes, o padrão de
+    # telefone pegava só os 10 últimos e deixava um dígito para trás ("0[TELEFONE]").
+    sanitized, count = RE_ONZE_DIGITOS.subn(
+        lambda m: "[CPF]" if _cpf_valido(m.group(0)) else "[TELEFONE]", sanitized
+    )
+    total_replacements += count
+
     # 2. Sanitizar E-mails
     sanitized, count = RE_EMAIL.subn("[EMAIL]", sanitized)
     total_replacements += count
@@ -87,15 +110,24 @@ def sanitize_pii(text: str) -> tuple[str, int]:
     total_replacements += count
 
     # 4. Sanitizar Telefones
+    trocas_telefone = 0  # só o que foi de fato trocado; ano e intervalo de anos devolvidos intactos não contam
+
     def _replace_telefone(match: re.Match[str]) -> str:
+        nonlocal trocas_telefone
         val = match.group(0).strip()
         # Não sanitizar anos comuns de 4 dígitos isolados
         if re.fullmatch(r"(?:19|20)\d{2}", val):
             return val
+        # Nem intervalo de anos ("1564-1633", "1939-1945"): numa prova de História é conteúdo, não telefone.
+        # Custo aceito: um telefone fixo que pareça intervalo de anos (ex.: 2010-2015) não é removido.
+        intervalo = re.fullmatch(r"(1\d{3}|20\d{2})\s*[-–]\s*(1\d{3}|20\d{2})", val)
+        if intervalo and int(intervalo.group(2)) >= int(intervalo.group(1)):
+            return val
+        trocas_telefone += 1
         return "[TELEFONE]"
 
-    sanitized, count = RE_TELEFONE.subn(_replace_telefone, sanitized)
-    total_replacements += count
+    sanitized = RE_TELEFONE.sub(_replace_telefone, sanitized)
+    total_replacements += trocas_telefone
 
 
     # 5. Sanitizar Cabeçalhos de Estudante

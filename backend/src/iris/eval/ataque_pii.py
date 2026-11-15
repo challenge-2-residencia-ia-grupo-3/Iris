@@ -55,6 +55,9 @@ CONTROLES = [
     ("conta", "Questão 6: Calcule 3482 - 1957 e depois multiplique o resultado por 12.", "3482 - 1957"),
     ("escola_no_texto", "Questão 7: Descreva como a escola pode reduzir o desperdício de água.", "a escola pode reduzir"),
     ("aluno_no_texto", "Questão 8: Um aluno mediu 2,75 metros de corda. Quantos centímetros são?", "Um aluno mediu 2,75 metros"),
+    ("isbn", "Questão 9: Procure na biblioteca o livro de ISBN 9788535902778 e leia o capítulo 2.", "9788535902778"),
+    ("codigo_longo", "Questão 10: O código de barras do produto é 7891234567895. Quantos dígitos ele tem?", "7891234567895"),
+    ("intervalo_de_anos", "Questão 11: A obra de Frei Vicente de Salvador (1564-1633) foi publicada em 1627. Comente.", "1564-1633"),
 ]
 
 

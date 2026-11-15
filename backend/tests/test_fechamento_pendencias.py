@@ -137,6 +137,55 @@ class TestProgressoDaRepeticao(unittest.TestCase):
         self.assertTrue(all(p["total"] == 3 for p in passos))
 
 
+def _cpf_com_verificadores(base9: str) -> str:
+    """Monta um CPF fictício (começa em 000) com dígitos verificadores válidos, só para o teste."""
+    d = [int(c) for c in base9]
+    for tamanho in (9, 10):
+        d.append(sum(d[i] * (tamanho + 1 - i) for i in range(tamanho)) * 10 % 11 % 10)
+    return "".join(map(str, d))
+
+
+class TestRemovedorDeDadoPessoal(unittest.TestCase):
+    def test_cpf_sem_pontuacao_sai_inteiro_e_com_o_marcador_certo(self) -> None:
+        from iris.security.pii_scrubber import sanitize_pii
+
+        cpf = _cpf_com_verificadores("000123456")
+        self.assertEqual(sanitize_pii(f"CPF: {cpf}"), ("CPF: [CPF]", 1))
+        self.assertEqual(sanitize_pii("CPF: 00012345678"), ("CPF: [TELEFONE]", 1))  # verificadores inválidos
+        self.assertEqual(sanitize_pii("Celular: 00991234567"), ("Celular: [TELEFONE]", 1))
+
+    def test_numero_longo_do_enunciado_nao_perde_pedaco(self) -> None:
+        from iris.security.pii_scrubber import sanitize_pii
+
+        for texto in ("O ISBN 9788535902778 do livro", "Código de barras 7891234567895", "Valor 123.45678901"):
+            self.assertEqual(sanitize_pii(texto), (texto, 0), texto)
+
+    def test_intervalo_de_anos_e_conteudo_e_telefone_continua_saindo(self) -> None:
+        from iris.security.pii_scrubber import sanitize_pii
+
+        for texto in ("Frei Vicente de Salvador (1564-1633)", "Segunda Guerra Mundial (1939-1945)", "No ano de 2020"):
+            self.assertEqual(sanitize_pii(texto), (texto, 0), texto)
+        self.assertEqual(sanitize_pii("Telefone da escola 3333-4444"), ("Telefone da escola [TELEFONE]", 1))
+        self.assertEqual(sanitize_pii("Tel.: (00) 91234-5678"), ("Tel.: [TELEFONE]", 1))
+
+    def test_nenhuma_das_136_questoes_reais_perde_texto(self) -> None:
+        from iris.eval.rag_escolar_benchmark import carregar_questoes_curadas
+        from iris.security.pii_scrubber import sanitize_pii
+
+        alteradas = [q.id for q in carregar_questoes_curadas() if sanitize_pii(q.texto_completo)[0] != q.texto_completo]
+        self.assertEqual(alteradas, [])
+
+    def test_ataque_sem_controle_apagado_e_sem_vazamento_novo(self) -> None:
+        from iris.eval.ataque_pii import executar_ataque_pii
+
+        r = executar_ataque_pii(salvar=False)
+        self.assertEqual(r["controles"]["apagou_conteudo"], 0)
+        self.assertEqual(r["controles"]["total"], 9)
+        self.assertEqual(r["por_tipo"]["cpf_sem_pontuacao"]["vazou"], 0)
+        self.assertEqual(r["por_tipo"]["telefone"]["vazou"], 0)
+        self.assertEqual(r["prometidos_rotulo_pt"]["vazou"], 0)
+
+
 class TestTextosDaTela(unittest.TestCase):
     def setUp(self) -> None:
         self.html = PLAYGROUND.read_text(encoding="utf-8")
