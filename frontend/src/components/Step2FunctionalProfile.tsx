@@ -269,21 +269,6 @@ export function Step2FunctionalProfile({
     clearEngagementProfileFromSession();
   };
 
-  const handleClearSelection = () => {
-    setSelectedIds([]);
-    setConfirmedSelection(null);
-    setCurrentSubStep("a");
-    setAttemptedEmptySubmit(true);
-    clearSurgicalSelectionFromSession();
-    setFeedbackBanner({
-      type: "warning",
-      title: "Nenhuma característica funcional selecionada",
-      message:
-        "O avanço para os próximos passos está bloqueado. Selecione pelo menos 1 característica observada em sala de aula.",
-      code: "EMPTY_CHARACTERISTIC_SELECTION",
-    });
-  };
-
   const handleApplyLocalProfile = useCallback(
     (perfil: PerfilPedagogicoPortatil) => {
       const validSet = new Set(catalog.caracteristicas.map((c) => c.id_caracteristica));
@@ -308,6 +293,21 @@ export function Step2FunctionalProfile({
     },
     [catalog.caracteristicas]
   );
+
+  const handleClearSelection = () => {
+    setSelectedIds([]);
+    setConfirmedSelection(null);
+    setCurrentSubStep("a");
+    setAttemptedEmptySubmit(true);
+    clearSurgicalSelectionFromSession();
+    setFeedbackBanner({
+      type: "warning",
+      title: "Nenhuma característica funcional selecionada",
+      message:
+        "O avanço para os próximos passos está bloqueado. Selecione pelo menos 1 característica observada em sala de aula.",
+      code: "EMPTY_CHARACTERISTIC_SELECTION",
+    });
+  };
 
   const navigateToSubStep = (target: Step2SubStep) => {
     if (target !== "a" && selectedIds.length === 0) {
