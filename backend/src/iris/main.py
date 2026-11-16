@@ -415,6 +415,12 @@ def create_app() -> Any:
     if exportacao_material_router is not None:
         app.include_router(exportacao_material_router, prefix="/api/v1")
 
+    # Registra a sessão de revisão docente em memória (História 2.2.2 - Issue #22)
+    from iris.api.routes.sessoes import router as sessoes_router
+
+    if sessoes_router is not None:
+        app.include_router(sessoes_router, prefix="/api/v1")
+
     @app.post("/api/v1/rag/build", tags=["rag"])
     def rag_build() -> dict[str, Any]:
         return _handle_rag_build()
