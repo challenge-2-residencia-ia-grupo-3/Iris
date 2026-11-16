@@ -140,7 +140,7 @@ def test_pdf_longo_quebra_em_varias_paginas():
 
 def test_pdf_nao_carrega_dado_pessoal():
     texto = _pdf_texto(exportar_perfil(JSON_DO_FRONT, "pdf").conteudo).lower()
-    assert "não contém nome, laudo, cid" in texto
+    assert "nome de pessoa não é detectado automaticamente" in " ".join(texto.split())  # o rodapé quebra de linha
     for campo in ("cpf", "e-mail", "telefone"):
         assert campo not in texto
 
