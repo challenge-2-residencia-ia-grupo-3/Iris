@@ -554,7 +554,7 @@ def etapa_html() -> None:
              "langgraph": _opcional("39-langgraph.json"),
              "llmxrag": _opcional("40-llm-x-rag.json"), "llmxrag_textos": _opcional("40-llm-x-rag-textos.json"),
              "q_ragas": _opcional("38-ragas-grupo.json"),
-             "gitnexus": _opcional("29-gitnexus.json"), "github": _opcional("30-github.json"),
+             "funcoes": _opcional("29-grafo-funcoes.json"), "github": _opcional("30-github.json"),
              "etapas": _opcional("31-etapas.json"), "commits": montar_commits(historico),
              "retrato": {"arquivos": retrato, "gerado_em": (manifesto or {}).get("gerado_em"),
                          "commit_grupo": (manifesto or {}).get("commit_grupo")} if retrato else None}

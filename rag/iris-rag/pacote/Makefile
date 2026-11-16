@@ -1,7 +1,7 @@
 # Painel de qualidade do Iris: roda as verificacoes no codigo deste repositorio e gera um painel HTML local.
 # Nada sai da sua maquina (sem modelo, sem API). Na raiz do repositorio: make qualidade. Aqui: make help.
 RAIZ := $(abspath $(CURDIR)/../../..)
-.PHONY: help bancada registrar rastro html conferir regressao linha-de-base repetir custo revisao rastro-pipeline adversarial ablacao pipeline-tudo mapa gitnexus github tudo avaliacao juiz rotular rag-triade ataque orcamento producao ragas portoes qualidade-tudo
+.PHONY: help bancada registrar rastro html conferir regressao linha-de-base repetir custo revisao rastro-pipeline adversarial ablacao pipeline-tudo mapa grafo github tudo avaliacao juiz rotular rag-triade ataque orcamento producao ragas portoes qualidade-tudo
 
 PY ?= python3
 Q ?= Q07
@@ -65,8 +65,8 @@ mapa:  ## mapa do código do grupo: módulos, imports, testes, etapas (27-mapa-c
 GREF ?= HEAD
 # venv com a biblioteca RAGAS (mesma versão travada pelo grupo, 0.4.3); separado do venv da bancada
 PYR ?= $(PYB)
-gitnexus:  ## grafo de funções e chamadas do código do grupo com o GitNexus (29-gitnexus.json; precisa de node/npx)
-	@nice -n 19 $(PY) ../bancada/mapa/gitnexus_exportar.py --repo $(GRUPO) --ref $(GREF) --saida outputs
+grafo:  ## grafo de funções e chamadas do código do grupo, feito aqui (ast e networkx; 29-grafo-funcoes.json; menos de 1 s)
+	@$(PYB) ../bancada/mapa/grafo_funcoes.py --repo $(GRUPO) --saida outputs
 
 github:  ## PRs e issues abertos do grupo (30-github.json; só leitura via gh)
 	@$(PY) ../bancada/atualizar/github_estado.py --saida outputs
@@ -105,7 +105,7 @@ portoes:  ## lê as saídas 32 a 37 e diz aprovado, aviso ou reprovado (código 
 
 qualidade-tudo: avaliacao juiz rag-triade ataque orcamento producao portoes  ## as 6 verificações de qualidade e os portões delas
 
-tudo: repetir custo revisao pipeline-tudo mapa gitnexus etapas qualidade-tudo bancada  ## roda todas as verificações sem modelo e gera o painel
+tudo: repetir custo revisao pipeline-tudo mapa grafo etapas qualidade-tudo bancada  ## roda todas as verificações sem modelo e gera o painel
 
 # modo local: painel com botões para rodar cada comando, só em 127.0.0.1 (guia: ../bancada/README.md)
 .PHONY: painel
@@ -122,7 +122,7 @@ langgraph:  ## protótipo da arquitetura de agentes em LangGraph (laço do Audit
 
 # o que roda no repositorio do grupo sem dados privados: o pipeline inteiro com provedor eco (sem modelo),
 # ataques ao filtro de dados pessoais, prova fixa, orcamento, producao, mapa e etapas
-verificar: precisa-chunks rastro-pipeline adversarial ablacao mapa etapas avaliacao ataque orcamento-so producao portoes opcionais html  ## roda as verificacoes sem modelo e gera o painel
+verificar: precisa-chunks rastro-pipeline adversarial ablacao mapa grafo etapas avaliacao ataque orcamento-so producao portoes opcionais html  ## roda as verificacoes sem modelo e gera o painel
 	@echo "painel em reports/bancada.html (ou: make painel)"
 
 # abas que dependem de ferramenta externa: se faltar, avisa e segue (não derruba as outras verificações)

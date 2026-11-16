@@ -35,7 +35,7 @@ GET  /api/ping         -> 200 {"local": true,
                           A lista vem das linhas do Makefile com '## ' (menos linha-de-base,
                           que muda a régua e fica só na linha de comando).
                           pesado=true: rastro-pipeline, adversarial, ablacao, pipeline-tudo,
-                          gitnexus, tudo (demoram e usam mais memória).
+                          tudo (demoram e usam mais memória).
 POST /api/rodar        -> corpo JSON {"alvo": "custo"} ou {"alvo": "rastro", "q": "Q07"}
                           cabeçalho obrigatório: X-Bancada: 1
                           200 {"id": "<id>"} | 400 alvo/q inválido | 403 sem cabeçalho
@@ -85,7 +85,7 @@ STATUS = PACOTE / "reports" / "status.json"
 
 HOST = "127.0.0.1"                             # fixo de propósito: só a própria máquina
 FORA_DO_PAINEL = {"linha-de-base", "painel"}   # linha-de-base muda a régua; painel é este servidor
-PESADOS = {"rastro-pipeline", "adversarial", "ablacao", "pipeline-tudo", "gitnexus", "tudo"}
+PESADOS = {"rastro-pipeline", "adversarial", "ablacao", "pipeline-tudo", "tudo"}
 RE_Q = re.compile(r"^Q\d{2}$")
 
 
@@ -137,14 +137,14 @@ def passos_sem_make(alvo: str, cfg: dict, q: str) -> list[tuple[Path, list[str]]
         "adversarial": [(pip, [pyb, "adversarial.py", "--provedor", prov])],
         "ablacao": [(pip, [pyb, "ablacao.py", "--provedor", prov])],
         "mapa": [(P, [py, str(mapa / "mapa_codigo.py"), "--repo", grupo, "--saida", "outputs"])],
-        "gitnexus": [(P, [py, str(mapa / "gitnexus_exportar.py"), "--repo", grupo, "--ref", "HEAD", "--saida", "outputs"])],
+        "grafo": [(P, [py, str(mapa / "grafo_funcoes.py"), "--repo", grupo, "--saida", "outputs"])],
         "github": [(P, [py, str(RAIZ / "bancada" / "atualizar" / "github_estado.py"), "--saida", "outputs"])],
         "etapas": [(P, [py, str(pip / "etapas_explicadas.py"), "--grupo", grupo])],
     }
     t["bancada"] = t["registrar"] + t["html"]
     t["pipeline-tudo"] = t["rastro-pipeline"] + t["adversarial"] + t["ablacao"]
     t["tudo"] = (t["repetir"] + t["custo"] + t["revisao"] + t["pipeline-tudo"]
-                 + t["mapa"] + t["gitnexus"] + t["etapas"] + t["bancada"])
+                 + t["mapa"] + t["grafo"] + t["etapas"] + t["bancada"])
     t["help"] = []
     return t[alvo]
 

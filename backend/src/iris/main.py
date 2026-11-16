@@ -591,7 +591,7 @@ def _handle_arquitetura_retomar(body: dict[str, Any]) -> dict[str, Any]:
 
 
 def _handle_mapa_codigo() -> dict[str, Any]:
-    """Mapa do código: módulos lidos com `ast` e, se o arquivo existir, funções geradas pelo GitNexus."""
+    """Mapa do código: módulos lidos com `ast` e, se o arquivo existir, funções do grafo próprio (ast e networkx)."""
     from iris.eval.mapa_codigo import obter_mapa_codigo
 
     return obter_mapa_codigo()

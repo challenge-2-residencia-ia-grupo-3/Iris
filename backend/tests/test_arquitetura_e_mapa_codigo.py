@@ -1,5 +1,5 @@
 """Testes da aba "Arquitetura" (grafo dos agentes em LangGraph) e da aba "Grafo do código"
-(módulos lidos com ast e camada de funções gerada pelo GitNexus)."""
+(módulos lidos com ast e camada de funções do grafo próprio)."""
 from __future__ import annotations
 
 import contextlib
@@ -24,7 +24,7 @@ for p in (str(SRC_DIR), str(BACKEND_DIR), str(RAG_PACOTE_DIR), str(REPO_ROOT / "
 
 from iris.eval import arquitetura_langgraph as arq
 from iris.eval import mapa_codigo
-from iris.eval.mapa_codigo import carregar_gitnexus, mapear_modulos
+from iris.eval.mapa_codigo import carregar_funcoes, mapear_modulos
 from iris.main import app
 
 TEM_LANGGRAPH = arq.LANGGRAPH_DISPONIVEL
@@ -257,7 +257,7 @@ class TestSemLangGraph(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 arq.construir_grafo()
         self.assertFalse(r["disponivel"])
-        self.assertIn("langgraph", r["como_instalar"])
+        self.assertIn("--group grafo", r["como_instalar"])
         arq._CACHE.clear()
 
 
@@ -321,52 +321,76 @@ class TestMapaDeModulos(unittest.TestCase):
 
 
 class TestCamadaDeFuncoes(unittest.TestCase):
-    def _gerado(self) -> dict:
-        import exportar_gitnexus as ex
+    """O grafo de funções próprio (rag/iris-rag/bancada/mapa/grafo_funcoes.py), que substituiu o GitNexus."""
 
-        simb = [
-            ["F:a", "Function", "sanitize_pii", "backend/src/iris/security/pii_scrubber.py", "53", "60"],
-            ["M:b", "Method", "AgenteAuditor.auditar", "backend/src/iris/agents/auditor.py", "329", "380"],
-            ["F:t", "Function", "test_x", "backend/tests/test_x.py", "0", "3"],
-            ["F:d", "Function", "ignorado", "docs/x.py", "1", "2"],
-        ]
-        membro = [["F:a", "c1"], ["M:b", "c1"], ["F:t", "c2"]]
-        comun = [["c1", "Seguranca", "0.9", "2"], ["c2", "Tests", "0.5", "1"], ["c3", "Vazia", "0", "0"]]
-        chamadas = [["M:b", "F:a", "1"], ["F:t", "M:b", "1"], ["F:a", "F:a", "1"], ["F:d", "F:a", "1"]]
-        proc = [["p1", "auditar → sanitize", "intra", "2"], ["p2", "curto", "intra", "1"]]
-        passos = [["M:b", "p1", "1"], ["F:a", "p1", "2"], ["F:a", "p2", "1"]]
-        return ex.montar(simb, membro, comun, chamadas, proc, passos, "abcdef1234", ["indexed"])
+    @classmethod
+    def setUpClass(cls) -> None:
+        import importlib.util
 
-    def test_montagem_do_arquivo(self) -> None:
-        d = self._gerado()
-        self.assertEqual([s["nome"] for s in d["simbolos"]], ["sanitize_pii", "auditar", "test_x"])
-        self.assertEqual(d["simbolos"][0]["linha"], 54)  # o GitNexus conta linhas a partir de 0
-        self.assertTrue(d["simbolos"][2]["teste"])
-        self.assertEqual(d["chamadas"], [[1, 0], [2, 1]])  # sem chamada para si mesmo nem de pasta ignorada
-        self.assertEqual([c["nome"] for c in d["comunidades"]], ["Seguranca", "Tests"])
-        self.assertEqual([p["nome"] for p in d["processos"]], ["auditar → sanitize"])
-        self.assertEqual(d["commit_grupo"], "abcdef1")
+        caminho = REPO_ROOT / "rag" / "iris-rag" / "bancada" / "mapa" / "grafo_funcoes.py"
+        spec = importlib.util.spec_from_file_location("grafo_funcoes_teste", caminho)
+        cls.gf = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
+        spec.loader.exec_module(cls.gf)  # type: ignore[union-attr]
 
-    def test_leitura_conta_quem_chama_quem(self) -> None:
+    def _repo(self, tmp: str) -> Path:
+        raiz = Path(tmp)
+        pac = raiz / "backend" / "src" / "iris" / "seguranca"
+        pac.mkdir(parents=True)
+        (raiz / "backend" / "src" / "iris" / "__init__.py").write_text("", encoding="utf-8")
+        (pac / "__init__.py").write_text("", encoding="utf-8")
+        (pac / "limpa.py").write_text(
+            "def limpar(t):\n    return t.strip()\n\n\nclass Auditor:\n    def auditar(self, t):\n"
+            "        return self.passo(limpar(t))\n\n    def passo(self, t):\n        return t\n", encoding="utf-8")
+        (pac / "usa.py").write_text(
+            "from iris.seguranca.limpa import Auditor, limpar\nfrom iris.seguranca import limpa as lp\n\n\n"
+            "def preparar(t):\n    return limpar(t)\n\n\n"
+            "def entrada(t):\n    a = Auditor()\n    return a.auditar(lp.limpar(preparar(t)))\n", encoding="utf-8")
+        testes = raiz / "backend" / "tests"
+        testes.mkdir(parents=True)
+        (testes / "test_x.py").write_text(
+            "from iris.seguranca.usa import entrada\n\n\ndef test_entrada():\n    entrada(' a ')\n", encoding="utf-8")
+        return raiz
+
+    def test_funcoes_chamadas_e_teste(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            d = self.gf.construir(self._repo(tmp))
+        nomes = {s["qual"]: i for i, s in enumerate(d["simbolos"])}
+        self.assertEqual(set(nomes), {"limpar", "Auditor", "Auditor.auditar", "Auditor.passo", "preparar", "entrada", "test_entrada"})
+        ligacoes = {(d["simbolos"][a]["qual"], d["simbolos"][b]["qual"]) for a, b in d["chamadas"]}
+        self.assertIn(("entrada", "limpar"), ligacoes)  # modulo.funcao (lp.limpar)
+        self.assertIn(("preparar", "limpar"), ligacoes)  # nome importado
+        self.assertIn(("entrada", "Auditor"), ligacoes)  # classe importada (construtor)
+        self.assertIn(("Auditor.auditar", "Auditor.passo"), ligacoes)  # self.metodo
+        self.assertIn(("Auditor.auditar", "limpar"), ligacoes)  # função do mesmo módulo
+        self.assertIn(("test_entrada", "entrada"), ligacoes)
+        self.assertTrue(d["simbolos"][nomes["test_entrada"]]["teste"])
+        self.assertFalse(d["simbolos"][nomes["entrada"]]["teste"])
+        self.assertEqual(d["metricas"]["chamadas"], len(d["chamadas"]))
+
+    def test_comunidades_e_fluxos(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            d = self.gf.construir(self._repo(tmp))
+        self.assertTrue(d["comunidades"])
+        self.assertTrue(all(0 <= c["coesao"] <= 1 for c in d["comunidades"]))
+        fluxo = d["processos"][0]
+        self.assertEqual(d["simbolos"][fluxo["passos"][0]]["qual"], "entrada")  # teste não é ponto de entrada
+        self.assertGreaterEqual(len(fluxo["passos"]), 3)
+        self.assertNotIn("GitNexus", d["ferramenta"])
+
+    def test_leitura_pelo_backend_e_sem_arquivo_diz_como_gerar(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             arquivo = Path(tmp) / "g.json"
-            arquivo.write_text(json.dumps(self._gerado()), encoding="utf-8")
-            f = carregar_gitnexus(arquivo)
-        por = {s["nome"]: s for s in f["simbolos"]}
-        self.assertTrue(f["disponivel"])
-        self.assertEqual((por["sanitize_pii"]["chama"], por["sanitize_pii"]["chamado_por"]), (0, 1))
-        self.assertEqual((por["auditar"]["chama"], por["auditar"]["chamado_por"]), (1, 1))
-        self.assertEqual(por["auditar"]["comunidade"], "Seguranca")
-        self.assertEqual(f["processos"][0]["passos"][1]["nome"], "sanitize_pii")
-
-    def test_sem_arquivo_diz_como_gerar_e_arquivo_ruim_nao_derruba(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            ausente = carregar_gitnexus(Path(tmp) / "nao.json")
+            arquivo.write_text(json.dumps(self.gf.construir(self._repo(tmp))), encoding="utf-8")
+            f = carregar_funcoes(arquivo)
+            ausente = carregar_funcoes(Path(tmp) / "nao.json")
             ruim = Path(tmp) / "ruim.json"
             ruim.write_text("{", encoding="utf-8")
-            ilegivel = carregar_gitnexus(ruim)
+            ilegivel = carregar_funcoes(ruim)
+        self.assertTrue(f["disponivel"])
+        por = {s["nome"]: s for s in f["simbolos"]}
+        self.assertGreaterEqual(por["entrada"]["chama"], 2)
         self.assertFalse(ausente["disponivel"])
-        self.assertIn("exportar_gitnexus.py", ausente["como_gerar"])
+        self.assertIn("make -C rag/iris-rag/pacote grafo", ausente["como_gerar"])
         self.assertFalse(ilegivel["disponivel"])
 
 
@@ -377,7 +401,7 @@ class TestRotasNovas(unittest.TestCase):
         from fastapi.testclient import TestClient
 
         client = TestClient(app)
-        with tempfile.TemporaryDirectory() as tmp, patch.object(mapa_codigo, "GITNEXUS_PADRAO", Path(tmp) / "nao.json"):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(mapa_codigo, "FUNCOES_PADRAO", Path(tmp) / "nao.json"):
             m = client.get("/api/v1/eval/mapa-codigo")
         self.assertEqual(m.status_code, 200)
         self.assertGreater(m.json()["modulos"]["metricas"]["modulos"], 10)

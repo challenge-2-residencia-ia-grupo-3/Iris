@@ -90,7 +90,7 @@ const GLOSS={
 'Rodou sem erro':'Etapas do pipeline que terminaram sem erro.',
 'Módulos':'Arquivos de código Python do grupo.',
 'Módulos com teste':'Arquivos de código que têm pelo menos um teste automático.',
-'Símbolos no grafo':'Funções, classes e métodos encontrados pelo GitNexus no código do grupo.',
+'Símbolos no grafo':'Funções, classes e métodos encontrados no código do grupo pelo grafo próprio (ast do Python).',
 'Comunidades e fluxos':'Comunidades são grupos de funções que se chamam muito entre si; fluxos são caminhos de execução.',
 'Questões avaliadas':'Quantas questões do conjunto lacrado passaram pelo pipeline nesta rodada.',
 'Retenção curricular ≥ 0,95':'Questões em que ao menos 95% do conteúdo obrigatório continuou na adaptação.',

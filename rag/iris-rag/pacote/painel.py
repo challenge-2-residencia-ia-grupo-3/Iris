@@ -504,10 +504,10 @@ return `<tr style="${vazou?'background:#2A1518':''}"><td style="width:120px;padd
 if(D.ablacao)h+=`<div class="c12 painel"><div class=ph><h3>Ablação</h3><p>O adaptador com e sem cada peça, no golden benchmark do grupo.</p></div><pre style="max-height:520px">${esc(D.ablacao)}</pre></div>`;
 $('seguranca').innerHTML=h+`</div>`}
 
-/* ---------- grafo do código (estilo GitNexus) ---------- */
+/* ---------- grafo do código (grafo próprio: ast e networkx) ---------- */
 const GX={on:false,camada:'funcoes',T:{x:0,y:0,k:1},hover:-1,sel:-1,proc:null,semTeste:true,soLig:true,off:new Set()};
 const PAL=['#A68BFF','#5FB8C8','#D9A066','#E5B443','#C9B6FF','#5FD0E0','#8FBF7A','#7FA7D9','#9FB3C8','#C3B07A','#8E7CC3','#6FA3A6'];
-function gxDados(){const G=D.gitnexus,M=D.mapa;let nos=[],lig=[],grupos=[];
+function gxDados(){const G=D.funcoes,M=D.mapa;let nos=[],lig=[],grupos=[];
 if(GX.camada=='funcoes'&&G){const S=G.simbolos;const grau=new Array(S.length).fill(0);G.chamadas.forEach(([a,b])=>{grau[a]++;grau[b]++});
 const procNos=GX.proc?new Set(GX.proc.passos):null;
 const cs=G.comunidades;const corC={};cs.slice(0,PAL.length).forEach((c,i)=>corC[c.id]=PAL[i]);
@@ -523,7 +523,7 @@ mods.forEach((m,i)=>{if(GX.off.has(m.pasta))return;rep[m.id]=nos.length;nos.push
 grupos=pastas.map(p=>({id:p,nome:p,cor:corP[p],n:mods.filter(m=>m.pasta==p).length}))}
 nos.forEach(n=>n.r=GX.camada=='funcoes'?2.6+Math.sqrt(n.grau)*1.5:4+Math.sqrt(n.linhas||1)/3.2);
 return {nos,lig,grupos}}
-function gxIniciar(){if(GX.on){gxTamanho();return}if(!D.gitnexus&&!D.mapa)return;GX.on=true;
+function gxIniciar(){if(GX.on){gxTamanho();return}if(!D.funcoes&&!D.mapa)return;GX.on=true;
 const cv=$('gx-canvas');GX.cv=cv;GX.ctx=cv.getContext('2d');gxTamanho();window.addEventListener('resize',()=>{gxTamanho();gxDesenha()});
 gxEventos();gxMontar()}
 function gxTamanho(){const cv=GX.cv;if(!cv)return;const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;cv.width=Math.max(1,r.width*d);cv.height=Math.max(1,r.height*d);GX.W=r.width;GX.H=r.height;GX.dpr=d}
@@ -588,7 +588,7 @@ if(e.key=='Escape'&&$('sec-grafo').classList.contains('on')){GX.sel=-1;GX.proc=n
 function gxFoca(i){$('gx-res').style.display='none';$('gx-q').value='';GX.sel=i;GX.proc=null;$('gx-proc').value='';const n=GX.nos[i];const k=Math.max(GX.T.k,1.8);GX.T={k,x:GX.W/2-n.x*k,y:GX.H/2-n.y*k};gxPainel();gxDesenha()}
 function gxCamada(c){GX.camada=c;GX.sel=-1;GX.proc=null;GX.off.clear();document.querySelectorAll('#gx-camada button').forEach(b=>b.classList.toggle('on',b.dataset.c==c));
 $('gx-proc').disabled=c!='funcoes';$('gx-proc').value='';$('gx-filtros').style.display=c=='funcoes'?'contents':'none';gxMontar()}
-function gxProc(v){if(v===''){GX.proc=null;gxDesenha();gxPainel();return}const p=D.gitnexus.processos[+v];
+function gxProc(v){if(v===''){GX.proc=null;gxDesenha();gxPainel();return}const p=D.funcoes.processos[+v];
 const faltam=p.passos.some(i=>!GX.nos.some(n=>n.i==i));if(faltam){gxMontarCom(p)}else gxAplicaProc(p)}
 function gxMontarCom(p){GX.proc={passos:p.passos};gxMontar();gxAplicaProc(p)}
 function gxAplicaProc(p){const mapa=new Map();p.passos.forEach((i,j)=>{const n=GX.nos.find(x=>x.i==i);if(n&&!mapa.has(n.index))mapa.set(n.index,j)});GX.proc={passos:p.passos,mapa,nome:p.nome};GX.sel=-1;
@@ -598,24 +598,24 @@ function gxFiltro(k,v){GX[k]=v;GX.proc=null;$('gx-proc').value='';gxMontar()}
 function gxGrupo(id){GX.off.has(id)?GX.off.delete(id):GX.off.add(id);gxMontar()}
 function gxLegenda(){$('gx-leg').innerHTML=GX.grupos.map(g=>`<button class="${GX.off.has(g.id)?'off':''}" onclick="gxGrupo('${esc(g.id)}')" title="mostrar/esconder"><i class=sw style="background:${g.cor}"></i>${esc(g.nome)} <span class=mut3>${g.n}</span></button>`).join('')+
 `<button style="cursor:default"><i class=sw style="background:transparent;box-shadow:inset 0 0 0 2px #FF6B6B;border-radius:50%"></i>dados pessoais</button>`+(GX.camada=='modulos'?`<button style="cursor:default"><i class=sw style="background:transparent;box-shadow:inset 0 0 0 2px #e5b443;border-radius:50%"></i>sem teste</button>`:`<button style="cursor:default"><i class=sw style="background:#4a5260;border-radius:50%"></i>teste</button>`)}
-function gxStats(){const G=D.gitnexus,M=D.mapa;const s=GX.camada=='funcoes'&&G?`${GX.nos.length} de ${G.metricas.simbolos} símbolos · ${GX.lig.length} chamadas · commit <code>${esc(G.commit_grupo)}</code>`:M?`${GX.nos.length} módulos · ${GX.lig.length} imports · commit <code>${esc((M.commit_grupo||'').slice(0,7))}</code>`:'';$('gx-stats').innerHTML=s}
+function gxStats(){const G=D.funcoes,M=D.mapa;const s=GX.camada=='funcoes'&&G?`${GX.nos.length} de ${G.metricas.simbolos} símbolos · ${GX.lig.length} chamadas · commit <code>${esc(G.commit_grupo)}</code>`:M?`${GX.nos.length} módulos · ${GX.lig.length} imports · commit <code>${esc((M.commit_grupo||'').slice(0,7))}</code>`:'';$('gx-stats').innerHTML=s}
 function gxLista(t,ids){if(!ids.length)return `<p class=k>${t}</p><p class=mut3 style="font-size:12px;margin:0">nenhum</p>`;
 const u=[...new Set(ids)].sort((a,b)=>GX.nos[b].grau-GX.nos[a].grau);return `<p class=k>${t} · ${u.length}</p><ul>`+u.slice(0,40).map(i=>`<li><button onclick="gxFoca(${i})" title="${esc(GX.nos[i].arq)}"><span style="color:${GX.nos[i].cor}">●</span> ${esc(GX.nos[i].nome)}</button></li>`).join('')+(u.length>40?`<li class=mut3 style="font-size:12px;padding:4px 6px">+${u.length-40}</li>`:'')+`</ul>`}
 function gxPainel(){const el=$('gx-lado');if(!el)return;
-if(GX.proc&&GX.proc.mapa){const ps=[...GX.proc.mapa.entries()].sort((a,b)=>a[1]-b[1]);el.innerHTML=`<span class="selo ac">fluxo de execução</span><h3 style="margin-top:10px">${esc(GX.proc.nome)}</h3><p class=mut style="font-size:12.5px">Caminho que o GitNexus traçou a partir de um ponto de entrada, seguindo as chamadas. ${ps.length} passos.</p><ul>`+ps.map(([i,j])=>`<li><button onclick="gxFoca(${i})"><span class=mut3>${j+1}.</span> ${esc(GX.nos[i].nome)} <span class=mut3>${esc(GX.nos[i].arq.split('/').pop())}</span></button></li>`).join('')+`</ul>`;return}
-if(GX.sel<0){const G=D.gitnexus;el.innerHTML=`<h3 style="font-family:'IBM Plex Sans'">Como ler</h3><p class=mut style="font-size:13px">${GX.camada=='funcoes'?'Cada ponto é uma função, método ou classe do código do grupo; cada linha, uma chamada. A cor é a comunidade (grupo de funções que se chamam muito entre si, achado pelo GitNexus). Tamanho = quantas ligações.':'Cada ponto é um módulo Python ou arquivo do frontend; cada linha, um import. Cor = pasta, tamanho = linhas de código, anel âmbar = nenhum teste importa o módulo.'}</p>
+if(GX.proc&&GX.proc.mapa){const ps=[...GX.proc.mapa.entries()].sort((a,b)=>a[1]-b[1]);el.innerHTML=`<span class="selo ac">fluxo de execução</span><h3 style="margin-top:10px">${esc(GX.proc.nome)}</h3><p class=mut style="font-size:12.5px">Caminho mais longo de chamadas a partir de um ponto de entrada (função que ninguém chama), seguindo as chamadas. ${ps.length} passos.</p><ul>`+ps.map(([i,j])=>`<li><button onclick="gxFoca(${i})"><span class=mut3>${j+1}.</span> ${esc(GX.nos[i].nome)} <span class=mut3>${esc(GX.nos[i].arq.split('/').pop())}</span></button></li>`).join('')+`</ul>`;return}
+if(GX.sel<0){const G=D.funcoes;el.innerHTML=`<h3 style="font-family:'IBM Plex Sans'">Como ler</h3><p class=mut style="font-size:13px">${GX.camada=='funcoes'?'Cada ponto é uma função, método ou classe do código do grupo; cada linha, uma chamada. A cor é a comunidade (grupo de funções que se chamam muito entre si, achado pelo algoritmo de Louvain do networkx). Tamanho = quantas ligações.':'Cada ponto é um módulo Python ou arquivo do frontend; cada linha, um import. Cor = pasta, tamanho = linhas de código, anel âmbar = nenhum teste importa o módulo.'}</p>
 <p class=k>COMO USAR</p><ul class=mut style="font-size:12.5px;line-height:1.7;list-style:none;padding:0"><li>passe o mouse: vizinhos acendem</li><li>clique: detalhes e quem chama quem</li><li>arraste o fundo para mover · roda do mouse para zoom</li><li><kbd>/</kbd> busca · <kbd>Esc</kbd> limpa</li><li>“fluxo”: um caminho de execução passo a passo</li></ul>
 ${G?`<p class=k>DE ONDE VEM</p><p class=mut3 style="font-size:12px">${esc(G.ferramenta)}. ${G.simbolos?esc((G.simbolos||[]).length+' símbolos exportados'):''}. A camada “módulos” vem do <code>make mapa</code> (ast do Python). Análise estática: chamada dinâmica não aparece.</p>`:''}`;return}
 const n=GX.nos[GX.sel];el.innerHTML=`<span class=selo>${esc(n.tipo)}</span>${n.pii?' <span class="selo pii">dados pessoais</span>':''}${n.teste?' <span class=selo>teste</span>':''}${n.semTeste?' <span class="selo at">sem teste</span>':''}${n.llm?' <span class="selo ac">usa LLM</span>':''}
 <h3 style="margin-top:10px">${esc(n.qual)}</h3><p class=mut3 style="font:12px 'IBM Plex Mono',monospace;margin:6px 0 0;word-break:break-all">${esc(n.arq)}${n.linha?':'+n.linha:''}${n.linhas?' · '+n.linhas+' linhas':''}</p>
 <p class=k>GRUPO</p><p style="margin:0;font-size:13px"><i class=sw style="background:${n.cor};margin-right:6px"></i>${esc((GX.grupos.find(g=>g.id==n.g)||{}).nome||n.g)}</p>`+
 gxLista(GX.camada=='funcoes'?'CHAMA':'IMPORTA',GX.sai[n.index])+gxLista(GX.camada=='funcoes'?'É CHAMADA POR':'É IMPORTADO POR',GX.ent[n.index])+
-(GX.camada=='funcoes'&&D.gitnexus?(()=>{const fs=D.gitnexus.processos.map((p,j)=>[p,j]).filter(([p])=>p.passos.includes(n.i));return fs.length?`<p class=k>FLUXOS QUE PASSAM AQUI · ${fs.length}</p><ul>`+fs.slice(0,12).map(([p,j])=>`<li><button onclick="$('gx-proc').value='${j}';gxProc('${j}')">${esc(p.nome)}</button></li>`).join('')+`</ul>`:''})():'')+
+(GX.camada=='funcoes'&&D.funcoes?(()=>{const fs=D.funcoes.processos.map((p,j)=>[p,j]).filter(([p])=>p.passos.includes(n.i));return fs.length?`<p class=k>FLUXOS QUE PASSAM AQUI · ${fs.length}</p><ul>`+fs.slice(0,12).map(([p,j])=>`<li><button onclick="$('gx-proc').value='${j}';gxProc('${j}')">${esc(p.nome)}</button></li>`).join('')+`</ul>`:''})():'')+
 (n.mod?`<p class=k>TESTES</p>${(n.mod.testado_por||[]).length?'<ul>'+n.mod.testado_por.map(t=>`<li class=mut style="font:12px 'IBM Plex Mono',monospace;padding:2px 6px">${esc(t.split('/').pop())}</li>`).join('')+'</ul>':'<p class=at style="font-size:12.5px;margin:0">nenhum arquivo de teste importa este módulo</p>'}`:'')}
-function grafoSec(){const G=D.gitnexus,M=D.mapa;const me=(M||{}).metricas||{};
-let h=cab('Grafo do código','O código do grupo como um mapa navegável, no estilo do GitNexus: funções e quem chama quem, agrupadas por comunidade, com os fluxos de execução. Serve para achar onde mexer e o que pode quebrar junto.',
-`<div class=seg id=gx-camada><button data-c=funcoes class="${G?'on':''}" onclick="gxCamada('funcoes')" ${G?'':'disabled'}>funções (GitNexus)</button><button data-c=modulos class="${G?'':'on'}" onclick="gxCamada('modulos')">módulos (imports)</button></div>`);
-if(!G&&!M){$('grafo').innerHTML=h+`<div class=vazio-bloco><b>Sem dados de grafo.</b> Rode <code>make mapa</code> (módulos) e <code>make gitnexus</code> (funções).</div>`;return}
+function grafoSec(){const G=D.funcoes,M=D.mapa;const me=(M||{}).metricas||{};
+let h=cab('Grafo do código','O código do grupo como um mapa navegável, feito aqui com o Python padrão: funções e quem chama quem, agrupadas por comunidade, com os fluxos de execução. Serve para achar onde mexer e o que pode quebrar junto.',
+`<div class=seg id=gx-camada><button data-c=funcoes class="${G?'on':''}" onclick="gxCamada('funcoes')" ${G?'':'disabled'}>funções</button><button data-c=modulos class="${G?'':'on'}" onclick="gxCamada('modulos')">módulos (imports)</button></div>`);
+if(!G&&!M){$('grafo').innerHTML=h+`<div class=vazio-bloco><b>Sem dados de grafo.</b> Rode <code>make mapa</code> (módulos) e <code>make grafo</code> (funções).</div>`;return}
 if(!G)GX.camada='modulos';
 const cob=me.modulos?Math.round(100*(me.modulos-me.modulos_sem_teste)/me.modulos):0;
 h+=`<div class=gx><div class=gx-tela><canvas id=gx-canvas role=img aria-label="grafo do código do grupo: nós são funções ou módulos, linhas são chamadas ou imports"></canvas>
@@ -626,7 +626,7 @@ h+=`<div class=gx><div class=gx-tela><canvas id=gx-canvas role=img aria-label="g
 <div class=gx-leg id=gx-leg></div><div class=gx-zoom><button onclick="gxZoom(1.3,GX.W/2,GX.H/2)" aria-label="aproximar">+</button><button onclick="gxZoom(1/1.3,GX.W/2,GX.H/2)" aria-label="afastar">−</button><button onclick="gxEnquadrar();gxDesenha()" aria-label="enquadrar tudo">⤢</button></div><div class=gx-dica id=gx-dica></div></div>
 <aside class=gx-lado id=gx-lado></aside></div>`;
 h+=`<div class=g12 style="margin-top:16px">
-<div class="c3 kpi"><span>Símbolos no grafo</span><b>${G?G.metricas.simbolos:'—'}</b><em>funções, métodos e classes · ${G?G.metricas.chamadas+' chamadas':'rode make gitnexus'}</em></div>
+<div class="c3 kpi"><span>Símbolos no grafo</span><b>${G?G.metricas.simbolos:'—'}</b><em>funções, métodos e classes · ${G?G.metricas.chamadas+' chamadas':'rode make grafo'}</em></div>
 <div class="c3 kpi"><span>Comunidades e fluxos</span><b>${G?G.metricas.comunidades+' · '+G.metricas.processos:'—'}</b><em>agrupamentos por coesão · caminhos de execução</em></div>
 <div class="c3 kpi"><span>Módulos</span><b>${me.modulos??'—'}</b><em>${me.funcoes??''} funções pela análise do ast</em></div>
 <div class="c3 kpi"><span>Módulos com teste</span><b class="${cob>=80?'ok':'at'}">${me.modulos?(me.modulos-me.modulos_sem_teste)+'/'+me.modulos:'—'}</b><div class=barra-cob><i style="width:${cob}%"></i></div><em>${me.modulos_sem_teste??''} sem nenhum teste que os importe</em></div></div>`;

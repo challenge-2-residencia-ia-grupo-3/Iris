@@ -3,8 +3,8 @@
 Duas camadas:
 - Módulos: calculada na hora, lendo o próprio código com `ast` (biblioteca padrão). Diz quem importa quem,
   que módulo não é importado por nenhum teste e que módulo toca o removedor de dado pessoal.
-- Funções: lida de `reports/gitnexus.json`, gerado por `scripts/exportar_gitnexus.py` com o GitNexus
-  (ferramenta externa, licença não comercial, precisa de Node). Sem o arquivo, a camada diz como gerar.
+- Funções: lida de `rag/iris-rag/pacote/outputs/29-grafo-funcoes.json`, o grafo próprio das Verificações de qualidade
+  (`rag/iris-rag/bancada/mapa/grafo_funcoes.py`: ast do Python e networkx). Sem o arquivo, a camada diz como gerar.
 
 O que este mapa NÃO diz: se um teste é bom. "Tem teste" aqui é só "algum arquivo de teste importa o módulo".
 """
@@ -19,7 +19,7 @@ from iris.config import REPO_ROOT
 
 RAIZ_PACOTE = Path(__file__).resolve().parents[1]  # backend/src/iris
 PASTA_TESTES = RAIZ_PACOTE.parents[1] / "tests"  # backend/tests
-GITNEXUS_PADRAO = REPO_ROOT / "reports" / "gitnexus.json"
+FUNCOES_PADRAO = REPO_ROOT / "rag" / "iris-rag" / "pacote" / "outputs" / "29-grafo-funcoes.json"
 MODULO_PII = "iris.security.pii_scrubber"
 MAX_SIMBOLOS = 4000
 MAX_COMUNIDADES = 40
@@ -108,7 +108,7 @@ def mapear_modulos(raiz: Path | None = None, pasta_testes: Path | None = None) -
                 "id": mid,
                 "nome": partes[-1] if not e_pacote else f"{partes[-1]} (pacote)",
                 "pacote": pacote,
-                "arquivo": str(arquivo.relative_to(raiz.parents[2])),  # a partir da raiz do repositório, como no GitNexus
+                "arquivo": str(arquivo.relative_to(raiz.parents[2])),  # a partir da raiz do repositório, como no grafo de funções
                 "linhas": fonte.count("\n") + 1,
                 "funcoes": sum(isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) for n in ast.walk(arvore)),
                 "classes": sum(isinstance(n, ast.ClassDef) for n in ast.walk(arvore)),
@@ -157,16 +157,16 @@ def mapear_modulos(raiz: Path | None = None, pasta_testes: Path | None = None) -
     }
 
 
-def carregar_gitnexus(caminho: str | Path | None = None) -> dict[str, Any]:
-    """Lê a camada de funções gerada pelo GitNexus; sem o arquivo, diz como gerar."""
-    origem = Path(caminho) if caminho else GITNEXUS_PADRAO
-    como_gerar = "python scripts/exportar_gitnexus.py --repo . --ref HEAD --saida reports/gitnexus.json"
+def carregar_funcoes(caminho: str | Path | None = None) -> dict[str, Any]:
+    """Lê a camada de funções do grafo próprio; sem o arquivo, diz como gerar."""
+    origem = Path(caminho) if caminho else FUNCOES_PADRAO
+    como_gerar = "make -C rag/iris-rag/pacote grafo"
     if not origem.exists():
         return {
             "disponivel": False,
             "motivo": "A camada de funções ainda não foi gerada neste computador.",
             "como_gerar": como_gerar,
-            "exige": "Node 20 ou mais novo e rede na primeira vez; leva cerca de 2 minutos. O GitNexus tem licença não comercial.",
+            "exige": "só o Python do projeto (ast e networkx); leva menos de 1 segundo.",
         }
     try:
         dado = json.loads(origem.read_text(encoding="utf-8"))
@@ -223,6 +223,6 @@ def carregar_gitnexus(caminho: str | Path | None = None) -> dict[str, Any]:
     }
 
 
-def obter_mapa_codigo(caminho_gitnexus: str | Path | None = None) -> dict[str, Any]:
-    """As duas camadas do mapa: módulos (sempre) e funções (quando o arquivo do GitNexus existe)."""
-    return {"modulos": mapear_modulos(), "funcoes": carregar_gitnexus(caminho_gitnexus)}
+def obter_mapa_codigo(caminho_funcoes: str | Path | None = None) -> dict[str, Any]:
+    """As duas camadas do mapa: módulos (sempre) e funções (quando o grafo de funções já foi gerado)."""
+    return {"modulos": mapear_modulos(), "funcoes": carregar_funcoes(caminho_funcoes)}

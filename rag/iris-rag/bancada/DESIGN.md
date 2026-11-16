@@ -86,7 +86,7 @@ semicerrado: borrada a tela, o que sobra deve ser o alerta, não o "passou".
   tendência de cada métrica por rodada do dev, com a primeira rodada tracejada como linha de base. PRs abertos entram como ramos.
 - **PRs e issues:** idade, dono, issue que o PR resolve, etapas do pipeline tocadas (pelos arquivos), portões rodados na cabeça do
   PR e a diferença de cada métrica contra o dev (vermelho piora, rosa piora no filtro de dados pessoais). Issues sem dono em âmbar.
-- **Grafo do código, no estilo GitNexus:** canvas com d3-force embutido (sem CDN), duas camadas (funções e chamadas pelo GitNexus;
+- **Grafo do código (grafo próprio):** canvas com d3-force embutido (sem CDN), duas camadas (funções e chamadas pelo `make grafo`, ast e networkx;
   módulos e imports pelo `make mapa`), cor = comunidade, tamanho = ligações, anel rosa = código de dados pessoais, anel âmbar =
   módulo sem teste. Passar o mouse acende os vizinhos; clicar abre quem chama e quem é chamado; `/` busca; fluxo de execução
   passo a passo numerado; rótulos sem sobreposição (os mais ligados primeiro).
