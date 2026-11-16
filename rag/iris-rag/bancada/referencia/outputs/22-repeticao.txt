@@ -1,0 +1,15 @@
+REPRODUTIBILIDADE: a mesma configuração, rodada de novo, dá o mesmo resultado?
+
+1. Busca (qwen3 + reranker mMiniLM, top-5), mesmas 38 perguntas, rodadas em dias e máquinas diferentes
+   VPS 06/11 (18, controle A_pt) x PC RTX 06/11 (19, A_controle): top-5 idêntico (mesma ordem) em 38/38; recall@5 igual em 38/38
+   VPS 06/11 (18, controle A_pt) x VPS 06/11 (17, controle do HyDE): top-5 idêntico (mesma ordem) em 38/38; recall@5 igual em 38/38
+   PC RTX 06/11 (19, A_controle) x VPS 06/11 (17, controle do HyDE): top-5 idêntico (mesma ordem) em 38/38; recall@5 igual em 38/38
+
+2. Juízes: mesmo juiz, mesmas respostas (prompt v1), duas rodadas
+   Claude Haiku 5.5 (sem controle de temperatura), n=35: fidelidade r2-r1 +0.033 [-0.000 a +0.081]; '100% sustentada' igual em 31/35 (kappa 0.74); 'útil' igual em 29/35 (kappa 0.66)
+   gpt-oss-120b (Groq) (temperatura 0; rodada 2 incompleta (limite do Groq)), n=12: fidelidade r2-r1 -0.000 [-0.042 a +0.042]; '100% sustentada' igual em 12/12 (kappa 1.00); 'útil' igual em 12/12 (kappa 1.00)
+
+3. Gerador (qwen3.8-27b, temperatura 0): sem duas rodadas do mesmo prompt com os mesmos trechos.
+   Lacuna registrada: para medir, gerar a v1 de novo com `avaliar_resposta.py gerar_salvos v1` (sufixo -v1b) e comparar.
+
+Leitura: uma diferença entre versões menor que a oscilação da própria régua não conta como melhora.

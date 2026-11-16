@@ -352,7 +352,10 @@ class TestPerguntaDeCadaTela(unittest.TestCase):
         html = PLAYGROUND.read_text(encoding="utf-8")
         abas = re.findall(r'<section id="(tab-[a-z]+)" class="tab-panel[^"]*">\s*(<p class="screen-question">.*?</p>)?', html, flags=re.DOTALL)
         botoes = re.findall(r'class="tab-btn[^"]*" data-tab="([a-z]+)"', html)
-        self.assertEqual([a for a, _ in abas], [f"tab-{b}" for b in botoes])
+        # o grupo "Bancada do PR 85" tem 22 botões (data-tab="b-...") que abrem uma área só, tab-bancada
+        if re.search(r'data-tab="b-[a-z0-9-]+"', html):
+            botoes.append("bancada")
+        self.assertEqual(sorted(a for a, _ in abas), sorted(f"tab-{b}" for b in botoes))
         self.assertGreaterEqual(len(abas), 5)
         for aba, bloco in abas:
             with self.subTest(aba=aba):

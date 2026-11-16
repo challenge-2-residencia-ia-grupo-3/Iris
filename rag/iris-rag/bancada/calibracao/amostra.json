@@ -1,0 +1,514 @@
+{
+ "versao": "8aef1e8255c7",
+ "semente": 20261112,
+ "n": 82,
+ "estratos": {
+  "desacordo": {
+   "total": 41,
+   "na_amostra": 41
+  },
+  "unanime_parcial_ou_nao": {
+   "total": 1,
+   "na_amostra": 1
+  },
+  "unanime_sim": {
+   "total": 155,
+   "na_amostra": 40
+  }
+ },
+ "regra": "desacordo e unanime_parcial_ou_nao: todas; unanime_sim: sorteio fixo espalhado por pergunta",
+ "itens": [
+  {
+   "uid": "Q07-6f1415e044",
+   "id": "Q07",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q04-dfb266202a",
+   "id": "Q04",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q07-9ebcf404b3",
+   "id": "Q07",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q05-70a8ab4ef6",
+   "id": "Q05",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q22-a9a534b029",
+   "id": "Q22",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q18-04d337516e",
+   "id": "Q18",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q11-aadd606cc9",
+   "id": "Q11",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q32-c7872764b1",
+   "id": "Q32",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q07-81793605ac",
+   "id": "Q07",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q23-01329cd0c5",
+   "id": "Q23",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q08-4495156661",
+   "id": "Q08",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q31-b54b93dd43",
+   "id": "Q31",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q21-5c67994dda",
+   "id": "Q21",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q12-18242318ea",
+   "id": "Q12",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q29-149d050d4a",
+   "id": "Q29",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q27-9a23d12fbd",
+   "id": "Q27",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q14-6931e96d3d",
+   "id": "Q14",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q28-ee74f48534",
+   "id": "Q28",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q28-4fa44d23b0",
+   "id": "Q28",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q13-a169fd1fa4",
+   "id": "Q13",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q36-91db2d1a36",
+   "id": "Q36",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q15-64c6957d2c",
+   "id": "Q15",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q30-b129ec3ca1",
+   "id": "Q30",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q32-54e32988ae",
+   "id": "Q32",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q08-c3f52d7385",
+   "id": "Q08",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q38-07eb31adf8",
+   "id": "Q38",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q38-4721d5dbd0",
+   "id": "Q38",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q09-432fc1ca5e",
+   "id": "Q09",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q04-e4b54ec141",
+   "id": "Q04",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q24-6d5ee829f5",
+   "id": "Q24",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q36-6754f5222f",
+   "id": "Q36",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q30-d160747166",
+   "id": "Q30",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q35-d14b4dfc83",
+   "id": "Q35",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q03-8d3298b50e",
+   "id": "Q03",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q05-85c87fe4b0",
+   "id": "Q05",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q08-47bb56ff21",
+   "id": "Q08",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q04-006ffd2755",
+   "id": "Q04",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q27-c217eeb650",
+   "id": "Q27",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q31-e47777072c",
+   "id": "Q31",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q37-f1f4b65167",
+   "id": "Q37",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q28-b211930a24",
+   "id": "Q28",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q07-90ba5956f6",
+   "id": "Q07",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q11-c57bc9d02e",
+   "id": "Q11",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q04-9d429be0a2",
+   "id": "Q04",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q25-2dc506ed38",
+   "id": "Q25",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q29-fd0f3b23d6",
+   "id": "Q29",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q07-c688d7ecdf",
+   "id": "Q07",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q16-c328a51734",
+   "id": "Q16",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q35-e5157da059",
+   "id": "Q35",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q02-beeb6f09c7",
+   "id": "Q02",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q34-393d95d1c6",
+   "id": "Q34",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q04-2a541d2983",
+   "id": "Q04",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q23-7e152078d3",
+   "id": "Q23",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q38-342c6095a6",
+   "id": "Q38",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q01-5e5fd68428",
+   "id": "Q01",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q23-2c3642e400",
+   "id": "Q23",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q18-d3d142f7c2",
+   "id": "Q18",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q05-696067061d",
+   "id": "Q05",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q38-ae1f1799a4",
+   "id": "Q38",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q25-5b09a83885",
+   "id": "Q25",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q20-7cb0fd2b33",
+   "id": "Q20",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q15-0ec78401c9",
+   "id": "Q15",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q06-3981224240",
+   "id": "Q06",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q08-f97ca3438f",
+   "id": "Q08",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q17-b1f134bfa2",
+   "id": "Q17",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q36-e0e362e8f3",
+   "id": "Q36",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q09-da48c3259f",
+   "id": "Q09",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q17-cdca2ae77b",
+   "id": "Q17",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q37-f23f99bebd",
+   "id": "Q37",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q19-cdb1b7abb5",
+   "id": "Q19",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q02-62c91fed4b",
+   "id": "Q02",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q27-1c628350f7",
+   "id": "Q27",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q08-da7d1c1dfe",
+   "id": "Q08",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q30-20639ede84",
+   "id": "Q30",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q01-bf38802c97",
+   "id": "Q01",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q31-cb545654d3",
+   "id": "Q31",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q19-e88406dc27",
+   "id": "Q19",
+   "estrato": "desacordo",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q11-5696727ed5",
+   "id": "Q11",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q34-2f47580ef9",
+   "id": "Q34",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q14-23d3147495",
+   "id": "Q14",
+   "estrato": "unanime_sim",
+   "peso": 3.875
+  },
+  {
+   "uid": "Q09-08d590d623",
+   "id": "Q09",
+   "estrato": "unanime_parcial_ou_nao",
+   "peso": 1.0
+  },
+  {
+   "uid": "Q03-add3b08b1f",
+   "id": "Q03",
+   "estrato": "desacordo",
+   "peso": 1.0
+  }
+ ]
+}

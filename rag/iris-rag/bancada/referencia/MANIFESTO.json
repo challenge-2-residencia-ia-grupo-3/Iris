@@ -1,0 +1,199 @@
+{
+ "gerado_em": "2026-11-13T12:20:05+00:00",
+ "commit_bancada": "4855ecb",
+ "aviso": "retrato de resultados medidos antes, com modelo; não é deste commit",
+ "arquivos": {
+  "02-indexacao.txt": {
+   "sha256": "790d9e6e9920ea3c",
+   "modificado_em": "2026-11-06"
+  },
+  "16-gabarito-opus.txt": {
+   "sha256": "f000d25ba7ed77a6",
+   "modificado_em": "2026-11-05"
+  },
+  "17-avaliacao-resposta.txt": {
+   "sha256": "ae5e57f9b0e20bc8",
+   "modificado_em": "2026-11-13"
+  },
+  "17-busca-parafrases.jsonl": {
+   "sha256": "69d143467ce46f2c",
+   "modificado_em": "2026-11-06"
+  },
+  "17-hyde.jsonl": {
+   "sha256": "6eeadd20c6d48e89",
+   "modificado_em": "2026-11-06"
+  },
+  "17-juizes-comparados.txt": {
+   "sha256": "50dc3ccde9862ce2",
+   "modificado_em": "2026-11-06"
+  },
+  "17-parafrases.json": {
+   "sha256": "a61fecdf8389f808",
+   "modificado_em": "2026-11-06"
+  },
+  "18-bilingue.jsonl": {
+   "sha256": "215584508035b75b",
+   "modificado_em": "2026-11-06"
+  },
+  "18-bilingue.txt": {
+   "sha256": "e818275531b4efa5",
+   "modificado_em": "2026-11-06"
+  },
+  "18-traducoes.json": {
+   "sha256": "452ff1088f750c50",
+   "modificado_em": "2026-11-06"
+  },
+  "19-modelos-fortes.jsonl": {
+   "sha256": "93a4e4a6c0b39001",
+   "modificado_em": "2026-11-06"
+  },
+  "19-modelos-fortes.txt": {
+   "sha256": "151b70b970995e20",
+   "modificado_em": "2026-11-06"
+  },
+  "19-vram-A_controle.txt": {
+   "sha256": "30cf333ebc4f1275",
+   "modificado_em": "2026-11-06"
+  },
+  "19-vram-B_reranker_bge.txt": {
+   "sha256": "79d5f6a789bfaef3",
+   "modificado_em": "2026-11-06"
+  },
+  "19-vram-C_embedding_4b.txt": {
+   "sha256": "d9b540f28aa328a1",
+   "modificado_em": "2026-11-06"
+  },
+  "19-vram-D_os_dois.txt": {
+   "sha256": "1cf57fffc7b93aba",
+   "modificado_em": "2026-11-06"
+  },
+  "20-prompts-comparados.txt": {
+   "sha256": "010c005b37634e4f",
+   "modificado_em": "2026-11-06"
+  },
+  "21-regressao.txt": {
+   "sha256": "b852d46f7191c94a",
+   "modificado_em": "2026-11-12"
+  },
+  "22-repeticao.json": {
+   "sha256": "68218ed398479eac",
+   "modificado_em": "2026-11-12"
+  },
+  "22-repeticao.txt": {
+   "sha256": "45f31fb415a54627",
+   "modificado_em": "2026-11-12"
+  },
+  "23-custo.json": {
+   "sha256": "05a26aa06cbc7ac2",
+   "modificado_em": "2026-11-12"
+  },
+  "23-custo.txt": {
+   "sha256": "d429a4e76664a890",
+   "modificado_em": "2026-11-12"
+  },
+  "24-adversarial.jsonl": {
+   "sha256": "0aac7f2b9b731e9c",
+   "modificado_em": "2026-11-12"
+  },
+  "24-adversarial.txt": {
+   "sha256": "8e17082ea8289e5c",
+   "modificado_em": "2026-11-12"
+  },
+  "25-ablacao.jsonl": {
+   "sha256": "6f61a3164ccf672d",
+   "modificado_em": "2026-11-12"
+  },
+  "25-ablacao.txt": {
+   "sha256": "567eae70972f4da7",
+   "modificado_em": "2026-11-12"
+  },
+  "26-rastro-pipeline-resumo.json": {
+   "sha256": "946621867ccf01de",
+   "modificado_em": "2026-11-12"
+  },
+  "27-mapa-codigo.json": {
+   "sha256": "9700dda4b8351703",
+   "modificado_em": "2026-11-12"
+  },
+  "27-mapa-codigo.txt": {
+   "sha256": "e3055259306d8c63",
+   "modificado_em": "2026-11-12"
+  },
+  "28-divergencias-juizes.json": {
+   "sha256": "2836cb2e7f0a43a8",
+   "modificado_em": "2026-11-12"
+  },
+  "29-gitnexus.json": {
+   "sha256": "38525817aeef819a",
+   "modificado_em": "2026-11-12"
+  },
+  "30-github.json": {
+   "sha256": "b3f472a67cd97b83",
+   "modificado_em": "2026-11-12"
+  },
+  "31-etapas.json": {
+   "sha256": "1fe85b03a54d5000",
+   "modificado_em": "2026-11-12"
+  },
+  "32-avaliacao.json": {
+   "sha256": "b9346b44ed00d01f",
+   "modificado_em": "2026-11-12"
+  },
+  "33-juiz-calibracao.json": {
+   "sha256": "a5381a5b5cce5b86",
+   "modificado_em": "2026-11-12"
+  },
+  "34-rag-triade.json": {
+   "sha256": "684cccd0c1fcd0f6",
+   "modificado_em": "2026-11-12"
+  },
+  "35-ataque.json": {
+   "sha256": "b68ac1da9b587e93",
+   "modificado_em": "2026-11-12"
+  },
+  "36-orcamento.json": {
+   "sha256": "1fa1cd7deeed4afa",
+   "modificado_em": "2026-11-13"
+  },
+  "37-producao.json": {
+   "sha256": "2489295d44c1cfba",
+   "modificado_em": "2026-11-12"
+  },
+  "38-ragas-grupo.json": {
+   "sha256": "e805b2eb1f0e035e",
+   "modificado_em": "2026-11-12"
+  },
+  "39-langgraph.json": {
+   "sha256": "209122f203aec201",
+   "modificado_em": "2026-11-12"
+  },
+  "40-llm-x-rag.json": {
+   "sha256": "8ed27ce17860c641",
+   "modificado_em": "2026-11-13"
+  },
+  "execucoes-base.jsonl": {
+   "sha256": "7435d157f10db0b3",
+   "modificado_em": "2026-11-12"
+  },
+  "execucoes.jsonl": {
+   "sha256": "7435d157f10db0b3",
+   "modificado_em": "2026-11-12"
+  },
+  "status.json": {
+   "sha256": "18cf8be9a4075e6f"
+  },
+  "historico.jsonl": {
+   "sha256": "fa05181cee1102f5"
+  }
+ },
+ "recusados": {
+  "17-juiz-haiku-r2.jsonl": "43 trechos de documento sem licença aberta",
+  "17-juiz-haiku.jsonl": "43 trechos de documento sem licença aberta",
+  "17-juiz-local.jsonl": "43 trechos de documento sem licença aberta",
+  "17-juiz-r1.jsonl": "43 trechos de documento sem licença aberta",
+  "17-juiz-r2.jsonl": "19 trechos de documento sem licença aberta",
+  "17-juiz-v2-busca-nova-r1.jsonl": "10 trechos de documento sem licença aberta"
+ },
+ "commit_grupo": "65e1f09",
+ "rodada_em": "2026-11-12T21:09:39-03:00"
+}

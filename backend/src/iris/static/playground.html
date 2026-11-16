@@ -1147,6 +1147,49 @@
       .workbench-left { position: static; }
     }
 
+
+    /* Bancada do PR 85: as 22 abas do painel do PR 85, iguais à original, em avaliação */
+    .bancada-grupo { margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid var(--rail-border); }
+    .bancada-toggle {
+      width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.85rem;
+      background: transparent; border: 1px solid transparent; border-radius: 6px; cursor: pointer;
+      color: var(--rail-ink); font-family: var(--font-sans); font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; text-align: left;
+    }
+    .bancada-toggle:hover { background: var(--rail-elevated); }
+    .bancada-toggle-txt { flex: 1; min-width: 0; }
+    .bancada-selo {
+      flex-shrink: 0; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.02em; text-transform: none;
+      padding: 0.15rem 0.45rem; border-radius: 999px; background: var(--ochre-soft); color: var(--ochre);
+    }
+    .bancada-seta { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.15s ease; }
+    .bancada-toggle[aria-expanded="true"] .bancada-seta { transform: rotate(180deg); }
+    .bancada-menu { display: flex; flex-direction: column; gap: 0.1rem; margin-top: 0.25rem; }
+    .bancada-menu[hidden] { display: none; }
+    .bancada-subgrupo {
+      font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--rail-muted); opacity: 0.8; padding: 0.55rem 0.85rem 0.15rem;
+    }
+    .tab-btn.tab-btn-sub { padding: 0.38rem 0.85rem 0.38rem 1.1rem; font-size: 0.8rem; font-weight: 500; }
+    .bancada-barra { display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem 0.8rem; margin: 0 0 0.75rem; }
+    .bancada-barra h2 { margin: 0; font-size: 1.1rem; letter-spacing: -0.01em; color: var(--ink); }
+    .bancada-barra .bancada-selo { font-size: 0.72rem; }
+    .bancada-barra .btn-row { margin-left: auto; }
+    .bancada-nota { font-size: 0.78rem; color: var(--muted); margin: 0 0 0.75rem; overflow-wrap: anywhere; }
+    .bancada-nota:empty { display: none; }
+    .bancada-frame {
+      display: block; width: 100%; height: calc(100vh - 13rem); min-height: 520px;
+      border: 1px solid var(--hairline-strong); border-radius: 8px; background: #18181c;
+    }
+    @media (max-width: 1024px) {
+      .bancada-grupo { width: 100%; }
+      .bancada-menu:not([hidden]) { flex-direction: row; flex-wrap: wrap; }
+      .bancada-subgrupo { width: 100%; padding-left: 0.35rem; }
+      .bancada-frame { height: 82vh; min-height: 460px; }
+    }
+    @media (max-width: 700px) {
+      .bancada-barra .btn-row { margin-left: 0; width: 100%; }
+    }
     @media (prefers-reduced-motion: reduce) {
       * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
     }
@@ -1190,6 +1233,43 @@
             <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             <span>Ferramentas da API</span>
           </button>
+        <div class="bancada-grupo">
+          <button type="button" class="bancada-toggle" id="bancada-toggle" aria-expanded="false" aria-controls="bancada-menu" onclick="alternarMenuBancada()">
+            <span class="bancada-toggle-txt">Bancada do PR 85</span>
+            <span class="bancada-selo">em avaliação</span>
+            <svg class="bancada-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="bancada-menu" id="bancada-menu" hidden>
+            <div class="bancada-subgrupo">Estado</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-visao" onclick="ativarAba('b-visao')"><span>Visão geral</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-commits" onclick="ativarAba('b-commits')"><span>Commits e portões</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-prs" onclick="ativarAba('b-prs')"><span>PRs e issues</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-achados" onclick="ativarAba('b-achados')"><span>Achados</span></button>
+            <div class="bancada-subgrupo">Código</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-grafo" onclick="ativarAba('b-grafo')"><span>Grafo do código</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-pipeline" onclick="ativarAba('b-pipeline')"><span>Pipeline inteiro</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-arquitetura" onclick="ativarAba('b-arquitetura')"><span>Arquitetura com LangGraph</span></button>
+            <div class="bancada-subgrupo">RAG</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-rastro-sec" onclick="ativarAba('b-rastro-sec')"><span>Rastro do RAG</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-llmxrag" onclick="ativarAba('b-llmxrag')"><span>LLM x RAG</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-qualidade" onclick="ativarAba('b-qualidade')"><span>Qualidade por versão</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-confianca" onclick="ativarAba('b-confianca')"><span>Reprodutibilidade e custo</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-revisao" onclick="ativarAba('b-revisao')"><span>Revisão humana</span></button>
+            <div class="bancada-subgrupo">Qualidade</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-avaliacao" onclick="ativarAba('b-q-avaliacao')"><span>Conjunto de avaliação</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-rag" onclick="ativarAba('b-q-rag')"><span>RAG: os quatro elos</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-ataque" onclick="ativarAba('b-q-ataque')"><span>Ataque em massa</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-juiz" onclick="ativarAba('b-q-juiz')"><span>Juízes x pessoas</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-orcamento" onclick="ativarAba('b-q-orcamento')"><span>Orçamento RNF-07</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-producao" onclick="ativarAba('b-q-producao')"><span>Produção</span></button>
+            <div class="bancada-subgrupo">Testes</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-seguranca" onclick="ativarAba('b-seguranca')"><span>Segurança e ablação</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-comandos" onclick="ativarAba('b-comandos')"><span>Comandos</span></button>
+            <div class="bancada-subgrupo">Guia</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-mapa-painel" onclick="ativarAba('b-mapa-painel')"><span>Mapa do painel</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-ferramentas" onclick="ativarAba('b-ferramentas')"><span>Ferramentas</span></button>
+          </div>
+        </div>
         </nav>
       </div>
 
@@ -1600,6 +1680,21 @@ Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justi
     </section>
 
     <!-- ABA 4: FERRAMENTAS DA API -->
+
+    <!-- BANCADA DO PR 85: as 22 abas do painel do PR 85, abertas uma de cada vez, em avaliação -->
+    <section id="tab-bancada" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> <span id="bancada-pergunta">Que pergunta responde a tela do PR 85 escolhida no menu?</span><span class="screen-origin"><strong>De onde vem o número:</strong> tela do painel do PR 85, igual à original, gerada pelo <code>rag/iris-rag/pacote/bancada.py</code> a partir de arquivos já gravados (o retrato em <code>rag/iris-rag/bancada/referencia</code> e as saídas em <code>pacote/outputs</code>). Abrir não roda verificação nem chama modelo. <span id="bancada-equivalente"></span></span></p>
+      <div class="bancada-barra">
+        <h2 id="bancada-titulo">Bancada do PR 85</h2>
+        <span class="bancada-selo">em avaliação</span>
+        <div class="btn-row">
+          <button type="button" id="btn-bancada-gerar" class="btn btn-secondary" onclick="gerarBancadaDeNovo()">Gerar a página de novo</button>
+          <a class="btn btn-secondary" href="/bancada/" target="_blank" rel="noopener">Abrir o painel inteiro</a>
+        </div>
+      </div>
+      <p class="bancada-nota" id="bancada-nota" aria-live="polite"></p>
+      <iframe id="bancada-frame" class="bancada-frame" title="Tela do painel do PR 85"></iframe>
+    </section>
     <section id="tab-ferramentas" class="tab-panel">
       <p class="screen-question"><strong>Pergunta desta tela:</strong> O texto sai sem dados pessoais antes de ir a um modelo, e o material é decomposto nas partes certas?<span class="screen-origin"><strong>De onde vem o número:</strong> chamadas ao vivo às rotas de materiais, com o texto que você colar; esse resultado vale para o texto colado, não é taxa medida num conjunto. O ataque de dado pessoal roda casos fictícios, com sorteio de semente fixa, contra o removedor, e a telemetria do Extrator, mais abaixo, vem das execuções já registradas no servidor.</span></p>
       <div class="panel-block">
@@ -1708,13 +1803,83 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       return data;
     }
 
+
+    // Bancada do PR 85: cada botão do grupo abre a mesma página (iframe), que mostra só a aba pedida.
+    const BANCADA_PERGUNTAS = {"visao": "O último commit verificado está bom? Há algo grave aberto?", "commits": "Qual commit passou em cada verificação?", "prs": "Cada PR aberto melhora ou piora as métricas?", "achados": "O que está quebrado agora, com o caso que reproduz?", "grafo": "Quem chama quem no código, e o que não tem teste?", "pipeline": "O que entrou e saiu de cada etapa da adaptação, e em quanto tempo?", "arquitetura": "Como fica o fluxo dos agentes desenhado como grafo?", "rastro-sec": "Para uma pergunta: o que a busca trouxe, o que a resposta disse, o que os juízes acharam?", "llmxrag": "O modelo sozinho, só a busca, ou os dois juntos: o RAG ajuda?", "qualidade": "Qual configuração é melhor, com incerteza?", "confianca": "Rodar de novo dá o mesmo resultado? Quanto custa?", "revisao": "Em que frases os juízes discordam, para uma pessoa decidir?", "q-avaliacao": "Este commit piorou algo na prova de sempre (166 questões de adaptação)?", "q-rag": "Em qual elo quebrou: busca, abstenção, fidelidade ou citação?", "q-ataque": "Que dado pessoal passa pelo filtro, em casos sintéticos?", "q-juiz": "Dá para confiar na nota do juiz?", "q-orcamento": "Cada etapa cabe no tempo e nos tokens prometidos pelo RNF-07?", "q-producao": "O registro em produção guarda só metadados?", "seguranca": "Dado pessoal vaza? Cada peça do pipeline faz diferença?", "comandos": "Como rodar cada verificação?", "mapa-painel": "Que pergunta cada tela do painel do PR 85 responde?", "ferramentas": "Que ferramenta cada tela usa de verdade ou imita?"};
+    const BANCADA_EQUIVALENTES = {"commits": ["escolar", "o portão aprovado, aviso ou reprovado de cada rodada, no Benchmark Escolar"], "grafo": ["codigo", "a aba Grafo do código, com módulos, funções e busca (sem o desenho interativo)"], "pipeline": ["aovivo", "a decomposição e a anonimização de um material colado"], "arquitetura": ["arquitetura", "a aba Arquitetura (LangGraph), com cenários e o material do professor"], "rastro-sec": ["benchmark", "a inspeção de consultas na Auditoria do Benchmark"], "qualidade": ["escolar", "o intervalo de 95% e a linha de base no Benchmark Escolar"], "confianca": ["escolar", "o botão de repetir a rodada no Benchmark Escolar (sem custo)"], "revisao": ["benchmark", "os votos dos juízes A e B por frase, na Auditoria do Benchmark"], "q-avaliacao": ["escolar", "o lacre por hash nas 136 questões do Benchmark Escolar (mede o RAG, não a adaptação)"], "q-rag": ["escolar", "a tabela do elo em que cada questão parou, no Benchmark Escolar"], "q-ataque": ["ferramentas", "o ataque de dado pessoal em 416 casos, nas Ferramentas da API"], "q-juiz": ["benchmark", "a concordância entre dois juízes, sem pessoas, na Auditoria do Benchmark"], "q-orcamento": ["escolar", "o limite do RNF-07 ao lado da latência, no Benchmark Escolar (sem tokens)"], "comandos": ["escolar", "os botões de rodar do Benchmark Escolar; os botões do PR 85 não rodam por aqui"], "mapa-painel": ["escolar", "a linha “Pergunta desta tela” no topo de cada aba"]};
+    const NOMES_ABAS_IAN = { benchmark: 'Auditoria do Benchmark', escolar: 'Benchmark Escolar (136)', catalogo: 'Catálogo de Características TDAH', aovivo: 'Consulta RAG ao Vivo', arquitetura: 'Arquitetura (LangGraph)', codigo: 'Grafo do código', ferramentas: 'Ferramentas da API' };
+
+    function alternarMenuBancada(forcarAberto) {
+      const btn = document.getElementById('bancada-toggle');
+      const menu = document.getElementById('bancada-menu');
+      const abrir = forcarAberto === undefined ? menu.hidden : forcarAberto;
+      menu.hidden = !abrir;
+      btn.setAttribute('aria-expanded', String(abrir));
+    }
+
+    function marcarAbaBancada(sid) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === `b-${sid}`));
+      const botao = document.querySelector(`.tab-btn[data-tab="b-${sid}"]`);
+      document.getElementById('bancada-titulo').textContent = botao ? botao.textContent.trim() : sid;
+      document.getElementById('bancada-pergunta').textContent = BANCADA_PERGUNTAS[sid] || '';
+      const eq = BANCADA_EQUIVALENTES[sid];
+      document.getElementById('bancada-equivalente').innerHTML = eq
+        ? `<strong>Neste painel já existe algo parecido:</strong> ${escapeHtml(eq[1])} (<button type="button" class="cite-btn" onclick="ativarAba('${eq[0]}')">${escapeHtml(NOMES_ABAS_IAN[eq[0]] || eq[0])}</button>).`
+        : '<strong>Neste painel não há tela equivalente.</strong>';
+    }
+
+    function mostrarBancada(sid) {
+      alternarMenuBancada(true);
+      marcarAbaBancada(sid);
+      const frame = document.getElementById('bancada-frame');
+      if (!frame.dataset.carregado) {
+        frame.dataset.carregado = '1';
+        frame.src = `/bancada/?embutido=1#${encodeURIComponent(sid)}`;
+      } else if (frame.contentWindow) {
+        frame.contentWindow.postMessage({ bancadaIr: sid }, location.origin);
+      }
+      // em tela estreita o menu fica em cima e é longo: leva a pessoa até a tela que abriu
+      if (window.matchMedia('(max-width: 1024px)').matches) {
+        document.getElementById('tab-bancada').scrollIntoView({ block: 'start' });
+      }
+    }
+
+    // A navegação de dentro da página (por exemplo, o botão "ver portões") avisa qual aba abriu.
+    window.addEventListener('message', ev => {
+      if (ev.origin !== location.origin || !ev.data || !ev.data.bancadaEm) return;
+      if (!document.getElementById('tab-bancada').classList.contains('active')) return;
+      marcarAbaBancada(String(ev.data.bancadaEm));
+    });
+
+    async function gerarBancadaDeNovo() {
+      const nota = document.getElementById('bancada-nota');
+      setLoading('btn-bancada-gerar', true, 'Gerando...');
+      nota.textContent = 'Gerando a página a partir dos arquivos gravados (sem modelo).';
+      try {
+        const r = await fetchJson('/api/v1/eval/bancada-pr85/gerar', { method: 'POST' });
+        nota.textContent = r.ok
+          ? `Página gerada em ${String(r.segundos).replace('.', ',')} s: ${r.resumo}`
+          : `O gerador falhou (código ${r.codigo}): ${r.erro || r.resumo}`;
+        if (r.ok) {
+          const atual = document.querySelector('.tab-btn.tab-btn-sub.active');
+          document.getElementById('bancada-frame').src = `/bancada/?embutido=1&v=${Date.now()}#${atual ? atual.dataset.tab.slice(2) : 'visao'}`;
+        }
+      } catch (e) {
+        nota.textContent = `Não consegui gerar: ${e.message}`;
+      } finally {
+        setLoading('btn-bancada-gerar', false);
+      }
+    }
+
     function ativarAba(nome) {
+      const ehBancada = nome.startsWith('b-');
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === nome);
       });
       document.querySelectorAll('.tab-panel').forEach(sec => {
-        sec.classList.toggle('active', sec.id === `tab-${nome}`);
+        sec.classList.toggle('active', sec.id === (ehBancada ? 'tab-bancada' : `tab-${nome}`));
       });
+      if (ehBancada) mostrarBancada(nome.slice(2));
       if (nome === 'ferramentas' && !state.extLoaded) {
         carregarAtaquePii();
         carregarExtratorAnalytics();

@@ -1,0 +1,6644 @@
+{
+  "commit_grupo": "65e1f091a179cfe82e2ec0e0c6fe4c6bbd8bd323",
+  "gerado_em": "2026-11-12T15:43:42-03:00",
+  "modulos": [
+    {
+      "id": "iris",
+      "caminho": "backend/src/iris/__init__.py",
+      "pasta": "raiz",
+      "linhas": 4,
+      "funcoes": [],
+      "classes": [],
+      "importa": [],
+      "importado_por": [
+        "iris.main"
+      ],
+      "testado_por": [
+        "backend/tests/test_aceitacao_benchmark.py",
+        "backend/tests/test_benchmark_pipeline.py",
+        "backend/tests/test_foundation_bridge.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.agents",
+      "caminho": "backend/src/iris/agents/__init__.py",
+      "pasta": "agents",
+      "linhas": 14,
+      "funcoes": [],
+      "classes": [],
+      "importa": [
+        "iris.agents.adapter_agent",
+        "iris.agents.curriculum_extractor"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_foundation_bridge.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.agents.adapter_agent",
+      "caminho": "backend/src/iris/agents/adapter_agent.py",
+      "pasta": "agents",
+      "linhas": 392,
+      "funcoes": [
+        {
+          "nome": "segmentar_comandos",
+          "linha": 70,
+          "publica": true,
+          "docstring": "Divide uma linha em segmentos, um por verbo de comando."
+        },
+        {
+          "nome": "_destacar",
+          "linha": 100,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "destacar_comandos",
+          "linha": 110,
+          "publica": true,
+          "docstring": "Nível 1: negrito nos verbos de comando, sem nenhuma outra alteração."
+        },
+        {
+          "nome": "decompor_em_etapas",
+          "linha": 121,
+          "publica": true,
+          "docstring": "Níveis 2 e 3: um item por comando; linhas sem comando (texto de apoio) ficam como estão."
+        },
+        {
+          "nome": "resumir_ciclo",
+          "linha": 152,
+          "publica": true,
+          "docstring": "Soma latência e tokens das chamadas de um ciclo multiagentes e compara com o limite do RNF-07."
+        },
+        {
+          "nome": "get_adapter_agent",
+          "linha": 362,
+          "publica": true,
+          "docstring": "Factory padrão para obter o Agente Adaptador Pedagógico."
+        },
+        {
+          "nome": "adaptador_benchmark",
+          "linha": 367,
+          "publica": true,
+          "docstring": "Adaptador no formato de ``iris.eval.executar``: Extrator (sem a trava do gabarito) e Adaptador."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "AdapterAgent",
+          "linha": 176,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 179,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "adapt",
+              "linha": 183,
+              "publica": true,
+              "docstring": "Adapta o enunciado e devolve minuta, laudo de escopo e telemetria."
+            },
+            {
+              "nome": "_chamar_llm",
+              "linha": 277,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_montar_prompt_usuario",
+              "linha": 292,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_parse_json_response",
+              "linha": 313,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_saida_de_reserva",
+              "linha": 334,
+              "publica": false,
+              "docstring": "Adaptação por regras, sem modelo. Só cobre a característica de comandos múltiplos."
+            }
+          ]
+        }
+      ],
+      "importa": [
+        "iris.agents.curriculum_extractor",
+        "iris.core.llm_client",
+        "iris.eval.escopo",
+        "iris.schemas.adaptation",
+        "iris.schemas.catalog",
+        "iris.schemas.curriculum"
+      ],
+      "importado_por": [
+        "iris.agents",
+        "iris.eval.adaptador_com_modelo",
+        "iris.eval.isolamento_escopo"
+      ],
+      "testado_por": [
+        "backend/tests/test_adapter_agent.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.agents.curriculum_extractor",
+      "caminho": "backend/src/iris/agents/curriculum_extractor.py",
+      "pasta": "agents",
+      "linhas": 356,
+      "funcoes": [
+        {
+          "nome": "get_curriculum_extractor",
+          "linha": 354,
+          "publica": true,
+          "docstring": "Factory padrão para obter o Agente Extrator Curricular."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "CurriculumExtractorAgent",
+          "linha": 77,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 80,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "extract",
+              "linha": 84,
+              "publica": true,
+              "docstring": "Extrai os invariantes curriculares inegociáveis do insumo pedagógico."
+            },
+            {
+              "nome": "extract_with_telemetry",
+              "linha": 101,
+              "publica": true,
+              "docstring": "Extrai invariantes curriculares retornando métricas operacionais de execução."
+            },
+            {
+              "nome": "extract_from_golden_question",
+              "linha": 190,
+              "publica": true,
+              "docstring": "Atalho de extração para itens do Golden Benchmark oficial."
+            },
+            {
+              "nome": "extract_golden_with_telemetry",
+              "linha": 198,
+              "publica": true,
+              "docstring": "Extrai invariantes e telemetria para uma GoldenQuestion (padrão Zero-Hint para eval)."
+            },
+            {
+              "nome": "_normalizar_request",
+              "linha": 215,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_chamar_llm",
+              "linha": 233,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_montar_prompt_usuario",
+              "linha": 248,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_parse_json_response",
+              "linha": 263,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_extracao_deterministica_fallback",
+              "linha": 299,
+              "publica": false,
+              "docstring": "Gera invariantes determinísticos a partir de regex e regras léxicas em caso de falha de IA."
+            }
+          ]
+        }
+      ],
+      "importa": [
+        "iris.core.llm_client",
+        "iris.eval.trcc",
+        "iris.schemas.curriculum"
+      ],
+      "importado_por": [
+        "iris.agents",
+        "iris.agents.adapter_agent",
+        "iris.eval.extractor_analytics"
+      ],
+      "testado_por": [
+        "backend/tests/test_curriculum_extractor.py",
+        "backend/tests/test_extrator_salvaguarda.py",
+        "backend/tests/test_revisao_pr57.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.api",
+      "caminho": "backend/src/iris/api/__init__.py",
+      "pasta": "api",
+      "linhas": 2,
+      "funcoes": [],
+      "classes": [],
+      "importa": [],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_foundation_bridge.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.api.routes",
+      "caminho": "backend/src/iris/api/routes/__init__.py",
+      "pasta": "api",
+      "linhas": 18,
+      "funcoes": [],
+      "classes": [],
+      "importa": [
+        "iris.api.routes.materials"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_foundation_bridge.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.api.routes.catalogs",
+      "caminho": "backend/src/iris/api/routes/catalogs.py",
+      "pasta": "api",
+      "linhas": 185,
+      "funcoes": [
+        {
+          "nome": "_resolve_catalog",
+          "linha": 31,
+          "publica": false,
+          "docstring": "Resolve o catálogo solicitado pelo ID ou retorna o catálogo oficial de TDAH por padrão."
+        },
+        {
+          "nome": "get_characteristics_catalog_service",
+          "linha": 46,
+          "publica": true,
+          "docstring": "Carrega e retorna o catálogo oficial de características funcionais atômicas para a Etapa 2."
+        },
+        {
+          "nome": "select_surgical_characteristics_service",
+          "linha": 68,
+          "publica": true,
+          "docstring": "Valida o payload da Etapa 2 e registra o vetor cirúrgico de características ativadas (RF-04)."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.config",
+        "iris.schemas.catalog"
+      ],
+      "importado_por": [
+        "iris.main"
+      ],
+      "testado_por": [
+        "backend/tests/api/test_catalogs_characteristics.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.api.routes.materials",
+      "caminho": "backend/src/iris/api/routes/materials.py",
+      "pasta": "api",
+      "linhas": 263,
+      "funcoes": [
+        {
+          "nome": "process_material_text_service",
+          "linha": 33,
+          "publica": true,
+          "docstring": "Executa o pipeline completo em memória para texto direto:"
+        },
+        {
+          "nome": "process_material_file_service",
+          "linha": 69,
+          "publica": true,
+          "docstring": "Executa o pipeline completo em memória para upload de documentos:"
+        },
+        {
+          "nome": "decompose_material_service",
+          "linha": 112,
+          "publica": true,
+          "docstring": "Executa a decomposição estrutural automática do material didático (RF-02 / História 1.1.2)."
+        },
+        {
+          "nome": "organize_prose_service",
+          "linha": 133,
+          "publica": true,
+          "docstring": "Executa a organização estrutural automática de textos corridos (RF-02 Extensão / História 1.1.4)."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.parsers.document_extractor",
+        "iris.parsers.prose_organizer",
+        "iris.parsers.structural_decomposer",
+        "iris.schemas.materials",
+        "iris.security.pii_scrubber"
+      ],
+      "importado_por": [
+        "iris.api.routes",
+        "iris.main"
+      ],
+      "testado_por": [
+        "backend/tests/test_api_routes.py",
+        "backend/tests/test_limites_e_sinalizadores.py",
+        "backend/tests/test_materials.py",
+        "backend/tests/test_prose_organizer.py",
+        "backend/tests/test_revisao_pr54.py",
+        "backend/tests/test_revisao_pr55.py",
+        "backend/tests/test_stdlib_server.py",
+        "backend/tests/test_structural_decomposer.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.config",
+      "caminho": "backend/src/iris/config.py",
+      "pasta": "raiz",
+      "linhas": 49,
+      "funcoes": [
+        {
+          "nome": "get_settings",
+          "linha": 46,
+          "publica": true,
+          "docstring": "Retorna a configuração atual lida das variáveis de ambiente."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "IrisSettings",
+          "linha": 22,
+          "metodos": []
+        }
+      ],
+      "importa": [],
+      "importado_por": [
+        "iris.api.routes.catalogs",
+        "iris.core.llm_client",
+        "iris.eval.benchmark",
+        "iris.eval.extractor_analytics",
+        "iris.eval.fidelidade_frases",
+        "iris.eval.precisao_contexto",
+        "iris.eval.rag_metrics",
+        "iris.eval.readability",
+        "iris.main",
+        "iris.rag.bridge",
+        "iris.schemas.catalog"
+      ],
+      "testado_por": [
+        "backend/tests/test_aceitacao_benchmark.py",
+        "backend/tests/test_catalog_schema.py",
+        "backend/tests/test_foundation_bridge.py",
+        "backend/tests/test_precisao_contexto_ragas.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.core",
+      "caminho": "backend/src/iris/core/__init__.py",
+      "pasta": "core",
+      "linhas": 24,
+      "funcoes": [],
+      "classes": [],
+      "importa": [
+        "iris.core.llm_client"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_foundation_bridge.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.core.llm_client",
+      "caminho": "backend/src/iris/core/llm_client.py",
+      "pasta": "core",
+      "linhas": 553,
+      "funcoes": [
+        {
+          "nome": "strip_thinking_tags",
+          "linha": 45,
+          "publica": true,
+          "docstring": "Remove blocos `<think>...</think>` emitidos por modelos de raciocínio (ex.: Qwen3/DeepSeek)."
+        },
+        {
+          "nome": "get_llm_client",
+          "linha": 543,
+          "publica": true,
+          "docstring": "Factory padrão para obter o cliente híbrido de LLM."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "LLMResponse",
+          "linha": 29,
+          "metodos": [
+            {
+              "nome": "llm_id",
+              "linha": 41,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "BaseLLMProvider",
+          "linha": 50,
+          "metodos": [
+            {
+              "nome": "generate",
+              "linha": 56,
+              "publica": true,
+              "docstring": "Gera texto a partir de um prompt com temperatura controlada."
+            },
+            {
+              "nome": "is_available",
+              "linha": 67,
+              "publica": true,
+              "docstring": "Verifica se o provedor está acessível e configurado no ambiente."
+            }
+          ]
+        },
+        {
+          "nome": "OllamaLLMProvider",
+          "linha": 71,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 76,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "list_installed_models",
+              "linha": 106,
+              "publica": true,
+              "docstring": "Retorna a lista de modelos instalados no servidor Ollama local."
+            },
+            {
+              "nome": "is_available",
+              "linha": 119,
+              "publica": true,
+              "docstring": "Verifica se o daemon do Ollama responde na porta local."
+            },
+            {
+              "nome": "_resolve_model",
+              "linha": 131,
+              "publica": false,
+              "docstring": "Seleciona o modelo configurado com cache em instância para evitar `/api/tags` repetido."
+            },
+            {
+              "nome": "warmup",
+              "linha": 152,
+              "publica": true,
+              "docstring": "Pré-carrega os pesos do modelo na GPU/RAM para evitar cold start na 1ª medição."
+            },
+            {
+              "nome": "generate",
+              "linha": 173,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "GroqLLMProvider",
+          "linha": 244,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 249,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "is_available",
+              "linha": 264,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "generate",
+              "linha": 267,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "ExtractiveFallbackLLMProvider",
+          "linha": 341,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 351,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "is_available",
+              "linha": 354,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "generate",
+              "linha": 357,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "HybridLLMClient",
+          "linha": 438,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 441,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_build_provider",
+              "linha": 459,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_invoke_provider",
+              "linha": 471,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "warmup",
+              "linha": 493,
+              "publica": true,
+              "docstring": "Pré-aquece o provedor ativo caso suporte warmup (ex.: Ollama local)."
+            },
+            {
+              "nome": "generate",
+              "linha": 504,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "status",
+              "linha": 529,
+              "publica": true,
+              "docstring": "Retorna diagnóstico de conectividade dos provedores de LLM."
+            }
+          ]
+        }
+      ],
+      "importa": [
+        "iris.config"
+      ],
+      "importado_por": [
+        "iris.agents.adapter_agent",
+        "iris.agents.curriculum_extractor",
+        "iris.core",
+        "iris.eval.adaptador_com_modelo",
+        "iris.eval.extractor_analytics",
+        "iris.eval.rag_metrics",
+        "iris.main"
+      ],
+      "testado_por": [
+        "backend/tests/test_adaptador_com_modelo.py",
+        "backend/tests/test_adapter_agent.py",
+        "backend/tests/test_curriculum_extractor.py",
+        "backend/tests/test_llm_and_rag_metrics.py",
+        "backend/tests/test_playground_api.py",
+        "backend/tests/test_revisao_pr57.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval",
+      "caminho": "backend/src/iris/eval/__init__.py",
+      "pasta": "eval",
+      "linhas": 85,
+      "funcoes": [
+        {
+          "nome": "__getattr__",
+          "linha": 41,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "__dir__",
+          "linha": 49,
+          "publica": false,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.eval.benchmark",
+        "iris.eval.corpus_eda",
+        "iris.eval.metrics",
+        "iris.eval.rag_metrics",
+        "iris.eval.readability"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.adaptador_com_modelo",
+      "caminho": "backend/src/iris/eval/adaptador_com_modelo.py",
+      "pasta": "eval",
+      "linhas": 330,
+      "funcoes": [
+        {
+          "nome": "_pedido",
+          "linha": 83,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_percentil",
+          "linha": 97,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "medir",
+          "linha": 105,
+          "publica": true,
+          "docstring": "Roda o Adaptador com o modelo em cada questão e nível; devolve o resumo e os registros."
+        },
+        {
+          "nome": "_texto",
+          "linha": 191,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_figura",
+          "linha": 246,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "gerar_relatorio",
+          "linha": 302,
+          "publica": true,
+          "docstring": "Mede e grava ``adaptador_com_modelo`` (.txt, .json e .png) em ``pasta``."
+        },
+        {
+          "nome": "main",
+          "linha": 319,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [
+        {
+          "nome": "_Gravador",
+          "linha": 69,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 72,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "generate",
+              "linha": 77,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        }
+      ],
+      "importa": [
+        "iris.agents.adapter_agent",
+        "iris.core.llm_client",
+        "iris.eval.benchmark",
+        "iris.eval.escopo",
+        "iris.schemas.adaptation",
+        "iris.schemas.curriculum"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_adaptador_com_modelo.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.benchmark",
+      "caminho": "backend/src/iris/eval/benchmark.py",
+      "pasta": "eval",
+      "linhas": 64,
+      "funcoes": [
+        {
+          "nome": "_como_tupla",
+          "linha": 27,
+          "publica": false,
+          "docstring": "Normaliza a trava: lista/tupla de conceitos ou texto separado por ';'."
+        },
+        {
+          "nome": "carregar_golden_benchmark",
+          "linha": 37,
+          "publica": true,
+          "docstring": "Carrega as questões do Golden Benchmark a partir do JSON."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "GoldenQuestion",
+          "linha": 12,
+          "metodos": []
+        }
+      ],
+      "importa": [
+        "iris.config"
+      ],
+      "importado_por": [
+        "iris.eval",
+        "iris.eval.adaptador_com_modelo",
+        "iris.eval.executar",
+        "iris.eval.extractor_analytics",
+        "iris.eval.faithfulness",
+        "iris.eval.isolamento_escopo",
+        "iris.eval.relatorio"
+      ],
+      "testado_por": [
+        "backend/tests/test_aceitacao_benchmark.py",
+        "backend/tests/test_adaptador_com_modelo.py",
+        "backend/tests/test_adapter_agent.py",
+        "backend/tests/test_benchmark_pipeline.py",
+        "backend/tests/test_curriculum_extractor.py",
+        "backend/tests/test_trcc.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.corpus_eda",
+      "caminho": "backend/src/iris/eval/corpus_eda.py",
+      "pasta": "eval",
+      "linhas": 529,
+      "funcoes": [
+        {
+          "nome": "find_root",
+          "linha": 46,
+          "publica": true,
+          "docstring": "Sobe a partir de `start` até achar a pasta com pyproject.toml."
+        },
+        {
+          "nome": "get_token_counter",
+          "linha": 58,
+          "publica": true,
+          "docstring": "Devolve (função de contagem, descrição do método)."
+        },
+        {
+          "nome": "load_chunks",
+          "linha": 84,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "text_column",
+          "linha": 97,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "drop_empty",
+          "linha": 104,
+          "publica": true,
+          "docstring": "Remove trechos vazios (ex.: placeholders de documentos sem texto distribuído)."
+        },
+        {
+          "nome": "indexed_text",
+          "linha": 116,
+          "publica": true,
+          "docstring": "Texto como vai para o modelo: 'Documento: <titulo> | Seção: <secao>' + trecho."
+        },
+        {
+          "nome": "get_model_token_counter",
+          "linha": 124,
+          "publica": true,
+          "docstring": "Contador com o tokenizador REAL do modelo de embeddings (precisa de `transformers` e internet)."
+        },
+        {
+          "nome": "add_tokens",
+          "linha": 135,
+          "publica": true,
+          "docstring": "Acrescenta `n_palavras`, `tokens_texto` (só o trecho) e `tokens` (texto indexado)."
+        },
+        {
+          "nome": "embedding_models",
+          "linha": 158,
+          "publica": true,
+          "docstring": "Lê `MODELOS_DENSOS` de embeddings.py (sem importar): {apelido: {nome, max_tokens, ...}}."
+        },
+        {
+          "nome": "embedding_limits",
+          "linha": 175,
+          "publica": true,
+          "docstring": "{apelido: max_tokens} de cada modelo denso."
+        },
+        {
+          "nome": "token_percentiles",
+          "linha": 183,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "section_table",
+          "linha": 198,
+          "publica": true,
+          "docstring": "Uma linha por (documento, seção): nº de trechos e tokens somados."
+        },
+        {
+          "nome": "tokens_per_word",
+          "linha": 208,
+          "publica": true,
+          "docstring": "Razão tokens/palavra por idioma (PT-BR tende a gastar mais tokens que EN)."
+        },
+        {
+          "nome": "overflow_table",
+          "linha": 217,
+          "publica": true,
+          "docstring": "Trechos acima do limite de tokens, agrupados por `by` (idioma, doc_id, parte...)."
+        },
+        {
+          "nome": "max_words_by_language",
+          "linha": 229,
+          "publica": true,
+          "docstring": "Máximo de palavras por trecho em cada idioma para o trecho TÍPICO caber no limite."
+        },
+        {
+          "nome": "chunk_size_report",
+          "linha": 240,
+          "publica": true,
+          "docstring": "Resumo quantitativo para fundamentar o chunk_size, em tokens e em palavras."
+        },
+        {
+          "nome": "_as_list",
+          "linha": 271,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "load_catalog",
+          "linha": 279,
+          "publica": true,
+          "docstring": "Características atômicas: id, nome e barreira(s) do RAG associada(s)."
+        },
+        {
+          "nome": "barrier_balance",
+          "linha": 295,
+          "publica": true,
+          "docstring": "Trechos que cobrem cada característica (via a barreira do RAG associada)."
+        },
+        {
+          "nome": "vocabulary_mismatch",
+          "linha": 322,
+          "publica": true,
+          "docstring": "Barreiras do catálogo sem nenhum trecho, e barreiras dos trechos fora do catálogo."
+        },
+        {
+          "nome": "_style",
+          "linha": 337,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "plot_chunk_tokens",
+          "linha": 341,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "plot_section_tokens",
+          "linha": 358,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "plot_tokens_by_doc",
+          "linha": 376,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "plot_overflow_by_doc",
+          "linha": 389,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "plot_balance",
+          "linha": 403,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "plot_balance_by_part",
+          "linha": 418,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "run",
+          "linha": 436,
+          "publica": true,
+          "docstring": "Roda a EDA completa e grava tabelas/figuras em reports/. Devolve o resumo."
+        },
+        {
+          "nome": "main",
+          "linha": 494,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "analisar_distribuicao_perguntas",
+          "linha": 507,
+          "publica": true,
+          "docstring": "Sumário estatístico e contagem por disciplina e ano (EDA do benchmark; veio da versão do colega)."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.eval.readability"
+      ],
+      "importado_por": [
+        "iris.eval"
+      ],
+      "testado_por": [
+        "backend/tests/test_corpus_eda.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.escopo",
+      "caminho": "backend/src/iris/eval/escopo.py",
+      "pasta": "eval",
+      "linhas": 185,
+      "funcoes": [
+        {
+          "nome": "localizar_comandos",
+          "linha": 68,
+          "publica": true,
+          "docstring": "Posições (início, fim) dos verbos de comando no imperativo, na ordem em que aparecem."
+        },
+        {
+          "nome": "remover_marcacao",
+          "linha": 82,
+          "publica": true,
+          "docstring": "Retira o que é só marcação de andaime: negrito, número de item, caixa de seleção e linha de resposta."
+        },
+        {
+          "nome": "palavras",
+          "linha": 89,
+          "publica": true,
+          "docstring": "Palavras, números e operadores do texto, sem marcação e sem distinguir maiúsculas."
+        },
+        {
+          "nome": "_tamanho_subsequencia_comum",
+          "linha": 94,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_linhas",
+          "linha": 104,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "verificar_escopo",
+          "linha": 108,
+          "publica": true,
+          "docstring": "Laudo de isolamento de escopo do texto adaptado contra o original."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "RegraEscopo",
+          "linha": 45,
+          "metodos": []
+        }
+      ],
+      "importa": [
+        "iris.eval.readability",
+        "iris.eval.trcc",
+        "iris.schemas.adaptation"
+      ],
+      "importado_por": [
+        "iris.agents.adapter_agent",
+        "iris.eval.adaptador_com_modelo",
+        "iris.eval.isolamento_escopo"
+      ],
+      "testado_por": [
+        "backend/tests/test_adapter_agent.py",
+        "backend/tests/test_escopo.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.executar",
+      "caminho": "backend/src/iris/eval/executar.py",
+      "pasta": "eval",
+      "linhas": 131,
+      "funcoes": [
+        {
+          "nome": "adaptador_identidade",
+          "linha": 36,
+          "publica": true,
+          "docstring": "Adaptador de teste: devolve o próprio enunciado (TRCC deve dar 100%)."
+        },
+        {
+          "nome": "carregar_adaptador",
+          "linha": 41,
+          "publica": true,
+          "docstring": "Resolve ``\"pacote.modulo:funcao\"`` para a função."
+        },
+        {
+          "nome": "ler_saidas",
+          "linha": 49,
+          "publica": true,
+          "docstring": "Lê um .jsonl de saídas. Se um id aparece mais de uma vez, vale a última linha."
+        },
+        {
+          "nome": "executar_sistema",
+          "linha": 62,
+          "publica": true,
+          "docstring": "Roda o adaptador nas questões pendentes e acrescenta as saídas ao .jsonl do sistema."
+        },
+        {
+          "nome": "main",
+          "linha": 109,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.eval.benchmark"
+      ],
+      "importado_por": [
+        "iris.eval.faithfulness",
+        "iris.eval.relatorio"
+      ],
+      "testado_por": [
+        "backend/tests/test_benchmark_pipeline.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.extractor_analytics",
+      "caminho": "backend/src/iris/eval/extractor_analytics.py",
+      "pasta": "eval",
+      "linhas": 411,
+      "funcoes": [
+        {
+          "nome": "_resolver_caminho",
+          "linha": 25,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "registrar_telemetria",
+          "linha": 29,
+          "publica": true,
+          "docstring": "Acrescenta um registro operacional anônimo ao log JSONL de telemetria."
+        },
+        {
+          "nome": "carregar_telemetria",
+          "linha": 41,
+          "publica": true,
+          "docstring": "Carrega todos os registros válidos de telemetria do arquivo JSONL."
+        },
+        {
+          "nome": "_bate_texto",
+          "linha": 58,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "filtrar_telemetria",
+          "linha": 64,
+          "publica": true,
+          "docstring": "Filtra registros operacionais por tipo de questão, faixa etária e provedor."
+        },
+        {
+          "nome": "_classificar_tamanho",
+          "linha": 99,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_percentil",
+          "linha": 107,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_stats_serie",
+          "linha": 122,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "resumir_metricas",
+          "linha": 134,
+          "publica": true,
+          "docstring": "Calcula estatísticas consolidadas de latência, throughput e qualidade de extração."
+        },
+        {
+          "nome": "_agrupar_por",
+          "linha": 197,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_rotulo_comando",
+          "linha": 210,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "gerar_analytics",
+          "linha": 219,
+          "publica": true,
+          "docstring": "Gera painel analítico filtrado por tipo de questão, faixa etária e modelo."
+        },
+        {
+          "nome": "executar_benchmark_extrator",
+          "linha": 269,
+          "publica": true,
+          "docstring": "Executa o Extrator em lote (Zero-Hint) no Golden Benchmark e retorna analytics."
+        },
+        {
+          "nome": "_formatar_bloco_grupo",
+          "linha": 309,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "formatar_relatorio_terminal",
+          "linha": 328,
+          "publica": true,
+          "docstring": "Formata o relatório analítico para leitura rápida no terminal."
+        },
+        {
+          "nome": "main",
+          "linha": 360,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.agents.curriculum_extractor",
+        "iris.config",
+        "iris.core.llm_client",
+        "iris.eval.benchmark",
+        "iris.schemas.curriculum"
+      ],
+      "importado_por": [
+        "iris.main"
+      ],
+      "testado_por": [
+        "backend/tests/test_curriculum_extractor.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.faithfulness",
+      "caminho": "backend/src/iris/eval/faithfulness.py",
+      "pasta": "eval",
+      "linhas": 155,
+      "funcoes": [
+        {
+          "nome": "criar_pontuador_ragas",
+          "linha": 35,
+          "publica": true,
+          "docstring": "Cria o juiz com a API ``ragas.metrics.collections`` (ragas >= 0.4)."
+        },
+        {
+          "nome": "_medir",
+          "linha": 66,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "medir_faithfulness",
+          "linha": 86,
+          "publica": true,
+          "docstring": "Mede a Faithfulness das questões que têm saída válida E contextos recuperados."
+        },
+        {
+          "nome": "ler_faithfulness",
+          "linha": 109,
+          "publica": true,
+          "docstring": "Lê as notas gravadas e resume. Devolve None se o arquivo não existe."
+        },
+        {
+          "nome": "main",
+          "linha": 125,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.eval.benchmark",
+        "iris.eval.executar"
+      ],
+      "importado_por": [
+        "iris.eval.fidelidade_frases",
+        "iris.eval.relatorio"
+      ],
+      "testado_por": [
+        "backend/tests/test_benchmark_pipeline.py",
+        "backend/tests/test_fidelidade_frases.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.fidelidade_frases",
+      "caminho": "backend/src/iris/eval/fidelidade_frases.py",
+      "pasta": "eval",
+      "linhas": 213,
+      "funcoes": [
+        {
+          "nome": "carregar_vereditos",
+          "linha": 52,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "binario",
+          "linha": 56,
+          "publica": true,
+          "docstring": "1 = sustentada por inteiro; 0 = em parte, não sustentada ou prova rejeitada; None = não é conteúdo."
+        },
+        {
+          "nome": "veredito_final",
+          "linha": 61,
+          "publica": true,
+          "docstring": "Calcula o veredito final a partir de A, B, X e O (maioria de três + desempate pelo Opus)."
+        },
+        {
+          "nome": "_votos",
+          "linha": 80,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "ic_bootstrap",
+          "linha": 85,
+          "publica": true,
+          "docstring": "Intervalo de 95% da média, reamostrando as respostas com reposição (semente fixa)."
+        },
+        {
+          "nome": "fidelidade",
+          "linha": 95,
+          "publica": true,
+          "docstring": "Média, por resposta, de frases sustentadas / frases de conteúdo, para um avaliador ou para o final."
+        },
+        {
+          "nome": "kappa",
+          "linha": 121,
+          "publica": true,
+          "docstring": "Kappa de Cohen: concordância entre dois avaliadores, descontada a que viria do acaso."
+        },
+        {
+          "nome": "concordancia",
+          "linha": 132,
+          "publica": true,
+          "docstring": "Concordância em \"sustenta ou não\", nas frases que os dois avaliadores tratam como conteúdo."
+        },
+        {
+          "nome": "leitura",
+          "linha": 150,
+          "publica": true,
+          "docstring": "Compara o intervalo, e não só a média, com a meta."
+        },
+        {
+          "nome": "medir",
+          "linha": 160,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_texto",
+          "linha": 175,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "main",
+          "linha": 203,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.config",
+        "iris.eval.faithfulness"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_fidelidade_frases.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.isolamento_escopo",
+      "caminho": "backend/src/iris/eval/isolamento_escopo.py",
+      "pasta": "eval",
+      "linhas": 350,
+      "funcoes": [
+        {
+          "nome": "retirar_termo_da_trava",
+          "linha": 16,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "trocar_palavra",
+          "linha": 18,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "inserir_resposta",
+          "linha": 20,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "retirar_comando",
+          "linha": 22,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "inverter_duas_palavras",
+          "linha": 24,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "inverter_duas_etapas",
+          "linha": 26,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "medir",
+          "linha": 28,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_texto",
+          "linha": 30,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_figura",
+          "linha": 32,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "gerar_relatorio",
+          "linha": 34,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "main",
+          "linha": 36,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [
+        {
+          "nome": "_SemModelo",
+          "linha": 14,
+          "metodos": []
+        }
+      ],
+      "importa": [
+        "iris.agents.adapter_agent",
+        "iris.eval.benchmark",
+        "iris.eval.escopo",
+        "iris.eval.trcc",
+        "iris.schemas.adaptation",
+        "iris.schemas.curriculum"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.metrics",
+      "caminho": "backend/src/iris/eval/metrics.py",
+      "pasta": "eval",
+      "linhas": 62,
+      "funcoes": [
+        {
+          "nome": "calcular_trcc",
+          "linha": 17,
+          "publica": true,
+          "docstring": "Calcula a Taxa de Retenção de Conceitos-Chave (TRCC)."
+        },
+        {
+          "nome": "calcular_flesch",
+          "linha": 35,
+          "publica": true,
+          "docstring": "Calcula o índice Flesch PT-BR usando a implementação calibrada."
+        },
+        {
+          "nome": "verificar_aderencia_nivel",
+          "linha": 40,
+          "publica": true,
+          "docstring": "Verifica preliminarmente a Aderência Estrutural ao Nível Solicitado (SAEN)."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.eval.readability",
+        "iris.eval.trcc"
+      ],
+      "importado_por": [
+        "iris.eval"
+      ],
+      "testado_por": [
+        "backend/tests/test_trcc.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.precisao_contexto",
+      "caminho": "backend/src/iris/eval/precisao_contexto.py",
+      "pasta": "eval",
+      "linhas": 246,
+      "funcoes": [
+        {
+          "nome": "carregar_gabarito",
+          "linha": 66,
+          "publica": true,
+          "docstring": "Lê as perguntas do gabarito que têm pelo menos um trecho certo."
+        },
+        {
+          "nome": "conferir_universo",
+          "linha": 72,
+          "publica": true,
+          "docstring": "Devolve os trechos certos do gabarito que não existem na base carregada (vazio = base completa)."
+        },
+        {
+          "nome": "pontuar_ragas_por_id",
+          "linha": 78,
+          "publica": true,
+          "docstring": "Context Precision do RAGAS por identificador: fração dos recuperados que está na referência."
+        },
+        {
+          "nome": "ranqueador_do_pacote",
+          "linha": 102,
+          "publica": true,
+          "docstring": "Ranqueador real: ``consultar.ranking`` do pacote RAG (consulta o PostgreSQL com pgvector indicado em RAG_PG_DSN)."
+        },
+        {
+          "nome": "ic_bootstrap",
+          "linha": 110,
+          "publica": true,
+          "docstring": "Intervalo de 95% da média, reamostrando as perguntas com reposição."
+        },
+        {
+          "nome": "ic_bootstrap_pareado",
+          "linha": 119,
+          "publica": true,
+          "docstring": "Diferença média a - b, pergunta a pergunta, e o intervalo de 95% dessa diferença."
+        },
+        {
+          "nome": "medir",
+          "linha": 129,
+          "publica": true,
+          "docstring": "Mede as duas precisões de um método em todas as perguntas do gabarito."
+        },
+        {
+          "nome": "acaso",
+          "linha": 160,
+          "publica": true,
+          "docstring": "Precisão esperada de 5 trechos sorteados da base: a média de (trechos certos / trechos da base)."
+        },
+        {
+          "nome": "_texto",
+          "linha": 167,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "main",
+          "linha": 196,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.config",
+        "iris.eval.rag_metrics",
+        "iris.rag.bridge"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_precisao_contexto_ragas.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.rag_metrics",
+      "caminho": "backend/src/iris/eval/rag_metrics.py",
+      "pasta": "eval",
+      "linhas": 868,
+      "funcoes": [
+        {
+          "nome": "calcular_recall_at_k",
+          "linha": 95,
+          "publica": true,
+          "docstring": "Fração dos trechos relevantes presentes entre os k primeiros retornados."
+        },
+        {
+          "nome": "calcular_mrr",
+          "linha": 103,
+          "publica": true,
+          "docstring": "Inverso da posição (1-indexed) do primeiro trecho relevante retornado."
+        },
+        {
+          "nome": "calcular_average_precision_at_k",
+          "linha": 111,
+          "publica": true,
+          "docstring": "Precisão do Contexto (RAGAS Context Precision@K ponderada pela posição)."
+        },
+        {
+          "nome": "calcular_kappa_cohen",
+          "linha": 146,
+          "publica": true,
+          "docstring": "Calcula a concordância observada (p_o) e o coeficiente Kappa de Cohen entre 2 avaliadores."
+        },
+        {
+          "nome": "_tokenizar_conteudo",
+          "linha": 165,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_extrair_ngramas",
+          "linha": 170,
+          "publica": false,
+          "docstring": "Extrai n-gramas de palavras e de caracteres para similaridade semântica/morfológica em PT-BR."
+        },
+        {
+          "nome": "calcular_similaridade_semantica",
+          "linha": 183,
+          "publica": true,
+          "docstring": "Similaridade de cosseno sobre n-gramas morfológicos e lexicais (escala 0..1)."
+        },
+        {
+          "nome": "verificar_sustentacao_frase_no_trecho",
+          "linha": 199,
+          "publica": true,
+          "docstring": "Avaliador intrínseco determinístico (usado no modo `--ao-vivo` sem juiz externo)."
+        },
+        {
+          "nome": "_carregar_gabarito_oficial",
+          "linha": 236,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "avaliar_pipeline_registrado",
+          "linha": 242,
+          "publica": true,
+          "docstring": "Calcula todas as 12 métricas (Relatório Íris + 7 Métricas de Mercado) sobre as saídas registradas."
+        },
+        {
+          "nome": "avaliar_pipeline_ao_vivo",
+          "linha": 395,
+          "publica": true,
+          "docstring": "Executa o RAG ao vivo para `limite_consultas` do gabarito e calcula todas as métricas."
+        },
+        {
+          "nome": "_resumir_veredito_consulta",
+          "linha": 562,
+          "publica": false,
+          "docstring": "Sumariza os vereditos dos juízes A e B (por resposta e frase a frase)."
+        },
+        {
+          "nome": "obter_opcoes_filtro_gabarito",
+          "linha": 593,
+          "publica": true,
+          "docstring": "Retorna os tipos e barreiras disponíveis no gabarito oficial para filtragem na UI."
+        },
+        {
+          "nome": "obter_consultas_com_textos_e_metricas",
+          "linha": 605,
+          "publica": true,
+          "docstring": "Retorna as consultas com métricas individuais, resposta gerada e TEXTOS COMPLETOS dos trechos [T1..T5]."
+        },
+        {
+          "nome": "formatar_relatorio_completo",
+          "linha": 712,
+          "publica": true,
+          "docstring": "Formata a saída comparando a Tabela do Relatório Íris, as 7 Métricas de Mercado e os Textos do RAG."
+        },
+        {
+          "nome": "main",
+          "linha": 842,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [
+        {
+          "nome": "IrisReportMetrics",
+          "linha": 47,
+          "metodos": []
+        },
+        {
+          "nome": "MarketRAGMetrics",
+          "linha": 66,
+          "metodos": [
+            {
+              "nome": "to_scores_10",
+              "linha": 77,
+              "publica": true,
+              "docstring": "Retorna todas as 7 métricas convertidas para nota de 0.0 a 10.0."
+            }
+          ]
+        }
+      ],
+      "importa": [
+        "iris.config",
+        "iris.core.llm_client",
+        "iris.rag.bridge"
+      ],
+      "importado_por": [
+        "iris.eval",
+        "iris.eval.precisao_contexto",
+        "iris.main"
+      ],
+      "testado_por": [
+        "backend/tests/test_llm_and_rag_metrics.py",
+        "backend/tests/test_playground_api.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.readability",
+      "caminho": "backend/src/iris/eval/readability.py",
+      "pasta": "eval",
+      "linhas": 283,
+      "funcoes": [
+        {
+          "nome": "split_sentences",
+          "linha": 43,
+          "publica": true,
+          "docstring": "Divide em sentenças por pontuação final ou quebra de linha."
+        },
+        {
+          "nome": "split_words",
+          "linha": 49,
+          "publica": true,
+          "docstring": "Extrai palavras (ignora números e pontuação)."
+        },
+        {
+          "nome": "count_syllables",
+          "linha": 55,
+          "publica": true,
+          "docstring": "Conta sílabas via hifenização pt_BR (aproximação; mínimo 1)."
+        },
+        {
+          "nome": "flesch_ptbr",
+          "linha": 77,
+          "publica": true,
+          "docstring": "Índice Flesch PT-BR. Retorna None se o texto não tiver palavras."
+        },
+        {
+          "nome": "flesch_band",
+          "linha": 89,
+          "publica": true,
+          "docstring": "Faixa de dificuldade (escala de Martins et al.)."
+        },
+        {
+          "nome": "_strip_accents",
+          "linha": 130,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "find_commands",
+          "linha": 136,
+          "publica": true,
+          "docstring": "Lista, em ordem, os verbos de comando encontrados no texto."
+        },
+        {
+          "nome": "count_conjugated_commands",
+          "linha": 146,
+          "publica": true,
+          "docstring": "Quantidade de comandos em uma mesma sentença com 2+ comandos."
+        },
+        {
+          "nome": "analyze_question",
+          "linha": 179,
+          "publica": true,
+          "docstring": "Analisa uma questão individual calculando métricas de legibilidade e comandos."
+        },
+        {
+          "nome": "load_questions",
+          "linha": 199,
+          "publica": true,
+          "docstring": "Carrega questões do Golden Benchmark a partir do JSON."
+        },
+        {
+          "nome": "analyze_benchmark",
+          "linha": 222,
+          "publica": true,
+          "docstring": "Retorna DataFrame com uma linha por questão (metadados + métricas)."
+        },
+        {
+          "nome": "summarize",
+          "linha": 238,
+          "publica": true,
+          "docstring": "Baseline agregado: distribuição do Flesch e da densidade de comandos."
+        },
+        {
+          "nome": "main",
+          "linha": 273,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [
+        {
+          "nome": "QuestionStats",
+          "linha": 167,
+          "metodos": []
+        }
+      ],
+      "importa": [
+        "iris.config"
+      ],
+      "importado_por": [
+        "iris.eval",
+        "iris.eval.corpus_eda",
+        "iris.eval.escopo",
+        "iris.eval.metrics",
+        "iris.eval.relatorio"
+      ],
+      "testado_por": [
+        "backend/tests/test_acceptance.py",
+        "backend/tests/test_readability.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.relatorio",
+      "caminho": "backend/src/iris/eval/relatorio.py",
+      "pasta": "eval",
+      "linhas": 256,
+      "funcoes": [
+        {
+          "nome": "_media",
+          "linha": 37,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "metricas_sistema",
+          "linha": 42,
+          "publica": true,
+          "docstring": "Métricas de um sistema sobre as questões que têm saída válida."
+        },
+        {
+          "nome": "_pct",
+          "linha": 79,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "comparar_pareado",
+          "linha": 84,
+          "publica": true,
+          "docstring": "Wilcoxon pareado do TRCC por questão (alvo vs referência) nas questões comuns."
+        },
+        {
+          "nome": "_status",
+          "linha": 106,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "avaliar_criterios",
+          "linha": 114,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "veredito",
+          "linha": 158,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "gerar_relatorio",
+          "linha": 167,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_fmt",
+          "linha": 198,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "para_markdown",
+          "linha": 202,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "main",
+          "linha": 235,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.eval.benchmark",
+        "iris.eval.executar",
+        "iris.eval.faithfulness",
+        "iris.eval.readability",
+        "iris.eval.trcc"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_aceitacao_benchmark.py",
+        "backend/tests/test_benchmark_pipeline.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.eval.trcc",
+      "caminho": "backend/src/iris/eval/trcc.py",
+      "pasta": "eval",
+      "linhas": 132,
+      "funcoes": [
+        {
+          "nome": "normalizar",
+          "linha": 30,
+          "publica": true,
+          "docstring": "Minúsculas, sem acentos, traços unificados e sem espaços ao redor de operadores."
+        },
+        {
+          "nome": "parse_trava",
+          "linha": 44,
+          "publica": true,
+          "docstring": "Converte a trava em conceitos."
+        },
+        {
+          "nome": "_presente",
+          "linha": 62,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "avaliar_trcc",
+          "linha": 84,
+          "publica": true,
+          "docstring": "TRCC de um texto adaptado contra a trava curricular, com os conceitos que faltaram."
+        },
+        {
+          "nome": "avaliar_benchmark",
+          "linha": 98,
+          "publica": true,
+          "docstring": "Avalia todas as questões. Falta de texto adaptado é erro, não zero silencioso."
+        },
+        {
+          "nome": "agregar",
+          "linha": 108,
+          "publica": true,
+          "docstring": "Resumo do benchmark nas duas leituras possíveis do critério de 95%."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "Conceito",
+          "linha": 39,
+          "metodos": []
+        },
+        {
+          "nome": "ResultadoTRCC",
+          "linha": 70,
+          "metodos": [
+            {
+              "nome": "n_encontrados",
+              "linha": 77,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "aprovado",
+              "linha": 80,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        }
+      ],
+      "importa": [],
+      "importado_por": [
+        "iris.agents.curriculum_extractor",
+        "iris.eval.escopo",
+        "iris.eval.isolamento_escopo",
+        "iris.eval.metrics",
+        "iris.eval.relatorio",
+        "iris.schemas.benchmark"
+      ],
+      "testado_por": [
+        "backend/tests/test_adapter_agent.py",
+        "backend/tests/test_trcc.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.main",
+      "caminho": "backend/src/iris/main.py",
+      "pasta": "raiz",
+      "linhas": 698,
+      "funcoes": [
+        {
+          "nome": "_load_playground_html",
+          "linha": 34,
+          "publica": false,
+          "docstring": "Lê o template estático do Playground RAG servido na rota raiz `/`."
+        },
+        {
+          "nome": "_is_pgvector_online",
+          "linha": 39,
+          "publica": false,
+          "docstring": "Verifica rapidamente via TCP se o PostgreSQL/pgvector está acessível sem bloquear o healthcheck."
+        },
+        {
+          "nome": "_count_local_chunks",
+          "linha": 51,
+          "publica": false,
+          "docstring": "Conta os trechos atualmente indexados em `chunks.jsonl` sem carregar todo o índice BM25."
+        },
+        {
+          "nome": "_resolve_active_model",
+          "linha": 63,
+          "publica": false,
+          "docstring": "Resolve o modelo efetivamente disponível no provedor ativo (ex.: `llama3:latest`)."
+        },
+        {
+          "nome": "get_health_status",
+          "linha": 77,
+          "publica": true,
+          "docstring": "Retorna o status operacional e guardrails arquiteturais do serviço."
+        },
+        {
+          "nome": "_handle_catalog",
+          "linha": 114,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_handle_rag_build",
+          "linha": 121,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_handle_rag_search",
+          "linha": 134,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_handle_rag_answer",
+          "linha": 188,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_handle_eval_metrics",
+          "linha": 294,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_handle_extractor_analytics",
+          "linha": 330,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "create_app",
+          "linha": 354,
+          "publica": true,
+          "docstring": "Cria e configura a aplicação FastAPI stateless (com rotas de API, Materiais e Frontend Web)."
+        },
+        {
+          "nome": "run_stdlib_server",
+          "linha": 456,
+          "publica": true,
+          "docstring": "Servidor HTTP nativo de fallback caso `uvicorn`/`fastapi` não estejam ativos no Python atual."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris",
+        "iris.api.routes.catalogs",
+        "iris.api.routes.materials",
+        "iris.config",
+        "iris.core.llm_client",
+        "iris.eval.extractor_analytics",
+        "iris.eval.rag_metrics",
+        "iris.parsers.document_extractor",
+        "iris.rag.bridge",
+        "iris.schemas.catalog",
+        "iris.schemas.materials"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/api/test_catalogs_characteristics.py",
+        "backend/tests/test_api_routes.py",
+        "backend/tests/test_curriculum_extractor.py",
+        "backend/tests/test_foundation_bridge.py",
+        "backend/tests/test_playground_api.py",
+        "backend/tests/test_stdlib_server.py"
+      ],
+      "usa_llm": true,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.parsers",
+      "caminho": "backend/src/iris/parsers/__init__.py",
+      "pasta": "parsers",
+      "linhas": 28,
+      "funcoes": [],
+      "classes": [],
+      "importa": [
+        "iris.parsers.document_extractor",
+        "iris.parsers.prose_organizer",
+        "iris.parsers.structural_decomposer"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_foundation_bridge.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.parsers.document_extractor",
+      "caminho": "backend/src/iris/parsers/document_extractor.py",
+      "pasta": "parsers",
+      "linhas": 220,
+      "funcoes": [
+        {
+          "nome": "normalize_extracted_text",
+          "linha": 36,
+          "publica": true,
+          "docstring": "Normaliza o texto extraído, padronizando quebras de linha e espaçamentos redundantes."
+        },
+        {
+          "nome": "extract_text_from_txt",
+          "linha": 59,
+          "publica": true,
+          "docstring": "Extrai texto de arquivo .txt em memória garantindo decodificação correta."
+        },
+        {
+          "nome": "extract_text_from_pdf",
+          "linha": 86,
+          "publica": true,
+          "docstring": "Extrai texto de arquivo .pdf a partir de fluxo de bytes em memória utilizando PyMuPDF."
+        },
+        {
+          "nome": "extract_text_from_docx",
+          "linha": 133,
+          "publica": true,
+          "docstring": "Extrai texto de arquivo .docx em memória utilizando python-docx."
+        },
+        {
+          "nome": "extract_text_from_file",
+          "linha": 189,
+          "publica": true,
+          "docstring": "Despachante central para extração de texto conforme a extensão do arquivo."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "DocumentParsingError",
+          "linha": 18,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 21,
+              "publica": false,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "UnsupportedFileFormatError",
+          "linha": 27,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 30,
+              "publica": false,
+              "docstring": ""
+            }
+          ]
+        }
+      ],
+      "importa": [],
+      "importado_por": [
+        "iris.api.routes.materials",
+        "iris.main",
+        "iris.parsers"
+      ],
+      "testado_por": [
+        "backend/tests/test_limites_e_sinalizadores.py",
+        "backend/tests/test_materials.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.parsers.prose_organizer",
+      "caminho": "backend/src/iris/parsers/prose_organizer.py",
+      "pasta": "parsers",
+      "linhas": 575,
+      "funcoes": [
+        {
+          "nome": "_looks_like_sentence",
+          "linha": 94,
+          "publica": false,
+          "docstring": "Indica se o trecho tem forma de frase corrida, e não de título de seção."
+        },
+        {
+          "nome": "_clean_text",
+          "linha": 99,
+          "publica": false,
+          "docstring": "Remove espaços em branco supérfluos nas extremidades mantendo o conteúdo integral."
+        },
+        {
+          "nome": "_is_question_line",
+          "linha": 104,
+          "publica": false,
+          "docstring": "Verifica se a linha é o comando de uma questão de avaliação para evitar falso-positivo com títulos."
+        },
+        {
+          "nome": "_ordered_marker",
+          "linha": 118,
+          "publica": false,
+          "docstring": "Devolve o marcador de um item de lista ordenada (\"3\", \"b\"), ou None se a linha não for item."
+        },
+        {
+          "nome": "_is_next_marker",
+          "linha": 124,
+          "publica": false,
+          "docstring": "Indica se `current` é o marcador seguinte a `previous` (2 depois de 1, b depois de a)."
+        },
+        {
+          "nome": "_nearest_filled_line",
+          "linha": 135,
+          "publica": false,
+          "docstring": "Devolve a linha não vazia mais próxima de `idx` na direção `step`, saltando linhas em branco."
+        },
+        {
+          "nome": "_continues_after_blank",
+          "linha": 145,
+          "publica": false,
+          "docstring": "Indica se o item seguinte, separado por linha em branco, continua a numeração deste."
+        },
+        {
+          "nome": "_follows_after_blank",
+          "linha": 153,
+          "publica": false,
+          "docstring": "Indica se este item continua a numeração do item anterior, separado por linha em branco."
+        },
+        {
+          "nome": "_detect_heading",
+          "linha": 161,
+          "publica": false,
+          "docstring": "Analisa uma linha e retorna (element_type, level, clean_title, metadata) se for título/seção."
+        },
+        {
+          "nome": "_absorb_item_continuation",
+          "linha": 251,
+          "publica": false,
+          "docstring": "Anexa ao item de lista as linhas seguintes que o continuam com recuo maior."
+        },
+        {
+          "nome": "organize_prose_structure",
+          "linha": 270,
+          "publica": true,
+          "docstring": "Segmenta e organiza deterministicamente um texto corrido em árvore hierárquica."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.schemas.materials"
+      ],
+      "importado_por": [
+        "iris.api.routes.materials",
+        "iris.parsers",
+        "iris.parsers.structural_decomposer"
+      ],
+      "testado_por": [
+        "backend/tests/test_prose_organizer.py",
+        "backend/tests/test_revisao_pr55.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.parsers.structural_decomposer",
+      "caminho": "backend/src/iris/parsers/structural_decomposer.py",
+      "pasta": "parsers",
+      "linhas": 518,
+      "funcoes": [
+        {
+          "nome": "_is_fill_in_the_blank",
+          "linha": 112,
+          "publica": false,
+          "docstring": "Distingue enunciado com lacuna (\"O Brasil foi descoberto em ____.\") de rótulo com linha (\"Nome: ____\")."
+        },
+        {
+          "nome": "_extract_target_questions",
+          "linha": 120,
+          "publica": false,
+          "docstring": "Extrai os números das questões vinculadas a uma diretiva de texto de apoio."
+        },
+        {
+          "nome": "_parse_question_body",
+          "linha": 144,
+          "publica": false,
+          "docstring": "Decompõe o corpo de uma questão em enunciado, alternativas e linhas de resposta."
+        },
+        {
+          "nome": "_parse_context_block",
+          "linha": 258,
+          "publica": false,
+          "docstring": "Decompõe um bloco de texto de apoio em título, diretiva e conteúdo."
+        },
+        {
+          "nome": "decompose_material",
+          "linha": 317,
+          "publica": true,
+          "docstring": "Segmenta deterministicamente o material pedagógico bruto em componentes estruturados."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.parsers.prose_organizer",
+        "iris.schemas.materials"
+      ],
+      "importado_por": [
+        "iris.api.routes.materials",
+        "iris.parsers"
+      ],
+      "testado_por": [
+        "backend/tests/test_preservacao_conteudo.py",
+        "backend/tests/test_prose_organizer.py",
+        "backend/tests/test_revisao_pr54.py",
+        "backend/tests/test_structural_decomposer.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.rag",
+      "caminho": "backend/src/iris/rag/__init__.py",
+      "pasta": "rag",
+      "linhas": 32,
+      "funcoes": [],
+      "classes": [],
+      "importa": [
+        "iris.rag.bridge",
+        "iris.rag.contexto"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_catalog_schema.py",
+        "backend/tests/test_contexto_estrategista.py",
+        "backend/tests/test_filtro_caracteristica.py",
+        "backend/tests/test_foundation_bridge.py",
+        "backend/tests/test_precisao_contexto_ragas.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.rag.bridge",
+      "caminho": "backend/src/iris/rag/bridge.py",
+      "pasta": "rag",
+      "linhas": 327,
+      "funcoes": [
+        {
+          "nome": "_ensure_rag_path",
+          "linha": 18,
+          "publica": false,
+          "docstring": "Registra `rag/iris-rag/pacote` no `sys.path` se ainda não estiver presente."
+        },
+        {
+          "nome": "carregar_modulos_rag",
+          "linha": 25,
+          "publica": true,
+          "docstring": "Importa e retorna os módulos `(ingestao, consultar, gerar)` do pacote RAG."
+        },
+        {
+          "nome": "garantir_chunks_locais",
+          "linha": 35,
+          "publica": true,
+          "docstring": "Garante que `chunks.jsonl` exista localmente, gerando-o se ausente."
+        },
+        {
+          "nome": "obter_trechos_base",
+          "linha": 44,
+          "publica": true,
+          "docstring": "Retorna a lista de todos os trechos (`chunks.jsonl`) carregados na base."
+        },
+        {
+          "nome": "listar_barreiras_rag",
+          "linha": 50,
+          "publica": true,
+          "docstring": "Lista todas as tags de barreiras funcionais indexadas nos trechos do RAG."
+        },
+        {
+          "nome": "carregar_catalogo_fontes",
+          "linha": 61,
+          "publica": true,
+          "docstring": "Lê o catálogo científico `rag/iris-rag/fontes.json`."
+        },
+        {
+          "nome": "documentos_nao_distribuidos",
+          "linha": 71,
+          "publica": true,
+          "docstring": "Identificadores dos documentos cujo texto não é redistribuído (`textos_nao_distribuidos.txt`)."
+        },
+        {
+          "nome": "_trecho_de_licenca_restrita",
+          "linha": 90,
+          "publica": false,
+          "docstring": "Restrito se o documento está na lista de não distribuídos ou se o texto é o aviso que o substitui."
+        },
+        {
+          "nome": "formatar_pagina_trecho",
+          "linha": 101,
+          "publica": true,
+          "docstring": "Formata intervalo de páginas (`'7'` ou `'7-8'`) a partir dos metadados do chunk."
+        },
+        {
+          "nome": "normalizar_trecho_ui",
+          "linha": 112,
+          "publica": true,
+          "docstring": "Padroniza um trecho recuperado/registrado com todos os metadados para leitura na UI."
+        },
+        {
+          "nome": "_enriquecer_trechos_busca",
+          "linha": 169,
+          "publica": false,
+          "docstring": "Complementa os resultados de `consultar.buscar` com metadados extras de `chunks.jsonl`."
+        },
+        {
+          "nome": "buscar_evidencias_com_meta",
+          "linha": 188,
+          "publica": true,
+          "docstring": "Executa a recuperação no RAG informando método solicitado, método efetivo e eventual fallback."
+        },
+        {
+          "nome": "buscar_evidencias",
+          "linha": 234,
+          "publica": true,
+          "docstring": "Executa a recuperação de trechos científicos no RAG de forma resiliente."
+        },
+        {
+          "nome": "responder_fundamentado",
+          "linha": 260,
+          "publica": true,
+          "docstring": "Gera uma resposta fundamentada com citações `[T1]..[Tk]` via módulo `gerar.py`."
+        },
+        {
+          "nome": "buscar_por_caracteristica_atomica",
+          "linha": 277,
+          "publica": true,
+          "docstring": "Conecta o Catálogo Modular (#39) à busca determinística do RAG (#16)."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "iris.config",
+        "iris.schemas.catalog",
+        "rag_pacote.consultar",
+        "rag_pacote.gerar",
+        "rag_pacote.ingestao"
+      ],
+      "importado_por": [
+        "iris.eval.precisao_contexto",
+        "iris.eval.rag_metrics",
+        "iris.main",
+        "iris.rag"
+      ],
+      "testado_por": [
+        "backend/tests/test_catalog_schema.py",
+        "backend/tests/test_contexto_estrategista.py",
+        "backend/tests/test_filtro_caracteristica.py",
+        "backend/tests/test_foundation_bridge.py",
+        "backend/tests/test_playground_api.py",
+        "backend/tests/test_precisao_contexto_ragas.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.rag.contexto",
+      "caminho": "backend/src/iris/rag/contexto.py",
+      "pasta": "rag",
+      "linhas": 124,
+      "funcoes": [
+        {
+          "nome": "_referencia",
+          "linha": 34,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "montar_contexto_estrategista",
+          "linha": 39,
+          "publica": true,
+          "docstring": "Monta o contexto do prompt a partir das buscas por característica."
+        },
+        {
+          "nome": "conferir_citacoes",
+          "linha": 110,
+          "publica": true,
+          "docstring": "Conferência mecânica da diretiva: citações que não existem e frases sem citação."
+        }
+      ],
+      "classes": [],
+      "importa": [],
+      "importado_por": [
+        "iris.rag"
+      ],
+      "testado_por": [
+        "backend/tests/test_contexto_estrategista.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.schemas",
+      "caminho": "backend/src/iris/schemas/__init__.py",
+      "pasta": "schemas",
+      "linhas": 84,
+      "funcoes": [],
+      "classes": [],
+      "importa": [
+        "iris.schemas.adaptation",
+        "iris.schemas.catalog",
+        "iris.schemas.curriculum",
+        "iris.schemas.materials"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_foundation_bridge.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.schemas.adaptation",
+      "caminho": "backend/src/iris/schemas/adaptation.py",
+      "pasta": "schemas",
+      "linhas": 82,
+      "funcoes": [],
+      "classes": [
+        {
+          "nome": "AdaptationRequest",
+          "linha": 14,
+          "metodos": []
+        },
+        {
+          "nome": "ScopeReport",
+          "linha": 31,
+          "metodos": []
+        },
+        {
+          "nome": "AdaptationTelemetry",
+          "linha": 46,
+          "metodos": []
+        },
+        {
+          "nome": "AdaptationResult",
+          "linha": 74,
+          "metodos": []
+        }
+      ],
+      "importa": [
+        "iris.schemas.curriculum"
+      ],
+      "importado_por": [
+        "iris.agents.adapter_agent",
+        "iris.eval.adaptador_com_modelo",
+        "iris.eval.escopo",
+        "iris.eval.isolamento_escopo",
+        "iris.schemas"
+      ],
+      "testado_por": [
+        "backend/tests/test_adapter_agent.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.schemas.benchmark",
+      "caminho": "backend/src/iris/schemas/benchmark.py",
+      "pasta": "schemas",
+      "linhas": 175,
+      "funcoes": [
+        {
+          "nome": "ids_caracteristicas",
+          "linha": 109,
+          "publica": true,
+          "docstring": "Ids de todas as características dos catálogos (rag/catalogs/*.json, inclusive TEA/Dislexia futuros)."
+        },
+        {
+          "nome": "validar_conjunto",
+          "linha": 119,
+          "publica": true,
+          "docstring": "Problemas do conjunto (lista vazia = ok): tamanho, ids, fonte pública, catálogo."
+        },
+        {
+          "nome": "carregar_questoes_escolares",
+          "linha": 143,
+          "publica": true,
+          "docstring": "Carrega e valida cada item. Erros de item dizem qual questão falhou."
+        },
+        {
+          "nome": "main",
+          "linha": 159,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [
+        {
+          "nome": "Alternativa",
+          "linha": 33,
+          "metodos": []
+        },
+        {
+          "nome": "FonteQuestao",
+          "linha": 40,
+          "metodos": []
+        },
+        {
+          "nome": "BenchmarkQuestionItem",
+          "linha": 50,
+          "metodos": [
+            {
+              "nome": "_sem_conceito_vazio",
+              "linha": 75,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_alternativas_validas",
+              "linha": 85,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_trava_esta_no_material_original",
+              "linha": 94,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "texto_completo",
+              "linha": 103,
+              "publica": true,
+              "docstring": "Enunciado com as alternativas: é o que o aluno de fato lê e o que o sistema adapta."
+            }
+          ]
+        }
+      ],
+      "importa": [
+        "iris.eval.trcc"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_schema_benchmark.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.schemas.catalog",
+      "caminho": "backend/src/iris/schemas/catalog.py",
+      "pasta": "schemas",
+      "linhas": 557,
+      "funcoes": [
+        {
+          "nome": "_check_extra_fields",
+          "linha": 50,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_check_non_empty_str",
+          "linha": 58,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_check_str_list",
+          "linha": 66,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "load_catalog_file",
+          "linha": 379,
+          "publica": true,
+          "docstring": "Carrega e valida estritamente um arquivo de catálogo `.json`."
+        },
+        {
+          "nome": "load_all_catalogs",
+          "linha": 386,
+          "publica": true,
+          "docstring": "Descobre e valida todos os catálogos `.json` no diretório `rag/catalogs/`."
+        },
+        {
+          "nome": "load_official_tdah_catalog",
+          "linha": 400,
+          "publica": true,
+          "docstring": "Carrega o catálogo oficial de características funcionais atômicas do TDAH."
+        },
+        {
+          "nome": "get_characteristic_by_id",
+          "linha": 411,
+          "publica": true,
+          "docstring": "Busca uma característica atômica pelo seu identificador em todos os catálogos carregados."
+        },
+        {
+          "nome": "validate_surgical_characteristic_selection",
+          "linha": 477,
+          "publica": true,
+          "docstring": "Valida e constrói o vetor cirúrgico de características funcionais (RF-04 / Issue #8)."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "CatalogValidationError",
+          "linha": 46,
+          "metodos": []
+        },
+        {
+          "nome": "BibliographicReference",
+          "linha": 77,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 82,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "from_dict",
+              "linha": 95,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "to_dict",
+              "linha": 112,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "ScaffoldingLevelGuideline",
+          "linha": 121,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 126,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "from_dict",
+              "linha": 141,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "to_dict",
+              "linha": 162,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "CharacteristicItem",
+          "linha": 172,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 187,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "from_dict",
+              "linha": 210,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "to_dict",
+              "linha": 275,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "CharacteristicCatalog",
+          "linha": 289,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 302,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "from_dict",
+              "linha": 322,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "get_characteristic",
+              "linha": 360,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "to_dict",
+              "linha": 367,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "CharacteristicSelectionError",
+          "linha": 421,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 424,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "to_dict",
+              "linha": 430,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "SurgicalCharacteristicSelection",
+          "linha": 434,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 437,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "model_dump",
+              "linha": 459,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 473,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        }
+      ],
+      "importa": [
+        "iris.config"
+      ],
+      "importado_por": [
+        "iris.agents.adapter_agent",
+        "iris.api.routes.catalogs",
+        "iris.main",
+        "iris.rag.bridge",
+        "iris.schemas"
+      ],
+      "testado_por": [
+        "backend/tests/api/test_catalogs_characteristics.py",
+        "backend/tests/test_catalog_schema.py",
+        "backend/tests/test_filtro_caracteristica.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.schemas.curriculum",
+      "caminho": "backend/src/iris/schemas/curriculum.py",
+      "pasta": "schemas",
+      "linhas": 160,
+      "funcoes": [
+        {
+          "nome": "classificar_faixa_etaria",
+          "linha": 114,
+          "publica": true,
+          "docstring": "Mapeia o ano escolar informado para uma faixa etária/etapa pedagógica padronizada."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "CurriculumInvariants",
+          "linha": 23,
+          "metodos": [
+            {
+              "nome": "_sanitizar_conceitos",
+              "linha": 64,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_sanitizar_termos",
+              "linha": 87,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_normalizar_verbo",
+              "linha": 95,
+              "publica": false,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "ExtractionRequest",
+          "linha": 104,
+          "metodos": []
+        },
+        {
+          "nome": "ExtractionTelemetry",
+          "linha": 130,
+          "metodos": []
+        },
+        {
+          "nome": "ExtractionResult",
+          "linha": 156,
+          "metodos": []
+        }
+      ],
+      "importa": [],
+      "importado_por": [
+        "iris.agents.adapter_agent",
+        "iris.agents.curriculum_extractor",
+        "iris.eval.adaptador_com_modelo",
+        "iris.eval.extractor_analytics",
+        "iris.eval.isolamento_escopo",
+        "iris.schemas",
+        "iris.schemas.adaptation"
+      ],
+      "testado_por": [
+        "backend/tests/test_adapter_agent.py",
+        "backend/tests/test_curriculum_extractor.py",
+        "backend/tests/test_extrator_salvaguarda.py",
+        "backend/tests/test_revisao_pr57.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.schemas.materials",
+      "caminho": "backend/src/iris/schemas/materials.py",
+      "pasta": "schemas",
+      "linhas": 430,
+      "funcoes": [
+        {
+          "nome": "validate_file_size_limit",
+          "linha": 43,
+          "publica": true,
+          "docstring": "Valida se o tamanho binário do arquivo respeita o limite técnico de processamento em memória."
+        },
+        {
+          "nome": "validate_material_content",
+          "linha": 59,
+          "publica": true,
+          "docstring": "Valida se o texto atende às restrições da História 1.1.1."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "MaterialSourceType",
+          "linha": 21,
+          "metodos": []
+        },
+        {
+          "nome": "MaterialValidationError",
+          "linha": 30,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 33,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "to_dict",
+              "linha": 39,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "MaterialMetadata",
+          "linha": 111,
+          "metodos": [
+            {
+              "nome": "__post_init__",
+              "linha": 122,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "model_dump",
+              "linha": 126,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 129,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "MaterialResponse",
+          "linha": 135,
+          "metodos": [
+            {
+              "nome": "model_dump",
+              "linha": 143,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 151,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "AlternativeItem",
+          "linha": 161,
+          "metodos": [
+            {
+              "nome": "model_dump",
+              "linha": 167,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 170,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "QuestionItem",
+          "linha": 175,
+          "metodos": [
+            {
+              "nome": "__post_init__",
+              "linha": 187,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "model_dump",
+              "linha": 193,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 205,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "ContextBlock",
+          "linha": 210,
+          "metodos": [
+            {
+              "nome": "__post_init__",
+              "linha": 219,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "model_dump",
+              "linha": 223,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 232,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "StructuralNode",
+          "linha": 242,
+          "metodos": [
+            {
+              "nome": "__post_init__",
+              "linha": 258,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "get_descendants",
+              "linha": 264,
+              "publica": true,
+              "docstring": "Retorna todos os nós descendentes em ordem pré-fixada."
+            },
+            {
+              "nome": "get_paragraphs",
+              "linha": 272,
+              "publica": true,
+              "docstring": "Retorna todos os parágrafos contidos dentro deste nó ou de seus filhos."
+            },
+            {
+              "nome": "get_lists",
+              "linha": 276,
+              "publica": true,
+              "docstring": "Retorna todas as listas contidas dentro deste nó ou de seus filhos."
+            },
+            {
+              "nome": "model_dump",
+              "linha": 280,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 292,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "ProseStructure",
+          "linha": 297,
+          "metodos": [
+            {
+              "nome": "flatten",
+              "linha": 308,
+              "publica": true,
+              "docstring": "Retorna todos os nós em ordem linear original de ocorrência."
+            },
+            {
+              "nome": "get_sections",
+              "linha": 317,
+              "publica": true,
+              "docstring": "Retorna todos os nós do tipo 'section', 'subsection', 'title' ou 'subtitle'."
+            },
+            {
+              "nome": "get_paragraphs",
+              "linha": 321,
+              "publica": true,
+              "docstring": "Retorna todos os parágrafos em sequência para análise e intervenção pedagógica."
+            },
+            {
+              "nome": "get_lists",
+              "linha": 325,
+              "publica": true,
+              "docstring": "Retorna todas as listas estruturadas."
+            },
+            {
+              "nome": "find_by_id",
+              "linha": 329,
+              "publica": true,
+              "docstring": "Busca um nó específico por ID."
+            },
+            {
+              "nome": "get_outline",
+              "linha": 336,
+              "publica": true,
+              "docstring": "Retorna um sumário simplificado (outline) para organizadores cognitivos (DUA)."
+            },
+            {
+              "nome": "model_dump",
+              "linha": 349,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 357,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "MaterialStructure",
+          "linha": 362,
+          "metodos": [
+            {
+              "nome": "model_dump",
+              "linha": 374,
+              "publica": true,
+              "docstring": ""
+            },
+            {
+              "nome": "dict",
+              "linha": 390,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        }
+      ],
+      "importa": [],
+      "importado_por": [
+        "iris.api.routes.materials",
+        "iris.main",
+        "iris.parsers.prose_organizer",
+        "iris.parsers.structural_decomposer",
+        "iris.schemas"
+      ],
+      "testado_por": [
+        "backend/tests/test_api_routes.py",
+        "backend/tests/test_limites_e_sinalizadores.py",
+        "backend/tests/test_materials.py",
+        "backend/tests/test_preservacao_conteudo.py",
+        "backend/tests/test_prose_organizer.py",
+        "backend/tests/test_revisao_pr54.py",
+        "backend/tests/test_revisao_pr55.py",
+        "backend/tests/test_structural_decomposer.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.schemas.profile",
+      "caminho": "backend/src/iris/schemas/profile.py",
+      "pasta": "schemas",
+      "linhas": 296,
+      "funcoes": [
+        {
+          "nome": "_norm",
+          "linha": 55,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_campo_seguro",
+          "linha": 138,
+          "publica": false,
+          "docstring": "Caminho do campo sem nomes não declarados no schema (que podem conter o dado clínico, ex.: \"laudo_tdah\")."
+        },
+        {
+          "nome": "detectar_conteudo_clinico",
+          "linha": 149,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "varrer",
+          "linha": 178,
+          "publica": true,
+          "docstring": "Percorre dicts/listas/strings; examina chaves e valores."
+        },
+        {
+          "nome": "_traduzir",
+          "linha": 268,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "validar_perfil",
+          "linha": 284,
+          "publica": true,
+          "docstring": "Valida o perfil (JSON em texto ou dict), p.ex. na reimportação (RF-15). Levanta PerfilInvalidoError."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "ViolacaoClinica",
+          "linha": 121,
+          "metodos": [
+            {
+              "nome": "to_dict",
+              "linha": 126,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "ConteudoClinicoError",
+          "linha": 196,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 197,
+              "publica": false,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "_Base",
+          "linha": 208,
+          "metodos": [
+            {
+              "nome": "_bloquear_clinico",
+              "linha": 213,
+              "publica": false,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "BarreiraObservada",
+          "linha": 225,
+          "metodos": []
+        },
+        {
+          "nome": "RegistroEstrategia",
+          "linha": 230,
+          "metodos": []
+        },
+        {
+          "nome": "PerfilPedagogico",
+          "linha": 237,
+          "metodos": [
+            {
+              "nome": "_tamanho_das_anotacoes",
+              "linha": 245,
+              "publica": false,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "PerfilInvalidoError",
+          "linha": 258,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 259,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "to_dict",
+              "linha": 263,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        }
+      ],
+      "importa": [],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_perfil_clinico.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.security",
+      "caminho": "backend/src/iris/security/__init__.py",
+      "pasta": "security",
+      "linhas": 5,
+      "funcoes": [],
+      "classes": [],
+      "importa": [
+        "iris.security.pii_scrubber"
+      ],
+      "importado_por": [],
+      "testado_por": [
+        "backend/tests/test_foundation_bridge.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "iris.security.pii_scrubber",
+      "caminho": "backend/src/iris/security/pii_scrubber.py",
+      "pasta": "security",
+      "linhas": 137,
+      "funcoes": [
+        {
+          "nome": "sanitize_pii",
+          "linha": 54,
+          "publica": true,
+          "docstring": "Sanitiza preventivamente o texto de entrada, substituindo dados identificáveis por marcadores."
+        }
+      ],
+      "classes": [],
+      "importa": [],
+      "importado_por": [
+        "iris.api.routes.materials",
+        "iris.security"
+      ],
+      "testado_por": [
+        "backend/tests/test_materials.py"
+      ],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.avaliar",
+      "caminho": "rag/iris-rag/pacote/avaliar.py",
+      "pasta": "rag_pacote",
+      "linhas": 102,
+      "funcoes": [
+        {
+          "nome": "carregar_gabarito",
+          "linha": 27,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "metricas_pergunta",
+          "linha": 33,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "bootstrap",
+          "linha": 41,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "avaliar",
+          "linha": 48,
+          "publica": true,
+          "docstring": "buscar_ids(pergunta, metodo, k) -> lista de chunk_id. Por padrão usa consultar.ranking."
+        },
+        {
+          "nome": "relatorio",
+          "linha": 73,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.consultar"
+      ],
+      "importado_por": [
+        "rag_pacote.medir_hyde",
+        "rag_pacote.medir_qwen3_reranker",
+        "rag_pacote.medir_sem_abda",
+        "rag_pacote.medir_variacoes"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.avaliar_opus",
+      "caminho": "rag/iris-rag/pacote/avaliar_opus.py",
+      "pasta": "rag_pacote",
+      "linhas": 132,
+      "funcoes": [
+        {
+          "nome": "ndcg5",
+          "linha": 30,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "metricas",
+          "linha": 37,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "boot",
+          "linha": 45,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "boot_par",
+          "linha": 51,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "main",
+          "linha": 58,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.consultar"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.banco_pg",
+      "caminho": "rag/iris-rag/pacote/banco_pg.py",
+      "pasta": "rag_pacote",
+      "linhas": 170,
+      "funcoes": [
+        {
+          "nome": "conectar",
+          "linha": 28,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "criar_tabela",
+          "linha": 37,
+          "publica": true,
+          "docstring": "Cria a tabela se não existir. Os metadados viram colunas de verdade (com tipo):"
+        },
+        {
+          "nome": "gravar_trechos",
+          "linha": 60,
+          "publica": true,
+          "docstring": "Apaga e regrava os trechos (o chunk_id muda quando o chunking muda)."
+        },
+        {
+          "nome": "gravar_vetores",
+          "linha": 72,
+          "publica": true,
+          "docstring": "Calcula (ou lê do cache/) os vetores do modelo e grava na coluna vec_<apelido>."
+        },
+        {
+          "nome": "colunas_prontas",
+          "linha": 85,
+          "publica": true,
+          "docstring": "Modelos que têm vetor gravado em todos os trechos."
+        },
+        {
+          "nome": "buscar_denso",
+          "linha": 99,
+          "publica": true,
+          "docstring": "Os n trechos mais perto do vetor da pergunta. '<=>' é a distância cosseno do pgvector."
+        },
+        {
+          "nome": "todos_vetores",
+          "linha": 117,
+          "publica": true,
+          "docstring": "Todos os vetores gravados do modelo, em ordem de chunk_id: serve à conta exata do cosseno."
+        },
+        {
+          "nome": "tamanho_tabela",
+          "linha": 124,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "rodar",
+          "linha": 128,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "gravar_relatorio",
+          "linha": 151,
+          "publica": true,
+          "docstring": "Grava outputs/02-indexacao.txt com o que está no banco. Tempo e tamanho em disco ficam de fora:"
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.embeddings",
+        "rag_pacote.ingestao"
+      ],
+      "importado_por": [
+        "rag_pacote.consultar",
+        "rag_pacote.demonstrar_resposta",
+        "rag_pacote.medir_variacoes"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.consultar",
+      "caminho": "rag/iris-rag/pacote/consultar.py",
+      "pasta": "rag_pacote",
+      "linhas": 256,
+      "funcoes": [
+        {
+          "nome": "expandir_sinonimos",
+          "linha": 65,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_base",
+          "linha": 76,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_modelo",
+          "linha": 84,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_reranker",
+          "linha": 89,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "reranquear",
+          "linha": 94,
+          "publica": true,
+          "docstring": "Reordena chunk_ids pela nota do cross-encoder (lê o texto com o prefixo Documento | Seção)."
+        },
+        {
+          "nome": "_pg",
+          "linha": 104,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "modelos_prontos",
+          "linha": 109,
+          "publica": true,
+          "docstring": "Modelos densos com vetores gravados no banco."
+        },
+        {
+          "nome": "denso_do_hibrido",
+          "linha": 115,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_passa_filtro",
+          "linha": 121,
+          "publica": false,
+          "docstring": "filtro = {'barreira': 'memoria_trabalho'} e/ou {'parte': 'C'}."
+        },
+        {
+          "nome": "_ranking_bm25",
+          "linha": 133,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_ranking_denso",
+          "linha": 146,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "ranking",
+          "linha": 152,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "buscar",
+          "linha": 177,
+          "publica": true,
+          "docstring": "Os k trechos mais bem colocados, com tudo o que é preciso para citar a fonte."
+        },
+        {
+          "nome": "mostrar",
+          "linha": 197,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_tem_colecao",
+          "linha": 223,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "demonstracao",
+          "linha": 227,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.banco_pg",
+        "rag_pacote.embeddings",
+        "rag_pacote.ingestao"
+      ],
+      "importado_por": [
+        "iris.rag.bridge",
+        "rag_pacote.avaliar",
+        "rag_pacote.avaliar_opus",
+        "rag_pacote.demonstrar_resposta",
+        "rag_pacote.gerar",
+        "rag_pacote.medir_hyde",
+        "rag_pacote.medir_qwen3_reranker",
+        "rag_pacote.medir_respostas",
+        "rag_pacote.medir_sem_abda",
+        "rag_pacote.medir_variacoes"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.demonstrar_resposta",
+      "caminho": "rag/iris-rag/pacote/demonstrar_resposta.py",
+      "pasta": "rag_pacote",
+      "linhas": 343,
+      "funcoes": [
+        {
+          "nome": "ler",
+          "linha": 55,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "ligar_banco",
+          "linha": 60,
+          "publica": true,
+          "docstring": "Conecta a recuperação ao banco e retorna a identificação do banco. None = banco indisponível."
+        },
+        {
+          "nome": "fechados",
+          "linha": 82,
+          "publica": true,
+          "docstring": "Documentos sem licença aberta: os textos listados em ../textos_nao_distribuidos.txt."
+        },
+        {
+          "nome": "trecho",
+          "linha": 90,
+          "publica": true,
+          "docstring": "Trecho com os metadados de citação, nos mesmos campos retornados por consultar.buscar."
+        },
+        {
+          "nome": "inicio_do_trecho",
+          "linha": 100,
+          "publica": true,
+          "docstring": "Início do texto do trecho. Texto de documento sem licença aberta não é reproduzido."
+        },
+        {
+          "nome": "escolher",
+          "linha": 108,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "registrar_passagens",
+          "linha": 118,
+          "publica": true,
+          "docstring": "Grava respostas_passagens_v2.json a partir das saídas completas dos avaliadores (cache)."
+        },
+        {
+          "nome": "uma_consulta",
+          "linha": 161,
+          "publica": true,
+          "docstring": "Monta a demonstração de uma consulta. Retorna um dicionário, formatado por texto_da_consulta()."
+        },
+        {
+          "nome": "_passagem",
+          "linha": 190,
+          "publica": false,
+          "docstring": "Passagem verificada da frase n, conforme respostas_passagens_v2.json."
+        },
+        {
+          "nome": "texto_da_consulta",
+          "linha": 200,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "resumo",
+          "linha": 259,
+          "publica": true,
+          "docstring": "Uma linha por consulta: frases, classificação pelos avaliadores e verificação automática."
+        },
+        {
+          "nome": "demonstrar",
+          "linha": 293,
+          "publica": true,
+          "docstring": "Executa a demonstração e grava o texto em caminho, quando informado. Retorna os itens."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.banco_pg",
+        "rag_pacote.consultar",
+        "rag_pacote.gerar",
+        "rag_pacote.medir_respostas"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.embeddings",
+      "caminho": "rag/iris-rag/pacote/embeddings.py",
+      "pasta": "rag_pacote",
+      "linhas": 215,
+      "funcoes": [
+        {
+          "nome": "dispositivo",
+          "linha": 34,
+          "publica": true,
+          "docstring": "cuda (PC com RTX), mps (Mac M), ou cpu (VPS)."
+        },
+        {
+          "nome": "_sem_acento",
+          "linha": 53,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_singular",
+          "linha": 58,
+          "publica": false,
+          "docstring": "Regra de plural simples do português (sem dicionário):"
+        },
+        {
+          "nome": "palavras",
+          "linha": 73,
+          "publica": true,
+          "docstring": "Minúsculas, sem acento, só [a-z0-9], 3+ letras, sem palavra vazia, no singular."
+        },
+        {
+          "nome": "_assinatura",
+          "linha": 128,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "rrf",
+          "linha": 208,
+          "publica": true,
+          "docstring": "Reciprocal Rank Fusion: cada lista dá 1/(k + posição) a cada item; soma e ordena."
+        }
+      ],
+      "classes": [
+        {
+          "nome": "BuscaBM25",
+          "linha": 79,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 84,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_inicializar",
+              "linha": 90,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "notas",
+              "linha": 122,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "ModeloDenso",
+          "linha": 136,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 139,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "vetores_trechos",
+              "linha": 154,
+              "publica": true,
+              "docstring": "Vetor de cada trecho (normalizado). Usa cache/vetores-<apelido>-<assinatura>.npy."
+            },
+            {
+              "nome": "vetor_pergunta",
+              "linha": 202,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        }
+      ],
+      "importa": [],
+      "importado_por": [
+        "rag_pacote.banco_pg",
+        "rag_pacote.consultar",
+        "rag_pacote.medir_hyde",
+        "rag_pacote.medir_variacoes"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.gerar",
+      "caminho": "rag/iris-rag/pacote/gerar.py",
+      "pasta": "rag_pacote",
+      "linhas": 223,
+      "funcoes": [
+        {
+          "nome": "montar_prompt",
+          "linha": 50,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_chamar_groq",
+          "linha": 60,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_chamar_ollama",
+          "linha": 78,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_chamar_extractive",
+          "linha": 89,
+          "publica": false,
+          "docstring": "Fallback extrativo determinístico quando nem Ollama nem Groq estão ativos."
+        },
+        {
+          "nome": "gerar",
+          "linha": 127,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "conferir",
+          "linha": 140,
+          "publica": true,
+          "docstring": "Conferência mecânica (não mede se o conteúdo está certo; isso é o juiz/humano da semana 3)."
+        },
+        {
+          "nome": "responder",
+          "linha": 153,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "mostrar",
+          "linha": 183,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "demonstracao",
+          "linha": 204,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.consultar"
+      ],
+      "importado_por": [
+        "iris.rag.bridge",
+        "rag_pacote.demonstrar_resposta",
+        "rag_pacote.medir_respostas"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.ingestao",
+      "caminho": "rag/iris-rag/pacote/ingestao.py",
+      "pasta": "rag_pacote",
+      "linhas": 843,
+      "funcoes": [
+        {
+          "nome": "carregar_catalogo",
+          "linha": 81,
+          "publica": true,
+          "docstring": "Devolve (documentos que entram, documentos que ficam de fora com o motivo)."
+        },
+        {
+          "nome": "ler_texto",
+          "linha": 101,
+          "publica": true,
+          "docstring": "Lê o texto da etapa 1. PDF: lista de (página, texto) pelo marcador '=== p. N ==='."
+        },
+        {
+          "nome": "_chave_repeticao",
+          "linha": 128,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "limpar",
+          "linha": 132,
+          "publica": true,
+          "docstring": "Tira cabeçalho/rodapé repetido, número de página solto, junta palavra hifenizada"
+        },
+        {
+          "nome": "_eh_titulo",
+          "linha": 229,
+          "publica": false,
+          "docstring": "Linha curta em MAIÚSCULAS ou numerada ('4.3 INTERVENÇÕES...', '2 Atenção')."
+        },
+        {
+          "nome": "_eh_titulo_misto",
+          "linha": 251,
+          "publica": false,
+          "docstring": "Fallback para PDFs cujos títulos são em caixa mista ('Intervenções escolares'):"
+        },
+        {
+          "nome": "_parece_nome",
+          "linha": 268,
+          "publica": false,
+          "docstring": "'Tadeu Fernando Fernandes', 'ELZA DANIEL DE MELLO': todas as palavras com inicial maiúscula."
+        },
+        {
+          "nome": "_pagina_creditos",
+          "linha": 275,
+          "publica": false,
+          "docstring": "Página de expediente (lista de nomes) ou sumário (linhas com '.....')."
+        },
+        {
+          "nome": "_pagina_numerica",
+          "linha": 285,
+          "publica": false,
+          "docstring": "Curva de crescimento / tabela de registro: quase só números soltos."
+        },
+        {
+          "nome": "_pagina_formulario",
+          "linha": 295,
+          "publica": false,
+          "docstring": "Campos de registro em branco ('Data:___/___', 'Ass.:____'): só lacunas."
+        },
+        {
+          "nome": "_pagina_quadro",
+          "linha": 301,
+          "publica": false,
+          "docstring": "Quadro do Protocolo 2016: tem 'Quadro N' ou quase só linhas curtas (células)."
+        },
+        {
+          "nome": "_fim_de_paragrafo",
+          "linha": 312,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_secoes_pdf",
+          "linha": 316,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_secoes_markdown",
+          "linha": 432,
+          "publica": false,
+          "docstring": "HTML/markdown: seção por cabeçalho '#'; nas leis, uma seção por artigo ('Art.')."
+        },
+        {
+          "nome": "_dividir_bloco_grande",
+          "linha": 491,
+          "publica": false,
+          "docstring": "Parágrafo maior que o limite: corta por frase; se nem frase houver (tabela), por palavra."
+        },
+        {
+          "nome": "_empacotar",
+          "linha": 509,
+          "publica": false,
+          "docstring": "Junta parágrafos até ~MAX_PALAVRAS; o trecho seguinte começa repetindo o último"
+        },
+        {
+          "nome": "_eh_referencias",
+          "linha": 541,
+          "publica": false,
+          "docstring": "Trecho que é lista de referências (metade ou mais dos parágrafos parece citação)."
+        },
+        {
+          "nome": "_eh_tabela_de_dados",
+          "linha": 553,
+          "publica": false,
+          "docstring": "Tabela de estudos/risco de viés linearizada: muitas linhas de 1-2 palavras e muitos"
+        },
+        {
+          "nome": "_eh_lista_de_nomes",
+          "linha": 566,
+          "publica": false,
+          "docstring": "Créditos corridos: 'Ana Beatriz Silva, Bianca Eloi da Silva, ...' (>= 60% dos pedaços são nomes)."
+        },
+        {
+          "nome": "cortar",
+          "linha": 574,
+          "publica": true,
+          "docstring": "Chunking estrutural com fallback. Devolve (trechos sem metadados, descartes)."
+        },
+        {
+          "nome": "_ano",
+          "linha": 634,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "_avisos",
+          "linha": 639,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "gerar_metadados",
+          "linha": 643,
+          "publica": true,
+          "docstring": "Acrescenta a cada trecho os dados da fonte e o texto com prefixo de contexto."
+        },
+        {
+          "nome": "processar_documento",
+          "linha": 679,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_quantis",
+          "linha": 686,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "salvar_chunks",
+          "linha": 693,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "_placeholders_restritos",
+          "linha": 699,
+          "publica": false,
+          "docstring": "Gera entradas de metadados para trechos referenciados de documentos com licença restrita."
+        },
+        {
+          "nome": "carregar_chunks",
+          "linha": 745,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "rodar",
+          "linha": 753,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "escrever_relatorio",
+          "linha": 792,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [
+        {
+          "nome": "Bloco",
+          "linha": 206,
+          "metodos": [
+            {
+              "nome": "n",
+              "linha": 214,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "nome": "Secao",
+          "linha": 219,
+          "metodos": [
+            {
+              "nome": "n",
+              "linha": 225,
+              "publica": true,
+              "docstring": ""
+            }
+          ]
+        }
+      ],
+      "importa": [],
+      "importado_por": [
+        "iris.rag.bridge",
+        "rag_pacote.banco_pg",
+        "rag_pacote.consultar",
+        "rag_pacote.medir_qwen3_reranker",
+        "rag_pacote.medir_respostas",
+        "rag_pacote.medir_variacoes"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.medir_fidelidade_cruzada",
+      "caminho": "rag/iris-rag/pacote/medir_fidelidade_cruzada.py",
+      "pasta": "rag_pacote",
+      "linhas": 327,
+      "funcoes": [
+        {
+          "nome": "chamar_codex",
+          "linha": 51,
+          "publica": true,
+          "docstring": "Uma chamada isolada ao Codex: pasta vazia, sem escrita, sem sessão gravada. Devolve a última mensagem."
+        },
+        {
+          "nome": "julgar",
+          "linha": 73,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "binario",
+          "linha": 97,
+          "publica": true,
+          "docstring": "1 = o trecho citado sustenta a frase inteira; 0 = em parte, não sustenta ou prova rejeitada; None = não é conteúdo."
+        },
+        {
+          "nome": "tabela",
+          "linha": 102,
+          "publica": true,
+          "docstring": "Para cada pergunta respondida: o veredito conferido de cada juiz (A, B = Sonnet; X = Codex; O = Opus), por frase."
+        },
+        {
+          "nome": "fidelidade",
+          "linha": 133,
+          "publica": true,
+          "docstring": "Média, por resposta, de frases sustentadas / frases de conteúdo, para um juiz ou para o veredito final."
+        },
+        {
+          "nome": "pares",
+          "linha": 145,
+          "publica": true,
+          "docstring": "Os vereditos de dois juízes nas frases que os dois chamam de conteúdo."
+        },
+        {
+          "nome": "medir",
+          "linha": 151,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "figura",
+          "linha": 238,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "desempatar",
+          "linha": 290,
+          "publica": true,
+          "docstring": "O Opus julga, com o mesmo prompt, só as respostas que têm frase dividida. Só o veredito dessas frases é usado."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.medir_respostas"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.medir_hyde",
+      "caminho": "rag/iris-rag/pacote/medir_hyde.py",
+      "pasta": "rag_pacote",
+      "linhas": 723,
+      "funcoes": [
+        {
+          "nome": "ler",
+          "linha": 72,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "gravar",
+          "linha": 76,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "conjuntos",
+          "linha": 81,
+          "publica": true,
+          "docstring": "Cada item: id, pergunta (a que a pessoa digitou), tipo e o conjunto de trechos certos."
+        },
+        {
+          "nome": "juntar",
+          "linha": 119,
+          "publica": true,
+          "docstring": "Junta listas pela posição (RRF, k=60), olhando os 50 primeiros de cada uma."
+        },
+        {
+          "nome": "contar",
+          "linha": 126,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "curta_ok",
+          "linha": 171,
+          "publica": true,
+          "docstring": "A instrução pede uma linha só, de 3 a 6 palavras."
+        },
+        {
+          "nome": "linhas_reescrita",
+          "linha": 176,
+          "publica": true,
+          "docstring": "Uma reescrita por linha, sem numeração; linha que termina em dois-pontos é anúncio (\"Reescritas:\"), não reescrita."
+        },
+        {
+          "nome": "gerar",
+          "linha": 182,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "ranquear",
+          "linha": 245,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "posicoes",
+          "linha": 269,
+          "publica": true,
+          "docstring": "Para cada trecho certo do gabarito do Opus, a posição exata dele na lista da pergunta (P) e na da resposta"
+        },
+        {
+          "nome": "candidatos",
+          "linha": 302,
+          "publica": true,
+          "docstring": "P50: os 50 primeiros da pergunta. UNIAO: esses e os 50 primeiros da resposta imaginária, sem repetir."
+        },
+        {
+          "nome": "contar_leitor",
+          "linha": 308,
+          "publica": true,
+          "docstring": "O que dá para contar antes de prever: o teto dos candidatos e quanto do trecho o reranker deixa de ler."
+        },
+        {
+          "nome": "notas_leitor",
+          "linha": 353,
+          "publica": true,
+          "docstring": "A nota do reranker para cada candidato da união, com cada leitor. Guarda em cache/ e continua de onde parou."
+        },
+        {
+          "nome": "entregues",
+          "linha": 379,
+          "publica": true,
+          "docstring": "Os 10 primeiros de uma célula: os candidatos dela, na ordem da nota do leitor dela (empate fica na ordem de chegada)."
+        },
+        {
+          "nome": "medir_leitor",
+          "linha": 385,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "intervalo_dif",
+          "linha": 479,
+          "publica": true,
+          "docstring": "f(a) menos f(b), com intervalo de 95%: sorteia os trechos de cada grupo, com reposição, N_BOOT vezes."
+        },
+        {
+          "nome": "comprimento",
+          "linha": 487,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "medir",
+          "linha": 588,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [
+        {
+          "nome": "Busca",
+          "linha": 92,
+          "metodos": [
+            {
+              "nome": "__init__",
+              "linha": 95,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "_ordem",
+              "linha": 105,
+              "publica": false,
+              "docstring": ""
+            },
+            {
+              "nome": "por_pergunta",
+              "linha": 110,
+              "publica": true,
+              "docstring": "O texto entra como PERGUNTA: recebe a instrução 'query' do Qwen3."
+            },
+            {
+              "nome": "por_documento",
+              "linha": 114,
+              "publica": true,
+              "docstring": "O texto entra como DOCUMENTO, sem instrução: é assim que os trechos da base foram transformados em vetor."
+            }
+          ]
+        }
+      ],
+      "importa": [
+        "rag_pacote.avaliar",
+        "rag_pacote.consultar",
+        "rag_pacote.embeddings",
+        "rag_pacote.medir_respostas",
+        "rag_pacote.medir_variacoes"
+      ],
+      "importado_por": [
+        "rag_pacote.medir_sem_abda"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.medir_qwen3_reranker",
+      "caminho": "rag/iris-rag/pacote/medir_qwen3_reranker.py",
+      "pasta": "rag_pacote",
+      "linhas": 203,
+      "funcoes": [
+        {
+          "nome": "gabarito",
+          "linha": 31,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "ranquear",
+          "linha": 35,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "juizes",
+          "linha": 70,
+          "publica": true,
+          "docstring": "Devolve os marcados pelos dois e por um só, por pergunta. Citação que não é literal é rejeitada."
+        },
+        {
+          "nome": "tabela",
+          "linha": 90,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "diferenca",
+          "linha": 102,
+          "publica": true,
+          "docstring": "a menos b, pergunta a pergunta. O sorteio reamostra perguntas, mantendo os dois métodos juntos."
+        },
+        {
+          "nome": "medir",
+          "linha": 111,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "divergencia",
+          "linha": 154,
+          "publica": true,
+          "docstring": "Testa duas explicações para o rascunho discordar do gabarito do Opus. Só contagem e sorteio, sem modelo."
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.avaliar",
+        "rag_pacote.consultar",
+        "rag_pacote.ingestao"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.medir_respostas",
+      "caminho": "rag/iris-rag/pacote/medir_respostas.py",
+      "pasta": "rag_pacote",
+      "linhas": 1002,
+      "funcoes": [
+        {
+          "nome": "ler",
+          "linha": 50,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "gravar",
+          "linha": 54,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "chamar_claude",
+          "linha": 59,
+          "publica": true,
+          "docstring": "Uma chamada isolada: sem ferramentas, sem contexto de projeto, sem memória de outra pergunta."
+        },
+        {
+          "nome": "frases_da_resposta",
+          "linha": 82,
+          "publica": true,
+          "docstring": "Divide a resposta em frases. Citação que ficou depois do ponto final (\"Frase. [T1]\") volta para a frase dela;"
+        },
+        {
+          "nome": "citados",
+          "linha": 113,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "media",
+          "linha": 117,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "intervalo",
+          "linha": 122,
+          "publica": true,
+          "docstring": "Intervalo de 95% por sorteio de perguntas (bootstrap), semente fixa."
+        },
+        {
+          "nome": "so",
+          "linha": 130,
+          "publica": true,
+          "docstring": "--so Q01,Q39 restringe a rodada a algumas perguntas (para testar antes de gastar)."
+        },
+        {
+          "nome": "preparar",
+          "linha": 139,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "gerar_respostas",
+          "linha": 158,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "carregar",
+          "linha": 181,
+          "publica": true,
+          "docstring": "Os prompts, as respostas de cada gerador que já tem as 40, e os trechos certos (nota 2) do gabarito do Opus."
+        },
+        {
+          "nome": "recusou",
+          "linha": 193,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "conferir",
+          "linha": 197,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "prompt_do_juiz",
+          "linha": 249,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "extrair_json",
+          "linha": 263,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "julgar",
+          "linha": 271,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "limpar",
+          "linha": 296,
+          "publica": true,
+          "docstring": "Para conferir se a passagem copiada existe no trecho: iguala espaços, aspas e traços, e ignora maiúsculas."
+        },
+        {
+          "nome": "veredito_conferido",
+          "linha": 302,
+          "publica": true,
+          "docstring": "O veredito do juiz para uma frase, depois de conferir a prova. 'rejeitado' = a passagem não está no trecho citado."
+        },
+        {
+          "nome": "kappa",
+          "linha": 316,
+          "publica": true,
+          "docstring": "Kappa de Cohen: concordância entre dois avaliadores descontando a que viria do acaso."
+        },
+        {
+          "nome": "julgamentos",
+          "linha": 327,
+          "publica": true,
+          "docstring": "Para cada pergunta: os vereditos conferidos dos dois juízes, frase a frase, e o veredito comum."
+        },
+        {
+          "nome": "medir",
+          "linha": 360,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "ancora",
+          "linha": 482,
+          "publica": true,
+          "docstring": "Sorteia a amostra que a pessoa julga, sem gravar nela o veredito dos juízes. Metade vem dos itens que os dois"
+        },
+        {
+          "nome": "ancora_mostrar",
+          "linha": 525,
+          "publica": true,
+          "docstring": "Imprime os itens a..b para a conversa: a pergunta, a frase e o texto dos trechos citados (ou a resposta inteira)."
+        },
+        {
+          "nome": "ancora_gravar",
+          "linha": 547,
+          "publica": true,
+          "docstring": "Grava as respostas da pessoa (k=rotulo). Não sobrescreve o que já foi respondido, a não ser com --corrigir."
+        },
+        {
+          "nome": "medir_ancora",
+          "linha": 568,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "blocos_do_gerador",
+          "linha": 649,
+          "publica": true,
+          "docstring": "Os blocos [T1]..[T5] exatamente como o gerador recebeu: cabeçalho, aviso de uso e texto."
+        },
+        {
+          "nome": "prompt_do_juiz2",
+          "linha": 657,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "julgar2",
+          "linha": 667,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "veredito2",
+          "linha": 692,
+          "publica": true,
+          "docstring": "O veredito da versão 2, depois de conferir a prova. A passagem pode estar no texto, no cabeçalho ou no aviso."
+        },
+        {
+          "nome": "julgamentos2",
+          "linha": 710,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "medir2",
+          "linha": 748,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "praticas",
+          "linha": 889,
+          "publica": true,
+          "docstring": "Para cada pergunta do tipo 'estrategia': o que a base tem (gabarito do Opus), onde os trechos certos ficaram na busca"
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.consultar",
+        "rag_pacote.gerar",
+        "rag_pacote.ingestao"
+      ],
+      "importado_por": [
+        "rag_pacote.demonstrar_resposta",
+        "rag_pacote.medir_fidelidade_cruzada",
+        "rag_pacote.medir_hyde"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.medir_sem_abda",
+      "caminho": "rag/iris-rag/pacote/medir_sem_abda.py",
+      "pasta": "rag_pacote",
+      "linhas": 227,
+      "funcoes": [
+        {
+          "nome": "do_guia",
+          "linha": 38,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "candidatos_sem",
+          "linha": 42,
+          "publica": true,
+          "docstring": "Os 50 primeiros do Qwen3 que não são do guia (a lista guardada vai até a posição 100)."
+        },
+        {
+          "nome": "limitar_guia",
+          "linha": 47,
+          "publica": true,
+          "docstring": "Anda na lista já ordenada pelo reranker e pula o trecho do guia depois que `maximo` deles já entraram."
+        },
+        {
+          "nome": "conjuntos",
+          "linha": 59,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "contar",
+          "linha": 65,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "notas",
+          "linha": 111,
+          "publica": true,
+          "docstring": "Nota do reranker (lendo a pergunta) para a união dos 50 de hoje com os 50 sem o guia. Continua de onde parou."
+        },
+        {
+          "nome": "entregues",
+          "linha": 128,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "medir",
+          "linha": 137,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.avaliar",
+        "rag_pacote.consultar",
+        "rag_pacote.medir_hyde",
+        "rag_pacote.medir_variacoes"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.medir_variacoes",
+      "caminho": "rag/iris-rag/pacote/medir_variacoes.py",
+      "pasta": "rag_pacote",
+      "linhas": 706,
+      "funcoes": [
+        {
+          "nome": "gabaritos",
+          "linha": 55,
+          "publica": true,
+          "docstring": "{'opus': [...], 'rascunho': [...]} só com perguntas que têm trecho certo, e o sha256 do arquivo do Opus."
+        },
+        {
+          "nome": "traducoes",
+          "linha": 70,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "chunks_por_id",
+          "linha": 74,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "listas_qwen3",
+          "linha": 79,
+          "publica": true,
+          "docstring": "Os FUNDO primeiros do Qwen3 para cada pergunta. Guarda em cache/ para não buscar de novo."
+        },
+        {
+          "nome": "doc",
+          "linha": 92,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "limitar_por_doc",
+          "linha": 96,
+          "publica": true,
+          "docstring": "Anda na lista e pula o trecho cujo documento já apareceu `maximo` vezes."
+        },
+        {
+          "nome": "media",
+          "linha": 106,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "mediana",
+          "linha": 111,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "diagnostico",
+          "linha": 117,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "ranquear",
+          "linha": 196,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "diferenca",
+          "linha": 230,
+          "publica": true,
+          "docstring": "a menos b, pergunta a pergunta. O sorteio reamostra perguntas, mantendo os dois métodos juntos."
+        },
+        {
+          "nome": "julgados_rascunho",
+          "linha": 239,
+          "publica": true,
+          "docstring": "Trechos que os dois juízes do rascunho chegaram a ler, por pergunta. Fica em cache/, fora do Git."
+        },
+        {
+          "nome": "medir",
+          "linha": 252,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "lista_junta",
+          "linha": 337,
+          "publica": true,
+          "docstring": "A lista da variação C: os 50 primeiros de cada busca, juntos pela posição (RRF, k=60)."
+        },
+        {
+          "nome": "teto",
+          "linha": 343,
+          "publica": true,
+          "docstring": "Conta, sem rodar o reranker, o máximo que a combinação pode dar: o reranker só reordena o que recebe."
+        },
+        {
+          "nome": "arquivo_d",
+          "linha": 392,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "combinar",
+          "linha": 396,
+          "publica": true,
+          "docstring": "Roda D: as duas buscas, a junção pela posição e o reranker sobre os 50 primeiros da lista junta."
+        },
+        {
+          "nome": "medir_combinacao",
+          "linha": 432,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "estabilidade",
+          "linha": 532,
+          "publica": true,
+          "docstring": "A busca do banco contra a conta exata do cosseno, pergunta a pergunta. O resultado desta contagem pode mudar"
+        },
+        {
+          "nome": "arquivo_pg",
+          "linha": 588,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "estabilidade_pg",
+          "linha": 592,
+          "publica": true,
+          "docstring": "Uma execução: para cada pergunta, a lista do pgvector como o pacote pede, a lista com o índice HNSW forçado"
+        },
+        {
+          "nome": "medir_estabilidade_pg",
+          "linha": 646,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "rag_pacote.avaliar",
+        "rag_pacote.banco_pg",
+        "rag_pacote.consultar",
+        "rag_pacote.embeddings",
+        "rag_pacote.ingestao"
+      ],
+      "importado_por": [
+        "rag_pacote.medir_hyde",
+        "rag_pacote.medir_sem_abda"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "rag_pacote.scripts_dev.gerar_diagrama",
+      "caminho": "rag/iris-rag/pacote/scripts_dev/gerar_diagrama.py",
+      "pasta": "rag_pacote/scripts_dev",
+      "linhas": 86,
+      "funcoes": [
+        {
+          "nome": "caixa",
+          "linha": 40,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "seta",
+          "linha": 49,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "montar",
+          "linha": 53,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "python"
+    },
+    {
+      "id": "frontend.app.etapa-1.page",
+      "caminho": "frontend/src/app/etapa-1/page.tsx",
+      "pasta": "frontend/app",
+      "linhas": 29,
+      "funcoes": [
+        {
+          "nome": "Etapa1Page",
+          "linha": 7,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "frontend.components.Step1MaterialIntake"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.app.etapa-2.page",
+      "caminho": "frontend/src/app/etapa-2/page.tsx",
+      "pasta": "frontend/app",
+      "linhas": 42,
+      "funcoes": [
+        {
+          "nome": "Etapa2Page",
+          "linha": 8,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "frontend.components.Step2FunctionalProfile",
+        "frontend.services.catalogsApi"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.app.layout",
+      "caminho": "frontend/src/app/layout.tsx",
+      "pasta": "frontend/app",
+      "linhas": 31,
+      "funcoes": [
+        {
+          "nome": "RootLayout",
+          "linha": 13,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.app.page",
+      "caminho": "frontend/src/app/page.tsx",
+      "pasta": "frontend/app",
+      "linhas": 224,
+      "funcoes": [
+        {
+          "nome": "HomePage",
+          "linha": 14,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "frontend.components.IrisLogoBanner",
+        "frontend.components.Step1MaterialIntake",
+        "frontend.components.Step2FunctionalProfile"
+      ],
+      "importado_por": [],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.components.IrisLogoBanner",
+      "caminho": "frontend/src/components/IrisLogoBanner.tsx",
+      "pasta": "frontend/components",
+      "linhas": 76,
+      "funcoes": [
+        {
+          "nome": "IrisLogoBanner",
+          "linha": 14,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [],
+      "importado_por": [
+        "frontend.app.page",
+        "frontend.components.Step1MaterialIntake",
+        "frontend.components.Step2FunctionalProfile"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.components.Step1MaterialIntake",
+      "caminho": "frontend/src/components/Step1MaterialIntake.tsx",
+      "pasta": "frontend/components",
+      "linhas": 876,
+      "funcoes": [
+        {
+          "nome": "Step1MaterialIntake",
+          "linha": 71,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "frontend.components.IrisLogoBanner",
+        "frontend.components.Stepper5Etapas",
+        "frontend.services.catalogsApi",
+        "frontend.services.materialsApi"
+      ],
+      "importado_por": [
+        "frontend.app.etapa-1.page",
+        "frontend.app.page"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.components.Step2FunctionalProfile",
+      "caminho": "frontend/src/components/Step2FunctionalProfile.tsx",
+      "pasta": "frontend/components",
+      "linhas": 774,
+      "funcoes": [
+        {
+          "nome": "Step2FunctionalProfile",
+          "linha": 60,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "frontend.components.IrisLogoBanner",
+        "frontend.components.Stepper5Etapas",
+        "frontend.services.catalogsApi",
+        "frontend.services.materialsApi"
+      ],
+      "importado_por": [
+        "frontend.app.etapa-2.page",
+        "frontend.app.page"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.components.Stepper5Etapas",
+      "caminho": "frontend/src/components/Stepper5Etapas.tsx",
+      "pasta": "frontend/components",
+      "linhas": 95,
+      "funcoes": [
+        {
+          "nome": "Stepper5Etapas",
+          "linha": 46,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [],
+      "importado_por": [
+        "frontend.components.Step1MaterialIntake",
+        "frontend.components.Step2FunctionalProfile"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.services.catalogsApi",
+      "caminho": "frontend/src/services/catalogsApi.ts",
+      "pasta": "frontend/services",
+      "linhas": 360,
+      "funcoes": [
+        {
+          "nome": "fetchCharacteristicsCatalog",
+          "linha": 141,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "buildLocalSurgicalSelection",
+          "linha": 164,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "submitSurgicalCharacteristicSelection",
+          "linha": 214,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "saveSurgicalSelectionToSession",
+          "linha": 273,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "loadSurgicalSelectionFromSession",
+          "linha": 285,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "clearSurgicalSelectionFromSession",
+          "linha": 299,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "saveStep1StateToSession",
+          "linha": 313,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "loadStep1StateFromSession",
+          "linha": 326,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "clearStep1StateFromSession",
+          "linha": 351,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [
+        "frontend.services.materialsApi"
+      ],
+      "importado_por": [
+        "frontend.app.etapa-2.page",
+        "frontend.components.Step1MaterialIntake",
+        "frontend.components.Step2FunctionalProfile"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    },
+    {
+      "id": "frontend.services.materialsApi",
+      "caminho": "frontend/src/services/materialsApi.ts",
+      "pasta": "frontend/services",
+      "linhas": 191,
+      "funcoes": [
+        {
+          "nome": "computeTextMetrics",
+          "linha": 61,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "validateClientFileFormat",
+          "linha": 85,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "parseErrorResponse",
+          "linha": 129,
+          "publica": false,
+          "docstring": ""
+        },
+        {
+          "nome": "uploadMaterialFile",
+          "linha": 157,
+          "publica": true,
+          "docstring": ""
+        },
+        {
+          "nome": "submitMaterialText",
+          "linha": 177,
+          "publica": true,
+          "docstring": ""
+        }
+      ],
+      "classes": [],
+      "importa": [],
+      "importado_por": [
+        "frontend.components.Step1MaterialIntake",
+        "frontend.components.Step2FunctionalProfile",
+        "frontend.services.catalogsApi"
+      ],
+      "testado_por": [],
+      "usa_llm": false,
+      "tipo": "typescript"
+    }
+  ],
+  "arestas": [
+    {
+      "de": "iris.agents",
+      "para": "iris.agents.adapter_agent",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents",
+      "para": "iris.agents.curriculum_extractor",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.agents.curriculum_extractor",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.core.llm_client",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.eval.escopo",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.schemas.adaptation",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.schemas.catalog",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.schemas.curriculum",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.curriculum_extractor",
+      "para": "iris.core.llm_client",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.curriculum_extractor",
+      "para": "iris.eval.trcc",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.curriculum_extractor",
+      "para": "iris.schemas.curriculum",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.api.routes",
+      "para": "iris.api.routes.materials",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.api.routes.catalogs",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.api.routes.catalogs",
+      "para": "iris.schemas.catalog",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.parsers.document_extractor",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.parsers.prose_organizer",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.parsers.structural_decomposer",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.schemas.materials",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.security.pii_scrubber",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.core",
+      "para": "iris.core.llm_client",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.core.llm_client",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval",
+      "para": "iris.eval.benchmark",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval",
+      "para": "iris.eval.corpus_eda",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval",
+      "para": "iris.eval.metrics",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval",
+      "para": "iris.eval.rag_metrics",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval",
+      "para": "iris.eval.readability",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.agents.adapter_agent",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.core.llm_client",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.eval.benchmark",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.eval.escopo",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.schemas.adaptation",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.schemas.curriculum",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.benchmark",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.corpus_eda",
+      "para": "iris.eval.readability",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.escopo",
+      "para": "iris.eval.readability",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.escopo",
+      "para": "iris.eval.trcc",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.escopo",
+      "para": "iris.schemas.adaptation",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.executar",
+      "para": "iris.eval.benchmark",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.extractor_analytics",
+      "para": "iris.agents.curriculum_extractor",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.extractor_analytics",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.extractor_analytics",
+      "para": "iris.core.llm_client",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.extractor_analytics",
+      "para": "iris.eval.benchmark",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.extractor_analytics",
+      "para": "iris.schemas.curriculum",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.faithfulness",
+      "para": "iris.eval.benchmark",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.faithfulness",
+      "para": "iris.eval.executar",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.fidelidade_frases",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.fidelidade_frases",
+      "para": "iris.eval.faithfulness",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.isolamento_escopo",
+      "para": "iris.agents.adapter_agent",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.isolamento_escopo",
+      "para": "iris.eval.benchmark",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.isolamento_escopo",
+      "para": "iris.eval.escopo",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.isolamento_escopo",
+      "para": "iris.eval.trcc",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.isolamento_escopo",
+      "para": "iris.schemas.adaptation",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.isolamento_escopo",
+      "para": "iris.schemas.curriculum",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.metrics",
+      "para": "iris.eval.readability",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.metrics",
+      "para": "iris.eval.trcc",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.precisao_contexto",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.precisao_contexto",
+      "para": "iris.eval.rag_metrics",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.precisao_contexto",
+      "para": "iris.rag.bridge",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.rag_metrics",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.rag_metrics",
+      "para": "iris.core.llm_client",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.rag_metrics",
+      "para": "iris.rag.bridge",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.readability",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.benchmark",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.executar",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.faithfulness",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.readability",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.trcc",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.api.routes.catalogs",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.api.routes.materials",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.core.llm_client",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.eval.extractor_analytics",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.eval.rag_metrics",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.parsers.document_extractor",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.rag.bridge",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.schemas.catalog",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.schemas.materials",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.parsers",
+      "para": "iris.parsers.document_extractor",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.parsers",
+      "para": "iris.parsers.prose_organizer",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.parsers",
+      "para": "iris.parsers.structural_decomposer",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.parsers.prose_organizer",
+      "para": "iris.schemas.materials",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.parsers.structural_decomposer",
+      "para": "iris.parsers.prose_organizer",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.parsers.structural_decomposer",
+      "para": "iris.schemas.materials",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.rag",
+      "para": "iris.rag.bridge",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.rag",
+      "para": "iris.rag.contexto",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "iris.schemas.catalog",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "rag_pacote.gerar",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "rag_pacote.ingestao",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.schemas",
+      "para": "iris.schemas.adaptation",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.schemas",
+      "para": "iris.schemas.catalog",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.schemas",
+      "para": "iris.schemas.curriculum",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.schemas",
+      "para": "iris.schemas.materials",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.schemas.adaptation",
+      "para": "iris.schemas.curriculum",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.schemas.benchmark",
+      "para": "iris.eval.trcc",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.schemas.catalog",
+      "para": "iris.config",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.security",
+      "para": "iris.security.pii_scrubber",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.avaliar",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.avaliar_opus",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.banco_pg",
+      "para": "rag_pacote.embeddings",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.banco_pg",
+      "para": "rag_pacote.ingestao",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.consultar",
+      "para": "rag_pacote.banco_pg",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.consultar",
+      "para": "rag_pacote.embeddings",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.consultar",
+      "para": "rag_pacote.ingestao",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.demonstrar_resposta",
+      "para": "rag_pacote.banco_pg",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.demonstrar_resposta",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.demonstrar_resposta",
+      "para": "rag_pacote.gerar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.demonstrar_resposta",
+      "para": "rag_pacote.medir_respostas",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.gerar",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_fidelidade_cruzada",
+      "para": "rag_pacote.medir_respostas",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.avaliar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.embeddings",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.medir_respostas",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.medir_variacoes",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_qwen3_reranker",
+      "para": "rag_pacote.avaliar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_qwen3_reranker",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_qwen3_reranker",
+      "para": "rag_pacote.ingestao",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_respostas",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_respostas",
+      "para": "rag_pacote.gerar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_respostas",
+      "para": "rag_pacote.ingestao",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_sem_abda",
+      "para": "rag_pacote.avaliar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_sem_abda",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_sem_abda",
+      "para": "rag_pacote.medir_hyde",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_sem_abda",
+      "para": "rag_pacote.medir_variacoes",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.avaliar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.banco_pg",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.consultar",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.embeddings",
+      "tipo": "import"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.ingestao",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.app.etapa-1.page",
+      "para": "frontend.components.Step1MaterialIntake",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.app.etapa-2.page",
+      "para": "frontend.components.Step2FunctionalProfile",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.app.etapa-2.page",
+      "para": "frontend.services.catalogsApi",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.app.page",
+      "para": "frontend.components.IrisLogoBanner",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.app.page",
+      "para": "frontend.components.Step1MaterialIntake",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.app.page",
+      "para": "frontend.components.Step2FunctionalProfile",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.components.Step1MaterialIntake",
+      "para": "frontend.components.IrisLogoBanner",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.components.Step1MaterialIntake",
+      "para": "frontend.components.Stepper5Etapas",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.components.Step1MaterialIntake",
+      "para": "frontend.services.catalogsApi",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.components.Step1MaterialIntake",
+      "para": "frontend.services.materialsApi",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.components.Step2FunctionalProfile",
+      "para": "frontend.components.IrisLogoBanner",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.components.Step2FunctionalProfile",
+      "para": "frontend.components.Stepper5Etapas",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.components.Step2FunctionalProfile",
+      "para": "frontend.services.catalogsApi",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.components.Step2FunctionalProfile",
+      "para": "frontend.services.materialsApi",
+      "tipo": "import"
+    },
+    {
+      "de": "frontend.services.catalogsApi",
+      "para": "frontend.services.materialsApi",
+      "tipo": "import"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.core.llm_client",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.eval.escopo",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.schemas.adaptation",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.schemas.catalog",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.agents.adapter_agent",
+      "para": "iris.agents.curriculum_extractor",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.agents.curriculum_extractor",
+      "para": "iris.core.llm_client",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.agents.curriculum_extractor",
+      "para": "iris.eval.trcc",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.agents.curriculum_extractor",
+      "para": "iris.schemas.curriculum",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.api.routes.catalogs",
+      "para": "iris.schemas.catalog",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.parsers.structural_decomposer",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.schemas.materials",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.security.pii_scrubber",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.parsers.prose_organizer",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.api.routes.materials",
+      "para": "iris.parsers.document_extractor",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.core.llm_client",
+      "para": "iris.config",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.schemas.adaptation",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.schemas.curriculum",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.eval.benchmark",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.agents.adapter_agent",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.core.llm_client",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.adaptador_com_modelo",
+      "para": "iris.eval.escopo",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.corpus_eda",
+      "para": "iris.eval.readability",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.escopo",
+      "para": "iris.eval.trcc",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.escopo",
+      "para": "iris.schemas.adaptation",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.executar",
+      "para": "iris.eval.benchmark",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.extractor_analytics",
+      "para": "iris.agents.curriculum_extractor",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.extractor_analytics",
+      "para": "iris.core.llm_client",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.extractor_analytics",
+      "para": "iris.eval.benchmark",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.faithfulness",
+      "para": "iris.eval.benchmark",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.faithfulness",
+      "para": "iris.eval.executar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.metrics",
+      "para": "iris.eval.readability",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.metrics",
+      "para": "iris.eval.trcc",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.precisao_contexto",
+      "para": "iris.config",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.precisao_contexto",
+      "para": "iris.rag.bridge",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.precisao_contexto",
+      "para": "iris.eval.rag_metrics",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.rag_metrics",
+      "para": "iris.core.llm_client",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.rag_metrics",
+      "para": "iris.rag.bridge",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.executar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.faithfulness",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.benchmark",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.readability",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.eval.relatorio",
+      "para": "iris.eval.trcc",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.config",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.schemas.catalog",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.eval.rag_metrics",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.eval.extractor_analytics",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.core.llm_client",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.rag.bridge",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.api.routes.catalogs",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.main",
+      "para": "iris.api.routes.materials",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.parsers.prose_organizer",
+      "para": "iris.schemas.materials",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.parsers.structural_decomposer",
+      "para": "iris.schemas.materials",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.parsers.structural_decomposer",
+      "para": "iris.parsers.prose_organizer",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "iris.schemas.catalog",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "rag_pacote.ingestao",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.rag.bridge",
+      "para": "rag_pacote.gerar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "iris.schemas.benchmark",
+      "para": "iris.eval.trcc",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.avaliar",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.avaliar_opus",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.banco_pg",
+      "para": "rag_pacote.embeddings",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.banco_pg",
+      "para": "rag_pacote.ingestao",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.consultar",
+      "para": "rag_pacote.embeddings",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.consultar",
+      "para": "rag_pacote.ingestao",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.consultar",
+      "para": "rag_pacote.banco_pg",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.demonstrar_resposta",
+      "para": "rag_pacote.medir_respostas",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.demonstrar_resposta",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.demonstrar_resposta",
+      "para": "rag_pacote.gerar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.gerar",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_fidelidade_cruzada",
+      "para": "rag_pacote.medir_respostas",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.medir_variacoes",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.medir_respostas",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.embeddings",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_hyde",
+      "para": "rag_pacote.avaliar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_qwen3_reranker",
+      "para": "rag_pacote.avaliar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_qwen3_reranker",
+      "para": "rag_pacote.ingestao",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_qwen3_reranker",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_respostas",
+      "para": "rag_pacote.gerar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_respostas",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_respostas",
+      "para": "rag_pacote.ingestao",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_sem_abda",
+      "para": "rag_pacote.medir_hyde",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_sem_abda",
+      "para": "rag_pacote.medir_variacoes",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_sem_abda",
+      "para": "rag_pacote.avaliar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_sem_abda",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.ingestao",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.consultar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.banco_pg",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.embeddings",
+      "tipo": "chamada"
+    },
+    {
+      "de": "rag_pacote.medir_variacoes",
+      "para": "rag_pacote.avaliar",
+      "tipo": "chamada"
+    },
+    {
+      "de": "frontend.services.catalogsApi",
+      "para": "iris.api.routes.catalogs",
+      "tipo": "chamada"
+    },
+    {
+      "de": "frontend.services.materialsApi",
+      "para": "iris.api.routes.materials",
+      "tipo": "chamada"
+    }
+  ],
+  "etapas_pipeline": [
+    {
+      "ordem": 1,
+      "etapa": "upload / entrada de material (texto, .pdf, .docx, .txt)",
+      "modulo": "iris.api.routes.materials",
+      "funcao": "process_material_file_service",
+      "status": "implementada",
+      "evidencia": "alcancada pela API (main/api.routes): iris.api.routes.materials:process_material_file_service, iris.api.routes.materials:process_material_text_service; #4 CLOSED; OCR de prova digitalizada (#6) segue OPEN"
+    },
+    {
+      "ordem": 2,
+      "etapa": "sanitizacao de PII (zero-retention)",
+      "modulo": "iris.security.pii_scrubber",
+      "funcao": "sanitize_pii",
+      "status": "implementada",
+      "evidencia": "alcancada pela API (main/api.routes): iris.security.pii_scrubber:sanitize_pii; #34 CLOSED; cabecalho escolar neutro (#36) OPEN"
+    },
+    {
+      "ordem": 3,
+      "etapa": "extracao de texto do documento",
+      "modulo": "iris.parsers.document_extractor",
+      "funcao": "extract_text_from_file",
+      "status": "implementada",
+      "evidencia": "alcancada pela API (main/api.routes): iris.parsers.document_extractor:extract_text_from_file; pdf/docx/txt em memoria; sem OCR"
+    },
+    {
+      "ordem": 4,
+      "etapa": "decomposicao estrutural / organizacao de prosa",
+      "modulo": "iris.parsers.structural_decomposer",
+      "funcao": "decompose_material",
+      "status": "implementada",
+      "evidencia": "alcancada pela API (main/api.routes): iris.parsers.structural_decomposer:decompose_material, iris.parsers.prose_organizer:organize_prose_structure; #5 e #53 CLOSED; endpoints /materials/decompose e /materials/organize-prose"
+    },
+    {
+      "ordem": 5,
+      "etapa": "extrator curricular (invariantes / trava)",
+      "modulo": "iris.agents.curriculum_extractor",
+      "funcao": "CurriculumExtractorAgent.extract",
+      "status": "parcial",
+      "evidencia": "existe mas fora do fluxo da API: iris.agents.curriculum_extractor:CurriculumExtractorAgent.extract [so via scripts/smoke_check.py, scripts/test_curriculum_extractor_cli.py]; #17 CLOSED; validacao docente das travas (#13) OPEN"
+    },
+    {
+      "ordem": 6,
+      "etapa": "catalogo de caracteristicas / perfil funcional",
+      "modulo": "iris.api.routes.catalogs",
+      "funcao": "select_surgical_characteristics_service",
+      "status": "parcial",
+      "evidencia": "alcancada pela API (main/api.routes): iris.api.routes.catalogs:select_surgical_characteristics_service, iris.schemas.catalog:load_official_tdah_catalog; existe mas fora do fluxo da API: iris.schemas.profile:validar_perfil [nenhuma rota chama]; #39 e #8 CLOSED; perfil portatil (#26, #30, #31) OPEN"
+    },
+    {
+      "ordem": 7,
+      "etapa": "RAG estrategista (busca por id_caracteristica + contexto)",
+      "modulo": "iris.rag.bridge",
+      "funcao": "buscar_por_caracteristica_atomica",
+      "status": "parcial",
+      "evidencia": "alcancada pela API (main/api.routes): iris.rag.bridge:buscar_por_caracteristica_atomica; existe mas fora do fluxo da API: iris.rag.contexto:montar_contexto_estrategista [nenhuma rota chama]; #16 OPEN (PR #68); busca exposta em /api/v1/rag/search"
+    },
+    {
+      "ordem": 8,
+      "etapa": "adaptador pedagogico (isolamento de escopo)",
+      "modulo": "iris.agents.adapter_agent",
+      "funcao": "AdapterAgent.adapt",
+      "status": "parcial",
+      "evidencia": "existe mas fora do fluxo da API: iris.agents.adapter_agent:AdapterAgent.adapt [nenhuma rota chama], iris.eval.escopo:verificar_escopo [nenhuma rota chama]; #18 OPEN; adapt() aplica laudo de escopo e saida de reserva"
+    },
+    {
+      "ordem": 9,
+      "etapa": "auditor de integridade (TRCC + circuit breaker max_retries=2)",
+      "modulo": "iris.eval.trcc",
+      "funcao": "avaliar_trcc",
+      "status": "parcial",
+      "evidencia": "existe mas fora do fluxo da API: iris.eval.trcc:avaliar_trcc [so via scripts/smoke_check.py]; #19 OPEN; so existe a metrica TRCC, sem agente auditor nem laco adaptador<->auditor"
+    },
+    {
+      "ordem": 10,
+      "etapa": "metricas e avaliacao (RAG, TRCC, legibilidade, benchmark)",
+      "modulo": "iris.eval.rag_metrics",
+      "funcao": "calcular_similaridade_semantica",
+      "status": "implementada",
+      "evidencia": "alcancada pela API (main/api.routes): iris.eval.rag_metrics:calcular_similaridade_semantica; fora da API (uso offline): iris.eval.executar:executar_sistema [nenhuma rota chama], iris.eval.readability [so via scripts/smoke_check.py]; #40/#45 CLOSED; avaliacao e offline por natureza; metricas do RAG servidas em /api/v1/eval/metrics"
+    }
+  ],
+  "sem_teste": [
+    "iris.eval",
+    "iris.eval.isolamento_escopo",
+    "rag_pacote.avaliar",
+    "rag_pacote.avaliar_opus",
+    "rag_pacote.banco_pg",
+    "rag_pacote.consultar",
+    "rag_pacote.demonstrar_resposta",
+    "rag_pacote.embeddings",
+    "rag_pacote.gerar",
+    "rag_pacote.ingestao",
+    "rag_pacote.medir_fidelidade_cruzada",
+    "rag_pacote.medir_hyde",
+    "rag_pacote.medir_qwen3_reranker",
+    "rag_pacote.medir_respostas",
+    "rag_pacote.medir_sem_abda",
+    "rag_pacote.medir_variacoes",
+    "rag_pacote.scripts_dev.gerar_diagrama",
+    "frontend.app.etapa-1.page",
+    "frontend.app.etapa-2.page",
+    "frontend.app.layout",
+    "frontend.app.page",
+    "frontend.components.IrisLogoBanner",
+    "frontend.components.Step1MaterialIntake",
+    "frontend.components.Step2FunctionalProfile",
+    "frontend.components.Stepper5Etapas",
+    "frontend.services.catalogsApi",
+    "frontend.services.materialsApi"
+  ],
+  "metricas": {
+    "modulos": 69,
+    "funcoes": 579,
+    "testes": 33,
+    "modulos_sem_teste": 27
+  }
+}

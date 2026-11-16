@@ -595,6 +595,20 @@ def _handle_mapa_codigo() -> dict[str, Any]:
     return obter_mapa_codigo()
 
 
+def _handle_bancada_pr85() -> dict[str, Any]:
+    """Abas do painel do PR 85 e se a página dele já foi gerada (o menu do playground é montado com isto)."""
+    from iris.eval.bancada_pr85 import descrever
+
+    return descrever()
+
+
+def _handle_bancada_pr85_gerar() -> dict[str, Any]:
+    """Gera de novo a página do painel do PR 85 a partir dos arquivos gravados (sem modelo, sem rede)."""
+    from iris.eval.bancada_pr85 import gerar_pagina
+
+    return gerar_pagina()
+
+
 def _handle_ataque_pii_run() -> dict[str, Any]:
     """Roda o ataque de dado pessoal contra o removedor `sanitize_pii` (sem modelo, valores fictícios)."""
     from iris.eval.ataque_pii import executar_ataque_pii
@@ -861,6 +875,39 @@ def create_app() -> Any:
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
 
+    @app.get("/bancada", include_in_schema=False)
+    def bancada_pr85_sem_barra() -> Any:
+        # a página pede "status.json" por caminho relativo: com a barra no fim ele cai em /bancada/status.json
+        from fastapi.responses import RedirectResponse
+
+        return RedirectResponse(url="/bancada/")
+
+    @app.get("/bancada/", response_class=HTMLResponse, tags=["frontend"])
+    def bancada_pr85_pagina() -> str:
+        from iris.eval.bancada_pr85 import ler_pagina
+
+        return ler_pagina()
+
+    @app.get("/bancada/status.json", include_in_schema=False)
+    def bancada_pr85_status() -> Any:
+        from fastapi import HTTPException
+        from fastapi.responses import Response
+
+        from iris.eval.bancada_pr85 import ler_status
+
+        dado = ler_status()
+        if dado is None:
+            raise HTTPException(status_code=404, detail="sem status.json (só existe na cópia publicada pelo vigia)")
+        return Response(content=dado, media_type="application/json")
+
+    @app.get("/api/v1/eval/bancada-pr85", tags=["eval"])
+    def bancada_pr85() -> dict[str, Any]:
+        return _handle_bancada_pr85()
+
+    @app.post("/api/v1/eval/bancada-pr85/gerar", tags=["eval"])
+    def bancada_pr85_gerar() -> dict[str, Any]:
+        return _handle_bancada_pr85_gerar()
+
     @app.get("/api/v1/eval/mapa-codigo", tags=["eval"])
     def mapa_codigo() -> dict[str, Any]:
         return _handle_mapa_codigo()
@@ -1060,6 +1107,33 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json(_handle_ataque_pii())
             elif parsed.path == "/api/v1/eval/arquitetura-langgraph":
                 self._send_json(_handle_arquitetura_langgraph())
+            elif parsed.path == "/bancada":
+                self.send_response(302)
+                self.send_header("Location", "/bancada/")
+                self.end_headers()
+            elif parsed.path == "/bancada/":
+                from iris.eval.bancada_pr85 import ler_pagina
+
+                raw = ler_pagina().encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(raw)))
+                self.end_headers()
+                self.wfile.write(raw)
+            elif parsed.path == "/bancada/status.json":
+                from iris.eval.bancada_pr85 import ler_status
+
+                dado = ler_status()
+                if dado is None:
+                    self._send_json({"detail": "sem status.json (só existe na cópia publicada pelo vigia)"}, status=404)
+                else:
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(dado)))
+                    self.end_headers()
+                    self.wfile.write(dado)
+            elif parsed.path == "/api/v1/eval/bancada-pr85":
+                self._send_json(_handle_bancada_pr85())
             elif parsed.path == "/api/v1/eval/mapa-codigo":
                 self._send_json(_handle_mapa_codigo())
             elif parsed.path == "/api/v1/eval/rag-escolar/analytics":
@@ -1169,6 +1243,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json(_handle_rag_escolar_run(body))
                 except ValueError as err:
                     self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/bancada-pr85/gerar":
+                self._send_json(_handle_bancada_pr85_gerar())
             elif urlparse(self.path).path == "/api/v1/eval/ataque-pii":
                 self._send_json(_handle_ataque_pii_run())
             elif urlparse(self.path).path == "/api/v1/eval/arquitetura-langgraph/executar":

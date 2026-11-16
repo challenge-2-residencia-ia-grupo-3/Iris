@@ -1,0 +1,54 @@
+# 25 - Ablação do pipeline do Íris sobre o Golden Benchmark do grupo
+
+commit do grupo: 65e1f09 | provedor: eco | modelo: eco-stub-deterministico | nível 2 | característica sobrecarga_memoria_trabalho_comandos_multiplos | gerado em 2026-11-12T18:43:41+00:00
+questões: 30 (peso de 1 questão = 3.3%); benchmark com status 'rascunho' (sem revisão pedagógica); RAG só bm25 sobre chunks.jsonl sha16=1b517d249bef1873
+
+AVISO: provedor determinístico. Estes números NÃO medem qualidade de modelo; medem o encanamento:
+se cada configuração roda nas 30 questões, quanto cai na reserva, se o laudo aprova, e como as
+métricas do grupo se comportam com o andaime por regras. A comparação que importa roda no PC.
+
+## Métricas do grupo por configuração
+
+| config | saídas | TRCC micro | TRCC macro | % questões TRCC>=0,95 | Flesch antes->depois | cmd. conjugado % antes->depois | alterou % | SAEN nível % |
+|---|---|---|---|---|---|---|---|---|
+| completo | 30/30 | 1.0 | 1.0 | 100.0 | 55.5777->56.493 | 50.0->3.3 | 90.0 | 90.0 |
+| sem_rag | 30/30 | 1.0 | 1.0 | 100.0 | 55.5777->56.493 | 50.0->3.3 | 90.0 | 90.0 |
+| sem_extrator | 30/30 | 1.0 | 1.0 | 100.0 | 55.5777->56.7547 | 50.0->0.0 | 93.3 | 93.3 |
+| sem_laudo_escopo | 30/30 | 1.0 | 1.0 | 100.0 | 55.5777->56.7547 | 50.0->0.0 | 93.3 | 93.3 |
+| reserva_deterministica | 30/30 | 1.0 | 1.0 | 100.0 | 55.5777->56.493 | 50.0->3.3 | 53.3 | 60.0 |
+| grupo_adaptador_benchmark | 30/30 | 1.0 | 1.0 | 100.0 | 55.5777->56.493 | 50.0->3.3 | 90.0 | 90.0 |
+| identidade | 30/30 | 1.0 | 1.0 | 100.0 | 55.5777->55.5777 | 50.0->50.0 | 0.0 | 6.7 |
+
+## Operação (o que cada peça fez)
+
+| config | reserva do Adaptador % | escopo aprovado (final) % | escopo aprovado (laudo real) % | Extrator na reserva % | recall da trava pelo Extrator | chamadas ao provedor | tokens/questão | ciclo ms/questão |
+|---|---|---|---|---|---|---|---|---|
+| completo | 3.3 | 100.0 | 100.0 | 0.0 | 0.4028 | 90 | 2878.2667 | 3.256 |
+| sem_rag | 3.3 | 100.0 | 100.0 | 0.0 | 0.4028 | 60 | 641.0667 | 2.5547 |
+| sem_extrator | 0.0 | 100.0 | 100.0 | None | None | 60 | 2528.5 | 2.115 |
+| sem_laudo_escopo | 0.0 | 100.0 | 96.7 | 0.0 | 0.4028 | 90 | 2878.2667 | 2.994 |
+| reserva_deterministica | 100.0 | 100.0 | 100.0 | 100.0 | 0.4028 | 30 | 2225.2 | 1.0583 |
+| grupo_adaptador_benchmark | 3.3 | 100.0 | 100.0 | None | None | 60 | None | None |
+| identidade | None | None | None | None | None | 0 | None | None |
+
+## TRCC por questão contra 'completo' (Wilcoxon pareado do grupo)
+
+| config | pares | média config | média completo | p-valor | nota |
+|---|---|---|---|---|---|
+| sem_rag | 30 | 1.0 | 1.0 | 1.0 | sem diferença entre os sistemas |
+| sem_extrator | 30 | 1.0 | 1.0 | 1.0 | sem diferença entre os sistemas |
+| sem_laudo_escopo | 30 | 1.0 | 1.0 | 1.0 | sem diferença entre os sistemas |
+| reserva_deterministica | 30 | 1.0 | 1.0 | 1.0 | sem diferença entre os sistemas |
+| grupo_adaptador_benchmark | 30 | 1.0 | 1.0 | 1.0 | sem diferença entre os sistemas |
+| identidade | 30 | 1.0 | 1.0 | 1.0 | sem diferença entre os sistemas |
+
+## Leitura
+
+- TRCC alto com 'identidade' é esperado: devolver o enunciado retém tudo e não adapta nada. TRCC sozinho não
+  separa adaptação boa de ausência de adaptação; ler junto com 'alterou %' e 'SAEN nível %'.
+- 'sem_laudo_escopo' só difere de 'completo' quando o modelo erra o escopo; com provedor determinístico os
+  dois tendem a coincidir. A coluna 'laudo real' mostra quantas saídas a guarda teria barrado.
+- Faithfulness (RAGAS) não foi medida: o grupo mede com juiz LLM (iris.eval.faithfulness) e isso exige modelo.
+- Com o stub 'eco', 'completo' e 'sem_rag' coincidem porque o stub ignora a diretiva; a diferença entre
+  eles só aparece com modelo de verdade. O stub também numera questões de comando único (o andaime por
+  regras do grupo não numera), por isso 'alterou %' do eco passa o da reserva no nível 2: é artefato do stub.

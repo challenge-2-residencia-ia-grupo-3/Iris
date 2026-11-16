@@ -1,0 +1,91 @@
+MAPA DO CODIGO DO IRIS (analise estatica, ast + regex)
+commit do grupo: 65e1f091a179cfe82e2ec0e0c6fe4c6bbd8bd323   gerado em: 2026-11-12T15:43:42-03:00
+modulos: 69   funcoes+metodos: 579   arquivos de teste: 33 (386 funcoes test_*)   modulos sem teste: 27
+
+1. MODULOS POR PASTA (modulos / linhas / funcoes+metodos)
+  agents                     3 mod     762 lin    24 func
+  api                        4 mod     468 lin     7 func
+  core                       2 mod     577 lin    23 func
+  eval                      16 mod    4300 lin   160 func
+  frontend/app               4 mod     326 lin     4 func
+  frontend/components        4 mod    1821 lin     4 func
+  frontend/services          2 mod     551 lin    14 func
+  parsers                    4 mod    1341 lin    23 func
+  rag                        3 mod     483 lin    18 func
+  rag_pacote                14 mod    5472 lin   201 func
+  rag_pacote/scripts_dev     1 mod      86 lin     3 func
+  raiz                       3 mod     751 lin    14 func
+  schemas                    7 mod    1784 lin    83 func
+  security                   2 mod     142 lin     1 func
+
+2. MAIS IMPORTADOS (por quantos modulos internos)
+   11  iris.config
+   10  rag_pacote.consultar
+    7  iris.core.llm_client
+    7  iris.eval.benchmark
+    7  iris.schemas.curriculum
+    6  iris.eval.trcc
+    6  rag_pacote.ingestao
+    5  iris.eval.readability
+    5  iris.schemas.adaptation
+    5  iris.schemas.catalog
+    5  iris.schemas.materials
+    4  iris.rag.bridge
+
+3. USAM LLM (HybridLLMClient/get_llm_client ou cliente externo)
+  iris.agents.adapter_agent
+  iris.agents.curriculum_extractor
+  iris.core
+  iris.core.llm_client
+  iris.eval.adaptador_com_modelo
+  iris.eval.extractor_analytics
+  iris.eval.faithfulness
+  iris.eval.rag_metrics
+  iris.main
+
+4. SEM TESTE (nenhum arquivo em backend/tests importa o modulo)
+  [eval] __init__.py, isolamento_escopo.py
+  [frontend/app] page.tsx, page.tsx, layout.tsx, page.tsx
+  [frontend/components] IrisLogoBanner.tsx, Step1MaterialIntake.tsx, Step2FunctionalProfile.tsx, Stepper5Etapas.tsx
+  [frontend/services] catalogsApi.ts, materialsApi.ts
+  [rag_pacote] avaliar.py, avaliar_opus.py, banco_pg.py, consultar.py, demonstrar_resposta.py, embeddings.py, gerar.py, ingestao.py, medir_fidelidade_cruzada.py, medir_hyde.py, medir_qwen3_reranker.py, medir_respostas.py, medir_sem_abda.py, medir_variacoes.py
+  [rag_pacote/scripts_dev] gerar_diagrama.py
+  obs.: rag_pacote e frontend nao tem suite em backend/tests; contam como sem teste.
+
+5. ETAPAS DO PIPELINE
+   1. [implementada] upload / entrada de material (texto, .pdf, .docx, .txt)
+      onde: iris.api.routes.materials:process_material_file_service
+      evidencia: alcancada pela API (main/api.routes): iris.api.routes.materials:process_material_file_service, iris.api.routes.materials:process_material_text_service; #4 CLOSED; OCR de prova digitalizada (#6) segue OPEN
+   2. [implementada] sanitizacao de PII (zero-retention)
+      onde: iris.security.pii_scrubber:sanitize_pii
+      evidencia: alcancada pela API (main/api.routes): iris.security.pii_scrubber:sanitize_pii; #34 CLOSED; cabecalho escolar neutro (#36) OPEN
+   3. [implementada] extracao de texto do documento
+      onde: iris.parsers.document_extractor:extract_text_from_file
+      evidencia: alcancada pela API (main/api.routes): iris.parsers.document_extractor:extract_text_from_file; pdf/docx/txt em memoria; sem OCR
+   4. [implementada] decomposicao estrutural / organizacao de prosa
+      onde: iris.parsers.structural_decomposer:decompose_material
+      evidencia: alcancada pela API (main/api.routes): iris.parsers.structural_decomposer:decompose_material, iris.parsers.prose_organizer:organize_prose_structure; #5 e #53 CLOSED; endpoints /materials/decompose e /materials/organize-prose
+   5. [parcial     ] extrator curricular (invariantes / trava)
+      onde: iris.agents.curriculum_extractor:CurriculumExtractorAgent.extract
+      evidencia: existe mas fora do fluxo da API: iris.agents.curriculum_extractor:CurriculumExtractorAgent.extract [so via scripts/smoke_check.py, scripts/test_curriculum_extractor_cli.py]; #17 CLOSED; validacao docente das travas (#13) OPEN
+   6. [parcial     ] catalogo de caracteristicas / perfil funcional
+      onde: iris.api.routes.catalogs:select_surgical_characteristics_service
+      evidencia: alcancada pela API (main/api.routes): iris.api.routes.catalogs:select_surgical_characteristics_service, iris.schemas.catalog:load_official_tdah_catalog; existe mas fora do fluxo da API: iris.schemas.profile:validar_perfil [nenhuma rota chama]; #39 e #8 CLOSED; perfil portatil (#26, #30, #31) OPEN
+   7. [parcial     ] RAG estrategista (busca por id_caracteristica + contexto)
+      onde: iris.rag.bridge:buscar_por_caracteristica_atomica
+      evidencia: alcancada pela API (main/api.routes): iris.rag.bridge:buscar_por_caracteristica_atomica; existe mas fora do fluxo da API: iris.rag.contexto:montar_contexto_estrategista [nenhuma rota chama]; #16 OPEN (PR #68); busca exposta em /api/v1/rag/search
+   8. [parcial     ] adaptador pedagogico (isolamento de escopo)
+      onde: iris.agents.adapter_agent:AdapterAgent.adapt
+      evidencia: existe mas fora do fluxo da API: iris.agents.adapter_agent:AdapterAgent.adapt [nenhuma rota chama], iris.eval.escopo:verificar_escopo [nenhuma rota chama]; #18 OPEN; adapt() aplica laudo de escopo e saida de reserva
+   9. [parcial     ] auditor de integridade (TRCC + circuit breaker max_retries=2)
+      onde: iris.eval.trcc:avaliar_trcc
+      evidencia: existe mas fora do fluxo da API: iris.eval.trcc:avaliar_trcc [so via scripts/smoke_check.py]; #19 OPEN; so existe a metrica TRCC, sem agente auditor nem laco adaptador<->auditor
+  10. [implementada] metricas e avaliacao (RAG, TRCC, legibilidade, benchmark)
+      onde: iris.eval.rag_metrics:calcular_similaridade_semantica
+      evidencia: alcancada pela API (main/api.routes): iris.eval.rag_metrics:calcular_similaridade_semantica; fora da API (uso offline): iris.eval.executar:executar_sistema [nenhuma rota chama], iris.eval.readability [so via scripts/smoke_check.py]; #40/#45 CLOSED; avaliacao e offline por natureza; metricas do RAG servidas em /api/v1/eval/metrics
+
+6. CICLOS DE IMPORT
+  nenhum
+
+7. ARQUIVOS QUE NAO FORAM PARSEADOS
+  backend/src/iris/eval/isolamento_escopo.py: f-string expression part cannot include a backslash (linha 231); analisado por regex, sem chamadas/docstrings
