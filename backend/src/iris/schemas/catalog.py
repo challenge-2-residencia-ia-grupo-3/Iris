@@ -532,8 +532,8 @@ def validate_surgical_characteristic_selection(
     if unknown_ids:
         raise CharacteristicSelectionError(
             message=(
-                f"Característica(s) funcional(is) não reconhecida(s) no catálogo '{active_catalog.id_catalogo}': "
-                f"{', '.join(unknown_ids)}."
+                f"{'Característica funcional não reconhecida' if len(unknown_ids) == 1 else 'Características funcionais não reconhecidas'} "
+                f"no catálogo '{active_catalog.id_catalogo}': {', '.join(unknown_ids)}."
             ),
             code="UNKNOWN_CHARACTERISTIC_ID",
             field="selected_ids",
@@ -546,11 +546,14 @@ def validate_surgical_characteristic_selection(
         if c.id_caracteristica not in seen
     ]
 
+    ativadas_str = "1 característica ativada" if len(cleaned_ids) == 1 else f"{len(cleaned_ids)} características ativadas"
+    bloqueadas_str = "1 característica bloqueada" if len(blocked_ids) == 1 else f"{len(blocked_ids)} características bloqueadas"
+
     return SurgicalCharacteristicSelection(
         status="success",
         message=(
-            f"Escopo cirúrgico registrado: {len(cleaned_ids)} característica(s) ativada(s) para adaptação "
-            f"e {len(blocked_ids)} característica(s) bloqueada(s) para preservar a autonomia do estudante."
+            f"Escopo cirúrgico registrado: {ativadas_str} para adaptação "
+            f"e {bloqueadas_str} para preservar a autonomia do estudante."
         ),
         id_catalogo=active_catalog.id_catalogo,
         total_catalog_characteristics=len(active_catalog.caracteristicas),

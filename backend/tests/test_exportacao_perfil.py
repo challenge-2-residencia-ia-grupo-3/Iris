@@ -104,7 +104,7 @@ def test_pdf_tem_cabecalho_valido_e_o_conteudo_do_perfil():
     assert "aluno-8f7a2c1b" in texto
     assert "Perfil" in texto and "Portátil" in texto
     assert "13/11/2026" in texto
-    assert "Sobrecarga de memória de trabalho" in texto  # nome legível vindo do catálogo oficial
+    assert "Múltiplos comandos na mesma questão" in texto  # nome legível vindo do catálogo oficial
 
 
 def test_pdf_usa_o_proprio_id_quando_a_caracteristica_nao_esta_no_catalogo():
