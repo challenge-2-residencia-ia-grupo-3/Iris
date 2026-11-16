@@ -15,6 +15,7 @@ import {
   EstadoRevisao,
   podeExportar,
   podeHomologar,
+  QuestaoRevisao,
   resumo,
 } from "@/services/reviewState";
 import type { FormatoMaterial } from "@/services/materialExport";
@@ -22,6 +23,8 @@ import type { FormatoMaterial } from "@/services/materialExport";
 interface Props {
   /** Sessão já criada no servidor (POST /api/v1/sessions) com as questões original/adaptada. */
   sessao: SessaoRevisao;
+  /** Conteúdo extra abaixo de cada par de colunas (ex.: cartão de justificativa pedagógica, Etapa 5). */
+  extras?: (questao: QuestaoRevisao, indice: number) => React.ReactNode;
 }
 
 const ATRASO_SALVAR_MS = 600;
@@ -29,9 +32,9 @@ const ATRASO_SALVAR_MS = 600;
 /**
  * Revisão docente (História 2.2.2): edição inline da coluna adaptada, aprovação por questão, confirmação
  * final e exportação só depois da homologação. A trava real está no servidor; aqui o botão só reflete.
- * Componente pronto para a tela lado a lado (História 2.2.1); ainda não está ligado a nenhuma página.
+ * Usado pela Etapa 5 (História 2.2.1), que acrescenta o cartão de justificativas via `extras`.
  */
-export function ReviewEditor({ sessao }: Props) {
+export function ReviewEditor({ sessao, extras }: Props) {
   const [estado, setEstado] = useState<EstadoRevisao>({ questoes: sessao.questoes, homologada: sessao.homologada });
   const [confirmado, setConfirmado] = useState(sessao.questoes);
   const [salvando, setSalvando] = useState(false);
@@ -98,13 +101,17 @@ export function ReviewEditor({ sessao }: Props) {
     <section aria-label="Revisão da atividade adaptada" className="space-y-4">
       <ul className="space-y-3">
         {estado.questoes.map((q, i) => (
-          <li key={q.id} className="grid gap-3 rounded-lg border border-slate-200 p-3 md:grid-cols-2 dark:border-slate-700">
-            <div>
-              <p className="mb-1 text-xs font-semibold uppercase text-slate-500">Original · questão {i + 1}</p>
-              <p className="whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-300">{q.original}</p>
+          <li
+            key={q.id}
+            aria-label={`Questão ${i + 1}`}
+            className="grid grid-cols-1 gap-3 rounded-lg border border-slate-300 p-3 md:grid-cols-2 dark:border-slate-600"
+          >
+            <div className="min-w-0">
+              <h2 className="mb-1 text-xs font-semibold uppercase text-slate-600 dark:text-slate-300">Original · questão {i + 1}</h2>
+              <p className="whitespace-pre-wrap break-words text-sm text-slate-800 dark:text-slate-200">{q.original}</p>
             </div>
-            <div>
-              <label htmlFor={`adaptado-${q.id}`} className="mb-1 block text-xs font-semibold uppercase text-slate-500">
+            <div className="min-w-0">
+              <label htmlFor={`adaptado-${q.id}`} className="mb-1 block text-xs font-semibold uppercase text-slate-600 dark:text-slate-300">
                 Adaptada (edite à vontade){q.editada ? " · editada por você" : ""}
               </label>
               <textarea
@@ -112,26 +119,27 @@ export function ReviewEditor({ sessao }: Props) {
                 value={q.adaptado}
                 onChange={(ev) => setEstado((e) => editarQuestao(e, q.id, ev.target.value))}
                 rows={Math.max(3, q.adaptado.split("\n").length + 1)}
-                className="w-full rounded-md border border-slate-300 p-2 text-sm dark:border-slate-600 dark:bg-slate-900"
+                className="w-full rounded-md border border-slate-400 bg-white p-2 text-sm text-slate-900 dark:border-slate-500 dark:bg-slate-900 dark:text-slate-100"
               />
               <button
                 type="button"
                 onClick={() => setEstado((e) => definirAprovacao(e, q.id, !q.aprovada))}
                 aria-pressed={q.aprovada}
                 disabled={!q.adaptado.trim()}
-                className={`mt-2 inline-flex items-center gap-1 rounded-md border px-3 py-1 text-sm ${
-                  q.aprovada ? "border-emerald-600 bg-emerald-50 text-emerald-800" : "border-slate-300"
+                className={`mt-2 inline-flex min-h-[44px] items-center gap-1 rounded-md border px-3 py-1 text-sm ${
+                  q.aprovada ? "border-emerald-700 bg-emerald-50 text-emerald-900" : "border-slate-400 bg-white text-slate-900 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
                 }`}
               >
                 <CheckCircle2 className="h-4 w-4" aria-hidden />
                 {q.aprovada ? "Questão aprovada" : "Aprovar questão"}
               </button>
             </div>
+            {extras && <div className="min-w-0 md:col-span-2">{extras(q, i)}</div>}
           </li>
         ))}
       </ul>
 
-      <div className="flex flex-wrap items-center gap-3 rounded-lg border border-slate-200 p-3 dark:border-slate-700">
+      <div className="flex flex-wrap items-center gap-3 rounded-lg border border-slate-300 p-3 dark:border-slate-600">
         <span className="text-sm" aria-live="polite">
           {aprovadas} de {total} questões aprovadas · {salvando ? "salvando…" : pendente ? "alterações por salvar" : "tudo salvo"}
         </span>
@@ -139,7 +147,7 @@ export function ReviewEditor({ sessao }: Props) {
           type="button"
           onClick={homologarAgora}
           disabled={!podeHomologar(estado) || !salvo || estado.homologada}
-          className="inline-flex items-center gap-1 rounded-md bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-40"
+          className="inline-flex min-h-[44px] items-center gap-1 rounded-md bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-60 dark:bg-slate-100 dark:text-slate-900"
         >
           <ShieldCheck className="h-4 w-4" aria-hidden />
           {estado.homologada ? "Revisão confirmada" : "Confirmar revisão final"}
@@ -151,7 +159,7 @@ export function ReviewEditor({ sessao }: Props) {
             onClick={() => exportar(f)}
             disabled={!liberado || exportando !== null}
             title={liberado ? undefined : "Libera depois que você aprovar todas as questões e confirmar a revisão final."}
-            className="inline-flex items-center gap-1 rounded-md border border-slate-300 px-3 py-1.5 text-sm disabled:opacity-40"
+            className="inline-flex min-h-[44px] items-center gap-1 rounded-md border border-slate-400 bg-white px-3 py-1.5 text-sm text-slate-900 disabled:opacity-60 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
           >
             {exportando === f ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : f === "pdf" ? <FileText className="h-4 w-4" aria-hidden /> : <FileType2 className="h-4 w-4" aria-hidden />}
             Exportar {f.toUpperCase()}
@@ -159,7 +167,7 @@ export function ReviewEditor({ sessao }: Props) {
         ))}
       </div>
       {erro && (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-red-800 dark:text-red-300">
           {erro}
         </p>
       )}
