@@ -96,7 +96,7 @@ from iris.parsers.structural_decomposer import decompose_material  # noqa: E402
 from iris.schemas.adaptation import AdaptationRequest  # noqa: E402
 from iris.schemas.curriculum import CurriculumInvariants  # noqa: E402
 from iris.schemas.materials import validate_file_size_limit, validate_material_content  # noqa: E402
-from iris.schemas.profile import validar_perfil  # noqa: E402
+from iris.schemas.portable_profile import validar_perfil  # noqa: E402
 from iris.schemas.strategy import StrategyRequest  # noqa: E402  (PR #81)
 from iris.security.pii_scrubber import sanitize_pii  # noqa: E402
 
@@ -492,7 +492,7 @@ NOS: list[dict] = [
     {"id": "selecao_caracteristica", "nome": "Seleção da característica", "o_que_faz": "Valida a característica escolhida pela professora no catálogo.",
      "funcao_grupo": "iris.api.routes.catalogs:select_surgical_characteristics_service", "origem": "dev", "tipo": "deterministico", "camada": "material"},
     {"id": "perfil", "nome": "Perfil pedagógico", "o_que_faz": "Valida o perfil anônimo do aluno (só código e barreiras observadas).",
-     "funcao_grupo": "iris.schemas.profile:validar_perfil", "origem": "dev", "tipo": "deterministico", "camada": "material"},
+     "funcao_grupo": "iris.schemas.portable_profile:validar_perfil", "origem": "dev", "tipo": "deterministico", "camada": "material"},
     {"id": "proxima_questao", "nome": "Próxima questão", "o_que_faz": "Pega a próxima questão da lista ou encerra quando acabam (substituto da bancada).",
      "funcao_grupo": None, "origem": "bancada", "tipo": "decisao", "camada": "questao"},
     {"id": "extrator", "nome": "Agente Extrator", "o_que_faz": "Descobre o que a questão avalia (conceitos que não podem sumir).",

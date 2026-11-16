@@ -107,7 +107,7 @@ MATERIAIS: list[dict] = [
 ]
 
 PERFIL_SINTETICO = {
-    "codigo_anonimo": "SINT-0001",
+    "codigo_anonimo": "aluno-00000001",
     "barreiras_observadas": [
         {"id_caracteristica": ID_COMANDOS_MULTIPLOS, "observacao": "Perde etapas quando o enunciado tem vários comandos."}
     ],
@@ -404,7 +404,7 @@ def executar_material(material: dict, cliente: T.ClienteRastreado, cfg: dict, ru
     from iris.schemas.materials import validate_file_size_limit, validate_material_content
     from iris.security.pii_scrubber import sanitize_pii
     try:  # o Perfil Pedagógico Portátil (#77) só existe a partir de 9bf8163; PRs abertos antes dele não têm o módulo
-        from iris.schemas.profile import validar_perfil
+        from iris.schemas.portable_profile import validar_perfil
     except ModuleNotFoundError:
         validar_perfil = None
 
@@ -452,9 +452,9 @@ def executar_material(material: dict, cliente: T.ClienteRastreado, cfg: dict, ru
         perfil["barreiras_observadas"] = [{"id_caracteristica": cfg["caracteristica"],
                                            "observacao": "Perde etapas quando o enunciado tem vários comandos."}]
         if validar_perfil is None:
-            r.nao_implementada("perfil_pedagogico", "iris.schemas.profile não existe nesta versão do código (entrou no #77)")
+            r.nao_implementada("perfil_pedagogico", "iris.schemas.portable_profile não existe nesta versão do código (entrou no #77)")
         else:
-            with r.etapa("perfil_pedagogico", "iris.schemas.profile:validar_perfil", perfil, _r_perfil) as cx:
+            with r.etapa("perfil_pedagogico", "iris.schemas.portable_profile:validar_perfil", perfil, _r_perfil) as cx:
                 cx["saida"] = validar_perfil(perfil)
 
         questoes = [(q.id, enunciado_da_questao(q)) for q in estrutura.questions]

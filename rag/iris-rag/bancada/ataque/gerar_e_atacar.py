@@ -14,12 +14,12 @@ propósito, telefone com DDD 00, e-mail em @exemplo.test):
                misturadas com dado pessoal, para ver se o caminho de upload segura o dado e o que deixa passar;
   * controle = conteúdo pedagógico PARECIDO com dado pessoal (número de exercício, data histórica, autor
                famoso) que NÃO pode ser apagado: mede o falso positivo;
-  * perfil   = os mesmos dados dentro do Perfil Pedagógico (bloqueio clínico de iris.schemas.profile).
+  * perfil   = os mesmos dados dentro do Perfil Pedagógico (bloqueio clínico de iris.schemas.portable_profile).
 
 Contra o quê roda (código real do grupo, só leitura, determinístico):
   * texto -> iris.api.routes.materials:process_material_text_service  (sanitize_pii + validação)
   * docx/pdf -> iris.api.routes.materials:process_material_file_service (extração + sanitize_pii + validação)
-  * perfil -> iris.schemas.profile:validar_perfil (bloqueio de CID/laudo/diagnóstico/medicação)
+  * perfil -> iris.schemas.portable_profile:validar_perfil (bloqueio de CID/laudo/diagnóstico/medicação)
 
 Uso:
     PYTHONDONTWRITEBYTECODE=1 nice -n 19 <venv>/bin/python bancada/ataque/gerar_e_atacar.py
@@ -373,7 +373,7 @@ def rotas():
     if not _ROTAS:
         from iris.api.routes.materials import process_material_file_service, process_material_text_service
         from iris.parsers.document_extractor import extract_text_from_file
-        from iris.schemas.profile import PerfilInvalidoError, validar_perfil
+        from iris.schemas.portable_profile import PerfilInvalidoError, validar_perfil
 
         _ROTAS.update(texto=process_material_text_service, arquivo=process_material_file_service,
                       extrair=extract_text_from_file, perfil=validar_perfil, perfil_erro=PerfilInvalidoError)
@@ -398,7 +398,7 @@ def rodar_material(formato: str, texto: str, tabela) -> dict:
 
 
 PERFIL_BASE = {
-    "codigo_anonimo": "ALU-0001",
+    "codigo_anonimo": "aluno-00000002",
     "barreiras_observadas": [{"id_caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
                               "observacao": "Perde o fio em enunciados com muitos comandos."}],
     "historico_estrategias": [{"estrategia": "dividir o enunciado em etapas", "resultado": "eficaz",
@@ -592,11 +592,11 @@ def minimizar(c: dict) -> dict:
     """Corta o material até o menor texto que ainda vaza na mesma rota (o caso para a issue)."""
     if c["rota"] == "perfil":
         campo = c["campo"]
-        dados = {"codigo_anonimo": "ALU-0001", "anotacoes_pedagogicas": [campo]}
+        dados = {"codigo_anonimo": "aluno-00000002", "anotacoes_pedagogicas": [campo]}
         r = rodar_perfil(dados)
         if r["aceito"]:
-            return {"rota": "iris.schemas.profile:validar_perfil", "entrada": dados, "aceito": True}
-        return {"rota": "iris.schemas.profile:validar_perfil", "entrada": perfil_com(campo, c["posicao"]), "aceito": True}
+            return {"rota": "iris.schemas.portable_profile:validar_perfil", "entrada": dados, "aceito": True}
+        return {"rota": "iris.schemas.portable_profile:validar_perfil", "entrada": perfil_com(campo, c["posicao"]), "aceito": True}
     linhas = texto_com_tabela(c["texto"], c["tabela"]).split("\n") if c["formato"] == "texto" else c["texto"].split("\n")
     tabela = None if c["formato"] == "texto" else c["tabela"]
     def ainda(ls):
@@ -811,7 +811,7 @@ def main(argv=None) -> int:
         "rotas": {
             "material_texto": "iris.api.routes.materials:process_material_text_service (sanitize_pii + validate_material_content)",
             "material_arquivo": "iris.api.routes.materials:process_material_file_service (extract_text_from_file + sanitize_pii)",
-            "perfil": "iris.schemas.profile:validar_perfil (bloqueio clínico)",
+            "perfil": "iris.schemas.portable_profile:validar_perfil (bloqueio clínico)",
         },
         "como_ler": ("vazamento = o dado sintético (ou parte dele que ainda identifica: um sobrenome, 7+ dígitos "
                      "seguidos) sobreviveu na saída da rota. Na rota perfil, vazamento = o perfil foi ACEITO com o "
