@@ -84,7 +84,7 @@ def validate_material_content(text: str, max_context_chars: int = MAX_SAFE_CONTE
         raise MaterialValidationError(
             message=(
                 f"O material deve conter no mínimo {MIN_MATERIAL_CHARS} caracteres para permitir a análise pedagógica. "
-                f"Quantidade atual: {char_count} caracter(es)."
+                f"Quantidade atual: {char_count} {'caractere' if char_count == 1 else 'caracteres'}."
             ),
             code="TEXT_TOO_SHORT",
             field="text",

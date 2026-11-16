@@ -8,7 +8,7 @@
   "caracteristicas": [
     {
       "id_caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
-      "nome": "Sobrecarga de memória de trabalho em comandos múltiplos conjugados",
+      "nome": "Múltiplos comandos na mesma questão",
       "descricao_observavel": "O estudante compreende o conteúdo avaliado, mas esquece etapas ou omite partes da resposta quando o enunciado acumula dois ou mais verbos de comando na mesma frase ou parágrafo.",
       "exemplos_manifestacao_sala": [
         "Responde apenas à primeira pergunta de uma questão que pede 'identifique, justifique e dê um exemplo'.",
@@ -81,7 +81,7 @@
     },
     {
       "id_caracteristica": "retencao_dados_intermediarios_problemas_multietapas",
-      "nome": "Dificuldade na retenção e manipulação mental de dados intermediários",
+      "nome": "Perda de dados intermediários em etapas",
       "descricao_observavel": "O estudante compreende o raciocínio lógico ou matemático, mas perde valores numéricos, premissas ou condições espalhadas ao longo do texto de apoio durante a resolução.",
       "exemplos_manifestacao_sala": [
         "Esquece uma unidade de medida ou condição inicial informada no primeiro parágrafo ao realizar o cálculo final.",
@@ -154,7 +154,7 @@
     },
     {
       "id_caracteristica": "atencao_sustentada_textos_longos",
-      "nome": "Fadiga de atenção sustentada em blocos textuais densos e contínuos",
+      "nome": "Leitura de textos longos e densos",
       "descricao_observavel": "O estudante demonstra domínio oral do tema, mas abandona a leitura ou salta linhas quando confrontado com textos-base extensos em parágrafo único sem respiro visual.",
       "exemplos_manifestacao_sala": [
         "Inicia a leitura do texto de apoio, mas pula direto para as alternativas sem terminar o parágrafo.",
@@ -227,7 +227,7 @@
     },
     {
       "id_caracteristica": "distratibilidade_poluicao_visual_layout",
-      "nome": "Distratibilidade por poluição visual e elementos gráficos concorrentes",
+      "nome": "Poluição visual e layout desorganizado",
       "descricao_observavel": "O estudante desvia o foco quando a atividade contém caixas laterais decorativas, múltiplas fontes, excesso de informações periféricas ou alternativas mal alinhadas.",
       "exemplos_manifestacao_sala": [
         "Prende-se a detalhes irrelevantes de ilustrações decorativas e perde o foco no enunciado.",
@@ -300,7 +300,7 @@
     },
     {
       "id_caracteristica": "impulsividade_leitura_superficial_negacoes",
-      "nome": "Impulsividade na resposta e omissão de condições restritivas ou negações",
+      "nome": "Omissão de negações e exceções (NÃO, EXCETO)",
       "descricao_observavel": "O estudante responde de forma precipitada logo após ler as primeiras palavras do enunciado, ignorando termos restritivos críticos como 'EXCETO', 'NÃO', 'INCORRETA' ou 'APENAS'.",
       "exemplos_manifestacao_sala": [
         "Marca a primeira alternativa verdadeira em uma questão que pedia a alternativa INCORRETA.",
@@ -373,7 +373,7 @@
     },
     {
       "id_caracteristica": "organizacao_sequencial_expressao_escrita",
-      "nome": "Dificuldade na organização sequencial de etapas e expressão escrita",
+      "nome": "Organização da escrita em questões discursivas",
       "descricao_observavel": "O estudante sabe explicar o conteúdo oralmente, mas apresenta dificuldade ao ordenar início, meio e fim em respostas discursivas ou procedimentos sequenciais.",
       "exemplos_manifestacao_sala": [
         "Escreve respostas telegráficas e fora de ordem lógica que omitem a justificativa exigida.",
@@ -446,7 +446,7 @@
     },
     {
       "id_caracteristica": "fadiga_executiva_autorregulacao_provas_extensas",
-      "nome": "Fadiga executiva e queda de sustentação atencional ao longo de avaliações extensas",
+      "nome": "Queda de rendimento em avaliações extensas",
       "descricao_observavel": "O estudante inicia a avaliação com bom desempenho nas primeiras questões, mas demonstra exaustão, frustração e respostas aleatórias na metade final da prova.",
       "exemplos_manifestacao_sala": [
         "Acerta as questões difíceis do início da prova e erra questões simples no final por esgotamento.",
@@ -519,7 +519,7 @@
     },
     {
       "id_caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
-      "nome": "Rigidez na alternância entre tipos de tarefa ou mudança brusca de regra",
+      "nome": "Mudança brusca de assunto ou formato entre questões",
       "descricao_observavel": "O estudante persiste usando a regra, fórmula ou lógica da questão anterior quando a prova muda abruptamente de tema ou de tipo de comando sem sinalização.",
       "exemplos_manifestacao_sala": [
         "Continua somando em uma questão de subtração ou aplica o contexto do texto 1 ao responder sobre o texto 2.",
@@ -592,7 +592,7 @@
     },
     {
       "id_caracteristica": "bloqueio_iniciacao_tarefas_abertas",
-      "nome": "Bloqueio na iniciação de tarefas abertas sem ponto de partida estruturado",
+      "nome": "Dificuldade para iniciar questões abertas",
       "descricao_observavel": "O estudante demora muito para começar a resolver questões abertas por dificuldade executiva em selecionar o primeiro passo diante de uma folha em branco.",
       "exemplos_manifestacao_sala": [
         "Permanece parado olhando para a questão por vários minutos até que o professor indique por onde começar.",
@@ -665,7 +665,7 @@
     },
     {
       "id_caracteristica": "ritmo_processamento_pressao_temporal",
-      "nome": "Sobrecarga por velocidade de processamento sob pressão de tempo e volume textual",
+      "nome": "Pressão de tempo e enunciados com frases longas",
       "descricao_observavel": "O estudante realiza o raciocínio correto quando dispõe de tempo para decodificar as informações, mas bloqueia diante de enunciados prolixos com excesso de rodeios sintáticos.",
       "exemplos_manifestacao_sala": [
         "Demora o dobro do tempo na leitura de contextualizações longas que não contêm dados essenciais para a questão.",

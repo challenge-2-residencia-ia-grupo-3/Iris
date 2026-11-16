@@ -179,15 +179,16 @@ export function Step1MaterialIntake({
         confirmedForStep2: false,
       });
 
+      const piiCount = response.metadata.pii_removed_count || 0;
       const piiNote =
-        response.metadata.sanitized && response.metadata.pii_removed_count > 0
-          ? ` (${response.metadata.pii_removed_count} dado(s) pessoal(is) anonimizado(s) preventivamente via Zero-Retention Scrubber).`
+        response.metadata.sanitized && piiCount > 0
+          ? ` (${piiCount === 1 ? "1 dado pessoal anonimizado" : `${piiCount} dados pessoais anonimizados`} preventivamente via Zero-Retention Scrubber).`
           : "";
 
       setFeedbackBanner({
         type: "success",
         title: "Conteúdo extraído em memória para conferência imediata",
-        message: `${response.message}${piiNote} Confira o texto abaixo antes de prosseguir.`,
+        message: `Confira o texto abaixo antes de prosseguir.`,
       });
     } catch (err) {
       setSelectedFile({
@@ -337,9 +338,10 @@ export function Step1MaterialIntake({
         confirmedForStep2: true,
       });
 
+      const piiCount = response.metadata.pii_removed_count || 0;
       const piiInfo =
-        response.metadata.sanitized && response.metadata.pii_removed_count > 0
-          ? ` Foram removidos preventivamente ${response.metadata.pii_removed_count} identificador(es) pessoal(is) (PII) para conformidade com a LGPD.`
+        response.metadata.sanitized && piiCount > 0
+          ? ` ${piiCount === 1 ? "Foi removido preventivamente 1 identificador pessoal (PII)" : `Foram removidos preventivamente ${piiCount} identificadores pessoais (PIIs)`} para conformidade com a LGPD.`
           : "";
 
       setFeedbackBanner({
@@ -393,7 +395,6 @@ export function Step1MaterialIntake({
             <IrisLogoBanner compact />
             <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#335C67]/10 dark:bg-white/10 border border-[#335C67]/25 text-xs font-semibold text-[#335C67] dark:text-[#F5EDF0]">
               <ShieldCheck className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
-              <span>Zero-Database • Conformidade LGPD</span>
             </div>
           </div>
 
@@ -472,9 +473,6 @@ export function Step1MaterialIntake({
               >
                 Entrada do material didático
               </h1>
-              <p className="text-sm sm:text-base text-[#0D0221]/75 dark:text-white/75 mt-1 max-w-3xl">
-                Cole diretamente o texto da sua avaliação ou faça o upload de um arquivo.
-              </p>
             </div>
 
             {textContent.length > 0 && (
@@ -555,13 +553,7 @@ export function Step1MaterialIntake({
                   <FileUp className="w-5 h-5 text-[#E35336]" aria-hidden="true" />
                   Upload de Documento
                 </h2>
-                <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-0.5">
-                  Envie um arquivo existente do seu computador (1 arquivo por envio).
-                </p>
               </div>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#335C67]/10 text-[#335C67] dark:bg-white/10 dark:text-white">
-                Extração em Memória
-              </span>
             </div>
 
             {/* Zona Drag-and-Drop Acessível por Teclado e Mouse */}
@@ -635,9 +627,6 @@ export function Step1MaterialIntake({
                   </span>
                 ))}
               </div>
-              <p className="text-[11px] text-[#0D0221]/60 dark:text-white/60 mt-2">
-                Apenas 1 arquivo por envio • Preservação UTF-8 garantida
-              </p>
             </div>
 
             {/* Feedback Visual de Formato Aceito / Rejeitado */}
@@ -701,7 +690,7 @@ export function Step1MaterialIntake({
                     <dt className="opacity-70">Sanitização LGPD</dt>
                     <dd className="font-bold text-emerald-700 dark:text-emerald-400">
                       {serverMetadata.sanitized
-                        ? `${serverMetadata.pii_removed_count} PII descartado(s)`
+                        ? `${serverMetadata.pii_removed_count} ${serverMetadata.pii_removed_count === 1 ? "PII descartado" : "PIIs descartados"}`
                         : "Sem PII detectado"}
                     </dd>
                   </div>
@@ -725,9 +714,6 @@ export function Step1MaterialIntake({
                   <ClipboardPaste className="w-5 h-5 text-[#E35336]" aria-hidden="true" />
                   Colagem Direta e Conferência do Material
                 </label>
-                <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-0.5">
-                  Cole o texto da sua atividade abaixo ou confira/edite o conteúdo extraído do documento enviado.
-                </p>
               </div>
 
               {serverMetadata?.filename && (
@@ -748,7 +734,7 @@ export function Step1MaterialIntake({
                   setConfirmedForStep2(false);
                 }}
                 rows={13}
-                placeholder="Cole aqui os textos de apoio, enunciados e alternativas da atividade ou faça upload de um arquivo (.pdf, .docx, .txt) ao lado..."
+                placeholder="Cole aqui os textos de apoio, enunciados e alternativas da atividade ou faça upload de um arquivo ao lado..."
                 aria-invalid={textContent.length > 0 && (!metrics.meetsMinimum || metrics.exceedsSafeContext)}
                 aria-describedby="contador-tempo-real-info"
                 className="w-full rounded-xl bg-[#FAFAFC] dark:bg-[#0D0221]/90 border border-[#335C67]/30 dark:border-white/20 p-4 text-sm sm:text-base leading-relaxed text-[#0D0221] dark:text-[#F5EDF0] placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:border-[#E35336] transition-colors resize-y font-sans"
@@ -802,7 +788,9 @@ export function Step1MaterialIntake({
                 ) : !metrics.meetsMinimum ? (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30">
                     <AlertCircle className="w-3.5 h-3.5" aria-hidden="true" />
-                    Faltam {MIN_MATERIAL_CHARS - metrics.charCount} caractere(s) (mín. {MIN_MATERIAL_CHARS})
+                    {MIN_MATERIAL_CHARS - metrics.charCount === 1
+                      ? `Falta 1 caractere (mín. ${MIN_MATERIAL_CHARS})`
+                      : `Faltam ${MIN_MATERIAL_CHARS - metrics.charCount} caracteres (mín. ${MIN_MATERIAL_CHARS})`}
                   </span>
                 ) : metrics.exceedsSafeContext ? (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-500/15 text-red-800 dark:text-red-300 border border-red-500/30">
@@ -820,10 +808,7 @@ export function Step1MaterialIntake({
 
             {/* Rodapé de Ação Principal (Estilo Fiery Terracotta #E35336 do Figma) */}
             <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-[#335C67]/15 dark:border-white/10">
-              <p className="text-xs text-[#0D0221]/70 dark:text-white/70">
-                Ao prosseguir, o conteúdo passa pelo sanitizador local de PII (Zero-Retention) e fica disponível em memória para a Etapa 2.
-              </p>
-
+  
               <button
                 type="button"
                 disabled={!metrics.meetsMinimum || metrics.exceedsSafeContext || isProcessing}
