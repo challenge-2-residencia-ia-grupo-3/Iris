@@ -21,7 +21,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from iris import __version__
-from iris.config import RAG_PACOTE_DIR, get_settings
+from iris.config import RAG_PACOTE_DIR, get_settings, validate_zero_database_configuration
 
 PLAYGROUND_HTML_PATH = Path(__file__).resolve().parent / "static" / "playground.html"
 
@@ -97,6 +97,8 @@ def get_health_status() -> dict[str, Any]:
         "version": __version__,
         "environment": settings.env,
         "zero_student_database": settings.zero_student_database,
+        "stateless_mode": settings.stateless_mode,
+        "allowed_persistent_stores": list(settings.allowed_persistent_stores),
         "llm_provider": settings.llm_provider,
         "llm_model": active_model,
         "ollama_online": llm_info.get("ollama_online", False),
@@ -353,9 +355,11 @@ def _handle_extractor_analytics(
 
 def create_app() -> Any:
     """Cria e configura a aplicação FastAPI stateless (com rotas de API, Materiais e Frontend Web)."""
-    from fastapi import Body, FastAPI, Query
+    from fastapi import Body, FastAPI, Query, Request
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import HTMLResponse
+
+    validate_zero_database_configuration(get_settings())
 
     app = FastAPI(
         title="Íris — Adaptação Inteligente de Materiais Pedagógicos",
@@ -366,6 +370,16 @@ def create_app() -> Any:
         version=__version__,
     )
 
+    @app.middleware("http")
+    async def enforce_stateless_privacy_headers(request: Request, call_next: Any) -> Any:
+        """Garante operação 100% stateless sem retenção em cache HTTP ou cookies de sessão (RNF-01)."""
+        response = await call_next(request)
+        if request.url.path.startswith("/api/v1/"):
+            if "cache-control" not in response.headers:
+                response.headers["Cache-Control"] = "no-store"
+            response.headers.setdefault("Pragma", "no-cache")
+        return response
+
     app.add_middleware(
         CORSMiddleware,
         allow_origins=[
@@ -374,7 +388,7 @@ def create_app() -> Any:
             "http://localhost:8000",
             "http://127.0.0.1:8000",
         ],
-        allow_credentials=True,
+        allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],
     )
@@ -475,6 +489,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             self.send_response(status)
             self._send_cors_headers()
             self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Pragma", "no-cache")
             self.send_header("Content-Length", str(len(raw)))
             self.end_headers()
             self.wfile.write(raw)

@@ -201,7 +201,7 @@ fi
 BENCH_RAW="${REPO_ROOT}/data/benchmarks/questoes_escolares_v1.json"
 BENCH_CURATED="${REPO_ROOT}/data/benchmarks/questoes_escolares_curado_v1.json"
 BENCH_SCRIPT="${REPO_ROOT}/backend/src/iris/eval/rag_escolar_benchmark.py"
-if [ -f "${BENCH_RAW}" ]; then
+if [ -f "${BENCH_RAW}" ] && [ -f "${BENCH_SCRIPT}" ]; then
     if [ ! -f "${BENCH_CURATED}" ] || [ "${BENCH_RAW}" -nt "${BENCH_CURATED}" ] || [ "${BENCH_SCRIPT}" -nt "${BENCH_CURATED}" ]; then
         echo "      -> [INSTALANDO] Gerando camada curada do benchmark escolar..."
         "${PYTHON_BIN}" -m iris.eval.rag_escolar_benchmark --curar >/dev/null

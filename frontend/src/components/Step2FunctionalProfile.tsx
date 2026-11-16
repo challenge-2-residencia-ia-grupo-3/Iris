@@ -1,6 +1,7 @@
 "use client";
 
 import { PortableProfilePanel } from "@/components/PortableProfilePanel";
+import type { PerfilPedagogicoPortatil } from "@/services/portableProfile";
 
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -282,6 +283,31 @@ export function Step2FunctionalProfile({
       code: "EMPTY_CHARACTERISTIC_SELECTION",
     });
   };
+
+  const handleApplyLocalProfile = useCallback(
+    (perfil: PerfilPedagogicoPortatil) => {
+      const validSet = new Set(catalog.caracteristicas.map((c) => c.id_caracteristica));
+      const applied = perfil.caracteristicas_selecionadas.filter((id) => validSet.has(id));
+      if (applied.length === 0) {
+        setFeedbackBanner({
+          type: "warning",
+          title: "Perfil incompatível com o catálogo atual",
+          message: `Nenhuma das características do perfil ${perfil.codigo_anonimo} corresponde ao catálogo ativo.`,
+        });
+        return;
+      }
+      setSelectedIds(applied);
+      setConfirmedSelection(null);
+      setAttemptedEmptySubmit(false);
+      clearSurgicalSelectionFromSession();
+      setFeedbackBanner({
+        type: "info",
+        title: `Perfil ${perfil.codigo_anonimo} aplicado localmente`,
+        message: `${applied.length} característica(s) funcional(is) restaurada(s) do armazenamento local do navegador (sem dados pessoais ou persistência no servidor).`,
+      });
+    },
+    [catalog.caracteristicas]
+  );
 
   const navigateToSubStep = (target: Step2SubStep) => {
     if (target !== "a" && selectedIds.length === 0) {
@@ -749,12 +775,11 @@ export function Step2FunctionalProfile({
               </div>
             )}
 
-            {selectedCount > 0 && (
-              <PortableProfilePanel
-                selectedIds={selectedIds}
-                validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
-              />
-            )}
+            <PortableProfilePanel
+              selectedIds={selectedIds}
+              validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
+              onApplyProfile={handleApplyLocalProfile}
+            />
 
             {/* Rodapé do Passo (a) */}
             <div className="pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
