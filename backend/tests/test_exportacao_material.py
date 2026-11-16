@@ -8,6 +8,7 @@ import io
 import re
 import socket
 import unicodedata
+import unittest
 from pathlib import Path
 
 import pytest
@@ -334,3 +335,52 @@ def test_rota_verificar_devolve_avisos(cliente):
 @requer_http
 def test_rota_so_aceita_post(cliente):
     assert cliente.get("/api/v1/adaptacao/exportar").status_code == 405
+
+
+class TestExportacaoMaterialUnittest(unittest.TestCase):
+    """Permite coleta e execução no `unittest discover` do CI mantendo os testes pytest."""
+
+    def test_pdf_e_docx_exportacao(self) -> None:
+        test_pdf_e_um_pdf_a4_com_o_conteudo()
+        test_pdf_usa_so_fonte_sem_serifa()
+        test_pdf_e_so_em_tons_de_cinza()
+        test_pdf_nao_tem_blocos_densos_de_tinta_escura()
+        test_pdf_longo_quebra_em_varias_paginas_sem_perder_texto()
+        test_pdf_preserva_quebras_de_linha_e_escapa_html()
+        test_docx_abre_editavel_em_a4_com_arial_e_espacamento()
+        test_docx_e_preto_sem_cor_nem_serifa()
+        test_docx_nao_deixa_metadado_de_autor()
+
+    def test_cabecalho_avisos_e_validacoes(self) -> None:
+        for formato in ("pdf", "docx"):
+            test_cabecalho_e_generico_com_campos_em_branco(formato)
+        for titulo in ("Atividade para aluno com TDAH", "Adaptada - laudo F90"):
+            test_titulo_com_rotulo_clinico_e_recusado(titulo)
+        for titulo in ("Aluno: João da Silva", "Contato 123.456.789-09"):
+            test_titulo_com_dado_pessoal_e_recusado(titulo)
+        for titulo in (None, ""):
+            test_titulo_vazio_usa_o_padrao(titulo)
+        test_titulo_comum_de_escola_nao_e_bloqueado()
+        test_corpo_nao_e_alterado_mesmo_com_dado_pessoal_ou_termo_clinico()
+        test_verificar_avisa_sem_recusar()
+        test_verificar_sem_avisos_para_texto_limpo()
+        test_campo_extra_nao_e_ecoado()
+
+    def test_stateless_e_independencia(self) -> None:
+        for caminho in _MODULOS:
+            test_codigo_nao_importa_nem_chama_nada_de_persistencia(caminho)
+        test_duas_exportacoes_seguidas_sao_independentes()
+
+    @unittest.skipUnless(HTTPX and rota_material.router is not None, "requer FastAPI e httpx")
+    def test_rotas_http(self) -> None:
+        from fastapi.testclient import TestClient
+        from iris.main import create_app
+
+        client = TestClient(create_app())
+        test_rota_pdf_e_docx(client)
+        test_rota_usa_pdf_por_padrao(client)
+        test_rota_recusa_titulo_clinico_sem_ecoar(client)
+        test_rota_recusa_formato_e_corpo_invalidos(client)
+        test_rota_verificar_devolve_avisos(client)
+        test_rota_so_aceita_post(client)
+

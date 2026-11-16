@@ -33,6 +33,9 @@ jobs:
       - name: Instalar dependências travadas no uv.lock
         run: uv sync --frozen
 
+      - name: Auditoria Zero-Database e Arquitetura Stateless (RNF-01)
+        run: uv run --frozen python scripts/audit_zero_database.py
+
       - name: Rodar a suíte
         run: uv run --frozen --with coverage coverage run --branch --source=backend/src/iris -m unittest discover -s backend/tests
         env:

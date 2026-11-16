@@ -1,6 +1,7 @@
 "use client";
 
 import { PortableProfilePanel } from "@/components/PortableProfilePanel";
+import type { PerfilPedagogicoPortatil } from "@/services/portableProfile";
 
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -15,7 +16,6 @@ import {
   ChevronUp,
   Compass,
   Contrast,
-  Filter,
   HeartHandshake,
   Info,
   Layers,
@@ -24,7 +24,6 @@ import {
   Moon,
   RotateCcw,
   Search,
-  ShieldCheck,
   Sparkles,
   Square,
   Sun,
@@ -98,9 +97,8 @@ export function Step2FunctionalProfile({
   const [loadedFromApi, setLoadedFromApi] = useState<boolean>(false);
   const [sessionMaterialPreview, setSessionMaterialPreview] = useState<string>("");
 
-  // Passo (A): Seleção cirúrgica e filtro por dimensão funcional
+  // Passo (A): Seleção cirúrgica de características
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [activeBarrierFilter, setActiveBarrierFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedDetails, setExpandedDetails] = useState<Record<string, boolean>>({});
 
@@ -189,6 +187,14 @@ export function Step2FunctionalProfile({
     saveEngagementProfileToSession(currentEngagementProfile);
   }, [currentEngagementProfile]);
 
+  useEffect(() => {
+    if (!feedbackBanner) return;
+    const timer = window.setTimeout(() => {
+      setFeedbackBanner(null);
+    }, 4000);
+    return () => window.clearTimeout(timer);
+  }, [feedbackBanner]);
+
   const effectiveMaterialPreview = materialPreviewText || sessionMaterialPreview;
 
   const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
@@ -201,14 +207,11 @@ export function Step2FunctionalProfile({
     selectedChannels.length + (potencialidades.trim().length > 0 ? 1 : 0);
   const engagementAnchorCount = totalInterestsCount + engagementDetailsCount;
 
-  // Características filtradas por dimensão funcional e busca textual
+  // Características filtradas por busca textual rápida
   const filteredCharacteristics = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
+    if (!q) return catalog.caracteristicas;
     return catalog.caracteristicas.filter((item) => {
-      if (activeBarrierFilter !== "all" && item.barreira_rag_associada !== activeBarrierFilter) {
-        return false;
-      }
-      if (!q) return true;
       const haystack = [
         item.nome,
         item.descricao_observavel,
@@ -221,7 +224,7 @@ export function Step2FunctionalProfile({
         .toLowerCase();
       return haystack.includes(q);
     });
-  }, [catalog.caracteristicas, activeBarrierFilter, searchQuery]);
+  }, [catalog.caracteristicas, searchQuery]);
 
   const handleToggleCharacteristic = useCallback((idCaracteristica: string) => {
     setConfirmedSelection(null);
@@ -268,6 +271,31 @@ export function Step2FunctionalProfile({
     clearEngagementProfileFromSession();
   };
 
+  const handleApplyLocalProfile = useCallback(
+    (perfil: PerfilPedagogicoPortatil) => {
+      const validSet = new Set(catalog.caracteristicas.map((c) => c.id_caracteristica));
+      const applied = perfil.caracteristicas_selecionadas.filter((id) => validSet.has(id));
+      if (applied.length === 0) {
+        setFeedbackBanner({
+          type: "warning",
+          title: "Perfil incompatível com o catálogo atual",
+          message: `Nenhuma das características do perfil ${perfil.codigo_anonimo} corresponde ao catálogo ativo.`,
+        });
+        return;
+      }
+      setSelectedIds(applied);
+      setConfirmedSelection(null);
+      setAttemptedEmptySubmit(false);
+      clearSurgicalSelectionFromSession();
+      setFeedbackBanner({
+        type: "info",
+        title: `Perfil ${perfil.codigo_anonimo} aplicado localmente`,
+        message: `${applied.length} característica(s) funcional(is) restaurada(s) do armazenamento local do navegador (sem dados pessoais ou persistência no servidor).`,
+      });
+    },
+    [catalog.caracteristicas]
+  );
+
   const handleClearSelection = () => {
     setSelectedIds([]);
     setConfirmedSelection(null);
@@ -279,12 +307,12 @@ export function Step2FunctionalProfile({
       title: "Nenhuma característica funcional selecionada",
       message:
         "O avanço para os próximos passos está bloqueado. Selecione pelo menos 1 característica observada em sala de aula.",
-      code: "EMPTY_CHARACTERISTIC_SELECTION",
     });
   };
 
   const navigateToSubStep = (target: Step2SubStep) => {
-    if (target !== "a" && selectedIds.length === 0) {
+    // Só bloqueia se o usuário estiver no passo 'a' tentando avançar sem selecionar nenhuma característica
+    if (currentSubStep === "a" && target !== "a" && selectedIds.length === 0) {
       setAttemptedEmptySubmit(true);
       setFeedbackBanner({
         type: "error",
@@ -329,14 +357,15 @@ export function Step2FunctionalProfile({
         currentEngagementProfile
       );
       setConfirmedSelection(response);
+      const piiCount = response.engagement_metadata?.pii_removed_count || 0;
       const piiInfo =
-        response.engagement_metadata && response.engagement_metadata.pii_removed_count > 0
-          ? ` (${response.engagement_metadata.pii_removed_count} dado(s) identificável(is) sanitizado(s) automaticamente pela proteção LGPD).`
+        piiCount > 0
+          ? ` (${piiCount === 1 ? "1 dado identificável sanitizado" : `${piiCount} dados identificáveis sanitizados`} automaticamente pela proteção LGPD).`
           : "";
       setFeedbackBanner({
         type: "success",
-        title: "Escopo Cirúrgico Registrado na Sessão!",
-        message: `${response.message}${piiInfo} Vetor cirúrgico salvo na sessão e pronto para a Etapa 3 (Calibragem de Nível e Travas).`,
+        title: "Escopo confirmado!",
+        message: `${selectedIds.length === 1 ? "1 característica selecionada" : `${selectedIds.length} características selecionadas`} para adaptação.${piiInfo}`,
       });
       if (onAdvanceToStep3) {
         onAdvanceToStep3(response);
@@ -400,17 +429,6 @@ export function Step2FunctionalProfile({
             >
               {isDarkMode ? <Sun className="w-4 h-4 text-[#E35336]" /> : <Moon className="w-4 h-4" />}
             </button>
-
-            {onBackToStep1 && (
-              <button
-                type="button"
-                onClick={onBackToStep1}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#335C67] hover:bg-[#335C67]/85 text-white transition-colors"
-              >
-                <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Etapa 1</span>
-              </button>
-            )}
           </div>
         </div>
       </header>
@@ -436,23 +454,9 @@ export function Step2FunctionalProfile({
 
         {/* Conteúdo Principal */}
         <main id="conteudo-principal" className="flex-1 min-w-0 space-y-5">
-          {/* Faixa compacta de contexto ético + material da Etapa 1 */}
-          <div className="bg-white/85 dark:bg-[#160A30]/90 border border-[#335C67]/20 dark:border-white/15 rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-bold bg-[#335C67]/15 text-[#335C67] dark:bg-[#335C67]/30 dark:text-[#9fd0de]">
-                <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
-                Sem Laudo Médico ou CID Obrigatório
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-bold bg-[#E35336]/15 text-[#E35336]">
-                <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-                Pilar 1: Intervenção Cirúrgica
-              </span>
-              <span className="font-mono opacity-65">
-                {loadedFromApi ? "• API FastAPI" : "• Catálogo Local"}
-              </span>
-            </div>
-
-            {effectiveMaterialPreview && (
+          {/* Faixa compacta com material da Etapa 1 */}
+          {effectiveMaterialPreview && (
+            <div className="bg-white/85 dark:bg-[#160A30]/90 border border-[#335C67]/20 dark:border-white/15 rounded-2xl px-4 py-3 flex items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2 min-w-0 max-w-xl">
                 <span className="truncate text-[#0D0221]/75 dark:text-white/75">
                   <strong>Material:</strong> {effectiveMaterialPreview.slice(0, 110)}
@@ -468,42 +472,58 @@ export function Step2FunctionalProfile({
                   </button>
                 )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
-          {/* Região de Feedback / Alertas Acessíveis (ARIA live) */}
-          <div id={alertRegionId} aria-live="polite" aria-atomic="true">
+          {/* Toast / Alerta Flutuante no Canto Superior Direito (ARIA live) */}
+          <div
+            id={alertRegionId}
+            aria-live="polite"
+            aria-atomic="true"
+            className="fixed top-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md pointer-events-none"
+          >
             {feedbackBanner && (
               <div
                 role={feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? "alert" : "status"}
-                className={`rounded-2xl p-4 border flex items-start gap-3.5 shadow-sm ${
+                className={`pointer-events-auto rounded-2xl p-4 border border-l-4 flex items-start justify-between gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
                   feedbackBanner.type === "error"
-                    ? "bg-red-50 dark:bg-red-950/50 border-red-600 text-red-950 dark:text-red-100"
+                    ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
                     : feedbackBanner.type === "warning"
-                    ? "bg-amber-50 dark:bg-amber-950/50 border-amber-600 text-amber-950 dark:text-amber-100"
+                    ? "bg-white/95 dark:bg-[#160A30]/95 border-amber-200 dark:border-amber-800/60 border-l-amber-500 text-amber-950 dark:text-amber-100"
                     : feedbackBanner.type === "success"
-                    ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-600 text-emerald-950 dark:text-emerald-100"
-                    : "bg-[#335C67]/10 dark:bg-[#335C67]/25 border-[#335C67] text-[#0D0221] dark:text-white"
+                    ? "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
+                    : "bg-white/95 dark:bg-[#160A30]/95 border-[#335C67]/25 dark:border-white/15 border-l-[#E35336] text-[#0D0221] dark:text-white"
                 }`}
               >
-                <div className="flex-shrink-0 mt-0.5">
-                  {feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? (
-                    <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" aria-hidden="true" />
-                  ) : (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-sm font-bold">{feedbackBanner.title}</p>
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="flex-shrink-0 mt-0.5">
+                    {feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? (
+                      <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" aria-hidden="true" />
+                    ) : (
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+                    )}
+                  </div>
+                  <div className="text-xs sm:text-sm min-w-0">
+                    <p className="font-bold leading-snug">{feedbackBanner.title}</p>
+                    {feedbackBanner.message && (
+                      <p className="text-xs opacity-85 mt-1 leading-relaxed">{feedbackBanner.message}</p>
+                    )}
                     {feedbackBanner.code && (
-                      <span className="px-2 py-0.5 text-[11px] font-mono rounded bg-black/10 dark:bg-white/10">
+                      <span className="mt-1 inline-block px-1.5 py-0.5 text-[10px] font-mono rounded bg-black/10 dark:bg-white/10">
                         {feedbackBanner.code}
                       </span>
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm mt-1 leading-relaxed">{feedbackBanner.message}</p>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => setFeedbackBanner(null)}
+                  aria-label="Fechar aviso"
+                  className="text-xs font-bold opacity-60 hover:opacity-100 flex-shrink-0 px-1.5 py-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-opacity"
+                >
+                  ✕
+                </button>
               </div>
             )}
           </div>
@@ -539,70 +559,23 @@ export function Step2FunctionalProfile({
               </div>
             </div>
 
-            {/* Filtrar por Dimensão Funcional (Sem Rótulo Clínico) */}
-            <div className="space-y-3">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                <div className="flex items-center gap-2 text-xs font-bold text-[#335C67] dark:text-[#9fd0de] uppercase tracking-wider">
-                  <Filter className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
-                  <span>Filtrar por Dimensão Funcional (Sem Rótulo Clínico)</span>
-                </div>
-
-                <div className="relative w-full md:w-72">
-                  <Search
-                    className="w-4 h-4 text-[#0D0221]/45 dark:text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                    aria-hidden="true"
-                  />
-                  <label htmlFor={searchInputId} className="sr-only">
-                    Buscar característica ou manifestação em sala de aula
-                  </label>
-                  <input
-                    id={searchInputId}
-                    type="search"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Buscar ex.: múltiplos comandos..."
-                    className="w-full pl-9 pr-3 py-2 rounded-xl text-xs bg-[#F5EDF0]/70 dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/15 text-[#0D0221] dark:text-white focus:border-[#E35336]"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-2" role="group" aria-label="Filtro por barreira funcional">
-                <button
-                  type="button"
-                  onClick={() => setActiveBarrierFilter("all")}
-                  aria-pressed={activeBarrierFilter === "all"}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                    activeBarrierFilter === "all"
-                      ? "bg-[#E35336] text-white shadow-sm"
-                      : "bg-[#F5EDF0] dark:bg-white/10 text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/15"
-                  }`}
-                >
-                  Todas ({totalCount})
-                </button>
-
-                {catalog.barreiras_disponiveis.map((barreira) => {
-                  const count = catalog.caracteristicas.filter(
-                    (c) => c.barreira_rag_associada === barreira
-                  ).length;
-                  if (count === 0) return null;
-                  const isSelectedFilter = activeBarrierFilter === barreira;
-                  return (
-                    <button
-                      key={barreira}
-                      type="button"
-                      onClick={() => setActiveBarrierFilter(barreira)}
-                      aria-pressed={isSelectedFilter}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                        isSelectedFilter
-                          ? "bg-[#335C67] text-white shadow-sm"
-                          : "bg-[#F5EDF0] dark:bg-white/10 text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/15"
-                      }`}
-                    >
-                      {BARREIRA_LABELS[barreira] || barreira} ({count})
-                    </button>
-                  );
-                })}
-              </div>
+            {/* Barra de busca rápida */}
+            <div className="relative w-full">
+              <Search
+                className="w-4 h-4 text-[#0D0221]/45 dark:text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                aria-hidden="true"
+              />
+              <label htmlFor={searchInputId} className="sr-only">
+                Buscar característica ou manifestação em sala de aula
+              </label>
+              <input
+                id={searchInputId}
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar ex.: múltiplos comandos, memória, atenção..."
+                className="w-full pl-9 pr-3 py-2.5 rounded-xl text-xs sm:text-sm bg-[#F5EDF0]/70 dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/15 text-[#0D0221] dark:text-white focus:border-[#E35336]"
+              />
             </div>
 
             {/* Lista enxuta de características atômicas (inspirada na Imagem 1, com expansão sob demanda) */}
@@ -615,20 +588,17 @@ export function Step2FunctionalProfile({
               </div>
             ) : filteredCharacteristics.length === 0 ? (
               <div className="rounded-2xl p-8 text-center space-y-2 border border-[#335C67]/20">
-                <p className="text-sm font-bold">Nenhuma característica encontrada para o filtro atual.</p>
+                <p className="text-sm font-bold">Nenhuma característica encontrada para a busca.</p>
                 <button
                   type="button"
-                  onClick={() => {
-                    setActiveBarrierFilter("all");
-                    setSearchQuery("");
-                  }}
+                  onClick={() => setSearchQuery("")}
                   className="text-xs font-bold text-[#E35336] underline"
                 >
-                  Mostrar todas as {totalCount} características
+                  Limpar busca e mostrar todas as {totalCount} características
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
                 {filteredCharacteristics.map((item: CharacteristicItem) => {
                   const isSelected = selectedSet.has(item.id_caracteristica);
                   const isExpanded = Boolean(expandedDetails[item.id_caracteristica]);
@@ -669,14 +639,9 @@ export function Step2FunctionalProfile({
                                 <Square className="w-4 h-4" aria-hidden="true" />
                               )}
                             </div>
-                            <div className="space-y-1">
-                              <h2 className="text-sm font-extrabold text-[#0D0221] dark:text-white leading-snug">
-                                {item.nome}
-                              </h2>
-                              <p className="text-xs text-[#0D0221]/75 dark:text-white/75 leading-relaxed">
-                                {item.descricao_observavel}
-                              </p>
-                            </div>
+                            <h2 className="text-sm font-extrabold text-[#0D0221] dark:text-white leading-snug">
+                              {item.nome}
+                            </h2>
                           </div>
 
                           {isSelected ? (
@@ -693,17 +658,29 @@ export function Step2FunctionalProfile({
                         </div>
 
                         {isExpanded && (
-                          <div className="rounded-xl bg-white dark:bg-black/30 p-3 border border-[#335C67]/15 dark:border-white/10 space-y-2">
-                            <p className="text-[11px] font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                              Como se manifesta na prática em sala:
-                            </p>
-                            <ul className="space-y-1 text-xs text-[#0D0221]/80 dark:text-white/75 list-disc list-inside">
-                              {item.exemplos_manifestacao_sala.map((exemplo, idx) => (
-                                <li key={idx} className="leading-snug">
-                                  {exemplo}
-                                </li>
-                              ))}
-                            </ul>
+                          <div className="rounded-xl bg-white dark:bg-black/30 p-3.5 border border-[#335C67]/15 dark:border-white/10 space-y-3">
+                            <div className="space-y-1">
+                              <p className="text-[11px] font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
+                                Descrição observável:
+                              </p>
+                              <p className="text-xs text-[#0D0221]/85 dark:text-white/85 leading-relaxed">
+                                {item.descricao_observavel}
+                              </p>
+                            </div>
+
+                            <div className="space-y-1 pt-2 border-t border-[#335C67]/10 dark:border-white/10">
+                              <p className="text-[11px] font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
+                                Como se manifesta em sala de aula:
+                              </p>
+                              <ul className="space-y-1 text-xs text-[#0D0221]/80 dark:text-white/75 list-disc list-inside">
+                                {item.exemplos_manifestacao_sala.map((exemplo, idx) => (
+                                  <li key={idx} className="leading-snug">
+                                    {exemplo}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
                             <div className="pt-1 flex flex-wrap items-center gap-2 text-[11px]">
                               <span className="px-2 py-0.5 rounded bg-[#0D0221]/5 dark:bg-white/10 font-semibold">
                                 {PRINCIPIO_DUA_LABELS[item.principio_dua_primario] ||
@@ -733,12 +710,12 @@ export function Step2FunctionalProfile({
                           {isExpanded ? (
                             <>
                               <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
-                              <span>Ocultar exemplos</span>
+                              <span>Ocultar explicação</span>
                             </>
                           ) : (
                             <>
                               <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
-                              <span>Ver exemplos</span>
+                              <span>Ver explicação e exemplos</span>
                             </>
                           )}
                         </button>
@@ -749,12 +726,11 @@ export function Step2FunctionalProfile({
               </div>
             )}
 
-            {selectedCount > 0 && (
-              <PortableProfilePanel
-                selectedIds={selectedIds}
-                validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
-              />
-            )}
+            <PortableProfilePanel
+              selectedIds={selectedIds}
+              validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
+              onApplyProfile={handleApplyLocalProfile}
+            />
 
             {/* Rodapé do Passo (a) */}
             <div className="pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -775,7 +751,7 @@ export function Step2FunctionalProfile({
                   <p className="inline-flex items-center gap-2 text-xs text-[#0D0221]/75 dark:text-white/75">
                     <Info className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
                     <span>
-                      <strong>{selectedCount}</strong> marcada(s) para adaptação • Você poderá revisar tudo no resumo final.
+                      <strong>{selectedCount}</strong> {selectedCount === 1 ? "característica marcada" : "características marcadas"} para adaptação • Você poderá revisar tudo no resumo final.
                     </span>
                   </p>
                 )}
@@ -823,8 +799,7 @@ export function Step2FunctionalProfile({
                   Potencialidades, Interesses e Canais de Engajamento
                 </h1>
                 <p className="text-xs sm:text-sm text-[#0D0221]/75 dark:text-white/75 max-w-3xl">
-                  Escolha temas, canais preferenciais e facilidades do estudante para usar como{" "}
-                  <strong>âncoras motivacionais periféricas</strong>, sem substituir os conceitos obrigatórios da avaliação.
+                  Escolha temas, canais preferenciais e facilidades do estudante
                 </p>
               </div>
 
@@ -973,9 +948,7 @@ export function Step2FunctionalProfile({
               <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
                 Resumo do perfil funcional
               </h1>
-              <p className="text-xs sm:text-sm text-[#0D0221]/75 dark:text-white/75 mt-1">
-                Confira as informações antes de seguir para a calibragem de nível e travas curriculares (Etapa 3).
-              </p>
+              
             </div>
 
             {/* 3 Cards de Resumo */}
@@ -1059,14 +1032,14 @@ export function Step2FunctionalProfile({
                 <p className="text-lg font-extrabold text-[#0D0221] dark:text-white">
                   {engagementAnchorCount === 0
                     ? "Opcional (em branco)"
-                    : `${engagementAnchorCount} registro(s)`}
+                    : `${engagementAnchorCount} ${engagementAnchorCount === 1 ? "registro" : "registros"}`}
                 </p>
                 <p className="text-xs text-[#0D0221]/75 dark:text-white/75 leading-relaxed">
                   {engagementAnchorCount === 0
                     ? "Nenhuma âncora informada. O avanço segue normalmente."
-                    : `${totalInterestsCount} interesse(s), ${selectedChannels.length} canal(is)${
-                        potencialidades.trim() ? " + potencialidades descritas" : ""
-                      }.`}
+                    : `${totalInterestsCount === 1 ? "1 interesse" : `${totalInterestsCount} interesses`}, ${
+                        selectedChannels.length === 1 ? "1 canal" : `${selectedChannels.length} canais`
+                      }${potencialidades.trim() ? " + potencialidades descritas" : ""}.`}
                 </p>
               </div>
             </div>
@@ -1083,12 +1056,21 @@ export function Step2FunctionalProfile({
             {selectedCount === 0 && (
               <div
                 role="alert"
-                className="rounded-xl p-3 bg-amber-500/15 border border-amber-500/40 text-amber-950 dark:text-amber-200 flex items-center gap-2.5 text-xs font-bold"
+                className="rounded-xl p-3 bg-amber-500/15 border border-amber-500/40 text-amber-950 dark:text-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs font-bold"
               >
-                <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
-                <span>
-                  Avanço bloqueado: volte ao passo A e selecione ao menos 1 característica.
-                </span>
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
+                  <span>
+                    Avanço bloqueado: selecione ao menos 1 característica funcional para prosseguir.
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => navigateToSubStep("a")}
+                  className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-colors flex-shrink-0 self-start sm:self-auto"
+                >
+                  Voltar ao Passo A
+                </button>
               </div>
             )}
 
@@ -1097,21 +1079,12 @@ export function Step2FunctionalProfile({
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => navigateToSubStep("b")}
+                  onClick={() => navigateToSubStep(selectedCount === 0 ? "a" : "b")}
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 text-[#0D0221] dark:text-white transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4" aria-hidden="true" />
                   <span>Voltar</span>
                 </button>
-                {onBackToStep1 && (
-                  <button
-                    type="button"
-                    onClick={onBackToStep1}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 text-[#0D0221] dark:text-white transition-colors"
-                  >
-                    <span>Etapa 1 (Material)</span>
-                  </button>
-                )}
               </div>
 
               <button

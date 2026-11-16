@@ -418,7 +418,9 @@ export function buildLocalSurgicalSelection(
   const unknown = uniqueIds.filter((id) => !catalogMap.has(id));
   if (unknown.length > 0) {
     throw new IrisApiError(
-      `Característica(s) funcional(is) não reconhecida(s) no catálogo: ${unknown.join(", ")}.`,
+      unknown.length === 1
+        ? `Característica funcional não reconhecida no catálogo: ${unknown[0]}.`
+        : `Características funcionais não reconhecidas no catálogo: ${unknown.join(", ")}.`,
       "UNKNOWN_CHARACTERISTIC_ID",
       422,
       "selected_ids"
@@ -435,7 +437,11 @@ export function buildLocalSurgicalSelection(
 
   return {
     status: "success",
-    message: `Escopo cirúrgico registrado: ${uniqueIds.length} característica(s) ativada(s) para adaptação e ${blockedIds.length} característica(s) bloqueada(s) para preservar a autonomia do estudante.`,
+    message: `Escopo cirúrgico registrado: ${
+      uniqueIds.length === 1 ? "1 característica ativada" : `${uniqueIds.length} características ativadas`
+    } para adaptação e ${
+      blockedIds.length === 1 ? "1 característica bloqueada" : `${blockedIds.length} características bloqueadas`
+    } para preservar a autonomia do estudante.`,
     id_catalogo: catalog.id_catalogo,
     total_catalog_characteristics: catalog.caracteristicas.length,
     selected_count: uniqueIds.length,

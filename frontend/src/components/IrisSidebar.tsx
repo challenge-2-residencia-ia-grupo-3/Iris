@@ -57,7 +57,7 @@ export function IrisSidebar({
   currentStep,
   onNavigateHome,
   onNavigateStep,
-  enabledSteps = [1, 2],
+  enabledSteps = [1, 2, 3],
   step2SubSteps,
 }: IrisSidebarProps) {
   const router = useRouter();

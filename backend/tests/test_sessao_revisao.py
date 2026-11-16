@@ -3,9 +3,12 @@ from __future__ import annotations
 
 import ast
 import builtins
+import importlib.util
 import socket
 import unicodedata
+import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -367,3 +370,70 @@ def test_http_formato_invalido_so_depois_de_homologar(cliente):
     base = f"/api/v1/sessions/{sid}"
     cliente.put(f"{base}/review", json={"questoes": [{"id": "q1", "aprovada": True}, {"id": "q2", "aprovada": True}], "homologar": True})
     assert cliente.post(f"{base}/export?formato=exe").status_code == 422
+
+
+_FASTAPI_HTTPX = importlib.util.find_spec("fastapi") is not None and importlib.util.find_spec("httpx") is not None
+
+
+class TestSessaoRevisaoUnittest(unittest.TestCase):
+    """Permite coleta e execução no `unittest discover` do CI mantendo os testes pytest."""
+
+    def test_criacao_edicao_e_aprovacao(self) -> None:
+        r = RepositorioSessoes()
+        test_criar_devolve_estado_inicial_bloqueado(r)
+        test_ids_de_sessao_nao_se_repetem(r)
+        test_sessao_inexistente_vira_404(r)
+        for fn in (
+            test_edicao_atualiza_a_versao_final_na_hora,
+            test_o_original_nunca_muda,
+            test_aprovar_por_questao,
+            test_editar_e_aprovar_na_mesma_chamada_aprova_a_versao_nova,
+            test_editar_questao_aprovada_tira_a_aprovacao,
+            test_reenviar_o_mesmo_texto_nao_conta_como_edicao,
+            test_revisao_e_tudo_ou_nada,
+        ):
+            repo_item = RepositorioSessoes()
+            sid_item = repo_item.criar({"titulo": "Ciências - Ciclo da água", "questoes": QUESTOES})["id"]
+            fn(repo_item, sid_item)
+
+    def test_homologacao_e_trava_de_exportacao(self) -> None:
+        for formato in ("pdf", "docx"):
+            r = RepositorioSessoes()
+            test_exportacao_bloqueada_sem_homologacao(r, r.criar({"questoes": QUESTOES})["id"], formato)
+        for fn in (
+            test_aprovar_todas_as_questoes_nao_libera_a_exportacao,
+            test_homologar_sem_aprovar_tudo_e_recusado,
+            test_nao_da_para_aprovar_e_homologar_com_questao_pendente,
+            test_homologar_libera_a_exportacao_e_o_arquivo_traz_a_versao_do_professor,
+            test_editar_depois_de_homologar_revoga_a_homologacao_e_bloqueia_de_novo,
+            test_desaprovar_depois_de_homologar_revoga,
+            test_professor_pode_retirar_a_homologacao,
+            test_homologar_de_novo_apos_mudanca_exige_nova_confirmacao,
+            test_a_exportacao_nao_tem_atalho_para_pular_a_homologacao,
+        ):
+            r = RepositorioSessoes()
+            fn(r, r.criar({"titulo": "Ciências - Ciclo da água", "questoes": QUESTOES})["id"])
+        test_titulo_clinico_na_sessao_e_recusado_so_na_exportacao(RepositorioSessoes())
+        test_verificar_avisa_sobre_dado_pessoal_no_corpo(RepositorioSessoes())
+
+    def test_memoria_ttl_teto_e_ast(self) -> None:
+        test_sessao_expira_por_inatividade()
+        test_teto_de_sessoes_simultaneas()
+        r = RepositorioSessoes()
+        test_descartar_remove_a_sessao(r, r.criar({"questoes": QUESTOES})["id"])
+        test_modulo_nao_importa_nem_chama_nada_de_persistencia()
+
+    @unittest.skipUnless(_FASTAPI_HTTPX, "requer FastAPI e httpx")
+    def test_rotas_http_revisao_e_exportacao(self) -> None:
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+
+        import iris.api.routes.sessoes as rotas
+
+        app = FastAPI()
+        app.include_router(rotas.router, prefix="/api/v1")
+        with patch.object(rotas, "REPOSITORIO", RepositorioSessoes()):
+            client = TestClient(app)
+            test_http_fluxo_completo_com_trava(client)
+            test_http_erros(client)
+            test_http_formato_invalido_so_depois_de_homologar(client)
