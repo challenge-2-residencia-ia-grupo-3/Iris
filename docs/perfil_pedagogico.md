@@ -25,7 +25,7 @@ perfil.para_json()         # dict pronto para o navegador baixar
 ## Uso da validação
 
 ```python
-from iris.schemas.profile import validar_perfil, PerfilInvalidoError
+from iris.schemas.portable_profile import validar_perfil, PerfilInvalidoError
 
 try:
     perfil = validar_perfil(conteudo_do_json)        # str, bytes ou dict (ex.: reimportação)
@@ -59,8 +59,8 @@ Chaves **e** valores são varridos recursivamente.
 |---|---|
 | `cid` | `CID F90.0`, `F84`, `6A05`, "Classificação Internacional de Doenças" |
 | `laudo` | laudo, atestado médico, relatório clínico, prontuário, receita médica, neuropsicológico |
-| `diagnostico` | "diagnóstico médico/clínico", "tem diagnóstico", TDAH, TEA/TOC (siglas em maiúsculas), autismo, "no espectro", dislexia, "transtorno de/do…", síndrome |
-| `medicacao` | nomes de medicamentos, "medicação", "remédio", doses (`10 mg`), psiquiatra/neurologista |
+| `diagnostico` | "diagnóstico médico/clínico", "tem diagnóstico", diagnosticado, TDAH e T.D.A.H., TEA/TOC (siglas em maiúsculas), autismo, "no espectro", dislexia, "transtorno de/do…", síndrome |
+| `medicacao` | nomes de medicamentos, "toma Concerta", "medicação", "remédio", doses (`10 mg`, gotas, comprimidos), psiquiatra/neurologista |
 
 Não são bloqueados: "avaliação diagnóstica", "diagnóstico pedagógico", "diagnóstico inicial da turma",
 "a troca de sala causou transtorno", "ele concerta os erros", "garrafa de 500 ml", "toc toc", códigos como
@@ -69,14 +69,17 @@ Não são bloqueados: "avaliação diagnóstica", "diagnóstico pedagógico", "d
 ## Privacidade
 
 `str(exc)` **não** repete o trecho digitado (pode ir para logs). O trecho só sai em
-`to_dict(incluir_trecho=True)`, para exibir ao docente na interface.
+`to_dict(incluir_trecho=True)`, para exibir ao docente na interface. Na mensagem e em `to_dict(incluir_trecho=False)`,
+nomes de campo não declarados no schema aparecem como `<campo não declarado>`, porque o próprio nome pode ser o dado
+clínico (ex.: `laudo_tdah`).
 
 ## Limites conhecidos
 
-- Lista finita de termos e medicamentos; nomes novos exigem atualizar as constantes em `schemas/profile.py`.
+- Lista finita de termos e medicamentos; nomes novos exigem atualizar as constantes em `schemas/portable_profile.py`.
 - `F\d{2}` (ex.: `F10`) é tratado como CID; um código de exercício igual a esse seria um falso positivo.
 - Deficiências sensoriais/físicas (ex.: "baixa visão") não são bloqueadas por serem informação de acessibilidade.
 - Não detecta dados pessoais (nome do aluno, CPF) em texto livre; isso é responsabilidade do `security/pii_scrubber.py`.
 - Termos clínicos dentro de identificadores com sublinhado (`tdah_formal`) também são detectados.
 - O histórico de eficácia (`historico_estrategias`) é proposta da 3.1.2 (#27) e pode ser refinado lá.
-- Não há rota de API nem botão no frontend: a criação e o download ainda precisam ser ligados.
+- O perfil é criado e baixado no navegador, pelo painel da etapa 2 (`frontend/src/services/portableProfile.ts`, que espelha
+  este schema). Não há rota de API: `criar_perfil` ainda não é chamado pelo servidor.
