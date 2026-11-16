@@ -1,0 +1,23 @@
+CICLO EXTRATOR + ADAPTADOR CONTRA O RNF-07 (História 2.1.3 / Issue #18)
+Modelo: ollama / llama3.1:8b, temperatura 0, nos dois agentes. Característica: comandos múltiplos.
+Base: 30 questões do Golden Benchmark x 3 níveis = 90 ciclos.
+Técnica: tempo de relógio de cada agente, somado por resumir_ciclo; TRCC do texto entregue com a trava do gabarito.
+Fora do ciclo: Agente Estrategista (plano do RAG, issue #16) e tempo de rede e interface da API.
+
+1. TEMPO DO CICLO, POR NÍVEL
+nível    limite  Extrator  Adaptador    ciclo     p90   máximo     dentro  tokens
+                  mediana    mediana  mediana
+1           15s      5.5s       4.9s    10.7s   13.2s    14.1s   30 de 30    1769
+2           40s      5.4s       5.0s    10.3s   15.4s    42.9s   29 de 30    1770
+3           40s      5.4s       6.1s    11.5s   13.7s    16.5s   30 de 30    1816
+Aquecimento (fora da contagem): 8.8 s.
+
+2. QUEDAS NA SAÍDA POR REGRAS E RETENÇÃO DOS CONCEITOS
+nível    Extrator p/ regras  Adaptador p/ regras  TRCC igual  TRCC menor
+1                         0                    4          30           0
+2                         0                   22          30           0
+3                         0                   30          30           0
+TRCC: fração dos conceitos da trava do gabarito presentes no texto; "igual" compara entregue e original.
+
+3. CICLOS ACIMA DO LIMITE
+[Q26, nível 2] 42.9 s (Extrator 5.7 s + Adaptador 37.3 s)

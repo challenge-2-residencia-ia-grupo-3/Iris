@@ -7,17 +7,7 @@ import { STEP1_MATERIAL_STORAGE_KEY } from "@/services/catalogsApi";
 
 export default function Etapa2Page() {
   const router = useRouter();
-  const [darkMode, setDarkMode] = useState(false);
   const [materialText, setMaterialText] = useState<string>("");
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-  }, [darkMode]);
 
   useEffect(() => {
     try {
@@ -35,8 +25,6 @@ export default function Etapa2Page() {
       teacherEmail="marina.alves@escola.edu.br"
       materialPreviewText={materialText}
       onBackToStep1={() => router.push("/etapa-1")}
-      darkMode={darkMode}
-      onToggleDarkMode={() => setDarkMode((prev) => !prev)}
     />
   );
 }

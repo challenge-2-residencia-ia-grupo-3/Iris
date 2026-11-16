@@ -14,6 +14,13 @@ from iris.rag.bridge import (
 )
 from iris.rag.contexto import conferir_citacoes, montar_contexto_estrategista
 
+from iris.rag.engagement_context import (
+    MotivationalContext,
+    build_motivational_context,
+    inject_motivational_context_into_prompt,
+    verify_motivational_adaptation_preserves_curriculum,
+)
+
 __all__ = [
     "buscar_evidencias",
     "buscar_evidencias_com_meta",
@@ -28,5 +35,9 @@ __all__ = [
     "normalizar_trecho_ui",
     "obter_trechos_base",
     "responder_fundamentado",
+    "MotivationalContext",
+    "build_motivational_context",
+    "inject_motivational_context_into_prompt",
+    "verify_motivational_adaptation_preserves_curriculum",
 ]
 

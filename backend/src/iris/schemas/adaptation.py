@@ -25,6 +25,13 @@ class AdaptationRequest(BaseModel):
     diretiva_psicopedagogica: Optional[str] = Field(
         default=None, description="Diretiva do Agente Estrategista RAG, em texto."
     )
+    # Preenchidos só no ciclo de auto-correção do Agente Auditor (História 2.1.4 / Issue #19).
+    feedback_auditor: Optional[str] = Field(
+        default=None, description="Correção pedida pelo Agente Auditor ao reprovar a tentativa anterior."
+    )
+    minuta_anterior: Optional[str] = Field(
+        default=None, description="Minuta reprovada pelo Agente Auditor na tentativa anterior."
+    )
     question_id: Optional[str] = None
 
 
