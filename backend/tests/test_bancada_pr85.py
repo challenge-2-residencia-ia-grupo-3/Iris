@@ -36,7 +36,8 @@ from iris.eval import bancada_pr85
 from iris.main import app
 
 PLAYGROUND = SRC_DIR / "iris" / "static" / "playground.html"
-ABAS_DO_IAN = ["benchmark", "escolar", "catalogo", "aovivo", "arquitetura", "codigo", "ferramentas"]
+# as abas do PR 87 (Ian); "codigo" era a aba feita no lote 5 e saiu em 16/11 (fica a do PR 85, com o desenho)
+ABAS_DO_IAN = ["benchmark", "escolar", "catalogo", "aovivo", "arquitetura", "ferramentas"]
 
 
 def _ids_das_abas() -> list[str]:
@@ -58,7 +59,10 @@ class TestListaDeAbas(unittest.TestCase):
     def test_playground_tem_um_botao_por_aba_e_mantem_as_abas_do_ian(self) -> None:
         html = PLAYGROUND.read_text(encoding="utf-8")
         botoes = re.findall(r'data-tab="b-([a-z0-9-]+)"', html)
-        self.assertEqual(botoes, _ids_das_abas())
+        no_menu = [i for _, itens in bancada_pr85.abas_no_menu() for i, _ in itens]
+        self.assertEqual(botoes, no_menu)
+        self.assertEqual(len(no_menu) + len(bancada_pr85.FORA_DO_MENU), 22)
+        self.assertTrue(set(bancada_pr85.FORA_DO_MENU) <= set(_ids_das_abas()))
         for aba in ABAS_DO_IAN:
             self.assertIn(f'data-tab="{aba}"', html)
             self.assertIn(f'id="tab-{aba}"', html)
@@ -115,17 +119,84 @@ class TestGerador(unittest.TestCase):
     def test_descricao_para_o_menu(self) -> None:
         d = bancada_pr85.descrever()
         self.assertTrue(d["disponivel"])
-        self.assertEqual(sum(len(g["abas"]) for g in d["abas"]), 22)
+        self.assertEqual(sum(len(g["abas"]) for g in d["abas"]) + len(d["fora_do_menu"]), 22)
+
+
+class TestTema(unittest.TestCase):
+    """Tema claro e escuro: o escuro do PR 85 não muda; o claro do playground não muda; o botão existe."""
+
+    def test_cores_viram_variaveis_e_o_escuro_fica_igual(self) -> None:
+        import colorsys
+
+        import tema  # rag/iris-rag/pacote/tema.py
+
+        (css, js), bloco = tema.tematizar([".a{color:#A68BFF;box-shadow:0 0 0 1px rgba(0,0,0,.45)}", "x='#fff';"])
+        self.assertNotRegex(css + js, r"#[0-9a-fA-F]{3,6}\b")
+        self.assertIn("var(--c-A68BFF)", css)
+        self.assertIn("var(--c-FFFFFF)", js)
+        escuro = bloco.split("html.tema-claro{")[0]
+        self.assertIn("--c-A68BFF:#A68BFF", escuro)  # no escuro, cada variável vale a cor original
+        self.assertIn("--c-rgba-0-0-0-p45:rgba(0,0,0,.45)", escuro)
+        claro = bloco.split("html.tema-claro{")[1]
+        self.assertIn("--c-A68BFF:#5A3FC0", claro)  # base: paleta do playground
+        # fora da base, inverte a luminosidade e mantém o matiz: vermelho continua vermelho
+        h = tema.claro_hex("D9A066")
+        hue_antes = colorsys.rgb_to_hls(0xD9 / 255, 0xA0 / 255, 0x66 / 255)[0]
+        hue_depois = colorsys.rgb_to_hls(*(int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)))[0]
+        self.assertAlmostEqual(hue_antes, hue_depois, delta=0.02)
+
+    def test_pagina_gerada_nao_tem_cor_fixa_fora_das_variaveis(self) -> None:
+        bancada_pr85.gerar_pagina()
+        pagina = bancada_pr85.ler_pagina()
+        estilo = pagina[pagina.index("<style>"):pagina.index("</style>")]
+        estilo = estilo[estilo.rindex("@font-face"):]  # depois das fontes embutidas
+        estilo = estilo[:estilo.index(":root{--c-")] + estilo[estilo.index("html.tema-claro body"):]
+        self.assertNotRegex(estilo, r"#[0-9a-fA-F]{6}\b")
+        self.assertIn("aplicarTema", pagina)
+
+    def test_playground_tem_o_botao_e_o_tema_escuro_sem_mudar_o_claro(self) -> None:
+        html = PLAYGROUND.read_text(encoding="utf-8")
+        self.assertIn('id="tema-btn"', html)
+        self.assertIn('html[data-tema="escuro"]', html)
+        raiz = html[html.index(":root {"):html.index("}", html.index(":root {"))]
+        # as cores que eram fixas viraram variáveis com o mesmo valor de antes, no tema claro
+        for nome, valor in (("--barra-ok", "#1A6B42"), ("--barra-aviso", "#8C5200"), ("--barra-ruim", "#C93E22"),
+                            ("--texto-ok", "#0f4f37"), ("--texto-ruim", "#7e2215"), ("--paper", "#eef3f3")):
+            self.assertIn(f"{nome}: {valor};", raiz)
+        self.assertNotIn("fill: '#1A6B42'", html)
+
+
+class TestMedirDeNovo(unittest.TestCase):
+    def test_roda_o_alvo_verificar_sem_chave_e_com_provedor_deterministico(self) -> None:
+        capturado: dict = {}
+
+        def falso_run(cmd, **kw):
+            capturado["cmd"], capturado["env"] = cmd, kw["env"]
+            return subprocess.CompletedProcess(cmd, 0, stdout="reports/bancada.html: 1 KB, 10 achados (8 graves)\n", stderr="")
+
+        with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "chave-de-teste"}), patch.object(bancada_pr85.subprocess, "run", falso_run):
+            r = bancada_pr85.medir_de_novo()
+        self.assertTrue(r["ok"])
+        self.assertIn("10 achados", r["resumo"])
+        self.assertIn("verificar", capturado["cmd"])
+        self.assertIn("PROV=eco", capturado["cmd"])
+        self.assertNotIn("ANTHROPIC_API_KEY", capturado["env"])
+
+    def test_sem_make_diz_como_fazer(self) -> None:
+        with patch("shutil.which", return_value=None):
+            r = bancada_pr85.medir_de_novo()
+        self.assertFalse(r["ok"])
+        self.assertIn("make", r["erro"])
 
 
 class TestRotas(unittest.TestCase):
     def test_rotas_fastapi(self) -> None:
         from fastapi.testclient import TestClient
 
-        client = TestClient(app)
+        client = TestClient(app, client=("127.0.0.1", 50000))
         r = client.get("/api/v1/eval/bancada-pr85")
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(sum(len(g["abas"]) for g in r.json()["abas"]), 22)
+        self.assertEqual(sum(len(g["abas"]) for g in r.json()["abas"]), 16)
         p = client.get("/bancada/?embutido=1")
         self.assertEqual(p.status_code, 200)
         self.assertIn("const EMB=", p.text)
@@ -141,6 +212,29 @@ class TestRotas(unittest.TestCase):
         g = client.post("/api/v1/eval/bancada-pr85/gerar")
         self.assertEqual(g.status_code, 200)
         self.assertTrue(g.json()["ok"])
+
+    def test_icone_da_iris_e_servido_e_usado_no_menu(self) -> None:
+        from fastapi.testclient import TestClient
+
+        r = TestClient(app).get("/favicon.png")
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.headers["content-type"], "image/png")
+        self.assertEqual(r.content[:8], b"\x89PNG\r\n\x1a\n")
+        html = PLAYGROUND.read_text(encoding="utf-8")
+        self.assertIn('rel="icon"', html)
+        self.assertIn('class="brand-icone" src="/favicon.png"', html)
+
+    def test_so_o_proprio_computador_ve_as_telas(self) -> None:
+        from fastapi.testclient import TestClient
+
+        de_fora = TestClient(app, client=("203.0.113.7", 50000))
+        for caminho in ("/bancada/", "/bancada/status.json", "/api/v1/eval/bancada-pr85"):
+            self.assertEqual(de_fora.get(caminho).status_code, 403, caminho)
+        self.assertEqual(de_fora.post("/api/v1/eval/bancada-pr85/medir").status_code, 403)
+        self.assertEqual(de_fora.get("/api/v1/health").status_code, 200)  # o resto do painel segue aberto
+        local = TestClient(app, client=("127.0.0.1", 50000))
+        self.assertEqual(local.get("/api/v1/eval/bancada-pr85", headers={"X-Forwarded-For": "203.0.113.7"}).status_code, 403)
+        self.assertEqual(local.get("/api/v1/eval/bancada-pr85").status_code, 200)
 
     def test_servidor_de_reserva(self) -> None:
         from http.server import HTTPServer
@@ -166,7 +260,11 @@ class TestRotas(unittest.TestCase):
         thread.start()
         try:
             with urllib.request.urlopen(url + "/api/v1/eval/bancada-pr85", timeout=30) as r:
-                self.assertEqual(sum(len(g["abas"]) for g in json.loads(r.read())["abas"]), 22)
+                self.assertEqual(sum(len(g["abas"]) for g in json.loads(r.read())["abas"]), 16)
+            por_proxy = urllib.request.Request(url + "/bancada/", headers={"X-Forwarded-For": "203.0.113.7"})
+            with self.assertRaises(urllib.error.HTTPError) as erro_proxy:
+                urllib.request.urlopen(por_proxy, timeout=30)
+            self.assertEqual(erro_proxy.exception.code, 403)
             with urllib.request.urlopen(url + "/bancada/?embutido=1", timeout=60) as r:
                 self.assertIn("const EMB=", r.read().decode("utf-8"))
             with urllib.request.urlopen(url + "/bancada", timeout=60) as r:  # segue o redirecionamento

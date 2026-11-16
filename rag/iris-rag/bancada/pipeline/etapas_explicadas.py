@@ -491,6 +491,64 @@ def procurar_copias(dados: Any, corpus: str) -> list[str]:
     return achados
 
 
+def omitir_copias(dados: Any, corpus: str) -> tuple[Any, int]:
+    """Troca toda cópia literal de JANELA+ caracteres de trecho do RAG por um marcador, em qualquer texto do JSON.
+
+    Rede de segurança além de redigir_trechos: a diretiva substituta do arnês copia a frase do trecho, e a cópia
+    reaparece na saída da chamada e no prompt do Adaptador, onde o bloco [Tn] já não existe para ser redigido.
+    """
+    meio = JANELA // 2
+    total = 0
+
+    def limpa(s: str) -> str:
+        nonlocal total
+        if len(s) < JANELA:
+            return s
+        trechos: list[tuple[int, int]] = []
+        p = 0
+        while p <= len(s) - meio:
+            w = s[p:p + meio]
+            i = corpus.find(w)
+            achou = None
+            while i >= 0:
+                esq = 0
+                while p - esq - 1 >= 0 and i - esq - 1 >= 0 and s[p - esq - 1] == corpus[i - esq - 1]:
+                    esq += 1
+                dir_ = meio
+                while p + dir_ < len(s) and i + dir_ < len(corpus) and s[p + dir_] == corpus[i + dir_]:
+                    dir_ += 1
+                if esq + dir_ >= JANELA:
+                    achou = (p - esq, p + dir_)
+                    break
+                i = corpus.find(w, i + 1)
+            if achou:
+                trechos.append(achou)
+                p = achou[1]
+            else:
+                p += meio
+        if not trechos:
+            return s
+        out, ultimo = [], 0
+        for ini, fim in trechos:
+            ini = max(ini, ultimo)
+            out.append(s[ultimo:ini] + f"[trecho do RAG omitido: {fim - ini} caracteres]")
+            ultimo = fim
+            total += 1
+        out.append(s[ultimo:])
+        return "".join(out)
+
+    def anda(d: Any) -> Any:
+        if isinstance(d, dict):
+            return {k: anda(v) for k, v in d.items()}
+        if isinstance(d, list):
+            return [anda(v) for v in d]
+        if isinstance(d, str):
+            return limpa(d)
+        return d
+
+    return anda(dados), total
+
+
 # ------------------------------------------------------------------ principal
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -608,7 +666,11 @@ def main(argv: list[str] | None = None) -> int:
     if not CHUNKS.exists():
         print(f"chunks.jsonl ausente em {CHUNKS}: não dá para conferir licença; abortando", file=sys.stderr)
         return 1
-    copias = procurar_copias(dados, textos_chunks())
+    corpus = textos_chunks()
+    dados, omitidas = omitir_copias(dados, corpus)
+    if omitidas:
+        print(f"{omitidas} cópia(s) de {JANELA}+ caracteres de trecho do RAG trocadas por marcador (licença)")
+    copias = procurar_copias(dados, corpus)
     if copias:
         print(f"FALHOU: {len(copias)} trecho(s) do RAG com {JANELA}+ caracteres no JSON; nada gravado:", file=sys.stderr)
         for c in copias[:5]:

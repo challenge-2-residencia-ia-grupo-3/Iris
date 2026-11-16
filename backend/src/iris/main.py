@@ -26,6 +26,8 @@ from iris import __version__
 from iris.config import RAG_PACOTE_DIR, get_settings
 
 PLAYGROUND_HTML_PATH = Path(__file__).resolve().parent / "static" / "playground.html"
+# Símbolo da Íris, o mesmo do front (frontend/public/favicon.png): ícone da aba do navegador e marca do menu do painel
+ICONE_IRIS_PATH = Path(__file__).resolve().parents[3] / "frontend" / "public" / "favicon.png"
 
 # O gerador do pacote RAG (gerar.py) lê RAG_LLM e RAG_LLM_MODELO do ambiente do processo no momento da
 # geração. A rota de resposta ao vivo ajusta essas variáveis por requisição; a trava impede que duas
@@ -609,6 +611,13 @@ def _handle_bancada_pr85_gerar() -> dict[str, Any]:
     return gerar_pagina()
 
 
+def _handle_bancada_pr85_medir() -> dict[str, Any]:
+    """Roda as verificações sem modelo do PR 85 contra o código atual e gera a página (alguns minutos)."""
+    from iris.eval.bancada_pr85 import medir_de_novo
+
+    return medir_de_novo()
+
+
 def _handle_ataque_pii_run() -> dict[str, Any]:
     """Roda o ataque de dado pessoal contra o removedor `sanitize_pii` (sem modelo, valores fictícios)."""
     from iris.eval.ataque_pii import executar_ataque_pii
@@ -721,6 +730,23 @@ def create_app() -> Any:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    @app.middleware("http")
+    async def so_local_para_bancada(request: Any, call_next: Any) -> Any:
+        # As telas do PR 85 (rotas /bancada e /api/v1/eval/bancada-pr85) só respondem ao próprio computador.
+        from iris.eval.bancada_pr85 import (
+            MENSAGEM_SO_LOCAL,
+            caminho_protegido,
+            pedido_local,
+        )
+
+        if caminho_protegido(request.url.path):
+            endereco = request.client.host if request.client else None
+            if not pedido_local(endereco, request.headers):
+                from fastapi.responses import JSONResponse
+
+                return JSONResponse({"detail": MENSAGEM_SO_LOCAL}, status_code=403)
+        return await call_next(request)
 
     @app.get("/", response_class=HTMLResponse, tags=["frontend"])
     def index_page() -> str:
@@ -875,6 +901,16 @@ def create_app() -> Any:
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
 
+    @app.get("/favicon.png", include_in_schema=False)
+    @app.get("/favicon.ico", include_in_schema=False)
+    def icone_iris() -> Any:
+        from fastapi import HTTPException
+        from fastapi.responses import Response
+
+        if not ICONE_IRIS_PATH.exists():
+            raise HTTPException(status_code=404, detail="sem frontend/public/favicon.png")
+        return Response(content=ICONE_IRIS_PATH.read_bytes(), media_type="image/png")
+
     @app.get("/bancada", include_in_schema=False)
     def bancada_pr85_sem_barra() -> Any:
         # a página pede "status.json" por caminho relativo: com a barra no fim ele cai em /bancada/status.json
@@ -907,6 +943,10 @@ def create_app() -> Any:
     @app.post("/api/v1/eval/bancada-pr85/gerar", tags=["eval"])
     def bancada_pr85_gerar() -> dict[str, Any]:
         return _handle_bancada_pr85_gerar()
+
+    @app.post("/api/v1/eval/bancada-pr85/medir", tags=["eval"])
+    def bancada_pr85_medir() -> dict[str, Any]:
+        return _handle_bancada_pr85_medir()
 
     @app.get("/api/v1/eval/mapa-codigo", tags=["eval"])
     def mapa_codigo() -> dict[str, Any]:
@@ -1008,6 +1048,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
 
         def do_GET(self) -> None:  # noqa: N802
             parsed = urlparse(self.path)
+            if not self._bancada_permitida(parsed.path):
+                return
             if parsed.path == "/" or parsed.path.startswith("/index"):
                 raw = _load_playground_html().encode("utf-8")
                 self.send_response(200)
@@ -1107,6 +1149,16 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json(_handle_ataque_pii())
             elif parsed.path == "/api/v1/eval/arquitetura-langgraph":
                 self._send_json(_handle_arquitetura_langgraph())
+            elif parsed.path in ("/favicon.png", "/favicon.ico"):
+                if ICONE_IRIS_PATH.exists():
+                    dado = ICONE_IRIS_PATH.read_bytes()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "image/png")
+                    self.send_header("Content-Length", str(len(dado)))
+                    self.end_headers()
+                    self.wfile.write(dado)
+                else:
+                    self._send_json({"detail": "sem frontend/public/favicon.png"}, status=404)
             elif parsed.path == "/bancada":
                 self.send_response(302)
                 self.send_header("Location", "/bancada/")
@@ -1201,7 +1253,22 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     status=500,
                 )
 
+        def _bancada_permitida(self, caminho: str) -> bool:
+            """As telas do PR 85 só respondem ao próprio computador (a página leva texto sem licença aberta)."""
+            from iris.eval.bancada_pr85 import (
+            MENSAGEM_SO_LOCAL,
+            caminho_protegido,
+            pedido_local,
+        )
+
+            if caminho_protegido(caminho) and not pedido_local(self.client_address[0], self.headers):
+                self._send_json({"detail": MENSAGEM_SO_LOCAL}, status=403)
+                return False
+            return True
+
         def do_POST(self) -> None:  # noqa: N802
+            if not self._bancada_permitida(urlparse(self.path).path):
+                return
             if self.path.startswith("/api/v1/materials/upload"):
                 self._handle_upload()
                 return
@@ -1245,6 +1312,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json({"detail": str(err)}, status=422)
             elif urlparse(self.path).path == "/api/v1/eval/bancada-pr85/gerar":
                 self._send_json(_handle_bancada_pr85_gerar())
+            elif urlparse(self.path).path == "/api/v1/eval/bancada-pr85/medir":
+                self._send_json(_handle_bancada_pr85_medir())
             elif urlparse(self.path).path == "/api/v1/eval/ataque-pii":
                 self._send_json(_handle_ataque_pii_run())
             elif urlparse(self.path).path == "/api/v1/eval/arquitetura-langgraph/executar":

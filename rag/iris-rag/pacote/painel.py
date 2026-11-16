@@ -17,6 +17,7 @@ import html
 import json
 
 import guia
+import tema
 from pathlib import Path
 
 VENDOR = Path(__file__).resolve().parent.parent / "bancada" / "vendor"
@@ -906,10 +907,12 @@ def gerar(dados: dict, testes: list[tuple[str, str, str]]) -> str:
                "<span><i class='sw ok'></i>passou</span><span><i class='sw ac'></i>seleção</span>"
                "<p>Abrir não roda nada: o painel só lê o que as verificações gravaram. Contém texto de documentos sem licença aberta: não publicar.</p></div>")
     dados_json = json.dumps(dados, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    # cores fixas viram variáveis, para o tema claro trocar só as variáveis (ver tema.py)
+    (css_t, js_t), tema_bloco = tema.tematizar([CSS + guia.CSS, JS + "\n" + _qualidade_js()])
     return f"""<!doctype html><html lang=pt-BR><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=color-scheme content=dark><meta name=referrer content=no-referrer><title>Bancada do Íris</title>
-<style>{fontes}{CSS}{guia.CSS}</style></head><body><div class=app>
+<meta name=color-scheme content=dark><meta name=referrer content=no-referrer><title>Bancada do Íris</title><link rel=icon type=image/png href=/favicon.png>
+<style>{fontes}{tema_bloco}{css_t}</style><script>{tema.JS_TEMA}</script></head><body><div class=app>
 <aside class=lado><div class=marca><i></i><div><b>Íris</b><small>bancada de acompanhamento</small></div></div><nav aria-label=seções>{''.join(nav)}</nav>{legenda}</aside>
 <main><div class=topo><span id=topo-estado></span><span id=topo-grupo></span><span id=topo-priv></span><span id=topo-quando></span><span id=topo-local style="display:none"></span>
 <button id=novo class=novo onclick="location.reload()">nova versão publicada: recarregar</button></div><div id=reprovado></div><div id=alerta></div>{corpo}</main></div>
-<script>{_vendor_js()}</script><script>const DADOS={dados_json};</script><script>{JS}\n{_qualidade_js()}\nqualidadeTudo();langgraphSec();llmxragSec();glAplicar();retratoAviso();</script></body></html>"""
+<script>{_vendor_js()}</script><script>const DADOS={dados_json};</script><script>{js_t}\nqualidadeTudo();langgraphSec();llmxragSec();glAplicar();retratoAviso();</script></body></html>"""

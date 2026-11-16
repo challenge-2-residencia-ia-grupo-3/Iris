@@ -41,6 +41,51 @@ ABAS: list[tuple[str, list[tuple[str, str]]]] = [
 ]
 
 
+# Telas do PR 85 que ficam fora do menu, por decisão de 16/11/2026 (comparativo em docs/rag/painel_qualidade_comparativo.md).
+# O código delas continua no repositório: voltar uma tela é tirar a linha daqui e pôr o botão no playground.
+FORA_DO_MENU: dict[str, str] = {
+    "prs": "o dado é um retrato de 13/11; volta quando puder se atualizar sozinho",
+    "arquitetura": "fica a aba Arquitetura (LangGraph) do playground, que roda com o material do professor",
+    "q-ataque": "fica o ataque das Ferramentas da API, que mede o removedor atual",
+    "q-producao": "testa uma proposta que ainda não está no produto",
+    "comandos": "o botão Medir de novo sem modelo cobre o que roda pela página; os comandos ficam no README da bancada",
+    "mapa-painel": "cada aba já abre com a pergunta da tela",
+}
+
+
+def abas_no_menu() -> list[tuple[str, list[tuple[str, str]]]]:
+    """As abas do PR 85 que aparecem no menu do playground, nos grupos originais."""
+    out = []
+    for grupo, itens in ABAS:
+        ficam = [(i, n) for i, n in itens if i not in FORA_DO_MENU]
+        if ficam:
+            out.append((grupo, ficam))
+    return out
+
+
+# Só o próprio computador vê as telas do PR 85: a página leva trechos de documentos sem licença aberta.
+CAMINHOS_PROTEGIDOS = ("/bancada", "/api/v1/eval/bancada-pr85")
+ENDERECOS_LOCAIS = {"127.0.0.1", "::1", "localhost"}
+CABECALHOS_DE_PROXY = ("x-forwarded-for", "x-real-ip", "forwarded")
+MENSAGEM_SO_LOCAL = ("As telas do PR 85 só abrem no próprio computador (127.0.0.1): a página leva trechos de "
+                     "documentos sem licença aberta.")
+
+
+def caminho_protegido(caminho: str) -> bool:
+    return any(caminho == c or caminho.startswith(c + "/") or caminho.startswith(c + "?") for c in CAMINHOS_PROTEGIDOS)
+
+
+def pedido_local(endereco: str | None, cabecalhos: Any) -> bool:
+    """O pedido veio do próprio computador, sem passar por um proxy?
+
+    Atrás de um proxy reverso todo pedido parece vir de 127.0.0.1; por isso qualquer cabeçalho de proxy recusa.
+    """
+    if (endereco or "") not in ENDERECOS_LOCAIS:
+        return False
+    nomes = {str(k).lower() for k in (cabecalhos.keys() if hasattr(cabecalhos, "keys") else [])}
+    return not any(h in nomes for h in CABECALHOS_DE_PROXY)
+
+
 def disponivel() -> bool:
     """O código do painel do PR 85 está neste repositório?"""
     return GERADOR.exists()
@@ -72,6 +117,44 @@ def gerar_pagina(tempo_limite_s: int = 300) -> dict[str, Any]:
     }
 
 
+def medir_de_novo(tempo_limite_s: int = 900) -> dict[str, Any]:
+    """Roda as verificações sem modelo do PR 85 contra o código deste repositório e gera a página de novo.
+
+    É o alvo ``verificar`` de ``rag/iris-rag/pacote/Makefile``: pipeline com provedor determinístico (``eco``),
+    bateria adversarial, ablação, mapa do código, etapas, conjunto de avaliação, ataque, orçamento, produção,
+    portões e o grafo LangGraph. Não chama modelo nem rede; a chave de API é tirada do ambiente por garantia. As
+    telas medidas com modelo (juízes, LLM x RAG) continuam vindo do retrato.
+    """
+    if not disponivel():
+        return {"ok": False, "erro": f"não achei {_relativo(GERADOR)} neste repositório"}
+    import os
+    import shutil
+
+    make = shutil.which("make")
+    if not make:
+        return {"ok": False, "erro": "o comando make não está instalado; rode as verificações pelo terminal"}
+    ambiente = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
+    inicio = time.monotonic()
+    proc = subprocess.run(  # comando fixo, sem entrada do usuário
+        [make, "-C", str(PACOTE), "verificar", f"PY={sys.executable}", f"PYB={sys.executable}",
+         f"GRUPO={RAIZ_REPO}", "PROV=eco"],
+        capture_output=True,
+        text=True,
+        timeout=tempo_limite_s,
+        check=False,
+        env=ambiente,
+    )
+    linhas = [l for l in (proc.stdout or "").splitlines() if l.strip()]
+    resumo = next((l for l in reversed(linhas) if "reports/bancada.html:" in l), linhas[-1] if linhas else "")
+    return {
+        "ok": proc.returncode == 0 and PAGINA.exists(),
+        "codigo": proc.returncode,
+        "segundos": round(time.monotonic() - inicio, 1),
+        "resumo": resumo,
+        "erro": ((proc.stderr or "") + "\n" + "\n".join(linhas[-8:])).strip()[-1200:] if proc.returncode else "",
+    }
+
+
 def ler_pagina() -> str:
     """O HTML do painel do PR 85; gera na primeira vez se ainda não existir."""
     if not PAGINA.exists():
@@ -92,7 +175,8 @@ def descrever() -> dict[str, Any]:
         "disponivel": disponivel(),
         "gerada": PAGINA.exists(),
         "gerada_em": time.strftime("%d/%m/%Y %H:%M", time.localtime(PAGINA.stat().st_mtime)) if PAGINA.exists() else None,
-        "abas": [{"grupo": g, "abas": [{"id": i, "nome": n} for i, n in itens]} for g, itens in ABAS],
+        "abas": [{"grupo": g, "abas": [{"id": i, "nome": n} for i, n in itens]} for g, itens in abas_no_menu()],
+        "fora_do_menu": FORA_DO_MENU,
     }
 
 
