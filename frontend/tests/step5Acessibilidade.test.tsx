@@ -79,7 +79,7 @@ describe("Etapa 5: acessibilidade (WCAG 2.1 AA)", () => {
     render(tela());
     fireEvent.click(screen.getAllByRole("button", { name: /Por que mudou · questão 1/ })[0]);
     const regiao = screen.getByRole("region", { name: "Justificativa pedagógica da questão 1" });
-    expect(within(regiao).getAllByText(/Sobrecarga de memória de trabalho/).length).toBeGreaterThan(0);
+    expect(within(regiao).getAllByText(/Múltiplos comandos na mesma questão/).length).toBeGreaterThan(0);
     expect(regiao.textContent).toMatch(/DUA Diretriz/);
   });
 

@@ -97,7 +97,7 @@ export function Step5Review({ entrada, demo = false, teacherEmail = "marina.alve
       </header>
 
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-start gap-6 px-4 py-6 sm:px-8 lg:flex-row">
-        <IrisSidebar currentStep={5} enabledSteps={[1, 2, 5]} onNavigateStep={(s) => router.push(`/etapa-${s}`)} />
+        <IrisSidebar currentStep={5} enabledSteps={[1, 2, 3, 5]} onNavigateStep={(s) => router.push(`/etapa-${s}`)} />
 
         <main id="conteudo-principal" className="min-w-0 flex-1 space-y-5">
           <h1 className="text-xl font-extrabold">Revise a adaptação, questão por questão</h1>
