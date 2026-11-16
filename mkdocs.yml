@@ -86,6 +86,7 @@ nav:
   - Perfil Pedagógico: perfil_pedagogico.md
   - Exportação do Material: exportacao_material.md
   - Revisão e Homologação: revisao_docente.md
+  - Etapa 5 — Revisão Lado a Lado: etapa5_revisao.md
   - Base de Conhecimento e RAG:
       - Relatório Técnico: rag/relatorio.md
       - Arquitetura do RAG: rag/arquitetura.md

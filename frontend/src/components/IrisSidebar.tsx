@@ -147,7 +147,7 @@ export function IrisSidebar({
                           onClick={() => step2SubSteps.onSelectSubStep(sub.id)}
                           className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-[11px] font-semibold text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
                             activeSub
-                              ? "bg-[#E35336] text-white shadow-sm"
+                              ? "bg-[#C9411F] text-white shadow-sm"
                               : sub.disabled
                               ? "opacity-40 cursor-not-allowed text-[#0D0221]/60 dark:text-white/50"
                               : "text-[#0D0221]/80 dark:text-white/80 hover:bg-[#E35336]/15"
@@ -176,7 +176,7 @@ export function IrisSidebar({
                 <div
                   key={step.id}
                   aria-current="page"
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-extrabold bg-[#E35336] text-white shadow-sm"
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-extrabold bg-[#C9411F] text-white shadow-sm"
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                   <span className="truncate">{step.label}</span>
