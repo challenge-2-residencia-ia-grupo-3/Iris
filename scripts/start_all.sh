@@ -275,30 +275,44 @@ else
     echo "      -> Docker desligado ou não utilizado. Buscador operando em modo local BM25."
 fi
 
-# 4. LLM Local via Ollama
+# 4. LLM (Claude Sonnet via API ou Ollama local opcional)
 echo ""
-echo "[4/5] Verificando LLM Local via Ollama (${MODEL})..."
-if garantir_ollama; then
-    if ! curl -sSf "${OLLAMA_HOST_URL}/api/tags" >/dev/null 2>&1; then
-        echo "      -> [INSTALANDO] Subindo daemon 'ollama serve' em background..."
-        nohup ollama serve >/tmp/iris_ollama.log 2>&1 &
-        sleep 2
-    else
-        echo "      -> [OK] Servidor Ollama já está online em ${OLLAMA_HOST_URL}."
-    fi
-
-    if curl -sSf "${OLLAMA_HOST_URL}/api/tags" >/dev/null 2>&1; then
-        if ollama list | awk '{print $1}' | grep -Fxq "${MODEL}"; then
-            echo "      -> [OK] Modelo '${MODEL}' já está baixado — pulando download."
+echo "[4/5] Verificando provedor de LLM..."
+WITH_OLLAMA_FLAG="${IRIS_WITH_OLLAMA:-${WITH_OLLAMA:-0}}"
+if [ "${WITH_OLLAMA_FLAG}" = "1" ] || [ "${WITH_OLLAMA_FLAG}" = "true" ]; then
+    echo "      -> Modo explícito IRIS_WITH_OLLAMA=1 ativo; garantindo Ollama e '${MODEL}'..."
+    if garantir_ollama; then
+        if ! curl -sSf "${OLLAMA_HOST_URL}/api/tags" >/dev/null 2>&1; then
+            echo "      -> [INSTALANDO] Subindo daemon 'ollama serve' em background..."
+            nohup ollama serve >/tmp/iris_ollama.log 2>&1 &
+            sleep 2
         else
-            echo "      -> [INSTALANDO] Baixando modelo '${MODEL}'..."
-            ollama pull "${MODEL}" || echo "      -> [AVISO] Prosseguindo com fallback até o download concluir."
+            echo "      -> [OK] Servidor Ollama já está online em ${OLLAMA_HOST_URL}."
+        fi
+
+        if curl -sSf "${OLLAMA_HOST_URL}/api/tags" >/dev/null 2>&1; then
+            if ollama list | awk '{print $1}' | grep -Fxq "${MODEL}"; then
+                echo "      -> [OK] Modelo '${MODEL}' já está baixado — pulando download."
+            else
+                echo "      -> [INSTALANDO] Baixando modelo '${MODEL}'..."
+                ollama pull "${MODEL}" || echo "      -> [AVISO] Prosseguindo com fallback até o download concluir."
+            fi
+        else
+            echo "      -> [AVISO] Ollama não respondeu em ${OLLAMA_HOST_URL}. Usando fallback extrativo local."
         fi
     else
-        echo "      -> [AVISO] Ollama não respondeu em ${OLLAMA_HOST_URL}. Usando fallback extrativo local."
+        echo "      -> [AVISO] Binário 'ollama' não encontrado. Usando fallback extrativo local."
     fi
 else
-    echo "      -> [AVISO] Binário 'ollama' não encontrado. Usando fallback extrativo local."
+    if [ -n "${ANTHROPIC_API_KEY:-}" ]; then
+        echo "      -> [OK] ANTHROPIC_API_KEY configurada (Claude Sonnet ativo) — pulando instalação/download de Ollama/llama3."
+    else
+        echo "      -> [INFO] Download automático do llama3 desativado por padrão."
+        echo "         Configure ANTHROPIC_API_KEY no .env ou rode 'IRIS_WITH_OLLAMA=1 make up' (ou ./scripts/setup_ollama.sh) se quiser usar Ollama local."
+    fi
+    if command -v ollama >/dev/null 2>&1 && curl -sSf "${OLLAMA_HOST_URL}/api/tags" >/dev/null 2>&1; then
+        echo "      -> [OK] Ollama local já está online em ${OLLAMA_HOST_URL} (sem baixar novos modelos)."
+    fi
 fi
 
 # 5. Frontend Next.js (Node.js / npm install / servidor na porta 3000)
