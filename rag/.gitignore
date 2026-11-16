@@ -24,3 +24,5 @@ iris-rag/pacote/outputs/1[7-9]-*
 iris-rag/pacote/outputs/20-*
 iris-rag/pacote/outputs/.retrato.json
 iris-rag/bancada/langgraph/.montado/
+# texto dos trechos como os juízes leram (avaliação com um clique); leva texto sem licença aberta
+iris-rag/pacote/chunks_julgados.jsonl

@@ -35,6 +35,7 @@ import re
 from collections import Counter
 from datetime import datetime
 from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
 from iris.config import RAG_BASE_DIR
@@ -43,6 +44,11 @@ PACOTE = RAG_BASE_DIR / "pacote"
 MEDIDAS = PACOTE / "respostas_medidas.json"
 VEREDITOS = PACOTE / "respostas_vereditos_cruzado.json"
 CHUNKS = PACOTE / "chunks.jsonl"
+# Os juízes leram os trechos da base de 1.083 (sha256 começando por cfc1481f449ef361). Se a base for trocada (a nova tem
+# 42 desses trechos com texto alterado), a avaliação continua mostrando o texto que o juiz viu: ele fica guardado em
+# chunks_julgados.jsonl, fora do git (leva texto sem licença aberta), copiado sozinho enquanto a base ainda é a julgada.
+BASE_JULGADA = PACOTE / "chunks_julgados.jsonl"
+HASH_BASE_JULGADA = "cfc1481f449ef361"
 PERGUNTAS = RAG_BASE_DIR / "gabarito" / "gabarito_rascunho_v0.json"
 ROTULOS = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-grupo.jsonl"
 
@@ -77,13 +83,39 @@ def _divisor():
     return mod.frases_da_resposta
 
 
+def _hash(caminho: Path) -> str:
+    import hashlib
+
+    return hashlib.sha256(caminho.read_bytes()).hexdigest()[:16]
+
+
+def arquivo_de_trechos() -> Path:
+    """O arquivo com o texto dos trechos como os juízes leram.
+
+    Usa a cópia guardada; se ainda não há cópia e a base atual é a julgada, faz a cópia agora. Se a base já foi trocada
+    e não há cópia, para com a explicação: mostrar o texto novo faria a pessoa avaliar um trecho diferente do que o juiz
+    viu.
+    """
+    if BASE_JULGADA.exists():
+        return BASE_JULGADA
+    if CHUNKS.exists() and _hash(CHUNKS) == HASH_BASE_JULGADA:
+        import shutil
+
+        shutil.copyfile(CHUNKS, BASE_JULGADA)
+        return BASE_JULGADA
+    raise RuntimeError(
+        "A base de trechos atual não é a que os juízes leram e não há cópia dela (chunks_julgados.jsonl). "
+        f"Volte a base de 1.083 trechos (sha256 {HASH_BASE_JULGADA}...) por um momento para a cópia ser feita."
+    )
+
+
 @lru_cache(maxsize=1)
 def _dados() -> dict[str, Any]:
     medidas = json.loads(MEDIDAS.read_text(encoding="utf-8"))["geradores"]
     vereditos = json.loads(VEREDITOS.read_text(encoding="utf-8"))
     perguntas = {i["id"]: i["pergunta"] for i in json.loads(PERGUNTAS.read_text(encoding="utf-8"))["itens"]}
     textos: dict[str, dict[str, str]] = {}
-    for linha in CHUNKS.read_text(encoding="utf-8").splitlines():
+    for linha in arquivo_de_trechos().read_text(encoding="utf-8").splitlines():
         if linha.strip():
             c = json.loads(linha)
             textos[c["chunk_id"]] = {"texto": c.get("texto", ""), "doc": c.get("doc_id", ""), "aviso": c.get("nota_uso") or ""}

@@ -220,18 +220,24 @@ class TestRepetirRodada(unittest.TestCase):
     def test_resposta_que_muda_com_a_busca_igual_nao_derruba_a_busca(self) -> None:
         with tempfile.TemporaryDirectory() as tmp, _ambiente_extrativo():
             runs = Path(tmp) / "runs.jsonl"
-            _executar(tmp, limite=4)
+            _executar(tmp, limite=8)
             rodada = json.loads(runs.read_text(encoding="utf-8").splitlines()[-1])
-            rodada["itens"][1]["resposta"] = "Outro texto, como um modelo que sorteia escreveria [T1]."
-            rodada["itens"][1]["absteve"] = False
-            rodada["itens"][1]["fidelidade_efetiva"] = 1.0
+            # planta a resposta diferente numa questão cuja fidelidade real é menor que 1 (de preferência uma que se
+            # absteve), para a diferença de fidelidade não depender de qual base de trechos está instalada
+            itens = rodada["itens"]
+            alvo = min(range(len(itens)), key=lambda i: (not itens[i].get("absteve"), itens[i].get("fidelidade_efetiva") or 0.0))
+            if not itens[alvo].get("absteve") and (itens[alvo].get("fidelidade_efetiva") or 0.0) >= 1.0:
+                self.skipTest("nenhuma das 8 questões tem fidelidade menor que 1 nesta base de trechos")
+            itens[alvo]["resposta"] = "Outro texto, como um modelo que sorteia escreveria [T1]."
+            itens[alvo]["absteve"] = False
+            itens[alvo]["fidelidade_efetiva"] = 1.0
             runs.write_text(json.dumps(rodada, ensure_ascii=False) + "\n", encoding="utf-8")
             with patch.object(bench, "PROGRESSO_RAG_ESCOLAR_LOG", Path(tmp) / "progress.log"):
                 r = repetir_rodada_rag_escolar(caminho_runs=runs)
         self.assertTrue(r["busca_repete"])
         self.assertFalse(r["geracao_repete"])
         self.assertFalse(r["repete"])
-        self.assertEqual(r["respostas_identicas"], 3)
+        self.assertEqual(r["respostas_identicas"], 7)
         self.assertLess(r["diferenca_fidelidade"]["media"], 0.0)
         self.assertIn("resposta", r["divergentes"][0]["mudou"])
 
