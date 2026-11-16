@@ -34,6 +34,12 @@ BASE_CLARA = {
 }
 
 
+# Ajustes do tema escuro (o original), decididos pelo Matheus em 16/11/2026: só o que fica abaixo do contraste mínimo de
+# leitura (4,5 para 1, WCAG). O cinza do texto secundário dava 4,42 sobre os fundos de cartão; #9696A6 é o menor tom do
+# mesmo cinza que passa em todos os fundos onde ele aparece (o pior caso, #2F2F39, dá 4,54).
+ESCURO_AJUSTADO = {"8A8A9A": "9696A6"}
+
+
 def _hex6(h: str) -> str:
     h = h.upper()
     return "".join(c * 2 for c in h) if len(h) == 3 else h
@@ -54,7 +60,8 @@ def claro_hex(h6: str) -> str:
     if h6 in BASE_CLARA:
         return BASE_CLARA[h6]
     r, g, b = (int(h6[i:i + 2], 16) for i in (0, 2, 4))
-    return "%02X%02X%02X" % _inverte(r, g, b)
+    rr, gg, bb = _inverte(r, g, b)
+    return f"{rr:02X}{gg:02X}{bb:02X}"
 
 
 def _nome_rgba(r: int, g: int, b: int, a: str | None) -> str:
@@ -92,7 +99,7 @@ def tematizar(textos: list[str]) -> tuple[list[str], str]:
         return f"var({nome})"
 
     saida = [RE_RGBA.sub(troca_rgba, RE_HEX.sub(troca_hex, t)) for t in textos]
-    escuro = [f"--c-{h}:#{h}" for h in sorted(hexes)]
+    escuro = [f"--c-{h}:#{ESCURO_AJUSTADO.get(h, h)}" for h in sorted(hexes)]
     escuro += [f"{n}:rgba({r},{g},{b},{a if a is not None else 1})" for n, (r, g, b, a) in sorted(rgbas.items())]
     claro = [f"--c-{h}:#{claro_hex(h)}" for h in sorted(hexes)]
     claro += [f"{n}:{claro_rgba(r, g, b, a)}" for n, (r, g, b, a) in sorted(rgbas.items())]
