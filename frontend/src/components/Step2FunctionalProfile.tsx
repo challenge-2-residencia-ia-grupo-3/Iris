@@ -1,5 +1,7 @@
 "use client";
 
+import { PortableProfilePanel } from "@/components/PortableProfilePanel";
+
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -696,6 +698,13 @@ export function Step2FunctionalProfile({
                   );
                 })}
               </div>
+            )}
+
+            {selectedCount > 0 && (
+              <PortableProfilePanel
+                selectedIds={selectedIds}
+                validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
+              />
             )}
 
             {/* Rodapé do Passo (a) */}

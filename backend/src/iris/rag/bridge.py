@@ -211,8 +211,9 @@ def buscar_evidencias_com_meta(
             "metodo_solicitado": metodo_solicitado,
             "metodo_efetivo": metodo_solicitado,
             "fallback_aplicado": False,
+            "fallback_motivo": None,
         }
-    except Exception:
+    except Exception as exc:
         if fallback_bm25_se_sem_banco and metodo_solicitado != "bm25":
             resultados = consultar.buscar(
                 pergunta=pergunta,
@@ -227,6 +228,7 @@ def buscar_evidencias_com_meta(
                 "metodo_solicitado": metodo_solicitado,
                 "metodo_efetivo": "bm25",
                 "fallback_aplicado": True,
+                "fallback_motivo": f"{type(exc).__name__}: {exc}",
             }
         raise
 
@@ -321,6 +323,7 @@ def buscar_por_caracteristica_atomica(
         "metodo_solicitado": busca["metodo_solicitado"],
         "metodo_efetivo": busca["metodo_efetivo"],
         "fallback_aplicado": busca["fallback_aplicado"],
+        "fallback_motivo": busca.get("fallback_motivo"),
         "trechos_rag": busca["trechos"],
     }
 

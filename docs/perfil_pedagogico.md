@@ -1,12 +1,31 @@
-# Perfil Pedagógico Portátil: bloqueio de dados clínicos (História 3.1.3, #28)
+# Perfil Pedagógico Portátil (Histórias 3.1.1 / #26 e 3.1.3 / #28)
 
-Implementa RF-15 e RNF-03: o perfil guarda **apenas** barreiras funcionais observadas em sala e o histórico de
+Schema oficial em `backend/src/iris/schemas/portable_profile.py`. Implementa RF-15, RNF-01 e RNF-03: o perfil guarda **apenas** barreiras funcionais observadas em sala e o histórico de
 estratégias didáticas. CID, laudos, diagnósticos formais e medicação são rejeitados.
 
-## Uso
+## Criação com identificador anônimo (#26)
 
 ```python
-from iris.schemas.profile import validar_perfil, PerfilInvalidoError
+from iris.schemas.portable_profile import criar_perfil
+
+perfil = criar_perfil(["atencao_sustentada_textos_longos"], ids_validos=ids_do_catalogo)
+perfil.codigo_anonimo      # "aluno-8f7a2c1b": UUID4 aleatório, sem nenhuma entrada do usuário
+perfil.criado_em           # data/hora UTC
+perfil.para_json()         # dict pronto para o navegador baixar
+```
+
+- O código vem só de `gerar_codigo_anonimo()` (que não recebe dados do estudante). O schema aceita **apenas** o formato
+  `aluno-` + 8 a 32 hex: um nome digitado no lugar do código é rejeitado.
+- Com 8 hex, a chance de colisão chega a ~1% perto de 9 mil perfis. Como não há banco para checar unicidade, use
+  `gerar_codigo_anonimo(16)` se isso importar.
+- **Nada é persistido.** O módulo não importa banco, rede nem escreve arquivo; `tests/test_perfil_portatil.py` verifica isso
+  por inspeção de código (AST) e por execução (bloqueando escrita em disco e conexões).
+- Quem entrega o JSON ao docente (rota ou frontend) não deve guardar cópia no servidor.
+
+## Uso da validação
+
+```python
+from iris.schemas.portable_profile import validar_perfil, PerfilInvalidoError
 
 try:
     perfil = validar_perfil(conteudo_do_json)        # str, bytes ou dict (ex.: reimportação)
@@ -23,7 +42,9 @@ O schema `PerfilPedagogico` também pode ser usado direto (`model_validate`); ne
 | Campo | Conteúdo |
 |---|---|
 | `versao_schema` | `"1.0"` |
-| `codigo_anonimo` | 3 a 40 caracteres (letras, números, `_`, `-`); sem e-mail nem espaços |
+| `codigo_anonimo` | `aluno-` + 8 a 32 hex minúsculos |
+| `criado_em` | data/hora com fuso (UTC por padrão) |
+| `caracteristicas_selecionadas[]` | ids do catálogo, sem repetição |
 | `barreiras_observadas[]` | `id_caracteristica` (do catálogo) + `observacao` opcional |
 | `historico_estrategias[]` | `estrategia`, `resultado` (`eficaz`/`ineficaz`), `id_caracteristica` e `observacao` opcionais |
 | `anotacoes_pedagogicas[]` | textos livres (até 1000 caracteres) |
@@ -38,13 +59,12 @@ Chaves **e** valores são varridos recursivamente.
 |---|---|
 | `cid` | `CID F90.0`, `F84`, `6A05`, "Classificação Internacional de Doenças" |
 | `laudo` | laudo, atestado médico, relatório clínico, prontuário, receita médica, neuropsicológico |
-| `diagnostico` | "diagnóstico médico", "tem diagnóstico", diagnosticado, TDAH e T.D.A.H., TEA, TOC (em maiúsculas), autismo, "no espectro", dislexia, "transtorno de/do...", síndrome |
+| `diagnostico` | "diagnóstico médico/clínico", "tem diagnóstico", diagnosticado, TDAH e T.D.A.H., TEA/TOC (siglas em maiúsculas), autismo, "no espectro", dislexia, "transtorno de/do…", síndrome |
 | `medicacao` | nomes de medicamentos, "toma Concerta", "medicação", "remédio", doses (`10 mg`, gotas, comprimidos), psiquiatra/neurologista |
 
-Não são bloqueados: "avaliação diagnóstica", "diagnóstico pedagógico", "diagnóstico inicial da turma", "causou
-transtorno", "ele concerta os erros", "garrafa de 500 ml", "toc toc", códigos como `Q10`, "A4", "ambiente
-estimulante", "receita de bolo". Os valores de `codigo_anonimo` e `versao_schema` não são varridos: o formato já é
-restrito pelo schema e um código aleatório como `F12-x9` seria lido como CID.
+Não são bloqueados: "avaliação diagnóstica", "diagnóstico pedagógico", "diagnóstico inicial da turma",
+"a troca de sala causou transtorno", "ele concerta os erros", "garrafa de 500 ml", "toc toc", códigos como
+`Q10`, "A4", "ambiente estimulante", "receita de bolo". Como *nome de campo*, `diagnostico`/`transtorno` são sempre bloqueados.
 
 ## Privacidade
 
@@ -55,8 +75,39 @@ clínico (ex.: `laudo_tdah`).
 
 ## Limites conhecidos
 
-- Lista finita de termos e medicamentos; nomes novos exigem atualizar as constantes em `schemas/profile.py`.
+- Lista finita de termos e medicamentos; nomes novos exigem atualizar as constantes em `schemas/portable_profile.py`.
 - `F\d{2}` (ex.: `F10`) é tratado como CID; um código de exercício igual a esse seria um falso positivo.
 - Deficiências sensoriais/físicas (ex.: "baixa visão") não são bloqueadas por serem informação de acessibilidade.
-- Não detecta dados pessoais (nome do aluno, CPF) em texto livre; isso é responsabilidade do `security/pii_scrubber.py`.
-- O schema do perfil é proposta a partir do RF-15; as histórias 3.1.1 e 3.1.2 podem refiná-lo.
+- A validação não detecta dados pessoais (nome do aluno, CPF) em texto livre; a exportação pelo servidor aplica o
+  `security/pii_scrubber.py`, que não reconhece nome de pessoa em texto corrido.
+- Termos clínicos dentro de identificadores com sublinhado (`tdah_formal`) também são detectados.
+- O histórico de eficácia (`historico_estrategias`) é proposta da 3.1.2 (#27) e pode ser refinado lá.
+- O perfil é criado e baixado no navegador, pelo painel da etapa 2 (`frontend/src/services/portableProfile.ts`, que espelha
+  este schema). A única rota de API do perfil é a de exportação, descrita abaixo; `criar_perfil` ainda não é chamado pelo
+  servidor.
+
+## Exportação (.json e .pdf)
+O docente baixa o perfil por dois caminhos (História 3.2.1, RF-15, RNF-01):
+
+| Formato | Onde é gerado | Uso |
+|---|---|---|
+| `.json` | no navegador (`portableProfile.ts`), funciona offline | reuso no sistema; segue o schema oficial |
+| `.pdf` | no servidor, por `POST /api/v1/perfil/exportar?formato=pdf` | relatório síntese para anexar ao PDI |
+
+`POST /api/v1/perfil/exportar?formato=json|pdf` recebe o perfil no corpo e passa por `validar_perfil`
+(schema oficial + bloqueio de laudo, CID, diagnóstico e medicação). Perfil inválido devolve `422` e nunca
+gera arquivo; a resposta de erro não repete o trecho digitado.
+
+**Dado pessoal em texto livre.** Antes de virar arquivo, anotações, observações e estratégias passam por
+`security/pii_scrubber.sanitize_pii`: CPF, telefone, e-mail e matrícula saem como marcadores (`[CPF]`, `[TELEFONE]`,
+`[EMAIL]`, `[IDENTIFICADOR]`). Nome de pessoa em texto corrido não é detectado; o rodapé do PDF avisa o docente para
+revisar antes de compartilhar. O `.json` gerado no navegador não passa por essa etapa.
+
+**Sem sessão no servidor.** Não existe sessão em memória para destruir: a rota recebe o perfil, monta o
+arquivo em memória, devolve os bytes e esquece. Não usa disco, banco, cache nem variável global, e a resposta
+leva `Cache-Control: no-store`. Por isso encerrar o servidor não faz o docente perder o que já baixou.
+Os testes provam isso (sem importar bibliotecas de persistência, sem escrever em disco, sem rede e sem
+alterar o estado do módulo durante a exportação).
+
+O PDF é montado com PyMuPDF (já dependência do projeto). Traz código anônimo, data, as características com
+nome e descrição do catálogo oficial e, se existirem, barreiras, estratégias e anotações.

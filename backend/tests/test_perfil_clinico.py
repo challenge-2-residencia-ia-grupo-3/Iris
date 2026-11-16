@@ -3,7 +3,7 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from iris.schemas.profile import (
+from iris.schemas.portable_profile import (
     BarreiraObservada,
     ConteudoClinicoError,
     PerfilInvalidoError,
@@ -14,7 +14,7 @@ from iris.schemas.profile import (
 )
 
 BASE = {
-    "codigo_anonimo": "ALU-0042",
+    "codigo_anonimo": "aluno-8f7a2c1b",
     "barreiras_observadas": [
         {"id_caracteristica": "atencao_sustentada_textos_longos",
          "observacao": "Perde o fio da meada em textos longos; rende melhor com enunciados divididos em etapas."}],
@@ -31,7 +31,7 @@ def com(**kw):
 
 def test_perfil_valido_passa():
     p = validar_perfil(BASE)
-    assert isinstance(p, PerfilPedagogico) and p.codigo_anonimo == "ALU-0042"
+    assert isinstance(p, PerfilPedagogico) and p.codigo_anonimo == "aluno-8f7a2c1b"
 
 
 def test_reimportacao_de_json_em_texto():
@@ -168,7 +168,8 @@ def test_bloqueia_disfarces_simples(texto, cat):
     assert cat in {v.categoria for v in detectar_conteudo_clinico(texto)}, texto
 
 
-@pytest.mark.parametrize("codigo", ["F12-x9", "6A05ab", "aluno-F90"])
+# O código anônimo agora é sempre `aluno-` + hex (#26), então nunca vira CID; o valor continua fora da varredura.
+@pytest.mark.parametrize("codigo", ["aluno-f12a9b3c", "aluno-6a05ab12", "aluno-0f90abcd"])
 def test_codigo_anonimo_nao_e_lido_como_cid(codigo):
     assert validar_perfil(com(codigo_anonimo=codigo)).codigo_anonimo == codigo
 
@@ -184,3 +185,14 @@ def test_varrer_nao_quebra_com_tipos_nao_textuais():
 
 def test_conteudo_clinico_error_e_valueerror():
     assert issubclass(ConteudoClinicoError, ValueError)
+
+
+@pytest.mark.parametrize("texto", ["tdah_formal", "laudo_medico", "uso_de_ritalina", "F90_0", "cid_10_f84"])
+def test_termo_clinico_dentro_de_identificador_com_sublinhado(texto):
+    assert detectar_conteudo_clinico(texto), texto
+
+
+@pytest.mark.parametrize("texto", ["atencao_sustentada_textos_longos", "sobrecarga_memoria_trabalho_comandos_multiplos",
+                                   "aluno-8f7a2c1b", "organizacao_sequencial_expressao_escrita"])
+def test_ids_do_catalogo_e_codigo_anonimo_nao_sao_bloqueados(texto):
+    assert detectar_conteudo_clinico(texto) == [], texto
