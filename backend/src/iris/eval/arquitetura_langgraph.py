@@ -881,7 +881,7 @@ def obter_arquitetura(recalcular: bool = False) -> dict[str, Any]:
         return {
             "disponivel": False,
             "motivo": f"A biblioteca langgraph não está instalada neste ambiente ({ERRO_IMPORTACAO}).",
-            "como_instalar": "uv pip install langgraph",
+            "como_instalar": "uv sync --group grafo",
         }
     if recalcular or "dados" not in _CACHE:
         from importlib.metadata import version
