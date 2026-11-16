@@ -25,7 +25,7 @@ Arquivos de apoio: `trace.py` (ambiente, esquema do rastro, wrappers, provedores
 | 5 | decomposicao_estrutural | `iris/parsers/structural_decomposer.py:decompose_material` |
 | 6 | organizacao_texto_corrido | `iris/parsers/prose_organizer.py:organize_prose_structure` (chamada de dentro da 5) |
 | 7 | selecao_caracteristicas | `iris/api/routes/catalogs.py:select_surgical_characteristics_service` (catálogo TDAH, 10 características) |
-| 8 | perfil_pedagogico | `iris/schemas/profile.py:validar_perfil` (perfil sintético; bloqueia CID/laudo) |
+| 8 | perfil_pedagogico | `iris/schemas/portable_profile.py:validar_perfil` (perfil sintético; bloqueia CID/laudo) |
 | por questão | extrator_curricular | `iris/agents/curriculum_extractor.py:CurriculumExtractorAgent.extract_with_telemetry` |
 | por questão | busca_rag | `iris/rag/bridge.py:buscar_por_caracteristica_atomica` (forçado `metodo="bm25"`) |
 | por questão | contexto_rag | `iris/rag/contexto.py:montar_contexto_estrategista` |

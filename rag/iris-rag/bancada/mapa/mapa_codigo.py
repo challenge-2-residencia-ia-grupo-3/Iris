@@ -554,7 +554,7 @@ ETAPAS = [
         "etapa": "catalogo de caracteristicas / perfil funcional",
         "alvos": [("iris.api.routes.catalogs", "select_surgical_characteristics_service"),
                   ("iris.schemas.catalog", "load_official_tdah_catalog"),
-                  ("iris.schemas.profile", "validar_perfil")],
+                  ("iris.schemas.portable_profile", "validar_perfil")],
         "nota": "#39 e #8 CLOSED; perfil portatil (#26, #30, #31) OPEN",
     },
     {

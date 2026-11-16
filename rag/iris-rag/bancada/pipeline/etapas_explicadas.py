@@ -491,6 +491,54 @@ def procurar_copias(dados: Any, corpus: str) -> list[str]:
     return achados
 
 
+def _trechos_copiados(s: str, corpus: str) -> list[tuple[int, int]]:
+    """Intervalos (início, fim) de `s` que são cópia literal de 200+ caracteres do corpus, sem sobreposição."""
+    meio = JANELA // 2
+    achados: list[tuple[int, int]] = []
+    p = 0
+    while p + meio <= len(s):
+        w = s[p:p + meio]
+        i = corpus.find(w)
+        fim_copia = None
+        while i >= 0:
+            esq = 0
+            limite = achados[-1][1] if achados else 0
+            while p - esq - 1 >= limite and i - esq - 1 >= 0 and s[p - esq - 1] == corpus[i - esq - 1]:
+                esq += 1
+            dir_ = meio
+            while p + dir_ < len(s) and i + dir_ < len(corpus) and s[p + dir_] == corpus[i + dir_]:
+                dir_ += 1
+            if esq + dir_ >= JANELA:
+                achados.append((p - esq, p + dir_))
+                fim_copia = p + dir_
+                break
+            i = corpus.find(w, i + 1)
+        p = fim_copia if fim_copia is not None else p + meio
+    return achados
+
+
+def omitir_copias(obj: Any, corpus: str, contagem: list[int]) -> Any:
+    """Troca por marcador toda cópia literal de 200+ caracteres de trecho do RAG, em qualquer texto do objeto.
+
+    Cobre o caso que `redigir_trechos` não alcança: a resposta de um modelo (ou do substituto determinístico)
+    que repete uma frase longa de um trecho, e o prompt seguinte que carrega essa resposta.
+    """
+    if isinstance(obj, str):
+        if len(obj) < JANELA:
+            return obj
+        partes, cursor = [], 0
+        for ini, fim in _trechos_copiados(obj, corpus):
+            partes += [obj[cursor:ini], f"[cópia literal de trecho do RAG omitida: {fim - ini} caracteres]"]
+            cursor = fim
+            contagem[0] += 1
+        return "".join(partes) + obj[cursor:] if partes else obj
+    if isinstance(obj, dict):
+        return {k: omitir_copias(v, corpus, contagem) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [omitir_copias(v, corpus, contagem) for v in obj]
+    return obj
+
+
 # ------------------------------------------------------------------ principal
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -608,7 +656,13 @@ def main(argv: list[str] | None = None) -> int:
     if not CHUNKS.exists():
         print(f"chunks.jsonl ausente em {CHUNKS}: não dá para conferir licença; abortando", file=sys.stderr)
         return 1
-    copias = procurar_copias(dados, textos_chunks())
+    corpus = textos_chunks()
+    omitidas = [0]
+    dados = omitir_copias(dados, corpus, omitidas)
+    dados["fonte"]["copias_literais_omitidas"] = omitidas[0]
+    if omitidas[0]:
+        print(f"{omitidas[0]} cópia(s) literal(is) de trecho do RAG trocada(s) por marcador antes de gravar")
+    copias = procurar_copias(dados, corpus)  # a conferência continua valendo: se algo sobrar, nada é gravado
     if copias:
         print(f"FALHOU: {len(copias)} trecho(s) do RAG com {JANELA}+ caracteres no JSON; nada gravado:", file=sys.stderr)
         for c in copias[:5]:
