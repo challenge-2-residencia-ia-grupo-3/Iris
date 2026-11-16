@@ -64,7 +64,7 @@ def abas_no_menu() -> list[tuple[str, list[tuple[str, str]]]]:
 
 
 # Só o próprio computador vê as telas do PR 85: a página leva trechos de documentos sem licença aberta.
-CAMINHOS_PROTEGIDOS = ("/bancada", "/api/v1/eval/bancada-pr85")
+CAMINHOS_PROTEGIDOS = ("/bancada", "/api/v1/eval/bancada-pr85", "/api/v1/eval/avaliacao-humana")
 ENDERECOS_LOCAIS = {"127.0.0.1", "::1", "localhost"}
 CABECALHOS_DE_PROXY = ("x-forwarded-for", "x-real-ip", "forwarded")
 MENSAGEM_SO_LOCAL = ("As telas do PR 85 só abrem no próprio computador (127.0.0.1): a página leva trechos de "

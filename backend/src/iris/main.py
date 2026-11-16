@@ -618,6 +618,28 @@ def _handle_bancada_pr85_medir() -> dict[str, Any]:
     return medir_de_novo()
 
 
+def _handle_avaliacao_proxima(avaliador: str) -> dict[str, Any]:
+    """A próxima frase para a pessoa avaliar, às cegas (sem o voto dos juízes)."""
+    from iris.eval.avaliacao_humana import proxima
+
+    return proxima(avaliador)
+
+
+def _handle_avaliacao_rotulo(body: dict[str, Any]) -> dict[str, Any]:
+    """Grava o rótulo da pessoa no fim do arquivo e devolve a próxima frase."""
+    from iris.eval.avaliacao_humana import registrar
+
+    return registrar(str(body.get("uid") or ""), str(body.get("rotulo") or ""), str(body.get("avaliador") or ""),
+                     str(body.get("motivo") or ""))
+
+
+def _handle_avaliacao_resumo() -> dict[str, Any]:
+    """Concordância de cada juiz com as pessoas (aparece a partir de 20 frases avaliadas)."""
+    from iris.eval.avaliacao_humana import resumo
+
+    return resumo()
+
+
 def _handle_ataque_pii_run() -> dict[str, Any]:
     """Roda o ataque de dado pessoal contra o removedor `sanitize_pii` (sem modelo, valores fictícios)."""
     from iris.eval.ataque_pii import executar_ataque_pii
@@ -936,6 +958,30 @@ def create_app() -> Any:
             raise HTTPException(status_code=404, detail="sem status.json (só existe na cópia publicada pelo vigia)")
         return Response(content=dado, media_type="application/json")
 
+    @app.get("/api/v1/eval/avaliacao-humana/proxima", tags=["eval"])
+    def avaliacao_proxima(avaliador: str = "") -> dict[str, Any]:
+        from fastapi import HTTPException
+
+        try:
+            return _handle_avaliacao_proxima(avaliador)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/avaliacao-humana/rotulo", tags=["eval"])
+    def avaliacao_rotulo(body: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_avaliacao_rotulo(body)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v1/eval/avaliacao-humana/resumo", tags=["eval"])
+    def avaliacao_resumo() -> dict[str, Any]:
+        return _handle_avaliacao_resumo()
+
     @app.get("/api/v1/eval/bancada-pr85", tags=["eval"])
     def bancada_pr85() -> dict[str, Any]:
         return _handle_bancada_pr85()
@@ -1184,6 +1230,14 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self.send_header("Content-Length", str(len(dado)))
                     self.end_headers()
                     self.wfile.write(dado)
+            elif parsed.path == "/api/v1/eval/avaliacao-humana/proxima":
+                try:
+                    avaliador = (parse_qs(parsed.query).get("avaliador") or [""])[0]
+                    self._send_json(_handle_avaliacao_proxima(avaliador))
+                except ValueError as exc:
+                    self._send_json({"detail": str(exc)}, status=422)
+            elif parsed.path == "/api/v1/eval/avaliacao-humana/resumo":
+                self._send_json(_handle_avaliacao_resumo())
             elif parsed.path == "/api/v1/eval/bancada-pr85":
                 self._send_json(_handle_bancada_pr85())
             elif parsed.path == "/api/v1/eval/mapa-codigo":
@@ -1310,6 +1364,13 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json(_handle_rag_escolar_run(body))
                 except ValueError as err:
                     self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/avaliacao-humana/rotulo":
+                try:
+                    self._send_json(_handle_avaliacao_rotulo(body))
+                except KeyError as exc:
+                    self._send_json({"detail": str(exc.args[0])}, status=404)
+                except ValueError as exc:
+                    self._send_json({"detail": str(exc)}, status=422)
             elif urlparse(self.path).path == "/api/v1/eval/bancada-pr85/gerar":
                 self._send_json(_handle_bancada_pr85_gerar())
             elif urlparse(self.path).path == "/api/v1/eval/bancada-pr85/medir":

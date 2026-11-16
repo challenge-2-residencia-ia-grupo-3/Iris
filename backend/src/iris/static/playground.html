@@ -1253,6 +1253,38 @@
     @media (max-width: 700px) {
       .bancada-barra .btn-row { margin-left: 0; width: 100%; }
     }
+
+    /* Avaliar uma frase, às cegas (aparece na tela Juízes x pessoas) */
+    .aval-bloco { margin-bottom: 0.9rem; }
+    .aval-cab { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: flex-end; justify-content: space-between; }
+    .aval-cab > div { flex: 1 1 26rem; min-width: 0; }
+    .aval-tit { margin: 0 0 0.25rem; font-size: 1rem; color: var(--ink); }
+    .aval-ajuda { margin: 0; font-size: 0.82rem; color: var(--muted); max-width: 70ch; }
+    .aval-quem { display: grid; gap: 0.25rem; font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); flex: 0 1 14rem; }
+    .aval-progresso { margin: 0.9rem 0 0.4rem; font-size: 0.8rem; color: var(--muted); }
+    .aval-progresso .aval-barra { display: block; height: 4px; border-radius: 2px; background: var(--wash-strong); margin-top: 0.3rem; overflow: hidden; }
+    .aval-progresso .aval-barra i { display: block; height: 100%; background: var(--teal); }
+    .aval-pergunta { font-size: 0.84rem; color: var(--ink-soft); margin: 0 0 0.45rem; overflow-wrap: anywhere; }
+    .aval-texto { margin: 0 0 0.6rem; padding: 0.6rem 0.8rem; border-left: 3px solid var(--teal); background: var(--teal-soft);
+      border-radius: 0 6px 6px 0; font-size: 0.95rem; color: var(--ink); overflow-wrap: anywhere; }
+    .aval-cit { margin: 0.35rem 0; border: 1px solid var(--hairline); border-radius: 6px; background: var(--surface); }
+    .aval-cit summary { cursor: pointer; padding: 0.4rem 0.6rem; font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); overflow-wrap: anywhere; }
+    .aval-cit-texto { padding: 0 0.7rem 0.6rem; font-size: 0.84rem; line-height: 1.55; color: var(--ink); white-space: pre-wrap;
+      overflow-wrap: anywhere; max-height: 18rem; overflow-y: auto; }
+    .aval-cit-aviso { margin: 0 0.7rem 0.5rem; font-size: 0.76rem; color: var(--texto-aviso); }
+    .aval-opcoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin: 0.75rem 0 0.5rem; }
+    .aval-opcao { text-align: left; padding: 0.6rem 0.75rem; border-radius: 6px; border: 1px solid var(--hairline-strong);
+      background: var(--surface); color: var(--ink); cursor: pointer; font-family: var(--font-sans); display: grid; gap: 0.2rem; }
+    .aval-opcao b { font-size: 0.86rem; }
+    .aval-opcao span { font-size: 0.76rem; color: var(--muted); }
+    .aval-opcao:hover:not(:disabled) { border-color: var(--teal); background: var(--wash); }
+    .aval-opcao[data-v="sim"] b { color: var(--moss); }
+    .aval-opcao[data-v="parcial"] b { color: var(--ochre); }
+    .aval-opcao[data-v="nao"] b { color: var(--vermilion); }
+    .aval-opcao:disabled { opacity: 0.55; cursor: wait; }
+    #aval-motivo { min-height: 2.6rem; }
+    .aval-resumo-tab { margin-top: 0.8rem; }
+    @media (max-width: 700px) { .aval-opcoes { grid-template-columns: minmax(0, 1fr); } }
     @media (prefers-reduced-motion: reduce) {
       * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
     }
@@ -1724,6 +1756,19 @@ Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justi
         </div>
       </div>
       <p class="bancada-nota" id="bancada-nota" aria-live="polite"></p>
+      <div class="panel-block aval-bloco" id="aval-bloco" hidden>
+        <div class="aval-cab">
+          <div>
+            <h3 class="aval-tit">Avaliar uma frase, às cegas</h3>
+            <p class="aval-ajuda">Você vê a pergunta, uma frase da resposta do RAG e os trechos que essa frase cita. Não vê o voto dos juízes, para ele não puxar o seu. Cada avaliação vai para um arquivo que nenhum script apaga. A concordância de cada juiz com as pessoas aparece a partir de 20 frases avaliadas.</p>
+          </div>
+          <label class="aval-quem">Seu código de avaliador
+            <input type="text" id="aval-codigo" maxlength="40" placeholder="ex.: prof-A" autocomplete="off" />
+          </label>
+        </div>
+        <div id="aval-frase" aria-live="polite"></div>
+        <div id="aval-resumo"></div>
+      </div>
       <iframe id="bancada-frame" class="bancada-frame" title="Tela do painel do PR 85"></iframe>
     </section>
     <section id="tab-ferramentas" class="tab-panel">
@@ -1848,6 +1893,12 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     }
 
     function marcarAbaBancada(sid) {
+      const bloco = document.getElementById('aval-bloco');
+      if (bloco) {
+        const mostrar = sid === 'q-juiz';
+        if (mostrar && bloco.hidden) avalCarregar();
+        bloco.hidden = !mostrar;
+      }
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === `b-${sid}`));
       const botao = document.querySelector(`.tab-btn[data-tab="b-${sid}"]`);
       document.getElementById('bancada-titulo').textContent = botao ? botao.textContent.trim() : sid;
@@ -1894,6 +1945,105 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       mostrarTemaNoBotao();
     }
     window.addEventListener('DOMContentLoaded', mostrarTemaNoBotao);
+
+
+    // ---------------- Avaliar uma frase, às cegas (tela Juízes x pessoas do grupo PR 85)
+    const aval = { atual: null, ocupado: false };
+
+    function avalCodigo() {
+      const el = document.getElementById('aval-codigo');
+      return (el && el.value || '').trim();
+    }
+
+    function avalMostrarAviso(msg, tipo) {
+      document.getElementById('aval-frase').innerHTML = `<div class="notice notice-${tipo || 'info'}" style="margin-top:0.8rem;">${msg}</div>`;
+    }
+
+    async function avalCarregar() {
+      const codigo = avalCodigo();
+      if (!codigo) {
+        avalMostrarAviso('Escreva um código de avaliador para começar (por exemplo, <code>prof-A</code>; evite o nome completo). Ele separa as avaliações de cada pessoa.', 'info');
+        avalResumo();
+        return;
+      }
+      try {
+        const r = await fetchJson(`/api/v1/eval/avaliacao-humana/proxima?avaliador=${encodeURIComponent(codigo)}`);
+        avalDesenhar(r);
+      } catch (e) {
+        avalMostrarAviso(escapeHtml(e.message), 'danger');
+      }
+      avalResumo();
+    }
+
+    function avalDesenhar(r) {
+      aval.atual = r;
+      const pct = r.total ? Math.round(100 * r.feitas / r.total) : 0;
+      const prog = `<div class="aval-progresso">${r.feitas} de ${r.total} frases avaliadas por <b>${escapeHtml(r.avaliador)}</b><span class="aval-barra"><i style="width:${pct}%"></i></span></div>`;
+      if (r.acabou) {
+        document.getElementById('aval-frase').innerHTML = prog + '<div class="notice notice-ok">Você avaliou todas as frases da amostra. Obrigado. Outra pessoa pode continuar com outro código.</div>';
+        return;
+      }
+      const cits = (r.citacoes || []).map((c, i) => `
+        <details class="aval-cit"${i === 0 ? ' open' : ''}>
+          <summary>${escapeHtml(c.ref)} · ${escapeHtml(c.doc || c.chunk_id)}</summary>
+          ${c.aviso ? `<p class="aval-cit-aviso">Aviso de uso deste trecho: ${escapeHtml(c.aviso)}</p>` : ''}
+          <div class="aval-cit-texto">${escapeHtml(c.texto || '(texto do trecho não encontrado na base)')}</div>
+        </details>`).join('');
+      const opcoes = Object.entries(r.opcoes || {}).map(([v, desc]) => {
+        const [nome, ...resto] = desc.split(':');
+        return `<button type="button" class="aval-opcao" data-v="${v}" onclick="avalRegistrar('${v}')"><b>${escapeHtml(nome)}</b><span>${escapeHtml(resto.join(':').trim())}</span></button>`;
+      }).join('');
+      document.getElementById('aval-frase').innerHTML = `${prog}
+        <p class="aval-pergunta"><strong>Pergunta do professor:</strong> ${escapeHtml(r.pergunta)}</p>
+        <blockquote class="aval-texto">${escapeHtml(r.frase)}</blockquote>
+        ${cits || '<p class="aval-pergunta">Esta frase não cita trecho nenhum.</p>'}
+        <div class="aval-opcoes" role="group" aria-label="Sua avaliação">${opcoes}</div>
+        <textarea id="aval-motivo" rows="2" maxlength="500" placeholder="Motivo (opcional): o que falta ou sobra nos trechos?"></textarea>`;
+    }
+
+    async function avalRegistrar(rotulo) {
+      if (aval.ocupado || !aval.atual || aval.atual.acabou) return;
+      aval.ocupado = true;
+      document.querySelectorAll('.aval-opcao').forEach(b => { b.disabled = true; });
+      try {
+        const r = await fetchJson('/api/v1/eval/avaliacao-humana/rotulo', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ uid: aval.atual.uid, rotulo, avaliador: avalCodigo(), motivo: (document.getElementById('aval-motivo') || {}).value || '' }),
+        });
+        avalDesenhar(r);
+        avalResumo();
+      } catch (e) {
+        avalMostrarAviso(`Não gravei esta avaliação: ${escapeHtml(e.message)}`, 'danger');
+      } finally {
+        aval.ocupado = false;
+      }
+    }
+
+    async function avalResumo() {
+      const box = document.getElementById('aval-resumo');
+      try {
+        const s = await fetchJson('/api/v1/eval/avaliacao-humana/resumo');
+        if (s.faltam) {
+          box.innerHTML = `<p class="aval-progresso">Concordância com os juízes: aparece com ${s.minimo} frases avaliadas; hoje são ${s.avaliadas}, de ${s.pessoas} pessoa(s). Faltam ${s.faltam}.</p>`;
+          return;
+        }
+        const linhas = Object.values(s.juizes).map(j => `<tr><td>${escapeHtml(j.nome)}</td><td>${j.iguais} de ${j.frases}</td><td>${j.kappa === null ? '—' : String(j.kappa).replace('.', ',')}</td><td>${j.erro_caro.juiz_aprovou} de ${j.erro_caro.pessoa_reprovou}</td><td>${j.matriz.ambos_sustenta} · ${j.matriz.so_pessoa_sustenta} · ${j.matriz.so_juiz_sustenta} · ${j.matriz.ambos_nao}</td></tr>`).join('');
+        box.innerHTML = `<div class="aval-resumo-tab table-scroll"><table class="table-compact"><thead><tr><th>Juiz</th><th>Concorda com a pessoa</th><th>Kappa</th><th>Aprovou o que a pessoa reprovou</th><th>Ambos sim · só pessoa · só juiz · ambos não</th></tr></thead><tbody>${linhas}</tbody></table>
+          <p class="aval-progresso">Técnica: contagem e kappa de Cohen (fórmula), em "sustenta ou não"; parcial conta como não, como na fidelidade. ${s.avaliadas} frases, ${s.pessoas} pessoa(s). Sem intervalo ainda: com poucas frases o kappa oscila muito. A amostra exagera as frases difíceis de propósito; o peso de cada estrato está no módulo.</p></div>`;
+      } catch (e) {
+        box.innerHTML = '';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const el = document.getElementById('aval-codigo');
+      if (!el) return;
+      try { el.value = localStorage.getItem('iris-avaliador') || ''; } catch (_) {}
+      el.addEventListener('change', () => {
+        try { localStorage.setItem('iris-avaliador', avalCodigo()); } catch (_) {}
+        avalCarregar();
+      });
+    });
 
     // O grupo do PR 85 só aparece para quem abre o painel no próprio computador (o servidor recusa os outros).
     async function verificarBancadaLocal() {
