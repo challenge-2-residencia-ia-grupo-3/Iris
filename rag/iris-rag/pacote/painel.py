@@ -318,6 +318,9 @@ const $=id=>document.getElementById(id);
    o painel de fora pede a aba por mensagem e é avisado quando a navegação interna muda de aba */
 const EMB=new URLSearchParams(location.search).has('embutido');
 if(EMB){document.body.classList.add('embutido');addEventListener('message',e=>{if(e.origin!==location.origin)return;const n=e.data&&e.data.bancadaIr;if(n&&document.getElementById('sec-'+n))ir(n)})}
+/* embutida, a página informa a própria altura: o quadro do playground cresce até ela e não rola por dentro */
+if(EMB&&parent!==window){const altura=()=>parent.postMessage({bancadaAltura:Math.ceil(document.body.getBoundingClientRect().height)},location.origin);
+new ResizeObserver(altura).observe(document.body);addEventListener('load',altura)}
 const PII_RE=/pii|scrubber|sanitiz|security|dados pessoais|clinic/i;
 function marcarRolar(){document.querySelectorAll('.rolar').forEach(d=>d.classList.toggle('tem-mais',d.scrollWidth-d.clientWidth-d.scrollLeft>4))}
 addEventListener('resize',marcarRolar);document.addEventListener('scroll',e=>{if(e.target.classList&&e.target.classList.contains('rolar'))marcarRolar()},true);

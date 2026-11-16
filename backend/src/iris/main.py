@@ -597,23 +597,23 @@ def _handle_mapa_codigo() -> dict[str, Any]:
     return obter_mapa_codigo()
 
 
-def _handle_bancada_pr85() -> dict[str, Any]:
-    """Abas do painel do PR 85 e se a página dele já foi gerada (o menu do playground é montado com isto)."""
-    from iris.eval.bancada_pr85 import descrever
+def _handle_verificacoes() -> dict[str, Any]:
+    """Abas das verificações de qualidade e se a página dele já foi gerada (o menu do playground é montado com isto)."""
+    from iris.eval.verificacoes_qualidade import descrever
 
     return descrever()
 
 
-def _handle_bancada_pr85_gerar() -> dict[str, Any]:
-    """Gera de novo a página do painel do PR 85 a partir dos arquivos gravados (sem modelo, sem rede)."""
-    from iris.eval.bancada_pr85 import gerar_pagina
+def _handle_verificacoes_gerar() -> dict[str, Any]:
+    """Gera de novo a página das verificações de qualidade a partir dos arquivos gravados (sem modelo, sem rede)."""
+    from iris.eval.verificacoes_qualidade import gerar_pagina
 
     return gerar_pagina()
 
 
-def _handle_bancada_pr85_medir() -> dict[str, Any]:
-    """Roda as verificações sem modelo do PR 85 contra o código atual e gera a página (alguns minutos)."""
-    from iris.eval.bancada_pr85 import medir_de_novo
+def _handle_verificacoes_medir() -> dict[str, Any]:
+    """Roda as verificações de qualidade sem modelo contra o código atual e gera a página (alguns minutos)."""
+    from iris.eval.verificacoes_qualidade import medir_de_novo
 
     return medir_de_novo()
 
@@ -755,8 +755,8 @@ def create_app() -> Any:
 
     @app.middleware("http")
     async def so_local_para_bancada(request: Any, call_next: Any) -> Any:
-        # As telas do PR 85 (rotas /bancada e /api/v1/eval/bancada-pr85) só respondem ao próprio computador.
-        from iris.eval.bancada_pr85 import (
+        # As telas de verificação de qualidade (rotas /verificacoes e /api/v1/eval/verificacoes-qualidade) só respondem ao próprio computador.
+        from iris.eval.verificacoes_qualidade import (
             MENSAGEM_SO_LOCAL,
             caminho_protegido,
             pedido_local,
@@ -939,25 +939,25 @@ def create_app() -> Any:
             raise HTTPException(status_code=404, detail="sem frontend/public/favicon.png")
         return Response(content=ICONE_IRIS_PATH.read_bytes(), media_type="image/png")
 
-    @app.get("/bancada", include_in_schema=False)
-    def bancada_pr85_sem_barra() -> Any:
-        # a página pede "status.json" por caminho relativo: com a barra no fim ele cai em /bancada/status.json
+    @app.get("/verificacoes", include_in_schema=False)
+    def verificacoes_sem_barra() -> Any:
+        # a página pede "status.json" por caminho relativo: com a barra no fim ele cai em /verificacoes/status.json
         from fastapi.responses import RedirectResponse
 
-        return RedirectResponse(url="/bancada/")
+        return RedirectResponse(url="/verificacoes/")
 
-    @app.get("/bancada/", response_class=HTMLResponse, tags=["frontend"])
-    def bancada_pr85_pagina() -> str:
-        from iris.eval.bancada_pr85 import ler_pagina
+    @app.get("/verificacoes/", response_class=HTMLResponse, tags=["frontend"])
+    def verificacoes_pagina(embutido: str | None = None) -> str:
+        from iris.eval.verificacoes_qualidade import ler_pagina
 
-        return ler_pagina()
+        return ler_pagina(embutido=embutido is not None)
 
-    @app.get("/bancada/status.json", include_in_schema=False)
-    def bancada_pr85_status() -> Any:
+    @app.get("/verificacoes/status.json", include_in_schema=False)
+    def verificacoes_status() -> Any:
         from fastapi import HTTPException
         from fastapi.responses import Response
 
-        from iris.eval.bancada_pr85 import ler_status
+        from iris.eval.verificacoes_qualidade import ler_status
 
         dado = ler_status()
         if dado is None:
@@ -988,17 +988,17 @@ def create_app() -> Any:
     def avaliacao_resumo() -> dict[str, Any]:
         return _handle_avaliacao_resumo()
 
-    @app.get("/api/v1/eval/bancada-pr85", tags=["eval"])
-    def bancada_pr85() -> dict[str, Any]:
-        return _handle_bancada_pr85()
+    @app.get("/api/v1/eval/verificacoes-qualidade", tags=["eval"])
+    def verificacoes() -> dict[str, Any]:
+        return _handle_verificacoes()
 
-    @app.post("/api/v1/eval/bancada-pr85/gerar", tags=["eval"])
-    def bancada_pr85_gerar() -> dict[str, Any]:
-        return _handle_bancada_pr85_gerar()
+    @app.post("/api/v1/eval/verificacoes-qualidade/gerar", tags=["eval"])
+    def verificacoes_gerar() -> dict[str, Any]:
+        return _handle_verificacoes_gerar()
 
-    @app.post("/api/v1/eval/bancada-pr85/medir", tags=["eval"])
-    def bancada_pr85_medir() -> dict[str, Any]:
-        return _handle_bancada_pr85_medir()
+    @app.post("/api/v1/eval/verificacoes-qualidade/medir", tags=["eval"])
+    def verificacoes_medir() -> dict[str, Any]:
+        return _handle_verificacoes_medir()
 
     @app.get("/api/v1/eval/mapa-codigo", tags=["eval"])
     def mapa_codigo() -> dict[str, Any]:
@@ -1211,21 +1211,21 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self.wfile.write(dado)
                 else:
                     self._send_json({"detail": "sem frontend/public/favicon.png"}, status=404)
-            elif parsed.path == "/bancada":
+            elif parsed.path == "/verificacoes":
                 self.send_response(302)
-                self.send_header("Location", "/bancada/")
+                self.send_header("Location", "/verificacoes/")
                 self.end_headers()
-            elif parsed.path == "/bancada/":
-                from iris.eval.bancada_pr85 import ler_pagina
+            elif parsed.path == "/verificacoes/":
+                from iris.eval.verificacoes_qualidade import ler_pagina
 
-                raw = ler_pagina().encode("utf-8")
+                raw = ler_pagina(embutido="embutido" in parse_qs(parsed.query, keep_blank_values=True)).encode("utf-8")
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
                 self.send_header("Content-Length", str(len(raw)))
                 self.end_headers()
                 self.wfile.write(raw)
-            elif parsed.path == "/bancada/status.json":
-                from iris.eval.bancada_pr85 import ler_status
+            elif parsed.path == "/verificacoes/status.json":
+                from iris.eval.verificacoes_qualidade import ler_status
 
                 dado = ler_status()
                 if dado is None:
@@ -1244,8 +1244,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json({"detail": str(exc)}, status=422)
             elif parsed.path == "/api/v1/eval/avaliacao-humana/resumo":
                 self._send_json(_handle_avaliacao_resumo())
-            elif parsed.path == "/api/v1/eval/bancada-pr85":
-                self._send_json(_handle_bancada_pr85())
+            elif parsed.path == "/api/v1/eval/verificacoes-qualidade":
+                self._send_json(_handle_verificacoes())
             elif parsed.path == "/api/v1/eval/mapa-codigo":
                 self._send_json(_handle_mapa_codigo())
             elif parsed.path == "/api/v1/eval/rag-escolar/analytics":
@@ -1314,8 +1314,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 )
 
         def _bancada_permitida(self, caminho: str) -> bool:
-            """As telas do PR 85 só respondem ao próprio computador (a página leva texto sem licença aberta)."""
-            from iris.eval.bancada_pr85 import (
+            """As telas de verificação de qualidade só respondem ao próprio computador (a página leva texto sem licença aberta)."""
+            from iris.eval.verificacoes_qualidade import (
             MENSAGEM_SO_LOCAL,
             caminho_protegido,
             pedido_local,
@@ -1377,10 +1377,10 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json({"detail": str(exc.args[0])}, status=404)
                 except ValueError as exc:
                     self._send_json({"detail": str(exc)}, status=422)
-            elif urlparse(self.path).path == "/api/v1/eval/bancada-pr85/gerar":
-                self._send_json(_handle_bancada_pr85_gerar())
-            elif urlparse(self.path).path == "/api/v1/eval/bancada-pr85/medir":
-                self._send_json(_handle_bancada_pr85_medir())
+            elif urlparse(self.path).path == "/api/v1/eval/verificacoes-qualidade/gerar":
+                self._send_json(_handle_verificacoes_gerar())
+            elif urlparse(self.path).path == "/api/v1/eval/verificacoes-qualidade/medir":
+                self._send_json(_handle_verificacoes_medir())
             elif urlparse(self.path).path == "/api/v1/eval/ataque-pii":
                 self._send_json(_handle_ataque_pii_run())
             elif urlparse(self.path).path == "/api/v1/eval/arquitetura-langgraph/executar":

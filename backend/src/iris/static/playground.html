@@ -1211,7 +1211,7 @@
     html[data-tema="escuro"] .tema-btn .tema-sol { display: none; }
     html[data-tema="escuro"] .tema-btn .tema-lua { display: inline; }
 
-    /* Bancada do PR 85: as 22 abas do painel do PR 85, iguais à original, em avaliação */
+    /* Verificações de qualidade: as telas de verificação de qualidade (bancada), iguais às originais, em avaliação */
     .bancada-grupo { margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid var(--rail-border); }
     .bancada-toggle {
       width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.85rem;
@@ -1241,14 +1241,13 @@
     .bancada-nota { font-size: 0.78rem; color: var(--muted); margin: 0 0 0.75rem; overflow-wrap: anywhere; }
     .bancada-nota:empty { display: none; }
     .bancada-frame {
-      display: block; width: 100%; height: calc(100vh - 13rem); min-height: 520px;
+      display: block; width: 100%; height: 640px;
       border: 1px solid var(--hairline-strong); border-radius: 8px; background: var(--paper);
     }
     @media (max-width: 1024px) {
       .bancada-grupo { width: 100%; }
       .bancada-menu:not([hidden]) { flex-direction: row; flex-wrap: wrap; }
       .bancada-subgrupo { width: 100%; padding-left: 0.35rem; }
-      .bancada-frame { height: 82vh; min-height: 460px; }
     }
     @media (max-width: 700px) {
       .bancada-barra .btn-row { margin-left: 0; width: 100%; }
@@ -1326,7 +1325,7 @@
           </button>
         <div class="bancada-grupo">
           <button type="button" class="bancada-toggle" id="bancada-toggle" aria-expanded="false" aria-controls="bancada-menu" onclick="alternarMenuBancada()">
-            <span class="bancada-toggle-txt">Bancada do PR 85</span>
+            <span class="bancada-toggle-txt">Verificações de qualidade</span>
             <span class="bancada-selo">em avaliação</span>
             <svg class="bancada-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
           </button>
@@ -1744,15 +1743,15 @@ Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justi
 
     <!-- ABA 4: FERRAMENTAS DA API -->
 
-    <!-- BANCADA DO PR 85: as 22 abas do painel do PR 85, abertas uma de cada vez, em avaliação -->
+    <!-- VERIFICAÇÕES DE QUALIDADE: as telas de verificação de qualidade, abertas uma de cada vez, em avaliação -->
     <section id="tab-bancada" class="tab-panel">
-      <p class="screen-question"><strong>Pergunta desta tela:</strong> <span id="bancada-pergunta">Que pergunta responde a tela do PR 85 escolhida no menu?</span><span class="screen-origin"><strong>De onde vem o número:</strong> tela do painel do PR 85, igual à original, gerada pelo <code>rag/iris-rag/pacote/bancada.py</code> a partir de arquivos já gravados (o retrato em <code>rag/iris-rag/bancada/referencia</code> e as saídas em <code>pacote/outputs</code>). Abrir não roda verificação nem chama modelo. <span id="bancada-equivalente"></span></span></p>
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> <span id="bancada-pergunta">Que pergunta responde a tela de verificação escolhida no menu?</span><span class="screen-origin"><strong>De onde vem o número:</strong> tela das verificações de qualidade, gerada pelo <code>rag/iris-rag/pacote/bancada.py</code> a partir de arquivos já gravados (o retrato em <code>rag/iris-rag/bancada/referencia</code> e as saídas em <code>pacote/outputs</code>). Abrir não roda verificação nem chama modelo. <span id="bancada-equivalente"></span></span></p>
       <div class="bancada-barra">
-        <h2 id="bancada-titulo">Bancada do PR 85</h2>
+        <h2 id="bancada-titulo">Verificações de qualidade</h2>
         <span class="bancada-selo">em avaliação</span>
         <div class="btn-row">
-          <button type="button" id="btn-bancada-gerar" class="btn btn-secondary" onclick="gerarBancadaDeNovo()" title="Roda as verificações sem modelo do PR 85 contra o código atual do produto e gera a página (alguns minutos). As telas medidas com modelo continuam vindo do retrato.">Medir de novo sem modelo</button>
-          <a class="btn btn-secondary" href="/bancada/" target="_blank" rel="noopener">Abrir o painel inteiro</a>
+          <button type="button" id="btn-bancada-gerar" class="btn btn-secondary" onclick="gerarBancadaDeNovo()" title="Roda as verificações de qualidade sem modelo contra o código atual do produto e gera a página (alguns minutos). As telas medidas com modelo continuam vindo do retrato.">Medir de novo sem modelo</button>
+          <a class="btn btn-secondary" href="/verificacoes/" target="_blank" rel="noopener">Abrir o painel inteiro</a>
         </div>
       </div>
       <p class="bancada-nota" id="bancada-nota" aria-live="polite"></p>
@@ -1769,7 +1768,7 @@ Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justi
         <div id="aval-frase" aria-live="polite"></div>
         <div id="aval-resumo"></div>
       </div>
-      <iframe id="bancada-frame" class="bancada-frame" title="Tela do painel do PR 85"></iframe>
+      <iframe id="bancada-frame" class="bancada-frame" title="Tela das verificações de qualidade" scrolling="no"></iframe>
     </section>
     <section id="tab-ferramentas" class="tab-panel">
       <p class="screen-question"><strong>Pergunta desta tela:</strong> O texto sai sem dados pessoais antes de ir a um modelo, e o material é decomposto nas partes certas?<span class="screen-origin"><strong>De onde vem o número:</strong> chamadas ao vivo às rotas de materiais, com o texto que você colar; esse resultado vale para o texto colado, não é taxa medida num conjunto. O ataque de dado pessoal roda casos fictícios, com sorteio de semente fixa, contra o removedor, e a telemetria do Extrator, mais abaixo, vem das execuções já registradas no servidor.</span></p>
@@ -1879,9 +1878,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     }
 
 
-    // Bancada do PR 85: cada botão do grupo abre a mesma página (iframe), que mostra só a aba pedida.
-    const BANCADA_PERGUNTAS = {"visao": "O último commit verificado está bom? Há algo grave aberto?", "commits": "Qual commit passou em cada verificação?", "prs": "Cada PR aberto melhora ou piora as métricas?", "achados": "O que está quebrado agora, com o caso que reproduz?", "grafo": "Quem chama quem no código, e o que não tem teste?", "pipeline": "O que entrou e saiu de cada etapa da adaptação, e em quanto tempo?", "arquitetura": "Como fica o fluxo dos agentes desenhado como grafo?", "rastro-sec": "Para uma pergunta: o que a busca trouxe, o que a resposta disse, o que os juízes acharam?", "llmxrag": "O modelo sozinho, só a busca, ou os dois juntos: o RAG ajuda?", "qualidade": "Qual configuração é melhor, com incerteza?", "confianca": "Rodar de novo dá o mesmo resultado? Quanto custa?", "revisao": "Em que frases os juízes discordam, para uma pessoa decidir?", "q-avaliacao": "Este commit piorou algo na prova de sempre (166 questões de adaptação)?", "q-rag": "Em qual elo quebrou: busca, abstenção, fidelidade ou citação?", "q-ataque": "Que dado pessoal passa pelo filtro, em casos sintéticos?", "q-juiz": "Dá para confiar na nota do juiz?", "q-orcamento": "Cada etapa cabe no tempo e nos tokens prometidos pelo RNF-07?", "q-producao": "O registro em produção guarda só metadados?", "seguranca": "Dado pessoal vaza? Cada peça do pipeline faz diferença?", "comandos": "Como rodar cada verificação?", "mapa-painel": "Que pergunta cada tela do painel do PR 85 responde?", "ferramentas": "Que ferramenta cada tela usa de verdade ou imita?"};
-    const BANCADA_EQUIVALENTES = {"commits": ["escolar", "o portão aprovado, aviso ou reprovado de cada rodada, no Benchmark Escolar"], "pipeline": ["aovivo", "a decomposição e a anonimização de um material colado"], "arquitetura": ["arquitetura", "a aba Arquitetura (LangGraph), com cenários e o material do professor"], "rastro-sec": ["benchmark", "a inspeção de consultas na Auditoria do Benchmark"], "qualidade": ["escolar", "o intervalo de 95% e a linha de base no Benchmark Escolar"], "confianca": ["escolar", "o botão de repetir a rodada no Benchmark Escolar (sem custo)"], "revisao": ["benchmark", "os votos dos juízes A e B por frase, na Auditoria do Benchmark"], "q-avaliacao": ["escolar", "o lacre por hash nas 136 questões do Benchmark Escolar (mede o RAG, não a adaptação)"], "q-rag": ["escolar", "a tabela do elo em que cada questão parou, no Benchmark Escolar"], "q-ataque": ["ferramentas", "o ataque de dado pessoal em 416 casos, nas Ferramentas da API"], "q-juiz": ["benchmark", "a concordância entre dois juízes, sem pessoas, na Auditoria do Benchmark"], "q-orcamento": ["escolar", "o limite do RNF-07 ao lado da latência, no Benchmark Escolar (sem tokens)"], "comandos": ["escolar", "os botões de rodar do Benchmark Escolar; os botões do PR 85 não rodam por aqui"], "mapa-painel": ["escolar", "a linha “Pergunta desta tela” no topo de cada aba"]};
+    // Verificações de qualidade: cada botão do grupo abre a mesma página (iframe), que mostra só a aba pedida.
+    const BANCADA_PERGUNTAS = {"visao": "O último commit verificado está bom? Há algo grave aberto?", "commits": "Qual commit passou em cada verificação?", "prs": "Cada PR aberto melhora ou piora as métricas?", "achados": "O que está quebrado agora, com o caso que reproduz?", "grafo": "Quem chama quem no código, e o que não tem teste?", "pipeline": "O que entrou e saiu de cada etapa da adaptação, e em quanto tempo?", "arquitetura": "Como fica o fluxo dos agentes desenhado como grafo?", "rastro-sec": "Para uma pergunta: o que a busca trouxe, o que a resposta disse, o que os juízes acharam?", "llmxrag": "O modelo sozinho, só a busca, ou os dois juntos: o RAG ajuda?", "qualidade": "Qual configuração é melhor, com incerteza?", "confianca": "Rodar de novo dá o mesmo resultado? Quanto custa?", "revisao": "Em que frases os juízes discordam, para uma pessoa decidir?", "q-avaliacao": "Este commit piorou algo na prova de sempre (166 questões de adaptação)?", "q-rag": "Em qual elo quebrou: busca, abstenção, fidelidade ou citação?", "q-ataque": "Que dado pessoal passa pelo filtro, em casos sintéticos?", "q-juiz": "Dá para confiar na nota do juiz?", "q-orcamento": "Cada etapa cabe no tempo e nos tokens prometidos pelo RNF-07?", "q-producao": "O registro em produção guarda só metadados?", "seguranca": "Dado pessoal vaza? Cada peça do pipeline faz diferença?", "comandos": "Como rodar cada verificação?", "mapa-painel": "Que pergunta cada tela de verificação responde?", "ferramentas": "Que ferramenta cada tela usa de verdade ou imita?"};
+    const BANCADA_EQUIVALENTES = {"commits": ["escolar", "o portão aprovado, aviso ou reprovado de cada rodada, no Benchmark Escolar"], "pipeline": ["aovivo", "a decomposição e a anonimização de um material colado"], "arquitetura": ["arquitetura", "a aba Arquitetura (LangGraph), com cenários e o material do professor"], "rastro-sec": ["benchmark", "a inspeção de consultas na Auditoria do Benchmark"], "qualidade": ["escolar", "o intervalo de 95% e a linha de base no Benchmark Escolar"], "confianca": ["escolar", "o botão de repetir a rodada no Benchmark Escolar (sem custo)"], "revisao": ["benchmark", "os votos dos juízes A e B por frase, na Auditoria do Benchmark"], "q-avaliacao": ["escolar", "o lacre por hash nas 136 questões do Benchmark Escolar (mede o RAG, não a adaptação)"], "q-rag": ["escolar", "a tabela do elo em que cada questão parou, no Benchmark Escolar"], "q-ataque": ["ferramentas", "o ataque de dado pessoal em 416 casos, nas Ferramentas da API"], "q-juiz": ["benchmark", "a concordância entre dois juízes, sem pessoas, na Auditoria do Benchmark"], "q-orcamento": ["escolar", "o limite do RNF-07 ao lado da latência, no Benchmark Escolar (sem tokens)"], "comandos": ["escolar", "os botões de rodar do Benchmark Escolar; os botões de comando da bancada não rodam por aqui"], "mapa-painel": ["escolar", "a linha “Pergunta desta tela” no topo de cada aba"]};
     const NOMES_ABAS_IAN = { benchmark: 'Auditoria do Benchmark', escolar: 'Benchmark Escolar (136)', catalogo: 'Catálogo de Características TDAH', aovivo: 'Consulta RAG ao Vivo', arquitetura: 'Arquitetura (LangGraph)', ferramentas: 'Ferramentas da API' };
 
     function alternarMenuBancada(forcarAberto) {
@@ -1915,17 +1914,19 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       const frame = document.getElementById('bancada-frame');
       if (!frame.dataset.carregado) {
         frame.dataset.carregado = '1';
-        frame.src = `/bancada/?embutido=1&tema=${document.documentElement.dataset.tema || 'claro'}#${encodeURIComponent(sid)}`;
+        frame.src = `/verificacoes/?embutido=1&tema=${document.documentElement.dataset.tema || 'claro'}#${encodeURIComponent(sid)}`;
       } else if (frame.contentWindow) {
         frame.contentWindow.postMessage({ bancadaIr: sid }, location.origin);
       }
-      // em tela estreita o menu fica em cima e é longo: leva a pessoa até a tela que abriu
-      if (window.matchMedia('(max-width: 1024px)').matches) {
-        document.getElementById('tab-bancada').scrollIntoView({ block: 'start' });
+      // em tela estreita o menu fica em cima e é longo; e como o quadro agora tem a altura da tela, quem desceu
+      // numa tela longa volta ao começo da próxima
+      const area = document.getElementById('tab-bancada');
+      if (window.matchMedia('(max-width: 1024px)').matches || window.scrollY > area.getBoundingClientRect().top + window.scrollY) {
+        area.scrollIntoView({ block: 'start' });
       }
     }
 
-    // Tema claro ou escuro: vale para o painel inteiro, inclusive as telas do PR 85 (que leem a mesma escolha).
+    // Tema claro ou escuro: vale para o painel inteiro, inclusive as telas de verificação (que leem a mesma escolha).
     function mostrarTemaNoBotao() {
       const escuro = document.documentElement.dataset.tema === 'escuro';
       const btn = document.getElementById('tema-btn');
@@ -1947,7 +1948,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     window.addEventListener('DOMContentLoaded', mostrarTemaNoBotao);
 
 
-    // ---------------- Avaliar uma frase, às cegas (tela Juízes x pessoas do grupo PR 85)
+    // ---------------- Avaliar uma frase, às cegas (tela Juízes x pessoas das verificações de qualidade)
     const aval = { atual: null, ocupado: false };
 
     function avalCodigo() {
@@ -2045,18 +2046,49 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       });
     });
 
-    // O grupo do PR 85 só aparece para quem abre o painel no próprio computador (o servidor recusa os outros).
+    // O grupo Verificações de qualidade só aparece para quem abre o painel no próprio computador (o servidor recusa os outros).
     async function verificarBancadaLocal() {
       const grupo = document.querySelector('.bancada-grupo');
       if (!grupo) return;
       try {
-        const res = await fetch('/api/v1/eval/bancada-pr85', { cache: 'no-store' });
+        const res = await fetch('/api/v1/eval/verificacoes-qualidade', { cache: 'no-store' });
         grupo.hidden = !res.ok;
       } catch (_) {
         grupo.hidden = true;
       }
     }
     window.addEventListener('DOMContentLoaded', verificarBancadaLocal);
+
+    // O quadro das verificações cresce até a altura da tela que mostra (sem rolagem dentro dele), e a tela usa a
+    // altura desta janela no lugar da dela para o que é medido pela altura (o grafo do código, por exemplo).
+    function informarAlturaDaJanela() {
+      const frame = document.getElementById('bancada-frame');
+      const doc = frame && frame.contentDocument;
+      if (doc && doc.documentElement) doc.documentElement.style.setProperty('--vhp', `${window.innerHeight / 100}px`);
+    }
+    window.addEventListener('resize', informarAlturaDaJanela);
+    window.addEventListener('DOMContentLoaded', () => {
+      const frame = document.getElementById('bancada-frame');
+      if (frame) frame.addEventListener('load', informarAlturaDaJanela);
+    });
+    function aplicarAlturaDoQuadro(altura) {
+      const frame = document.getElementById('bancada-frame');
+      const px = Math.max(200, Math.ceil(Number(altura) || 0));
+      if (frame && frame.style.height !== `${px}px`) frame.style.height = `${px}px`;
+    }
+    // a página de dentro avisa quando muda de tamanho...
+    window.addEventListener('message', ev => {
+      if (ev.origin !== location.origin || !ev.data || !ev.data.bancadaAltura) return;
+      aplicarAlturaDoQuadro(ev.data.bancadaAltura);
+    });
+    // ...e o painel confere sozinho a cada segundo enquanto a área está aberta, porque o aviso pode não chegar
+    // (navegador com a aba em segundo plano, por exemplo). Mede o corpo da página, que encolhe junto com o conteúdo.
+    setInterval(() => {
+      const area = document.getElementById('tab-bancada');
+      const frame = document.getElementById('bancada-frame');
+      const corpo = frame && frame.contentDocument && frame.contentDocument.body;
+      if (area && area.classList.contains('active') && corpo) aplicarAlturaDoQuadro(corpo.getBoundingClientRect().height);
+    }, 1000);
 
     // A navegação de dentro da página (por exemplo, o botão "ver portões") avisa qual aba abriu.
     window.addEventListener('message', ev => {
@@ -2070,13 +2102,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       setLoading('btn-bancada-gerar', true, 'Medindo...');
       nota.textContent = 'Rodando as verificações sem modelo contra o código atual (pipeline, adversarial, ablação, mapa, avaliação, ataque, orçamento, produção, portões). Leva alguns minutos; nenhum modelo é chamado.';
       try {
-        const r = await fetchJson('/api/v1/eval/bancada-pr85/medir', { method: 'POST' });
+        const r = await fetchJson('/api/v1/eval/verificacoes-qualidade/medir', { method: 'POST' });
         nota.textContent = r.ok
           ? `Medido de novo em ${String(r.segundos).replace('.', ',')} s, sem modelo. ${r.resumo}. As telas medidas com modelo continuam vindo do retrato.`
           : `O gerador falhou (código ${r.codigo}): ${r.erro || r.resumo}`;
         if (r.ok) {
           const atual = document.querySelector('.tab-btn.tab-btn-sub.active');
-          document.getElementById('bancada-frame').src = `/bancada/?embutido=1&tema=${document.documentElement.dataset.tema || 'claro'}&v=${Date.now()}#${atual ? atual.dataset.tab.slice(2) : 'visao'}`;
+          document.getElementById('bancada-frame').src = `/verificacoes/?embutido=1&tema=${document.documentElement.dataset.tema || 'claro'}&v=${Date.now()}#${atual ? atual.dataset.tab.slice(2) : 'visao'}`;
         }
       } catch (e) {
         nota.textContent = `Não consegui gerar: ${e.message}`;
