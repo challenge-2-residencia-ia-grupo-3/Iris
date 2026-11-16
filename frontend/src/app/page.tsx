@@ -8,7 +8,6 @@ import { useTheme } from "@/contexts/ThemeContext";
 
 /**
  * Página inicial de Acesso/Boas-vindas da Plataforma Íris de Adaptação:
- * - Split screen fiel ao Figma (Midnight Violet #0D0221 + Lavender Blush #F5EDF0).
  * - Ao entrar, redireciona via App Router para `/etapa-1` (fluxo unificado por rotas).
  */
 export default function HomePage() {
@@ -25,54 +24,35 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0]">
-      {/* Coluna Esquerda Institucional (Midnight Violet #0D0221 fiel ao Figma) */}
       <aside className="relative flex flex-col justify-between bg-[#0D0221] text-white p-8 sm:p-14 overflow-hidden min-h-[420px] lg:min-h-screen">
         {/* Topo: Card da Marca Íris */}
-        <div className="relative z-10">
+        <div className="relative z-10 pt-6 sm:pt-10">
           <IrisLogoBanner />
         </div>
 
         {/* Rodapé Hero Institucional */}
-        <div className="relative z-10 max-w-lg space-y-4 my-auto lg:my-0 pt-12">
+        <div className="relative z-10 max-w-lg space-y-4 my-auto lg:my-0 pt-12 mb-28 sm:mb-28">
           <p className="text-xs font-bold tracking-[0.14em] uppercase text-[#E35336]">
             Plataforma Gratuita para Professores
           </p>
           <h1 className="text-3xl sm:text-5xl font-bold leading-[1.15] tracking-tight text-white">
             Adapte materiais. Amplie as formas de aprender.
           </h1>
-          <p className="text-sm sm:text-base text-white/75 leading-relaxed">
-            A Íris usa inteligência artificial para ajudar você a adaptar textos e atividades do Ensino Fundamental II às necessidades de cada perfil pedagógico, sem precisar de conhecimento técnico.
-          </p>
+          
         </div>
 
-        {/* Esfera decorativa inferior direita idêntica ao Figma */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-28 -right-24 w-[380px] h-[380px] rounded-full border border-[#E35336]/45 bg-gradient-to-tr from-[#0D0221] via-[#162736]/80 to-[#335C67]/35 shadow-2xl"
         />
       </aside>
 
-      {/* Coluna Direita de Acesso (Lavender Blush #F5EDF0 fiel ao Figma) */}
       <main
         id="conteudo-principal"
         className="relative flex flex-col justify-center items-center p-8 sm:p-14 bg-[#F5EDF0] dark:bg-[#14072E]"
       >
-        {/* Botão de Tema (Lua / Sol) e atalhos diretos de rota no canto superior direito */}
-        <div className="absolute top-6 right-6 flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => router.push("/etapa-1")}
-            className="text-xs font-semibold text-[#335C67] dark:text-[#F5EDF0] underline hover:text-[#E35336] transition-colors"
-          >
-            Ir para Etapa 1
-          </button>
-          <button
-            type="button"
-            onClick={() => router.push("/etapa-2")}
-            className="text-xs font-semibold text-[#E35336] underline hover:opacity-80 transition-opacity"
-          >
-            Ir para Etapa 2
-          </button>
+        {/* Botão de Tema (Lua / Sol) no canto superior direito */}
+        <div className="absolute top-6 right-6 flex items-center">
           <button
             type="button"
             onClick={toggleDarkMode}
@@ -88,9 +68,6 @@ export default function HomePage() {
             <h2 className="text-3xl font-extrabold tracking-tight text-[#0D0221] dark:text-white">
               Acesse sua conta
             </h2>
-            <p className="text-sm sm:text-base text-[#0D0221]/65 dark:text-white/70 leading-relaxed">
-              Entre para continuar criando caminhos de aprendizagem.
-            </p>
           </div>
 
           <form onSubmit={handleLoginSubmit} className="space-y-5">
@@ -160,7 +137,6 @@ export default function HomePage() {
               </button>
             </div>
 
-            {/* Botão Entrar (Fiery Terracotta #E35336 fiel ao Figma) */}
             <button
               type="submit"
               className="w-full py-3.5 px-6 rounded-xl bg-[#E35336] hover:bg-[#c94429] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-[0_10px_25px_-5px_rgba(227,83,54,0.5)] transition-all"

@@ -647,6 +647,12 @@ def create_app() -> Any:
     if perfil_router is not None:
         app.include_router(perfil_router, prefix="/api/v1")
 
+    # Registra rotas de calibração de andaime cognitivo (História 1.3.1 - Issue #12)
+    from iris.api.routes.scaffolding import router as scaffolding_router
+
+    if scaffolding_router is not None:
+        app.include_router(scaffolding_router, prefix="/api/v1")
+
     @app.get("/api/v1/catalog", tags=["catalogo"])
     def get_catalog() -> dict[str, Any]:
         return _handle_catalog()
@@ -845,6 +851,10 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                         {"detail": {"detail": f"Erro interno ao carregar catálogo: {err}", "code": "INTERNAL_ERROR"}},
                         status=500,
                     )
+            elif parsed.path == "/api/v1/scaffolding/levels":
+                from iris.api.routes.scaffolding import get_scaffolding_levels_service
+
+                self._send_json(get_scaffolding_levels_service())
             elif parsed.path == "/api/v1/catalogs/characteristics/select":
                 self._send_json({"detail": "Method Not Allowed"}, status=405)
             elif parsed.path.startswith("/api/v1/catalogs/"):
@@ -1037,6 +1047,26 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 except Exception as err:  # noqa: BLE001
                     self._send_json(
                         {"detail": {"detail": f"Erro interno ao validar seleção: {err}", "code": "INTERNAL_ERROR"}},
+                        status=500,
+                    )
+            elif urlparse(self.path).path == "/api/v1/scaffolding/calibrate":
+                from iris.api.routes.scaffolding import calibrate_scaffolding_session_service
+                from iris.schemas.catalog import CatalogValidationError, CharacteristicSelectionError
+                from iris.schemas.scaffolding import ScaffoldingValidationError
+
+                try:
+                    resp = calibrate_scaffolding_session_service(body)
+                    self._send_json(resp.model_dump())
+                except (ScaffoldingValidationError, CharacteristicSelectionError) as err:
+                    self._send_json({"detail": err.to_dict()}, status=422)
+                except CatalogValidationError as err:
+                    self._send_json(
+                        {"detail": {"detail": str(err), "code": "CATALOG_SCHEMA_ERROR", "field": "catalog"}},
+                        status=500,
+                    )
+                except Exception as err:  # noqa: BLE001
+                    self._send_json(
+                        {"detail": {"detail": f"Erro interno ao calibrar andaime: {err}", "code": "INTERNAL_ERROR"}},
                         status=500,
                     )
             elif urlparse(self.path).path == "/api/v1/catalogs/characteristics":

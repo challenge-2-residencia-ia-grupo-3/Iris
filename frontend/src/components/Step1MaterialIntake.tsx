@@ -113,6 +113,14 @@ export function Step1MaterialIntake({
   }, []);
 
   useEffect(() => {
+    if (!feedbackBanner) return;
+    const timer = window.setTimeout(() => {
+      setFeedbackBanner(null);
+    }, 4000);
+    return () => window.clearTimeout(timer);
+  }, [feedbackBanner]);
+
+  useEffect(() => {
     const root = document.documentElement;
     if (highContrast) {
       root.classList.add("high-contrast");
@@ -179,15 +187,16 @@ export function Step1MaterialIntake({
         confirmedForStep2: false,
       });
 
+      const piiCount = response.metadata.pii_removed_count || 0;
       const piiNote =
-        response.metadata.sanitized && response.metadata.pii_removed_count > 0
-          ? ` (${response.metadata.pii_removed_count} dado(s) pessoal(is) anonimizado(s) preventivamente via Zero-Retention Scrubber).`
+        response.metadata.sanitized && piiCount > 0
+          ? ` (${piiCount === 1 ? "1 dado pessoal anonimizado" : `${piiCount} dados pessoais anonimizados`} preventivamente via Zero-Retention Scrubber).`
           : "";
 
       setFeedbackBanner({
         type: "success",
         title: "Conteúdo extraído em memória para conferência imediata",
-        message: `${response.message}${piiNote} Confira o texto abaixo antes de prosseguir.`,
+        message: `Confira o texto abaixo antes de prosseguir.`,
       });
     } catch (err) {
       setSelectedFile({
@@ -337,9 +346,10 @@ export function Step1MaterialIntake({
         confirmedForStep2: true,
       });
 
+      const piiCount = response.metadata.pii_removed_count || 0;
       const piiInfo =
-        response.metadata.sanitized && response.metadata.pii_removed_count > 0
-          ? ` Foram removidos preventivamente ${response.metadata.pii_removed_count} identificador(es) pessoal(is) (PII) para conformidade com a LGPD.`
+        response.metadata.sanitized && piiCount > 0
+          ? ` ${piiCount === 1 ? "Foi removido preventivamente 1 identificador pessoal (PII)" : `Foram removidos preventivamente ${piiCount} identificadores pessoais (PIIs)`} para conformidade com a LGPD.`
           : "";
 
       setFeedbackBanner({
@@ -393,7 +403,6 @@ export function Step1MaterialIntake({
             <IrisLogoBanner compact />
             <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#335C67]/10 dark:bg-white/10 border border-[#335C67]/25 text-xs font-semibold text-[#335C67] dark:text-[#F5EDF0]">
               <ShieldCheck className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
-              <span>Zero-Database • Conformidade LGPD</span>
             </div>
           </div>
 
@@ -472,9 +481,6 @@ export function Step1MaterialIntake({
               >
                 Entrada do material didático
               </h1>
-              <p className="text-sm sm:text-base text-[#0D0221]/75 dark:text-white/75 mt-1 max-w-3xl">
-                Cole diretamente o texto da sua avaliação ou faça o upload de um arquivo.
-              </p>
             </div>
 
             {textContent.length > 0 && (
@@ -492,19 +498,24 @@ export function Step1MaterialIntake({
           </div>
         </section>
 
-        {/* Banner de Alerta / Feedback Estruturado (ARIA Live para Leitores de Tela) */}
-        <div id={statusRegionId} aria-live="polite" aria-atomic="true">
+        {/* Toast / Alerta Flutuante no Canto Superior Direito (ARIA Live) */}
+        <div
+          id={statusRegionId}
+          aria-live="polite"
+          aria-atomic="true"
+          className="fixed top-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md pointer-events-none"
+        >
           {feedbackBanner && (
             <div
               role={feedbackBanner.type === "error" ? "alert" : "status"}
-              className={`rounded-2xl p-4 border flex items-start gap-3.5 shadow-sm transition-all ${
+              className={`pointer-events-auto rounded-2xl p-4 border border-l-4 flex items-start gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
                 feedbackBanner.type === "error"
-                  ? "bg-red-50 dark:bg-red-950/50 border-red-400 dark:border-red-700 text-red-900 dark:text-red-100"
+                  ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
                   : feedbackBanner.type === "success"
-                  ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500/60 text-emerald-950 dark:text-emerald-100"
+                  ? "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
                   : feedbackBanner.type === "warning"
-                  ? "bg-amber-50 dark:bg-amber-950/50 border-amber-500/60 text-amber-950 dark:text-amber-100"
-                  : "bg-white dark:bg-[#160A30] border-[#335C67]/40 text-[#0D0221] dark:text-white"
+                  ? "bg-white/95 dark:bg-[#160A30]/95 border-amber-200 dark:border-amber-800/60 border-l-amber-500 text-amber-950 dark:text-amber-100"
+                  : "bg-white/95 dark:bg-[#160A30]/95 border-[#335C67]/25 dark:border-white/15 border-l-[#E35336] text-[#0D0221] dark:text-white"
               }`}
             >
               {feedbackBanner.type === "error" ? (
@@ -520,23 +531,23 @@ export function Step1MaterialIntake({
 
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <p className="font-bold text-sm">{feedbackBanner.title}</p>
+                  <p className="font-bold text-xs sm:text-sm leading-snug">{feedbackBanner.title}</p>
                   {feedbackBanner.code && (
-                    <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-black/10 dark:bg-white/10">
+                    <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-black/10 dark:bg-white/10">
                       {feedbackBanner.code}
                     </span>
                   )}
                 </div>
-                <p className="text-xs sm:text-sm mt-0.5 leading-relaxed opacity-90">{feedbackBanner.message}</p>
+                <p className="text-xs mt-1 leading-relaxed opacity-85">{feedbackBanner.message}</p>
               </div>
 
               <button
                 type="button"
                 onClick={() => setFeedbackBanner(null)}
                 aria-label="Fechar mensagem de feedback"
-                className="text-xs font-semibold underline opacity-75 hover:opacity-100"
+                className="text-xs font-bold opacity-60 hover:opacity-100 px-1.5 py-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-opacity flex-shrink-0"
               >
-                Fechar
+                ✕
               </button>
             </div>
           )}
@@ -555,13 +566,7 @@ export function Step1MaterialIntake({
                   <FileUp className="w-5 h-5 text-[#E35336]" aria-hidden="true" />
                   Upload de Documento
                 </h2>
-                <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-0.5">
-                  Envie um arquivo existente do seu computador (1 arquivo por envio).
-                </p>
               </div>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#335C67]/10 text-[#335C67] dark:bg-white/10 dark:text-white">
-                Extração em Memória
-              </span>
             </div>
 
             {/* Zona Drag-and-Drop Acessível por Teclado e Mouse */}
@@ -623,21 +628,6 @@ export function Step1MaterialIntake({
               <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-1">
                 ou <span className="text-[#E35336] font-bold underline">clique para selecionar do dispositivo</span>
               </p>
-
-              {/* Badges Visuais de Formatos Aceitos */}
-              <div id="formatos-suportados-hint" className="mt-4 flex flex-wrap items-center justify-center gap-2">
-                {ALLOWED_EXTENSIONS.map((ext) => (
-                  <span
-                    key={ext}
-                    className="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-white dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/20 text-[#335C67] dark:text-[#F5EDF0]"
-                  >
-                    {ext.toUpperCase()}
-                  </span>
-                ))}
-              </div>
-              <p className="text-[11px] text-[#0D0221]/60 dark:text-white/60 mt-2">
-                Apenas 1 arquivo por envio • Preservação UTF-8 garantida
-              </p>
             </div>
 
             {/* Feedback Visual de Formato Aceito / Rejeitado */}
@@ -685,29 +675,6 @@ export function Step1MaterialIntake({
                 </button>
               </div>
             )}
-
-            {/* Resumo da Extração e Sanitização de PII (quando retornado pelo Backend) */}
-            {serverMetadata && (
-              <div className="rounded-xl bg-[#F5EDF0]/70 dark:bg-white/5 border border-[#335C67]/20 p-4 space-y-2">
-                <p className="text-xs font-bold uppercase tracking-wider text-[#335C67] dark:text-[#E35336]">
-                  Diagnóstico de Processamento em Memória
-                </p>
-                <dl className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="p-2 rounded-lg bg-white dark:bg-[#0D0221]/60">
-                    <dt className="opacity-70">Origem</dt>
-                    <dd className="font-mono font-bold uppercase">{serverMetadata.source_type}</dd>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white dark:bg-[#0D0221]/60">
-                    <dt className="opacity-70">Sanitização LGPD</dt>
-                    <dd className="font-bold text-emerald-700 dark:text-emerald-400">
-                      {serverMetadata.sanitized
-                        ? `${serverMetadata.pii_removed_count} PII descartado(s)`
-                        : "Sem PII detectado"}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-            )}
           </section>
 
           {/* COLUNA 2: Área Acessível de Colagem Direta e Conferência Imediata (`textarea`) */}
@@ -725,9 +692,6 @@ export function Step1MaterialIntake({
                   <ClipboardPaste className="w-5 h-5 text-[#E35336]" aria-hidden="true" />
                   Colagem Direta e Conferência do Material
                 </label>
-                <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-0.5">
-                  Cole o texto da sua atividade abaixo ou confira/edite o conteúdo extraído do documento enviado.
-                </p>
               </div>
 
               {serverMetadata?.filename && (
@@ -748,7 +712,7 @@ export function Step1MaterialIntake({
                   setConfirmedForStep2(false);
                 }}
                 rows={13}
-                placeholder="Cole aqui os textos de apoio, enunciados e alternativas da atividade ou faça upload de um arquivo (.pdf, .docx, .txt) ao lado..."
+                placeholder="Cole aqui os textos de apoio, enunciados e alternativas da atividade ou faça upload de um arquivo ao lado..."
                 aria-invalid={textContent.length > 0 && (!metrics.meetsMinimum || metrics.exceedsSafeContext)}
                 aria-describedby="contador-tempo-real-info"
                 className="w-full rounded-xl bg-[#FAFAFC] dark:bg-[#0D0221]/90 border border-[#335C67]/30 dark:border-white/20 p-4 text-sm sm:text-base leading-relaxed text-[#0D0221] dark:text-[#F5EDF0] placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:border-[#E35336] transition-colors resize-y font-sans"
@@ -777,20 +741,6 @@ export function Step1MaterialIntake({
                     {metrics.wordCount.toLocaleString("pt-BR")}
                   </span>
                 </div>
-
-                <div className="h-7 w-px bg-[#335C67]/20 dark:bg-white/15" aria-hidden="true" />
-
-                <div>
-                  <span className="text-[11px] uppercase tracking-wider opacity-70 block">
-                    Janela de Contexto IA (Estimada)
-                  </span>
-                  <span className="font-mono text-xs font-semibold text-[#335C67] dark:text-[#F5EDF0]">
-                    ~{metrics.estimatedTokens.toLocaleString("pt-BR")} tokens{" "}
-                    <span className="opacity-75">
-                      ({metrics.exceedsSafeContext ? "Acima da capacidade segura" : "Dentro da capacidade segura"})
-                    </span>
-                  </span>
-                </div>
               </div>
 
               {/* Indicador do Critério de Aceite: Mínimo de 50 caracteres */}
@@ -802,7 +752,9 @@ export function Step1MaterialIntake({
                 ) : !metrics.meetsMinimum ? (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30">
                     <AlertCircle className="w-3.5 h-3.5" aria-hidden="true" />
-                    Faltam {MIN_MATERIAL_CHARS - metrics.charCount} caractere(s) (mín. {MIN_MATERIAL_CHARS})
+                    {MIN_MATERIAL_CHARS - metrics.charCount === 1
+                      ? `Falta 1 caractere (mín. ${MIN_MATERIAL_CHARS})`
+                      : `Faltam ${MIN_MATERIAL_CHARS - metrics.charCount} caracteres (mín. ${MIN_MATERIAL_CHARS})`}
                   </span>
                 ) : metrics.exceedsSafeContext ? (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-500/15 text-red-800 dark:text-red-300 border border-red-500/30">
@@ -820,10 +772,7 @@ export function Step1MaterialIntake({
 
             {/* Rodapé de Ação Principal (Estilo Fiery Terracotta #E35336 do Figma) */}
             <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-[#335C67]/15 dark:border-white/10">
-              <p className="text-xs text-[#0D0221]/70 dark:text-white/70">
-                Ao prosseguir, o conteúdo passa pelo sanitizador local de PII (Zero-Retention) e fica disponível em memória para a Etapa 2.
-              </p>
-
+  
               <button
                 type="button"
                 disabled={!metrics.meetsMinimum || metrics.exceedsSafeContext || isProcessing}
