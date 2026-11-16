@@ -1924,6 +1924,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       if (window.matchMedia('(max-width: 1024px)').matches || window.scrollY > area.getBoundingClientRect().top + window.scrollY) {
         area.scrollIntoView({ block: 'start' });
       }
+      setTimeout(informarRolagem, 60);
     }
 
     // Tema claro ou escuro: vale para o painel inteiro, inclusive as telas de verificação (que leem a mesma escolha).
@@ -2081,6 +2082,18 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       if (ev.origin !== location.origin || !ev.data || !ev.data.bancadaAltura) return;
       aplicarAlturaDoQuadro(ev.data.bancadaAltura);
     });
+    // Na bancada aberta sozinha, a faixa de cima e os painéis de detalhe ficam presos no topo ao rolar. Aqui quem rola
+    // é esta página: ela informa à de dentro quanto já passou do topo do quadro, e a de dentro prende os elementos.
+    function informarRolagem() {
+      const area = document.getElementById('tab-bancada');
+      const frame = document.getElementById('bancada-frame');
+      if (!area || !area.classList.contains('active') || !frame || !frame.contentWindow) return;
+      const passou = Math.max(0, -frame.getBoundingClientRect().top);
+      frame.contentWindow.postMessage({ bancadaRolagem: Math.round(passou) }, location.origin);
+    }
+    window.addEventListener('scroll', informarRolagem, { passive: true });
+    window.addEventListener('resize', informarRolagem);
+
     // ...e o painel confere sozinho a cada segundo enquanto a área está aberta, porque o aviso pode não chegar
     // (navegador com a aba em segundo plano, por exemplo). Mede o corpo da página, que encolhe junto com o conteúdo.
     setInterval(() => {
@@ -2088,6 +2101,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       const frame = document.getElementById('bancada-frame');
       const corpo = frame && frame.contentDocument && frame.contentDocument.body;
       if (area && area.classList.contains('active') && corpo) aplicarAlturaDoQuadro(corpo.getBoundingClientRect().height);
+      informarRolagem();
     }, 1000);
 
     // A navegação de dentro da página (por exemplo, o botão "ver portões") avisa qual aba abriu.

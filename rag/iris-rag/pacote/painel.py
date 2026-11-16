@@ -321,6 +321,17 @@ if(EMB){document.body.classList.add('embutido');addEventListener('message',e=>{i
 /* embutida, a página informa a própria altura: o quadro do playground cresce até ela e não rola por dentro */
 if(EMB&&parent!==window){const altura=()=>parent.postMessage({bancadaAltura:Math.ceil(document.body.getBoundingClientRect().height)},location.origin);
 new ResizeObserver(altura).observe(document.body);addEventListener('load',altura)}
+/* embutida, quem rola é a página do playground, e o navegador só prende ("sticky") elementos na página que rola.
+   O playground informa quanto já passou do topo do quadro; aqui cada elemento que estaria preso desce até
+   "o quanto rolou + a distância dele ao topo", sem passar do fim da caixa onde está, como faz o navegador. */
+let ROL_PAI=0;
+function prenderNoTopo(){document.querySelectorAll('[data-preso]').forEach(e=>{e.style.transform='';e.removeAttribute('data-preso')});
+if(!EMB||ROL_PAI<=0)return;
+document.querySelectorAll('.topo,.detalhe,.fx-det,.leitor').forEach(e=>{const cs=getComputedStyle(e);if(cs.position!=='sticky'||!e.offsetParent)return;
+const dist=parseFloat(cs.top)||0,r=e.getBoundingClientRect(),natural=r.top+scrollY,fim=e.parentElement.getBoundingClientRect().bottom+scrollY;
+const y=Math.min(Math.max(natural,ROL_PAI+dist),fim-r.height),dy=y-natural;
+if(dy>0.5){e.style.transform='translateY('+dy+'px)';e.dataset.preso='1'}})}
+if(EMB)addEventListener('message',e=>{if(e.origin!==location.origin||!e.data||e.data.bancadaRolagem===undefined)return;ROL_PAI=Math.max(0,+e.data.bancadaRolagem||0);prenderNoTopo()});
 const PII_RE=/pii|scrubber|sanitiz|security|dados pessoais|clinic/i;
 function marcarRolar(){document.querySelectorAll('.rolar').forEach(d=>d.classList.toggle('tem-mais',d.scrollWidth-d.clientWidth-d.scrollLeft>4))}
 addEventListener('resize',marcarRolar);document.addEventListener('scroll',e=>{if(e.target.classList&&e.target.classList.contains('rolar'))marcarRolar()},true);

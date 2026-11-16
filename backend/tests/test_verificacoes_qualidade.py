@@ -192,6 +192,32 @@ class TestDesenhoIgualAoOriginal(unittest.TestCase):
         self.assertIn("bancadaAltura", embutida)  # a página informa a própria altura ao playground
 
 
+class TestPresoNoTopo(unittest.TestCase):
+    """Dentro do quadro, a faixa do topo e os detalhes ficam presos ao rolar, como na bancada aberta sozinha."""
+
+    def test_os_dois_lados_da_conversa_existem(self) -> None:
+        verificacoes.gerar_pagina()
+        pagina = verificacoes.ler_pagina(embutido=True)
+        self.assertIn("prenderNoTopo", pagina)
+        self.assertIn("bancadaRolagem", pagina)
+        html = PLAYGROUND.read_text(encoding="utf-8")
+        self.assertIn("function informarRolagem", html)
+        self.assertIn("bancadaRolagem", html)
+
+    @unittest.skipUnless(shutil.which("node"), "sem node: não dá para conferir a sintaxe do JavaScript")
+    def test_scripts_da_pagina_das_verificacoes_tem_sintaxe_valida(self) -> None:
+        verificacoes.gerar_pagina()
+        pagina = verificacoes.ler_pagina(embutido=True)
+        scripts = re.findall(r"<script>(.*?)</script>", pagina, re.DOTALL)
+        self.assertGreaterEqual(len(scripts), 3)
+        with tempfile.TemporaryDirectory() as tmp:
+            for i, codigo in enumerate(scripts):
+                arq = Path(tmp) / f"p{i}.js"
+                arq.write_text(codigo, encoding="utf-8")
+                r = subprocess.run(["node", "--check", str(arq)], capture_output=True, text=True, check=False)
+                self.assertEqual(r.returncode, 0, r.stderr[:500])
+
+
 class TestMedirDeNovo(unittest.TestCase):
     def test_roda_o_alvo_verificar_sem_chave_e_com_provedor_deterministico(self) -> None:
         capturado: dict = {}
