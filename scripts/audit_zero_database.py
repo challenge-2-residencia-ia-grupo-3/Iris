@@ -77,6 +77,7 @@ RUNTIME_BACKEND_DIRS = (
     "rag",
     "schemas",
     "security",
+    "sessao",
 )
 
 # Termos de tabelas/entidades de cadastro de estudantes proibidos em SQL/DDL
