@@ -184,6 +184,14 @@ export function Step2FunctionalProfile({
     saveEngagementProfileToSession(currentEngagementProfile);
   }, [currentEngagementProfile]);
 
+  useEffect(() => {
+    if (!feedbackBanner) return;
+    const timer = window.setTimeout(() => {
+      setFeedbackBanner(null);
+    }, 4000);
+    return () => window.clearTimeout(timer);
+  }, [feedbackBanner]);
+
   const effectiveMaterialPreview = materialPreviewText || sessionMaterialPreview;
 
   const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
@@ -439,36 +447,41 @@ export function Step2FunctionalProfile({
             </div>
           )}
 
-          {/* Região de Feedback / Alertas Acessíveis (ARIA live) */}
-          <div id={alertRegionId} aria-live="polite" aria-atomic="true">
+          {/* Toast / Alerta Flutuante no Canto Superior Direito (ARIA live) */}
+          <div
+            id={alertRegionId}
+            aria-live="polite"
+            aria-atomic="true"
+            className="fixed top-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md pointer-events-none"
+          >
             {feedbackBanner && (
               <div
                 role={feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? "alert" : "status"}
-                className={`rounded-xl px-4 py-2.5 border flex items-center justify-between gap-3 shadow-sm transition-all ${
+                className={`pointer-events-auto rounded-2xl p-4 border border-l-4 flex items-start justify-between gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
                   feedbackBanner.type === "error"
-                    ? "bg-red-50 dark:bg-red-950/50 border-red-600 text-red-950 dark:text-red-100"
+                    ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
                     : feedbackBanner.type === "warning"
-                    ? "bg-amber-50 dark:bg-amber-950/50 border-amber-600 text-amber-950 dark:text-amber-100"
+                    ? "bg-white/95 dark:bg-[#160A30]/95 border-amber-200 dark:border-amber-800/60 border-l-amber-500 text-amber-950 dark:text-amber-100"
                     : feedbackBanner.type === "success"
-                    ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-600 text-emerald-950 dark:text-emerald-100"
-                    : "bg-[#335C67]/10 dark:bg-[#335C67]/25 border-[#335C67] text-[#0D0221] dark:text-white"
+                    ? "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
+                    : "bg-white/95 dark:bg-[#160A30]/95 border-[#335C67]/25 dark:border-white/15 border-l-[#E35336] text-[#0D0221] dark:text-white"
                 }`}
               >
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="flex-shrink-0">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="flex-shrink-0 mt-0.5">
                     {feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? (
-                      <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400" aria-hidden="true" />
+                      <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" aria-hidden="true" />
                     ) : (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
                     )}
                   </div>
-                  <div className="text-xs sm:text-sm">
-                    <span className="font-bold">{feedbackBanner.title}</span>
+                  <div className="text-xs sm:text-sm min-w-0">
+                    <p className="font-bold leading-snug">{feedbackBanner.title}</p>
                     {feedbackBanner.message && (
-                      <span className="ml-1.5 opacity-90">{feedbackBanner.message}</span>
+                      <p className="text-xs opacity-85 mt-1 leading-relaxed">{feedbackBanner.message}</p>
                     )}
                     {feedbackBanner.code && (
-                      <span className="ml-2 px-1.5 py-0.5 text-[10px] font-mono rounded bg-black/10 dark:bg-white/10">
+                      <span className="mt-1 inline-block px-1.5 py-0.5 text-[10px] font-mono rounded bg-black/10 dark:bg-white/10">
                         {feedbackBanner.code}
                       </span>
                     )}
@@ -479,7 +492,7 @@ export function Step2FunctionalProfile({
                   type="button"
                   onClick={() => setFeedbackBanner(null)}
                   aria-label="Fechar aviso"
-                  className="text-xs font-bold opacity-60 hover:opacity-100 flex-shrink-0 px-1 ml-2 transition-opacity"
+                  className="text-xs font-bold opacity-60 hover:opacity-100 flex-shrink-0 px-1.5 py-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-opacity"
                 >
                   ✕
                 </button>
