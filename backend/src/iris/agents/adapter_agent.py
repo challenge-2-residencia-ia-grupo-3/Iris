@@ -306,6 +306,10 @@ class AdapterAgent:
             partes.append(f"ALERTA ANTI-MULETA: {inv.alerta_anti_muleta}")
         if req.diretiva_psicopedagogica:
             partes.append(f"DIRETIVA PSICOPEDAGÓGICA:\n{req.diretiva_psicopedagogica}")
+        if req.feedback_auditor:
+            partes.append(f"CORREÇÃO PEDIDA PELO AUDITOR (a tentativa anterior foi reprovada):\n{req.feedback_auditor}")
+            if req.minuta_anterior:
+                partes.append(f"MINUTA ANTERIOR REPROVADA (não repita o erro):\n{req.minuta_anterior}")
         partes.append(f"ENUNCIADO ORIGINAL:\n{req.enunciado}")
         return "\n".join(partes)
 
@@ -357,6 +361,37 @@ class AdapterAgent:
             f"{n_comandos} comandos separados em passos, cada um com espaço de registro próprio.",
             "Lembrete de conferência acrescentado ao final.",
         ]
+
+
+class CicloComAuditor:
+    """Liga o Adaptador ao ciclo de auto-correção do Agente Auditor (História 2.1.4 / Issue #19).
+
+    O Auditor chama ``adaptar(feedback, minuta_anterior) -> str``; na primeira chamada os dois são
+    ``None``. Cada chamada repete o pedido original com o feedback e a minuta reprovada, numera a
+    tentativa na telemetria e guarda o resultado completo em ``resultados``. Uso:
+
+        ciclo = CicloComAuditor(get_adapter_agent(), pedido)
+        relatorio = auditor.executar_ciclo(pedido.enunciado, invariantes, ciclo, nao_selecionadas)
+        resumir_ciclo([extracao.telemetry, *ciclo.telemetrias], pedido.nivel)
+
+    Limite: a saída de reserva é feita por regras e não lê o feedback. Se o Auditor reprovar a
+    reserva, as tentativas seguintes devolvem o mesmo texto.
+    """
+
+    def __init__(self, agente: AdapterAgent, pedido: AdaptationRequest) -> None:
+        self.agente = agente
+        self.pedido = pedido
+        self.resultados: list[AdaptationResult] = []
+
+    def __call__(self, feedback: Optional[str], minuta_anterior: Optional[str]) -> str:
+        pedido = self.pedido.model_copy(update={"feedback_auditor": feedback, "minuta_anterior": minuta_anterior})
+        resultado = self.agente.adapt(pedido, tentativa=len(self.resultados) + 1)
+        self.resultados.append(resultado)
+        return resultado.texto_adaptado
+
+    @property
+    def telemetrias(self) -> list[AdaptationTelemetry]:
+        return [r.telemetry for r in self.resultados]
 
 
 def get_adapter_agent(llm_client: Optional[HybridLLMClient] = None) -> AdapterAgent:

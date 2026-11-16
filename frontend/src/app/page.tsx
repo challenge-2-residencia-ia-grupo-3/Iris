@@ -1,64 +1,27 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight, Eye, EyeOff, Lock, Mail, Moon, Sun } from "lucide-react";
 import { IrisLogoBanner } from "@/components/IrisLogoBanner";
-import { Step1MaterialIntake } from "@/components/Step1MaterialIntake";
-import { Step2FunctionalProfile } from "@/components/Step2FunctionalProfile";
+import { useTheme } from "@/contexts/ThemeContext";
 
 /**
- * Página inicial da Plataforma Íris de Adaptação:
- * - Renderiza a tela de Acesso/Boas-vindas fiel ao protótipo do Figma (split screen Midnight Violet #0D0221 + Lavender Blush #F5EDF0).
- * - Ao clicar em "Entrar ->", conduz para a Etapa 1 (Issue 1.1.1) e, em seguida, para a Etapa 2 (Issue 1.2.1 — Seleção Cirúrgica de Características Funcionais).
+ * Página inicial de Acesso/Boas-vindas da Plataforma Íris de Adaptação:
+ * - Split screen fiel ao Figma (Midnight Violet #0D0221 + Lavender Blush #F5EDF0).
+ * - Ao entrar, redireciona via App Router para `/etapa-1` (fluxo unificado por rotas).
  */
 export default function HomePage() {
-  const [view, setView] = useState<"login" | "step1" | "step2">("login");
+  const router = useRouter();
+  const { darkMode, toggleDarkMode } = useTheme();
   const [email, setEmail] = useState("marina.alves@escola.edu.br");
   const [password, setPassword] = useState("••••••••");
   const [showPassword, setShowPassword] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [step1MaterialText, setStep1MaterialText] = useState<string>("");
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-  }, [darkMode]);
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setView("step1");
+    router.push("/etapa-1");
   };
-
-  if (view === "step1") {
-    return (
-      <Step1MaterialIntake
-        teacherEmail={email || "marina.alves@escola.edu.br"}
-        onBackToLogin={() => setView("login")}
-        onAdvanceToStep2={(materialText) => {
-          setStep1MaterialText(materialText);
-          setView("step2");
-        }}
-        darkMode={darkMode}
-        onToggleDarkMode={() => setDarkMode((prev) => !prev)}
-      />
-    );
-  }
-
-  if (view === "step2") {
-    return (
-      <Step2FunctionalProfile
-        teacherEmail={email || "marina.alves@escola.edu.br"}
-        materialPreviewText={step1MaterialText}
-        onBackToStep1={() => setView("step1")}
-        darkMode={darkMode}
-        onToggleDarkMode={() => setDarkMode((prev) => !prev)}
-      />
-    );
-  }
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0]">
@@ -94,25 +57,25 @@ export default function HomePage() {
         id="conteudo-principal"
         className="relative flex flex-col justify-center items-center p-8 sm:p-14 bg-[#F5EDF0] dark:bg-[#14072E]"
       >
-        {/* Botão de Tema (Lua / Sol) e atalhos para Etapas 1 e 2 no canto superior direito */}
+        {/* Botão de Tema (Lua / Sol) e atalhos diretos de rota no canto superior direito */}
         <div className="absolute top-6 right-6 flex items-center gap-3">
           <button
             type="button"
-            onClick={() => setView("step1")}
+            onClick={() => router.push("/etapa-1")}
             className="text-xs font-semibold text-[#335C67] dark:text-[#F5EDF0] underline hover:text-[#E35336] transition-colors"
           >
             Ir para Etapa 1
           </button>
           <button
             type="button"
-            onClick={() => setView("step2")}
+            onClick={() => router.push("/etapa-2")}
             className="text-xs font-semibold text-[#E35336] underline hover:opacity-80 transition-opacity"
           >
             Ir para Etapa 2
           </button>
           <button
             type="button"
-            onClick={() => setDarkMode((prev) => !prev)}
+            onClick={toggleDarkMode}
             aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
             className="p-2.5 rounded-full text-[#0D0221] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
           >
@@ -190,7 +153,7 @@ export default function HomePage() {
             <div className="flex justify-end">
               <button
                 type="button"
-                onClick={() => setView("step1")}
+                onClick={() => router.push("/etapa-1")}
                 className="text-xs font-bold text-[#335C67] dark:text-[#8cb6c2] hover:underline"
               >
                 Esqueci minha senha
@@ -211,7 +174,7 @@ export default function HomePage() {
             Ainda não tem conta?{" "}
             <button
               type="button"
-              onClick={() => setView("step1")}
+              onClick={() => router.push("/etapa-1")}
               className="font-bold text-[#335C67] dark:text-[#8cb6c2] hover:underline"
             >
               Criar conta
