@@ -83,3 +83,24 @@ clínico (ex.: `laudo_tdah`).
 - O histórico de eficácia (`historico_estrategias`) é proposta da 3.1.2 (#27) e pode ser refinado lá.
 - O perfil é criado e baixado no navegador, pelo painel da etapa 2 (`frontend/src/services/portableProfile.ts`, que espelha
   este schema). Não há rota de API: `criar_perfil` ainda não é chamado pelo servidor.
+
+## Exportação (.json e .pdf)
+O docente baixa o perfil por dois caminhos (História 3.2.1, RF-15, RNF-01):
+
+| Formato | Onde é gerado | Uso |
+|---|---|---|
+| `.json` | no navegador (`portableProfile.ts`), funciona offline | reuso no sistema; segue o schema oficial |
+| `.pdf` | no servidor, por `POST /api/v1/perfil/exportar?formato=pdf` | relatório síntese para anexar ao PDI |
+
+`POST /api/v1/perfil/exportar?formato=json|pdf` recebe o perfil no corpo e passa por `validar_perfil`
+(schema oficial + bloqueio de laudo, CID, diagnóstico e medicação). Perfil inválido devolve `422` e nunca
+gera arquivo; a resposta de erro não repete o trecho digitado.
+
+**Sem sessão no servidor.** Não existe sessão em memória para destruir: a rota recebe o perfil, monta o
+arquivo em memória, devolve os bytes e esquece. Não usa disco, banco, cache nem variável global, e a resposta
+leva `Cache-Control: no-store`. Por isso encerrar o servidor não faz o docente perder o que já baixou.
+Os testes provam isso (sem importar bibliotecas de persistência, sem escrever em disco, sem rede e sem
+alterar o estado do módulo durante a exportação).
+
+O PDF é montado com PyMuPDF (já dependência do projeto). Traz código anônimo, data, as características com
+nome e descrição do catálogo oficial e, se existirem, barreiras, estratégias e anotações.

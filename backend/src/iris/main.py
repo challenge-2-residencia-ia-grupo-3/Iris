@@ -399,6 +399,12 @@ def create_app() -> Any:
     if catalogs_router is not None:
         app.include_router(catalogs_router, prefix="/api/v1")
 
+    # Registra a exportação do perfil pedagógico portátil (História 3.2.1 - Issue #30)
+    from iris.api.routes.perfil import router as perfil_router
+
+    if perfil_router is not None:
+        app.include_router(perfil_router, prefix="/api/v1")
+
     @app.get("/api/v1/catalog", tags=["catalogo"])
     def get_catalog() -> dict[str, Any]:
         return _handle_catalog()

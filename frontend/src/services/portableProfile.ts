@@ -92,15 +92,19 @@ export function nomeArquivoPerfil(perfil: PerfilPedagogicoPortatil): string {
   return `perfil-${perfil.codigo_anonimo}.json`;
 }
 
-/** Entrega o JSON como download local (Blob). Não envia nada pela rede. */
-export function baixarPerfil(perfil: PerfilPedagogicoPortatil): void {
-  const blob = new Blob([perfilParaJson(perfil)], { type: "application/json" });
+/** Dispara o download de um Blob no dispositivo do docente. Não envia nada pela rede. */
+export function baixarBlob(blob: Blob, nome: string): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = nomeArquivoPerfil(perfil);
+  a.download = nome;
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+}
+
+/** Entrega o JSON como download local (Blob). Funciona offline: não envia nada pela rede. */
+export function baixarPerfil(perfil: PerfilPedagogicoPortatil): void {
+  baixarBlob(new Blob([perfilParaJson(perfil)], { type: "application/json" }), nomeArquivoPerfil(perfil));
 }
