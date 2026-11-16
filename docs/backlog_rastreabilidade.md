@@ -286,10 +286,10 @@ Como professor, quero informar as potencialidades e áreas de interesse do estud
 * **E** o uso de interesses não deve substituir os conceitos obrigatórios exigidos na avaliação.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Backend]** Schema Pydantic para metadados de potencialidades, interesses e canais preferenciais (Princípio I DUA).
-- [ ] **[Frontend]** Seletor de interesses temáticos (esportes, natureza, tecnologia) e campo de potencialidades na Etapa 2.
-- [ ] **[RAG / IA]** Mapeamento dos metadados de potencialidade para injeção de contexto motivacional no prompt de adaptação.
-- [ ] **[Testes]** Teste unitário verificando que a injeção de potencialidades não substitui os conceitos da trava curricular.
+- [x] **[Backend]** Schema Pydantic para metadados de potencialidades, interesses e canais preferenciais (Princípio I DUA).
+- [x] **[Frontend]** Seletor de interesses temáticos (esportes, natureza, tecnologia) e campo de potencialidades na Etapa 2.
+- [x] **[RAG / IA]** Mapeamento dos metadados de potencialidade para injeção de contexto motivacional no prompt de adaptação.
+- [x] **[Testes]** Teste unitário verificando que a injeção de potencialidades não substitui os conceitos da trava curricular.
 
 ##### História 1.2.3: Transcrição de observações pedagógicas docentes via entrada de áudio
 **História de Usuário**
@@ -327,10 +327,10 @@ Como professor, quero calibrar a intensidade de suporte da adaptação entre Ní
 * **E** a seleção de nível deve atuar unicamente sobre as características funcionais ativadas na História 1.2.1.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Backend]** Definição das diretrizes de andaime nos schemas de configuração de sessão (Nível 1, 2 e 3).
-- [ ] **[Frontend]** Componente visual de calibração de suporte na Etapa 3 com cards explicativos de cada nível.
-- [ ] **[Frontend]** Feedback visual detalhando as transformações estruturais de cada intensidade (Leve, Moderada, Intensiva).
-- [ ] **[Testes]** Teste de validação garantindo que a diretiva de nível seja atribuída estritamente às características ativadas.
+- [x] **[Backend]** Definição das diretrizes de andaime nos schemas de configuração de sessão (Nível 1, 2 e 3).
+- [x] **[Frontend]** Componente visual de calibração de suporte na Etapa 3 com cards explicativos de cada nível.
+- [x] **[Frontend]** Feedback visual detalhando as transformações estruturais de cada intensidade (Leve, Moderada, Intensiva).
+- [x] **[Testes]** Teste de validação garantindo que a diretiva de nível seja atribuída estritamente às características ativadas.
 
 ##### História 1.3.2: Definição de Travas Curriculares Inegociáveis e alerta preventivo anti-muleta
 **História de Usuário**

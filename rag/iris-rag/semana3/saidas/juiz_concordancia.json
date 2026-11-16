@@ -1,0 +1,87 @@
+{
+  "resp-lote-01": {
+    "frase_sustentada": {
+      "n": 99,
+      "iguais": 97,
+      "concordancia": 0.98,
+      "kappa": 0.95
+    },
+    "util": {
+      "n": 40,
+      "iguais": 39,
+      "concordancia": 0.975,
+      "kappa": 0.96
+    },
+    "inventou": {
+      "n": 40,
+      "iguais": 39,
+      "concordancia": 0.975,
+      "kappa": 0.935
+    },
+    "absteve": {
+      "n": 40,
+      "iguais": 40,
+      "concordancia": 1.0,
+      "kappa": 1.0
+    }
+  },
+  "resp-lote-03": {
+    "frase_sustentada": {
+      "n": 97,
+      "iguais": 92,
+      "concordancia": 0.948,
+      "kappa": 0.89
+    },
+    "util": {
+      "n": 40,
+      "iguais": 31,
+      "concordancia": 0.775,
+      "kappa": 0.648
+    },
+    "inventou": {
+      "n": 40,
+      "iguais": 39,
+      "concordancia": 0.975,
+      "kappa": 0.844
+    },
+    "absteve": {
+      "n": 40,
+      "iguais": 40,
+      "concordancia": 1.0,
+      "kappa": 1.0
+    }
+  },
+  "os_dois_lotes": {
+    "frase_sustentada": {
+      "n": 196,
+      "iguais": 189,
+      "concordancia": 0.964,
+      "kappa": 0.928
+    },
+    "util": {
+      "n": 80,
+      "iguais": 70,
+      "concordancia": 0.875,
+      "kappa": 0.806
+    },
+    "inventou": {
+      "n": 80,
+      "iguais": 78,
+      "concordancia": 0.975,
+      "kappa": 0.914
+    },
+    "absteve": {
+      "n": 80,
+      "iguais": 80,
+      "concordancia": 1.0,
+      "kappa": 1.0
+    }
+  },
+  "fidelidade_por_resposta": {
+    "n": 49,
+    "media_primeiro": 0.4544,
+    "media_rejulgamento": 0.4571,
+    "dif_media_absoluta": 0.0381,
+    "respostas_com_fidelidade_igual": 43
+  }
+}

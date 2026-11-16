@@ -1,0 +1,71 @@
+TESTE D - DIAGNÓSTICO DA SAÍDA DE RESERVA (lido dos rastros; nenhum juiz)
+gerado em 2026-11-13T10:12:47+00:00 | commit 6f1d34a-modificado
+
+minuta = texto que o modelo escreveu, antes do laudo de escopo do grupo
+
+== gpt-oss-20b: 3 rodada(s)
+  completo: 88 execuções | motivo da reserva {'falha_llm:JSONDecodeError': 68, 'None': 19, 'escopo_reprovado': 1}
+      minuta do modelo existe em 20; passa no laudo em 19
+      por que reprova: {'acrescentou palavras fora do andaime': 1}
+      tamanho da minuta / original (mediana): 1.14
+      TRCC: minuta 1.0 | entregue 1.0
+      Flesch: original 54.9451 | minuta 55.3945 | entregue 55.874
+      comando conjugado resolvido: minuta 1.0 | entregue 0.9318
+      questões com minuta aprovada em todas as rodadas: ['Q08', 'Q11', 'Q13', 'Q14', 'Q16', 'Q17', 'Q23', 'Q28', 'Q29']
+  sem_rag: 88 execuções | motivo da reserva {'falha_llm:JSONDecodeError': 72, 'None': 16}
+      minuta do modelo existe em 16; passa no laudo em 16
+      por que reprova: {}
+      tamanho da minuta / original (mediana): 1.17
+      TRCC: minuta 1.0 | entregue 1.0
+      Flesch: original 54.9451 | minuta 60.7425 | entregue 55.8292
+      comando conjugado resolvido: minuta 1.0 | entregue 0.9545
+      questões com minuta aprovada em todas as rodadas: ['Q03', 'Q08', 'Q11', 'Q13', 'Q14', 'Q16', 'Q17', 'Q27', 'Q28']
+  completo x sem_rag: pares com minuta nas duas 11; minuta idêntica em 7
+      completo - sem_rag, minuta aprovada no laudo: n=7 dif=[0.0, 0.0, 0.0] Wilcoxon p=1.0
+      completo - sem_rag, TRCC da minuta: n=7 dif=[0.0, 0.0, 0.0] Wilcoxon p=1.0
+      completo - sem_rag, Flesch da minuta: n=7 dif=[0.0, 0.0, 0.0] Wilcoxon p=1.0
+
+== llama3.1-8b: 3 rodada(s)
+  completo: 88 execuções | motivo da reserva {'escopo_reprovado': 73, 'None': 15}
+      minuta do modelo existe em 88; passa no laudo em 15
+      por que reprova: {'acrescentou palavras fora do andaime': 67, 'tirou palavras do original': 20, 'perdeu conceito da trava curricular': 11}
+      tamanho da minuta / original (mediana): 2.5
+      TRCC: minuta 0.9523 | entregue 1.0
+      Flesch: original 54.9451 | minuta 56.4488 | entregue 55.1158
+      comando conjugado resolvido: minuta 0.4091 | entregue 1.0
+      questões com minuta aprovada em todas as rodadas: ['Q08', 'Q12', 'Q15', 'Q20', 'Q25']
+  sem_rag: 88 execuções | motivo da reserva {'escopo_reprovado': 73, 'None': 15}
+      minuta do modelo existe em 88; passa no laudo em 15
+      por que reprova: {'acrescentou palavras fora do andaime': 58, 'tirou palavras do original': 35, 'perdeu conceito da trava curricular': 21, 'mudou a ordem das palavras': 14}
+      tamanho da minuta / original (mediana): 1.69
+      TRCC: minuta 0.8528 | entregue 1.0
+      Flesch: original 54.9451 | minuta 52.8826 | entregue 55.1158
+      comando conjugado resolvido: minuta 0.3182 | entregue 1.0
+      questões com minuta aprovada em todas as rodadas: ['Q11', 'Q12', 'Q20', 'Q25', 'Q29']
+  completo x sem_rag: pares com minuta nas duas 88; minuta idêntica em 6
+      completo - sem_rag, minuta aprovada no laudo: n=30 dif=[0.0, -0.1333, 0.1333] Wilcoxon p=1.0
+      completo - sem_rag, TRCC da minuta: n=30 dif=[0.0889, -0.0256, 0.215] Wilcoxon p=0.1837
+      completo - sem_rag, Flesch da minuta: n=30 dif=[3.4883, -6.124, 14.108] Wilcoxon p=0.7897
+
+== gpt-oss-20b (cliente corrigido): 1 rodada(s)
+  completo: 30 execuções | motivo da reserva {'escopo_reprovado': 24, 'None': 6}
+      minuta do modelo existe em 30; passa no laudo em 6
+      por que reprova: {'acrescentou palavras fora do andaime': 21, 'tirou palavras do original': 13, 'perdeu conceito da trava curricular': 7, 'mudou a ordem das palavras': 6}
+      tamanho da minuta / original (mediana): 1.27
+      TRCC: minuta 0.9528 | entregue 1.0
+      Flesch: original 55.5777 | minuta 57.661 | entregue 56.7547
+      comando conjugado resolvido: minuta 0.6667 | entregue 1.0
+      questões com minuta aprovada em todas as rodadas: ['Q07', 'Q12', 'Q21', 'Q23', 'Q26', 'Q27']
+  sem_rag: 30 execuções | motivo da reserva {'escopo_reprovado': 13, 'None': 17}
+      minuta do modelo existe em 30; passa no laudo em 17
+      por que reprova: {'acrescentou palavras fora do andaime': 10, 'tirou palavras do original': 7, 'perdeu conceito da trava curricular': 3, 'mudou a ordem das palavras': 2}
+      tamanho da minuta / original (mediana): 1.13
+      TRCC: minuta 0.9833 | entregue 1.0
+      Flesch: original 55.5777 | minuta 51.7317 | entregue 55.3917
+      comando conjugado resolvido: minuta 0.6667 | entregue 0.8667
+      questões com minuta aprovada em todas as rodadas: ['Q02', 'Q03', 'Q07', 'Q08', 'Q11', 'Q12', 'Q13', 'Q15', 'Q16', 'Q17', 'Q18', 'Q20', 'Q24', 'Q25', 'Q27', 'Q28', 'Q29']
+  completo x sem_rag: pares com minuta nas duas 30; minuta idêntica em 1
+      completo - sem_rag, minuta aprovada no laudo: n=30 dif=[-0.3667, -0.6, -0.1] Wilcoxon p=0.0076
+      completo - sem_rag, TRCC da minuta: n=30 dif=[-0.0306, -0.0972, 0.0333] Wilcoxon p=0.3573
+      completo - sem_rag, Flesch da minuta: n=30 dif=[5.9293, -3.852, 17.4803] Wilcoxon p=0.8791
+

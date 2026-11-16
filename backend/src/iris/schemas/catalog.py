@@ -432,7 +432,7 @@ class CharacteristicSelectionError(ValueError):
 
 
 class SurgicalCharacteristicSelection:
-    """Vetor cirúrgico de características ativadas e bloqueadas para a sessão (RF-04 / História 1.2.1)."""
+    """Vetor cirúrgico de características ativadas e bloqueadas para a sessão (RF-04 / RF-05)."""
 
     def __init__(
         self,
@@ -444,6 +444,8 @@ class SurgicalCharacteristicSelection:
         blocked_ids: list[str],
         active_characteristics: list[dict[str, Any]],
         scope_isolation_rule: str,
+        engagement_metadata: dict[str, Any] | None = None,
+        motivational_context: dict[str, Any] | None = None,
     ) -> None:
         self.status = status
         self.message = message
@@ -455,9 +457,11 @@ class SurgicalCharacteristicSelection:
         self.blocked_count = len(blocked_ids)
         self.active_characteristics = active_characteristics
         self.scope_isolation_rule = scope_isolation_rule
+        self.engagement_metadata = engagement_metadata
+        self.motivational_context = motivational_context
 
     def model_dump(self) -> dict[str, Any]:
-        return {
+        payload: dict[str, Any] = {
             "status": self.status,
             "message": self.message,
             "id_catalogo": self.id_catalogo,
@@ -469,6 +473,11 @@ class SurgicalCharacteristicSelection:
             "active_characteristics": list(self.active_characteristics),
             "scope_isolation_rule": self.scope_isolation_rule,
         }
+        if self.engagement_metadata is not None:
+            payload["engagement_metadata"] = self.engagement_metadata
+        if self.motivational_context is not None:
+            payload["motivational_context"] = self.motivational_context
+        return payload
 
     def dict(self) -> dict[str, Any]:
         return self.model_dump()
@@ -523,8 +532,8 @@ def validate_surgical_characteristic_selection(
     if unknown_ids:
         raise CharacteristicSelectionError(
             message=(
-                f"Característica(s) funcional(is) não reconhecida(s) no catálogo '{active_catalog.id_catalogo}': "
-                f"{', '.join(unknown_ids)}."
+                f"{'Característica funcional não reconhecida' if len(unknown_ids) == 1 else 'Características funcionais não reconhecidas'} "
+                f"no catálogo '{active_catalog.id_catalogo}': {', '.join(unknown_ids)}."
             ),
             code="UNKNOWN_CHARACTERISTIC_ID",
             field="selected_ids",
@@ -537,11 +546,14 @@ def validate_surgical_characteristic_selection(
         if c.id_caracteristica not in seen
     ]
 
+    ativadas_str = "1 característica ativada" if len(cleaned_ids) == 1 else f"{len(cleaned_ids)} características ativadas"
+    bloqueadas_str = "1 característica bloqueada" if len(blocked_ids) == 1 else f"{len(blocked_ids)} características bloqueadas"
+
     return SurgicalCharacteristicSelection(
         status="success",
         message=(
-            f"Escopo cirúrgico registrado: {len(cleaned_ids)} característica(s) ativada(s) para adaptação "
-            f"e {len(blocked_ids)} característica(s) bloqueada(s) para preservar a autonomia do estudante."
+            f"Escopo cirúrgico registrado: {ativadas_str} para adaptação "
+            f"e {bloqueadas_str} para preservar a autonomia do estudante."
         ),
         id_catalogo=active_catalog.id_catalogo,
         total_catalog_characteristics=len(active_catalog.caracteristicas),

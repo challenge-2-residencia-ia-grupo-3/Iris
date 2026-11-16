@@ -35,16 +35,14 @@ INSTRUCOES = f"""Você é o Agente Estrategista do Íris, que apoia professores 
 com TDAH sem reduzir a habilidade avaliada. Responda em português do Brasil.
 
 Regras:
-1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar.
-2. Toda frase da resposta termina com a citação do trecho que a sustenta, no formato [T1], [T2] etc.
-   Uma frase pode citar mais de um trecho: [T1][T3].
-3. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, citando-o normalmente.
-4. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova
-   de eficácia; não use norma revogada como regra vigente).
-5. Se os trechos não respondem à pergunta, responda exatamente: "{FRASE_SEM_RESPOSTA}"
-   e nada mais. É melhor não responder do que inventar.
-6. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.
-7. No máximo 6 frases. Sem introdução, sem conclusão genérica."""
+1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar, nem crie questões ou alternativas fora dos trechos.
+2. TODA frase da resposta deve terminar obrigatoriamente com a citação do trecho que a sustenta antes do ponto final, no formato [T1], [T2] etc. Exemplo: "A segmentação do enunciado reduz a sobrecarga da memória de trabalho [T1]." Uma frase pode citar mais de um trecho: [T1][T3].
+3. Nunca escreva uma frase de introdução, transição ou recomendação sem [Tn] explícito no final.
+4. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, mantendo a citação [Tn] fiel ao texto original sem extrapolar detalhes ausentes.
+5. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova de eficácia; não use norma revogada como regra vigente).
+6. A base reúne evidências sobre barreiras do TDAH, carga cognitiva e DUA (sem citar disciplinas ou séries escolares específicas). Se os trechos trouxerem estratégias aplicáveis à barreira ou ao tipo de atividade perguntada, responda aplicando-as com base estrita nos trechos [Tn]; só responda exatamente: "{FRASE_SEM_RESPOSTA}" e nada mais quando nenhum trecho trouxer evidência aplicável à barreira/tema ou quando faltar o fato/norma pedido. É melhor não inventar.
+7. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.
+8. No máximo 6 frases. Sem introdução, sem conclusão genérica."""
 
 
 def montar_prompt(pergunta: str, trechos: list[dict]) -> str:
@@ -73,6 +71,58 @@ def _chamar_groq(prompt: str) -> tuple[str, dict]:
                 time.sleep(20 * (tentativa + 1))
                 continue
             raise
+
+
+def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
+    chave = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    if not chave:
+        raise RuntimeError("ANTHROPIC_API_KEY não configurada para geração.")
+    modelo_alvo = os.environ.get("RAG_LLM_MODELO") or os.environ.get("CLAUDE_SONNET_MODEL") or "claude-sonnet-4-5-20250929"
+    modelos_tentar = [modelo_alvo]
+    if modelo_alvo != "claude-sonnet-4-5-20250929":
+        modelos_tentar.append("claude-sonnet-4-5-20250929")
+
+    for idx_m, mod in enumerate(modelos_tentar):
+        corpo = json.dumps(
+            {
+                "model": mod,
+                "temperature": 0,
+                "max_tokens": 1500,
+                "messages": [{"role": "user", "content": prompt}],
+            }
+        ).encode()
+        req = urllib.request.Request(
+            "https://api.anthropic.com/v1/messages",
+            data=corpo,
+            headers={
+                "x-api-key": chave,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+                "User-Agent": "iris-rag/0.1",
+            },
+        )
+        for tentativa in range(4):
+            try:
+                r = json.loads(urllib.request.urlopen(req, timeout=120).read())
+                partes = [
+                    bloco.get("text", "")
+                    for bloco in (r.get("content") or [])
+                    if isinstance(bloco, dict) and bloco.get("type") == "text"
+                ]
+                texto = "\n".join(p for p in partes if p).strip()
+                uso_raw = r.get("usage") or {}
+                uso = {
+                    "prompt_tokens": uso_raw.get("input_tokens"),
+                    "completion_tokens": uso_raw.get("output_tokens"),
+                }
+                return texto, uso
+            except urllib.error.HTTPError as e:
+                if e.code == 404 and idx_m + 1 < len(modelos_tentar):
+                    break
+                if e.code in (429, 529) and tentativa < 3:
+                    time.sleep(5 * (tentativa + 1))
+                    continue
+                raise
 
 
 def _chamar_ollama(prompt: str) -> tuple[str, dict]:
@@ -126,7 +176,9 @@ def _chamar_extractive(prompt: str) -> tuple[str, dict]:
 
 def gerar(prompt: str) -> tuple[str, dict]:
     provedor = os.environ.get("RAG_LLM", LLM).lower()
-    if provedor == "groq":
+    if provedor in {"anthropic", "claude", "sonnet"}:
+        fn = _chamar_anthropic
+    elif provedor == "groq":
         fn = _chamar_groq
     elif provedor in {"extractive", "mock", "offline"}:
         fn = _chamar_extractive

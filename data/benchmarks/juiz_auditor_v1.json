@@ -1,0 +1,371 @@
+[
+  {
+    "id": "JUIZ-Q1-limpa",
+    "base": "Q1",
+    "tipo": "limpa",
+    "disciplina": "Matemática",
+    "original": "Uma loja vendeu 12 camisetas a R$ 25 cada e 8 bonés a R$ 15 cada. Qual foi o total arrecadado?\nA) R$ 300\nB) R$ 420\nC) R$ 500\nD) R$ 120",
+    "travas": [
+      "12 camisetas",
+      "R$ 25",
+      "8 bonés",
+      "R$ 15",
+      "total arrecadado"
+    ],
+    "selecionadas": [
+      "retencao_dados_intermediarios_problemas_multietapas"
+    ],
+    "adaptada": "Uma loja vendeu dois produtos.\nProduto 1: 12 camisetas a R$ 25 cada.\nProduto 2: 8 bonés a R$ 15 cada.\nQual foi o total arrecadado?\nPense em etapas: (1) quanto a loja arrecadou com as camisetas; (2) quanto arrecadou com os bonés; (3) o total.\nA) R$ 300\nB) R$ 420\nC) R$ 500\nD) R$ 120",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q1-identica",
+    "base": "Q1",
+    "tipo": "identica",
+    "disciplina": "Matemática",
+    "original": "Uma loja vendeu 12 camisetas a R$ 25 cada e 8 bonés a R$ 15 cada. Qual foi o total arrecadado?\nA) R$ 300\nB) R$ 420\nC) R$ 500\nD) R$ 120",
+    "travas": [
+      "12 camisetas",
+      "R$ 25",
+      "8 bonés",
+      "R$ 15",
+      "total arrecadado"
+    ],
+    "selecionadas": [
+      "retencao_dados_intermediarios_problemas_multietapas"
+    ],
+    "adaptada": "Uma loja vendeu 12 camisetas a R$ 25 cada e 8 bonés a R$ 15 cada. Qual foi o total arrecadado?\nA) R$ 300\nB) R$ 420\nC) R$ 500\nD) R$ 120",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q1-resolucao",
+    "base": "Q1",
+    "tipo": "resolucao",
+    "disciplina": "Matemática",
+    "original": "Uma loja vendeu 12 camisetas a R$ 25 cada e 8 bonés a R$ 15 cada. Qual foi o total arrecadado?\nA) R$ 300\nB) R$ 420\nC) R$ 500\nD) R$ 120",
+    "travas": [
+      "12 camisetas",
+      "R$ 25",
+      "8 bonés",
+      "R$ 15",
+      "total arrecadado"
+    ],
+    "selecionadas": [
+      "retencao_dados_intermediarios_problemas_multietapas"
+    ],
+    "adaptada": "Uma loja vendeu dois produtos.\nEtapa 1: 12 camisetas a R$ 25 cada: 12 × 25 = R$ 300.\nEtapa 2: 8 bonés a R$ 15 cada: 8 × 15 = R$ 120.\nEtapa 3: some os dois valores para achar o total arrecadado.\nA) R$ 300\nB) R$ 420\nC) R$ 500\nD) R$ 120",
+    "esperado_resolucao": true,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q1-intrusao",
+    "base": "Q1",
+    "tipo": "intrusao",
+    "disciplina": "Matemática",
+    "original": "Uma loja vendeu 12 camisetas a R$ 25 cada e 8 bonés a R$ 15 cada. Qual foi o total arrecadado?\nA) R$ 300\nB) R$ 420\nC) R$ 500\nD) R$ 120",
+    "travas": [
+      "12 camisetas",
+      "R$ 25",
+      "8 bonés",
+      "R$ 15",
+      "total arrecadado"
+    ],
+    "selecionadas": [
+      "retencao_dados_intermediarios_problemas_multietapas"
+    ],
+    "adaptada": "Uma loja vendeu dois produtos.\nProduto 1: 12 camisetas a R$ 25 cada.\nProduto 2: 8 bonés a R$ 15 cada.\nQual foi o total arrecadado?\nPense em etapas: (1) camisetas; (2) bonés; (3) total.\nATENÇÃO: leia o enunciado inteiro e confira cada palavra com calma antes de marcar. Não responda apressado.\nA) R$ 300\nB) R$ 420\nC) R$ 500\nD) R$ 120",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": [
+      "impulsividade_leitura_superficial_negacoes"
+    ]
+  },
+  {
+    "id": "JUIZ-Q2-limpa",
+    "base": "Q2",
+    "tipo": "limpa",
+    "disciplina": "Ciências",
+    "original": "Todas as afirmações abaixo sobre a fotossíntese estão corretas, EXCETO:\nA) Ocorre nos cloroplastos.\nB) Produz glicose e oxigênio.\nC) Libera gás carbônico como produto principal.\nD) Utiliza a luz solar como fonte de energia.",
+    "travas": [
+      "fotossíntese",
+      "EXCETO",
+      "cloroplastos",
+      "glicose",
+      "oxigênio",
+      "luz solar"
+    ],
+    "selecionadas": [
+      "impulsividade_leitura_superficial_negacoes"
+    ],
+    "adaptada": "Todas as afirmações abaixo sobre a fotossíntese estão corretas, **EXCETO** (atenção: procure a que está ERRADA):\nA) Ocorre nos cloroplastos.\nB) Produz glicose e oxigênio.\nC) Libera gás carbônico como produto principal.\nD) Utiliza a luz solar como fonte de energia.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q2-identica",
+    "base": "Q2",
+    "tipo": "identica",
+    "disciplina": "Ciências",
+    "original": "Todas as afirmações abaixo sobre a fotossíntese estão corretas, EXCETO:\nA) Ocorre nos cloroplastos.\nB) Produz glicose e oxigênio.\nC) Libera gás carbônico como produto principal.\nD) Utiliza a luz solar como fonte de energia.",
+    "travas": [
+      "fotossíntese",
+      "EXCETO",
+      "cloroplastos",
+      "glicose",
+      "oxigênio",
+      "luz solar"
+    ],
+    "selecionadas": [
+      "impulsividade_leitura_superficial_negacoes"
+    ],
+    "adaptada": "Todas as afirmações abaixo sobre a fotossíntese estão corretas, EXCETO:\nA) Ocorre nos cloroplastos.\nB) Produz glicose e oxigênio.\nC) Libera gás carbônico como produto principal.\nD) Utiliza a luz solar como fonte de energia.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q2-resolucao",
+    "base": "Q2",
+    "tipo": "resolucao",
+    "disciplina": "Ciências",
+    "original": "Todas as afirmações abaixo sobre a fotossíntese estão corretas, EXCETO:\nA) Ocorre nos cloroplastos.\nB) Produz glicose e oxigênio.\nC) Libera gás carbônico como produto principal.\nD) Utiliza a luz solar como fonte de energia.",
+    "travas": [
+      "fotossíntese",
+      "EXCETO",
+      "cloroplastos",
+      "glicose",
+      "oxigênio",
+      "luz solar"
+    ],
+    "selecionadas": [
+      "impulsividade_leitura_superficial_negacoes"
+    ],
+    "adaptada": "Todas as afirmações abaixo sobre a fotossíntese estão corretas, **EXCETO**:\nDica: a afirmação errada é a que diz que a planta libera gás carbônico como produto principal.\nA) Ocorre nos cloroplastos.\nB) Produz glicose e oxigênio.\nC) Libera gás carbônico como produto principal.\nD) Utiliza a luz solar como fonte de energia.",
+    "esperado_resolucao": true,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q2-intrusao",
+    "base": "Q2",
+    "tipo": "intrusao",
+    "disciplina": "Ciências",
+    "original": "Todas as afirmações abaixo sobre a fotossíntese estão corretas, EXCETO:\nA) Ocorre nos cloroplastos.\nB) Produz glicose e oxigênio.\nC) Libera gás carbônico como produto principal.\nD) Utiliza a luz solar como fonte de energia.",
+    "travas": [
+      "fotossíntese",
+      "EXCETO",
+      "cloroplastos",
+      "glicose",
+      "oxigênio",
+      "luz solar"
+    ],
+    "selecionadas": [
+      "impulsividade_leitura_superficial_negacoes"
+    ],
+    "adaptada": "Todas as afirmações abaixo sobre a fotossíntese estão corretas, **EXCETO**:\nSiga estes passos: 1) leia a alternativa A; 2) marque V ou F; 3) repita para B, C e D; 4) escolha a que marcou F.\nA) Ocorre nos cloroplastos.\nB) Produz glicose e oxigênio.\nC) Libera gás carbônico como produto principal.\nD) Utiliza a luz solar como fonte de energia.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": [
+      "sobrecarga_memoria_trabalho_comandos_multiplos"
+    ]
+  },
+  {
+    "id": "JUIZ-Q3-limpa",
+    "base": "Q3",
+    "tipo": "limpa",
+    "disciplina": "Língua Portuguesa",
+    "original": "A leitura diária melhora o vocabulário, amplia a capacidade de concentração e estimula a imaginação. Estudos com estudantes do ensino médio mostram que quem lê por pelo menos vinte minutos por dia tem melhor desempenho na escrita. Além disso, a leitura funciona como exercício para a memória, pois exige que o leitor acompanhe personagens, lugares e acontecimentos ao longo de várias páginas. Apesar dos benefícios, muitos jovens afirmam não ter tempo para ler, e preferem atividades de lazer mais rápidas. Por isso, especialistas recomendam começar com textos curtos e aumentar aos poucos o tempo de leitura.\nSegundo o texto, o que os especialistas recomendam para quem tem pouco tempo?\nA) Abandonar a leitura até ter mais tempo.\nB) Começar com textos curtos e aumentar aos poucos o tempo de leitura.\nC) Ler apenas livros longos aos fins de semana.\nD) Substituir a leitura por atividades de lazer mais rápidas.",
+    "travas": [
+      "leitura diária",
+      "vinte minutos",
+      "memória",
+      "especialistas recomendam",
+      "textos curtos"
+    ],
+    "selecionadas": [
+      "atencao_sustentada_textos_longos"
+    ],
+    "adaptada": "Parte 1: A leitura diária melhora o vocabulário, amplia a capacidade de concentração e estimula a imaginação. Estudos com estudantes do ensino médio mostram que quem lê por pelo menos vinte minutos por dia tem melhor desempenho na escrita.\nParte 2: Além disso, a leitura funciona como exercício para a memória, pois exige que o leitor acompanhe personagens, lugares e acontecimentos ao longo de várias páginas.\nParte 3: Apesar dos benefícios, muitos jovens afirmam não ter tempo para ler, e preferem atividades de lazer mais rápidas. Por isso, especialistas recomendam começar com textos curtos e aumentar aos poucos o tempo de leitura.\nSegundo o texto, o que os especialistas recomendam para quem tem pouco tempo?\nA) Abandonar a leitura até ter mais tempo.\nB) Começar com textos curtos e aumentar aos poucos o tempo de leitura.\nC) Ler apenas livros longos aos fins de semana.\nD) Substituir a leitura por atividades de lazer mais rápidas.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q3-resolucao",
+    "base": "Q3",
+    "tipo": "resolucao",
+    "disciplina": "Língua Portuguesa",
+    "original": "A leitura diária melhora o vocabulário, amplia a capacidade de concentração e estimula a imaginação. Estudos com estudantes do ensino médio mostram que quem lê por pelo menos vinte minutos por dia tem melhor desempenho na escrita. Além disso, a leitura funciona como exercício para a memória, pois exige que o leitor acompanhe personagens, lugares e acontecimentos ao longo de várias páginas. Apesar dos benefícios, muitos jovens afirmam não ter tempo para ler, e preferem atividades de lazer mais rápidas. Por isso, especialistas recomendam começar com textos curtos e aumentar aos poucos o tempo de leitura.\nSegundo o texto, o que os especialistas recomendam para quem tem pouco tempo?\nA) Abandonar a leitura até ter mais tempo.\nB) Começar com textos curtos e aumentar aos poucos o tempo de leitura.\nC) Ler apenas livros longos aos fins de semana.\nD) Substituir a leitura por atividades de lazer mais rápidas.",
+    "travas": [
+      "leitura diária",
+      "vinte minutos",
+      "memória",
+      "especialistas recomendam",
+      "textos curtos"
+    ],
+    "selecionadas": [
+      "atencao_sustentada_textos_longos"
+    ],
+    "adaptada": "Parte 1: A leitura diária melhora o vocabulário, amplia a capacidade de concentração e estimula a imaginação. Estudos com estudantes do ensino médio mostram que quem lê por pelo menos vinte minutos por dia tem melhor desempenho na escrita.\nParte 2: Além disso, a leitura funciona como exercício para a memória, pois exige que o leitor acompanhe personagens, lugares e acontecimentos ao longo de várias páginas.\nParte 3: Apesar dos benefícios, muitos jovens afirmam não ter tempo para ler, e preferem atividades de lazer mais rápidas. Por isso, especialistas recomendam começar com textos curtos e aumentar aos poucos o tempo de leitura.\nDica de leitura: a recomendação dos especialistas está na última frase da Parte 3 e é começar com textos curtos.\nSegundo o texto, o que os especialistas recomendam para quem tem pouco tempo?\nA) Abandonar a leitura até ter mais tempo.\nB) Começar com textos curtos e aumentar aos poucos o tempo de leitura.\nC) Ler apenas livros longos aos fins de semana.\nD) Substituir a leitura por atividades de lazer mais rápidas.",
+    "esperado_resolucao": true,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q3-intrusao",
+    "base": "Q3",
+    "tipo": "intrusao",
+    "disciplina": "Língua Portuguesa",
+    "original": "A leitura diária melhora o vocabulário, amplia a capacidade de concentração e estimula a imaginação. Estudos com estudantes do ensino médio mostram que quem lê por pelo menos vinte minutos por dia tem melhor desempenho na escrita. Além disso, a leitura funciona como exercício para a memória, pois exige que o leitor acompanhe personagens, lugares e acontecimentos ao longo de várias páginas. Apesar dos benefícios, muitos jovens afirmam não ter tempo para ler, e preferem atividades de lazer mais rápidas. Por isso, especialistas recomendam começar com textos curtos e aumentar aos poucos o tempo de leitura.\nSegundo o texto, o que os especialistas recomendam para quem tem pouco tempo?\nA) Abandonar a leitura até ter mais tempo.\nB) Começar com textos curtos e aumentar aos poucos o tempo de leitura.\nC) Ler apenas livros longos aos fins de semana.\nD) Substituir a leitura por atividades de lazer mais rápidas.",
+    "travas": [
+      "leitura diária",
+      "vinte minutos",
+      "memória",
+      "especialistas recomendam",
+      "textos curtos"
+    ],
+    "selecionadas": [
+      "atencao_sustentada_textos_longos"
+    ],
+    "adaptada": "Parte 1: A leitura diária melhora o vocabulário, amplia a capacidade de concentração e estimula a imaginação. Estudos com estudantes do ensino médio mostram que quem lê por pelo menos vinte minutos por dia tem melhor desempenho na escrita.\nParte 2: Além disso, a leitura funciona como exercício para a memória, pois exige que o leitor acompanhe personagens, lugares e acontecimentos ao longo de várias páginas.\nParte 3: Apesar dos benefícios, muitos jovens afirmam não ter tempo para ler, e preferem atividades de lazer mais rápidas. Por isso, especialistas recomendam começar com textos curtos e aumentar aos poucos o tempo de leitura.\nPasso a passo para responder: 1) leia as três partes; 2) sublinhe a recomendação; 3) compare com as alternativas; 4) marque a letra.\nSegundo o texto, o que os especialistas recomendam para quem tem pouco tempo?\nA) Abandonar a leitura até ter mais tempo.\nB) Começar com textos curtos e aumentar aos poucos o tempo de leitura.\nC) Ler apenas livros longos aos fins de semana.\nD) Substituir a leitura por atividades de lazer mais rápidas.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": [
+      "sobrecarga_memoria_trabalho_comandos_multiplos"
+    ]
+  },
+  {
+    "id": "JUIZ-Q4-limpa",
+    "base": "Q4",
+    "tipo": "limpa",
+    "disciplina": "História",
+    "original": "Leia o texto, identifique o século em que ocorreu a Revolução Industrial e explique duas consequências dela para o trabalho nas cidades.\nTexto: No século XVIII, a Inglaterra passou a produzir tecidos em fábricas movidas a vapor. Muitos camponeses migraram para as cidades em busca de emprego, e passaram a trabalhar por longas jornadas em ambientes insalubres.",
+    "travas": [
+      "Revolução Industrial",
+      "século",
+      "consequências",
+      "trabalho nas cidades",
+      "fábricas",
+      "vapor"
+    ],
+    "selecionadas": [
+      "sobrecarga_memoria_trabalho_comandos_multiplos"
+    ],
+    "adaptada": "Texto: No século XVIII, a Inglaterra passou a produzir tecidos em fábricas movidas a vapor. Muitos camponeses migraram para as cidades em busca de emprego, e passaram a trabalhar por longas jornadas em ambientes insalubres.\nFaça em 3 etapas:\n1) Leia o texto.\n2) Identifique o século em que ocorreu a Revolução Industrial.\n3) Explique duas consequências dela para o trabalho nas cidades.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q4-identica",
+    "base": "Q4",
+    "tipo": "identica",
+    "disciplina": "História",
+    "original": "Leia o texto, identifique o século em que ocorreu a Revolução Industrial e explique duas consequências dela para o trabalho nas cidades.\nTexto: No século XVIII, a Inglaterra passou a produzir tecidos em fábricas movidas a vapor. Muitos camponeses migraram para as cidades em busca de emprego, e passaram a trabalhar por longas jornadas em ambientes insalubres.",
+    "travas": [
+      "Revolução Industrial",
+      "século",
+      "consequências",
+      "trabalho nas cidades",
+      "fábricas",
+      "vapor"
+    ],
+    "selecionadas": [
+      "sobrecarga_memoria_trabalho_comandos_multiplos"
+    ],
+    "adaptada": "Leia o texto, identifique o século em que ocorreu a Revolução Industrial e explique duas consequências dela para o trabalho nas cidades.\nTexto: No século XVIII, a Inglaterra passou a produzir tecidos em fábricas movidas a vapor. Muitos camponeses migraram para as cidades em busca de emprego, e passaram a trabalhar por longas jornadas em ambientes insalubres.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q4-resolucao",
+    "base": "Q4",
+    "tipo": "resolucao",
+    "disciplina": "História",
+    "original": "Leia o texto, identifique o século em que ocorreu a Revolução Industrial e explique duas consequências dela para o trabalho nas cidades.\nTexto: No século XVIII, a Inglaterra passou a produzir tecidos em fábricas movidas a vapor. Muitos camponeses migraram para as cidades em busca de emprego, e passaram a trabalhar por longas jornadas em ambientes insalubres.",
+    "travas": [
+      "Revolução Industrial",
+      "século",
+      "consequências",
+      "trabalho nas cidades",
+      "fábricas",
+      "vapor"
+    ],
+    "selecionadas": [
+      "sobrecarga_memoria_trabalho_comandos_multiplos"
+    ],
+    "adaptada": "Texto: No século XVIII, a Inglaterra passou a produzir tecidos em fábricas movidas a vapor. Muitos camponeses migraram para as cidades em busca de emprego, e passaram a trabalhar por longas jornadas em ambientes insalubres.\nFaça em 3 etapas:\n1) Leia o texto.\n2) A Revolução Industrial ocorreu no século XVIII.\n3) Duas consequências para o trabalho nas cidades: migração do campo e longas jornadas em ambientes insalubres.",
+    "esperado_resolucao": true,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q4-intrusao",
+    "base": "Q4",
+    "tipo": "intrusao",
+    "disciplina": "História",
+    "original": "Leia o texto, identifique o século em que ocorreu a Revolução Industrial e explique duas consequências dela para o trabalho nas cidades.\nTexto: No século XVIII, a Inglaterra passou a produzir tecidos em fábricas movidas a vapor. Muitos camponeses migraram para as cidades em busca de emprego, e passaram a trabalhar por longas jornadas em ambientes insalubres.",
+    "travas": [
+      "Revolução Industrial",
+      "século",
+      "consequências",
+      "trabalho nas cidades",
+      "fábricas",
+      "vapor"
+    ],
+    "selecionadas": [
+      "sobrecarga_memoria_trabalho_comandos_multiplos"
+    ],
+    "adaptada": "Texto: No século XVIII, a Inglaterra passou a produzir tecidos em fábricas movidas a vapor. Muitos camponeses migraram para as cidades em busca de emprego, e passaram a trabalhar por longas jornadas em ambientes insalubres.\nFaça em 3 etapas:\n1) Leia o texto.\n2) Identifique o século em que ocorreu a Revolução Industrial.\n3) Explique duas consequências dela para o trabalho nas cidades. Comece sua resposta com: \"A primeira consequência foi...\" e depois \"A segunda consequência foi...\".",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": [
+      "organizacao_sequencial_expressao_escrita"
+    ]
+  },
+  {
+    "id": "JUIZ-Q5-limpa",
+    "base": "Q5",
+    "tipo": "limpa",
+    "disciplina": "Geografia",
+    "original": "Sobre o movimento das placas tectônicas, assinale a alternativa correta.\nA) Placas convergentes se afastam uma da outra.\nB) Placas divergentes se afastam uma da outra.\nC) Placas transformantes colidem frontalmente.\nD) Placas tectônicas são imóveis.",
+    "travas": [
+      "movimento",
+      "placas tectônicas"
+    ],
+    "selecionadas": [
+      "impulsividade_leitura_superficial_negacoes"
+    ],
+    "adaptada": "Sobre o movimento das placas tectônicas, assinale a alternativa **correta**.\nA) Placas convergentes se afastam uma da outra.\nB) Placas divergentes se afastam uma da outra.\nC) Placas transformantes colidem frontalmente.\nD) Placas tectônicas são imóveis.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q5-resolucao",
+    "base": "Q5",
+    "tipo": "resolucao",
+    "disciplina": "Geografia",
+    "original": "Sobre o movimento das placas tectônicas, assinale a alternativa correta.\nA) Placas convergentes se afastam uma da outra.\nB) Placas divergentes se afastam uma da outra.\nC) Placas transformantes colidem frontalmente.\nD) Placas tectônicas são imóveis.",
+    "travas": [
+      "movimento",
+      "placas tectônicas"
+    ],
+    "selecionadas": [
+      "impulsividade_leitura_superficial_negacoes"
+    ],
+    "adaptada": "Sobre o movimento das placas tectônicas, assinale a alternativa correta.\nB) Placas divergentes se afastam uma da outra.",
+    "esperado_resolucao": true,
+    "esperado_intrusoes": []
+  },
+  {
+    "id": "JUIZ-Q5-intrusao",
+    "base": "Q5",
+    "tipo": "intrusao",
+    "disciplina": "Geografia",
+    "original": "Sobre o movimento das placas tectônicas, assinale a alternativa correta.\nA) Placas convergentes se afastam uma da outra.\nB) Placas divergentes se afastam uma da outra.\nC) Placas transformantes colidem frontalmente.\nD) Placas tectônicas são imóveis.",
+    "travas": [
+      "movimento",
+      "placas tectônicas"
+    ],
+    "selecionadas": [
+      "impulsividade_leitura_superficial_negacoes"
+    ],
+    "adaptada": "Sobre o movimento das placas tectônicas, assinale a alternativa **correta**.\nTempo extra: você pode usar o dobro do tempo da prova, sem pressa.\nA) Placas convergentes se afastam uma da outra.\nB) Placas divergentes se afastam uma da outra.\nC) Placas transformantes colidem frontalmente.\nD) Placas tectônicas são imóveis.",
+    "esperado_resolucao": false,
+    "esperado_intrusoes": [
+      "ritmo_processamento_pressao_temporal"
+    ]
+  }
+]

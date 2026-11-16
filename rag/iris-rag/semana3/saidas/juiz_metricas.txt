@@ -1,0 +1,464 @@
+SEMANA 3 - MÉTRICAS DO JUIZ (Claude Opus; juiz NÃO validado por pessoa)
+gerado em 2026-11-13T11:19:48+00:00 | commit 733e270-modificado
+
+Cobertura do julgamento (respostas por condição, já expandidas pelas repetições):
+  julgada|A|gpt-oss-20b: 120
+  julgada|A|llama3.1-8b: 120
+  julgada|B50|busca-top1: 40
+  julgada|B50|busca-top3: 40
+  julgada|B|busca-top1: 40
+  julgada|B|busca-top3: 40
+  julgada|C50|llama3.1-8b: 120
+  julgada|C|gpt-oss-20b: 120
+  julgada|C|llama3.1-8b: 120
+  julgada|D|llama3.1-8b|completo: 90
+  julgada|D|llama3.1-8b|sem_rag: 90
+  julgada|NA|llama3.1-8b: 6
+  julgada|NC50|llama3.1-8b: 21
+  julgada|NC|llama3.1-8b: 24
+
+Respostas ao professor, por condição; [média entre perguntas, IC95 inferior, superior]:
+  A|gpt-oss-20b  respostas=120 perguntas=40 frases=32/688 contradizem=51 útil={'não': 42, 'parcial': 40, 'sim': 38}
+      fidelidade                 0.045 [0.021, 0.072]  n=40  por documento 0.045 [0.021, 0.077]
+          factual        0.028 [0.008, 0.052]  n=14
+          sintese        0.046 [0.015, 0.084]  n=24
+          fora_da_base   0.167 [0.000, 0.333]  n=2
+      fidelidade_sem_abstencao   0.045 [0.021, 0.072]  n=40  por documento 0.045 [0.021, 0.077]
+          factual        0.028 [0.008, 0.052]  n=14
+          sintese        0.046 [0.015, 0.084]  n=24
+          fora_da_base   0.167 [0.000, 0.333]  n=2
+      util_sim                   0.317 [0.183, 0.458]  n=40  por documento 0.317 [0.125, 0.446]
+          factual        0.071 [0.000, 0.191]  n=14
+          sintese        0.486 [0.306, 0.681]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      util_sim_ou_parcial        0.650 [0.508, 0.792]  n=40  por documento 0.650 [0.469, 0.786]
+          factual        0.619 [0.381, 0.833]  n=14
+          sintese        0.681 [0.500, 0.861]  n=24
+          fora_da_base   0.500 [0.000, 1.000]  n=2
+      inventou                   0.950 [0.883, 0.992]  n=40  por documento 0.950 [0.879, 0.992]
+          factual        1.000 [1.000, 1.000]  n=14
+          sintese        0.917 [0.819, 0.986]  n=24
+          fora_da_base   1.000 [1.000, 1.000]  n=2
+      absteve_juiz               0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      tem_frase_que_contradiz    0.325 [0.192, 0.467]  n=40  por documento 0.325 [0.164, 0.544]
+          factual        0.357 [0.143, 0.571]  n=14
+          sintese        0.333 [0.167, 0.542]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+  A|llama3.1-8b  respostas=120 perguntas=40 frases=96/345 contradizem=44 útil={'parcial': 42, 'não': 59, 'sim': 19}
+      fidelidade                 0.443 [0.309, 0.581]  n=40  por documento 0.443 [0.306, 0.627]
+          factual        0.510 [0.286, 0.760]  n=14
+          sintese        0.357 [0.195, 0.528]  n=24
+          fora_da_base   1.000 [1.000, 1.000]  n=2
+      fidelidade_sem_abstencao   0.143 [0.070, 0.225]  n=26  por documento 0.143 [0.082, 0.214]
+          factual        0.143 [0.032, 0.269]  n=8
+          sintese        0.143 [0.056, 0.236]  n=18
+      util_sim                   0.158 [0.058, 0.275]  n=40  por documento 0.158 [0.032, 0.254]
+          factual        0.071 [0.000, 0.214]  n=14
+          sintese        0.222 [0.069, 0.389]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      util_sim_ou_parcial        0.508 [0.358, 0.658]  n=40  por documento 0.508 [0.290, 0.667]
+          factual        0.476 [0.214, 0.738]  n=14
+          sintese        0.569 [0.361, 0.764]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      inventou                   0.317 [0.175, 0.458]  n=40  por documento 0.317 [0.176, 0.436]
+          factual        0.333 [0.119, 0.571]  n=14
+          sintese        0.333 [0.167, 0.514]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      absteve_juiz               0.350 [0.200, 0.500]  n=40  por documento 0.350 [0.196, 0.559]
+          factual        0.429 [0.214, 0.714]  n=14
+          sintese        0.250 [0.083, 0.458]  n=24
+          fora_da_base   1.000 [1.000, 1.000]  n=2
+      tem_frase_que_contradiz    0.217 [0.100, 0.350]  n=40  por documento 0.217 [0.118, 0.316]
+          factual        0.119 [0.000, 0.309]  n=14
+          sintese        0.292 [0.125, 0.458]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+  B50|busca-top1  respostas=40 perguntas=40 frases=0/0 contradizem=0 útil={'não': 12, 'sim': 9, 'parcial': 19}
+      fidelidade                 n/d  n=0  por documento n/d
+      fidelidade_sem_abstencao   n/d  n=0  por documento n/d
+      util_sim                   0.225 [0.100, 0.350]  n=40  por documento 0.225 [0.109, 0.407]
+          factual        0.286 [0.071, 0.571]  n=14
+          sintese        0.208 [0.042, 0.375]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      util_sim_ou_parcial        0.700 [0.550, 0.825]  n=40  por documento 0.700 [0.561, 0.839]
+          factual        0.786 [0.571, 1.000]  n=14
+          sintese        0.708 [0.542, 0.875]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      inventou                   0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      absteve_juiz               0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      tem_frase_que_contradiz    n/d  n=0  por documento n/d
+  B50|busca-top3  respostas=40 perguntas=40 frases=0/0 contradizem=0 útil={'sim': 21, 'parcial': 15, 'não': 4}
+      fidelidade                 n/d  n=0  por documento n/d
+      fidelidade_sem_abstencao   n/d  n=0  por documento n/d
+      util_sim                   0.525 [0.375, 0.675]  n=40  por documento 0.525 [0.396, 0.684]
+          factual        0.571 [0.286, 0.786]  n=14
+          sintese        0.542 [0.333, 0.750]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      util_sim_ou_parcial        0.900 [0.800, 0.975]  n=40  por documento 0.900 [0.778, 1.000]
+          factual        1.000 [1.000, 1.000]  n=14
+          sintese        0.917 [0.792, 1.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      inventou                   0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      absteve_juiz               0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      tem_frase_que_contradiz    n/d  n=0  por documento n/d
+  B|busca-top1  respostas=40 perguntas=40 frases=0/0 contradizem=0 útil={'parcial': 21, 'não': 12, 'sim': 7}
+      fidelidade                 n/d  n=0  por documento n/d
+      fidelidade_sem_abstencao   n/d  n=0  por documento n/d
+      util_sim                   0.175 [0.075, 0.300]  n=40  por documento 0.175 [0.065, 0.308]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.292 [0.125, 0.458]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      util_sim_ou_parcial        0.700 [0.550, 0.825]  n=40  por documento 0.700 [0.535, 0.842]
+          factual        0.714 [0.500, 0.929]  n=14
+          sintese        0.750 [0.542, 0.917]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      inventou                   0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      absteve_juiz               0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      tem_frase_que_contradiz    n/d  n=0  por documento n/d
+  B|busca-top3  respostas=40 perguntas=40 frases=0/0 contradizem=0 útil={'parcial': 21, 'sim': 13, 'não': 6}
+      fidelidade                 n/d  n=0  por documento n/d
+      fidelidade_sem_abstencao   n/d  n=0  por documento n/d
+      util_sim                   0.325 [0.175, 0.475]  n=40  por documento 0.325 [0.172, 0.452]
+          factual        0.143 [0.000, 0.357]  n=14
+          sintese        0.458 [0.250, 0.667]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      util_sim_ou_parcial        0.850 [0.725, 0.950]  n=40  por documento 0.850 [0.735, 0.969]
+          factual        0.929 [0.786, 1.000]  n=14
+          sintese        0.875 [0.708, 1.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      inventou                   0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      absteve_juiz               0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      tem_frase_que_contradiz    n/d  n=0  por documento n/d
+  C50|llama3.1-8b  respostas=120 perguntas=40 frases=523/724 contradizem=30 útil={'parcial': 39, 'sim': 60, 'não': 21}
+      fidelidade                 0.789 [0.704, 0.865]  n=40  por documento 0.789 [0.685, 0.868]
+          factual        0.855 [0.763, 0.939]  n=14
+          sintese        0.765 [0.647, 0.864]  n=24
+          fora_da_base   0.611 [0.222, 1.000]  n=2
+      fidelidade_sem_abstencao   0.744 [0.653, 0.831]  n=33  por documento 0.744 [0.609, 0.836]
+          factual        0.815 [0.715, 0.912]  n=11
+          sintese        0.732 [0.597, 0.849]  n=21
+          fora_da_base   0.222 [0.222, 0.222]  n=1
+      util_sim                   0.500 [0.350, 0.650]  n=40  por documento 0.500 [0.366, 0.649]
+          factual        0.500 [0.214, 0.786]  n=14
+          sintese        0.542 [0.333, 0.750]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      util_sim_ou_parcial        0.825 [0.700, 0.925]  n=40  por documento 0.825 [0.667, 0.932]
+          factual        0.786 [0.571, 1.000]  n=14
+          sintese        0.875 [0.750, 1.000]  n=24
+          fora_da_base   0.500 [0.000, 1.000]  n=2
+      inventou                   0.050 [0.000, 0.125]  n=40  por documento 0.050 [0.000, 0.139]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.083 [0.000, 0.208]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      absteve_juiz               0.175 [0.075, 0.300]  n=40  por documento 0.175 [0.064, 0.333]
+          factual        0.214 [0.000, 0.429]  n=14
+          sintese        0.125 [0.000, 0.250]  n=24
+          fora_da_base   0.500 [0.000, 1.000]  n=2
+      tem_frase_que_contradiz    0.125 [0.025, 0.225]  n=40  por documento 0.125 [0.026, 0.270]
+          factual        0.214 [0.000, 0.429]  n=14
+          sintese        0.083 [0.000, 0.208]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+  C|gpt-oss-20b  respostas=120 perguntas=40 frases=343/608 contradizem=33 útil={'parcial': 14, 'sim': 96, 'não': 10}
+      fidelidade                 0.585 [0.501, 0.665]  n=40  por documento 0.585 [0.519, 0.670]
+          factual        0.643 [0.523, 0.762]  n=14
+          sintese        0.536 [0.418, 0.646]  n=24
+          fora_da_base   0.767 [0.533, 1.000]  n=2
+      fidelidade_sem_abstencao   0.562 [0.471, 0.652]  n=38  por documento 0.562 [0.491, 0.655]
+          factual        0.639 [0.509, 0.767]  n=13
+          sintese        0.522 [0.397, 0.638]  n=24
+          fora_da_base   0.533 [0.533, 0.533]  n=1
+      util_sim                   0.800 [0.667, 0.908]  n=40  por documento 0.800 [0.645, 0.907]
+          factual        0.762 [0.548, 0.952]  n=14
+          sintese        0.875 [0.708, 1.000]  n=24
+          fora_da_base   0.167 [0.000, 0.333]  n=2
+      util_sim_ou_parcial        0.917 [0.825, 0.992]  n=40  por documento 0.917 [0.813, 0.988]
+          factual        1.000 [1.000, 1.000]  n=14
+          sintese        0.903 [0.778, 1.000]  n=24
+          fora_da_base   0.500 [0.000, 1.000]  n=2
+      inventou                   0.108 [0.025, 0.208]  n=40  por documento 0.108 [0.032, 0.179]
+          factual        0.048 [0.000, 0.143]  n=14
+          sintese        0.153 [0.028, 0.292]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      absteve_juiz               0.058 [0.000, 0.133]  n=40  por documento 0.058 [0.000, 0.155]
+          factual        0.071 [0.000, 0.214]  n=14
+          sintese        0.014 [0.000, 0.042]  n=24
+          fora_da_base   0.500 [0.000, 1.000]  n=2
+      tem_frase_que_contradiz    0.208 [0.100, 0.342]  n=40  por documento 0.208 [0.111, 0.353]
+          factual        0.262 [0.071, 0.476]  n=14
+          sintese        0.194 [0.042, 0.361]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+  C|llama3.1-8b  respostas=120 perguntas=40 frases=448/599 contradizem=48 útil={'sim': 60, 'não': 18, 'parcial': 42}
+      fidelidade                 0.772 [0.688, 0.845]  n=40  por documento 0.772 [0.663, 0.845]
+          factual        0.702 [0.585, 0.819]  n=14
+          sintese        0.826 [0.730, 0.915]  n=24
+          fora_da_base   0.611 [0.222, 1.000]  n=2
+      fidelidade_sem_abstencao   0.741 [0.654, 0.829]  n=33  por documento 0.741 [0.600, 0.837]
+          factual        0.701 [0.565, 0.831]  n=12
+          sintese        0.792 [0.684, 0.896]  n=20
+          fora_da_base   0.222 [0.222, 0.222]  n=1
+      util_sim                   0.500 [0.350, 0.650]  n=40  por documento 0.500 [0.344, 0.628]
+          factual        0.286 [0.071, 0.571]  n=14
+          sintese        0.625 [0.417, 0.792]  n=24
+          fora_da_base   0.500 [0.000, 1.000]  n=2
+      util_sim_ou_parcial        0.850 [0.725, 0.950]  n=40  por documento 0.850 [0.704, 0.955]
+          factual        0.929 [0.786, 1.000]  n=14
+          sintese        0.833 [0.667, 0.958]  n=24
+          fora_da_base   0.500 [0.000, 1.000]  n=2
+      inventou                   0.000 [0.000, 0.000]  n=40  por documento 0.000 [0.000, 0.000]
+          factual        0.000 [0.000, 0.000]  n=14
+          sintese        0.000 [0.000, 0.000]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+      absteve_juiz               0.175 [0.050, 0.300]  n=40  por documento 0.175 [0.067, 0.342]
+          factual        0.143 [0.000, 0.357]  n=14
+          sintese        0.167 [0.042, 0.333]  n=24
+          fora_da_base   0.500 [0.000, 1.000]  n=2
+      tem_frase_que_contradiz    0.200 [0.100, 0.325]  n=40  por documento 0.200 [0.079, 0.379]
+          factual        0.357 [0.143, 0.643]  n=14
+          sintese        0.125 [0.000, 0.250]  n=24
+          fora_da_base   0.000 [0.000, 0.000]  n=2
+  NA|llama3.1-8b  respostas=6 perguntas=2 frases=0/26 contradizem=0 útil={'não': 3, 'sim': 3}
+      fidelidade                 0.000 [0.000, 0.000]  n=2  por documento 0.000 [0.000, 0.000]
+      fidelidade_sem_abstencao   0.000 [0.000, 0.000]  n=2  por documento 0.000 [0.000, 0.000]
+      util_sim                   0.500 [0.000, 1.000]  n=2  por documento 0.500 [0.500, 0.500]
+      util_sim_ou_parcial        0.500 [0.000, 1.000]  n=2  por documento 0.500 [0.500, 0.500]
+      inventou                   0.333 [0.000, 0.667]  n=2  por documento 0.333 [0.333, 0.333]
+      absteve_juiz               0.000 [0.000, 0.000]  n=2  por documento 0.000 [0.000, 0.000]
+      tem_frase_que_contradiz    0.000 [0.000, 0.000]  n=2  por documento 0.000 [0.000, 0.000]
+  NC50|llama3.1-8b  respostas=21 perguntas=7 frases=63/120 contradizem=3 útil={'não': 15, 'parcial': 6}
+      fidelidade                 0.619 [0.333, 0.869]  n=7  por documento 0.619 [0.619, 0.619]
+      fidelidade_sem_abstencao   0.467 [0.183, 0.817]  n=5  por documento 0.467 [0.467, 0.467]
+      util_sim                   0.000 [0.000, 0.000]  n=7  por documento 0.000 [0.000, 0.000]
+      util_sim_ou_parcial        0.286 [0.000, 0.571]  n=7  por documento 0.286 [0.286, 0.286]
+      inventou                   0.143 [0.000, 0.429]  n=7  por documento 0.143 [0.143, 0.143]
+      absteve_juiz               0.286 [0.000, 0.571]  n=7  por documento 0.286 [0.286, 0.286]
+      tem_frase_que_contradiz    0.143 [0.000, 0.429]  n=7  por documento 0.143 [0.143, 0.143]
+  NC|llama3.1-8b  respostas=24 perguntas=8 frases=48/191 contradizem=0 útil={'não': 12, 'parcial': 12}
+      fidelidade                 0.205 [0.092, 0.334]  n=8  por documento 0.205 [0.205, 0.205]
+      fidelidade_sem_abstencao   0.205 [0.092, 0.334]  n=8  por documento 0.205 [0.205, 0.205]
+      util_sim                   0.000 [0.000, 0.000]  n=8  por documento 0.000 [0.000, 0.000]
+      util_sim_ou_parcial        0.500 [0.125, 0.875]  n=8  por documento 0.500 [0.500, 0.500]
+      inventou                   0.500 [0.125, 0.875]  n=8  por documento 0.500 [0.500, 0.500]
+      absteve_juiz               0.000 [0.000, 0.000]  n=8  por documento 0.000 [0.000, 0.000]
+      tem_frase_que_contradiz    0.000 [0.000, 0.000]  n=8  por documento 0.000 [0.000, 0.000]
+
+Diferenças pareadas por pergunta (segundo - primeiro):
+  C - A|gpt-oss-20b
+      fidelidade                 n=40 dif=0.539 [0.460, 0.621] por documento 0.539 [0.480, 0.612] Wilcoxon p=0.0 melhoraram=39 pioraram=0
+          factual        n=14 dif=0.615 [0.503, 0.723] p=0.001
+          sintese        n=24 dif=0.490 [0.382, 0.600] p=0.0
+          fora_da_base   n=2 dif=0.600 [0.533, 0.667] p=0.5
+      fidelidade_sem_abstencao   n=38 dif=0.526 [0.441, 0.614] por documento 0.526 [0.458, 0.604] Wilcoxon p=0.0 melhoraram=36 pioraram=0
+          factual        n=13 dif=0.618 [0.494, 0.738] p=0.0002
+          sintese        n=24 dif=0.476 [0.359, 0.593] p=0.0
+          fora_da_base   n=1 dif=0.533 [0.533, 0.533] p=1.0
+      util_sim                   n=40 dif=0.483 [0.333, 0.633] por documento 0.483 [0.368, 0.667] Wilcoxon p=0.0 melhoraram=23 pioraram=0
+          factual        n=14 dif=0.691 [0.452, 0.905] p=0.0023
+          sintese        n=24 dif=0.389 [0.208, 0.569] p=0.0015
+          fora_da_base   n=2 dif=0.167 [0.000, 0.333] p=1.0
+      util_sim_ou_parcial        n=40 dif=0.267 [0.142, 0.400] por documento 0.267 [0.160, 0.425] Wilcoxon p=0.001 melhoraram=13 pioraram=0
+          factual        n=14 dif=0.381 [0.167, 0.619] p=0.0158
+          sintese        n=24 dif=0.222 [0.083, 0.389] p=0.0196
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+      inventou                   n=40 dif=-0.842 [-0.933, -0.733] por documento -0.842 [-0.930, -0.758] Wilcoxon p=0.0 melhoraram=0 pioraram=36
+          factual        n=14 dif=-0.952 [-1.000, -0.857] p=0.0003
+          sintese        n=24 dif=-0.764 [-0.903, -0.597] p=0.0
+          fora_da_base   n=2 dif=-1.000 [-1.000, -1.000] p=0.5
+      absteve_juiz               n=40 dif=0.058 [0.000, 0.133] por documento 0.058 [0.000, 0.139] Wilcoxon p=0.1025 melhoraram=3 pioraram=0
+          factual        n=14 dif=0.071 [0.000, 0.214] p=0.3173
+          sintese        n=24 dif=0.014 [0.000, 0.042] p=0.3173
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      tem_frase_que_contradiz    n=40 dif=-0.117 [-0.283, 0.042] por documento -0.117 [-0.312, 0.035] Wilcoxon p=0.1659 melhoraram=5 pioraram=11
+          factual        n=14 dif=-0.095 [-0.452, 0.262] p=0.6493
+          sintese        n=24 dif=-0.139 [-0.306, 0.014] p=0.066
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+  C|gpt-oss-20b - B|busca-top1
+      util_sim                   n=40 dif=0.625 [0.475, 0.767] por documento 0.625 [0.465, 0.763] Wilcoxon p=0.0 melhoraram=26 pioraram=0
+          factual        n=14 dif=0.762 [0.548, 0.929] p=0.0013
+          sintese        n=24 dif=0.583 [0.375, 0.750] p=0.0002
+          fora_da_base   n=2 dif=0.167 [0.000, 0.333] p=1.0
+      util_sim_ou_parcial        n=40 dif=0.217 [0.075, 0.367] por documento 0.217 [0.059, 0.367] Wilcoxon p=0.01 melhoraram=10 pioraram=1
+          factual        n=14 dif=0.286 [0.071, 0.571] p=0.0455
+          sintese        n=24 dif=0.153 [-0.014, 0.333] p=0.1486
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      inventou                   n=40 dif=0.108 [0.025, 0.208] por documento 0.108 [0.033, 0.182] Wilcoxon p=0.0384 melhoraram=5 pioraram=0
+          factual        n=14 dif=0.048 [0.000, 0.143] p=0.3173
+          sintese        n=24 dif=0.153 [0.042, 0.306] p=0.0588
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+  A|gpt-oss-20b - B|busca-top1
+      util_sim                   n=40 dif=0.142 [-0.017, 0.300] por documento 0.142 [-0.075, 0.286] Wilcoxon p=0.1292 melhoraram=11 pioraram=5
+          factual        n=14 dif=0.071 [0.000, 0.191] p=0.1797
+          sintese        n=24 dif=0.194 [-0.069, 0.444] p=0.1688
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+      util_sim_ou_parcial        n=40 dif=-0.050 [-0.267, 0.175] por documento -0.050 [-0.314, 0.158] Wilcoxon p=0.7195 melhoraram=10 pioraram=13
+          factual        n=14 dif=-0.095 [-0.500, 0.309] p=0.7805
+          sintese        n=24 dif=-0.069 [-0.333, 0.208] p=0.5598
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      inventou                   n=40 dif=0.950 [0.883, 0.992] por documento 0.950 [0.882, 0.991] Wilcoxon p=0.0 melhoraram=39 pioraram=0
+          factual        n=14 dif=1.000 [1.000, 1.000] p=0.0002
+          sintese        n=24 dif=0.917 [0.806, 0.986] p=0.0
+          fora_da_base   n=2 dif=1.000 [1.000, 1.000] p=0.5
+  C|gpt-oss-20b - B|busca-top3
+      util_sim                   n=40 dif=0.475 [0.317, 0.642] por documento 0.475 [0.298, 0.654] Wilcoxon p=0.0 melhoraram=21 pioraram=1
+          factual        n=14 dif=0.619 [0.357, 0.833] p=0.0039
+          sintese        n=24 dif=0.417 [0.208, 0.625] p=0.0039
+          fora_da_base   n=2 dif=0.167 [0.000, 0.333] p=1.0
+      util_sim_ou_parcial        n=40 dif=0.067 [-0.050, 0.183] por documento 0.067 [-0.088, 0.175] Wilcoxon p=0.3663 melhoraram=5 pioraram=2
+          factual        n=14 dif=0.071 [0.000, 0.214] p=0.3173
+          sintese        n=24 dif=0.028 [-0.139, 0.194] p=0.8875
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      inventou                   n=40 dif=0.108 [0.025, 0.208] por documento 0.108 [0.033, 0.182] Wilcoxon p=0.0384 melhoraram=5 pioraram=0
+          factual        n=14 dif=0.048 [0.000, 0.143] p=0.3173
+          sintese        n=24 dif=0.153 [0.042, 0.306] p=0.0588
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+  A|gpt-oss-20b - B|busca-top3
+      util_sim                   n=40 dif=-0.008 [-0.208, 0.192] por documento -0.008 [-0.222, 0.135] Wilcoxon p=0.5201 melhoraram=11 pioraram=9
+          factual        n=14 dif=-0.071 [-0.286, 0.119] p=0.4615
+          sintese        n=24 dif=0.028 [-0.278, 0.319] p=0.7645
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+      util_sim_ou_parcial        n=40 dif=-0.200 [-0.383, -0.025] por documento -0.200 [-0.458, -0.016] Wilcoxon p=0.0493 melhoraram=5 pioraram=14
+          factual        n=14 dif=-0.309 [-0.595, -0.024] p=0.0845
+          sintese        n=24 dif=-0.194 [-0.417, 0.042] p=0.1077
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      inventou                   n=40 dif=0.950 [0.883, 0.992] por documento 0.950 [0.882, 0.991] Wilcoxon p=0.0 melhoraram=39 pioraram=0
+          factual        n=14 dif=1.000 [1.000, 1.000] p=0.0002
+          sintese        n=24 dif=0.917 [0.806, 0.986] p=0.0
+          fora_da_base   n=2 dif=1.000 [1.000, 1.000] p=0.5
+  C - A|llama3.1-8b
+      fidelidade                 n=40 dif=0.329 [0.152, 0.498] por documento 0.329 [0.073, 0.514] Wilcoxon p=0.0016 melhoraram=26 pioraram=10
+          factual        n=14 dif=0.191 [-0.089, 0.461] p=0.1955
+          sintese        n=24 dif=0.469 [0.246, 0.667] p=0.0015
+          fora_da_base   n=2 dif=-0.389 [-0.778, 0.000] p=1.0
+      fidelidade_sem_abstencao   n=22 dif=0.681 [0.576, 0.785] por documento 0.681 [0.538, 0.778] Wilcoxon p=0.0 melhoraram=22 pioraram=0
+          factual        n=7 dif=0.645 [0.451, 0.828] p=0.0156
+          sintese        n=15 dif=0.699 [0.573, 0.818] p=0.0006
+      util_sim                   n=40 dif=0.342 [0.192, 0.492] por documento 0.342 [0.226, 0.483] Wilcoxon p=0.0002 melhoraram=14 pioraram=1
+          factual        n=14 dif=0.214 [0.000, 0.429] p=0.0833
+          sintese        n=24 dif=0.403 [0.194, 0.611] p=0.0019
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      util_sim_ou_parcial        n=40 dif=0.342 [0.192, 0.500] por documento 0.342 [0.214, 0.516] Wilcoxon p=0.0002 melhoraram=15 pioraram=1
+          factual        n=14 dif=0.452 [0.214, 0.714] p=0.0114
+          sintese        n=24 dif=0.264 [0.056, 0.458] p=0.0104
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      inventou                   n=40 dif=-0.317 [-0.450, -0.183] por documento -0.317 [-0.428, -0.176] Wilcoxon p=0.0004 melhoraram=0 pioraram=15
+          factual        n=14 dif=-0.333 [-0.571, -0.119] p=0.0231
+          sintese        n=24 dif=-0.333 [-0.514, -0.167] p=0.005
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+      absteve_juiz               n=40 dif=-0.175 [-0.350, 0.000] por documento -0.175 [-0.375, 0.000] Wilcoxon p=0.0707 melhoraram=4 pioraram=11
+          factual        n=14 dif=-0.286 [-0.571, 0.000] p=0.1025
+          sintese        n=24 dif=-0.083 [-0.292, 0.167] p=0.4795
+          fora_da_base   n=2 dif=-0.500 [-1.000, 0.000] p=1.0
+      tem_frase_que_contradiz    n=40 dif=-0.017 [-0.200, 0.175] por documento -0.017 [-0.180, 0.226] Wilcoxon p=0.9749 melhoraram=7 pioraram=8
+          factual        n=14 dif=0.238 [-0.119, 0.571] p=0.1245
+          sintese        n=24 dif=-0.167 [-0.375, 0.042] p=0.1573
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+  C|llama3.1-8b - B|busca-top1
+      util_sim                   n=40 dif=0.325 [0.150, 0.500] por documento 0.325 [0.179, 0.431] Wilcoxon p=0.0008 melhoraram=14 pioraram=1
+          factual        n=14 dif=0.286 [0.071, 0.500] p=0.0455
+          sintese        n=24 dif=0.333 [0.125, 0.542] p=0.0114
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      util_sim_ou_parcial        n=40 dif=0.150 [0.000, 0.300] por documento 0.150 [-0.027, 0.300] Wilcoxon p=0.0578 melhoraram=8 pioraram=2
+          factual        n=14 dif=0.214 [0.000, 0.429] p=0.0833
+          sintese        n=24 dif=0.083 [-0.125, 0.292] p=0.4142
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      inventou                   n=40 dif=0.000 [0.000, 0.000] por documento 0.000 [0.000, 0.000] Wilcoxon p=1.0 melhoraram=0 pioraram=0
+          factual        n=14 dif=0.000 [0.000, 0.000] p=1.0
+          sintese        n=24 dif=0.000 [0.000, 0.000] p=1.0
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+  A|llama3.1-8b - B|busca-top1
+      util_sim                   n=40 dif=-0.017 [-0.200, 0.158] por documento -0.017 [-0.214, 0.114] Wilcoxon p=0.8084 melhoraram=7 pioraram=7
+          factual        n=14 dif=0.071 [0.000, 0.214] p=0.3173
+          sintese        n=24 dif=-0.069 [-0.361, 0.222] p=0.5903
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+      util_sim_ou_parcial        n=40 dif=-0.192 [-0.417, 0.033] por documento -0.192 [-0.458, 0.017] Wilcoxon p=0.0558 melhoraram=8 pioraram=15
+          factual        n=14 dif=-0.238 [-0.643, 0.143] p=0.1779
+          sintese        n=24 dif=-0.181 [-0.472, 0.125] p=0.1766
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+      inventou                   n=40 dif=0.317 [0.183, 0.450] por documento 0.317 [0.176, 0.428] Wilcoxon p=0.0004 melhoraram=15 pioraram=0
+          factual        n=14 dif=0.333 [0.119, 0.571] p=0.0231
+          sintese        n=24 dif=0.333 [0.167, 0.514] p=0.005
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+  C|llama3.1-8b - B|busca-top3
+      util_sim                   n=40 dif=0.175 [0.025, 0.325] por documento 0.175 [0.000, 0.312] Wilcoxon p=0.0348 melhoraram=9 pioraram=2
+          factual        n=14 dif=0.143 [0.000, 0.357] p=0.1573
+          sintese        n=24 dif=0.167 [-0.042, 0.375] p=0.1573
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      util_sim_ou_parcial        n=40 dif=0.000 [-0.125, 0.125] por documento 0.000 [-0.194, 0.130] Wilcoxon p=1.0 melhoraram=4 pioraram=4
+          factual        n=14 dif=0.000 [-0.214, 0.214] p=1.0
+          sintese        n=24 dif=-0.042 [-0.208, 0.125] p=0.6547
+          fora_da_base   n=2 dif=0.500 [0.000, 1.000] p=1.0
+      inventou                   n=40 dif=0.000 [0.000, 0.000] por documento 0.000 [0.000, 0.000] Wilcoxon p=1.0 melhoraram=0 pioraram=0
+          factual        n=14 dif=0.000 [0.000, 0.000] p=1.0
+          sintese        n=24 dif=0.000 [0.000, 0.000] p=1.0
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+  A|llama3.1-8b - B|busca-top3
+      util_sim                   n=40 dif=-0.167 [-0.350, 0.033] por documento -0.167 [-0.362, -0.016] Wilcoxon p=0.0943 melhoraram=6 pioraram=12
+          factual        n=14 dif=-0.071 [-0.286, 0.143] p=0.5637
+          sintese        n=24 dif=-0.236 [-0.514, 0.056] p=0.1161
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+      util_sim_ou_parcial        n=40 dif=-0.342 [-0.533, -0.142] por documento -0.342 [-0.611, -0.147] Wilcoxon p=0.0007 melhoraram=4 pioraram=17
+          factual        n=14 dif=-0.452 [-0.714, -0.167] p=0.0104
+          sintese        n=24 dif=-0.306 [-0.556, -0.042] p=0.0233
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+      inventou                   n=40 dif=0.317 [0.183, 0.450] por documento 0.317 [0.176, 0.428] Wilcoxon p=0.0004 melhoraram=15 pioraram=0
+          factual        n=14 dif=0.333 [0.119, 0.571] p=0.0231
+          sintese        n=24 dif=0.333 [0.167, 0.514] p=0.005
+          fora_da_base   n=2 dif=0.000 [0.000, 0.000] p=1.0
+
+Regra de decisão do Estrategista (PREREG):
+  gpt-oss-20b: vencedor = None (nenhuma condição passou nos dois portões)
+      A: {"portao_a_abstencao_q39_q40": "0/6", "portao_a_passa": false, "portao_b_latencia_p95_s": 1.86, "portao_b_passa": true, "fidelidade": [0.0454, 0.0214, 0.0725], "concorre": false}
+      C: {"portao_a_abstencao_q39_q40": "3/6", "portao_a_passa": false, "portao_b_latencia_p95_s": 16.56, "portao_b_passa": true, "fidelidade": [0.5848, 0.5012, 0.6651], "concorre": false}
+      B: {"portao_a_passa": false, "concorre": false, "motivo": "B sempre devolve trechos: não tem como se abster (PREREG); entra como referência de utilidade"}
+  llama3.1-8b: vencedor = A (única condição que passou nos portões)
+      A: {"portao_a_abstencao_q39_q40": "6/6", "portao_a_passa": true, "portao_b_latencia_p95_s": 1.6, "portao_b_passa": true, "fidelidade": [0.4431, 0.3093, 0.5813], "concorre": true}
+      C: {"portao_a_abstencao_q39_q40": "3/6", "portao_a_passa": false, "portao_b_latencia_p95_s": 16.3, "portao_b_passa": true, "fidelidade": [0.7719, 0.6879, 0.8446], "concorre": false}
+      B: {"portao_a_passa": false, "concorre": false, "motivo": "B sempre devolve trechos: não tem como se abster (PREREG); entra como referência de utilidade"}
+
+Hipóteses:
+  H1 (C mais sustentada que A): dif C - A na fidelidade = [0.3288, 0.1517, 0.4985]: confirmada
+  H2 (B menos útil que C), busca-top1: dif C - B em útil = [0.325, 0.15, 0.5]: confirmada
+  H2 (B menos útil que C), busca-top3: dif C - B em útil = [0.175, 0.025, 0.325]: confirmada
+  H3 (RAG não piora o Adaptador), métricas do grupo: limite inferior do IC de completo - sem_rag acima do limiar? {'trcc': True, 'cmd_conjugado_resolvido': True, 'flesch_depois': True}: confirmada
+  H3, juiz: 'entrega a resposta' em completo - sem_rag: [0.0, 0.0, 0.0]: o juiz não aponta mais entrega no completo
+  H4 (modelo maior não muda a decisão): vencedores por modelo: {'gpt-oss-20b': None, 'llama3.1-8b': 'A'}: não confirmada (a decisão continua com o Llama)
+
+D (adaptações), pelo juiz:
+  llama3.1-8b: 180 saídas julgadas
+      completo: {"saidas": 90, "reserva": 75, "util_contagem": {"não": 39, "sim": 39, "parcial": 12}, "util_sim": [0.4333, 0.2667, 0.6], "entrega_resposta": [0.0, 0.0, 0.0], "mudou_o_que_avalia": [0.0, 0.0, 0.0], "inventou": [0.0, 0.0, 0.0], "nivel_respeitado": [0.5333, 0.3333, 0.7]}
+      sem_rag: {"saidas": 90, "reserva": 75, "util_contagem": {"sim": 42, "parcial": 9, "não": 39}, "util_sim": [0.4667, 0.3, 0.6333], "entrega_resposta": [0.0, 0.0, 0.0], "mudou_o_que_avalia": [0.0, 0.0, 0.0], "inventou": [0.0, 0.0, 0.0], "nivel_respeitado": [0.5667, 0.4, 0.7333]}
+      completo|reserva: {"saidas": 75, "questoes": 25, "util_sim": 0.44, "entrega_resposta": 0.0, "mudou_o_que_avalia": 0.0, "inventou": 0.0, "nivel_respeitado": 0.56}
+      completo|adaptador_passou: {"saidas": 15, "questoes": 5, "util_sim": 0.4, "entrega_resposta": 0.0, "mudou_o_que_avalia": 0.0, "inventou": 0.0, "nivel_respeitado": 0.4}
+      sem_rag|reserva: {"saidas": 75, "questoes": 25, "util_sim": 0.44, "entrega_resposta": 0.0, "mudou_o_que_avalia": 0.0, "inventou": 0.0, "nivel_respeitado": 0.52}
+      sem_rag|adaptador_passou: {"saidas": 15, "questoes": 5, "util_sim": 0.6, "entrega_resposta": 0.0, "mudou_o_que_avalia": 0.0, "inventou": 0.0, "nivel_respeitado": 0.8}
+      completo - sem_rag util_sim               n=30 dif=-0.033 [-0.100, 0.000] p=0.3173
+      completo - sem_rag entrega_resposta       n=30 dif=0.000 [0.000, 0.000] p=1.0
+      completo - sem_rag mudou_o_que_avalia     n=30 dif=0.000 [0.000, 0.000] p=1.0
+      completo - sem_rag inventou               n=30 dif=0.000 [0.000, 0.000] p=1.0
+      completo - sem_rag nivel_respeitado       n=30 dif=-0.033 [-0.100, 0.000] p=0.3173
+      adaptador passou nas duas: {"pares_questao_rodada": 9, "questoes": ["Q12", "Q20", "Q25"], "por_rodada": {"1": 3, "2": 3, "3": 3}, "completo": {"util_sim": 0.3333, "entrega_resposta": 0.0, "mudou_o_que_avalia": 0.0, "inventou": 0.0, "nivel_respeitado": 0.3333}, "sem_rag": {"util_sim": 0.3333, "entrega_resposta": 0.0, "mudou_o_que_avalia": 0.0, "inventou": 0.0, "nivel_respeitado": 0.6667}, "aviso": "poucas questões: não sustenta conclusão"}

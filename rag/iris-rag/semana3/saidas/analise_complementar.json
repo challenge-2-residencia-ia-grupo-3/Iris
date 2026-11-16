@@ -1,0 +1,584 @@
+{
+  "busca_certa_x_errada": {
+    "C|llama3.1-8b": {
+      "perguntas_busca_certa": 29,
+      "perguntas_busca_errada": 9,
+      "ids_busca_errada": [
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q10",
+        "Q28",
+        "Q30",
+        "Q31",
+        "Q32"
+      ],
+      "campos": {
+        "fidelidade_sem_abstencao": {
+          "certa": [
+            0.7996,
+            0.7097,
+            0.8835
+          ],
+          "n_certa": 26,
+          "errada": [
+            0.5757,
+            0.4293,
+            0.75
+          ],
+          "n_errada": 6,
+          "dif_certa_menos_errada": [
+            0.2239,
+            0.0168,
+            0.3946
+          ]
+        },
+        "util_sim": {
+          "certa": [
+            0.6207,
+            0.4483,
+            0.7931
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.1111,
+            0.0,
+            0.3333
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            0.5096,
+            0.2184,
+            0.7586
+          ]
+        },
+        "util_sim_ou_parcial": {
+          "certa": [
+            0.8621,
+            0.7241,
+            0.9655
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.8889,
+            0.6667,
+            1.0
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            -0.0268,
+            -0.2414,
+            0.2299
+          ]
+        },
+        "inventou": {
+          "certa": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "tem_frase_que_contradiz": {
+          "certa": [
+            0.2069,
+            0.069,
+            0.3793
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.2222,
+            0.0,
+            0.5556
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            -0.0153,
+            -0.341,
+            0.2759
+          ]
+        },
+        "absteve_juiz": {
+          "certa": [
+            0.1034,
+            0.0,
+            0.2069
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.3333,
+            0.1111,
+            0.6667
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            -0.2299,
+            -0.5632,
+            0.069
+          ]
+        }
+      }
+    },
+    "C50|llama3.1-8b": {
+      "perguntas_busca_certa": 33,
+      "perguntas_busca_errada": 5,
+      "ids_busca_errada": [
+        "Q04",
+        "Q05",
+        "Q10",
+        "Q30",
+        "Q31"
+      ],
+      "campos": {
+        "fidelidade_sem_abstencao": {
+          "certa": [
+            0.7882,
+            0.6934,
+            0.8754
+          ],
+          "n_certa": 28,
+          "errada": [
+            0.5638,
+            0.3542,
+            0.7346
+          ],
+          "n_errada": 4,
+          "dif_certa_menos_errada": [
+            0.2244,
+            0.019,
+            0.4491
+          ]
+        },
+        "util_sim": {
+          "certa": [
+            0.6061,
+            0.4242,
+            0.7576
+          ],
+          "n_certa": 33,
+          "errada": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n_errada": 5,
+          "dif_certa_menos_errada": [
+            0.6061,
+            0.4242,
+            0.7576
+          ]
+        },
+        "util_sim_ou_parcial": {
+          "certa": [
+            0.8485,
+            0.7273,
+            0.9697
+          ],
+          "n_certa": 33,
+          "errada": [
+            0.8,
+            0.4,
+            1.0
+          ],
+          "n_errada": 5,
+          "dif_certa_menos_errada": [
+            0.0485,
+            -0.2424,
+            0.4788
+          ]
+        },
+        "inventou": {
+          "certa": [
+            0.0606,
+            0.0,
+            0.1515
+          ],
+          "n_certa": 33,
+          "errada": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n_errada": 5,
+          "dif_certa_menos_errada": [
+            0.0606,
+            0.0,
+            0.1515
+          ]
+        },
+        "tem_frase_que_contradiz": {
+          "certa": [
+            0.1212,
+            0.0303,
+            0.2424
+          ],
+          "n_certa": 33,
+          "errada": [
+            0.2,
+            0.0,
+            0.6
+          ],
+          "n_errada": 5,
+          "dif_certa_menos_errada": [
+            -0.0788,
+            -0.5091,
+            0.2121
+          ]
+        },
+        "absteve_juiz": {
+          "certa": [
+            0.1515,
+            0.0606,
+            0.2727
+          ],
+          "n_certa": 33,
+          "errada": [
+            0.2,
+            0.0,
+            0.6
+          ],
+          "n_errada": 5,
+          "dif_certa_menos_errada": [
+            -0.0485,
+            -0.4788,
+            0.2424
+          ]
+        }
+      }
+    },
+    "B|busca-top3": {
+      "perguntas_busca_certa": 29,
+      "perguntas_busca_errada": 9,
+      "ids_busca_errada": [
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q10",
+        "Q28",
+        "Q30",
+        "Q31",
+        "Q32"
+      ],
+      "campos": {
+        "util_sim": {
+          "certa": [
+            0.4483,
+            0.2759,
+            0.6207
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            0.4483,
+            0.2759,
+            0.6207
+          ]
+        },
+        "util_sim_ou_parcial": {
+          "certa": [
+            0.9655,
+            0.8966,
+            1.0
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.6667,
+            0.3333,
+            1.0
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            0.2989,
+            0.0,
+            0.6322
+          ]
+        }
+      }
+    },
+    "B50|busca-top3": {
+      "perguntas_busca_certa": 33,
+      "perguntas_busca_errada": 5,
+      "ids_busca_errada": [
+        "Q04",
+        "Q05",
+        "Q10",
+        "Q30",
+        "Q31"
+      ],
+      "campos": {
+        "util_sim": {
+          "certa": [
+            0.6364,
+            0.4848,
+            0.7879
+          ],
+          "n_certa": 33,
+          "errada": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n_errada": 5,
+          "dif_certa_menos_errada": [
+            0.6364,
+            0.4848,
+            0.7879
+          ]
+        },
+        "util_sim_ou_parcial": {
+          "certa": [
+            0.9697,
+            0.9091,
+            1.0
+          ],
+          "n_certa": 33,
+          "errada": [
+            0.8,
+            0.4,
+            1.0
+          ],
+          "n_errada": 5,
+          "dif_certa_menos_errada": [
+            0.1697,
+            -0.0909,
+            0.6
+          ]
+        }
+      }
+    },
+    "A|llama3.1-8b": {
+      "perguntas_busca_certa": 29,
+      "perguntas_busca_errada": 9,
+      "ids_busca_errada": [
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q10",
+        "Q28",
+        "Q30",
+        "Q31",
+        "Q32"
+      ],
+      "campos": {
+        "fidelidade_sem_abstencao": {
+          "certa": [
+            0.1855,
+            0.0883,
+            0.2822
+          ],
+          "n_certa": 19,
+          "errada": [
+            0.0286,
+            0.0,
+            0.0857
+          ],
+          "n_errada": 7,
+          "dif_certa_menos_errada": [
+            0.1569,
+            0.0425,
+            0.2677
+          ]
+        },
+        "util_sim": {
+          "certa": [
+            0.1724,
+            0.0345,
+            0.3103
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.1481,
+            0.0,
+            0.3704
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            0.0243,
+            -0.2375,
+            0.2414
+          ]
+        },
+        "util_sim_ou_parcial": {
+          "certa": [
+            0.4713,
+            0.2989,
+            0.6437
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.7407,
+            0.4444,
+            1.0
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            -0.2695,
+            -0.5607,
+            0.0843
+          ]
+        },
+        "inventou": {
+          "certa": [
+            0.3333,
+            0.1724,
+            0.5057
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.3333,
+            0.0741,
+            0.5926
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            0.0,
+            -0.3167,
+            0.3103
+          ]
+        },
+        "tem_frase_que_contradiz": {
+          "certa": [
+            0.2989,
+            0.1379,
+            0.4713
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            0.2989,
+            0.1379,
+            0.4713
+          ]
+        },
+        "absteve_juiz": {
+          "certa": [
+            0.3448,
+            0.1724,
+            0.5172
+          ],
+          "n_certa": 29,
+          "errada": [
+            0.2222,
+            0.0,
+            0.5556
+          ],
+          "n_errada": 9,
+          "dif_certa_menos_errada": [
+            0.1226,
+            -0.2107,
+            0.4138
+          ]
+        }
+      }
+    }
+  },
+  "holm_e_poder": {
+    "familia": [
+      {
+        "comparacao": "C - A, frases sustentadas",
+        "n": 40,
+        "dif_media": 0.3288,
+        "dp_das_diferencas": 0.5691,
+        "p_wilcoxon": 0.001570457106311418,
+        "menor_diferenca_detectavel": 0.252,
+        "p_holm": 0.009422742637868508
+      },
+      {
+        "comparacao": "C - A, útil",
+        "n": 40,
+        "dif_media": 0.3417,
+        "dp_das_diferencas": 0.492,
+        "p_wilcoxon": 0.00020858763308495394,
+        "menor_diferenca_detectavel": 0.218,
+        "p_holm": 0.0018772886977645854
+      },
+      {
+        "comparacao": "C - A, inventou",
+        "n": 40,
+        "dif_media": -0.3167,
+        "dp_das_diferencas": 0.4463,
+        "p_wilcoxon": 0.0003529848692118181,
+        "menor_diferenca_detectavel": 0.198,
+        "p_holm": 0.002823878953694545
+      },
+      {
+        "comparacao": "C - B1, útil",
+        "n": 40,
+        "dif_media": 0.325,
+        "dp_das_diferencas": 0.5256,
+        "p_wilcoxon": 0.0007891129890156299,
+        "menor_diferenca_detectavel": 0.233,
+        "p_holm": 0.00552379092310941
+      },
+      {
+        "comparacao": "C - B3, útil",
+        "n": 40,
+        "dif_media": 0.175,
+        "dp_das_diferencas": 0.5006,
+        "p_wilcoxon": 0.034808478811867126,
+        "menor_diferenca_detectavel": 0.222,
+        "p_holm": 0.17404239405933564
+      },
+      {
+        "comparacao": "A - B1, útil",
+        "n": 40,
+        "dif_media": -0.0167,
+        "dp_das_diferencas": 0.5796,
+        "p_wilcoxon": 0.8083651559145103,
+        "menor_diferenca_detectavel": 0.257,
+        "p_holm": 1.0
+      },
+      {
+        "comparacao": "A - B3, útil",
+        "n": 40,
+        "dif_media": -0.1667,
+        "dp_das_diferencas": 0.6405,
+        "p_wilcoxon": 0.09432654301821687,
+        "menor_diferenca_detectavel": 0.284,
+        "p_holm": 0.3773061720728675
+      },
+      {
+        "comparacao": "C - B1, inventou",
+        "n": 40,
+        "dif_media": 0.0,
+        "dp_das_diferencas": 0.0,
+        "p_wilcoxon": 1.0,
+        "menor_diferenca_detectavel": 0.0,
+        "p_holm": 1.0
+      },
+      {
+        "comparacao": "C - B3, inventou",
+        "n": 40,
+        "dif_media": 0.0,
+        "dp_das_diferencas": 0.0,
+        "p_wilcoxon": 1.0,
+        "menor_diferenca_detectavel": 0.0,
+        "p_holm": 1.0
+      }
+    ]
+  }
+}

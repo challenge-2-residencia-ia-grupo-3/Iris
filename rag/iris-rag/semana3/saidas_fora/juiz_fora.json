@@ -1,0 +1,99 @@
+{
+  "gerado_em": "2026-11-13T10:11:08+00:00",
+  "commit": "6f1d34a-modificado",
+  "avisos": [],
+  "cobertura": {
+    "julgada|NA|llama3.1-8b": 6,
+    "julgada|NC50|llama3.1-8b": 21,
+    "julgada|NC|llama3.1-8b": 24
+  },
+  "condicoes": {
+    "A": {
+      "respostas_geradas": 75,
+      "respostas_sem_abstencao_julgadas": 6,
+      "perguntas": 2,
+      "juiz_viu_abstencao": 0,
+      "inventou_sim": 2,
+      "perguntas_com_invencao": [
+        "N11"
+      ],
+      "inventou_sobre_todas_as_geradas": 0.0267,
+      "frases_julgadas": 26,
+      "frases_sustentadas": 0,
+      "frases_que_contradizem": 0,
+      "util": {
+        "não": 3,
+        "sim": 3
+      },
+      "por_estrato": {
+        "perto": {
+          "julgadas": 6,
+          "inventou_sim": 2
+        },
+        "longe": {
+          "julgadas": 0,
+          "inventou_sim": 0
+        }
+      }
+    },
+    "C": {
+      "respostas_geradas": 75,
+      "respostas_sem_abstencao_julgadas": 24,
+      "perguntas": 8,
+      "juiz_viu_abstencao": 0,
+      "inventou_sim": 12,
+      "perguntas_com_invencao": [
+        "N05",
+        "N12",
+        "N16",
+        "N18"
+      ],
+      "inventou_sobre_todas_as_geradas": 0.16,
+      "frases_julgadas": 191,
+      "frases_sustentadas": 48,
+      "frases_que_contradizem": 0,
+      "util": {
+        "não": 12,
+        "parcial": 12
+      },
+      "por_estrato": {
+        "perto": {
+          "julgadas": 24,
+          "inventou_sim": 12
+        },
+        "longe": {
+          "julgadas": 0,
+          "inventou_sim": 0
+        }
+      }
+    },
+    "C50": {
+      "respostas_geradas": 75,
+      "respostas_sem_abstencao_julgadas": 21,
+      "perguntas": 7,
+      "juiz_viu_abstencao": 6,
+      "inventou_sim": 3,
+      "perguntas_com_invencao": [
+        "N18"
+      ],
+      "inventou_sobre_todas_as_geradas": 0.04,
+      "frases_julgadas": 120,
+      "frases_sustentadas": 63,
+      "frases_que_contradizem": 3,
+      "util": {
+        "não": 15,
+        "parcial": 6
+      },
+      "por_estrato": {
+        "perto": {
+          "julgadas": 18,
+          "inventou_sim": 3
+        },
+        "longe": {
+          "julgadas": 3,
+          "inventou_sim": 0
+        }
+      }
+    }
+  }
+}
