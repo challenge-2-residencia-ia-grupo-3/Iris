@@ -409,6 +409,12 @@ def create_app() -> Any:
     def get_catalog() -> dict[str, Any]:
         return _handle_catalog()
 
+    # Registra a exportação do material adaptado em PDF/DOCX (História 2.2.3 - Issue #23)
+    from iris.api.routes.exportacao_material import router as exportacao_material_router
+
+    if exportacao_material_router is not None:
+        app.include_router(exportacao_material_router, prefix="/api/v1")
+
     @app.post("/api/v1/rag/build", tags=["rag"])
     def rag_build() -> dict[str, Any]:
         return _handle_rag_build()

@@ -84,6 +84,7 @@ nav:
   - Agentes:
       - Agente Auditor: agente_auditor.md
   - Perfil Pedagógico: perfil_pedagogico.md
+  - Exportação do Material: exportacao_material.md
   - Base de Conhecimento e RAG:
       - Relatório Técnico: rag/relatorio.md
       - Arquitetura do RAG: rag/arquitetura.md
