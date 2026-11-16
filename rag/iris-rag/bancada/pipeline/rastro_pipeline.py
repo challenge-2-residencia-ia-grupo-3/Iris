@@ -396,6 +396,37 @@ def adaptar_questao(r: T.Rastreador, cliente: T.ClienteRastreado, enunciado: str
 
 
 # ---------------------------------------------------------------- material inteiro
+MODULOS_DO_PERFIL = ("iris.schemas.portable_profile", "iris.schemas.profile")  # nome atual primeiro, depois o antigo
+
+
+def onde_esta(funcao: str, raiz: Path) -> list[str]:
+    """Arquivos do código do grupo (raiz = backend/src) que definem a função; vazio se nenhum define."""
+    padrao = re.compile(rf"^def {re.escape(funcao)}\(", re.MULTILINE)
+    return sorted(str(a.relative_to(raiz)) for a in raiz.rglob("*.py") if padrao.search(a.read_text(encoding="utf-8", errors="ignore")))
+
+
+def carregar_validar_perfil(raiz: Path | None = None):
+    """A função validar_perfil do grupo, ou None se o código desta versão não tem perfil nenhum.
+
+    "Não implementada" só é verdade quando nenhum módulo do grupo define a função (PRs anteriores ao #77). Se ela
+    existe com outro nome de módulo, o grupo renomeou: isso é erro do rastro, não etapa ausente, e para aqui com a
+    indicação de onde a função está (em 16/11/2026 a troca de profile para portable_profile passou calada).
+    """
+    import importlib
+
+    for nome in MODULOS_DO_PERFIL:
+        try:
+            return importlib.import_module(nome).validar_perfil
+        except (ModuleNotFoundError, AttributeError):
+            continue
+    raiz = raiz or (Path(T.GRUPO) / "backend" / "src" if getattr(T, "GRUPO", None) else None)
+    achados = onde_esta("validar_perfil", raiz) if raiz and raiz.exists() else []
+    if achados:
+        raise ImportError(f"validar_perfil existe em {', '.join(achados)}, mas não em {' nem '.join(MODULOS_DO_PERFIL)}: "
+                          "o grupo renomeou o módulo; atualize MODULOS_DO_PERFIL em rastro_pipeline.py")
+    return None
+
+
 def executar_material(material: dict, cliente: T.ClienteRastreado, cfg: dict, run_id: str, commit: str) -> tuple[T.Rastreador, dict]:
     """Roda o material pelas etapas do grupo, na ordem de process_material_file_service/text_service."""
     from iris.api.routes.catalogs import select_surgical_characteristics_service
@@ -403,10 +434,7 @@ def executar_material(material: dict, cliente: T.ClienteRastreado, cfg: dict, ru
     from iris.parsers.structural_decomposer import decompose_material
     from iris.schemas.materials import validate_file_size_limit, validate_material_content
     from iris.security.pii_scrubber import sanitize_pii
-    try:  # o Perfil Pedagógico Portátil (#77) só existe a partir de 9bf8163; PRs abertos antes dele não têm o módulo
-        from iris.schemas.portable_profile import validar_perfil
-    except ModuleNotFoundError:
-        validar_perfil = None
+    validar_perfil = carregar_validar_perfil()
 
     material = expandir_texto(material)
     r = T.Rastreador(run_id, material["material_id"], cliente.provider_name, T.nome_modelo(cliente), commit)

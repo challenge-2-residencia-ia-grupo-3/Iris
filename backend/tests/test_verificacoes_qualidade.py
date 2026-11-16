@@ -218,6 +218,38 @@ class TestPresoNoTopo(unittest.TestCase):
                 self.assertEqual(r.returncode, 0, r.stderr[:500])
 
 
+class TestPerfilRenomeadoNaoPassaCalado(unittest.TestCase):
+    """H2: o rastro do pipeline só chama a etapa do perfil de "não implementada" quando a função não existe."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        import importlib.util
+
+        caminho = REPO_ROOT / "rag" / "iris-rag" / "bancada" / "pipeline" / "rastro_pipeline.py"
+        spec = importlib.util.spec_from_file_location("rastro_pipeline_teste", caminho)
+        cls.rp = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
+        spec.loader.exec_module(cls.rp)  # type: ignore[union-attr]
+
+    def test_acha_a_funcao_no_nome_atual(self) -> None:
+        self.assertTrue(callable(self.rp.carregar_validar_perfil()))
+
+    def test_funcao_que_existe_com_outro_nome_de_modulo_vira_erro(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            (raiz / "iris" / "perfil").mkdir(parents=True)
+            (raiz / "iris" / "perfil" / "novo_nome.py").write_text("def validar_perfil(d):\n    return d\n", encoding="utf-8")
+            with (
+                patch.object(self.rp, "MODULOS_DO_PERFIL", ("iris.nao_existe_a", "iris.nao_existe_b")),
+                self.assertRaises(ImportError) as erro,
+            ):
+                self.rp.carregar_validar_perfil(raiz)
+            self.assertIn("novo_nome.py", str(erro.exception))
+
+    def test_sem_a_funcao_em_lugar_nenhum_e_nao_implementada(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp, patch.object(self.rp, "MODULOS_DO_PERFIL", ("iris.nao_existe_a",)):
+            self.assertIsNone(self.rp.carregar_validar_perfil(Path(tmp)))
+
+
 class TestMedirDeNovo(unittest.TestCase):
     def test_roda_o_alvo_verificar_sem_chave_e_com_provedor_deterministico(self) -> None:
         capturado: dict = {}
