@@ -168,6 +168,17 @@ class TestRemovedorDeDadoPessoal(unittest.TestCase):
         self.assertEqual(sanitize_pii("Telefone da escola 3333-4444"), ("Telefone da escola [TELEFONE]", 1))
         self.assertEqual(sanitize_pii("Tel.: (00) 91234-5678"), ("Tel.: [TELEFONE]", 1))
 
+    def test_telefone_colado_depois_de_abreviacao_com_ponto_sai(self) -> None:
+        # regressão: a borda contra casas decimais recusava todo número depois de ponto, e "Tel.00912345678"
+        # passava inteiro (no removedor original ele saía)
+        from iris.security.pii_scrubber import sanitize_pii
+
+        self.assertEqual(sanitize_pii("Tel.00912345678 recado"), ("Tel.[TELEFONE] recado", 1))
+        self.assertEqual(sanitize_pii("Cel.3333-4444"), ("Cel.[TELEFONE]", 1))
+        # e a borda continua valendo quando antes do ponto há dígito
+        for texto in ("ISBN 9788535902778 do livro", "O código 12.3333-4444 identifica o lote"):
+            self.assertEqual(sanitize_pii(texto), (texto, 0), texto)
+
     def test_nenhuma_das_136_questoes_reais_perde_texto(self) -> None:
         from iris.eval.rag_escolar_benchmark import carregar_questoes_curadas
         from iris.security.pii_scrubber import sanitize_pii
@@ -254,17 +265,54 @@ class TestTextosDaTela(unittest.TestCase):
     def setUp(self) -> None:
         self.html = PLAYGROUND.read_text(encoding="utf-8")
 
-    def test_dica_da_fidelidade_sem_meta_sem_origem(self) -> None:
-        self.assertNotIn("Meta recomendada", self.html)
+    def test_dica_da_fidelidade_com_a_meta_do_painel_original(self) -> None:
+        # a meta é do painel do grupo e fica; a dúvida sobre a origem do número vai como proposta, não como troca
+        self.assertIn("Meta recomendada ≥ 0,80.", self.html)
 
     def test_aviso_de_rodada_sem_modelo_e_abstencao_explicada(self) -> None:
         self.assertIn("Rodada sem modelo de linguagem.", self.html)
         self.assertIn("function geradorExtrativo(m)", self.html)
-        self.assertIn("abstém-se quando os 5 trechos têm aviso de uso", self.html)
+        self.assertIn("O gerador sem modelo descarta todo trecho com aviso de uso", self.html)
 
     def test_recorte_pequeno_marcado_na_segmentacao(self) -> None:
         self.assertIn("const RECORTE_MINIMO = 20;", self.html)
         self.assertIn("poucas questões", self.html)
+
+
+class TestJulgamentoDoPainelOriginalPreservado(unittest.TestCase):
+    """As cores, a meta e as leituras que o painel do grupo já tinha continuam como eram; o que é das Verificações
+    de qualidade aparece ao lado, como acréscimo. Cada trecho abaixo é a linha do painel original."""
+
+    ORIGINAIS = (
+        "cls: classePct(retorno, 95, 70),",
+        "cls: classePct(aderencia, 90, 60),",
+        "cls: Number(r.latencia_total_ms || 0) <= 15000 ? 'score-ok' : (Number(r.latencia_total_ms || 0) <= 60000 ? 'score-warn' : 'score-danger'),",
+        "Meta recomendada ≥ 0,80.",
+        "cls: (abstencao || 0) <= 10 ? 'score-ok' : ((abstencao || 0) <= 40 ? 'score-warn' : 'score-danger'),",
+        '<td class="num ${fidCls}">${fidStr}',
+        "<div class=\"verdict-num ${classePct(Number(r.taxa_retorno_pct || 0), 95, 70) === 'score-ok' ? 'ok' : 'warn'}\">",
+        '<div class="verdict-sub">${escapeHtml(r.aderencia_barreira_pct)}% aderência à barreira</div>',
+        "leitura: (abstencao || 0) <= 10 ? 'Dentro do esperado (próximo de 0%)' : 'Alta recusa: revise o prompt ou cobertura dos trechos',",
+    )
+    ACRESCIMOS = (
+        '<span class="tag">por construção</span>',
+        "motivoPorConstrucao('taxa_retorno_pct')",
+        "RNF-07 (",
+        "poucas questões",
+        "O gerador sem modelo descarta todo trecho com aviso de uso",
+        "ic: textoIc95(r, 'taxa_abstencao_pct'",
+    )
+
+    def setUp(self) -> None:
+        self.html = PLAYGROUND.read_text(encoding="utf-8")
+
+    def test_regras_do_painel_original_continuam_iguais(self) -> None:
+        for trecho in self.ORIGINAIS:
+            self.assertIn(trecho, self.html, trecho)
+
+    def test_acrescimos_continuam_ao_lado(self) -> None:
+        for trecho in self.ACRESCIMOS:
+            self.assertIn(trecho, self.html, trecho)
 
 
 if __name__ == "__main__":

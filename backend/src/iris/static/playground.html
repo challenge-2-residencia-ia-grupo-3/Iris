@@ -3131,7 +3131,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               <td class="num ${classePct(semAviso, 75, 45)}">${escapeHtml(semAviso)}%</td>
               <td class="num">${Number(m.score_top1_medio || 0).toFixed(3)}</td>
               <td class="num">${escapeHtml(m.latencia_busca_ms)} ms</td>
-              <td class="num ${pequeno ? 'score-neutral' : fidCls}">${fidStr}${icFid ? `<span class="ledger-ic">${Number(icFid[0]).toFixed(2)} a ${Number(icFid[1]).toFixed(2)}</span>` : ''}</td>
+              <td class="num ${fidCls}">${fidStr}${icFid ? `<span class="ledger-ic">${Number(icFid[0]).toFixed(2)} a ${Number(icFid[1]).toFixed(2)}</span>` : ''}</td>
             </tr>
           `;
         }).join('');
@@ -3221,18 +3221,18 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         {
           nome: 'Taxa de retorno Top-5',
           tip: `Percentual de questões que receberam pelo menos 1 trecho recuperado no Top-5 do RAG. ${motivoPorConstrucao('taxa_retorno_pct')}`,
-          leitura: `Não mede qualidade · ${r.media_trechos ?? 0} trechos/questão`,
+          leitura: `${escapeHtml(r.media_trechos ?? 0)} trechos/questão em média`,
           pct: retorno,
-          cls: 'score-neutral',
+          cls: classePct(retorno, 95, 70),
           porConstrucao: true,
           val: `${retorno.toFixed(1)}%`
         },
         {
           nome: 'Aderência à barreira TDAH',
           tip: `Proporção dos trechos retornados que pertencem exatamente à barreira funcional TDAH associada à questão. ${motivoPorConstrucao('aderencia_barreira_pct')}`,
-          leitura: 'Não mede qualidade · filtro pré-ranqueamento',
+          leitura: 'Filtro determinístico pré-ranqueamento',
           pct: aderencia,
-          cls: 'score-neutral',
+          cls: classePct(aderencia, 90, 60),
           porConstrucao: true,
           val: `${aderencia.toFixed(1)}%`
         },
@@ -3254,15 +3254,11 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         },
         {
           nome: 'Latência média (busca / total)',
-          tip: rnf ? `Tempo médio só da recuperação no índice (${r.latencia_busca_ms ?? 0} ms) vs. tempo completo com LLM local + juiz. A barra mostra a proporção de questões dentro do limite do RNF-07 para o nível ${rnf.nivel} da rodada (15 s no nível 1, 40 s nos níveis 2 e 3). A questão mais lenta levou ${formatarLatencia(rnf.maior_ms)}. Mede só o RAG: o ciclo inteiro de adaptação soma os agentes por cima.`
+          tip: rnf ? `Tempo médio só da recuperação no índice vs. tempo completo com LLM local + juiz. Ao lado, quantas questões ficaram dentro do limite do RNF-07 para o nível ${rnf.nivel} da rodada (15 s no nível 1, 40 s nos níveis 2 e 3). A questão mais lenta levou ${formatarLatencia(rnf.maior_ms)}. Mede só o RAG: o ciclo inteiro de adaptação soma os agentes por cima.`
             : 'Tempo médio só da recuperação no índice vs. tempo completo com LLM local + juiz.',
-          leitura: rnf
-            ? `RNF-07 (${(rnf.limite_ms / 1000).toFixed(0)} s): ${rnf.dentro} de ${rnf.total} dentro`
-            : `Busca: ${r.latencia_busca_ms ?? 0} ms`,
-          pct: rnf ? Number(rnf.pct_dentro) : Math.max(5, Math.min(100, 100 - (Number(r.latencia_total_ms || 0) / 1000))),
-          cls: rnf
-            ? (rnf.fora === 0 ? 'score-ok' : (Number(rnf.pct_dentro) >= 70 ? 'score-warn' : 'score-danger'))
-            : (Number(r.latencia_total_ms || 0) <= 15000 ? 'score-ok' : (Number(r.latencia_total_ms || 0) <= 60000 ? 'score-warn' : 'score-danger')),
+          leitura: `Busca: ${escapeHtml(r.latencia_busca_ms ?? 0)} ms` + (rnf ? ` · RNF-07 (${(rnf.limite_ms / 1000).toFixed(0)} s): ${escapeHtml(rnf.dentro)} de ${escapeHtml(rnf.total)} dentro` : ''),
+          pct: Math.max(5, Math.min(100, 100 - (Number(r.latencia_total_ms || 0) / 1000))),
+          cls: Number(r.latencia_total_ms || 0) <= 15000 ? 'score-ok' : (Number(r.latencia_total_ms || 0) <= 60000 ? 'score-warn' : 'score-danger'),
           ic: textoIc95(r, 'latencia_total_ms', formatarLatencia),
           val: formatarLatencia(Number(r.latencia_total_ms || 0))
         }
@@ -3272,7 +3268,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         linhas.push(
           {
             nome: ehSonnet ? 'Fidelidade (Claude Sonnet)' : 'Fidelidade (Léxica)',
-            tip: 'Fração média das frases da resposta comprovadas nos trechos [Tn] citados (0 a 1). Não há meta com origem declarada para este número; as cores da barra são só uma escala visual.',
+            tip: 'Fração média das frases da resposta comprovadas nos trechos [Tn] citados (0 a 1). Meta recomendada ≥ 0,80.',
             leitura: ehSonnet && r.fidelidade_lexica_media != null ? `Léxica paralela: ${Number(r.fidelidade_lexica_media).toFixed(2)}` : 'Avaliador por sobreposição de palavras',
             pct: (fid || 0) * 100,
             cls: classeCor(fid || 0).cls,
@@ -3314,14 +3310,11 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           },
           {
             nome: 'Taxa de abstenção',
-            tip: opts.extrativo
-              ? 'Percentual de questões em que a resposta foi a frase fixa de recusa. O gerador sem modelo descarta todo trecho com aviso de uso (nao_usar_para), mesmo quando o aviso só restringe um uso específico; quando os 5 trechos têm aviso, ele se abstém. Por isso, aqui a taxa mede quantas vezes a busca trouxe só trechos com aviso, e não a falta de evidência.'
-              : 'Percentual de questões em que o LLM recusou responder alegando falta de evidências nos trechos.',
-            leitura: opts.extrativo
-              ? 'Gerador sem modelo: abstém-se quando os 5 trechos têm aviso de uso'
-              : ((abstencao || 0) <= 10 ? 'Dentro do esperado (próximo de 0%)' : 'Alta recusa: revise o prompt ou cobertura dos trechos'),
+            tip: 'Percentual de questões em que o LLM recusou responder alegando falta de evidências nos trechos.'
+              + (opts.extrativo ? ' Nesta rodada não houve LLM: a resposta é a frase fixa de recusa. O gerador sem modelo descarta todo trecho com aviso de uso (nao_usar_para), mesmo quando o aviso só restringe um uso específico; quando os 5 trechos têm aviso, ele se abstém. Por isso, aqui a taxa mede quantas vezes a busca trouxe só trechos com aviso, e não a falta de evidência.' : ''),
+            leitura: (abstencao || 0) <= 10 ? 'Dentro do esperado (próximo de 0%)' : 'Alta recusa: revise o prompt ou cobertura dos trechos',
             pct: abstencao !== null ? abstencao : 0,
-            cls: opts.extrativo ? 'score-neutral' : ((abstencao || 0) <= 10 ? 'score-ok' : ((abstencao || 0) <= 40 ? 'score-warn' : 'score-danger')),
+            cls: (abstencao || 0) <= 10 ? 'score-ok' : ((abstencao || 0) <= 40 ? 'score-warn' : 'score-danger'),
             ic: textoIc95(r, 'taxa_abstencao_pct', v => `${v.toFixed(1)}%`),
             val: abstencao !== null ? `${abstencao.toFixed(1)}%` : '0.0%'
           }
@@ -4128,9 +4121,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
                 <div class="verdict-sub">${r.com_geracao ? `${escapeHtml(r.citacoes_invalidas_total || 0)} citações inválidas` : 'Escopo: só recuperação'}</div>
               </div>
               <div>
-                <div class="verdict-num neutral">${escapeHtml(r.taxa_retorno_pct)}%</div>
+                <div class="verdict-num ${classePct(Number(r.taxa_retorno_pct || 0), 95, 70) === 'score-ok' ? 'ok' : 'warn'}">${escapeHtml(r.taxa_retorno_pct)}%</div>
                 <div class="verdict-cap">${renderMetricTip('Retorno Top-5', `Percentual de questões que receberam evidências no Top-5. ${motivoPorConstrucao('taxa_retorno_pct')}`)}</div>
-                <div class="verdict-sub">Garantido pelo filtro de barreira; não mede qualidade</div>
+                <div class="verdict-sub">${escapeHtml(r.aderencia_barreira_pct)}% aderência à barreira</div>
               </div>
             </div>
             <p class="verdict-prose">${diagProse}</p>
