@@ -142,6 +142,9 @@ def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
                     if isinstance(bloco, dict) and bloco.get("type") == "text"
                 ]
                 texto = "\n".join(p for p in partes if p).strip()
+                if not texto or r.get("stop_reason") == "max_tokens":
+                    # resposta vazia ou cortada não vai ao professor: quem chamou cai para o gerador sem modelo
+                    raise RuntimeError(f"resposta do modelo {mod} vazia ou cortada (stop_reason={r.get('stop_reason')})")
                 uso_raw = r.get("usage") or {}
                 uso = {
                     "prompt_tokens": uso_raw.get("input_tokens"),

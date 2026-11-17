@@ -86,9 +86,14 @@ class TestGeradorAnthropic(unittest.TestCase):
         self.assertIn("temperature", self.enviados[0])
         self.assertNotIn("temperature", self.enviados[1])
 
-    def test_resposta_cortada_e_sinalizada(self):
-        _, uso = self._chamar([_resposta("claude-haiku-5-5", parada="max_tokens")])
-        self.assertTrue(uso["cortada"])
+    def test_resposta_cortada_vira_erro(self):
+        # cortada pelo limite (o pensamento conta no max_tokens): não vai ao professor pela metade
+        with self.assertRaises(RuntimeError):
+            self._chamar([_resposta("claude-haiku-5-5", parada="max_tokens")])
+
+    def test_resposta_vazia_vira_erro(self):
+        with self.assertRaises(RuntimeError):
+            self._chamar([_resposta("claude-haiku-5-5", texto="")])
 
     def test_sem_chave_falha_com_mensagem(self):
         os.environ["ANTHROPIC_API_KEY"] = ""
