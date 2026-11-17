@@ -44,7 +44,9 @@ RE_CPF = re.compile(
     r"\b(?:\d{3}\.){2}\d{3}-\d{2}\b",
 )
 # 11 dígitos corridos, sem fazer parte de número maior: CPF sem pontuação ou celular com DDD sem formatação.
-RE_ONZE_DIGITOS = re.compile(r"(?<![\d.,/-])\d{11}(?![\d.,/-])")
+# A borda da esquerda recusa ponto só quando antes dele há dígito (casas decimais, "1.234..."): depois de
+# abreviação ("Tel.00912345678") o número é dado pessoal e sai.
+RE_ONZE_DIGITOS = re.compile(r"(?<![\d,/-])(?<!\d\.)\d{11}(?![\d.,/-])")
 
 
 def _cpf_valido(digitos: str) -> bool:
@@ -60,10 +62,11 @@ def _cpf_valido(digitos: str) -> bool:
 RE_EMAIL = re.compile(
     r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
 )
-# As bordas (?<![\d.]) e (?![\d]) impedem que o padrão pegue só um pedaço de número mais longo do enunciado
+# As bordas (?<!\d), (?<!\d\.) e (?![\d]) impedem que o padrão pegue só um pedaço de número mais longo do enunciado
 # (código de 13 dígitos, ISBN, valor com casas decimais): antes, "ISBN 9788535902778" virava "978[TELEFONE]".
+# Ponto antes do número só barra quando há dígito antes do ponto: "Tel.3333-4444" é telefone, "12.3333-4444" não.
 RE_TELEFONE = re.compile(
-    r"(?<![\d.])(?:\+?55\s*)?(?:\(?\d{2}\)?\s*)?(?:9\s*\d{4}|\d{4})[-.\s]?\d{4}(?![\d])",
+    r"(?<!\d)(?<!\d\.)(?:\+?55\s*)?(?:\(?\d{2}\)?\s*)?(?:9\s*\d{4}|\d{4})[-.\s]?\d{4}(?![\d])",
 )
 
 
