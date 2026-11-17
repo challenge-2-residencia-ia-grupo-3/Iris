@@ -38,12 +38,18 @@ SISTEMA_JUIZ_SONNET = (
     "Siga estritamente a regra da mensagem e devolva APENAS o objeto JSON solicitado, sem cercas markdown."
 )
 
+# Ordem de tentativa quando o modelo pedido não existe na conta (404). O claude-sonnet-4-5-20250929 saiu da lista:
+# a Anthropic o tira do ar em 30/11/2026.
 MODELOS_SONNET_FALLBACK = (
-    "claude-sonnet-4-5-20250929",
-    "claude-sonnet-4-6",
-    "claude-sonnet-5",
     "claude-sonnet-5-5",
+    "claude-sonnet-5",
+    "claude-sonnet-4-6",
 )
+
+# Modelos que pensam antes de responder: recusam `temperature` (HTTP 400) e o pensamento conta no max_tokens.
+# Medido com claude-haiku-5-5 e claude-sonnet-5-5 em 17/11/2026; para os outros nomes vale a documentação.
+RE_MODELO_QUE_PENSA = re.compile(r"claude-(haiku|sonnet|opus)-5|claude-(fable|mythos)")
+MAX_TOKENS_JUIZ_QUE_PENSA = 12000
 
 ABREVIACAO_RE = re.compile(r"(?:\bet al|\bart|\barts|\bcf|\bvs|\bDr|\bDra|\bProf|\bn[ºo]?)\.$")
 
@@ -327,15 +333,17 @@ def chamar_claude_sonnet_api(
     ultimo_erro: Exception | None = None
 
     for mod_tentativa in candidatos:
-        corpo = json.dumps(
-            {
-                "model": mod_tentativa,
-                "max_tokens": 2048,
-                "temperature": temperature,
-                "system": sistema,
-                "messages": [{"role": "user", "content": prompt}],
-            }
-        ).encode("utf-8")
+        corpo_dict: dict[str, Any] = {
+            "model": mod_tentativa,
+            "max_tokens": 2048,
+            "temperature": temperature,
+            "system": sistema,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        if RE_MODELO_QUE_PENSA.search(mod_tentativa):
+            corpo_dict["max_tokens"] = MAX_TOKENS_JUIZ_QUE_PENSA
+            corpo_dict.pop("temperature")
+        corpo = json.dumps(corpo_dict).encode("utf-8")
 
         req = urllib.request.Request(
             "https://api.anthropic.com/v1/messages",
@@ -369,6 +377,10 @@ def chamar_claude_sonnet_api(
                 except Exception:
                     pass
                 ultimo_erro = RuntimeError(f"HTTP {exc.code} ao chamar Anthropic ({mod_tentativa}): {detalhe[:300]}")
+                # Modelo fora da lista acima que também recuse `temperature`: repete a chamada sem o campo
+                if exc.code == 400 and "temperature" in detalhe and corpo_dict.pop("temperature", None) is not None:
+                    req.data = json.dumps(corpo_dict).encode("utf-8")
+                    continue
                 # Se o modelo específico não existir na conta (404), tenta o próximo alias Sonnet
                 if exc.code == 404:
                     break
