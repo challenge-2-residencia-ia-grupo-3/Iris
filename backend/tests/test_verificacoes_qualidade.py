@@ -367,5 +367,78 @@ class TestRotas(unittest.TestCase):
             thread.join(timeout=5)
 
 
+
+class TestRevisaoDoPainelSeparado(unittest.TestCase):
+    """Pontos da revisão do painel separado (PR 85): página gerada mesmo com portão reprovado, botões que funcionam
+    sem `make`, e nenhum caminho de máquina particular nos arquivos versionados."""
+
+    RAIZ_RAG = Path(__file__).resolve().parents[2] / "rag" / "iris-rag"
+
+    def _servidor(self):
+        import importlib.util
+
+        caminho = self.RAIZ_RAG / "bancada" / "local" / "servidor.py"
+        spec = importlib.util.spec_from_file_location("servidor_local_da_bancada", caminho)
+        modulo = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(modulo)
+        return modulo
+
+    def test_todo_botao_do_painel_tem_equivalente_sem_make(self) -> None:
+        servidor = self._servidor()
+        cfg = {"py": "python", "pyb": "python", "grupo": "/tmp/grupo", "prov": "eco"}
+        for alvo in servidor.ler_alvos():
+            nome = alvo["alvo"]
+            if nome == "atualizar":          # este é do próprio servidor, não do Makefile
+                continue
+            passos = servidor.passos_sem_make(nome, cfg, "Q01")
+            self.assertIsInstance(passos, list, nome)
+
+    def test_alvo_desconhecido_sem_make_da_mensagem_e_nao_keyerror(self) -> None:
+        servidor = self._servidor()
+        cfg = {"py": "python", "pyb": "python", "grupo": "/tmp/grupo", "prov": "eco"}
+        with self.assertRaises(ValueError):
+            servidor.passos_sem_make("alvo-que-nao-existe", cfg, "Q01")
+
+    def test_verificar_gera_a_pagina_depois_dos_portoes_e_devolve_o_codigo_deles(self) -> None:
+        makefile = (self.RAIZ_RAG / "pacote" / "Makefile").read_text(encoding="utf-8")
+        linha = next(l for l in makefile.splitlines() if l.startswith("verificar:"))
+        dependencias = linha.split("##")[0].split(":", 1)[1].split()
+        self.assertNotIn("portoes", dependencias)     # como dependência, um portão reprovado parava antes da página
+        self.assertNotIn("html", dependencias)
+        self.assertIn("portoes; rc=$$?; $(MAKE) --no-print-directory html", makefile)
+        self.assertIn("exit $$rc", makefile)
+
+    def test_nenhum_caminho_de_maquina_particular_na_bancada(self) -> None:
+        import re
+
+        padrao = re.compile(r"/home/[a-z0-9_]+/|/Users/[A-Za-z0-9_]+/")
+        achados = []
+        for pasta in (self.RAIZ_RAG / "bancada", self.RAIZ_RAG / "pacote"):
+            for arq in pasta.rglob("*"):
+                if not arq.is_file() or arq.suffix not in {".py", ".json", ".jsonl", ".md", ".txt", ".js", ".yaml", ".toml"}:
+                    continue
+                if any(p in arq.parts for p in ("reports", "outputs", "__pycache__", ".montado")) and "referencia" not in arq.parts:
+                    continue                  # saídas geradas na máquina de quem roda, fora do git
+                if arq.name in ("chunks.jsonl", "chunks_julgados.jsonl"):
+                    continue
+                if padrao.search(arq.read_text(encoding="utf-8", errors="ignore")):
+                    achados.append(str(arq.relative_to(self.RAIZ_RAG)))
+        self.assertEqual(achados, [])
+
+    def test_exportador_do_retrato_limpa_caminho_no_historico(self) -> None:
+        import importlib.util
+
+        caminho = self.RAIZ_RAG / "bancada" / "referencia" / "exportar.py"
+        spec = importlib.util.spec_from_file_location("exportar_retrato", caminho)
+        modulo = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(modulo)
+        texto = '{"arquivo": "/home/alguem/pasta/particular/bancada/ataque/gerar.py", "mac": "/Users/alguem/x/pacote/a.py"}'
+        limpo = modulo.sem_caminho_de_maquina(texto)
+        self.assertNotIn("/home/", limpo)
+        self.assertNotIn("/Users/", limpo)
+        self.assertIn("bancada/ataque/gerar.py", limpo)
+        fonte = caminho.read_text(encoding="utf-8")
+        self.assertGreaterEqual(fonte.count("sem_caminho_de_maquina(t)"), 2)   # nas saídas e no histórico/status
+
 if __name__ == "__main__":
     unittest.main()

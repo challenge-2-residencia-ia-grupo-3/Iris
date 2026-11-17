@@ -1,7 +1,7 @@
 """onde.py: acha o clone do grupo para a bancada rodar em qualquer maquina.
 
 Ordem: IRIS_GRUPO ou BANCADA_GRUPO; senao, o repositorio git que contem a bancada (quando ela mora dentro do Iris);
-senao, ../Iris ao lado; senao, um caminho de servidor antigo (compatibilidade).
+senao, ../Iris ao lado; senao, erro dizendo como informar o caminho.
 """
 from __future__ import annotations
 
@@ -10,7 +10,6 @@ import subprocess
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
-VPS = Path("/home/openclaw/clawd/private/lume/iris-grupo")
 
 
 def _eh_iris(p: Path) -> bool:
@@ -31,7 +30,7 @@ def grupo() -> Path:
     for p in AQUI.parents:
         if _eh_iris(p / "Iris"):
             return (p / "Iris").resolve()
-    return VPS
+    raise SystemExit("não achei o clone do Iris: informe o caminho em IRIS_GRUPO (ou GRUPO=... no make)")
 
 
 if __name__ == "__main__":

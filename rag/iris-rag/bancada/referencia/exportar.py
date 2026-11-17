@@ -42,6 +42,14 @@ def janelas_restritas(pasta: Path) -> set[str]:
     return js
 
 
+RE_CAMINHO_DE_MAQUINA = re.compile(r"(?:/home|/Users)/[^\s\"'\\]*?/(challenges|pacote|bancada|iris-rag)/")
+
+
+def sem_caminho_de_maquina(texto: str) -> str:
+    """Tira o começo do caminho de quem rodou (pasta pessoal), deixando só a parte de dentro do repositório."""
+    return RE_CAMINHO_DE_MAQUINA.sub(r"\1/", texto)
+
+
 def tem_restrito(texto: str, js: set[str]) -> int:
     p = palavras(texto)
     return sum(1 for i in range(len(p) - JANELA) if " ".join(p[i:i + JANELA]) in js)
@@ -72,8 +80,7 @@ def main() -> None:
         if n:
             manifesto["recusados"][p.name] = f"{n} trechos de documento sem licença aberta"
             continue
-        if "/home/" in t:
-            t = re.sub(r"/home/[^\s\"']*?/(challenges|pacote|bancada|iris-rag)/", r"\1/", t)
+        t = sem_caminho_de_maquina(t)
         (saida / p.name).write_text(t, encoding="utf-8")
         manifesto["arquivos"][p.name] = {"sha256": hashlib.sha256(t.encode()).hexdigest()[:16],
                                          "modificado_em": datetime.fromtimestamp(p.stat().st_mtime, timezone.utc).date().isoformat()}
@@ -83,6 +90,7 @@ def main() -> None:
             if tem_restrito(t, js):
                 manifesto["recusados"][nome] = "trecho de documento sem licença aberta"
                 continue
+            t = sem_caminho_de_maquina(t)      # o histórico e o status também levam caminho de quem rodou
             (a.destino / nome).write_text(t, encoding="utf-8")
             manifesto["arquivos"][nome] = {"sha256": hashlib.sha256(t.encode()).hexdigest()[:16]}
     if a.status and a.status.exists():

@@ -124,6 +124,11 @@ def passos_sem_make(alvo: str, cfg: dict, q: str) -> list[tuple[Path, list[str]]
                    "if not os.path.exists('outputs/17-respostas.jsonl'): print('aviso: sem outputs/17-respostas.jsonl (rastro sem respostas)')\n"
                    "h=hashlib.sha256(open('chunks.jsonl','rb').read()).hexdigest()[:16]\n"
                    "print('chunks.jsonl',h,'ok' if h=='1b517d249bef1873' else 'DIFERENTE do congelado')")
+    # como no alvo `verificar` do Makefile: os portões devolvem 1 quando algum reprova; a página sai mesmo assim
+    portoes_e_pagina_py = ("import subprocess,sys\n"
+                           f"rc=subprocess.call([sys.executable, {str(RAIZ / 'bancada' / 'atualizar' / 'portoes_novos.py')!r}])\n"
+                           "rc2=subprocess.call([sys.executable,'bancada.py','html'])\n"
+                           "sys.exit(rc or rc2)")
     t = {
         "registrar": [(P, [py, "bancada.py", "registrar"])],
         "html": [(P, [py, "bancada.py", "html"])],
@@ -141,11 +146,38 @@ def passos_sem_make(alvo: str, cfg: dict, q: str) -> list[tuple[Path, list[str]]
         "github": [(P, [py, str(RAIZ / "bancada" / "atualizar" / "github_estado.py"), "--saida", "outputs"])],
         "etapas": [(P, [py, str(pip / "etapas_explicadas.py"), "--grupo", grupo])],
     }
+    B = RAIZ / "bancada"
+    lg = B / "langgraph"
+    t |= {
+        "linha-de-base": [(P, [py, "bancada_checks.py", "linha-de-base"])],
+        "avaliacao": [(RAIZ, [pyb, "bancada/avaliacao/conjunto.py"])],
+        "juiz": [(RAIZ, [py, "bancada/calibracao/calibrar.py"])],
+        "rotular": [(RAIZ, [py, "bancada/calibracao/rotular.py", "ficha"])],
+        "rag-triade": [(RAIZ, [py, "bancada/rag/triade.py", "--portao"])],
+        "ataque": [(RAIZ, [pyb, "-W", "ignore", "bancada/ataque/gerar_e_atacar.py"])],
+        "orcamento-so": [(RAIZ, [py, "bancada/orcamento/conferir.py", "--grupo", grupo])],
+        "producao": [(RAIZ, [pyb, "bancada/producao/simular.py"]),
+                     (B / "producao", [pyb, "-m", "unittest", "-q", "test_rastro_producao"])],
+        "ragas": [(RAIZ, [pyb, "bancada/rag/ragas_grupo.py", "--grupo", grupo])],
+        "portoes": [(P, [py, str(B / "atualizar" / "portoes_novos.py")])],
+        "langgraph": [(lg, [pyb, "-W", "ignore", "montar_codigo.py"]),
+                      (P, [pyb, "-W", "ignore", str(lg / "grafo_iris.py")]),
+                      (lg, [pyb, "-W", "ignore", "-m", "unittest", "test_grafo"])],
+    }
     t["bancada"] = t["registrar"] + t["html"]
     t["pipeline-tudo"] = t["rastro-pipeline"] + t["adversarial"] + t["ablacao"]
+    t["orcamento"] = t["rastro-pipeline"] + t["orcamento-so"]
+    t["qualidade-tudo"] = (t["avaliacao"] + t["juiz"] + t["rag-triade"] + t["ataque"] + t["orcamento"]
+                           + t["producao"] + t["portoes"])
     t["tudo"] = (t["repetir"] + t["custo"] + t["revisao"] + t["pipeline-tudo"]
-                 + t["mapa"] + t["grafo"] + t["etapas"] + t["bancada"])
+                 + t["mapa"] + t["grafo"] + t["etapas"] + t["qualidade-tudo"] + t["bancada"])
+    # como no Makefile: sem as abas opcionais (GitHub e LangGraph), e com os portões por último, antes da página
+    t["verificar"] = ([(P, [py, "-c", conferir_py])] + t["pipeline-tudo"] + t["mapa"] + t["grafo"] + t["etapas"]
+                      + t["avaliacao"] + t["ataque"] + t["orcamento-so"] + t["producao"]
+                      + [(P, [py, "-c", portoes_e_pagina_py])])
     t["help"] = []
+    if alvo not in t:
+        raise ValueError(f"o alvo '{alvo}' não tem equivalente sem make; rode pelo terminal ou instale o make")
     return t[alvo]
 
 
