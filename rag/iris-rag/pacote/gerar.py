@@ -47,6 +47,29 @@ Regras:
 7. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.
 8. No máximo 6 frases. Sem introdução, sem conclusão genérica."""
 
+# Duas regras a mais, medidas só com o Haiku (issue #86, 17/11/2026): pedir esclarecimento quando a pergunta é
+# vaga e recusar quando os trechos só rodeiam o que foi pedido. Em 15 perguntas vagas, o pedido de esclarecimento
+# foi de 0 para 14, sem nenhum pedido indevido em 63 perguntas claras. Ressalva medida: nas 21 perguntas de
+# reserva, as respostas úteis foram de 8 para 6 de 11 e as recusas certas de 6 para 8 de 10.
+# Com outros modelos as regras não foram medidas; por isso entram, por padrão, só com o gerador da Anthropic.
+REGRAS_ESCLARECIMENTO = f"""
+9. Se a pergunta não disser qual é a barreira ou a dificuldade do aluno, nem qual é a atividade ou o que o professor quer fazer, não dê orientação geral: responda só com uma ou duas perguntas curtas pedindo o que falta, sem citar trechos. Esta é a única exceção às regras 2 e 3. Se a pergunta já traz a barreira ou a atividade, responda normalmente.
+10. Se os trechos falam do tema mas não trazem o fato, a norma, o número ou a recomendação específica que a pergunta pede, responda exatamente: "{FRASE_SEM_RESPOSTA}" e nada mais. Não responda com informação vizinha no lugar da que foi pedida."""
+
+
+def usar_regras_de_esclarecimento() -> bool:
+    """RAG_PROMPT_ESCLARECIMENTO: `on`, `off` ou `auto` (padrão: ligado só com o gerador da Anthropic)."""
+    modo = os.environ.get("RAG_PROMPT_ESCLARECIMENTO", "auto").strip().lower()
+    if modo in {"on", "1", "true", "sim"}:
+        return True
+    if modo in {"off", "0", "false", "nao", "não"}:
+        return False
+    return os.environ.get("RAG_LLM", LLM).lower() in {"anthropic", "claude", "sonnet"}
+
+
+def instrucoes() -> str:
+    return INSTRUCOES + (REGRAS_ESCLARECIMENTO if usar_regras_de_esclarecimento() else "")
+
 
 def montar_prompt(pergunta: str, trechos: list[dict]) -> str:
     blocos = []
@@ -55,7 +78,7 @@ def montar_prompt(pergunta: str, trechos: list[dict]) -> str:
         aviso = f"\nAVISO DE USO: {t['nota_uso']}" if t.get("nao_usar_para") else ""
         tipo = f" | {t['tipo_evidencia']}" if t.get("tipo_evidencia") else ""
         blocos.append(f"[T{i}] {t['titulo']}{pag} ({t['idioma']}{tipo}){aviso}\n{t['trecho']}")
-    return f"{INSTRUCOES}\n\nTRECHOS:\n\n" + "\n\n".join(blocos) + f"\n\nPERGUNTA: {pergunta}\n\nRESPOSTA:"
+    return f"{instrucoes()}\n\nTRECHOS:\n\n" + "\n\n".join(blocos) + f"\n\nPERGUNTA: {pergunta}\n\nRESPOSTA:"
 
 
 def _chamar_groq(prompt: str) -> tuple[str, dict]:
@@ -235,15 +258,23 @@ def gerar(prompt: str) -> tuple[str, dict]:
     return texto, uso
 
 
+def pediu_esclarecimento(resposta: str) -> bool:
+    """A resposta é uma pergunta de volta ao professor: não é recusa, não cita trecho e tem interrogação."""
+    return (FRASE_SEM_RESPOSTA.lower()[:40] not in resposta.lower()
+            and not re.search(r"\[T\d+\]", resposta) and "?" in resposta)
+
+
 def conferir(resposta: str, trechos: list[dict]) -> dict:
     """Conferência mecânica (não mede se o conteúdo está certo; isso é o juiz/humano da semana 3)."""
     absteve = FRASE_SEM_RESPOSTA.lower()[:40] in resposta.lower()
+    esclarecimento = pediu_esclarecimento(resposta)
     citados = sorted({int(n) for n in re.findall(r"\[T(\d+)\]", resposta)})
     invalidas = [n for n in citados if not 1 <= n <= len(trechos)]
     frases = [f for f in re.split(r"(?<=[.!?])\s+", resposta.strip()) if len(f.split()) >= 4]
-    sem_citacao = [f for f in frases if not re.search(r"\[T\d+\]", f)] if not absteve else []
+    # Recusa e pedido de esclarecimento não afirmam nada sobre a base: não se cobra citação deles.
+    sem_citacao = [f for f in frases if not re.search(r"\[T\d+\]", f)] if not (absteve or esclarecimento) else []
     aviso_citado = [n for n in citados if 1 <= n <= len(trechos) and trechos[n - 1].get("nao_usar_para")]
-    return {"absteve": absteve, "trechos_citados": citados, "citacoes_invalidas": invalidas,
+    return {"absteve": absteve, "pediu_esclarecimento": esclarecimento, "trechos_citados": citados, "citacoes_invalidas": invalidas,
             "frases": len(frases), "frases_sem_citacao": sem_citacao,
             "citou_trecho_com_aviso": [trechos[n - 1]["doc"] for n in aviso_citado]}
 
