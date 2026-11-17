@@ -327,10 +327,10 @@ Como professor, quero calibrar a intensidade de suporte da adaptação entre Ní
 * **E** a seleção de nível deve atuar unicamente sobre as características funcionais ativadas na História 1.2.1.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Backend]** Definição das diretrizes de andaime nos schemas de configuração de sessão (Nível 1, 2 e 3).
-- [ ] **[Frontend]** Componente visual de calibração de suporte na Etapa 3 com cards explicativos de cada nível.
-- [ ] **[Frontend]** Feedback visual detalhando as transformações estruturais de cada intensidade (Leve, Moderada, Intensiva).
-- [ ] **[Testes]** Teste de validação garantindo que a diretiva de nível seja atribuída estritamente às características ativadas.
+- [x] **[Backend]** Definição das diretrizes de andaime nos schemas de configuração de sessão (Nível 1, 2 e 3).
+- [x] **[Frontend]** Componente visual de calibração de suporte na Etapa 3 com cards explicativos de cada nível.
+- [x] **[Frontend]** Feedback visual detalhando as transformações estruturais de cada intensidade (Leve, Moderada, Intensiva).
+- [x] **[Testes]** Teste de validação garantindo que a diretiva de nível seja atribuída estritamente às características ativadas.
 
 ##### História 1.3.2: Definição de Travas Curriculares Inegociáveis e alerta preventivo anti-muleta
 **História de Usuário**

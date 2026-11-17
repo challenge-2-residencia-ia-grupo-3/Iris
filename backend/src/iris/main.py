@@ -23,7 +23,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from iris import __version__
-from iris.config import RAG_PACOTE_DIR, get_settings
+from iris.config import RAG_PACOTE_DIR, get_settings, validate_zero_database_configuration
 
 PLAYGROUND_HTML_PATH = Path(__file__).resolve().parent / "static" / "playground.html"
 # Símbolo da Íris, o mesmo do front (frontend/public/favicon.png): ícone da aba do navegador e marca do menu do painel
@@ -117,6 +117,8 @@ def get_health_status() -> dict[str, Any]:
         "version": __version__,
         "environment": settings.env,
         "zero_student_database": settings.zero_student_database,
+        "stateless_mode": settings.stateless_mode,
+        "allowed_persistent_stores": list(settings.allowed_persistent_stores),
         "llm_provider": settings.llm_provider,
         "llm_model": active_model,
         "ollama_online": llm_info.get("ollama_online", False),
@@ -727,9 +729,11 @@ def _handle_rag_escolar_analytics(
 
 def create_app() -> Any:
     """Cria e configura a aplicação FastAPI stateless (com rotas de API, Materiais e Frontend Web)."""
-    from fastapi import Body, FastAPI, Query
+    from fastapi import Body, FastAPI, Query, Request
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import HTMLResponse
+
+    validate_zero_database_configuration(get_settings())
 
     app = FastAPI(
         title="Íris — Adaptação Inteligente de Materiais Pedagógicos",
@@ -740,6 +744,16 @@ def create_app() -> Any:
         version=__version__,
     )
 
+    @app.middleware("http")
+    async def enforce_stateless_privacy_headers(request: Request, call_next: Any) -> Any:
+        """Garante operação 100% stateless sem retenção em cache HTTP ou cookies de sessão (RNF-01)."""
+        response = await call_next(request)
+        if request.url.path.startswith("/api/v1/"):
+            if "cache-control" not in response.headers:
+                response.headers["Cache-Control"] = "no-store"
+            response.headers.setdefault("Pragma", "no-cache")
+        return response
+
     app.add_middleware(
         CORSMiddleware,
         allow_origins=[
@@ -748,7 +762,7 @@ def create_app() -> Any:
             "http://localhost:8000",
             "http://127.0.0.1:8000",
         ],
-        allow_credentials=True,
+        allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],
     )
@@ -796,9 +810,27 @@ def create_app() -> Any:
     if perfil_router is not None:
         app.include_router(perfil_router, prefix="/api/v1")
 
+    # Registra rotas de calibração de andaime cognitivo (História 1.3.1 - Issue #12)
+    from iris.api.routes.scaffolding import router as scaffolding_router
+
+    if scaffolding_router is not None:
+        app.include_router(scaffolding_router, prefix="/api/v1")
+
     @app.get("/api/v1/catalog", tags=["catalogo"])
     def get_catalog() -> dict[str, Any]:
         return _handle_catalog()
+
+    # Registra a exportação do material adaptado em PDF/DOCX (História 2.2.3 - Issue #23)
+    from iris.api.routes.exportacao_material import router as exportacao_material_router
+
+    if exportacao_material_router is not None:
+        app.include_router(exportacao_material_router, prefix="/api/v1")
+
+    # Registra a sessão de revisão docente em memória (História 2.2.2 - Issue #22)
+    from iris.api.routes.sessoes import router as sessoes_router
+
+    if sessoes_router is not None:
+        app.include_router(sessoes_router, prefix="/api/v1")
 
     @app.post("/api/v1/rag/build", tags=["rag"])
     def rag_build() -> dict[str, Any]:
@@ -1089,6 +1121,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             self.send_response(status)
             self._send_cors_headers()
             self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Pragma", "no-cache")
             self.send_header("Content-Length", str(len(raw)))
             self.end_headers()
             self.wfile.write(raw)
@@ -1139,6 +1173,10 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                         {"detail": {"detail": f"Erro interno ao carregar catálogo: {err}", "code": "INTERNAL_ERROR"}},
                         status=500,
                     )
+            elif parsed.path == "/api/v1/scaffolding/levels":
+                from iris.api.routes.scaffolding import get_scaffolding_levels_service
+
+                self._send_json(get_scaffolding_levels_service())
             elif parsed.path == "/api/v1/catalogs/characteristics/select":
                 self._send_json({"detail": "Method Not Allowed"}, status=405)
             elif parsed.path.startswith("/api/v1/catalogs/"):
@@ -1445,6 +1483,26 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 except Exception as err:  # noqa: BLE001
                     self._send_json(
                         {"detail": {"detail": f"Erro interno ao validar seleção: {err}", "code": "INTERNAL_ERROR"}},
+                        status=500,
+                    )
+            elif urlparse(self.path).path == "/api/v1/scaffolding/calibrate":
+                from iris.api.routes.scaffolding import calibrate_scaffolding_session_service
+                from iris.schemas.catalog import CatalogValidationError, CharacteristicSelectionError
+                from iris.schemas.scaffolding import ScaffoldingValidationError
+
+                try:
+                    resp = calibrate_scaffolding_session_service(body)
+                    self._send_json(resp.model_dump())
+                except (ScaffoldingValidationError, CharacteristicSelectionError) as err:
+                    self._send_json({"detail": err.to_dict()}, status=422)
+                except CatalogValidationError as err:
+                    self._send_json(
+                        {"detail": {"detail": str(err), "code": "CATALOG_SCHEMA_ERROR", "field": "catalog"}},
+                        status=500,
+                    )
+                except Exception as err:  # noqa: BLE001
+                    self._send_json(
+                        {"detail": {"detail": f"Erro interno ao calibrar andaime: {err}", "code": "INTERNAL_ERROR"}},
                         status=500,
                     )
             elif urlparse(self.path).path == "/api/v1/catalogs/characteristics":

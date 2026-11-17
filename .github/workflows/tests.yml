@@ -1,4 +1,4 @@
-name: Testes do backend
+name: Testes
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   testes:
-    name: Suíte de testes (unittest)
+    name: Backend (pytest)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -33,8 +33,13 @@ jobs:
       - name: Instalar dependências travadas no uv.lock
         run: uv sync --frozen
 
+      - name: Auditoria Zero-Database e Arquitetura Stateless (RNF-01)
+        run: uv run --frozen python scripts/audit_zero_database.py
+
+      # pytest coleta os testes em estilo unittest e os em estilo pytest (funções e parametrize).
+      # `unittest discover` só enxerga os primeiros e deixava parte da suíte fora do CI.
       - name: Rodar a suíte
-        run: uv run --frozen --with coverage coverage run --branch --source=backend/src/iris -m unittest discover -s backend/tests
+        run: uv run --frozen --with coverage coverage run --branch --source=backend/src/iris -m pytest backend/tests
         env:
           PYTHONPATH: backend/src
 
@@ -44,3 +49,30 @@ jobs:
           echo '```' >> "$GITHUB_STEP_SUMMARY"
           uv run --frozen --with coverage coverage report >> "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+  frontend:
+    name: Frontend (tipos e vitest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar o Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependências travadas no package-lock.json
+        run: npm ci
+
+      - name: Checar os tipos
+        run: npx tsc --noEmit
+
+      - name: Rodar os testes
+        run: npm test
