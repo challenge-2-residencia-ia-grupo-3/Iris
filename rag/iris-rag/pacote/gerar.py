@@ -80,7 +80,7 @@ def _chamar_groq(prompt: str) -> tuple[str, dict]:
 # Medido em 13 a 17/11/2026 (issue #86): nas perguntas do gabarito, o Haiku responde melhor que o Llama local
 # e não se separa do Sonnet em respostas úteis, por cerca de um décimo do custo por consulta.
 MODELO_ANTHROPIC_PADRAO = "claude-haiku-5-5"
-MODELO_ANTHROPIC_RESERVA = "claude-sonnet-4-5-20250929"    # o padrão anterior; fica como reserva se o modelo pedido não existir
+MODELO_ANTHROPIC_RESERVA = "claude-sonnet-5-5"    # reserva se o modelo pedido não existir (o Sonnet 4.5 anterior sai do ar em 30/11/2026)
 ESFORCO_ANTHROPIC = os.environ.get("RAG_ANTHROPIC_ESFORCO", "low")
 
 

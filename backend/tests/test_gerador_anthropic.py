@@ -69,16 +69,16 @@ class TestGeradorAnthropic(unittest.TestCase):
         self.assertNotIn("temperature", self.enviados[0])
 
     def test_modelo_legado_mantem_temperatura_zero(self):
-        os.environ["RAG_LLM_MODELO"] = "claude-sonnet-4-5-20250929"
+        os.environ["RAG_LLM_MODELO"] = "claude-sonnet-4-5-20250929"     # nome de família 4, só para testar a regra
         self._chamar([_resposta("claude-sonnet-4-5-20250929")])
         self.assertEqual(self.enviados[0]["temperature"], 0)
         self.assertNotIn("output_config", self.enviados[0])
 
     def test_modelo_inexistente_cai_na_reserva(self):
         os.environ["RAG_LLM_MODELO"] = "claude-que-nao-existe"
-        _, uso = self._chamar([_erro(404), _resposta("claude-sonnet-4-5-20250929")])
-        self.assertEqual([c["model"] for c in self.enviados], ["claude-que-nao-existe", "claude-sonnet-4-5-20250929"])
-        self.assertEqual(uso["modelo"], "claude-sonnet-4-5-20250929")
+        _, uso = self._chamar([_erro(404), _resposta("claude-sonnet-5-5")])
+        self.assertEqual([c["model"] for c in self.enviados], ["claude-que-nao-existe", "claude-sonnet-5-5"])
+        self.assertEqual(uso["modelo"], "claude-sonnet-5-5")
 
     def test_recusa_de_temperatura_refaz_sem_ela(self):
         os.environ["RAG_LLM_MODELO"] = "claude-opus-4-novo"       # reconhecido como legado pelo nome, mas a API recusa
