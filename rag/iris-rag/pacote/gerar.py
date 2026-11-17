@@ -73,12 +73,6 @@ def _chamar_groq(prompt: str) -> tuple[str, dict]:
             raise
 
 
-def pensa_por_padrao(modelo: str) -> bool:
-    """Modelos da Anthropic que pensam antes de responder quando a chamada não diz nada (Haiku 5.5, Sonnet 5 e 5.5,
-    Opus 5 e 5.5, Fable, Mythos). Nesses, o pensamento consome o max_tokens."""
-    return bool(re.search(r"claude-(haiku|sonnet|opus)-5|claude-(fable|mythos)", modelo))
-
-
 def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
     chave = os.environ.get("ANTHROPIC_API_KEY", "").strip()
     if not chave:
@@ -89,19 +83,14 @@ def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
         modelos_tentar.append("claude-sonnet-4-5-20250929")
 
     for idx_m, mod in enumerate(modelos_tentar):
-        corpo_dict = {
-            "model": mod,
-            "temperature": 0,
-            "max_tokens": 1500,
-            "messages": [{"role": "user", "content": prompt}],
-        }
-        if pensa_por_padrao(mod):
-            # Haiku 5.5, Sonnet/Opus 5 em diante pensam antes de responder, e o pensamento conta no max_tokens:
-            # com 1500, medido em 16/11/2026, 1428 iam para o pensamento e a resposta saía vazia ou cortada
-            corpo_dict["max_tokens"] = 6000
-            corpo_dict["output_config"] = {"effort": "low"}
-            corpo_dict.pop("temperature")  # esses modelos recusam o campo
-        corpo = json.dumps(corpo_dict).encode()
+        corpo = json.dumps(
+            {
+                "model": mod,
+                "temperature": 0,
+                "max_tokens": 1500,
+                "messages": [{"role": "user", "content": prompt}],
+            }
+        ).encode()
         req = urllib.request.Request(
             "https://api.anthropic.com/v1/messages",
             data=corpo,
@@ -121,9 +110,6 @@ def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
                     if isinstance(bloco, dict) and bloco.get("type") == "text"
                 ]
                 texto = "\n".join(p for p in partes if p).strip()
-                if not texto or r.get("stop_reason") == "max_tokens":
-                    # resposta vazia ou cortada não vale como resposta: quem chamou cai para o gerador sem modelo
-                    raise RuntimeError(f"resposta do modelo {mod} vazia ou cortada (stop_reason={r.get('stop_reason')})")
                 uso_raw = r.get("usage") or {}
                 uso = {
                     "prompt_tokens": uso_raw.get("input_tokens"),
@@ -131,13 +117,6 @@ def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
                 }
                 return texto, uso
             except urllib.error.HTTPError as e:
-                # Modelos mais novos (Haiku 5.5, Opus 4.7 em diante) recusam `temperature`: repete sem o campo
-                if e.code == 400 and "temperature" in corpo_dict:
-                    detalhe = e.read().decode("utf-8", errors="replace")
-                    if "temperature" in detalhe:
-                        corpo_dict.pop("temperature")
-                        req.data = json.dumps(corpo_dict).encode()
-                        continue
                 if e.code == 404 and idx_m + 1 < len(modelos_tentar):
                     break
                 if e.code in (429, 529) and tentativa < 3:
