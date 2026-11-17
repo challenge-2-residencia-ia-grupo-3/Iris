@@ -198,6 +198,7 @@ def _handle_rag_search(body: dict[str, Any]) -> dict[str, Any]:
         "metodo_solicitado": busca["metodo_solicitado"],
         "metodo_efetivo": busca["metodo_efetivo"],
         "fallback_aplicado": busca["fallback_aplicado"],
+        "fallback_motivo": busca.get("fallback_motivo"),
         "trechos_rag": trechos,
         "trechos_recuperados": [
             normalizar_trecho_ui(
@@ -323,6 +324,7 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
         "metodo_solicitado": metodo_solicitado,
         "metodo_efetivo": metodo_efetivo,
         "fallback_aplicado": metodo_efetivo != metodo_solicitado,
+        "fallback_motivo": res.get("fallback_motivo"),
         "llm": res.get("llm"),
         "llm_fallback_aplicado": llm_fallback_aplicado,
         "llm_erro": llm_erro,

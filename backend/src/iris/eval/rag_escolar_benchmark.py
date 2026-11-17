@@ -1178,6 +1178,9 @@ def _compactar_registro_item(avaliacao: dict[str, Any]) -> dict[str, Any]:
         "chunk_ids": [t["chunk_id"] for t in avaliacao["trechos_recuperados"]],
         "titulos_top3": [t["titulo"] for t in avaliacao["trechos_recuperados"][:3]],
         "resposta": avaliacao.get("resposta"),
+        # busca na reserva por questão: sem isto, a rodada só guardava "alguma caiu" e o primeiro motivo
+        "fallback_aplicado": bool(avaliacao.get("fallback_aplicado", False)),
+        "fallback_motivo": avaliacao.get("fallback_motivo"),
         **m,
     }
 
@@ -1688,6 +1691,8 @@ def executar_benchmark_rag_escolar(
         "metodo_efetivo": metodo_efetivo_final,
         "fallback_aplicado": fallback_aplicado_any,
         "fallback_motivo": fallback_motivo_final,
+        "consultas_na_reserva": sum(1 for r in registros if r.get("fallback_aplicado")),
+        "total_consultas": len(registros),
         "estrategia_query": estrategia_query,
         "nivel": nivel,
         "k": k,

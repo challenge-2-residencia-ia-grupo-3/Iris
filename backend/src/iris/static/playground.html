@@ -1856,6 +1856,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         .replace(/'/g, '&#39;');
     }
 
+    // Aviso único para "a busca pedida falhou e a consulta rodou na reserva por palavras (BM25)".
+    // Sem ele, uma medida tirada na reserva parecia ser do método pedido (caso real: KeyError no reordenador).
+    function avisoBuscaNaReserva(solicitado, efetivo, motivo) {
+      const nomeEfetivo = efetivo === 'bm25' ? 'busca por palavras (reserva)' : `${efetivo} (reserva)`;
+      return `<div class="notice notice-warn" data-aviso="busca-na-reserva">Você pediu <strong>${escapeHtml(solicitado)}</strong>, mas a consulta rodou com <strong>${escapeHtml(nomeEfetivo)}</strong>${motivo ? `. Motivo: <code>${escapeHtml(motivo)}</code>` : ''}. Os trechos e números abaixo são da reserva, não do método pedido.</div>`;
+    }
+
     function safeUrl(url) {
       if (typeof url !== 'string') return '';
       const trimmed = url.trim();
@@ -2707,7 +2714,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
         const dir = res.diretriz_andaime || {};
         const fallbackBanner = res.fallback_aplicado
-          ? `<div class="notice notice-warn">Busca vetorial (${escapeHtml(res.metodo_solicitado)}) indisponível localmente. Resultados recuperados com <strong>${escapeHtml(res.metodo_efetivo)}</strong>.</div>`
+          ? avisoBuscaNaReserva(res.metodo_solicitado, res.metodo_efetivo, res.fallback_motivo)
           : '';
 
         const refsHtml = (res.referencias_catalogo || []).map(r => `
@@ -2785,7 +2792,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
         const tel = res.telemetria_consulta || {};
         const fallbackBanner = tel.fallback_aplicado
-          ? `<div class="notice notice-warn">Busca vetorial (${escapeHtml(tel.metodo_solicitado)}) indisponível; consulta executada com <strong>${escapeHtml(tel.metodo_efetivo)}</strong>.</div>`
+          ? avisoBuscaNaReserva(tel.metodo_solicitado, tel.metodo_efetivo, tel.fallback_motivo)
           : '';
         const llmFallbackBanner = tel.llm_fallback_aplicado
           ? `<div class="notice notice-warn">O modelo configurado não respondeu (${escapeHtml(tel.llm_erro || 'indisponível')}); resposta gerada em modo extrativo local.</div>`
@@ -4087,8 +4094,12 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       document.getElementById('esc-run-caption').textContent =
         `Rodada ${info.run_id || '-'} | Método efetivo: ${info.metodo_efetivo || '-'} | Estratégia: ${info.estrategia_query || '-'} | Nível ${info.nivel || 2} | ${info.duracao_total_s || 0}s total.`;
 
+      // Contagem por rodada: rodadas antigas não gravaram consultas_na_reserva, e aí o aviso fica só com o motivo
+      const contagemReserva = (info.consultas_na_reserva != null && info.total_consultas)
+        ? `<strong>${escapeHtml(info.consultas_na_reserva)} de ${escapeHtml(info.total_consultas)}</strong> consultas desta rodada caíram na reserva. `
+        : '';
       const fallbackBanner = info.fallback_aplicado
-        ? `<div class="notice notice-warn">Você solicitou <strong>${escapeHtml(info.metodo_solicitado)}</strong>, mas a execução caiu em fallback para <strong>${escapeHtml(info.metodo_efetivo)}</strong>${info.fallback_motivo ? ` (<code>${escapeHtml(info.fallback_motivo)}</code>)` : ''}. Se faltarem dependências densas, rode <code>uv sync --group rag</code> em <code>iris/</code> e reinicie o servidor.</div>`
+        ? `<div class="notice notice-warn" data-aviso="rodada-na-reserva">${contagemReserva}Você pediu <strong>${escapeHtml(info.metodo_solicitado)}</strong>, mas a busca rodou com <strong>${escapeHtml(info.metodo_efetivo === 'bm25' ? 'busca por palavras (reserva)' : info.metodo_efetivo)}</strong>${info.fallback_motivo ? `. Primeiro motivo: <code>${escapeHtml(info.fallback_motivo)}</code>` : ''}. As métricas desta rodada não descrevem o método pedido. Se faltarem dependências densas, rode <code>uv sync --group rag</code> em <code>iris/</code> e reinicie o servidor.</div>`
         : '';
       const sonnetWarnBanner = info.juiz_sonnet_erro
         ? `<div class="notice notice-warn">Juiz Claude Sonnet: <code>${escapeHtml(info.juiz_sonnet_erro)}</code>. Exibindo Fidelidade Léxica como fallback.</div>`
@@ -4238,7 +4249,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           ? `<div class="answer-sheet" style="margin-bottom:0.85rem;"><div class="answer-sheet-head"><span class="answer-sheet-title">Resposta fundamentada (${escapeHtml(m.llm || 'RAG')})</span></div><div class="answer-prose">${formatarTextoComCitacoes(resultadoRag.resposta, scopeId)}</div></div>`
           : '';
         const fallbackOne = resultadoRag.fallback_aplicado
-          ? `<div class="notice notice-warn">Método <strong>${escapeHtml(resultadoRag.metodo_solicitado)}</strong> caiu em fallback para <strong>${escapeHtml(resultadoRag.metodo_efetivo)}</strong>${resultadoRag.fallback_motivo ? ` (<code>${escapeHtml(resultadoRag.fallback_motivo)}</code>)` : ''}.</div>`
+          ? avisoBuscaNaReserva(resultadoRag.metodo_solicitado, resultadoRag.metodo_efetivo, resultadoRag.fallback_motivo)
           : '';
         painelRagHtml = `
           ${fallbackOne}
