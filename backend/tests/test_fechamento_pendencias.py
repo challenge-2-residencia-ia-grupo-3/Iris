@@ -279,34 +279,6 @@ class TestTextosDaTela(unittest.TestCase):
         self.assertIn("poucas questões", self.html)
 
 
-class TestModeloPadraoNaoAposentado(unittest.TestCase):
-    """O padrão do juiz e do gerador não pode ser um modelo que a Anthropic já tirou ou vai tirar do ar."""
-
-    APOSENTADOS = ("claude-sonnet-4-5-20250929", "claude-sonnet-4-20250514")
-
-    def test_padrao_e_reserva_sem_modelo_aposentado(self) -> None:
-        from iris import config
-        from iris.eval import sonnet_judge
-
-        self.assertNotIn(config.JUIZ_MODELO_PADRAO, self.APOSENTADOS)
-        self.assertEqual(sonnet_judge.MODELOS_SONNET_FALLBACK[0], config.JUIZ_MODELO_PADRAO)
-        for modelo in sonnet_judge.MODELOS_SONNET_FALLBACK:
-            self.assertNotIn(modelo, self.APOSENTADOS)
-
-    def test_gerador_e_exemplo_de_ambiente_sem_modelo_aposentado(self) -> None:
-        from iris import config
-        from iris.config import RAG_PACOTE_DIR, REPO_ROOT
-
-        gerar = (RAG_PACOTE_DIR / "gerar.py").read_text(encoding="utf-8")
-        exemplo = (REPO_ROOT / ".env.example").read_text(encoding="utf-8")
-        for modelo in self.APOSENTADOS:
-            self.assertNotIn(modelo, exemplo)
-            self.assertNotIn(f'or "{modelo}"', gerar)
-            self.assertNotIn(f'append("{modelo}")', gerar)
-        self.assertIn(f'MODELO_ANTHROPIC_PADRAO = "{config.JUIZ_MODELO_PADRAO}"', gerar)
-        self.assertIn(f"IRIS_JUDGE_MODEL={config.JUIZ_MODELO_PADRAO}", exemplo)
-
-
 class TestJulgamentoDoPainelOriginalPreservado(unittest.TestCase):
     """As cores, a meta e as leituras que o painel do grupo já tinha continuam como eram; o que é das Verificações
     de qualidade aparece ao lado, como acréscimo. Cada trecho abaixo é a linha do painel original."""

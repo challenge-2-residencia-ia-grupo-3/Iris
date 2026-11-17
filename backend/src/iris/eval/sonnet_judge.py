@@ -38,12 +38,11 @@ SISTEMA_JUIZ_SONNET = (
     "Siga estritamente a regra da mensagem e devolva APENAS o objeto JSON solicitado, sem cercas markdown."
 )
 
-# Ordem de tentativa quando o modelo pedido não existe na conta (404). O claude-sonnet-4-5-20250929 saiu da lista:
-# a Anthropic o tira do ar em 30/11/2026.
 MODELOS_SONNET_FALLBACK = (
-    "claude-sonnet-5-5",
-    "claude-sonnet-5",
+    "claude-sonnet-4-5-20250929",
     "claude-sonnet-4-6",
+    "claude-sonnet-5",
+    "claude-sonnet-5-5",
 )
 
 ABREVIACAO_RE = re.compile(r"(?:\bet al|\bart|\barts|\bcf|\bvs|\bDr|\bDra|\bProf|\bn[ºo]?)\.$")

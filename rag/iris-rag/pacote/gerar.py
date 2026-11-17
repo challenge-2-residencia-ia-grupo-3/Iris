@@ -73,10 +73,6 @@ def _chamar_groq(prompt: str) -> tuple[str, dict]:
             raise
 
 
-# Padrão e reserva da geração pela API da Anthropic. Era claude-sonnet-4-5-20250929, tirado do ar em 30/11/2026.
-MODELO_ANTHROPIC_PADRAO = "claude-sonnet-5-5"
-
-
 def pensa_por_padrao(modelo: str) -> bool:
     """Modelos da Anthropic que pensam antes de responder quando a chamada não diz nada (Haiku 5.5, Sonnet 5 e 5.5,
     Opus 5 e 5.5, Fable, Mythos). Nesses, o pensamento consome o max_tokens."""
@@ -87,10 +83,10 @@ def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
     chave = os.environ.get("ANTHROPIC_API_KEY", "").strip()
     if not chave:
         raise RuntimeError("ANTHROPIC_API_KEY não configurada para geração.")
-    modelo_alvo = os.environ.get("RAG_LLM_MODELO") or os.environ.get("CLAUDE_SONNET_MODEL") or MODELO_ANTHROPIC_PADRAO
+    modelo_alvo = os.environ.get("RAG_LLM_MODELO") or os.environ.get("CLAUDE_SONNET_MODEL") or "claude-sonnet-4-5-20250929"
     modelos_tentar = [modelo_alvo]
-    if modelo_alvo != MODELO_ANTHROPIC_PADRAO:
-        modelos_tentar.append(MODELO_ANTHROPIC_PADRAO)
+    if modelo_alvo != "claude-sonnet-4-5-20250929":
+        modelos_tentar.append("claude-sonnet-4-5-20250929")
 
     for idx_m, mod in enumerate(modelos_tentar):
         corpo_dict = {
@@ -103,8 +99,7 @@ def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
             # Haiku 5.5, Sonnet/Opus 5 em diante pensam antes de responder, e o pensamento conta no max_tokens:
             # com 1500, medido em 16/11/2026, 1428 iam para o pensamento e a resposta saía vazia ou cortada
             corpo_dict["max_tokens"] = 6000
-            # esforço do gerador nesses modelos: baixo por padrão; RAG_ANTHROPIC_ESFORCO troca (low, medium, high)
-            corpo_dict["output_config"] = {"effort": os.environ.get("RAG_ANTHROPIC_ESFORCO", "low")}
+            corpo_dict["output_config"] = {"effort": "low"}
             corpo_dict.pop("temperature")  # esses modelos recusam o campo
         corpo = json.dumps(corpo_dict).encode()
         req = urllib.request.Request(

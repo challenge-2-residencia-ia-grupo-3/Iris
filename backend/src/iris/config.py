@@ -19,9 +19,8 @@ CATALOGS_DIR = RAG_DIR / "catalogs"
 BENCHMARKS_DIR = REPO_ROOT / "data" / "benchmarks"
 
 # Modelo padrão do juiz (e do gerador da bateria com chave), num lugar só, para a classe e a leitura do ambiente
-# não divergirem. Era claude-sonnet-4-5-20250929, que a Anthropic tira do ar em 30/11/2026; para usar outro modelo,
-# a variável IRIS_JUDGE_MODEL.
-JUIZ_MODELO_PADRAO = "claude-sonnet-5-5"
+# não divergirem. O valor é o que o grupo fixou na dev; trocar o modelo é decisão do grupo (IRIS_JUDGE_MODEL).
+JUIZ_MODELO_PADRAO = "claude-sonnet-4-5-20250929"
 
 # Único armazenamento persistente autorizado no backend (RNF-01)
 ALLOWED_PERSISTENT_STORES: tuple[str, ...] = ("rag_vector_readonly",)
