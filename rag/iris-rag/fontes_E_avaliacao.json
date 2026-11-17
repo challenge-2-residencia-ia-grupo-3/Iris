@@ -1,0 +1,791 @@
+{
+ "parte": "E-AVALIACAO",
+ "documentos": [
+  {
+   "id": "OCDE-2025-PISA-ACESSIBILIDADE",
+   "titulo": "Improving accessibility in PISA: Guidelines for revising and designing PISA items (OECD Education Working Papers No. 333)",
+   "autores": [
+    "Camille Voisin",
+    "Ava Guez",
+    "Mario Piacentini"
+   ],
+   "ano": 2025,
+   "revista": "OCDE (OECD Publishing)",
+   "doi": "10.1787/aa90f707-en",
+   "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/07/improving-accessibility-in-pisa_7904482a/aa90f707-en.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "CC BY 4.0 (© OECD 2025; declarada na p. 3 do PDF)",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "fe734a21637e52b714f67c8bf84e8f4336f6a3ff9dcfd787629cb6d0810f197d",
+   "bytes_bruto": 1531029,
+   "arquivo_bruto": "raw/OECD-2025-PISA-ACESSIBILIDADE.pdf",
+   "arquivo_texto": "texto/ocde-2025-pisa-acessibilidade.txt",
+   "paginas": 28,
+   "caracteres_extraidos": 68018,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "controle_inibitorio",
+    "memoria_trabalho"
+   ],
+   "tipo_evidencia": "diretriz",
+   "achado_principal": "Diretrizes do PISA para revisar e escrever itens acessíveis: enunciado afirmativo, palavra-chave em negrito, texto em pedaços manejáveis, corte do que não é essencial.",
+   "implicacao_para_iris": "Base para reescrever negações e dividir comandos sem mudar o que a questão avalia.",
+   "nota_uso": "",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "INEP-2010-GUIA-ITENS",
+   "titulo": "Guia de Elaboração e Revisão de Itens, Volume 1",
+   "autores": [
+    "Inep/Daeb"
+   ],
+   "ano": 2010,
+   "revista": "Inep, Diretoria de Avaliação da Educação Básica",
+   "doi": null,
+   "url": "https://morretes.pr.gov.br/uploads/pagina/arquivos/GuiaelaboracaoitensINEP.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "não declarada no PDF (documento público do Inep)",
+   "idioma": "pt-BR",
+   "tipo": "pdf",
+   "sha256_bruto": "4a8c7eddd9c53a2883980beeff39f064a8cdbe74ea32c53bbe8a7d52ff25debd",
+   "bytes_bruto": 2709184,
+   "arquivo_bruto": "raw/INEP-2010-GUIA-ITENS-TERCEIRO.pdf",
+   "arquivo_texto": "texto/inep-2010-guia-itens.txt",
+   "paginas": 20,
+   "caracteres_extraidos": 25058,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "controle_inibitorio",
+    "memoria_trabalho"
+   ],
+   "tipo_evidencia": "diretriz",
+   "achado_principal": "Guia do Inep para elaborar itens: não usar 'exceto', 'não', 'incorreto' no enunciado; uma única situação-problema e uma única habilidade por item.",
+   "implicacao_para_iris": "Regra oficial brasileira contra negação no enunciado e contra vários comandos no mesmo item.",
+   "nota_uso": "Cópia de terceiro (não achada no portal do Inep); licença não declarada no PDF.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  },
+  {
+   "id": "CHIAVAROLI-2017-ENUNCIADO-NEGATIVO",
+   "titulo": "Negatively-Worded Multiple Choice Questions: An Avoidable Threat to Validity",
+   "autores": [
+    "Neville Chiavaroli"
+   ],
+   "ano": 2017,
+   "revista": "Practical Assessment, Research & Evaluation, v. 22, n. 3",
+   "doi": null,
+   "url": "https://files.eric.ed.gov/fulltext/EJ1143360.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "Copyright do autor; 'Permission is granted to distribute this article for nonprofit, educational purposes if it is copied in its entirety and the journal is credited' (p. 1)",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "4044e68ea5e70c72ad7a8a4d4e48e0983075912a09b2e48f9dc14884a3e19471",
+   "bytes_bruto": 384917,
+   "arquivo_bruto": "raw/CHIAVAROLI-2017-NBME-ITENS.pdf",
+   "arquivo_texto": "texto/chiavaroli-2017-enunciado-negativo.txt",
+   "paginas": 14,
+   "caracteres_extraidos": 51086,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "controle_inibitorio"
+   ],
+   "tipo_evidencia": "revisao_narrativa",
+   "achado_principal": "Revisão com análise de itens: o enunciado negativo ameaça a validade; destacar o termo negativo não evita o erro; reescrever na forma afirmativa.",
+   "implicacao_para_iris": "Sustenta preferir a reescrita afirmativa ao destaque, quando a negação não é o alvo da pergunta.",
+   "nota_uso": "",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  },
+  {
+   "id": "NCEO-2002-DESENHO-UNIVERSAL",
+   "titulo": "Universal Design Applied to Large Scale Assessments (Synthesis Report 44)",
+   "autores": [
+    "Sandra J. Thompson",
+    "Christopher J. Johnstone",
+    "Martha L. Thurlow"
+   ],
+   "ano": 2002,
+   "revista": "NCEO, University of Minnesota",
+   "doi": null,
+   "url": "https://nceo.umn.edu/publications/onlinepubs/Synthesis44.html",
+   "data_acesso": "2026-11-17",
+   "licenca": "'Any or all portions of this document may be reproduced and distributed without prior permission, provided the source is cited'",
+   "idioma": "en",
+   "tipo": "html",
+   "sha256_bruto": "0ce602c3db605002884a692174f9ffce57dbeff47b18cbaaeaaf4672bbf3a7f8",
+   "bytes_bruto": 153762,
+   "arquivo_bruto": "raw/NCEO-2002-SINTESE44.html",
+   "arquivo_texto": "texto/nceo-2002-desenho-universal.md",
+   "paginas": null,
+   "caracteres_extraidos": 80650,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "memoria_trabalho",
+    "flexibilidade_cognitiva"
+   ],
+   "tipo_evidencia": "revisao_narrativa",
+   "achado_principal": "Desenho universal aplicado a avaliações: instruções simples e consistentes, numerar cada pergunta de um item, uma ideia por vez, ao menos um exemplo por conjunto de itens.",
+   "implicacao_para_iris": "Ações de prova para comandos múltiplos e para sinalizar blocos.",
+   "nota_uso": "",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/html2md.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "NCEO-2003-DESENHO-UNIVERSAL-DESEMPENHO",
+   "titulo": "Improving Validity of Large-scale Tests: Universal Design and Student Performance (Technical Report 37)",
+   "autores": [
+    "Christopher J. Johnstone"
+   ],
+   "ano": 2003,
+   "revista": "NCEO, University of Minnesota",
+   "doi": null,
+   "url": "https://nceo.umn.edu/publications/onlinepubs/Technical37.htm",
+   "data_acesso": "2026-11-17",
+   "licenca": "'Any or all portions of this document may be reproduced and distributed without prior permission, provided the source is cited'",
+   "idioma": "en",
+   "tipo": "html",
+   "sha256_bruto": "2b2c86ac60cdcf9ec1816412bf300125b9a6b037ebdc58cd95fc5479adf7a67b",
+   "bytes_bruto": 162985,
+   "arquivo_bruto": "raw/NCEO-2003-TECNICO37.html",
+   "arquivo_texto": "texto/nceo-2003-desenho-universal-desempenho.md",
+   "paginas": null,
+   "caracteres_extraidos": 80725,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "flexibilidade_cognitiva"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Experimento intra-sujeito (n=231, 31 com dificuldade de aprendizagem): a versão com desenho universal (instruções simples, exemplo, sinais de continuação, fonte maior) teve efeito d≈0,39.",
+   "implicacao_para_iris": "Evidência de que a prova redesenhada ajuda; as mudanças vêm juntas, sem isolar cada uma.",
+   "nota_uso": "",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/html2md.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "PANSANATO-2024-ADAPTACAO-TDAH",
+   "titulo": "Um conjunto de diretrizes para a adaptação de avaliações de aprendizagem para alunos com TDAH",
+   "autores": [
+    "Luciano Tadeu Esteves Pansanato",
+    "Bruna Rafaela da Silva"
+   ],
+   "ano": 2024,
+   "revista": "Revista Transmutare (UTFPR), v. 9, e17713",
+   "doi": "10.3895/rtr.v9n0.17713",
+   "url": "https://periodicos.utfpr.edu.br/rtr/article/download/17713/10262",
+   "data_acesso": "2026-11-17",
+   "licenca": "CC BY 4.0 (Creative Commons Atribuição 4.0 Internacional; p. 21)",
+   "idioma": "pt-BR",
+   "tipo": "pdf",
+   "sha256_bruto": "a0a50fa26a0f99c67761ccb0826c7490753b3b07c88a280bb0657861ace3ef58",
+   "bytes_bruto": 361368,
+   "arquivo_bruto": "raw/PANSANATO-2024-TRANSMUTARE.pdf",
+   "arquivo_texto": "texto/pansanato-2024-adaptacao-tdah.txt",
+   "paginas": 21,
+   "caracteres_extraidos": 48640,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "memoria_trabalho",
+    "flexibilidade_cognitiva",
+    "iniciacao_tarefa"
+   ],
+   "tipo_evidencia": "revisao_narrativa",
+   "achado_principal": "Diretrizes brasileiras para adaptar avaliações para alunos com TDAH: dividir questão longa em itens numerados, prova de um conteúdo só, formato padrão por tipo de questão. Sem teste empírico.",
+   "implicacao_para_iris": "Única fonte em português sobre adaptar a prova para TDAH; a diretriz 02 (mesclar questões longas e curtas) conflita com agrupar por formato.",
+   "nota_uso": "",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "WWC-2012-RESOLUCAO-PROBLEMAS",
+   "titulo": "Improving Mathematical Problem Solving in Grades 4 Through 8 (NCEE 2012-4055)",
+   "autores": [
+    "John Woodward",
+    "Sybilla Beckmann",
+    "Mark Driscoll",
+    "Megan Franke",
+    "Patricia Herzig",
+    "Asha Jitendra",
+    "Kenneth R. Koedinger",
+    "Philip Ogbuehi"
+   ],
+   "ano": 2012,
+   "revista": "IES/NCEE, What Works Clearinghouse",
+   "doi": null,
+   "url": "https://ies.ed.gov/ncee/wwc/Docs/PracticeGuide/mps_pg_052212.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "domínio público ('This report is in the public domain', p. 4)",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "525b7c0b7d2df2dca306c8c7d9e767ed72c26a0dcb636488b4bec4c981901c04",
+   "bytes_bruto": 4677965,
+   "arquivo_bruto": "raw/WWC-2012-WOODWARD-PROBLEMAS.pdf",
+   "arquivo_texto": "texto/wwc-2012-resolucao-problemas.txt",
+   "paginas": 92,
+   "caracteres_extraidos": 264829,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "iniciacao_tarefa"
+   ],
+   "tipo_evidencia": "diretriz",
+   "achado_principal": "Guia do What Works Clearinghouse para resolução de problemas em matemática (4º ao 8º ano): perguntas-guia e lista de tarefas para o aluno se monitorar (evidência forte); explicar os passos de exemplos resolvidos.",
+   "implicacao_para_iris": "Sustenta dar perguntas-guia e um primeiro passo em questões abertas; o guia fala do ensino, não da prova.",
+   "nota_uso": "",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "WWC-2012-ESCRITA",
+   "titulo": "Teaching Elementary School Students to Be Effective Writers (NCEE 2012-4058)",
+   "autores": [
+    "Steve Graham",
+    "Alisha Bollinger",
+    "Carol Booth Olson",
+    "Catherine D'Aoust",
+    "Charles MacArthur",
+    "Deborah McCutchen",
+    "Natalie Olinghouse"
+   ],
+   "ano": 2012,
+   "revista": "IES/NCEE, What Works Clearinghouse",
+   "doi": null,
+   "url": "https://ies.ed.gov/ncee/wwc/Docs/PracticeGuide/writing_pg_062612.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "domínio público ('This report is in the public domain', p. 4)",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "0ed842e0e55cea99a9a739431e903cab7fc98fa0d92082c1e7f44d787473af8b",
+   "bytes_bruto": 5162393,
+   "arquivo_bruto": "raw/WWC-2012-GRAHAM-ESCRITA.pdf",
+   "arquivo_texto": "texto/wwc-2012-escrita.txt",
+   "paginas": 109,
+   "caracteres_extraidos": 328588,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "iniciacao_tarefa"
+   ],
+   "tipo_evidencia": "diretriz",
+   "achado_principal": "Guia do What Works Clearinghouse para a escrita no ensino fundamental: ensinar estratégias de planejamento com responsabilidade transferida aos poucos (evidência forte).",
+   "implicacao_para_iris": "Sustenta pôr um roteiro de etapas na questão aberta de escrita; o guia fala do ensino.",
+   "nota_uso": "",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "PASHLER-2007-ORGANIZAR-ESTUDO",
+   "titulo": "Organizing Instruction and Study to Improve Student Learning (NCER 2007-2004)",
+   "autores": [
+    "Harold Pashler",
+    "Patrice M. Bain",
+    "Brian A. Bottge",
+    "Arthur Graesser",
+    "Kenneth Koedinger",
+    "Mark McDaniel",
+    "Janet Metcalfe"
+   ],
+   "ano": 2007,
+   "revista": "IES/NCER, Practice Guide",
+   "doi": null,
+   "url": "https://ies.ed.gov/ncee/WWC/Docs/PracticeGuide/20072004.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "domínio público ('This report is in the public domain', p. 3)",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "5e6a7602f80c3856875e5461aab1b1d20404dcf8dd761d34b9cd8698b9196154",
+   "bytes_bruto": 1018713,
+   "arquivo_bruto": "raw/PASHLER-2007-ESTUDO.pdf",
+   "arquivo_texto": "texto/pashler-2007-organizar-estudo.txt",
+   "paginas": 63,
+   "caracteres_extraidos": 184028,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "iniciacao_tarefa"
+   ],
+   "tipo_evidencia": "diretriz",
+   "achado_principal": "Guia do IES: alternar exemplos resolvidos com problemas parecidos para o aluno resolver; espaçar e testar a memória.",
+   "implicacao_para_iris": "Lado do ensino; na prova, apoia oferecer um exemplo resolvido antes de uma questão aberta.",
+   "nota_uso": "",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "JAROSLAWSKA-2016-INSTRUCOES-MEMORIA",
+   "titulo": "Following instructions in a virtual school: Does working memory play a role?",
+   "autores": [
+    "Agnieszka J. Jaroslawska",
+    "Susan E. Gathercole",
+    "Matthew R. Logie",
+    "Joni Holmes"
+   ],
+   "ano": 2016,
+   "revista": "Memory & Cognition",
+   "doi": "10.3758/s13421-015-0579-2",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4835523/",
+   "data_acesso": "2026-11-17",
+   "licenca": "CC BY 4.0 (tag <license> do JATS)",
+   "idioma": "en",
+   "tipo": "xml",
+   "sha256_bruto": "7df2e3991c7f4b243eea968bae15830633e2d41fbf4d2a01344fb87e56177922",
+   "bytes_bruto": 103782,
+   "arquivo_bruto": "raw/JAROSLAWSKA-2016-INSTRUCOES.xml",
+   "arquivo_texto": "texto/jaroslawska-2016-instrucoes-memoria.md",
+   "paginas": null,
+   "caracteres_extraidos": 39496,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "memoria_trabalho"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Experimento com 42 crianças de 7 a 11 anos: a memória de trabalho verbal limita seguir sequências de instruções.",
+   "implicacao_para_iris": "Mecanismo de laboratório para comandos múltiplos; separar e numerar etapas é inferência.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pq_jats2md.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "HUNG-2016-EXERCICIO-TDAH",
+   "titulo": "Neuroelectric and Behavioral Effects of Acute Exercise on Task Switching in Children with Attention-Deficit/Hyperactivity Disorder",
+   "autores": [
+    "Chiao-Ling Hung",
+    "Chung-Ju Huang",
+    "Yu-Jung Tsai",
+    "Yu-Kai Chang",
+    "Tsung-Min Hung"
+   ],
+   "ano": 2016,
+   "revista": "Frontiers in Psychology",
+   "doi": "10.3389/fpsyg.2016.01589",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5062018/",
+   "data_acesso": "2026-11-17",
+   "licenca": "CC BY 4.0 (tag <license> do JATS)",
+   "idioma": "en",
+   "tipo": "xml",
+   "sha256_bruto": "30963d706c73758a1c6363dc0ec995497b1fadc7c9f1e222e8e8e23474398136",
+   "bytes_bruto": 138230,
+   "arquivo_bruto": "raw/HUNG-2016-EXERCICIO-TDAH.xml",
+   "arquivo_texto": "texto/hung-2016-exercicio-tdah.md",
+   "paginas": null,
+   "caracteres_extraidos": 47215,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "flexibilidade_cognitiva"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Laboratório com 20 crianças com TDAH e 20 controles: em blocos com troca de regra, o erro foi 16% contra 5,6%, com o mesmo tempo.",
+   "implicacao_para_iris": "Mecanismo para a troca de assunto; apoia blocos de regra única, sem testar a prova.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pq_jats2md.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "IRWIN-2019-TDAH-ALTERNANCIA",
+   "titulo": "Do children with attention-deficit/hyperactivity disorder (ADHD) have set shifting deficits?",
+   "autores": [
+    "Lauren N. Irwin",
+    "Michael J. Kofler",
+    "Elia F. Soto",
+    "Nicole B. Groves"
+   ],
+   "ano": 2019,
+   "revista": "Neuropsychology",
+   "doi": "10.1037/neu0000546",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6668027/",
+   "data_acesso": "2026-11-17",
+   "licenca": "sem licença aberta: manuscrito do autor (NIHMS1039490) sob 'PMC Copyright notice'; Europe PMC: isOpenAccess=N",
+   "idioma": "en",
+   "tipo": "html",
+   "sha256_bruto": "48ad4d598ffa1951e65016f66190a0b9b6fe08c0df212563dfa8784e72a55a90",
+   "bytes_bruto": 266530,
+   "arquivo_bruto": "raw/IRWIN-2019-TDAH-ALTERNANCIA.html",
+   "arquivo_texto": "texto/irwin-2019-tdah-alternancia.md",
+   "paginas": null,
+   "caracteres_extraidos": 71443,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "flexibilidade_cognitiva"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Experimento com 77 crianças (43 com TDAH): na troca de regra, o aluno com TDAH não fica mais lento, mas erra mais por manter a regra anterior.",
+   "implicacao_para_iris": "Mecanismo para a troca de assunto; apoia sinalizar a troca, sem testar a prova.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/html2md.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  },
+  {
+   "id": "HAASNOOT-2026-ORDEM-QUESTOES",
+   "titulo": "Ordered or scrambled: how the forward sequencing of multiple choice questions affects test item scores",
+   "autores": [
+    "C.W. Haasnoot",
+    "Charan van Krevel",
+    "Albert de Vaal"
+   ],
+   "ano": 2026,
+   "revista": "Assessment & Evaluation in Higher Education",
+   "doi": "10.1080/02602938.2025.2568187",
+   "url": "https://pure.uva.nl/ws/files/327888630/Ordered_or_scrambled.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "CC BY-NC-ND 4.0 (© 2025 the Author(s); p. 2)",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "086005bf8b81663f09aecc592fc1ef1c05179bb5b2d40208142ff0069cc9336e",
+   "bytes_bruto": 1641416,
+   "arquivo_bruto": "raw/HAASNOOT-2026-ORDEM.pdf",
+   "arquivo_texto": "texto/haasnoot-2026-ordem-questoes.txt",
+   "paginas": 17,
+   "caracteres_extraidos": 51573,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "flexibilidade_cognitiva"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Estudo observacional com 16.127 respostas de universitários: questões do mesmo tema em sequência aumentam o acerto, com efeito acumulado.",
+   "implicacao_para_iris": "Apoia agrupar questões por tema na prova; população sem TDAH.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  },
+  {
+   "id": "VANDEPOL-2010-ANDAIME",
+   "titulo": "Scaffolding in teacher-student interaction: a decade of research",
+   "autores": [
+    "Janneke van de Pol",
+    "Monique Volman",
+    "Jos Beishuizen"
+   ],
+   "ano": 2010,
+   "revista": "Educational Psychology Review",
+   "doi": "10.1007/s10648-010-9127-6",
+   "url": "https://research.vu.nl/ws/files/2755348/252440.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "CC BY-NC (Creative Commons Attribution Noncommercial License; p. 18)",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "42c12c03328e6c0b48c225ca7eac8d19a458587541fe745167c0107d7435e7f5",
+   "bytes_bruto": 371655,
+   "arquivo_bruto": "raw/VANDEPOL-2010-SCAFFOLDING.pdf",
+   "arquivo_texto": "texto/vandepol-2010-andaime.txt",
+   "paginas": 27,
+   "caracteres_extraidos": 89900,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "iniciacao_tarefa"
+   ],
+   "tipo_evidencia": "revisao_sistematica",
+   "achado_principal": "Revisão sobre andaime na interação professor-aluno: ajustar ao aluno e retirar aos poucos; poucos estudos de efeito, positivos.",
+   "implicacao_para_iris": "Fundamento do andaime nos três níveis de adaptação.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "RENKL-2000-EXEMPLOS-RESOLVIDOS",
+   "titulo": "From Studying Examples to Solving Problems: Fading Worked-Out Solution Steps Helps Learning",
+   "autores": [
+    "Alexander Renkl",
+    "Robert K. Atkinson",
+    "Uwe H. Maier"
+   ],
+   "ano": 2000,
+   "revista": "Proceedings of the Annual Meeting of the Cognitive Science Society, 22",
+   "doi": null,
+   "url": "https://escholarship.org/uc/item/81b9j9hs",
+   "data_acesso": "2026-11-17",
+   "licenca": "nenhuma declarada (API do eScholarship: rights = null; PDF sem licença)",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "eab9b40b5509aa4132f3b1a7ca27f030c2b6796202bfcfe3c560a402641aec3c",
+   "bytes_bruto": 121053,
+   "arquivo_bruto": "raw/RENKL-2000-EXEMPLOS-RESOLVIDOS.pdf",
+   "arquivo_texto": "texto/renkl-2000-exemplos-resolvidos.txt",
+   "paginas": 7,
+   "caracteres_extraidos": 36043,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "iniciacao_tarefa"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Dois experimentos: retirar aos poucos os passos de um exemplo resolvido melhora a transferência próxima.",
+   "implicacao_para_iris": "Apoia dar o primeiro passo e deixar o resto em questões abertas.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  },
+  {
+   "id": "KLENDER-2019-ENUNCIADO-NEGATIVO",
+   "titulo": "Differences in Item Statistics Between Positively and Negatively Worded Stems on Histology Examinations",
+   "autores": [
+    "Sara Klender",
+    "Andrew Ferriby",
+    "Andrew Notebaert"
+   ],
+   "ano": 2019,
+   "revista": "HAPS Educator, v. 23, n. 3",
+   "doi": null,
+   "url": "https://files.eric.ed.gov/fulltext/EJ1239131.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "não declarada no PDF; revista de acesso aberto (HAPS), cópia no ERIC",
+   "idioma": "en",
+   "tipo": "pdf",
+   "sha256_bruto": "d90a0ad5c59ee532033262772d0d28c843257fdd2ec8b0a3c5614e5177a3d2ff",
+   "bytes_bruto": 353241,
+   "arquivo_bruto": "raw/KLENDER-2019.pdf",
+   "arquivo_texto": "texto/klender-2019-enunciado-negativo.txt",
+   "paginas": 11,
+   "caracteres_extraidos": 37760,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "controle_inibitorio"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Itens pareados de histologia: o enunciado negativo de nível baixo saiu mais fácil e discriminou menos; efeito pequeno.",
+   "implicacao_para_iris": "Contraprova parcial: o efeito da negação existe, mas é pequeno e localizado.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  },
+  {
+   "id": "CALDWELL-2013-FORMATO-QUESTOES",
+   "titulo": "Effects of question formats on student and item performance",
+   "autores": [
+    "David J. Caldwell",
+    "Adam N. Pate"
+   ],
+   "ano": 2013,
+   "revista": "American Journal of Pharmaceutical Education, 77(4)",
+   "doi": "10.5688/ajpe77471",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3663625/",
+   "data_acesso": "2026-11-17",
+   "licenca": "sem licença aberta: '© 2013 American Association of Colleges of Pharmacy', PMC Copyright notice; Europe PMC: isOpenAccess=N",
+   "idioma": "en",
+   "tipo": "html",
+   "sha256_bruto": "c32da7e2442d3f3ded9b466a8000439f28f1b1533c6be63c35a0d11844591d27",
+   "bytes_bruto": 124319,
+   "arquivo_bruto": "raw/CALDWELL-2013-FORMATO-QUESTOES.html",
+   "arquivo_texto": "texto/caldwell-2013-formato-questoes.md",
+   "paginas": null,
+   "caracteres_extraidos": 19696,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "controle_inibitorio"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Experimento com duas versões de prova (n=109): o enunciado negativo, sozinho, não teve efeito significativo; 'nenhuma das anteriores' teve.",
+   "implicacao_para_iris": "Contraprova: a regra contra a negação não tem apoio experimental forte.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/html2md.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  },
+  {
+   "id": "ARAUJOTOMBI-2022-QUALIDADE-ITENS",
+   "titulo": "Qualidade dos itens de múltipla escolha utilizados em um teste de progresso",
+   "autores": [
+    "Elen Cristina Nascimento de Araujo Tombi",
+    "Cristina Zukowsky-Tavares",
+    "Iraní Ferreira-Gerab"
+   ],
+   "ano": 2022,
+   "revista": "Estudos em Avaliação Educacional (FCC), v. 33, e07533",
+   "doi": "10.18222/eae.v33.7533",
+   "url": "https://publicacoes.fcc.org.br/eae/article/download/7533/4350/46399",
+   "data_acesso": "2026-11-17",
+   "licenca": "CC BY-NC ('licença Creative Commons do tipo BY-NC', p. 20)",
+   "idioma": "pt-BR",
+   "tipo": "pdf",
+   "sha256_bruto": "b640baf3b2e043c716c12d1b92738dcbc968ba1fd3f67ccacb02aa25ec9d1521",
+   "bytes_bruto": 421026,
+   "arquivo_bruto": "raw/ARAUJOTOMBI-2022.pdf",
+   "arquivo_texto": "texto/araujotombi-2022-qualidade-itens.txt",
+   "paginas": 20,
+   "caracteres_extraidos": 52759,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "controle_inibitorio"
+   ],
+   "tipo_evidencia": "estudo_primario",
+   "achado_principal": "Análise de 100 itens de um teste de progresso: o enunciado negativo entra na lista de falhas de redação (2 dos 100 itens).",
+   "implicacao_para_iris": "Apoia pôr a negação na lista de revisão do item.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py.",
+   "status": "aceito"
+  },
+  {
+   "id": "CAED-2008-GUIA-ITENS-MATEMATICA",
+   "titulo": "Guia de Elaboração de Itens: Matemática",
+   "autores": [
+    "CAEd/UFJF (coord. geral Lina Kátia Mesquita Oliveira)"
+   ],
+   "ano": 2008,
+   "revista": "CAEd, Universidade Federal de Juiz de Fora",
+   "doi": null,
+   "url": "https://docs.ufpr.br/~aanjos/CE095/3_Guia_De_-Elabora%C3%A7%C3%A3o_De_Itens_MT.pdf",
+   "data_acesso": "2026-11-17",
+   "licenca": "não declarada",
+   "idioma": "pt-BR",
+   "tipo": "pdf",
+   "sha256_bruto": "4a9d7dc2df599a563c353a08bd3013f7af7c9ffe9dcdfeb4a513c5180bed158a",
+   "bytes_bruto": 3206959,
+   "arquivo_bruto": "raw/CAED-2008-GUIA-ITENS-MATEMATICA-TERCEIRO.pdf",
+   "arquivo_texto": "texto/caed-2008-guia-itens-matematica.txt",
+   "paginas": 146,
+   "caracteres_extraidos": 156958,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "controle_inibitorio",
+    "memoria_trabalho"
+   ],
+   "tipo_evidencia": "diretriz",
+   "achado_principal": "Guia do CAEd/UFJF no padrão Saeb: vedadas expressões negativas no item; um único problema por item; comando claro e objetivo.",
+   "implicacao_para_iris": "Regra brasileira de elaboração de itens, em cópia de terceiro.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH. Cópia de terceiro; licença não declarada.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  },
+  {
+   "id": "CASTRO-2023-ENEM-MATEMATICA-TDAH",
+   "titulo": "Uma proposta de adaptação da prova do Enem de matemática para alunos com TDAH",
+   "autores": [
+    "Felipe Alexandre de Castro"
+   ],
+   "ano": 2023,
+   "revista": "UERJ, PROFMAT (dissertação de mestrado)",
+   "doi": null,
+   "url": "http://www.bdtd.uerj.br/handle/1/23053",
+   "data_acesso": "2026-11-17",
+   "licenca": "sem CC; repositório: 'Acesso Aberto'; PDF: 'Autorizo, apenas para fins acadêmicos e científicos, a reprodução total ou parcial desta dissertação, desde que citada a fonte'",
+   "idioma": "pt-BR",
+   "tipo": "pdf",
+   "sha256_bruto": "00b49ae6bc67970e7b2e87806e9a01d34ffca347f7f5717f937718b912194fea",
+   "bytes_bruto": 914952,
+   "arquivo_bruto": "raw/CASTRO-2023-ENEM-MATEMATICA-TDAH.pdf",
+   "arquivo_texto": "texto/castro-2023-enem-matematica-tdah.txt",
+   "paginas": 51,
+   "caracteres_extraidos": 89542,
+   "bloco": "avaliacao_acessivel",
+   "tema": [
+    "avaliação acessível",
+    "redação de itens"
+   ],
+   "barreiras": [
+    "memoria_trabalho",
+    "iniciacao_tarefa"
+   ],
+   "tipo_evidencia": "dissertacao",
+   "achado_principal": "Dissertação do PROFMAT/UERJ: adapta três questões de matemática do Enem 2021 para alunos com TDAH.",
+   "implicacao_para_iris": "Exemplo brasileiro de adaptação de questão; trabalho de mestrado sem teste com alunos.",
+   "nota_uso": "Nível 2: apoio, contraprova ou evidência de laboratório; não testa a adaptação numa prova com alunos com TDAH.",
+   "qualidade_extracao": "ok",
+   "obs_qualidade": "Extraído com scripts/pdf2txt.py. Texto não distribuído (licença): ver textos_nao_distribuidos.txt.",
+   "status": "aceito"
+  }
+ ],
+ "recusados": [
+  {
+   "id": "FERREIRA-2026-PROVAS-PORTUGUES-TDAH",
+   "url": "https://doi.org/10.22167/2675-6528-202604297",
+   "motivo": "CC BY 4.0, mas a própria página diz que o texto vem de um TCC e foi adaptado com ferramenta de IA; não passa no critério de credibilidade."
+  }
+ ],
+ "nao_obtidos": [
+  {
+   "o_que": "Beddow, Elliott e Kettler 2013, Test Accessibility: Item Reviews and Lessons Learned from Four State Assessments, doi 10.1155/2013/952704",
+   "url": "https://doi.org/10.1155/2013/952704",
+   "erro": "CC BY pelo Unpaywall, mas o site pede verificação de robô e não há cópia no PMC, Europe PMC ou ERIC."
+  }
+ ]
+}
