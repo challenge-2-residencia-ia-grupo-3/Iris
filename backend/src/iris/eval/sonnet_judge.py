@@ -327,15 +327,18 @@ def chamar_claude_sonnet_api(
     ultimo_erro: Exception | None = None
 
     for mod_tentativa in candidatos:
-        corpo = json.dumps(
-            {
-                "model": mod_tentativa,
-                "max_tokens": 2048,
-                "temperature": temperature,
-                "system": sistema,
-                "messages": [{"role": "user", "content": prompt}],
-            }
-        ).encode("utf-8")
+        corpo_dict: dict[str, Any] = {
+            "model": mod_tentativa,
+            "max_tokens": 2048,
+            "temperature": temperature,
+            "system": sistema,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        if re.search(r"claude-(haiku|sonnet|opus)-5|claude-(fable|mythos)", mod_tentativa):
+            # modelos que pensam antes de responder: o pensamento conta no max_tokens e eles recusam `temperature`
+            corpo_dict["max_tokens"] = 12000
+            corpo_dict.pop("temperature")
+        corpo = json.dumps(corpo_dict).encode("utf-8")
 
         req = urllib.request.Request(
             "https://api.anthropic.com/v1/messages",
@@ -369,6 +372,10 @@ def chamar_claude_sonnet_api(
                 except Exception:
                     pass
                 ultimo_erro = RuntimeError(f"HTTP {exc.code} ao chamar Anthropic ({mod_tentativa}): {detalhe[:300]}")
+                # Modelos mais novos (Haiku 5.5, Opus 4.7 em diante) recusam `temperature`: repete sem o campo
+                if exc.code == 400 and "temperature" in detalhe and corpo_dict.pop("temperature", None) is not None:
+                    req.data = json.dumps(corpo_dict).encode("utf-8")
+                    continue
                 # Se o modelo específico não existir na conta (404), tenta o próximo alias Sonnet
                 if exc.code == 404:
                     break
@@ -616,6 +623,11 @@ def julgar_resposta_sonnet(
             (mapa_nota_resp.get(resp_a, 0.5) + mapa_nota_resp.get(resp_b, 0.5)) / 2.0,
             4,
         )
+    elif not resposta.strip():
+        # resposta vazia (geração cortada, por exemplo) não é resposta fiel: antes contava 1,0
+        fidelidade_sonnet = 0.0
+        fidelidade_bruta = 0.0
+        relevancia_sonnet = 0.0
     else:
         fidelidade_sonnet = 1.0
         fidelidade_bruta = 1.0
