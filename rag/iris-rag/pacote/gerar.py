@@ -130,7 +130,8 @@ def _corpo_anthropic(modelo: str, prompt: str, com_temperatura: bool) -> dict:
         corpo |= {"temperature": 0, "max_tokens": 1500}
     else:
         # Nos modelos novos o raciocínio conta como saída: com 1.500 a resposta chegava cortada (medido: ~1.500 tokens por resposta).
-        corpo |= {"max_tokens": 4000, "output_config": {"effort": ESFORCO_ANTHROPIC}}
+        esforco = (os.environ.get("RAG_ANTHROPIC_ESFORCO") or ESFORCO_ANTHROPIC).strip() or ESFORCO_ANTHROPIC
+        corpo |= {"max_tokens": 4000, "output_config": {"effort": esforco}}
     return corpo
 
 
