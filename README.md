@@ -102,8 +102,7 @@ uv add nome-do-pacote
 
 # Executar a bateria completa de testes unitários do Backend
 uv run pytest
-# ou diretamente via unittest:
-python3 -m unittest discover -s backend/tests -v
+# `python3 -m unittest discover` roda só parte da suíte: não coleta os testes escritos em estilo pytest.
 ```
 
 ---

@@ -111,7 +111,7 @@ check: ensure-env
 
 # Execução de testes automatizados
 test: ensure-env
-	@$(PYTHON_RUN) -m unittest discover -s backend/tests -v
+	@$(PYTHON_RUN) -m pytest backend/tests
 
 # Documentação MkDocs
 docs: ensure-env
