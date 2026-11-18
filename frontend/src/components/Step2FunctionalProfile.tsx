@@ -773,6 +773,9 @@ export function Step2FunctionalProfile({
             <PortableProfilePanel
               selectedIds={selectedIds}
               validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
+              nomesCaracteristicas={Object.fromEntries(
+                catalog.caracteristicas.map((c) => [c.id_caracteristica, c.nome])
+              )}
               onApplyProfile={handleApplyLocalProfile}
             />
 

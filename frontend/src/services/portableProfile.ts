@@ -11,6 +11,20 @@ export const PADRAO_CODIGO = /^aluno-[0-9a-f]{8,32}$/;
 export const PADRAO_ID_CARACTERISTICA = /^[a-z][a-z0-9_]{5,80}$/;
 export const MAX_CARACTERISTICAS = 50;
 
+export type EficaciaIntervencao = "alta" | "media" | "baixa";
+export const EFICACIAS: readonly EficaciaIntervencao[] = ["alta", "media", "baixa"];
+export const ROTULO_EFICACIA: Record<EficaciaIntervencao, string> = { alta: "Alta", media: "Média", baixa: "Baixa" };
+export const MAX_INTERVENCOES = 200;
+
+/** Eficácia de uma estratégia para uma característica (História 3.1.2 — Issue #27). Espelha `RegistroIntervencao`. */
+export interface RegistroIntervencao {
+  estrategia: string;
+  id_caracteristica: string;
+  eficacia: EficaciaIntervencao;
+  observacao: string | null;
+  registrado_em: string; // ISO 8601 em UTC
+}
+
 export interface PerfilPedagogicoPortatil {
   versao_schema: "1.0";
   codigo_anonimo: string;
@@ -19,6 +33,8 @@ export interface PerfilPedagogicoPortatil {
   barreiras_observadas: [];
   historico_estrategias: [];
   anotacoes_pedagogicas: [];
+  /** Só existe depois do primeiro registro de eficácia: perfis anteriores à #27 continuam válidos. */
+  historico_intervencoes?: RegistroIntervencao[];
 }
 
 export class PerfilPortatilError extends Error {
@@ -82,6 +98,28 @@ export function criarPerfilPortatil(
     historico_estrategias: [],
     anotacoes_pedagogicas: [],
   };
+}
+
+/** Histórico em ordem cronológica (do mais antigo ao mais recente); empate mantém a ordem de entrada. */
+export function historicoOrdenado(perfil: Pick<PerfilPedagogicoPortatil, "historico_intervencoes">): RegistroIntervencao[] {
+  return (perfil.historico_intervencoes ?? [])
+    .map((r, i) => ({ r, i, t: Date.parse(r.registrado_em) }))
+    .sort((a, b) => (a.t - b.t) || (a.i - b.i))
+    .map(({ r }) => r);
+}
+
+/** Por característica: contagem por nível e eficácia do registro mais recente. */
+export function resumoEficacia(
+  perfil: Pick<PerfilPedagogicoPortatil, "historico_intervencoes">
+): Record<string, Record<EficaciaIntervencao, number> & { total: number; ultima: EficaciaIntervencao }> {
+  const out: Record<string, Record<EficaciaIntervencao, number> & { total: number; ultima: EficaciaIntervencao }> = {};
+  for (const r of historicoOrdenado(perfil)) {
+    const item = (out[r.id_caracteristica] ??= { alta: 0, media: 0, baixa: 0, total: 0, ultima: r.eficacia });
+    item[r.eficacia] += 1;
+    item.total += 1;
+    item.ultima = r.eficacia;
+  }
+  return out;
 }
 
 export function perfilParaJson(perfil: PerfilPedagogicoPortatil): string {

@@ -47,6 +47,7 @@ O schema `PerfilPedagogico` também pode ser usado direto (`model_validate`); ne
 | `caracteristicas_selecionadas[]` | ids do catálogo, sem repetição |
 | `barreiras_observadas[]` | `id_caracteristica` (do catálogo) + `observacao` opcional |
 | `historico_estrategias[]` | `estrategia`, `resultado` (`eficaz`/`ineficaz`), `id_caracteristica` e `observacao` opcionais |
+| `historico_intervencoes[]` | (opcional, #27) `estrategia`, `id_caracteristica` (obrigatória, deve estar no perfil), `eficacia` (`alta`/`media`/`baixa`), `observacao` opcional e `registrado_em` (UTC) |
 | `anotacoes_pedagogicas[]` | textos livres (até 1000 caracteres) |
 
 Qualquer campo não declarado é rejeitado (`extra="forbid"`).
@@ -81,7 +82,8 @@ clínico (ex.: `laudo_tdah`).
 - A validação não detecta dados pessoais (nome do aluno, CPF) em texto livre; a exportação pelo servidor aplica o
   `security/pii_scrubber.py`, que não reconhece nome de pessoa em texto corrido.
 - Termos clínicos dentro de identificadores com sublinhado (`tdah_formal`) também são detectados.
-- O histórico de eficácia (`historico_estrategias`) é proposta da 3.1.2 (#27) e pode ser refinado lá.
+- `historico_estrategias` (#28, `eficaz`/`ineficaz`) continua válido e não foi alterado. O registro de eficácia por
+  característica da 3.1.2 (#27) fica em `historico_intervencoes`, com três níveis e data.
 - O perfil é criado e baixado no navegador, pelo painel da etapa 2 (`frontend/src/services/portableProfile.ts`, que espelha
   este schema). A única rota de API do perfil é a de exportação, descrita abaixo; `criar_perfil` ainda não é chamado pelo
   servidor.
@@ -111,3 +113,25 @@ alterar o estado do módulo durante a exportação).
 
 O PDF é montado com PyMuPDF (já dependência do projeto). Traz código anônimo, data, as características com
 nome e descrição do catálogo oficial e, se existirem, barreiras, estratégias e anotações.
+
+## Histórico de eficácia das intervenções (História 3.1.2, Issue #27)
+
+Com o perfil carregado, o docente registra se uma estratégia funcionou para uma característica do perfil: escolhe a
+característica, descreve a estratégia, marca a eficácia (**alta**, **média** ou **baixa**) e, se quiser, escreve uma
+observação pedagógica. O registro é anexado ao `historico_intervencoes`.
+
+- **Ordem:** o histórico é mantido em ordem cronológica (do mais antigo ao mais recente). Na tela, os mais recentes
+  aparecem primeiro. Registros do mesmo instante mantêm a ordem de entrada. Um perfil importado fora de ordem é reordenado.
+- **Eficácia:** o valor guardado é sempre `alta`, `media` ou `baixa`. A API aceita também `média`/`Média`.
+- **Regras:** a característica precisa estar no perfil; estratégia de 3 a 300 caracteres; observação até 500; no
+  máximo 200 registros; `registrado_em` é preenchido pelo servidor.
+- **Clínico (RNF-03):** estratégia e observação passam pelo mesmo bloqueio de laudo, CID, diagnóstico e medicação.
+- **Privacidade (RNF-01):** `POST /api/v1/perfil/intervencoes` recebe `{perfil, intervencao}` e devolve o perfil com o
+  registro e um `resumo_eficacia` por característica. O servidor não guarda nada (`Cache-Control: no-store`). O perfil
+  atualizado fica no navegador (memória e `localStorage`), e o `.json` e o `.pdf` exportados trazem o histórico.
+- **Compatibilidade:** perfis anteriores, sem o campo, continuam válidos; o campo só aparece após o primeiro registro.
+
+```json
+{"perfil": {"...": "..."}, "intervencao": {"estrategia": "Fragmentação em checklist",
+ "id_caracteristica": "atencao_sustentada_textos_longos", "eficacia": "alta", "observacao": "Terminou a prova."}}
+```
