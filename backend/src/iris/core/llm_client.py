@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import inspect
 import json
+import math
 import os
 import re
 import time
@@ -40,6 +41,52 @@ class LLMResponse:
     @property
     def llm_id(self) -> str:
         return f"{self.provider}:{self.model}"
+
+
+# --- Janela de contexto do Ollama (Issue #89) ---------------------------------------------------------------
+# Sem `num_ctx` na chamada vale a janela padrão do servidor (4.096 tokens). Quando o prompt não cabe, o Ollama
+# descarta o começo dele sem erro nem aviso, e o começo é onde ficam as regras do sistema. Por isso toda chamada
+# envia `num_ctx`: o piso configurado, ou a primeira janela da escada que comporta prompt + resposta.
+JANELAS_OLLAMA = (4096, 8192, 16384, 32768)
+JANELA_PISO_PADRAO = 8192
+# O cliente não tem o tokenizador do modelo; estima por caracteres, para cima, porque errar para mais custa
+# memória e errar para menos corta o prompt. Medido no `llama3.1:8b` com texto em português do repositório:
+# de 3,03 a 3,65 caracteres por token (prosa com markdown, prosa simples e JSON; 4 mil a 30 mil caracteres).
+CARACTERES_POR_TOKEN_ESTIMATIVA = 2.5
+FOLGA_TOKENS = 256
+# Para acusar corte depois da chamada. Um prompt lido inteiro fica em até 3,65 caracteres por token; um prompt
+# cortado fica acima de 6, porque o Ollama lê só metade da janela (2.050 tokens com a janela de 4.096).
+CARACTERES_POR_TOKEN_TETO = 5.0
+
+
+class PromptCortadoError(RuntimeError):
+    """O Ollama leu menos tokens do que o prompt enviado comporta: o começo do prompt foi descartado."""
+
+
+def estimar_tokens(texto: str | None) -> int:
+    """Estimativa conservadora (para cima) do número de tokens de um texto."""
+    return math.ceil(len(texto or "") / CARACTERES_POR_TOKEN_ESTIMATIVA)
+
+
+def escolher_janela(prompt: str, system_prompt: str | None, max_tokens: int, piso: int = JANELA_PISO_PADRAO) -> int:
+    """Menor janela da escada que comporta prompt + sistema + resposta + folga, nunca abaixo do piso.
+
+    Manter o piso evita que o Ollama recarregue o modelo a cada chamada: ele recarrega sempre que `num_ctx` muda.
+    """
+    necessario = estimar_tokens(prompt) + estimar_tokens(system_prompt) + max(0, int(max_tokens)) + FOLGA_TOKENS
+    alvo = max(necessario, piso)
+    for janela in JANELAS_OLLAMA:
+        if janela >= alvo:
+            return janela
+    return JANELAS_OLLAMA[-1]
+
+
+def prompt_foi_cortado(prompt: str, system_prompt: str | None, tokens_lidos: int) -> bool:
+    """Verdadeiro quando os tokens lidos são poucos demais para o texto enviado (sinal de corte silencioso)."""
+    if tokens_lidos <= 0:  # servidor não informou (ex.: resposta em cache): sem evidência de corte
+        return False
+    minimo_plausivel = (len(prompt) + len(system_prompt or "")) / CARACTERES_POR_TOKEN_TETO
+    return tokens_lidos < minimo_plausivel
 
 
 def strip_thinking_tags(text: str) -> str:
@@ -79,9 +126,11 @@ class OllamaLLMProvider(BaseLLMProvider):
         base_url: str | None = None,
         timeout_seconds: int = 300,
         keep_alive: str = "15m",
+        num_ctx: int | None = None,
     ) -> None:
         settings = get_settings()
         self.base_url = (base_url or os.environ.get("OLLAMA_URL") or settings.ollama_url).rstrip("/")
+        self.num_ctx_piso = self._ler_piso(num_ctx)
         self.timeout_seconds = timeout_seconds
         self.keep_alive = keep_alive
         self._resolved_model_cache: str | None = None
@@ -102,6 +151,16 @@ class OllamaLLMProvider(BaseLLMProvider):
                 self.model = installed[0]
             else:
                 self.model = settings.llm_model
+
+    @staticmethod
+    def _ler_piso(num_ctx: int | None) -> int:
+        """Piso da janela: argumento, depois `OLLAMA_NUM_CTX`, depois o padrão. Valor inválido cai no padrão."""
+        bruto = num_ctx if num_ctx is not None else os.environ.get("OLLAMA_NUM_CTX")
+        try:
+            valor = int(bruto) if bruto not in (None, "") else JANELA_PISO_PADRAO
+        except (TypeError, ValueError):
+            return JANELA_PISO_PADRAO
+        return valor if valor > 0 else JANELA_PISO_PADRAO
 
     def list_installed_models(self) -> list[str]:
         """Retorna a lista de modelos instalados no servidor Ollama local."""
@@ -180,6 +239,7 @@ class OllamaLLMProvider(BaseLLMProvider):
     ) -> LLMResponse:
         t0 = time.perf_counter()
         effective_model = self._resolve_model()
+        num_ctx = escolher_janela(prompt, system_prompt, max_tokens, piso=self.num_ctx_piso)
         body: dict[str, Any] = {
             "model": effective_model,
             "prompt": prompt,
@@ -188,6 +248,7 @@ class OllamaLLMProvider(BaseLLMProvider):
             "options": {
                 "temperature": temperature,
                 "num_predict": max_tokens,
+                "num_ctx": num_ctx,
                 "seed": 42,
             },
         }
@@ -216,6 +277,13 @@ class OllamaLLMProvider(BaseLLMProvider):
         cleaned = strip_thinking_tags(data.get("response", ""))
         prompt_tokens = int(data.get("prompt_eval_count") or 0)
         completion_tokens = int(data.get("eval_count") or 0)
+        if prompt_foi_cortado(prompt, system_prompt, prompt_tokens):
+            # Sem o texto do prompt na mensagem: ela pode ir para log (RNF-01).
+            raise PromptCortadoError(
+                f"O Ollama leu {prompt_tokens} tokens de um prompt de {len(prompt) + len(system_prompt or '')} "
+                f"caracteres com num_ctx={num_ctx}: o começo do prompt foi descartado. "
+                "Reduza o prompt ou aumente OLLAMA_NUM_CTX."
+            )
         load_ms = round((data.get("load_duration") or 0) / 1e6, 2)
         prompt_eval_ms = round((data.get("prompt_eval_duration") or 0) / 1e6, 2)
         eval_ms = round((data.get("eval_duration") or 0) / 1e6, 2)
@@ -229,6 +297,8 @@ class OllamaLLMProvider(BaseLLMProvider):
             "eval_ms": eval_ms,
             "inference_ms": inference_ms,
             "tokens_per_sec": tokens_per_sec,
+            "num_ctx": num_ctx,
+            "done_reason": data.get("done_reason"),
         }
         return LLMResponse(
             text=cleaned,

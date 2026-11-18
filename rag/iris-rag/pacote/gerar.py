@@ -128,12 +128,17 @@ def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
 def _chamar_ollama(prompt: str) -> tuple[str, dict]:
     modelo_alvo = os.environ.get("RAG_LLM_MODELO", MODELO if LLM == "ollama" else "llama3.1:8b")
     url_base = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
-    corpo = json.dumps({"model": modelo_alvo, "prompt": prompt, "stream": False,
-                        "options": {"temperature": 0}}).encode()
+    # Issue #89: sem `num_ctx` vale a janela padrão do Ollama (4.096) e o começo do prompt é descartado sem aviso
+    # quando ele não cabe; sem `num_predict` uma resposta em laço só para no teto interno do servidor.
+    opcoes = {"temperature": 0,
+              "num_ctx": int(os.environ.get("RAG_NUM_CTX", "8192")),
+              "num_predict": int(os.environ.get("RAG_NUM_PREDICT", "1024"))}
+    corpo = json.dumps({"model": modelo_alvo, "prompt": prompt, "stream": False, "options": opcoes}).encode()
     req = urllib.request.Request(url_base + "/api/generate",
                                  data=corpo, headers={"Content-Type": "application/json"})
     r = json.loads(urllib.request.urlopen(req, timeout=600).read())
-    return r["response"], {"prompt_tokens": r.get("prompt_eval_count"), "completion_tokens": r.get("eval_count")}
+    return r["response"], {"prompt_tokens": r.get("prompt_eval_count"), "completion_tokens": r.get("eval_count"),
+                           "num_ctx": opcoes["num_ctx"], "done_reason": r.get("done_reason")}
 
 
 def _chamar_extractive(prompt: str) -> tuple[str, dict]:
