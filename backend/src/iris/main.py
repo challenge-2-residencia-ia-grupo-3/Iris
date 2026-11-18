@@ -224,7 +224,7 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
 
     pergunta = body.get("pergunta", "")
     metodo_solicitado = body.get("metodo") or "bm25"
-    k = int(body.get("k", 5))
+    k = int(body["k"]) if body.get("k") else None   # sem k no pedido, o gerador escolhe (20 com a API, 5 local)
     client = get_llm_client(allow_fallback_to_extractive=True)
     status_llm = client.status()
     modelo_resolvido = (
@@ -266,7 +266,7 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
                 os.environ["RAG_LLM_MODELO"] = old_rag_modelo
 
     metodo_efetivo = res.get("metodo", metodo_solicitado)
-    trechos = res.get("trechos_entregues") or buscar_evidencias(pergunta=pergunta, metodo=metodo_efetivo, k=k)
+    trechos = res.get("trechos_entregues") or buscar_evidencias(pergunta=pergunta, metodo=metodo_efetivo, k=k or 5)
     resposta_texto = res.get("resposta", "")
 
     # Calcula a fidelidade lexical frase a frase em tempo real

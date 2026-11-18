@@ -1,6 +1,6 @@
 """gerar.py: a resposta fundamentada, com citação de fonte (etapa "G" do RAG).
 
-    responder(pergunta, metodo="hibrido+rerank", k=5) -> dict com resposta, citações, trechos e conferência
+    responder(pergunta, metodo="hibrido+rerank", k=None) -> dict com resposta, citações, trechos e conferência (k=None: 20 com a API, 5 local)
 
 Como funciona:
 1. busca os k trechos (consultar.buscar);
@@ -65,6 +65,23 @@ def usar_regras_de_esclarecimento() -> bool:
     if modo in {"off", "0", "false", "nao", "não"}:
         return False
     return os.environ.get("RAG_LLM", LLM).lower() in {"anthropic", "claude", "sonnet"}
+
+
+K_API, K_LOCAL = 20, 5
+
+
+def k_padrao() -> int:
+    """Quantos trechos o gerador recebe quando quem chama não diz. `RAG_K` fixa um número; sem ela, 20 com o gerador
+    da Anthropic e 5 com os demais.
+
+    Medido em 18/11/2026 (`avaliacao_versoes/`, 65 perguntas, RAGAS com juiz Sonnet 5.5): com o Haiku, 20 trechos
+    em vez de 5 levam a recusa indevida de 6 para 3 em 38 perguntas com resposta e a Faithfulness de 0,83 para 0,90
+    (+0,06 [0,00; +0,14]); a relevância empata. A entrada fica cerca de 3 vezes maior (mediana de 4.881 para 14.381
+    tokens). Com o Llama não cabe: em 63 de 65 perguntas a entrada com 20 trechos passa da janela de 8.192 tokens."""
+    fixo = os.environ.get("RAG_K", "").strip()
+    if fixo:
+        return max(1, int(fixo))
+    return K_API if os.environ.get("RAG_LLM", LLM).lower() in {"anthropic", "claude", "sonnet"} else K_LOCAL
 
 
 def instrucoes() -> str:
@@ -288,9 +305,11 @@ def conferir(resposta: str, trechos: list[dict]) -> dict:
 def responder(
     pergunta: str,
     metodo: str = consultar.METODO_PADRAO,
-    k: int = 5,
+    k: int | None = None,
     filtro_barreira: str | None = None,
 ) -> dict:
+    """`k=None`: o número de trechos vem de `k_padrao()` (20 com a API, 5 com os demais)."""
+    k = k or k_padrao()
     t0 = time.time()
     fallback_motivo = None
     try:

@@ -262,10 +262,12 @@ def buscar_evidencias(
 def responder_fundamentado(
     pergunta: str,
     metodo: str | None = None,
-    k: int = 5,
+    k: int | None = None,
     filtro_barreira: str | None = None,
 ) -> dict[str, Any]:
-    """Gera uma resposta fundamentada com citações `[T1]..[Tk]` via módulo `gerar.py`."""
+    """Gera uma resposta fundamentada com citações `[T1]..[Tk]` via módulo `gerar.py`.
+
+    `k=None`: o gerador escolhe (`gerar.k_padrao`: 20 trechos com a API da Anthropic, 5 com os demais)."""
     _, consultar, gerar = carregar_modulos_rag()
     metodo_efetivo = metodo or consultar.METODO_PADRAO
     return gerar.responder(
