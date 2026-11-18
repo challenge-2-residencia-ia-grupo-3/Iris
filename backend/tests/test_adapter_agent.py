@@ -96,7 +96,7 @@ class TestCaminhosDoAgente(_SemLog):
 
     def test_falha_do_modelo_leva_a_reserva(self) -> None:
         res = _agente(erro=RuntimeError("LLM indisponível")).adapt(_pedido())
-        self.assertEqual(res.telemetry.motivo_fallback, "falha_llm:RuntimeError")
+        self.assertTrue(res.telemetry.motivo_fallback.startswith("falha_llm:RuntimeError"))   # a mensagem do erro vem depois
         self.assertEqual(res.texto_adaptado, LISTA)
         self.assertFalse(res.telemetry.json_valido_direto)
 
@@ -302,3 +302,25 @@ class TestComandosPorRegra(unittest.TestCase):
         r = AdapterAgent(llm_client=_Cliente()).adapt(_pedido())          # o pedido padrão é de comandos múltiplos
         self.assertEqual(chamadas, [])
         self.assertEqual(r.telemetry.motivo_fallback, "regra_comandos_multiplos")
+
+
+class TestMotivoDaReserva(unittest.TestCase):
+    def test_motivo_leva_tipo_e_mensagem_do_erro(self):
+        from iris.core.llm_client import motivo_de_falha
+        m = motivo_de_falha(RuntimeError("Ollama: token repeat limit reached"))
+        self.assertEqual(m, "falha_llm:RuntimeError: Ollama: token repeat limit reached")
+        self.assertEqual(motivo_de_falha(ValueError()), "falha_llm:ValueError")
+
+    def test_extrator_registra_o_motivo_da_reserva(self):
+        from iris.agents.curriculum_extractor import CurriculumExtractorAgent
+
+        class _Cliente:
+            provider_name = "ollama"
+
+            def generate(self, **kw):
+                raise RuntimeError("token repeat limit reached")
+        tel = CurriculumExtractorAgent(llm_client=_Cliente()).extract_with_telemetry(
+            "Identifique o sujeito da oração.", disciplina="Língua Portuguesa", ano_escolar="6º ano"
+        ).telemetry
+        self.assertTrue(tel.used_fallback)
+        self.assertIn("token repeat limit reached", tel.motivo_fallback)

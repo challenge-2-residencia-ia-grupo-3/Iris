@@ -20,7 +20,7 @@ import time
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Iterable, Optional
 
-from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, strip_thinking_tags
+from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, motivo_de_falha, strip_thinking_tags
 from iris.eval.escopo import ID_COMANDOS_MULTIPLOS, localizar_comandos, verificar_escopo
 from iris.schemas.adaptation import (
     LIMITE_LATENCIA_MS,
@@ -226,7 +226,7 @@ class AdapterAgent:
                     "Aplicando a saída de reserva.",
                     type(e).__name__,
                 )
-                motivo_fallback = f"falha_llm:{type(e).__name__}"
+                motivo_fallback = motivo_de_falha(e)
                 json_valido_direto = False
 
         if motivo_fallback:

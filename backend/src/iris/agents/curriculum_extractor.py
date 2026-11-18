@@ -14,7 +14,7 @@ import time
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Iterable, Optional
 
-from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, strip_thinking_tags
+from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, motivo_de_falha, strip_thinking_tags
 from iris.eval.trcc import avaliar_trcc
 from iris.schemas.curriculum import (
     IMPERATIVO_PARA_INFINITIVO,
@@ -122,12 +122,14 @@ class CurriculumExtractorAgent:
 
         t0 = time.perf_counter()
         used_fallback = False
+        motivo_fallback: Optional[str] = None
         json_valido_direto = True
         resposta_llm: Optional[LLMResponse] = None
 
         provider_configurado = getattr(self.llm_client, "provider_name", "custom")
         if provider_configurado in {"extractive", "mock", "offline"}:
             used_fallback = True
+            motivo_fallback = "provedor_sem_modelo"
             json_valido_direto = False
             invariantes = self._extracao_deterministica_fallback(req)
         else:
@@ -141,6 +143,7 @@ class CurriculumExtractorAgent:
                     type(e).__name__,
                 )
                 used_fallback = True
+                motivo_fallback = motivo_de_falha(e)
                 json_valido_direto = False
                 invariantes = self._extracao_deterministica_fallback(req)
 
@@ -173,6 +176,7 @@ class CurriculumExtractorAgent:
             provider=resposta_llm.provider if resposta_llm else str(provider_configurado),
             model=resposta_llm.model if resposta_llm else "deterministic-fallback",
             used_fallback=used_fallback,
+            motivo_fallback=motivo_fallback,
             json_valido_direto=json_valido_direto,
             total_ms=total_ms,
             load_ms=load_ms,

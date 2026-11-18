@@ -203,7 +203,7 @@ class TestDiretivaDeReserva(unittest.TestCase):
         with alvo:
             r = agente.strategize(StrategyRequest(caracteristicas=[UM, DOIS], nivel=3))
         self.assertTrue(r.telemetry.used_fallback)
-        self.assertEqual(r.telemetry.motivo_fallback, motivo)
+        self.assertTrue(r.telemetry.motivo_fallback.startswith(motivo), r.telemetry.motivo_fallback)   # a mensagem do erro vem depois
         self.assertEqual([i.origem for i in r.intervencoes], ["catalogo", "catalogo"])
         self.assertEqual([i.citacoes for i in r.intervencoes], [["T1", "T2"], ["T3"]])
         self.assertIn(f"Para {UM}: Ações do catálogo para o nível 3: Ação A; Ação B. Evidências recuperadas: [T1][T2]", r.diretiva)
@@ -212,7 +212,7 @@ class TestDiretivaDeReserva(unittest.TestCase):
         self._reserva(ClienteFalso(provider_name="extractive"), "provedor_sem_modelo")
 
     def test_falha_do_modelo(self) -> None:
-        self._reserva(ClienteFalso(erro=TimeoutError("sem resposta")), "falha_llm:TimeoutError")
+        self._reserva(ClienteFalso(erro=TimeoutError("sem resposta")), "falha_llm:TimeoutError: sem resposta")
 
     def test_json_invalido(self) -> None:
         self._reserva(ClienteFalso("Aqui estão as intervenções sugeridas."), "falha_llm:JSONDecodeError")

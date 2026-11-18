@@ -44,6 +44,15 @@ class LLMResponse:
         return f"{self.provider}:{self.model}"
 
 
+def motivo_de_falha(erro: BaseException, limite: int = 160) -> str:
+    """Motivo da queda na reserva para a telemetria: o tipo do erro e o começo da mensagem.
+
+    Só o tipo escondia a causa: o modo JSON do Ollama aborta com "token repeat limit reached" e o agente caía na reserva
+    registrando apenas o tipo do erro (reproduzido em 15/11/2026)."""
+    msg = " ".join(str(erro).split())[:limite]
+    return f"falha_llm:{type(erro).__name__}" + (f": {msg}" if msg else "")
+
+
 def strip_thinking_tags(text: str) -> str:
     """Remove blocos `<think>...</think>` emitidos por modelos de raciocínio (ex.: Qwen3/DeepSeek)."""
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
