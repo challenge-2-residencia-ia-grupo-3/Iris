@@ -157,6 +157,13 @@ def _handle_rag_build() -> dict[str, Any]:
     }
 
 
+def _validar_metodo(metodo: str) -> None:
+    """Método fora da lista é erro de quem chamou (resposta 422), e não motivo para cair na busca por palavras."""
+    from iris.rag.bridge import carregar_modulos_rag
+
+    carregar_modulos_rag()[1].validar_metodo(metodo)
+
+
 def _handle_rag_search(body: dict[str, Any]) -> dict[str, Any]:
     from iris.rag.bridge import (
         buscar_evidencias_com_meta,
@@ -169,6 +176,7 @@ def _handle_rag_search(body: dict[str, Any]) -> dict[str, Any]:
     nivel = int(body.get("nivel", 2))
     pergunta = body.get("pergunta", "")
     metodo = body.get("metodo") or "bm25"
+    _validar_metodo(metodo)
     k = int(body.get("k", 5))
     chunks_map = {c["chunk_id"]: c for c in obter_trechos_base()}
 
@@ -224,7 +232,8 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
 
     pergunta = body.get("pergunta", "")
     metodo_solicitado = body.get("metodo") or "bm25"
-    k = int(body.get("k", 5))
+    _validar_metodo(metodo_solicitado)
+    k = int(body["k"]) if body.get("k") else None   # sem k no pedido, o gerador escolhe (20 com a API, 5 local)
     client = get_llm_client(allow_fallback_to_extractive=True)
     status_llm = client.status()
     modelo_resolvido = (
@@ -266,7 +275,7 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
                 os.environ["RAG_LLM_MODELO"] = old_rag_modelo
 
     metodo_efetivo = res.get("metodo", metodo_solicitado)
-    trechos = res.get("trechos_entregues") or buscar_evidencias(pergunta=pergunta, metodo=metodo_efetivo, k=k)
+    trechos = res.get("trechos_entregues") or buscar_evidencias(pergunta=pergunta, metodo=metodo_efetivo, k=k or 5)
     resposta_texto = res.get("resposta", "")
 
     # Calcula a fidelidade lexical frase a frase em tempo real
@@ -729,6 +738,25 @@ def _handle_rag_escolar_analytics(
     )
 
 
+def avisar_saude_da_busca() -> dict[str, Any]:
+    """Confere, ao ligar o servidor, se a busca por vetores está disponível e avisa no log se não estiver. Sem isso a
+    busca cai na reserva por palavras em toda consulta, sem ninguém saber (aconteceu em 15/11/2026)."""
+    import logging
+
+    saude = get_health_status()
+    if saude.get("rag_backend") == "pgvector" and "bm25" == ",".join(saude.get("available_search_methods", [])):
+        motivos = []
+        if not saude.get("vector_db_online"):
+            motivos.append("banco pgvector fora do ar")
+        if saude.get("vector_deps_missing"):
+            motivos.append("pacotes ausentes: " + ", ".join(saude["vector_deps_missing"]))
+        logging.getLogger(__name__).warning(
+            "Busca por vetores indisponível (%s): toda consulta usará a busca por palavras (bm25), em modo reduzido.",
+            "; ".join(motivos) or "motivo não identificado",
+        )
+    return saude
+
+
 def create_app() -> Any:
     """Cria e configura a aplicação FastAPI stateless (com rotas de API, Materiais e Frontend Web)."""
     from fastapi import Body, FastAPI, Query, Request
@@ -736,6 +764,7 @@ def create_app() -> Any:
     from fastapi.responses import HTMLResponse
 
     validate_zero_database_configuration(get_settings())
+    avisar_saude_da_busca()
 
     app = FastAPI(
         title="Íris — Adaptação Inteligente de Materiais Pedagógicos",
@@ -846,11 +875,23 @@ def create_app() -> Any:
 
     @app.post("/api/v1/rag/search", tags=["rag"])
     def rag_search(payload: dict[str, Any] = Body(...)) -> dict[str, Any]:
-        return _handle_rag_search(payload)
+        from fastapi import HTTPException
+        try:
+            return _handle_rag_search(payload)
+        except ValueError as exc:
+            if type(exc).__name__ != "MetodoDesconhecido":
+                raise
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     @app.post("/api/v1/rag/answer", tags=["rag"])
     def rag_answer(payload: dict[str, Any] = Body(...)) -> dict[str, Any]:
-        return _handle_rag_answer(payload)
+        from fastapi import HTTPException
+        try:
+            return _handle_rag_answer(payload)
+        except ValueError as exc:
+            if type(exc).__name__ != "MetodoDesconhecido":
+                raise
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     @app.get("/api/v1/eval/metrics", tags=["eval"])
     def eval_metrics(
@@ -1398,10 +1439,14 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 return
             if self.path.startswith("/api/v1/rag/build"):
                 self._send_json(_handle_rag_build())
-            elif self.path.startswith("/api/v1/rag/search"):
-                self._send_json(_handle_rag_search(body))
-            elif self.path.startswith("/api/v1/rag/answer"):
-                self._send_json(_handle_rag_answer(body))
+            elif self.path.startswith(("/api/v1/rag/search", "/api/v1/rag/answer")):
+                manipulador = _handle_rag_search if self.path.startswith("/api/v1/rag/search") else _handle_rag_answer
+                try:
+                    self._send_json(manipulador(body))
+                except ValueError as exc:                  # método de busca desconhecido: erro de quem chamou
+                    if type(exc).__name__ != "MetodoDesconhecido":
+                        raise
+                    self._send_json({"detail": str(exc)}, status=422)
             elif urlparse(self.path).path == "/api/v1/benchmarks/escolar/curar":
                 self._send_json(_handle_benchmark_escolar_curar())
             elif urlparse(self.path).path == "/api/v1/rag/test-question":
@@ -1572,6 +1617,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
     print("================================================================================")
     print(f"  Íris Web & API rodando em: http://{host}:{port}")
     print(f"  Healthcheck              : http://{host}:{port}/api/v1/health")
+    if avisar_saude_da_busca().get("available_search_methods") == ["bm25"]:
+        print("  AVISO: busca por vetores indisponível; consultas em modo reduzido (bm25). Ver /api/v1/health")
     print("================================================================================")
     server = HTTPServer((host, port), IrisHandler)
     server.serve_forever()
