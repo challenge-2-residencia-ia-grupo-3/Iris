@@ -45,6 +45,7 @@ from iris.schemas.strategy import (
 )
 from iris.schemas.materials import (
     MAX_FILE_SIZE_BYTES,
+    MAX_OCR_FILE_SIZE_BYTES,
     MAX_SAFE_CONTEXT_CHARS,
     MIN_MATERIAL_CHARS,
     AlternativeItem,
@@ -55,11 +56,17 @@ from iris.schemas.materials import (
     MaterialStructure,
     MaterialTextInput,
     MaterialValidationError,
+    OcrMaterialResponse,
+    PageVisualAnalysis,
     ProseStructure,
     QuestionItem,
+    RawContent,
     StructuralNode,
+    VisualAnalysisReport,
+    create_sanitized_raw_content,
     validate_file_size_limit,
     validate_material_content,
+    validate_ocr_file_size_limit,
 )
 
 __all__ = [
@@ -98,6 +105,7 @@ __all__ = [
     "get_engagement_options_catalog",
     "validate_engagement_profile",
     "MAX_FILE_SIZE_BYTES",
+    "MAX_OCR_FILE_SIZE_BYTES",
     "MAX_SAFE_CONTEXT_CHARS",
     "MIN_MATERIAL_CHARS",
     "MaterialMetadata",
@@ -106,13 +114,19 @@ __all__ = [
     "MaterialStructure",
     "MaterialTextInput",
     "MaterialValidationError",
+    "OcrMaterialResponse",
+    "PageVisualAnalysis",
     "AlternativeItem",
     "ContextBlock",
     "ProseStructure",
     "QuestionItem",
+    "RawContent",
     "StructuralNode",
+    "VisualAnalysisReport",
+    "create_sanitized_raw_content",
     "validate_file_size_limit",
     "validate_material_content",
+    "validate_ocr_file_size_limit",
 ]
 
 
