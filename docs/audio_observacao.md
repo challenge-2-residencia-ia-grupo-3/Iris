@@ -33,6 +33,8 @@ Erros: `{status:"error", code, field, detail}`.
 ## Privacidade (RNF-01, RNF-02, RNF-03)
 
 - O áudio é processado **somente em memória**: sem arquivo temporário, banco ou log. Nada é guardado no navegador.
+  O formulário é lido por um leitor próprio (`_MultipartEmMemoria`), porque o `UploadFile` padrão grava em disco
+  qualquer envio acima de 1 MB; o corpo é cortado em 12 MB + 64 KB antes de chegar à memória.
 - A transcrição passa pelo removedor de dados pessoais antes do mapeador.
 - Termos clínicos (diagnóstico, laudo, medicação) geram aviso e **nunca** viram sugestão: só comportamento observável conta.
 - A resposta vai com `Cache-Control: no-store`.
