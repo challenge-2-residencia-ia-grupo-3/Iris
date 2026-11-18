@@ -457,6 +457,7 @@ class AnthropicLLMProvider(BaseLLMProvider):
         api_key: str | None = None,
         base_url: str = "https://api.anthropic.com/v1/messages",
         timeout_seconds: int = 120,
+        esforco: str | None = None,
     ) -> None:
         settings = get_settings()
         env_model = os.environ.get("IRIS_LLM_MODEL") or ""
@@ -466,7 +467,7 @@ class AnthropicLLMProvider(BaseLLMProvider):
         self.api_key = api_key if api_key is not None else (os.environ.get("ANTHROPIC_API_KEY") or settings.anthropic_api_key)
         self.base_url = base_url
         self.timeout_seconds = timeout_seconds
-        self.esforco = os.environ.get("IRIS_ANTHROPIC_ESFORCO", "low")
+        self.esforco = esforco or os.environ.get("IRIS_ANTHROPIC_ESFORCO") or "low"
 
     def is_available(self) -> bool:
         return bool(self.api_key and self.api_key.strip())
@@ -542,6 +543,7 @@ class HybridLLMClient:
         provider: str | None = None,
         model: str | None = None,
         allow_fallback_to_extractive: bool = False,
+        esforco: str | None = None,
     ) -> None:
         settings = get_settings()
         self.provider_name = (
@@ -552,16 +554,17 @@ class HybridLLMClient:
         ).lower()
         self.model = model
         self.allow_fallback_to_extractive = allow_fallback_to_extractive
-        self._primary = self._build_provider(self.provider_name, self.model)
+        self.esforco = esforco
+        self._primary = self._build_provider(self.provider_name, self.model, esforco)
 
     @staticmethod
-    def _build_provider(provider_name: str, model: str | None = None) -> BaseLLMProvider:
+    def _build_provider(provider_name: str, model: str | None = None, esforco: str | None = None) -> BaseLLMProvider:
         if provider_name == "ollama":
             return OllamaLLMProvider(model=model)
         if provider_name == "groq":
             return GroqLLMProvider(model=model)
         if provider_name in {"anthropic", "claude"}:
-            return AnthropicLLMProvider(model=model)
+            return AnthropicLLMProvider(model=model, esforco=esforco)
         if provider_name in {"extractive", "mock", "offline"}:
             return ExtractiveFallbackLLMProvider(model=model or "deterministic-bm25-extractive")
         raise ValueError(
@@ -659,16 +662,19 @@ def get_llm_client(
 ) -> HybridLLMClient:
     """Factory padrão para obter o cliente híbrido de LLM.
 
-    Com `agente`, cada agente pode ter o seu provedor e o seu modelo: IRIS_LLM_PROVIDER_<AGENTE> e
-    IRIS_LLM_MODEL_<AGENTE> (por exemplo IRIS_LLM_PROVIDER_ADAPTADOR=anthropic). Sem essas variáveis, vale o
-    provedor e o modelo gerais, como antes.
+    Com `agente`, cada agente pode ter o seu provedor, o seu modelo e o seu esforço de raciocínio:
+    IRIS_LLM_PROVIDER_<AGENTE>, IRIS_LLM_MODEL_<AGENTE> e IRIS_ANTHROPIC_ESFORCO_<AGENTE> (por exemplo
+    IRIS_LLM_PROVIDER_ADAPTADOR=anthropic). Sem essas variáveis, vale o geral, como antes. O esforço padrão é o baixo:
+    medido em 16/11/2026, baixo e médio empataram no gerador do RAG (52 de 63 cada) e no Adaptador (0,97 cada).
     """
+    esforco = None
     if agente:
         if agente not in AGENTES:
             raise ValueError(f"Agente desconhecido: {agente!r}. Use um de {AGENTES}.")
         sufixo = agente.upper()
         provider = provider or os.environ.get(f"IRIS_LLM_PROVIDER_{sufixo}") or None
         model = model or os.environ.get(f"IRIS_LLM_MODEL_{sufixo}") or None
+        esforco = os.environ.get(f"IRIS_ANTHROPIC_ESFORCO_{sufixo}") or None
         padrao = PADRAO_POR_AGENTE.get(agente)
         if provider is None and padrao == "anthropic" and AnthropicLLMProvider().is_available():
             provider = "anthropic"
@@ -676,4 +682,5 @@ def get_llm_client(
         provider=provider,
         model=model,
         allow_fallback_to_extractive=allow_fallback_to_extractive,
+        esforco=esforco,
     )

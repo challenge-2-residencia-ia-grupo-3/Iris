@@ -130,6 +130,13 @@ class TestModeloPorAgente(unittest.TestCase):
         os.environ["IRIS_LLM_PROVIDER_ADAPTADOR"] = "ollama"
         self.assertEqual(L.get_llm_client(agente="adaptador").provider_name, "ollama")
 
+    def test_esforco_por_agente(self):
+        os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        os.environ["IRIS_ANTHROPIC_ESFORCO_ESTRATEGISTA"] = "medium"
+        os.environ["IRIS_LLM_PROVIDER_ESTRATEGISTA"] = "anthropic"
+        self.assertEqual(L.get_llm_client(agente="estrategista")._primary.esforco, "medium")
+        self.assertEqual(L.get_llm_client(agente="adaptador")._primary.esforco, "low")
+
     def test_agente_desconhecido_falha(self):
         with self.assertRaises(ValueError):
             L.get_llm_client(agente="revisor")
