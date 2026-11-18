@@ -118,8 +118,10 @@ def get_health_status() -> dict[str, Any]:
         "version": __version__,
         "environment": settings.env,
         "zero_student_database": settings.zero_student_database,
+        "stateless_for_students": settings.stateless_for_students,
         "stateless_mode": settings.stateless_mode,
         "allowed_persistent_stores": list(settings.allowed_persistent_stores),
+        "google_oauth_enabled": bool(settings.google_client_id.strip() and settings.google_client_secret.strip()),
         "llm_provider": settings.llm_provider,
         "llm_model": active_model,
         "ollama_online": llm_info.get("ollama_online", False),
@@ -912,6 +914,17 @@ def create_app() -> Any:
 
     if audio_router is not None:
         app.include_router(audio_router, prefix="/api/v1")
+
+    # Registra autenticação docente (local + Google OAuth) e histórico sanitizado (ADR-10)
+    from iris.api.routes.auth import router as auth_router
+
+    if auth_router is not None:
+        app.include_router(auth_router, prefix="/api/v1")
+
+    from iris.api.routes.history import router as history_router
+
+    if history_router is not None:
+        app.include_router(history_router, prefix="/api/v1")
 
     @app.post("/api/v1/rag/build", tags=["rag"])
     def rag_build() -> dict[str, Any]:
