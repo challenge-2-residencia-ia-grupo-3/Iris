@@ -286,7 +286,7 @@ export function Step3ScaffoldingLevel({
         {/* Sidebar Lateral Modular */}
         <IrisSidebar
           currentStep={3}
-          enabledSteps={[1, 2, 3]}
+          enabledSteps={[1, 2, 3, 4]}
           onNavigateHome={() => router.push("/")}
         />
 

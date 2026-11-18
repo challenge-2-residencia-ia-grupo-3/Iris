@@ -338,6 +338,104 @@ class GroqLLMProvider(BaseLLMProvider):
         )
 
 
+class AnthropicLLMProvider(BaseLLMProvider):
+    """Provedor para execução via API Anthropic (Claude Sonnet configurada no `.env`)."""
+
+    provider_name = "anthropic"
+
+    def __init__(
+        self,
+        model: str | None = None,
+        api_key: str | None = None,
+        base_url: str = "https://api.anthropic.com/v1/messages",
+        timeout_seconds: int = 120,
+    ) -> None:
+        settings = get_settings()
+        default_model = "claude-sonnet-4-5-20250929"
+        env_model = os.environ.get("IRIS_JUDGE_MODEL") or settings.judge_model
+        self.model = model or env_model or default_model
+        self.api_key = api_key if api_key is not None else (os.environ.get("ANTHROPIC_API_KEY") or settings.anthropic_api_key)
+        self.base_url = base_url
+        self.timeout_seconds = timeout_seconds
+
+    def is_available(self) -> bool:
+        return bool(self.api_key and self.api_key.strip())
+
+    def generate(
+        self,
+        prompt: str,
+        temperature: float = 0.0,
+        max_tokens: int = 1500,
+        system_prompt: str | None = None,
+        json_mode: bool = False,
+    ) -> LLMResponse:
+        if not self.is_available():
+            raise RuntimeError(
+                "ANTHROPIC_API_KEY não configurada no ambiente. Configure no .env ou use outro provedor."
+            )
+
+        t0 = time.perf_counter()
+        body: dict[str, Any] = {
+            "model": self.model,
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        if system_prompt:
+            body["system"] = system_prompt
+
+        payload = json.dumps(body).encode("utf-8")
+        req = urllib.request.Request(
+            self.base_url,
+            data=payload,
+            headers={
+                "x-api-key": self.api_key.strip(),
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+                "User-Agent": "iris-agents/1.0",
+            },
+        )
+
+        data: dict[str, Any] = {}
+        for attempt in range(4):
+            try:
+                with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                break
+            except urllib.error.HTTPError as exc:
+                if exc.code in {429, 529} and attempt < 3:
+                    time.sleep(5 * (attempt + 1))
+                    continue
+                raise
+
+        latency_ms = round((time.perf_counter() - t0) * 1000, 2)
+        blocos = data.get("content") or []
+        raw_content = "".join(
+            b.get("text", "") for b in blocos if isinstance(b, dict) and b.get("type") == "text"
+        ).strip()
+        cleaned = strip_thinking_tags(raw_content)
+        uso_raw = data.get("usage") or {}
+        prompt_tokens = int(uso_raw.get("input_tokens") or 0)
+        comp_tokens = int(uso_raw.get("output_tokens") or 0)
+        effective_model = str(data.get("model") or self.model)
+        usage: dict[str, Any] = {
+            "prompt_tokens": prompt_tokens,
+            "completion_tokens": comp_tokens,
+            "load_ms": 0.0,
+            "inference_ms": latency_ms,
+            "tokens_per_sec": round(comp_tokens / (latency_ms / 1000.0), 2) if latency_ms > 0 else 0.0,
+        }
+        return LLMResponse(
+            text=cleaned,
+            provider=self.provider_name,
+            model=effective_model,
+            prompt_tokens=prompt_tokens,
+            completion_tokens=comp_tokens,
+            latency_ms=latency_ms,
+            raw_usage=usage,
+        )
+
+
 class ExtractiveFallbackLLMProvider(BaseLLMProvider):
     """Provedor extrativo determinístico para execução offline / CI sem GPU ou API externa.
 
@@ -445,12 +543,13 @@ class HybridLLMClient:
         allow_fallback_to_extractive: bool = False,
     ) -> None:
         settings = get_settings()
-        self.provider_name = (
+        raw_provider = (
             provider
             or os.environ.get("IRIS_LLM_PROVIDER")
             or os.environ.get("RAG_LLM")
             or settings.llm_provider
         ).lower()
+        self.provider_name = "anthropic" if raw_provider in {"anthropic", "claude", "sonnet"} else raw_provider
         self.model = model
         self.allow_fallback_to_extractive = allow_fallback_to_extractive
         self._primary = self._build_provider(self.provider_name, self.model)
@@ -461,10 +560,12 @@ class HybridLLMClient:
             return OllamaLLMProvider(model=model)
         if provider_name == "groq":
             return GroqLLMProvider(model=model)
+        if provider_name in {"anthropic", "claude", "sonnet"}:
+            return AnthropicLLMProvider(model=model)
         if provider_name in {"extractive", "mock", "offline"}:
             return ExtractiveFallbackLLMProvider(model=model or "deterministic-bm25-extractive")
         raise ValueError(
-            f"Provedor de LLM desconhecido: {provider_name!r}. Use 'ollama', 'groq' ou 'extractive'."
+            f"Provedor de LLM desconhecido: {provider_name!r}. Use 'ollama', 'groq', 'anthropic' ou 'extractive'."
         )
 
     @staticmethod
@@ -530,6 +631,7 @@ class HybridLLMClient:
         """Retorna diagnóstico de conectividade dos provedores de LLM."""
         ollama_prov = OllamaLLMProvider(model=self.model)
         groq_prov = GroqLLMProvider(model=self.model)
+        anthropic_prov = AnthropicLLMProvider(model=self.model)
         return {
             "configured_provider": self.provider_name,
             "primary_available": self._primary.is_available(),
@@ -537,6 +639,7 @@ class HybridLLMClient:
             "ollama_url": ollama_prov.base_url,
             "ollama_installed_models": ollama_prov.list_installed_models(),
             "groq_configured": groq_prov.is_available(),
+            "anthropic_configured": anthropic_prov.is_available(),
         }
 
 

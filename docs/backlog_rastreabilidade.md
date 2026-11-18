@@ -49,7 +49,7 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | `#13` | **História 1.3.2** | Definição de Travas Curriculares Inegociáveis e alerta preventivo anti-muleta | Épico 1.3 / Tema 1 | **RF-08**, **RF-09** | **História 1.1.2** (RF-02), **História 1.3.1** (RF-07) | `priority: must` | `scope: front-web`, `scope: agents` | `OPEN` | *Não atribuída* |
 | `#16` | **História 2.1.1** | Recuperação de estratégias psicopedagógicas baseadas em evidências (RAG) | Épico 2.1 / Tema 2 | **RF-10**, RNF-06 | **História 1.2.1** (RF-04), **História 1.3.1** (RF-07), **História 4.2.1** (RF-06) | `priority: must` | `scope: rag` | `OPEN` (PR `#68`) | `matheushpr94` |
 | `#17` | **História 2.1.2** | Extração de invariantes curriculares pelo Agente Extrator | Épico 2.1 / Tema 2 | **RF-08**, **RF-11** | **História 1.1.2** (RF-02), **História 1.3.2** (RF-08), **História 4.1.1** (RNF-02) | `priority: must` | `scope: agents` | `CLOSED` | `iancostag` |
-| `#18` | **História 2.1.3** | Adaptação com isolamento estrito de escopo à característica selecionada | Épico 2.1 / Tema 2 | **RF-04**, **RF-11**, RNF-07, RNF-08 | **História 2.1.1** (RF-10), **História 2.1.2** (RF-11) | `priority: must` | `scope: agents`, `scope: rag` | `OPEN` | `iancostag`, `matheushpr94` |
+| `#18` | **História 2.1.3** | Adaptação com isolamento estrito de escopo à característica selecionada | Épico 2.1 / Tema 2 | **RF-04**, **RF-11**, RNF-07, RNF-08 | **História 2.1.1** (RF-10), **História 2.1.2** (RF-11) | `priority: must` | `scope: agents`, `scope: rag` | `OPEN` (PR `#71`/`#82` + Orquestração Etapa 4) | `iancostag`, `matheushpr94` |
 | `#19` | **História 2.1.4** | Auditoria automatizada de retenção curricular (TRCC) e não-intrusividade | Épico 2.1 / Tema 2 | **RF-12**, RNF-04, RNF-05 | **História 2.1.3** (RF-11) | `priority: must` | `scope: agents`, `scope: infra-eval` | `OPEN` | `Madu030` |
 | `#21` | **História 2.2.1** | Visualização comparativa lado a lado com justificativas pedagógicas do DUA | Épico 2.2 / Tema 2 | **RF-10**, **RF-13**, RNF-09 | **História 2.1.4** (RF-12) | `priority: must` | `scope: front-web` | `OPEN` | *Não atribuída* |
 | `#22` | **História 2.2.2** | Edição livre docente em tempo real e aprovação Human-in-the-Loop | Épico 2.2 / Tema 2 | **RF-13**, RNF-09 | **História 2.2.1** (RF-13) | `priority: must` | `scope: front-web`, `scope: api` | `OPEN` | *Não atribuída* |
@@ -409,10 +409,10 @@ Como professor, quero que o Agente Adaptador modifique exclusivamente os aspecto
 * **E** o tempo total de processamento não deve exceder 15 segundos para Nível 1 e 40 segundos para Níveis 2 e 3.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[RAG / IA]** Prompt e lógica de execução do Agente Adaptador em `src/iris/agents/adapter_agent.py`.
-- [ ] **[RAG / IA]** Implementação da Regra de Isolamento de Escopo: restrição estrita das transformações à característica ativa.
-- [ ] **[Backend]** Telemetria de latência e consumo de tokens por ciclo de geração multiagentes.
-- [ ] **[Testes]** Teste de não-modificação de dimensões textuais não associadas à dificuldade selecionada.
+- [x] **[RAG / IA]** Prompt e lógica de execução do Agente Adaptador em `src/iris/agents/adapter_agent.py`.
+- [x] **[RAG / IA]** Implementação da Regra de Isolamento de Escopo: restrição estrita das transformações à característica ativa (`src/iris/eval/escopo.py`).
+- [x] **[Backend]** Orquestração do fluxo completo dos 4 agentes (`src/iris/agents/orchestrator.py`), rota `POST /api/v1/agents/adapt`, CLI `make multiagentes` e telemetria de latência/tokens por ciclo (`resumir_ciclo`).
+- [x] **[Frontend / Testes]** Integração com a Etapa 4 (`frontend/src/components/Step4AgentAdaptation.tsx`) e suíte automatizada (`test_adapter_agent.py`, `test_multiagent_orchestrator.py`).
 
 ##### História 2.1.4: Auditoria automatizada de retenção curricular (TRCC) e não-intrusividade
 **História de Usuário**
