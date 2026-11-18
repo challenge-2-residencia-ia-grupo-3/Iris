@@ -112,6 +112,24 @@ class TestModeloPorAgente(unittest.TestCase):
         c = L.get_llm_client(agente="extrator")
         self.assertEqual(c.provider_name, "ollama")
 
+    def test_adaptador_vai_para_o_haiku_quando_ha_chave(self):
+        os.environ["IRIS_LLM_PROVIDER"] = "ollama"
+        os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        self.assertEqual(L.get_llm_client(agente="adaptador").provider_name, "anthropic")
+        self.assertEqual(L.get_llm_client(agente="extrator").provider_name, "ollama")
+
+    def test_sem_chave_o_adaptador_fica_no_geral(self):
+        os.environ["IRIS_LLM_PROVIDER"] = "ollama"
+        os.environ["ANTHROPIC_API_KEY"] = ""
+        with mock.patch.object(L, "get_settings", return_value=mock.Mock(anthropic_api_key="", llm_provider="ollama",
+                                                                          ollama_url="http://127.0.0.1:11434", groq_api_key="")):
+            self.assertEqual(L.get_llm_client(agente="adaptador").provider_name, "ollama")
+
+    def test_variavel_do_agente_vence_o_padrao(self):
+        os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        os.environ["IRIS_LLM_PROVIDER_ADAPTADOR"] = "ollama"
+        self.assertEqual(L.get_llm_client(agente="adaptador").provider_name, "ollama")
+
     def test_agente_desconhecido_falha(self):
         with self.assertRaises(ValueError):
             L.get_llm_client(agente="revisor")

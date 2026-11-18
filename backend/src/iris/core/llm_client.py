@@ -644,6 +644,12 @@ class HybridLLMClient:
 
 AGENTES = ("extrator", "estrategista", "adaptador", "auditor")
 
+# Padrão por etapa, pelo que foi medido (diário do RAG, 15 e 16/11/2026): o Adaptador com o Haiku faz 0,97 de
+# adaptações boas contra 0,57 do Llama local nas características sem regra (270 pedidos). Extrator e Estrategista
+# ficam no provedor geral (local por padrão): no Extrator o local basta; no Estrategista o Haiku só foi medido em piloto.
+# O padrão só vale quando há chave da Anthropic; sem chave, nada muda.
+PADRAO_POR_AGENTE = {"adaptador": "anthropic"}
+
 
 def get_llm_client(
     provider: str | None = None,
@@ -663,6 +669,9 @@ def get_llm_client(
         sufixo = agente.upper()
         provider = provider or os.environ.get(f"IRIS_LLM_PROVIDER_{sufixo}") or None
         model = model or os.environ.get(f"IRIS_LLM_MODEL_{sufixo}") or None
+        padrao = PADRAO_POR_AGENTE.get(agente)
+        if provider is None and padrao == "anthropic" and AnthropicLLMProvider().is_available():
+            provider = "anthropic"
     return HybridLLMClient(
         provider=provider,
         model=model,
