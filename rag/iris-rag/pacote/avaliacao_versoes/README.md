@@ -31,7 +31,7 @@ Três níveis, do mais barato ao mais caro. Todos a partir de `rag/iris-rag/paco
 .venv/bin/python comparar_versoes.py relatorio
 ```
 
-**2. Julgar de novo com o RAGAS** (precisa de `ANTHROPIC_API_KEY`, do pacote `anthropic` com `uv add anthropic`, e da base local para o texto dos trechos; cerca de US$ 0,05 por pergunta com o Sonnet 5.5):
+**2. Julgar de novo com o RAGAS** (precisa de `ANTHROPIC_API_KEY`, do pacote `anthropic` com `uv add anthropic`, e da base local para o texto dos trechos; cerca de US$ 0,04 por pergunta com o Sonnet 5.5, US$ 0,06 com 20 trechos):
 
 ```bash
 .venv/bin/python comparar_versoes.py ragas antigo

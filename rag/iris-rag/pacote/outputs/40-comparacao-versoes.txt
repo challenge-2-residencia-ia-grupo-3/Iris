@@ -36,4 +36,4 @@ RAGAS NAS 38 PERGUNTAS COM RESPOSTA (média; recusa entra como resposta e tende 
     faithfulness         antigo 0.80   novo20 0.93   diferença +0.13 [+0.05; +0.23]   (31 perguntas)
     answer_relevancy     antigo 0.71   novo20 0.73   diferença +0.02 [-0.06; +0.11]   (33 perguntas)
 
-custo registrado na chave (juiz do RAGAS): ragas_novo_5 US$ 0.2508; ragas_novo_33 US$ 1.8915; ragas_novo20_38 US$ 3.2318; ragas_antigo_38 US$ 2.019
+custo do juiz do RAGAS, calculado pelos tokens com a tabela de preços da Anthropic: ragas_novo_5 US$ 0.1672; ragas_novo_33 US$ 1.261; ragas_novo20_38 US$ 2.1545; ragas_antigo_38 US$ 1.346

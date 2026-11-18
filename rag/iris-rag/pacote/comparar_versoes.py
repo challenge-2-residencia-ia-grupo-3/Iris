@@ -50,7 +50,7 @@ VERSOES = {
 JUIZ = os.environ.get("IRIS_RAGAS_JUIZ", "claude-sonnet-5-5")
 EMBEDDINGS = os.environ.get("IRIS_RAGAS_EMBEDDINGS", "Qwen/Qwen3-Embedding-0.6B")
 # preço por milhão de tokens (entrada, saída), tabela da Anthropic; só para o teto e o registro do custo
-PRECO = {"claude-sonnet-5-5": (3.0, 15.0), "claude-haiku-5-5": (1.0, 5.0)}
+PRECO = {"claude-sonnet-5-5": (2.0, 10.0), "claude-haiku-5-5": (0.10, 0.50)}   # dólar por milhão de tokens (entrada, saída), tabela da Anthropic
 TETO = float(os.environ.get("IRIS_RAGAS_TETO_DOLAR", "8"))
 GASTO = {"entrada": 0, "saida": 0, "modelo": JUIZ}
 
@@ -167,7 +167,7 @@ def _juiz():
 
 
 def _dolar() -> float:
-    e, s = PRECO.get(GASTO["modelo"], (3.0, 15.0))
+    e, s = PRECO.get(GASTO["modelo"], (2.0, 10.0))
     return (GASTO["entrada"] * e + GASTO["saida"] * s) / 1e6
 
 
@@ -279,7 +279,7 @@ def relatorio() -> str:
                          f"diferença {sum(d) / len(d):+.2f} [{lo:+.2f}; {hi:+.2f}]   ({len(pares)} perguntas)")
     custo = PASTA / "custo.json"
     if custo.exists():
-        T += ["", "custo registrado na chave (juiz do RAGAS): " + "; ".join(f"{k} US$ {v['dolar']}" for k, v in
+        T += ["", "custo do juiz do RAGAS, calculado pelos tokens com a tabela de preços da Anthropic: " + "; ".join(f"{k} US$ {v['dolar']}" for k, v in
                                                                          json.loads(custo.read_text(encoding="utf-8")).items())]
     texto = "\n".join(T) + "\n"
     SAIDA.write_text(texto, encoding="utf-8")
