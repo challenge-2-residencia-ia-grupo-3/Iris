@@ -653,6 +653,12 @@ def create_app() -> Any:
     if scaffolding_router is not None:
         app.include_router(scaffolding_router, prefix="/api/v1")
 
+    # Registra rota de orquestração multiagentes da Etapa 4 (Issues #15, #16, #17, #18 e #19)
+    from iris.api.routes.agents import router as agents_router
+
+    if agents_router is not None:
+        app.include_router(agents_router, prefix="/api/v1")
+
     @app.get("/api/v1/catalog", tags=["catalogo"])
     def get_catalog() -> dict[str, Any]:
         return _handle_catalog()
@@ -1104,6 +1110,29 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json(resp.model_dump())
                 except MaterialValidationError as err:
                     self._send_json({"detail": err.to_dict()}, status=422)
+            elif urlparse(self.path).path == "/api/v1/agents/adapt":
+                from iris.api.routes.agents import (
+                    AgentOrchestrationValidationError,
+                    adapt_material_multiagent_service,
+                )
+
+                try:
+                    resp = adapt_material_multiagent_service(body)
+                    self._send_json(resp.model_dump())
+                except AgentOrchestrationValidationError as err:
+                    self._send_json({"detail": err.to_dict()}, status=422)
+                except Exception as err:  # noqa: BLE001
+                    self._send_json(
+                        {
+                            "detail": {
+                                "status": "error",
+                                "code": "INTERNAL_ERROR",
+                                "field": "agents",
+                                "detail": f"Erro interno na orquestração multiagentes: {err}",
+                            }
+                        },
+                        status=500,
+                    )
             else:
 
                 self._send_json({"error": "Not found", "path": self.path}, status=404)

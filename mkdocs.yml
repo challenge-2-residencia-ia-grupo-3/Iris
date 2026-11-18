@@ -82,6 +82,7 @@ nav:
       - Backlog & Rastreabilidade: backlog_rastreabilidade.md
   - Arquitetura: arquitetura.md
   - Agentes:
+      - Sistema Multiagentes (Semana 4): sistema_multiagentes.md
       - Agente Auditor: agente_auditor.md
   - Perfil Pedagógico: perfil_pedagogico.md
   - Exportação do Material: exportacao_material.md

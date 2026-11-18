@@ -249,7 +249,7 @@ class ResultadoAuditoria:
     juiz_valido: bool
     motivos: tuple[str, ...]
     intocaveis_ausentes: tuple[str, ...] = ()
-    intrusao_bloqueia: bool = True  # False: intrusão vira aviso (em `intrusoes`/`motivos`), não reprova
+    intrusao_bloqueia: bool = False  # padrão: intrusão vira aviso (em `intrusoes`/`motivos`), não reprova
 
     @property
     def aprovado(self) -> bool:
@@ -302,10 +302,12 @@ class AgenteAuditor:
         juiz: JuizLLM,
         limiar: float = LIMIAR_PADRAO,
         max_tokens: int = 900,
-        intrusao_bloqueia: bool = True,
+        intrusao_bloqueia: bool = False,
     ) -> None:
-        """`intrusao_bloqueia=False` faz a intrusão apontada pelo juiz virar só aviso. Útil enquanto o
-        juiz em uso não tiver precisão validada (veja `iris.eval.juiz_auditor`)."""
+        """Por padrão a intrusão apontada pelo juiz vira só aviso (`intrusao_bloqueia=False`): o juiz em uso não tem
+        precisão validada (veja `iris.eval.juiz_auditor`). Medido em 15/11/2026: precisão de 0,33 a 0,50 com Llama,
+        Haiku e Sonnet como juiz; com a intrusão como aviso, a corrente aprova 16 de 17 minutas em vez de 6.
+        `intrusao_bloqueia=True` volta a reprovar."""
         self.juiz = juiz
         self.limiar = limiar
         self.max_tokens = max_tokens
