@@ -162,6 +162,10 @@ class MultiAgentMaterialResponse(BaseModel):
     titulo: str
     provider: str
     model: str
+    provedores_por_agente: dict[str, str] = Field(
+        default_factory=dict,
+        description="Provedor efetivo de cada agente (extrator, estrategista, adaptador, auditor) nesta execução.",
+    )
     nivel: int
     selected_ids: list[str]
     pii_substituicoes: int
@@ -233,6 +237,45 @@ def _resolver_cliente_llm(
         return get_llm_client(provider="extractive")
 
     return get_llm_client(provider=provider, model=model)
+
+
+AGENTES_DA_CORRENTE = ("extrator", "estrategista", "adaptador", "auditor")
+
+
+def _disponivel(cliente: Any) -> bool:
+    try:
+        return bool(cliente.status().get("primary_available"))
+    except Exception:  # noqa: BLE001 - status indisponível conta como provedor fora do ar
+        return False
+
+
+def _cliente_do_agente(agente: str, model: Optional[str]) -> HybridLLMClient:
+    """Modo automático, por agente: o padrão do agente (`get_llm_client(agente=...)`: Haiku no Adaptador quando há
+    chave da Anthropic, provedor geral nos demais, salvo IRIS_LLM_PROVIDER_<AGENTE>); se ele não estiver disponível,
+    a Anthropic, quando há chave; senão, o modo sem modelo. Assim o servidor que só tem a chave continua funcionando
+    com os quatro agentes, e o que tem Ollama usa cada agente no modelo medido para ele."""
+    for fabrica in (lambda: get_llm_client(agente=agente, model=model),
+                    lambda: get_llm_client(provider="anthropic", model=model)):
+        try:
+            cliente = fabrica()
+        except Exception:  # noqa: BLE001
+            continue
+        if _disponivel(cliente):
+            return cliente
+    return get_llm_client(provider="extractive")
+
+
+def _resolver_clientes_por_agente(
+    provider: Optional[str],
+    model: Optional[str],
+    explicit_client: Optional[HybridLLMClient],
+) -> dict[str, HybridLLMClient]:
+    """Um cliente por agente. Cliente explícito ou provedor pedido valem para os quatro, como antes; no modo
+    automático, cada agente usa o seu padrão (ver `_cliente_do_agente`)."""
+    if explicit_client is not None or (provider is not None and provider != "auto"):
+        unico = _resolver_cliente_llm(provider, model, explicit_client)
+        return {agente: unico for agente in AGENTES_DA_CORRENTE}
+    return {agente: _cliente_do_agente(agente, model) for agente in AGENTES_DA_CORRENTE}
 
 
 def _construir_juiz(llm_client: Any) -> Any:
@@ -315,12 +358,13 @@ class MultiAgentOrchestrator:
         # Valida previamente as características contra o catálogo oficial (SSOT)
         nao_selecionadas = caracteristicas_nao_selecionadas(req.selected_ids)
 
-        llm_client = _resolver_cliente_llm(req.provider, req.model, self._explicit_llm)
-        juiz = self._explicit_juiz if self._explicit_juiz is not None else _construir_juiz(llm_client)
+        clientes = _resolver_clientes_por_agente(req.provider, req.model, self._explicit_llm)
+        llm_client = clientes["adaptador"]           # o agente de maior efeito: é o provedor que a resposta informa
+        juiz = self._explicit_juiz if self._explicit_juiz is not None else _construir_juiz(clientes["auditor"])
 
-        extrator = CurriculumExtractorAgent(llm_client=llm_client)
-        estrategista = StrategistAgent(llm_client=llm_client)
-        adaptador = AdapterAgent(llm_client=llm_client)
+        extrator = CurriculumExtractorAgent(llm_client=clientes["extrator"])
+        estrategista = StrategistAgent(llm_client=clientes["estrategista"])
+        adaptador = AdapterAgent(llm_client=clientes["adaptador"])
         auditor = AgenteAuditor(
             juiz=juiz,
             limiar=0.95,
@@ -545,6 +589,7 @@ class MultiAgentOrchestrator:
             titulo=titulo_final,
             provider=provider_str,
             model=model_str,
+            provedores_por_agente={a: str(getattr(c, "provider_name", "custom")) for a, c in clientes.items()},
             nivel=req.nivel,
             selected_ids=list(req.selected_ids),
             pii_substituicoes=pii_substituicoes,
