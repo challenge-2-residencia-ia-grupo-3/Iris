@@ -29,7 +29,7 @@ import {
   Sun,
   Unlock,
 } from "lucide-react";
-import { IrisLogoBanner } from "./IrisLogoBanner";
+import { IrisHeader } from "./IrisHeader";
 import { IrisSidebar, Step2SubStep } from "./IrisSidebar";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
@@ -391,50 +391,19 @@ export function Step2FunctionalProfile({
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors">
-      {/* Cabeçalho Institucional da Plataforma Íris */}
-      <header className="w-full bg-[#0D0221] text-white border-b border-white/10 px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <IrisLogoBanner compact />
-            <div className="hidden md:block h-7 w-px bg-white/15" aria-hidden="true" />
-            <div className="hidden md:block">
-              <p className="text-xs font-semibold text-[#E35336] uppercase tracking-wider">
-                Etapa 2 de 5 • Mapeamento Funcional Cirúrgico
-              </p>
-              <p className="text-xs text-white/75">
-                Docente: <span className="font-mono text-white">{teacherEmail}</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => setHighContrast((prev) => !prev)}
-              aria-pressed={highContrast}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors"
-              title="Alternar Modo de Alto Contraste (WCAG 2.1 AA)"
-            >
-              <Contrast className="w-3.5 h-3.5 text-[#E35336]" aria-hidden="true" />
-              <span>Alto Contraste</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleToggleDarkMode}
-              aria-label={isDarkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-              className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors"
-              title={isDarkMode ? "Modo claro" : "Modo escuro"}
-            >
-              {isDarkMode ? <Sun className="w-4 h-4 text-[#E35336]" /> : <Moon className="w-4 h-4" />}
-            </button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors hc-surface">
+      <IrisHeader
+        currentStep={2}
+        stepTitle="Mapeamento funcional cirúrgico"
+        teacherEmail={teacherEmail}
+        highContrast={highContrast}
+        onToggleHighContrast={() => setHighContrast((prev) => !prev)}
+        darkMode={isDarkMode}
+        onToggleDarkMode={handleToggleDarkMode}
+      />
 
       {/* Estrutura Principal com Sidebar Lateral + Conteúdo */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 flex flex-col lg:flex-row gap-6 items-start">
+      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 flex flex-col lg:flex-row gap-6 items-start">
         {/* Sidebar Lateral Modular (reaproveitada entre as etapas) */}
         <IrisSidebar
           currentStep={2}
@@ -456,19 +425,19 @@ export function Step2FunctionalProfile({
         <main id="conteudo-principal" className="flex-1 min-w-0 space-y-5">
           {/* Faixa compacta com material da Etapa 1 */}
           {effectiveMaterialPreview && (
-            <div className="bg-white/85 dark:bg-[#160A30]/90 border border-[#335C67]/20 dark:border-white/15 rounded-2xl px-4 py-3 flex items-center justify-between gap-3 text-xs">
+            <div className="bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 rounded-xl px-4 py-2.5 flex items-center justify-between gap-3 text-xs hc-surface">
               <div className="flex items-center gap-2 min-w-0 max-w-xl">
                 <span className="truncate text-[#0D0221]/75 dark:text-white/75">
-                  <strong>Material:</strong> {effectiveMaterialPreview.slice(0, 110)}
+                  <strong>Material em adaptação:</strong> {effectiveMaterialPreview.slice(0, 110)}
                   {effectiveMaterialPreview.length > 110 ? "..." : ""}
                 </span>
                 {onBackToStep1 && (
                   <button
                     type="button"
                     onClick={onBackToStep1}
-                    className="font-bold text-[#335C67] dark:text-[#9fd0de] underline flex-shrink-0"
+                    className="font-semibold text-[#335C67] dark:text-[#9fd0de] underline flex-shrink-0"
                   >
-                    Revisar Material
+                    Revisar material
                   </button>
                 )}
               </div>
@@ -485,7 +454,7 @@ export function Step2FunctionalProfile({
             {feedbackBanner && (
               <div
                 role={feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? "alert" : "status"}
-                className={`pointer-events-auto rounded-2xl p-4 border border-l-4 flex items-start justify-between gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
+                className={`pointer-events-auto rounded-xl p-4 border border-l-4 flex items-start justify-between gap-3 shadow-lg backdrop-blur-md transition-all ${
                   feedbackBanner.type === "error"
                     ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
                     : feedbackBanner.type === "warning"
@@ -504,14 +473,9 @@ export function Step2FunctionalProfile({
                     )}
                   </div>
                   <div className="text-xs sm:text-sm min-w-0">
-                    <p className="font-bold leading-snug">{feedbackBanner.title}</p>
+                    <p className="font-semibold leading-snug">{feedbackBanner.title}</p>
                     {feedbackBanner.message && (
                       <p className="text-xs opacity-85 mt-1 leading-relaxed">{feedbackBanner.message}</p>
-                    )}
-                    {feedbackBanner.code && (
-                      <span className="mt-1 inline-block px-1.5 py-0.5 text-[10px] font-mono rounded bg-black/10 dark:bg-white/10">
-                        {feedbackBanner.code}
-                      </span>
                     )}
                   </div>
                 </div>
@@ -520,7 +484,7 @@ export function Step2FunctionalProfile({
                   type="button"
                   onClick={() => setFeedbackBanner(null)}
                   aria-label="Fechar aviso"
-                  className="text-xs font-bold opacity-60 hover:opacity-100 flex-shrink-0 px-1.5 py-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-opacity"
+                  className="text-xs font-semibold opacity-60 hover:opacity-100 flex-shrink-0 px-1.5 py-0.5 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-opacity"
                 >
                   ✕
                 </button>
@@ -534,586 +498,588 @@ export function Step2FunctionalProfile({
           {currentSubStep === "a" && (
             <section
               aria-label="Passo A: Perfil funcional e seleção cirúrgica de características"
-              className="bg-white dark:bg-[#160A30] border border-[#335C67]/25 dark:border-white/15 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5"
+              className="bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 rounded-xl p-5 sm:p-6 space-y-5 hc-surface"
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
                 <div className="space-y-1">
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
+                  <h1 className="font-display text-xl sm:text-2xl font-semibold tracking-tight text-[#0D0221] dark:text-white">
                     Quais barreiras funcionais você observa no estudante?
                   </h1>
-                  <p className="text-xs sm:text-sm text-[#0D0221]/75 dark:text-white/75 max-w-3xl">
-                    Selecione <strong>apenas</strong> as características em que há dificuldade.
+                  <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
+                    Marque <strong>apenas</strong> as características em que há dificuldade observada em sala. As demais dimensões serão preservadas no formato original.
                   </p>
                 </div>
 
-              <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={handleClearSelection}
-                  disabled={selectedIds.length === 0}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-black/5 dark:bg-white/10 hover:bg-red-500/15 hover:text-red-700 dark:hover:text-red-300 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>Limpar</span>
-                </button>
+                <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={handleClearSelection}
+                    disabled={selectedIds.length === 0}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-black/5 dark:bg-white/10 hover:bg-red-500/15 hover:text-red-700 dark:hover:text-red-300 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>Limpar seleção</span>
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* Barra de busca rápida */}
-            <div className="relative w-full">
-              <Search
-                className="w-4 h-4 text-[#0D0221]/45 dark:text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                aria-hidden="true"
-              />
-              <label htmlFor={searchInputId} className="sr-only">
-                Buscar característica ou manifestação em sala de aula
-              </label>
-              <input
-                id={searchInputId}
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar ex.: múltiplos comandos, memória, atenção..."
-                className="w-full pl-9 pr-3 py-2.5 rounded-xl text-xs sm:text-sm bg-[#F5EDF0]/70 dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/15 text-[#0D0221] dark:text-white focus:border-[#E35336]"
-              />
-            </div>
-
-            {/* Lista enxuta de características atômicas (inspirada na Imagem 1, com expansão sob demanda) */}
-            {isLoadingCatalog ? (
-              <div className="rounded-2xl p-10 flex flex-col items-center justify-center gap-3 border border-[#335C67]/20">
-                <Loader2 className="w-7 h-7 animate-spin text-[#E35336]" aria-hidden="true" />
-                <p className="text-sm font-semibold">
-                  Carregando catálogo oficial de características funcionais...
-                </p>
+              {/* Barra de busca rápida */}
+              <div className="relative w-full">
+                <Search
+                  className="w-4 h-4 text-[#0D0221]/45 dark:text-white/50 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  aria-hidden="true"
+                />
+                <label htmlFor={searchInputId} className="sr-only">
+                  Buscar característica ou manifestação em sala de aula
+                </label>
+                <input
+                  id={searchInputId}
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Filtrar por característica, exemplo em sala ou dimensão funcional..."
+                  className="w-full pl-10 pr-3.5 py-2.5 rounded-lg text-xs sm:text-sm bg-[#FAF7F8] dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/15 text-[#0D0221] dark:text-white focus:border-[#E35336]"
+                />
               </div>
-            ) : filteredCharacteristics.length === 0 ? (
-              <div className="rounded-2xl p-8 text-center space-y-2 border border-[#335C67]/20">
-                <p className="text-sm font-bold">Nenhuma característica encontrada para a busca.</p>
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  className="text-xs font-bold text-[#E35336] underline"
-                >
-                  Limpar busca e mostrar todas as {totalCount} características
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
-                {filteredCharacteristics.map((item: CharacteristicItem) => {
-                  const isSelected = selectedSet.has(item.id_caracteristica);
-                  const isExpanded = Boolean(expandedDetails[item.id_caracteristica]);
-                  const refDoc = item.referencias_bibliograficas?.[0];
 
-                  return (
-                    <div
-                      key={item.id_caracteristica}
-                      role="checkbox"
-                      aria-checked={isSelected}
-                      tabIndex={0}
-                      onClick={() => handleToggleCharacteristic(item.id_caracteristica)}
-                      onKeyDown={(e) => {
-                        if (e.key === " " || e.key === "Enter") {
-                          e.preventDefault();
-                          handleToggleCharacteristic(item.id_caracteristica);
-                        }
-                      }}
-                      className={`group cursor-pointer rounded-2xl p-4 border-2 transition-all flex flex-col justify-between gap-3 text-left select-none focus:outline-none focus:ring-2 focus:ring-[#E35336] ${
-                        isSelected
-                          ? "bg-[#E35336]/[0.04] dark:bg-[#1E0E40] border-[#E35336] shadow-sm"
-                          : "bg-[#F5EDF0]/40 dark:bg-[#160A30]/80 border-[#335C67]/20 dark:border-white/10 hover:border-[#335C67]/50"
-                      }`}
-                    >
-                      <div className="space-y-2.5">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-start gap-3">
-                            <div
-                              className={`mt-0.5 flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${
-                                isSelected
-                                  ? "bg-[#E35336] text-white"
-                                  : "bg-white dark:bg-white/10 border border-[#335C67]/25 text-[#335C67] dark:text-white/60"
-                              }`}
-                            >
-                              {isSelected ? (
-                                <CheckSquare className="w-4 h-4" aria-hidden="true" />
-                              ) : (
-                                <Square className="w-4 h-4" aria-hidden="true" />
-                              )}
+              {/* Lista de características atômicas */}
+              {isLoadingCatalog ? (
+                <div className="rounded-xl p-10 flex flex-col items-center justify-center gap-3 border border-[#335C67]/20">
+                  <Loader2 className="w-6 h-6 animate-spin text-[#E35336]" aria-hidden="true" />
+                  <p className="text-sm font-medium">
+                    Carregando catálogo oficial de características funcionais...
+                  </p>
+                </div>
+              ) : filteredCharacteristics.length === 0 ? (
+                <div className="rounded-xl p-8 text-center space-y-2 border border-[#335C67]/20">
+                  <p className="text-sm font-semibold">Nenhuma característica encontrada para essa busca.</p>
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="text-xs font-semibold text-[#E35336] underline"
+                  >
+                    Limpar busca e mostrar todas as {totalCount} características
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
+                  {filteredCharacteristics.map((item: CharacteristicItem) => {
+                    const isSelected = selectedSet.has(item.id_caracteristica);
+                    const isExpanded = Boolean(expandedDetails[item.id_caracteristica]);
+                    const refDoc = item.referencias_bibliograficas?.[0];
+
+                    return (
+                      <div
+                        key={item.id_caracteristica}
+                        role="checkbox"
+                        aria-checked={isSelected}
+                        tabIndex={0}
+                        onClick={() => handleToggleCharacteristic(item.id_caracteristica)}
+                        onKeyDown={(e) => {
+                          if (e.key === " " || e.key === "Enter") {
+                            e.preventDefault();
+                            handleToggleCharacteristic(item.id_caracteristica);
+                          }
+                        }}
+                        className={`group cursor-pointer rounded-xl p-4 border transition-colors flex flex-col justify-between gap-3 text-left select-none focus:outline-none focus:ring-2 focus:ring-[#E35336] ${
+                          isSelected
+                            ? "bg-[#E35336]/[0.05] dark:bg-[#1E0E40] border-[#E35336]"
+                            : "bg-[#FAF7F8] dark:bg-[#160A30]/80 border-[#335C67]/20 dark:border-white/10 hover:border-[#335C67]/45"
+                        }`}
+                      >
+                        <div className="space-y-2.5">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex items-start gap-2.5">
+                              <div
+                                className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded flex items-center justify-center transition-colors ${
+                                  isSelected
+                                    ? "bg-[#E35336] text-white"
+                                    : "bg-white dark:bg-white/10 border border-[#335C67]/30 text-[#335C67] dark:text-white/60"
+                                }`}
+                              >
+                                {isSelected ? (
+                                  <CheckSquare className="w-3.5 h-3.5" aria-hidden="true" />
+                                ) : (
+                                  <Square className="w-3.5 h-3.5" aria-hidden="true" />
+                                )}
+                              </div>
+                              <h2 className="text-sm font-semibold text-[#0D0221] dark:text-white leading-snug">
+                                {item.nome}
+                              </h2>
                             </div>
-                            <h2 className="text-sm font-extrabold text-[#0D0221] dark:text-white leading-snug">
-                              {item.nome}
-                            </h2>
+
+                            {isSelected ? (
+                              <span className="flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-[#E35336]/15 text-[#E35336]">
+                                <Unlock className="w-3 h-3" aria-hidden="true" />
+                                <span>Adaptar</span>
+                              </span>
+                            ) : (
+                              <span className="flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium text-[#0D0221]/55 dark:text-white/55">
+                                <Lock className="w-3 h-3" aria-hidden="true" />
+                                <span>Original</span>
+                              </span>
+                            )}
                           </div>
 
-                          {isSelected ? (
-                            <span className="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#E35336]/15 text-[#E35336] border border-[#E35336]/30">
-                              <Unlock className="w-3 h-3" aria-hidden="true" />
-                              Adaptar
-                            </span>
-                          ) : (
-                            <span className="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-black/5 dark:bg-white/10 text-[#0D0221]/65 dark:text-white/65">
-                              <Lock className="w-3 h-3" aria-hidden="true" />
-                              Original
-                            </span>
+                          {isExpanded && (
+                            <div className="rounded-lg bg-white dark:bg-black/30 p-3.5 border border-[#335C67]/15 dark:border-white/10 space-y-3">
+                              <div className="space-y-1">
+                                <p className="text-xs font-semibold text-[#335C67] dark:text-[#9fd0de]">
+                                  Descrição observável
+                                </p>
+                                <p className="text-xs text-[#0D0221]/85 dark:text-white/85 leading-relaxed">
+                                  {item.descricao_observavel}
+                                </p>
+                              </div>
+
+                              <div className="space-y-1 pt-2 border-t border-[#335C67]/10 dark:border-white/10">
+                                <p className="text-xs font-semibold text-[#335C67] dark:text-[#9fd0de]">
+                                  Como se manifesta em sala de aula
+                                </p>
+                                <ul className="space-y-1 text-xs text-[#0D0221]/80 dark:text-white/75 list-disc list-inside">
+                                  {item.exemplos_manifestacao_sala.map((exemplo, idx) => (
+                                    <li key={idx} className="leading-snug">
+                                      {exemplo}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+
+                              <div className="pt-1 flex flex-wrap items-center gap-2 text-[11px]">
+                                <span className="px-2 py-0.5 rounded bg-[#0D0221]/5 dark:bg-white/10 font-medium">
+                                  {PRINCIPIO_DUA_LABELS[item.principio_dua_primario] ||
+                                    item.principio_dua_primario}
+                                </span>
+                                {refDoc?.ponto_verificacao_dua && (
+                                  <span className="inline-flex items-center gap-1 opacity-75">
+                                    <BookOpen className="w-3 h-3" aria-hidden="true" />
+                                    {refDoc.ponto_verificacao_dua}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           )}
                         </div>
 
-                        {isExpanded && (
-                          <div className="rounded-xl bg-white dark:bg-black/30 p-3.5 border border-[#335C67]/15 dark:border-white/10 space-y-3">
-                            <div className="space-y-1">
-                              <p className="text-[11px] font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                                Descrição observável:
-                              </p>
-                              <p className="text-xs text-[#0D0221]/85 dark:text-white/85 leading-relaxed">
-                                {item.descricao_observavel}
-                              </p>
-                            </div>
+                        <div className="pt-2 border-t border-[#335C67]/10 dark:border-white/10 flex items-center justify-between gap-2">
+                          <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#335C67]/12 text-[#335C67] dark:bg-[#335C67]/30 dark:text-[#9fd0de]">
+                            {BARREIRA_LABELS[item.barreira_rag_associada] || item.barreira_rag_associada}
+                          </span>
 
-                            <div className="space-y-1 pt-2 border-t border-[#335C67]/10 dark:border-white/10">
-                              <p className="text-[11px] font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                                Como se manifesta em sala de aula:
-                              </p>
-                              <ul className="space-y-1 text-xs text-[#0D0221]/80 dark:text-white/75 list-disc list-inside">
-                                {item.exemplos_manifestacao_sala.map((exemplo, idx) => (
-                                  <li key={idx} className="leading-snug">
-                                    {exemplo}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            <div className="pt-1 flex flex-wrap items-center gap-2 text-[11px]">
-                              <span className="px-2 py-0.5 rounded bg-[#0D0221]/5 dark:bg-white/10 font-semibold">
-                                {PRINCIPIO_DUA_LABELS[item.principio_dua_primario] ||
-                                  item.principio_dua_primario}
-                              </span>
-                              {refDoc?.ponto_verificacao_dua && (
-                                <span className="inline-flex items-center gap-1 opacity-75">
-                                  <BookOpen className="w-3 h-3" aria-hidden="true" />
-                                  {refDoc.ponto_verificacao_dua}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        )}
+                          <button
+                            type="button"
+                            onClick={(e) => handleToggleDetails(item.id_caracteristica, e)}
+                            className="inline-flex items-center gap-1 text-xs font-semibold text-[#335C67] dark:text-[#9fd0de] hover:underline"
+                          >
+                            {isExpanded ? (
+                              <>
+                                <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
+                                <span>Ocultar exemplos</span>
+                              </>
+                            ) : (
+                              <>
+                                <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
+                                <span>Ver exemplos em sala</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                       </div>
-
-                      <div className="pt-2 border-t border-[#335C67]/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-[#335C67]/15 text-[#335C67] dark:bg-[#335C67]/30 dark:text-[#9fd0de]">
-                          {BARREIRA_LABELS[item.barreira_rag_associada] || item.barreira_rag_associada}
-                        </span>
-
-                        <button
-                          type="button"
-                          onClick={(e) => handleToggleDetails(item.id_caracteristica, e)}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-[#335C67] dark:text-[#9fd0de] hover:underline"
-                        >
-                          {isExpanded ? (
-                            <>
-                              <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
-                              <span>Ocultar explicação</span>
-                            </>
-                          ) : (
-                            <>
-                              <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
-                              <span>Ver explicação e exemplos</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
-            <PortableProfilePanel
-              selectedIds={selectedIds}
-              validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
-              onApplyProfile={handleApplyLocalProfile}
-            />
-
-            {/* Rodapé do Passo (a) */}
-            <div className="pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                {selectedCount === 0 ? (
-                  <div
-                    role="alert"
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-950 dark:text-amber-200 text-xs font-bold"
-                  >
-                    <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
-                    <span>
-                      {attemptedEmptySubmit
-                        ? "Avanço bloqueado: selecione ao menos 1 característica acima."
-                        : "Selecione ao menos 1 característica observada para continuar."}
-                    </span>
-                  </div>
-                ) : (
-                  <p className="inline-flex items-center gap-2 text-xs text-[#0D0221]/75 dark:text-white/75">
-                    <Info className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
-                    <span>
-                      <strong>{selectedCount}</strong> {selectedCount === 1 ? "característica marcada" : "características marcadas"} para adaptação • Você poderá revisar tudo no resumo final.
-                    </span>
-                  </p>
-                )}
-              </div>
-
-              <div className="flex flex-wrap items-center gap-2.5">
-                {selectedCount > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => navigateToSubStep("c")}
-                    className="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 text-[#0D0221] dark:text-white transition-colors"
-                  >
-                    Ir direto para Resumo
-                  </button>
-                )}
-                <button
-                  type="button"
-                  disabled={selectedCount === 0}
-                  onClick={() => navigateToSubStep("b")}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed shadow-sm transition-all"
-                >
-                  <span>Continuar</span>
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* ======================================================================== */}
-        {/* PASSO B: INTERESSES TEMÁTICOS, CANAIS E POTENCIALIDADES (Opcional — DUA) */}
-        {/* ======================================================================== */}
-        {currentSubStep === "b" && (
-          <section
-            aria-label="Passo B: Potencialidades, interesses temáticos e canais de engajamento (Opcional)"
-            className="bg-white dark:bg-[#160A30] border border-[#335C67]/25 dark:border-white/15 rounded-2xl p-5 sm:p-6 shadow-sm space-y-6"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
-              <div className="space-y-1.5">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[#335C67]/15 text-[#335C67] dark:bg-[#335C67]/30 dark:text-[#9fd0de]">
-                  <HeartHandshake className="w-3.5 h-3.5" aria-hidden="true" />
-                  Princípio I do DUA — Rede de Engajamento • Opcional
-                </span>
-                <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
-                  Potencialidades, Interesses e Canais de Engajamento
-                </h1>
-                <p className="text-xs sm:text-sm text-[#0D0221]/75 dark:text-white/75 max-w-3xl">
-                  Escolha temas, canais preferenciais e facilidades do estudante
-                </p>
-              </div>
-
-              {engagementAnchorCount > 0 && (
-                <button
-                  type="button"
-                  onClick={handleClearEngagement}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-black/5 dark:bg-white/10 hover:bg-red-500/15 hover:text-red-700 dark:hover:text-red-300 transition-colors self-start flex-shrink-0"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>Limpar Engajamento</span>
-                </button>
+                    );
+                  })}
+                </div>
               )}
-            </div>
 
-            {/* 1. Interesses Temáticos */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                <Compass className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
-                <span>1. Interesses Temáticos (Opcional)</span>
-              </div>
-
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-label="Seletores de interesses temáticos"
-              >
-                {engagementOptions.interesses_tematicos.map((interest) => {
-                  const isActive = selectedInterests.includes(interest.id);
-                  return (
-                    <button
-                      key={interest.id}
-                      type="button"
-                      aria-pressed={isActive}
-                      title={interest.descricao}
-                      onClick={() => handleToggleInterest(interest.id)}
-                      className={`px-3.5 py-2 rounded-full text-xs sm:text-sm font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
-                        isActive
-                          ? "bg-[#E35336] text-white border-[#E35336] shadow-sm"
-                          : "bg-[#F5EDF0]/70 dark:bg-white/5 text-[#0D0221] dark:text-white border-[#335C67]/25 dark:border-white/15 hover:border-[#E35336]/60"
-                      }`}
-                    >
-                      {isActive ? "✓ " : ""}
-                      {interest.rotulo}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* 2. Canais Preferenciais de Engajamento */}
-            <div className="pt-5 border-t border-[#335C67]/15 dark:border-white/10 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                <Layers className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
-                <span>2. Canais Preferenciais de Engajamento (Opcional)</span>
-              </div>
-
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-label="Canais preferenciais de engajamento"
-              >
-                {engagementOptions.canais_engajamento_preferenciais.map((canal) => {
-                  const isActive = selectedChannels.includes(canal.id);
-                  return (
-                    <button
-                      key={canal.id}
-                      type="button"
-                      aria-pressed={isActive}
-                      title={canal.descricao}
-                      onClick={() => handleToggleChannel(canal.id)}
-                      className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
-                        isActive
-                          ? "bg-[#335C67] text-white border-[#335C67] shadow-sm"
-                          : "bg-[#F5EDF0]/70 dark:bg-white/5 text-[#0D0221] dark:text-white border-[#335C67]/25 dark:border-white/15 hover:border-[#335C67]/60"
-                      }`}
-                    >
-                      {isActive ? "✓ " : ""}
-                      {canal.rotulo}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* 3. Potencialidades e Facilidades Observadas */}
-            <div className="pt-5 border-t border-[#335C67]/15 dark:border-white/10 space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <label
-                  htmlFor={potencialidadesInputId}
-                  className="text-xs font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]"
-                >
-                  3. Potencialidades e Facilidades Observadas (Opcional)
-                </label>
-                <span className="text-[11px] font-mono opacity-70">{potencialidades.length}/500</span>
-              </div>
-              <textarea
-                id={potencialidadesInputId}
-                rows={2}
-                maxLength={500}
-                value={potencialidades}
-                onChange={(e) => {
-                  setConfirmedSelection(null);
-                  setPotencialidades(e.target.value);
-                }}
-                placeholder="Ex.: Boa compreensão com esquemas visuais, facilidade para explicar raciocínios oralmente e engajamento com desafios curtos."
-                className="w-full p-3 rounded-xl text-xs sm:text-sm bg-[#F5EDF0]/70 dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/15 text-[#0D0221] dark:text-white focus:border-[#E35336] transition-colors"
+              <PortableProfilePanel
+                selectedIds={selectedIds}
+                validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
+                onApplyProfile={handleApplyLocalProfile}
               />
-              <p className="text-[11px] text-[#0D0221]/70 dark:text-white/70">
-                <strong>Proteção LGPD:</strong> não insira nome do estudante, dados civis, CID ou laudo clínico. Qualquer dado identificável acidental será descartado antes do processamento.
-              </p>
-            </div>
 
-            {/* Rodapé do Passo (B) */}
-            <div className="pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-wrap items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={() => navigateToSubStep("a")}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 text-[#0D0221] dark:text-white transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-                <span>Voltar</span>
-              </button>
+              {/* Rodapé do Passo (a) */}
+              <div className="pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  {selectedCount === 0 ? (
+                    <div
+                      role="alert"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-500/15 border border-amber-500/35 text-amber-950 dark:text-amber-200 text-xs font-semibold"
+                    >
+                      <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
+                      <span>
+                        {attemptedEmptySubmit
+                          ? "Selecione ao menos 1 característica observada acima para continuar."
+                          : "Selecione ao menos 1 característica observada para continuar."}
+                      </span>
+                    </div>
+                  ) : (
+                    <p className="inline-flex items-center gap-2 text-xs text-[#0D0221]/75 dark:text-white/75">
+                      <Info className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
+                      <span>
+                        <strong>{selectedCount}</strong> {selectedCount === 1 ? "característica marcada" : "características marcadas"} para adaptação. Você poderá revisar tudo no resumo final.
+                      </span>
+                    </p>
+                  )}
+                </div>
 
-              <button
-                type="button"
-                onClick={() => navigateToSubStep("c")}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#E35336] hover:bg-[#c94429] shadow-sm transition-all"
-              >
-                <span>Continuar para Resumo</span>
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </button>
-            </div>
-          </section>
-        )}
-
-        {/* ======================================================================== */}
-        {/* PASSO C: RESUMO DA ADAPTAÇÃO E AVANÇO PARA ETAPA 3                       */}
-        {/* ======================================================================== */}
-        {currentSubStep === "c" && (
-          <section
-            aria-label="Passo C: Resumo do escopo cirúrgico e avanço para Etapa 3"
-            className="bg-white dark:bg-[#160A30] border-2 border-[#335C67]/30 dark:border-white/15 rounded-2xl p-5 sm:p-6 shadow-md space-y-5"
-          >
-            <div className="border-b border-[#335C67]/15 dark:border-white/10 pb-4">
-              <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
-                Resumo do perfil funcional
-              </h1>
-              
-            </div>
-
-            {/* 3 Cards de Resumo */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Card 1: Adaptar */}
-              <div className="rounded-2xl p-4 bg-[#E35336]/10 dark:bg-[#E35336]/20 border border-[#E35336]/35 space-y-2.5">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-[#E35336]" aria-hidden="true" />
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-[#E35336]">
-                      Adaptar
-                    </span>
-                  </div>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  {selectedCount > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => navigateToSubStep("c")}
+                      className="px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#FAF7F8] dark:bg-white/10 border border-[#335C67]/20 dark:border-white/15 hover:bg-[#335C67]/10 text-[#0D0221] dark:text-white transition-colors"
+                    >
+                      Ir direto para o resumo
+                    </button>
+                  )}
                   <button
                     type="button"
-                    onClick={() => navigateToSubStep("a")}
-                    className="text-xs font-bold text-[#E35336] hover:underline"
+                    disabled={selectedCount === 0}
+                    onClick={() => navigateToSubStep("b")}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed transition-colors"
                   >
-                    Editar
+                    <span>Continuar</span>
+                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   </button>
                 </div>
-                <p className="text-lg font-extrabold text-[#0D0221] dark:text-white">
-                  {selectedCount} {selectedCount === 1 ? "característica" : "características"}
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedIds.map((id) => {
-                    const item = catalog.caracteristicas.find((c) => c.id_caracteristica === id);
+              </div>
+            </section>
+          )}
+
+          {/* ======================================================================== */}
+          {/* PASSO B: INTERESSES TEMÁTICOS, CANAIS E POTENCIALIDADES (Opcional — DUA) */}
+          {/* ======================================================================== */}
+          {currentSubStep === "b" && (
+            <section
+              aria-label="Passo B: Potencialidades, interesses temáticos e canais de engajamento (Opcional)"
+              className="bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 rounded-xl p-5 sm:p-6 space-y-6 hc-surface"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
+                <div className="space-y-1.5">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-[#335C67]/12 text-[#335C67] dark:bg-[#335C67]/30 dark:text-[#9fd0de]">
+                    <HeartHandshake className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>Princípio I do DUA — Rede de engajamento (opcional)</span>
+                  </span>
+                  <h1 className="font-display text-xl sm:text-2xl font-semibold tracking-tight text-[#0D0221] dark:text-white">
+                    Potencialidades, interesses e canais de engajamento
+                  </h1>
+                  <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
+                    Indique temas, canais preferenciais e facilidades observadas no estudante para contextualizar exemplos de apoio.
+                  </p>
+                </div>
+
+                {engagementAnchorCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleClearEngagement}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-black/5 dark:bg-white/10 hover:bg-red-500/15 hover:text-red-700 dark:hover:text-red-300 transition-colors self-start flex-shrink-0"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>Limpar engajamento</span>
+                  </button>
+                )}
+              </div>
+
+              {/* 1. Interesses Temáticos */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#335C67] dark:text-[#9fd0de]">
+                  <Compass className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                  <span>1. Interesses temáticos (opcional)</span>
+                </div>
+
+                <div
+                  className="flex flex-wrap gap-2"
+                  role="group"
+                  aria-label="Seletores de interesses temáticos"
+                >
+                  {engagementOptions.interesses_tematicos.map((interest) => {
+                    const isActive = selectedInterests.includes(interest.id);
                     return (
-                      <span
-                        key={id}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-white dark:bg-[#0D0221] border border-[#E35336]/30"
+                      <button
+                        key={interest.id}
+                        type="button"
+                        aria-pressed={isActive}
+                        title={interest.descricao}
+                        onClick={() => handleToggleInterest(interest.id)}
+                        className={`px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
+                          isActive
+                            ? "bg-[#E35336] text-white border-[#E35336] font-semibold"
+                            : "bg-[#FAF7F8] dark:bg-white/5 text-[#0D0221] dark:text-white border-[#335C67]/20 dark:border-white/15 hover:border-[#E35336]/60"
+                        }`}
                       >
-                        <span className="truncate max-w-[180px]">{item?.nome || id}</span>
-                        <button
-                          type="button"
-                          onClick={() => handleToggleCharacteristic(id)}
-                          aria-label={`Remover característica ${item?.nome || id}`}
-                          className="font-bold text-[#E35336] hover:underline"
-                        >
-                          ×
-                        </button>
-                      </span>
+                        {isActive ? "✓ " : ""}
+                        {interest.rotulo}
+                      </button>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Card 2: Manter */}
-              <div className="rounded-2xl p-4 bg-[#335C67]/10 dark:bg-white/5 border border-[#335C67]/25 dark:border-white/15 space-y-2">
-                <div className="flex items-center gap-2">
-                  <Lock className="w-5 h-5 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                    Manter
-                  </span>
+              {/* 2. Canais Preferenciais de Engajamento */}
+              <div className="pt-5 border-t border-[#335C67]/15 dark:border-white/10 space-y-3">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#335C67] dark:text-[#9fd0de]">
+                  <Layers className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                  <span>2. Canais preferenciais de engajamento (opcional)</span>
                 </div>
-                <p className="text-lg font-extrabold text-[#0D0221] dark:text-white">
-                  {blockedCount} {blockedCount === 1 ? "característica" : "características"}
-                </p>
-                <p className="text-xs text-[#0D0221]/75 dark:text-white/75 leading-relaxed">
-                  Demais habilidades preservadas com <strong>100% do formato original</strong>.
-                </p>
+
+                <div
+                  className="flex flex-wrap gap-2"
+                  role="group"
+                  aria-label="Canais preferenciais de engajamento"
+                >
+                  {engagementOptions.canais_engajamento_preferenciais.map((canal) => {
+                    const isActive = selectedChannels.includes(canal.id);
+                    return (
+                      <button
+                        key={canal.id}
+                        type="button"
+                        aria-pressed={isActive}
+                        title={canal.descricao}
+                        onClick={() => handleToggleChannel(canal.id)}
+                        className={`px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
+                          isActive
+                            ? "bg-[#335C67] text-white border-[#335C67] font-semibold"
+                            : "bg-[#FAF7F8] dark:bg-white/5 text-[#0D0221] dark:text-white border-[#335C67]/20 dark:border-white/15 hover:border-[#335C67]/60"
+                        }`}
+                      >
+                        {isActive ? "✓ " : ""}
+                        {canal.rotulo}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* Card 3: Engajamento (Princípio I DUA) */}
-              <div className="rounded-2xl p-4 bg-[#F5EDF0] dark:bg-white/5 border border-[#335C67]/25 dark:border-white/15 space-y-2">
+              {/* 3. Potencialidades e Facilidades Observadas */}
+              <div className="pt-5 border-t border-[#335C67]/15 dark:border-white/10 space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-[#E35336]" aria-hidden="true" />
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                      Engajamento
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => navigateToSubStep("b")}
-                    className="text-xs font-bold text-[#335C67] dark:text-[#9fd0de] hover:underline"
+                  <label
+                    htmlFor={potencialidadesInputId}
+                    className="text-xs font-semibold text-[#335C67] dark:text-[#9fd0de]"
                   >
-                    Editar
-                  </button>
+                    3. Potencialidades e facilidades observadas (opcional)
+                  </label>
+                  <span className="text-[11px] font-mono opacity-70">{potencialidades.length}/500</span>
                 </div>
-                <p className="text-lg font-extrabold text-[#0D0221] dark:text-white">
-                  {engagementAnchorCount === 0
-                    ? "Opcional (em branco)"
-                    : `${engagementAnchorCount} ${engagementAnchorCount === 1 ? "registro" : "registros"}`}
-                </p>
-                <p className="text-xs text-[#0D0221]/75 dark:text-white/75 leading-relaxed">
-                  {engagementAnchorCount === 0
-                    ? "Nenhuma âncora informada. O avanço segue normalmente."
-                    : `${totalInterestsCount === 1 ? "1 interesse" : `${totalInterestsCount} interesses`}, ${
-                        selectedChannels.length === 1 ? "1 canal" : `${selectedChannels.length} canais`
-                      }${potencialidades.trim() ? " + potencialidades descritas" : ""}.`}
+                <textarea
+                  id={potencialidadesInputId}
+                  rows={2}
+                  maxLength={500}
+                  value={potencialidades}
+                  onChange={(e) => {
+                    setConfirmedSelection(null);
+                    setPotencialidades(e.target.value);
+                  }}
+                  placeholder="Ex.: Boa compreensão com esquemas visuais, facilidade para explicar raciocínios oralmente e engajamento com desafios curtos."
+                  className="w-full p-3 rounded-lg text-xs sm:text-sm bg-[#FAF7F8] dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/15 text-[#0D0221] dark:text-white focus:border-[#E35336] transition-colors"
+                />
+                <p className="text-[11px] text-[#0D0221]/65 dark:text-white/65">
+                  <strong>Proteção LGPD:</strong> não insira nome do estudante, dados civis, CID ou laudo clínico. Qualquer dado identificável acidental é descartado antes do processamento.
                 </p>
               </div>
-            </div>
 
-            {/* Banner Informativo de Garantia Curricular */}
-            <div className="rounded-xl p-3.5 bg-[#335C67]/10 dark:bg-[#335C67]/25 border border-[#335C67]/30 flex items-center gap-3 text-xs text-[#0D0221] dark:text-white">
-              <Info className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de] flex-shrink-0" aria-hidden="true" />
-              <span>
-                O conteúdo será adaptado apenas para as características selecionadas, preservando o restante da atividade. Os interesses do Princípio I do DUA não substituem a Trava Curricular.
-              </span>
-            </div>
-
-            {/* Alerta caso o usuário remova a última característica aqui no resumo */}
-            {selectedCount === 0 && (
-              <div
-                role="alert"
-                className="rounded-xl p-3 bg-amber-500/15 border border-amber-500/40 text-amber-950 dark:text-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs font-bold"
-              >
-                <div className="flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
-                  <span>
-                    Avanço bloqueado: selecione ao menos 1 característica funcional para prosseguir.
-                  </span>
-                </div>
+              {/* Rodapé do Passo (B) */}
+              <div className="pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-wrap items-center justify-between gap-3">
                 <button
                   type="button"
                   onClick={() => navigateToSubStep("a")}
-                  className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-colors flex-shrink-0 self-start sm:self-auto"
-                >
-                  Voltar ao Passo A
-                </button>
-              </div>
-            )}
-
-            {/* Rodapé do Passo (C) */}
-            <div className="pt-3 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => navigateToSubStep(selectedCount === 0 ? "a" : "b")}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 text-[#0D0221] dark:text-white transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#FAF7F8] dark:bg-white/10 border border-[#335C67]/20 dark:border-white/15 hover:bg-[#335C67]/10 text-[#0D0221] dark:text-white transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4" aria-hidden="true" />
                   <span>Voltar</span>
                 </button>
+
+                <button
+                  type="button"
+                  onClick={() => navigateToSubStep("c")}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold text-white bg-[#E35336] hover:bg-[#c94429] transition-colors"
+                >
+                  <span>Continuar para o resumo</span>
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* ======================================================================== */}
+          {/* PASSO C: RESUMO DA ADAPTAÇÃO E AVANÇO PARA ETAPA 3                       */}
+          {/* ======================================================================== */}
+          {currentSubStep === "c" && (
+            <section
+              aria-label="Passo C: Resumo do escopo cirúrgico e avanço para Etapa 3"
+              className="bg-white dark:bg-[#160A30] border border-[#335C67]/25 dark:border-white/15 rounded-xl p-5 sm:p-6 space-y-5 hc-surface"
+            >
+              <div className="border-b border-[#335C67]/15 dark:border-white/10 pb-4 space-y-1">
+                <h1 className="font-display text-xl sm:text-2xl font-semibold tracking-tight text-[#0D0221] dark:text-white">
+                  Resumo do perfil funcional
+                </h1>
+                <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70">
+                  Revise as dimensões selecionadas para intervenção cirúrgica antes de calibrar o nível de suporte.
+                </p>
               </div>
 
-              <button
-                type="button"
-                disabled={selectedCount === 0 || isSubmitting}
-                onClick={handleConfirmAndAdvance}
-                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed shadow-[0_8px_20px_-4px_rgba(227,83,54,0.45)] transition-all"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-                    Validando Escopo Cirúrgico...
-                  </>
-                ) : confirmedSelection ? (
-                  <>
-                    <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
-                    Escopo Confirmado! Avançar para Etapa 3
-                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                  </>
-                ) : (
-                  <>
-                    Confirmar e Ir para Etapa 3
-                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                  </>
-                )}
-              </button>
-            </div>
-          </section>
-        )}
+              {/* 3 Cards de Resumo */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Card 1: Adaptar */}
+                <div className="rounded-xl p-4 bg-[#E35336]/[0.06] dark:bg-[#E35336]/15 border border-[#E35336]/30 space-y-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                      <span className="text-xs font-semibold text-[#E35336]">
+                        Intervenção ativa
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => navigateToSubStep("a")}
+                      className="text-xs font-semibold text-[#E35336] hover:underline"
+                    >
+                      Editar
+                    </button>
+                  </div>
+                  <p className="font-display text-lg font-semibold text-[#0D0221] dark:text-white">
+                    {selectedCount} {selectedCount === 1 ? "característica" : "características"}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedIds.map((id) => {
+                      const item = catalog.caracteristicas.find((c) => c.id_caracteristica === id);
+                      return (
+                        <span
+                          key={id}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-white dark:bg-[#0D0221] border border-[#E35336]/30"
+                        >
+                          <span className="truncate max-w-[180px]">{item?.nome || id}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleToggleCharacteristic(id)}
+                            aria-label={`Remover característica ${item?.nome || id}`}
+                            className="font-bold text-[#E35336] hover:underline"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Card 2: Manter */}
+                <div className="rounded-xl p-4 bg-[#FAF7F8] dark:bg-white/5 border border-[#335C67]/20 dark:border-white/15 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Lock className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
+                    <span className="text-xs font-semibold text-[#335C67] dark:text-[#9fd0de]">
+                      Preservação integral
+                    </span>
+                  </div>
+                  <p className="font-display text-lg font-semibold text-[#0D0221] dark:text-white">
+                    {blockedCount} {blockedCount === 1 ? "característica" : "características"}
+                  </p>
+                  <p className="text-xs text-[#0D0221]/75 dark:text-white/75 leading-relaxed">
+                    Demais dimensões mantidas com <strong>100% do formato original</strong>.
+                  </p>
+                </div>
+
+                {/* Card 3: Engajamento (Princípio I DUA) */}
+                <div className="rounded-xl p-4 bg-[#FAF7F8] dark:bg-white/5 border border-[#335C67]/20 dark:border-white/15 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                      <span className="text-xs font-semibold text-[#335C67] dark:text-[#9fd0de]">
+                        Engajamento (DUA)
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => navigateToSubStep("b")}
+                      className="text-xs font-semibold text-[#335C67] dark:text-[#9fd0de] hover:underline"
+                    >
+                      Editar
+                    </button>
+                  </div>
+                  <p className="font-display text-lg font-semibold text-[#0D0221] dark:text-white">
+                    {engagementAnchorCount === 0
+                      ? "Opcional (em branco)"
+                      : `${engagementAnchorCount} ${engagementAnchorCount === 1 ? "registro" : "registros"}`}
+                  </p>
+                  <p className="text-xs text-[#0D0221]/75 dark:text-white/75 leading-relaxed">
+                    {engagementAnchorCount === 0
+                      ? "Nenhuma âncora informada. O avanço segue normalmente."
+                      : `${totalInterestsCount === 1 ? "1 interesse" : `${totalInterestsCount} interesses`}, ${
+                          selectedChannels.length === 1 ? "1 canal" : `${selectedChannels.length} canais`
+                        }${potencialidades.trim() ? " e potencialidades descritas" : ""}.`}
+                  </p>
+                </div>
+              </div>
+
+              {/* Banner Informativo de Garantia Curricular */}
+              <div className="rounded-lg p-3.5 bg-[#335C67]/10 dark:bg-[#335C67]/20 border border-[#335C67]/25 flex items-center gap-3 text-xs text-[#0D0221] dark:text-white">
+                <Info className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de] flex-shrink-0" aria-hidden="true" />
+                <span>
+                  O conteúdo será adaptado apenas para as características selecionadas, preservando o restante da atividade. Os interesses do Princípio I do DUA não substituem a Trava Curricular.
+                </span>
+              </div>
+
+              {/* Alerta caso o usuário remova a última característica aqui no resumo */}
+              {selectedCount === 0 && (
+                <div
+                  role="alert"
+                  className="rounded-lg p-3 bg-amber-500/15 border border-amber-500/35 text-amber-950 dark:text-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs font-semibold"
+                >
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
+                    <span>
+                      Selecione ao menos 1 característica funcional para prosseguir.
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => navigateToSubStep("a")}
+                    className="px-3 py-1.5 rounded-md bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold transition-colors flex-shrink-0 self-start sm:self-auto"
+                  >
+                    Voltar ao Passo A
+                  </button>
+                </div>
+              )}
+
+              {/* Rodapé do Passo (C) */}
+              <div className="pt-3 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => navigateToSubStep(selectedCount === 0 ? "a" : "b")}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#FAF7F8] dark:bg-white/10 border border-[#335C67]/20 dark:border-white/15 hover:bg-[#335C67]/10 text-[#0D0221] dark:text-white transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+                    <span>Voltar</span>
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  disabled={selectedCount === 0 || isSubmitting}
+                  onClick={handleConfirmAndAdvance}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed transition-colors"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                      <span>Validando escopo cirúrgico...</span>
+                    </>
+                  ) : confirmedSelection ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
+                      <span>Avançar para Etapa 3</span>
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </>
+                  ) : (
+                    <>
+                      <span>Confirmar e ir para Etapa 3</span>
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </>
+                  )}
+                </button>
+              </div>
+            </section>
+          )}
         </main>
       </div>
     </div>

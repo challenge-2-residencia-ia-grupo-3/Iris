@@ -73,18 +73,23 @@ export function IrisSidebar({
   return (
     <aside
       aria-label="Navegação lateral da plataforma Íris"
-      className="w-full lg:w-64 flex-shrink-0 bg-white/90 dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 rounded-2xl p-4 shadow-sm flex flex-col justify-between gap-5 lg:sticky lg:top-6"
+      className="w-full lg:w-72 flex-shrink-0 bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 rounded-xl p-4 flex flex-col justify-between gap-6 lg:h-[480px] lg:sticky lg:top-20 hc-surface"
     >
       <div>
-        <p className="px-2 text-[11px] font-extrabold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de] mb-2">
-          Navegação
-        </p>
+        <div className="px-2 pb-2.5 mb-2 border-b border-[#335C67]/15 dark:border-white/10 flex items-center justify-between">
+          <p className="text-xs font-semibold text-[#335C67] dark:text-[#9fd0de]">
+            Roteiro de adaptação
+          </p>
+          <span className="font-mono text-[11px] text-[#0D0221]/55 dark:text-white/55">
+            {currentStep}/5
+          </span>
+        </div>
         <nav aria-label="Menu principal" className="space-y-1">
           {onNavigateHome ? (
             <button
               type="button"
               onClick={onNavigateHome}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors text-left"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-[#0D0221]/75 dark:text-white/75 hover:bg-[#335C67]/10 transition-colors text-left"
             >
               <Home className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
               <span>Início</span>
@@ -92,7 +97,7 @@ export function IrisSidebar({
           ) : (
             <Link
               href="/"
-              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors"
+              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-[#0D0221]/75 dark:text-white/75 hover:bg-[#335C67]/10 transition-colors"
             >
               <Home className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
               <span>Início</span>
@@ -129,14 +134,14 @@ export function IrisSidebar({
               return (
                 <div
                   key={step.id}
-                  className="rounded-xl bg-[#E35336]/10 dark:bg-[#E35336]/15 border border-[#E35336]/30 p-2.5 space-y-2"
+                  className="rounded-lg bg-[#FAF7F8] dark:bg-white/[0.04] border border-[#E35336]/35 p-2.5 space-y-2"
                 >
-                  <div className="flex items-center gap-2 text-xs font-extrabold text-[#E35336]">
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#E35336]">
                     <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                     <span>{step.label}</span>
                   </div>
 
-                  <div className="pl-2 ml-2 border-l-2 border-[#E35336]/40 space-y-1">
+                  <div className="pl-2 ml-2 border-l border-[#E35336]/35 space-y-1">
                     {subItems.map((sub) => {
                       const activeSub = step2SubSteps.currentSubStep === sub.id;
                       return (
@@ -145,18 +150,18 @@ export function IrisSidebar({
                           type="button"
                           disabled={sub.disabled}
                           onClick={() => step2SubSteps.onSelectSubStep(sub.id)}
-                          className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-[11px] font-semibold text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
+                          className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-xs font-semibold text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
                             activeSub
                               ? "bg-[#C9411F] text-white shadow-sm"
                               : sub.disabled
                               ? "opacity-40 cursor-not-allowed text-[#0D0221]/60 dark:text-white/50"
-                              : "text-[#0D0221]/80 dark:text-white/80 hover:bg-[#E35336]/15"
+                              : "text-[#0D0221]/80 dark:text-white/80 hover:bg-[#E35336]/10"
                           }`}
                         >
                           <span
-                            className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-extrabold ${
+                            className={`w-4 h-4 rounded flex items-center justify-center font-mono text-[10px] font-bold ${
                               activeSub
-                                ? "bg-white text-[#E35336]"
+                                ? "bg-white/20 text-white"
                                 : "bg-[#335C67]/15 dark:bg-white/15 text-[#335C67] dark:text-white"
                             }`}
                           >
@@ -176,7 +181,7 @@ export function IrisSidebar({
                 <div
                   key={step.id}
                   aria-current="page"
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-extrabold bg-[#C9411F] text-white shadow-sm"
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-bold bg-[#C9411F] text-white shadow-sm"
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                   <span className="truncate">{step.label}</span>
@@ -190,7 +195,7 @@ export function IrisSidebar({
                   key={step.id}
                   type="button"
                   onClick={() => handleStepClick(step.id, step.href)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors text-left"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-[#0D0221]/85 dark:text-white/85 hover:bg-[#335C67]/10 transition-colors text-left"
                 >
                   <Icon className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
                   <span className="truncate">{step.label}</span>
@@ -202,8 +207,8 @@ export function IrisSidebar({
               <div
                 key={step.id}
                 aria-disabled="true"
-                className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs font-medium text-[#0D0221]/45 dark:text-white/40 cursor-not-allowed"
-                title="Etapa disponível nas próximas entregas do fluxo"
+                className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-xs font-medium text-[#0D0221]/40 dark:text-white/40 cursor-not-allowed"
+                title="Etapa disponível após concluir os passos anteriores"
               >
                 <span className="flex items-center gap-2.5 min-w-0">
                   <Icon className="w-4 h-4 flex-shrink-0 opacity-70" aria-hidden="true" />
@@ -216,14 +221,14 @@ export function IrisSidebar({
         </nav>
       </div>
 
-      {/* Cartão Zero-Database Ativo */}
-      <div className="rounded-xl p-3 bg-[#F5EDF0]/80 dark:bg-black/25 border border-[#335C67]/15 dark:border-white/10 text-[11px] text-[#0D0221]/75 dark:text-white/75 space-y-1">
-        <p className="font-bold text-[#335C67] dark:text-[#9fd0de] flex items-center gap-1.5">
-          <ClipboardCheck className="w-3.5 h-3.5" aria-hidden="true" />
-          Zero-Database Ativo
+      {/* Nota Zero-Database Ativo */}
+      <div className="pt-3 border-t border-[#335C67]/15 dark:border-white/10 text-[11px] text-[#0D0221]/75 dark:text-white/75 space-y-1">
+        <p className="font-semibold text-[#335C67] dark:text-[#9fd0de] flex items-center gap-1.5">
+          <ClipboardCheck className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
+          <span>Privacidade Zero-Database</span>
         </p>
-        <p className="leading-snug">
-          Nenhum dado de estudante é salvo em servidor. Tudo permanece na sessão atual.
+        <p className="leading-relaxed text-[#0D0221]/65 dark:text-white/65">
+          Nenhum dado de estudante é salvo em servidor. Tudo permanece na sessão local.
         </p>
       </div>
     </aside>

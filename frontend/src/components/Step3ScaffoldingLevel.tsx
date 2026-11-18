@@ -20,7 +20,7 @@ import {
   Sun,
 } from "lucide-react";
 
-import { IrisLogoBanner } from "./IrisLogoBanner";
+import { IrisHeader } from "./IrisHeader";
 import { IrisSidebar } from "./IrisSidebar";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
@@ -58,6 +58,7 @@ export function Step3ScaffoldingLevel({
   const router = useRouter();
   const { darkMode, toggleDarkMode } = useTheme();
 
+  const [highContrast, setHighContrast] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<ScaffoldingLevel>(initialLevel);
   const [selectedCharacteristics, setSelectedCharacteristics] = useState<CharacteristicItem[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -70,6 +71,15 @@ export function Step3ScaffoldingLevel({
     message: string;
   } | null>(null);
   const [showDetailedGuidelines, setShowDetailedGuidelines] = useState(false);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (highContrast) {
+      root.classList.add("high-contrast");
+    } else {
+      root.classList.remove("high-contrast");
+    }
+  }, [highContrast]);
 
   // Carrega a seleção cirúrgica da Etapa 2 e a calibração prévia da Etapa 3 (se houver)
   useEffect(() => {
@@ -251,38 +261,19 @@ export function Step3ScaffoldingLevel({
   const radioGroupId = useId();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors">
-      {/* Cabeçalho Institucional da Plataforma Íris */}
-      <header className="w-full bg-[#0D0221] text-white border-b border-white/10 px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <IrisLogoBanner compact />
-            <div className="hidden md:block h-7 w-px bg-white/15" aria-hidden="true" />
-            <div className="hidden md:block">
-              <p className="text-xs font-semibold text-[#E35336] uppercase tracking-wider">
-                Etapa 3 de 5 • Calibragem de Nível de Andaime e Travas
-              </p>
-              <p className="text-xs text-white/75">
-                Docente: <span className="font-mono text-white">{teacherEmail}</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={toggleDarkMode}
-              aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-              className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-            >
-              {darkMode ? <Sun className="w-4 h-4 text-[#E35336]" /> : <Moon className="w-4 h-4" />}
-            </button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors hc-surface">
+      <IrisHeader
+        currentStep={3}
+        stepTitle="Calibragem de suporte e travas"
+        teacherEmail={teacherEmail}
+        highContrast={highContrast}
+        onToggleHighContrast={() => setHighContrast((prev) => !prev)}
+        darkMode={darkMode}
+        onToggleDarkMode={toggleDarkMode}
+      />
 
       {/* Conteúdo Principal com Sidebar Lateral */}
-      <div className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
+      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 flex flex-col lg:flex-row gap-6 items-start">
         {/* Sidebar Lateral Modular */}
         <IrisSidebar
           currentStep={3}
@@ -291,14 +282,14 @@ export function Step3ScaffoldingLevel({
         />
 
         {/* Painel Central */}
-        <main id="conteudo-principal" className="flex-1 min-w-0 space-y-6">
+        <main id="conteudo-principal" className="flex-1 min-w-0 space-y-5">
           {/* Toast / Alerta Flutuante no Canto Superior Direito */}
           {feedbackBanner && (
             <div className="fixed top-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md pointer-events-none">
               <div
                 role="alert"
                 aria-live="polite"
-                className={`pointer-events-auto p-4 rounded-2xl border border-l-4 text-xs sm:text-sm flex items-start gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
+                className={`pointer-events-auto p-4 rounded-xl border border-l-4 text-xs sm:text-sm flex items-start gap-3 shadow-lg backdrop-blur-md transition-all ${
                   feedbackBanner.type === "success"
                     ? "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
                     : feedbackBanner.type === "error"
@@ -314,14 +305,14 @@ export function Step3ScaffoldingLevel({
                   <ShieldCheck className="w-5 h-5 text-[#E35336] flex-shrink-0 mt-0.5" />
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold leading-snug">{feedbackBanner.title}</p>
+                  <p className="font-semibold leading-snug">{feedbackBanner.title}</p>
                   <p className="text-xs opacity-85 mt-1 leading-relaxed">{feedbackBanner.message}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setFeedbackBanner(null)}
                   aria-label="Fechar aviso"
-                  className="text-xs font-bold opacity-60 hover:opacity-100 px-1.5 py-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-opacity flex-shrink-0"
+                  className="text-xs font-semibold opacity-60 hover:opacity-100 px-1.5 py-0.5 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-opacity flex-shrink-0"
                 >
                   ✕
                 </button>
@@ -332,38 +323,38 @@ export function Step3ScaffoldingLevel({
           {/* Seção 1: Resumo do Escopo Cirúrgico Ativado na Etapa 2 */}
           <section
             aria-labelledby="titulo-escopo-cirurgico"
-            className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 shadow-sm space-y-3.5"
+            className="p-5 rounded-xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 space-y-3 hc-surface"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <h2
                 id="titulo-escopo-cirurgico"
-                className="text-base sm:text-lg font-bold text-[#0D0221] dark:text-white"
+                className="text-sm font-bold text-[#0D0221] dark:text-white"
               >
-                Características Funcionais Ativadas ({selectedIds.length})
+                Características funcionais ativadas ({selectedIds.length})
               </h2>
 
               <button
                 type="button"
                 onClick={handleBackToStep2}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors self-start sm:self-auto border border-[#335C67]/25"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors self-start sm:self-auto border border-[#335C67]/25"
               >
                 <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Modificar Escopo</span>
+                <span>Modificar escopo</span>
               </button>
             </div>
 
             {/* Badges de Características Ativadas */}
-            <div className="flex flex-wrap gap-2 pt-1">
+            <div className="flex flex-wrap gap-2 pt-0.5">
               {selectedCharacteristics.length > 0 ? (
                 selectedCharacteristics.map((item) => (
                   <span
                     key={item.id_caracteristica}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#F5EDF0] dark:bg-white/10 text-[#0D0221] dark:text-white border border-[#335C67]/15 dark:border-white/10"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-[#FAF7F8] dark:bg-white/10 text-[#0D0221] dark:text-white border border-[#335C67]/15 dark:border-white/10"
                   >
                     <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span>{item.nome}</span>
-                    <span className="text-[10px] opacity-60 font-mono">
-                      ({BARREIRA_LABELS[item.barreira_rag_associada] || item.barreira_rag_associada})
+                    <span className="font-semibold">{item.nome}</span>
+                    <span className="text-[11px] opacity-65">
+                      — {BARREIRA_LABELS[item.barreira_rag_associada] || item.barreira_rag_associada}
                     </span>
                   </span>
                 ))
@@ -378,15 +369,18 @@ export function Step3ScaffoldingLevel({
           {/* Seção 2: Seletor dos 3 Níveis de Andaime Cognitivo (RF-07) */}
           <section
             aria-labelledby="titulo-calibragem-andaime"
-            className="p-5 sm:p-7 rounded-2xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 shadow-sm space-y-6"
+            className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 space-y-6 hc-surface"
           >
-            <div>
-              <h2
+            <div className="space-y-1 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
+              <h1
                 id="titulo-calibragem-andaime"
-                className="text-xl sm:text-2xl font-black text-[#0D0221] dark:text-white tracking-tight"
+                className="font-display text-xl sm:text-2xl font-semibold text-[#0D0221] dark:text-white tracking-tight"
               >
-                Escolha a Intensidade do Suporte Pedagógico
-              </h2>
+                Escolha a intensidade do suporte pedagógico
+              </h1>
+              <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
+                Calibre o grau de mediação aplicado às características selecionadas, preservando o objetivo avaliativo da questão.
+              </p>
             </div>
 
             {/* Grid dos 3 Cards de Seleção de Nível */}
@@ -401,19 +395,26 @@ export function Step3ScaffoldingLevel({
                 role="radio"
                 aria-checked={selectedLevel === 1}
                 onClick={() => handleLevelSelect(1)}
-                className={`relative text-left p-5 rounded-2xl border-2 transition-all flex flex-col justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#335C67] ${
+                className={`relative text-left p-5 rounded-xl border transition-colors flex flex-col justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#335C67] ${
                   selectedLevel === 1
-                    ? "border-[#335C67] bg-[#335C67]/10 dark:bg-[#335C67]/25 shadow-md shadow-[#335C67]/15"
-                    : "border-black/10 dark:border-white/10 hover:border-[#335C67]/50 bg-[#F5EDF0]/50 dark:bg-white/5"
+                    ? "border-[#335C67] bg-[#335C67]/[0.07] dark:bg-[#335C67]/25"
+                    : "border-[#335C67]/20 dark:border-white/10 hover:border-[#335C67]/50 bg-[#FAF7F8] dark:bg-white/[0.03]"
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#335C67] text-white">
-                      Nível 1 • Leve
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-[#335C67] text-white">
+                        Nível 1 — Leve
+                      </span>
+                      <div className="flex items-center gap-1" aria-hidden="true">
+                        <span className="w-2 h-1.5 rounded-sm bg-[#335C67]" />
+                        <span className="w-2 h-1.5 rounded-sm bg-black/15 dark:bg-white/15" />
+                        <span className="w-2 h-1.5 rounded-sm bg-black/15 dark:bg-white/15" />
+                      </div>
+                    </div>
                     <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${
                         selectedLevel === 1
                           ? "border-[#335C67] bg-[#335C67] text-white"
                           : "border-black/25 dark:border-white/25"
@@ -423,10 +424,10 @@ export function Step3ScaffoldingLevel({
                     </div>
                   </div>
 
-                  <h3 className="font-bold text-sm sm:text-base text-[#0D0221] dark:text-white">
+                  <h3 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
                     {card1.title}
                   </h3>
-                  <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-1.5 leading-relaxed">
+                  <p className="text-xs text-[#0D0221]/75 dark:text-white/75 mt-1.5 leading-relaxed">
                     {card1.description}
                   </p>
                 </div>
@@ -438,19 +439,26 @@ export function Step3ScaffoldingLevel({
                 role="radio"
                 aria-checked={selectedLevel === 2}
                 onClick={() => handleLevelSelect(2)}
-                className={`relative text-left p-5 rounded-2xl border-2 transition-all flex flex-col justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#D97706] ${
+                className={`relative text-left p-5 rounded-xl border transition-colors flex flex-col justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#D97706] ${
                   selectedLevel === 2
-                    ? "border-[#D97706] bg-[#D97706]/10 dark:bg-[#D97706]/25 shadow-md shadow-[#D97706]/15"
-                    : "border-black/10 dark:border-white/10 hover:border-[#D97706]/50 bg-[#F5EDF0]/50 dark:bg-white/5"
+                    ? "border-[#D97706] bg-[#D97706]/[0.07] dark:bg-[#D97706]/20"
+                    : "border-[#335C67]/20 dark:border-white/10 hover:border-[#D97706]/50 bg-[#FAF7F8] dark:bg-white/[0.03]"
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#D97706] text-white">
-                      Nível 2 • Moderado
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-[#D97706] text-white">
+                        Nível 2 — Moderado
+                      </span>
+                      <div className="flex items-center gap-1" aria-hidden="true">
+                        <span className="w-2 h-1.5 rounded-sm bg-[#D97706]" />
+                        <span className="w-2 h-1.5 rounded-sm bg-[#D97706]" />
+                        <span className="w-2 h-1.5 rounded-sm bg-black/15 dark:bg-white/15" />
+                      </div>
+                    </div>
                     <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${
                         selectedLevel === 2
                           ? "border-[#D97706] bg-[#D97706] text-white"
                           : "border-black/25 dark:border-white/25"
@@ -460,10 +468,10 @@ export function Step3ScaffoldingLevel({
                     </div>
                   </div>
 
-                  <h3 className="font-bold text-sm sm:text-base text-[#0D0221] dark:text-white">
+                  <h3 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
                     {card2.title}
                   </h3>
-                  <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-1.5 leading-relaxed">
+                  <p className="text-xs text-[#0D0221]/75 dark:text-white/75 mt-1.5 leading-relaxed">
                     {card2.description}
                   </p>
                 </div>
@@ -475,19 +483,26 @@ export function Step3ScaffoldingLevel({
                 role="radio"
                 aria-checked={selectedLevel === 3}
                 onClick={() => handleLevelSelect(3)}
-                className={`relative text-left p-5 rounded-2xl border-2 transition-all flex flex-col justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#E35336] ${
+                className={`relative text-left p-5 rounded-xl border transition-colors flex flex-col justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#E35336] ${
                   selectedLevel === 3
-                    ? "border-[#E35336] bg-[#E35336]/10 dark:bg-[#E35336]/25 shadow-md shadow-[#E35336]/15"
-                    : "border-black/10 dark:border-white/10 hover:border-[#E35336]/50 bg-[#F5EDF0]/50 dark:bg-white/5"
+                    ? "border-[#E35336] bg-[#E35336]/[0.07] dark:bg-[#E35336]/20"
+                    : "border-[#335C67]/20 dark:border-white/10 hover:border-[#E35336]/50 bg-[#FAF7F8] dark:bg-white/[0.03]"
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#E35336] text-white">
-                      Nível 3 • Intensivo
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-[#E35336] text-white">
+                        Nível 3 — Intensivo
+                      </span>
+                      <div className="flex items-center gap-1" aria-hidden="true">
+                        <span className="w-2 h-1.5 rounded-sm bg-[#E35336]" />
+                        <span className="w-2 h-1.5 rounded-sm bg-[#E35336]" />
+                        <span className="w-2 h-1.5 rounded-sm bg-[#E35336]" />
+                      </div>
+                    </div>
                     <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${
                         selectedLevel === 3
                           ? "border-[#E35336] bg-[#E35336] text-white"
                           : "border-black/25 dark:border-white/25"
@@ -497,10 +512,10 @@ export function Step3ScaffoldingLevel({
                     </div>
                   </div>
 
-                  <h3 className="font-bold text-sm sm:text-base text-[#0D0221] dark:text-white">
+                  <h3 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
                     {card3.title}
                   </h3>
-                  <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-1.5 leading-relaxed">
+                  <p className="text-xs text-[#0D0221]/75 dark:text-white/75 mt-1.5 leading-relaxed">
                     {card3.description}
                   </p>
                 </div>
@@ -509,22 +524,22 @@ export function Step3ScaffoldingLevel({
 
             {/* Acordeom de Diretrizes de Andaime por Característica Ativada */}
             {calibrationResult && calibrationResult.caracteristicas_afetadas.length > 0 && (
-              <div className="rounded-2xl border border-[#335C67]/20 dark:border-white/15 overflow-hidden bg-white dark:bg-[#160A30]">
+              <div className="rounded-xl border border-[#335C67]/20 dark:border-white/15 overflow-hidden bg-white dark:bg-[#160A30]">
                 <button
                   type="button"
                   onClick={() => setShowDetailedGuidelines(!showDetailedGuidelines)}
-                  className="w-full bg-[#F5EDF0] dark:bg-white/5 px-5 py-3.5 flex items-center justify-between text-left hover:bg-[#335C67]/10 transition-colors"
+                  className="w-full bg-[#FAF7F8] dark:bg-white/5 px-5 py-3.5 flex items-center justify-between text-left hover:bg-[#335C67]/10 transition-colors"
                 >
-                  <span className="text-xs font-bold text-[#0D0221] dark:text-white flex items-center gap-2">
+                  <span className="text-xs font-semibold text-[#0D0221] dark:text-white flex items-center gap-2">
                     <Sliders className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" />
                     <span>
-                      Ver diretrizes detalhadas para cada característica ativada ({calibrationResult.caracteristicas_afetadas.length})
+                      Ver diretrizes detalhadas por característica ativada ({calibrationResult.caracteristicas_afetadas.length})
                     </span>
                   </span>
 
                   <div className="flex items-center gap-3">
                     {isCalibrating && (
-                      <span className="inline-flex items-center gap-1.5 text-xs text-[#E35336] animate-pulse">
+                      <span className="inline-flex items-center gap-1.5 text-xs text-[#E35336]">
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
                         <span>Calibrando...</span>
                       </span>
@@ -543,21 +558,21 @@ export function Step3ScaffoldingLevel({
                       {calibrationResult.caracteristicas_afetadas.map((d) => (
                         <div
                           key={d.id_caracteristica}
-                          className="p-4 rounded-xl bg-[#F5EDF0]/40 dark:bg-white/5 border border-black/5 dark:border-white/5 space-y-2.5"
+                          className="p-4 rounded-lg bg-[#FAF7F8] dark:bg-white/5 border border-[#335C67]/15 dark:border-white/10 space-y-2.5"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <h5 className="text-xs font-bold text-[#0D0221] dark:text-white">
                               {d.nome_caracteristica}
                             </h5>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#335C67]/15 dark:bg-[#335C67]/40 text-[#335C67] dark:text-[#9fd0de]">
+                            <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-[#335C67]/12 dark:bg-[#335C67]/40 text-[#335C67] dark:text-[#9fd0de]">
                               {d.rotulo}
                             </span>
                           </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] pt-1">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
                             <div className="space-y-1.5">
                               <span className="font-semibold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
                                 <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                                Ações Permitidas:
+                                <span>Ações permitidas</span>
                               </span>
                               <ul className="list-disc list-inside text-[#0D0221]/75 dark:text-white/75 space-y-1 pl-1">
                                 {d.acoes_permitidas.map((a, i) => (
@@ -568,7 +583,7 @@ export function Step3ScaffoldingLevel({
                             <div className="space-y-1.5">
                               <span className="font-semibold text-[#E35336] flex items-center gap-1.5">
                                 <Shield className="w-3.5 h-3.5 text-[#E35336]" />
-                                Restrições Estritas:
+                                <span>Restrições de escopo</span>
                               </span>
                               <ul className="list-disc list-inside text-[#0D0221]/75 dark:text-white/75 space-y-1 pl-1">
                                 {d.restricoes_escopo.map((r, i) => (
@@ -582,10 +597,10 @@ export function Step3ScaffoldingLevel({
                     </div>
 
                     {/* Garantia Pedagógica Íris */}
-                    <div className="px-5 py-3 bg-[#E35336]/10 dark:bg-[#E35336]/20 border-t border-[#E35336]/25 text-[11px] text-[#0D0221]/85 dark:text-white/90 flex items-center gap-2">
+                    <div className="px-5 py-3 bg-[#E35336]/10 dark:bg-[#E35336]/20 border-t border-[#E35336]/25 text-xs text-[#0D0221]/85 dark:text-white/90 flex items-center gap-2">
                       <ShieldAlert className="w-4 h-4 text-[#E35336] flex-shrink-0" />
                       <span>
-                        <strong>Garantia Pedagógica Íris:</strong> O sistema adapta o suporte procedural, mas jamais reduz o rigor cognitivo avaliado pela questão escolar.
+                        <strong>Garantia pedagógica Íris:</strong> o sistema adapta o suporte procedural, mas jamais reduz o rigor cognitivo avaliado pela questão escolar.
                       </span>
                     </div>
                   </>
@@ -598,7 +613,7 @@ export function Step3ScaffoldingLevel({
               <button
                 type="button"
                 onClick={handleBackToStep2}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 text-[#0D0221] dark:text-white transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#FAF7F8] dark:bg-white/10 border border-[#335C67]/20 dark:border-white/15 hover:bg-[#335C67]/10 text-[#0D0221] dark:text-white transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" aria-hidden="true" />
                 <span>Voltar para Etapa 2</span>
@@ -608,17 +623,17 @@ export function Step3ScaffoldingLevel({
                 type="button"
                 disabled={isCalibrating || !calibrationResult}
                 onClick={handleConfirmAndAdvance}
-                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed shadow-[0_8px_20px_-4px_rgba(227,83,54,0.45)] transition-all"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed transition-colors"
               >
                 {isCalibrating ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-                    <span>Calibrando Andaime...</span>
+                    <span>Calibrando andaime...</span>
                   </>
                 ) : (
                   <>
                     <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
-                    <span>Confirmar Nível de Andaime ({activeMeta.nome_curto})</span>
+                    <span>Confirmar nível de andaime ({activeMeta.nome_curto})</span>
                     <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   </>
                 )}
