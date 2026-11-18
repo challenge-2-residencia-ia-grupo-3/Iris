@@ -30,7 +30,12 @@ from iris.api.routes.agents import (
     AgentOrchestrationValidationError,
     adapt_material_multiagent_service,
 )
-from iris.core.llm_client import AnthropicLLMProvider, LLMResponse, get_llm_client
+from iris.core.llm_client import (
+    MODELO_ANTHROPIC_PADRAO,
+    AnthropicLLMProvider,
+    LLMResponse,
+    get_llm_client,
+)
 from iris.eval.escopo import ID_COMANDOS_MULTIPLOS
 from iris.rag import garantir_chunks_locais
 
@@ -223,13 +228,27 @@ class TestMultiAgentOrchestrator(unittest.TestCase):
     def test_anthropic_provider_e_prioridade_no_modo_auto(self) -> None:
         import os
 
-        with patch.dict(os.environ, {"ANTHROPIC_API_KEY": "sk-ant-teste", "IRIS_JUDGE_MODEL": "claude-sonnet-4-5-20250929"}):
+        limpo = {k: v for k, v in os.environ.items() if not k.startswith("IRIS_LLM_")}
+        with patch.dict(
+            os.environ,
+            {**limpo, "ANTHROPIC_API_KEY": "sk-ant-teste", "IRIS_JUDGE_MODEL": "claude-sonnet-4-5-20250929"},
+            clear=True,
+        ):
             cliente_auto = _resolver_cliente_llm("auto", None, None)
             self.assertEqual(cliente_auto.provider_name, "anthropic")
             cliente_claude = get_llm_client(provider="claude")
             self.assertEqual(cliente_claude.provider_name, "anthropic")
+            cliente_sonnet = get_llm_client(provider="sonnet")
+            self.assertEqual(cliente_sonnet.provider_name, "anthropic")
+            self.assertEqual(cliente_sonnet._primary.model, "claude-sonnet-4-5-20250929")
+            cliente_adaptador = get_llm_client(agente="adaptador")
+            self.assertEqual(cliente_adaptador.provider_name, "anthropic")
+            self.assertEqual(cliente_adaptador._primary.model, MODELO_ANTHROPIC_PADRAO)
 
         class _FakeHTTPResp:
+            def __init__(self, model_name: str = "claude-sonnet-4-5-20250929") -> None:
+                self._model_name = model_name
+
             def __enter__(self):
                 return self
 
@@ -239,7 +258,8 @@ class TestMultiAgentOrchestrator(unittest.TestCase):
             def read(self) -> bytes:
                 return json.dumps(
                     {
-                        "model": "claude-sonnet-4-5-20250929",
+                        "model": self._model_name,
+                        "stop_reason": "end_turn",
                         "content": [{"type": "text", "text": '{"ok": true}'}],
                         "usage": {"input_tokens": 33, "output_tokens": 12},
                     }
@@ -254,6 +274,19 @@ class TestMultiAgentOrchestrator(unittest.TestCase):
         self.assertEqual((resp.prompt_tokens, resp.completion_tokens), (33, 12))
         req_sent = mock_open.call_args.args[0]
         self.assertEqual(req_sent.headers.get("X-api-key"), "sk-ant-teste")
+
+        with patch.dict(os.environ, {**limpo, "ANTHROPIC_API_KEY": "sk-ant-teste"}, clear=True):
+            prov_haiku = AnthropicLLMProvider(model=None, api_key="sk-ant-teste")
+            with patch(
+                "urllib.request.urlopen",
+                return_value=_FakeHTTPResp(MODELO_ANTHROPIC_PADRAO),
+            ) as mock_haiku:
+                resp_haiku = prov_haiku.generate("teste", max_tokens=500)
+            self.assertEqual(resp_haiku.model, MODELO_ANTHROPIC_PADRAO)
+            corpo_haiku = json.loads(mock_haiku.call_args.args[0].data)
+            self.assertNotIn("temperature", corpo_haiku)
+            self.assertEqual(corpo_haiku["output_config"], {"effort": "low"})
+            self.assertGreaterEqual(corpo_haiku["max_tokens"], 4000)
 
 
 class TestAgentsServiceAndRoutes(unittest.TestCase):

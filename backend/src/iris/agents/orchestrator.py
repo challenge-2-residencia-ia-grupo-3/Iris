@@ -100,7 +100,7 @@ class MultiAgentMaterialRequest(BaseModel):
     trava_manual_docente: Optional[list[str]] = None
     provider: Optional[str] = Field(
         default=None,
-        description="Provedor LLM ('auto', 'extractive', 'ollama', 'groq').",
+        description="Provedor LLM ('auto', 'anthropic', 'claude', 'sonnet', 'ollama', 'groq', 'extractive').",
     )
     model: Optional[str] = None
     metodo_rag: str = Field(default="bm25", description="Método de busca no RAG ('bm25', 'qwen3+rerank50', 'hibrido').")
@@ -210,7 +210,7 @@ def _resolver_cliente_llm(
         return explicit_client
 
     if provider is None or provider == "auto":
-        # Prioriza Claude Sonnet quando ANTHROPIC_API_KEY está configurada no .env
+        # Prioriza Anthropic Claude quando ANTHROPIC_API_KEY está configurada no .env
         try:
             claude = get_llm_client(provider="anthropic", model=model)
             if claude.status().get("primary_available"):
@@ -316,7 +316,11 @@ class MultiAgentOrchestrator:
         extrator = CurriculumExtractorAgent(llm_client=llm_client)
         estrategista = StrategistAgent(llm_client=llm_client)
         adaptador = AdapterAgent(llm_client=llm_client)
-        auditor = AgenteAuditor(juiz=juiz, intrusao_bloqueia=req.intrusao_bloqueia)
+        auditor = AgenteAuditor(
+            juiz=juiz,
+            limiar=0.95,
+            intrusao_bloqueia=req.intrusao_bloqueia,
+        )
 
         t_inicio = time.perf_counter()
 
