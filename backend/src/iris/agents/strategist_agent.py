@@ -31,7 +31,7 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, strip_thinking_tags
+from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, motivo_de_falha, strip_thinking_tags
 from iris.rag.bridge import buscar_por_caracteristica_atomica, obter_trechos_base
 from iris.rag.contexto import montar_contexto_estrategista
 from iris.schemas.strategy import (
@@ -86,7 +86,7 @@ class StrategistAgent:
     """Agente de IA que transforma evidências filtradas por característica em diretiva citada."""
 
     def __init__(self, llm_client: Optional[HybridLLMClient] = None) -> None:
-        self.llm_client = llm_client or get_llm_client()
+        self.llm_client = llm_client or get_llm_client(agente="estrategista")
         self._barreiras_por_trecho: Optional[dict[str, set[str]]] = None
 
     def strategize(self, request: StrategyRequest) -> StrategyResult:
@@ -137,7 +137,7 @@ class StrategistAgent:
                         "Aplicando a diretiva de reserva.",
                         type(e).__name__,
                     )
-                    motivo_fallback = f"falha_llm:{type(e).__name__}"
+                    motivo_fallback = motivo_de_falha(e)
                     json_valido_direto = False
                 llm_ms = round((time.perf_counter() - t_llm) * 1000, 2)
             if motivo_fallback:

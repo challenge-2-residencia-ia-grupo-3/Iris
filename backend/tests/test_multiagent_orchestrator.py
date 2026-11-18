@@ -88,7 +88,7 @@ class _MockMultiAgentLLM:
             if "CORREÇÃO PEDIDA PELO AUDITOR" not in prompt:
                 # 1ª tentativa mantém os conceitos, mas vaza marca de gabarito (Auditor reprova)
                 payload = {
-                    "texto_adaptado": "Resolva a equação 2x + 6 = 14 com calma.\nGabarito: x = 4",
+                    "texto_adaptado": "Resolva a equação 2x + 6 = 14 e verifique o resultado.\nGabarito: x = 4",
                     "justificativas": ["Apresentação dividida em linha própria."],
                 }
             else:
