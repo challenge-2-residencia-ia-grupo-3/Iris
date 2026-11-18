@@ -39,6 +39,14 @@ class TestPonteDaBusca(unittest.TestCase):
         self.assertIn("OSError", r["fallback_motivo"])
         self.assertIn("modo reduzido", log.output[0])
 
+    def test_indice_dessincronizado_cai_na_reserva(self):
+        erro = consultar.IndiceDessincronizado("o índice do banco tem trechos que o chunks.jsonl não tem")
+        with _ambiente(), mock.patch.object(consultar, "buscar", _busca_que_falha_no_denso(erro)), \
+                self.assertLogs("iris.rag.bridge", level="WARNING"):
+            r = buscar_evidencias_com_meta("Como adaptar?", metodo="hibrido")
+        self.assertTrue(r["fallback_aplicado"])
+        self.assertIn("IndiceDessincronizado", r["fallback_motivo"])
+
     def test_defeito_de_codigo_nao_e_escondido(self):
         with _ambiente(), mock.patch.object(consultar, "buscar", _busca_que_falha_no_denso(ValueError("método desconhecido"))):
             with self.assertRaises(ValueError):

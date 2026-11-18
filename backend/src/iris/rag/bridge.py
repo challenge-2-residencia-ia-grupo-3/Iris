@@ -29,6 +29,9 @@ def erros_de_infraestrutura() -> tuple[type[BaseException], ...]:
     """Falhas que justificam cair na busca por palavras: banco fora do ar, pacote ou modelo de vetores ausente,
     tempo esgotado. Qualquer outro erro (método desconhecido, defeito de código) sobe, em vez de ficar escondido."""
     erros: list[type[BaseException]] = [ImportError, OSError, ConnectionError, TimeoutError]
+    indice = getattr(carregar_modulos_rag()[1], "IndiceDessincronizado", None)
+    if indice is not None:
+        erros.append(indice)                               # banco montado com outra base de trechos
     try:
         import psycopg  # type: ignore[import-not-found]
 

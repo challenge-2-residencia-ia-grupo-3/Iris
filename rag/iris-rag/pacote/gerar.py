@@ -327,7 +327,7 @@ def responder(
     try:
         trechos = consultar.buscar(pergunta, metodo, k=k, filtro_barreira=filtro_barreira)
         metodo_efetivo = metodo
-    except (ImportError, OSError, ConnectionError, TimeoutError) + _erros_do_banco() as exc:
+    except (ImportError, OSError, ConnectionError, TimeoutError, consultar.IndiceDessincronizado) + _erros_do_banco() as exc:
         # só falha de infraestrutura cai na reserva; com IRIS_RAG_ESTRITO=1, nenhuma (avaliação)
         if metodo == "bm25" or os.environ.get("IRIS_RAG_ESTRITO", "").strip().lower() in {"1", "true", "sim", "on"}:
             raise
