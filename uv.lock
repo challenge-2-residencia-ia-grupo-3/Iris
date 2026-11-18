@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'win32'",
@@ -1637,10 +1637,11 @@ wheels = [
 name = "iris"
 version = "0.1.0"
 source = { editable = "." }
-default-groups = ["dev", "docs"]
 dependencies = [
+    { name = "argon2-cffi" },
     { name = "datasets" },
     { name = "fastapi" },
+    { name = "httpx" },
     { name = "ipykernel" },
     { name = "jinja2" },
     { name = "jupyter" },
@@ -1649,6 +1650,7 @@ dependencies = [
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "numpy", version = "2.5.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "pandas" },
+    { name = "psycopg", extra = ["binary"] },
     { name = "pydantic" },
     { name = "pymupdf" },
     { name = "pyphen" },
@@ -1702,8 +1704,10 @@ rag = [
 
 [package.metadata]
 requires-dist = [
+    { name = "argon2-cffi", specifier = ">=23.1.0" },
     { name = "datasets", specifier = ">=5.1.0" },
     { name = "fastapi", specifier = ">=0.110.0" },
+    { name = "httpx", specifier = ">=0.27.0" },
     { name = "ipykernel", specifier = ">=7.4.0" },
     { name = "jinja2", specifier = ">=3.1.3" },
     { name = "jupyter", specifier = ">=1.1.1" },
@@ -1711,6 +1715,7 @@ requires-dist = [
     { name = "matplotlib", specifier = ">=3.11.2" },
     { name = "numpy", specifier = ">=2.4.6" },
     { name = "pandas", specifier = ">=3.1.0" },
+    { name = "psycopg", extras = ["binary"], specifier = ">=3.1.18" },
     { name = "pydantic", specifier = ">=2.6.0" },
     { name = "pymupdf", specifier = ">=1.24.0" },
     { name = "pyphen", specifier = ">=0.18.1" },
