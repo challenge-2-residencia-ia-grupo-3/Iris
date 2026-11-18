@@ -33,6 +33,11 @@ from iris.parsers.structural_decomposer import decompose_material
 from iris.schemas.adaptation import AdaptationRequest, ScopeReport
 from iris.schemas.curriculum import CurriculumInvariants, ExtractionResult
 from iris.schemas.strategy import StrategyRequest, StrategyResult
+from iris.security.operational_logger import (
+    categorizar_violacoes_escopo,
+    log_agent_operational_event,
+    sentinel_context,
+)
 from iris.security.pii_scrubber import sanitize_pii
 
 logger = logging.getLogger(__name__)
@@ -324,188 +329,222 @@ class MultiAgentOrchestrator:
 
         t_inicio = time.perf_counter()
 
-        # 1. Sanitização preventiva de PII antes de qualquer processamento ou chamada de IA
-        texto_sanitizado, pii_substituicoes = sanitize_pii(req.text)
-        texto_limpo = texto_sanitizado.strip()
-        if len(texto_limpo) < 15:
-            raise ValueError("Após sanitização, o texto ficou abaixo do mínimo de 15 caracteres.")
+        with sentinel_context(req.text):
+            # 1. Sanitização preventiva de PII antes de qualquer processamento ou chamada de IA
+            texto_sanitizado, pii_substituicoes = sanitize_pii(req.text)
+            texto_limpo = texto_sanitizado.strip()
+            if len(texto_limpo) < 15:
+                raise ValueError("Após sanitização, o texto ficou abaixo do mínimo de 15 caracteres.")
 
-        # 2. Decomposição estrutural determinística do material em questões e textos de apoio
-        estrutura = decompose_material(texto_limpo)
-        ctx_por_id = {cb.id: cb for cb in estrutura.context_blocks}
-        id_carac_principal = _escolher_caracteristica_principal(req.selected_ids)
-        titulo_final = _extrair_titulo_padrao(req.titulo, estrutura.header)
+            # 2. Decomposição estrutural determinística do material em questões e textos de apoio
+            estrutura = decompose_material(texto_limpo)
+            ctx_por_id = {cb.id: cb for cb in estrutura.context_blocks}
+            id_carac_principal = _escolher_caracteristica_principal(req.selected_ids)
+            titulo_final = _extrair_titulo_padrao(req.titulo, estrutura.header)
 
-        itens_questoes: list[tuple[str, str, str, Optional[str]]] = []
-        if estrutura.questions:
-            for idx, q in enumerate(estrutura.questions, start=1):
-                contextos = [
-                    ctx_por_id[cid].text
-                    for cid in (q.context_refs or [])
-                    if cid in ctx_por_id and ctx_por_id[cid].text.strip()
-                ]
-                ctx_apoio = "\n\n".join(contextos) if contextos else None
-                enunciado_q = _montar_texto_questao(
-                    statement=q.statement,
-                    options=list(q.options or []),
-                    raw_text=q.raw_text,
-                    original_number=q.original_number,
+            itens_questoes: list[tuple[str, str, str, Optional[str]]] = []
+            if estrutura.questions:
+                for idx, q in enumerate(estrutura.questions, start=1):
+                    contextos = [
+                        ctx_por_id[cid].text
+                        for cid in (q.context_refs or [])
+                        if cid in ctx_por_id and ctx_por_id[cid].text.strip()
+                    ]
+                    ctx_apoio = "\n\n".join(contextos) if contextos else None
+                    enunciado_q = _montar_texto_questao(
+                        statement=q.statement,
+                        options=list(q.options or []),
+                        raw_text=q.raw_text,
+                        original_number=q.original_number,
+                        contexto_apoio=ctx_apoio,
+                    )
+                    itens_questoes.append((q.id or f"q_{idx}", q.original_number or str(idx), enunciado_q, ctx_apoio))
+            else:
+                itens_questoes.append(("q_1", "1", texto_limpo, None))
+
+            traces: list[QuestionMultiAgentTrace] = []
+            etapa5_questoes: list[dict[str, Any]] = []
+            modelos_usados: list[str] = []
+            total_tokens = 0
+            prompt_tokens_total = 0
+            completion_tokens_total = 0
+            trcc_scores: list[float] = []
+            fallbacks_ocorridos: list[str] = []
+            violacoes_ocorridas: list[str] = []
+
+            for qid, num_orig, enunciado_q, ctx_apoio in itens_questoes:
+                # --- Agente 1: Extrator Curricular (#17) ---
+                extracao = extrator.extract_with_telemetry(
+                    request=enunciado_q,
                     contexto_apoio=ctx_apoio,
-                )
-                itens_questoes.append((q.id or f"q_{idx}", q.original_number or str(idx), enunciado_q, ctx_apoio))
-        else:
-            itens_questoes.append(("q_1", "1", texto_limpo, None))
-
-        traces: list[QuestionMultiAgentTrace] = []
-        etapa5_questoes: list[dict[str, Any]] = []
-        modelos_usados: list[str] = []
-        total_tokens = 0
-
-        for qid, num_orig, enunciado_q, ctx_apoio in itens_questoes:
-            # --- Agente 1: Extrator Curricular (#17) ---
-            extracao = extrator.extract_with_telemetry(
-                request=enunciado_q,
-                contexto_apoio=ctx_apoio,
-                disciplina=req.disciplina,
-                ano_escolar=req.ano_escolar,
-                trava_manual_docente=req.trava_manual_docente,
-                question_id=qid,
-            )
-
-            # --- Agente 2: Estrategista RAG (#16) ---
-            estrategia = estrategista.strategize(
-                StrategyRequest(
-                    caracteristicas=req.selected_ids,
-                    nivel=req.nivel,
-                    invariantes=extracao.invariants,
-                    enunciado=enunciado_q,
-                    metodo=req.metodo_rag,
+                    disciplina=req.disciplina,
+                    ano_escolar=req.ano_escolar,
+                    trava_manual_docente=req.trava_manual_docente,
                     question_id=qid,
                 )
-            )
 
-            # --- Agente 3 (Adaptador #18) <-> Agente 4 (Auditor #19) ---
-            pedido_adapt = AdaptationRequest(
-                enunciado=enunciado_q,
-                id_caracteristica=id_carac_principal,
-                nivel=req.nivel,
-                invariantes=extracao.invariants,
-                diretiva_psicopedagogica=estrategia.diretiva or None,
-                question_id=qid,
-            )
-            ciclo = CicloComAuditor(adaptador, pedido_adapt)
-            textos_avaliados: list[str] = []
-            simulado_na_primeira = False
-
-            def _adaptar_com_rastreio(
-                feedback: Optional[str],
-                minuta_anterior: Optional[str],
-                _ciclo: CicloComAuditor = ciclo,
-                _invariantes: CurriculumInvariants = extracao.invariants,
-                _textos: list[str] = textos_avaliados,
-            ) -> str:
-                nonlocal simulado_na_primeira
-                minuta = _ciclo(feedback, minuta_anterior)
-                if req.simular_autocorrecao and feedback is None and not simulado_na_primeira:
-                    simulado_na_primeira = True
-                    minuta = _sabotar_para_demonstracao(minuta, _invariantes.conceitos_obrigatorios)
-                _textos.append(minuta)
-                return minuta
-
-            relatorio = auditor.executar_ciclo(
-                original=enunciado_q,
-                travas=extracao.invariants,
-                adaptar=_adaptar_com_rastreio,
-                nao_selecionadas=nao_selecionadas,
-                max_tentativas=req.max_tentativas,
-            )
-
-            trava_lista = [
-                *extracao.invariants.conceitos_obrigatorios,
-                *extracao.invariants.termos_tecnicos_intocaveis,
-            ]
-            tentativas_trace: list[AuditAttemptTrace] = []
-            for idx_t, (res_aud, res_adap, texto_aval) in enumerate(
-                zip(relatorio.tentativas, ciclo.resultados, textos_avaliados), start=1
-            ):
-                escopo_eval: ScopeReport = (
-                    verificar_escopo(enunciado_q, texto_aval, id_carac_principal, req.nivel, trava_lista)
-                    if texto_aval != res_adap.texto_adaptado
-                    else res_adap.escopo
-                )
-                tentativas_trace.append(
-                    AuditAttemptTrace(
-                        tentativa=idx_t,
-                        texto_minuta=texto_aval,
-                        justificativas=list(res_adap.justificativas),
-                        escopo_aprovado=escopo_eval.aprovado,
-                        violacoes_escopo=list(escopo_eval.violacoes),
-                        trcc=res_aud.trcc.trcc,
-                        conceitos_retidos=list(res_aud.trcc.encontrados),
-                        conceitos_ausentes=list(res_aud.trcc.ausentes),
-                        intocaveis_ausentes=list(res_aud.intocaveis_ausentes),
-                        resolucao_indevida=res_aud.resolucao_indevida,
-                        intrusoes=list(res_aud.intrusoes),
-                        aprovado_auditor=res_aud.aprovado,
-                        motivos_auditor=list(res_aud.motivos),
-                        feedback_gerado=None if res_aud.aprovado else res_aud.feedback(),
-                        total_ms=res_adap.telemetry.total_ms,
+                # --- Agente 2: Estrategista RAG (#16) ---
+                estrategia = estrategista.strategize(
+                    StrategyRequest(
+                        caracteristicas=req.selected_ids,
+                        nivel=req.nivel,
+                        invariantes=extracao.invariants,
+                        enunciado=enunciado_q,
+                        metodo=req.metodo_rag,
+                        question_id=qid,
                     )
                 )
 
-            resumo_q = resumir_ciclo(
-                [extracao.telemetry, estrategia.telemetry, *ciclo.telemetrias],
-                req.nivel,
-            )
-            total_tokens += int(resumo_q["total_tokens"])
-
-            for tel in (extracao.telemetry, estrategia.telemetry, *ciclo.telemetrias):
-                if tel.model and tel.model != "deterministic-fallback":
-                    modelos_usados.append(tel.model)
-
-            ultimo_adap = ciclo.resultados[-1]
-            adaptacao_aplicada = relatorio.texto_final.strip() != enunciado_q.strip()
-
-            traces.append(
-                QuestionMultiAgentTrace(
-                    id=qid,
-                    numero_original=num_orig,
-                    original=enunciado_q,
-                    adaptado=relatorio.texto_final,
-                    justificativas=list(ultimo_adap.justificativas),
+                # --- Agente 3 (Adaptador #18) <-> Agente 4 (Auditor #19) ---
+                pedido_adapt = AdaptationRequest(
+                    enunciado=enunciado_q,
                     id_caracteristica=id_carac_principal,
-                    caracteristicas_selecionadas=list(req.selected_ids),
                     nivel=req.nivel,
-                    adaptacao_aplicada=adaptacao_aplicada,
-                    aprovado_final=relatorio.aprovado,
-                    requer_revisao_humana=relatorio.requer_revisao_humana,
-                    extrator=extracao,
-                    estrategista=estrategia,
-                    tentativas=tentativas_trace,
-                    ciclo_resumo=resumo_q,
+                    invariantes=extracao.invariants,
+                    diretiva_psicopedagogica=estrategia.diretiva or None,
+                    question_id=qid,
                 )
-            )
-            etapa5_questoes.append(
-                {
-                    "id": qid,
-                    "original": enunciado_q,
-                    "adaptado": relatorio.texto_final,
-                    "justificativas": list(ultimo_adap.justificativas),
-                    "id_caracteristica": id_carac_principal,
-                    "nivel": req.nivel,
-                    "adaptacao_aplicada": adaptacao_aplicada,
-                }
-            )
+                ciclo = CicloComAuditor(adaptador, pedido_adapt)
+                textos_avaliados: list[str] = []
+                simulado_na_primeira = False
 
-        total_ms = round((time.perf_counter() - t_inicio) * 1000, 2)
-        aprovadas = sum(1 for t in traces if t.aprovado_final)
-        revisao_humana = sum(1 for t in traces if t.requer_revisao_humana)
+                def _adaptar_com_rastreio(
+                    feedback: Optional[str],
+                    minuta_anterior: Optional[str],
+                    _ciclo: CicloComAuditor = ciclo,
+                    _invariantes: CurriculumInvariants = extracao.invariants,
+                    _textos: list[str] = textos_avaliados,
+                ) -> str:
+                    nonlocal simulado_na_primeira
+                    minuta = _ciclo(feedback, minuta_anterior)
+                    if req.simular_autocorrecao and feedback is None and not simulado_na_primeira:
+                        simulado_na_primeira = True
+                        minuta = _sabotar_para_demonstracao(minuta, _invariantes.conceitos_obrigatorios)
+                    _textos.append(minuta)
+                    return minuta
+
+                relatorio = auditor.executar_ciclo(
+                    original=enunciado_q,
+                    travas=extracao.invariants,
+                    adaptar=_adaptar_com_rastreio,
+                    nao_selecionadas=nao_selecionadas,
+                    max_tentativas=req.max_tentativas,
+                )
+
+                trava_lista = [
+                    *extracao.invariants.conceitos_obrigatorios,
+                    *extracao.invariants.termos_tecnicos_intocaveis,
+                ]
+                tentativas_trace: list[AuditAttemptTrace] = []
+                for idx_t, (res_aud, res_adap, texto_aval) in enumerate(
+                    zip(relatorio.tentativas, ciclo.resultados, textos_avaliados), start=1
+                ):
+                    escopo_eval: ScopeReport = (
+                        verificar_escopo(enunciado_q, texto_aval, id_carac_principal, req.nivel, trava_lista)
+                        if texto_aval != res_adap.texto_adaptado
+                        else res_adap.escopo
+                    )
+                    violacoes_ocorridas.extend(categorizar_violacoes_escopo(escopo_eval))
+                    tentativas_trace.append(
+                        AuditAttemptTrace(
+                            tentativa=idx_t,
+                            texto_minuta=texto_aval,
+                            justificativas=list(res_adap.justificativas),
+                            escopo_aprovado=escopo_eval.aprovado,
+                            violacoes_escopo=list(escopo_eval.violacoes),
+                            trcc=res_aud.trcc.trcc,
+                            conceitos_retidos=list(res_aud.trcc.encontrados),
+                            conceitos_ausentes=list(res_aud.trcc.ausentes),
+                            intocaveis_ausentes=list(res_aud.intocaveis_ausentes),
+                            resolucao_indevida=res_aud.resolucao_indevida,
+                            intrusoes=list(res_aud.intrusoes),
+                            aprovado_auditor=res_aud.aprovado,
+                            motivos_auditor=list(res_aud.motivos),
+                            feedback_gerado=None if res_aud.aprovado else res_aud.feedback(),
+                            total_ms=res_adap.telemetry.total_ms,
+                        )
+                    )
+
+                if relatorio.tentativas and relatorio.tentativas[-1].trcc.trcc is not None:
+                    trcc_scores.append(float(relatorio.tentativas[-1].trcc.trcc))
+
+                resumo_q = resumir_ciclo(
+                    [extracao.telemetry, estrategia.telemetry, *ciclo.telemetrias],
+                    req.nivel,
+                )
+                total_tokens += int(resumo_q["total_tokens"])
+                prompt_tokens_total += int(resumo_q.get("prompt_tokens", 0))
+                completion_tokens_total += int(resumo_q.get("completion_tokens", 0))
+
+                for tel in (extracao.telemetry, estrategia.telemetry, *ciclo.telemetrias):
+                    if tel.model and tel.model != "deterministic-fallback":
+                        modelos_usados.append(tel.model)
+                    if getattr(tel, "used_fallback", False) and getattr(tel, "motivo_fallback", None):
+                        fallbacks_ocorridos.append(str(tel.motivo_fallback))
+
+                ultimo_adap = ciclo.resultados[-1]
+                adaptacao_aplicada = relatorio.texto_final.strip() != enunciado_q.strip()
+
+                traces.append(
+                    QuestionMultiAgentTrace(
+                        id=qid,
+                        numero_original=num_orig,
+                        original=enunciado_q,
+                        adaptado=relatorio.texto_final,
+                        justificativas=list(ultimo_adap.justificativas),
+                        id_caracteristica=id_carac_principal,
+                        caracteristicas_selecionadas=list(req.selected_ids),
+                        nivel=req.nivel,
+                        adaptacao_aplicada=adaptacao_aplicada,
+                        aprovado_final=relatorio.aprovado,
+                        requer_revisao_humana=relatorio.requer_revisao_humana,
+                        extrator=extracao,
+                        estrategista=estrategia,
+                        tentativas=tentativas_trace,
+                        ciclo_resumo=resumo_q,
+                    )
+                )
+                etapa5_questoes.append(
+                    {
+                        "id": qid,
+                        "original": enunciado_q,
+                        "adaptado": relatorio.texto_final,
+                        "justificativas": list(ultimo_adap.justificativas),
+                        "id_caracteristica": id_carac_principal,
+                        "nivel": req.nivel,
+                        "adaptacao_aplicada": adaptacao_aplicada,
+                    }
+                )
+
+            total_ms = round((time.perf_counter() - t_inicio) * 1000, 2)
+            aprovadas = sum(1 for t in traces if t.aprovado_final)
+            revisao_humana = sum(1 for t in traces if t.requer_revisao_humana)
+            provider_str = str(getattr(llm_client, "provider_name", "custom"))
+            model_str = modelos_usados[0] if modelos_usados else "deterministic-fallback"
+
+            log_agent_operational_event(
+                nivel=req.nivel,
+                selected_ids=req.selected_ids,
+                total_questoes=len(traces),
+                pii_substituicoes=pii_substituicoes,
+                total_tokens=total_tokens,
+                prompt_tokens=prompt_tokens_total,
+                completion_tokens=completion_tokens_total,
+                latency_s=total_ms / 1000.0,
+                trcc_scores=trcc_scores,
+                aprovadas_auditor=aprovadas,
+                requerem_revisao_humana=revisao_humana,
+                provider=provider_str,
+                model=model_str,
+                fallbacks=fallbacks_ocorridos,
+                violacoes=violacoes_ocorridas,
+            )
 
         return MultiAgentMaterialResponse(
             status="success",
             titulo=titulo_final,
-            provider=str(getattr(llm_client, "provider_name", "custom")),
-            model=modelos_usados[0] if modelos_usados else "deterministic-fallback",
+            provider=provider_str,
+            model=model_str,
             nivel=req.nivel,
             selected_ids=list(req.selected_ids),
             pii_substituicoes=pii_substituicoes,

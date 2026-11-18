@@ -1754,6 +1754,61 @@ Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justi
         </div>
         <div id="arq-exec-box"></div>
       </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Como auditamos os 4 agentes (Observabilidade Reproduzível)</h2>
+            <p class="block-desc">Cada agente possui guardrails determinísticos, telemetria Zero-PII e avaliadores reproduzíveis por comando (documentação completa em <code>docs/auditoria_agentes.md</code>).</p>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Agente</th>
+                <th>O que valida se está certo</th>
+                <th>Guardrails determinísticos</th>
+                <th>Códigos de reserva (<code>motivo_fallback</code>)</th>
+                <th>Comando reproduzível</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Extrator (#17)</strong><br /><code>CurriculumExtractorAgent</code></td>
+                <td>Recall das travas curriculares (&ge; 95% no <code>golden_benchmark.json</code>) e <code>json_valido_direto</code>.</td>
+                <td>Normaliza verbo BNCC ao infinitivo e injeta obrigatoriamente a trava manual do docente.</td>
+                <td><code>provedor_sem_modelo</code>, <code>falha_llm</code></td>
+                <td><code>make extrator-bench</code><br /><code>make extrator-analytics</code></td>
+              </tr>
+              <tr>
+                <td><strong>2. Estrategista (#16)</strong><br /><code>StrategistAgent</code></td>
+                <td>Fidelidade de citação (zero <code>[Tn]</code> inexistente ou fora da característica) e filtro estrito por barreira.</td>
+                <td>Descarta trechos fora do filtro pré-prompt; exige <code>[Tn]</code>, &le; 40 palavras e barra cópia literal (&ge; 12 palavras).</td>
+                <td><code>sem_evidencia</code>, <code>provedor_sem_modelo</code>, <code>nenhuma_intervencao_aprovada</code>, <code>falha_llm</code></td>
+                <td><code>make eval-agentes</code></td>
+              </tr>
+              <tr>
+                <td><strong>3. Adaptador (#18)</strong><br /><code>AdapterAgent</code></td>
+                <td>Aprovação em <code>verificar_escopo()</code> (palavras, LCS, estrutura e conceitos da trava) e taxa real de adaptação.</td>
+                <td><code>comandos_por_regra</code> em comandos múltiplos; <code>conferente_por_regra</code> regenera se houver perda de palavra.</td>
+                <td><code>provedor_sem_modelo</code>, <code>regra_comandos_multiplos</code>, <code>escopo_reprovado</code>, <code>conferente_palavra_perdida</code>, <code>falha_llm</code></td>
+                <td><code>make eval-adaptador</code><br /><code>make eval-ciclo</code></td>
+              </tr>
+              <tr>
+                <td><strong>4. Auditor (#19)</strong><br /><code>AgenteAuditor</code></td>
+                <td><code>TRCC &ge; 0,95</code>, 100% dos termos intocáveis, ausência de gabarito/resolução e auto-correção em até 3 voltas.</td>
+                <td>Sinais determinísticos de cálculo/alternativas + juiz LLM restrito ao diff <code>trechos_novos</code> com citação literal obrigatória.</td>
+                <td>Falha fechada (<code>requer_revisao_humana=True</code> após 2 JSONs inválidos ou ciclo esgotado)</td>
+                <td><code>make eval-juiz</code><br /><code>make qualidade</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="baseline-rule">
+          <strong>Ciclo completo E2E dos 4 agentes:</strong> execute <code>make eval-agentes</code> (usa <code>PROV=eco</code> determinístico sem rede, ou <code>PROV=ollama|anthropic|groq LIMITE=5</code>) para gerar <code>reports/multiagentes_ciclo.json</code> e <code>reports/multiagentes_ciclo.md</code>; execute <code>make qualidade</code> para rodar os 16 verificadores da bancada e os 6 portões (<code>exit code</code>).
+        </p>
+      </div>
     </section>
 
     <!-- ABA 4: FERRAMENTAS DA API -->

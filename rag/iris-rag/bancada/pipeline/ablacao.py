@@ -105,7 +105,7 @@ def montar_adaptador(config: str, cliente_padrao, cliente_reserva, nivel: int, p
                 for linha in r.linhas:
                     fh.write(json.dumps(linha, ensure_ascii=False) + "\n")
         tokens = sum(l["tokens_entrada"] + l["tokens_saida"] for l in r.linhas if l["etapa"] in
-                     ("extrator_curricular", "agente_adaptador", "diretiva_substituta_arnes"))
+                     ("extrator_curricular", "agente_estrategista", "agente_adaptador", "agente_auditor", "diretiva_substituta_arnes"))
         return {
             "adaptado": out["adaptado"],
             "contextos": out["contextos"],
