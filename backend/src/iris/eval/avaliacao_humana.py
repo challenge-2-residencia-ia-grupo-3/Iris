@@ -24,6 +24,12 @@ comentário):
 A pessoa vê a pergunta, a frase e os trechos que a frase cita, nunca o voto dos juízes. Cada clique acrescenta uma
 linha em ``rag/iris-rag/bancada/calibracao/rotulos-humanos-grupo.jsonl``; nenhum script reescreve esse arquivo
 (regra 14). A concordância só aparece a partir de ``MINIMO_PARA_CONCORDANCIA`` frases avaliadas.
+
+Em qualquer máquina (issue #108): o texto que os juízes leram fica fora do git por licença. Quando a base local não é
+a julgada e não há cópia dela, a tela usa a base local trecho a trecho, só onde o texto é idêntico ao julgado: a
+prova é a impressão digital (sha256) de cada trecho julgado, versionada em ``trechos_julgados_sha256.json``, sem texto.
+Medido em 18/11/2026: os 68 trechos citados pelas 86 frases da amostra têm o mesmo texto na base de 1.881 trechos.
+
 """
 
 from __future__ import annotations
@@ -32,6 +38,7 @@ import importlib.util
 import json
 import random
 import re
+import hashlib
 from collections import Counter
 from datetime import datetime
 from functools import lru_cache
@@ -49,6 +56,9 @@ CHUNKS = PACOTE / "chunks.jsonl"
 # chunks_julgados.jsonl, fora do git (leva texto sem licença aberta), copiado sozinho enquanto a base ainda é a julgada.
 BASE_JULGADA = PACOTE / "chunks_julgados.jsonl"
 HASH_BASE_JULGADA = "cfc1481f449ef361"
+# Impressão digital (sha256, 16 primeiros caracteres) do texto de cada trecho que os juízes leram: sem o texto, pode ir
+# para o git. Serve para usar a base local trecho a trecho quando ela não é a julgada (issue #108).
+IMPRESSOES = PACOTE / "trechos_julgados_sha256.json"
 PERGUNTAS = RAG_BASE_DIR / "gabarito" / "gabarito_rascunho_v0.json"
 ROTULOS = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-grupo.jsonl"
 
@@ -84,9 +94,21 @@ def _divisor():
 
 
 def _hash(caminho: Path) -> str:
-    import hashlib
-
     return hashlib.sha256(caminho.read_bytes()).hexdigest()[:16]
+
+
+def impressao(texto: str) -> str:
+    """Impressão digital do texto de um trecho: igual se, e só se, o texto for igual (sha256, 16 caracteres)."""
+    return hashlib.sha256((texto or "").encode("utf-8")).hexdigest()[:16]
+
+
+def _ler_trechos(caminho: Path) -> dict[str, dict[str, str]]:
+    textos: dict[str, dict[str, str]] = {}
+    for linha in caminho.read_text(encoding="utf-8").splitlines():
+        if linha.strip():
+            c = json.loads(linha)
+            textos[c["chunk_id"]] = {"texto": c.get("texto", ""), "doc": c.get("doc_id", ""), "aviso": c.get("nota_uso") or ""}
+    return textos
 
 
 def arquivo_de_trechos() -> Path:
@@ -109,16 +131,58 @@ def arquivo_de_trechos() -> Path:
     )
 
 
+TEXTO_MUDOU = (
+    "O texto deste trecho na sua base não é o que os juízes leram, então não é mostrado. Se a frase depender dele, "
+    "avalie pelo que os outros trechos mostram ou passe para a próxima."
+)
+
+
+def textos_julgados() -> dict[str, dict[str, str]]:
+    """O texto de cada trecho como os juízes leram, por chunk_id.
+
+    1. Cópia guardada da base julgada, ou a própria base local se ela for a julgada (``arquivo_de_trechos``).
+    2. Senão, a base local trecho a trecho: entra o trecho cuja impressão digital é igual à do julgado; o que mudou
+       ou sumiu entra sem texto e com aviso, para a pessoa nunca avaliar um texto diferente do que o juiz viu.
+    """
+    try:
+        return _ler_trechos(arquivo_de_trechos())
+    except RuntimeError as sem_copia:
+        if not (IMPRESSOES.exists() and CHUNKS.exists()):
+            raise sem_copia
+    esperadas: dict[str, str] = json.loads(IMPRESSOES.read_text(encoding="utf-8"))["trechos"]
+    locais = _ler_trechos(CHUNKS)
+    saida: dict[str, dict[str, str]] = {}
+    for cid, imp in esperadas.items():
+        t = locais.get(cid)
+        if t is not None and impressao(t["texto"]) == imp:
+            saida[cid] = t
+        else:
+            saida[cid] = {"texto": "", "doc": (t or {}).get("doc", ""), "aviso": TEXTO_MUDOU, "mudou": "sim"}
+    return saida
+
+
+def gravar_impressoes(base_julgada: Path, destino: Path = IMPRESSOES) -> int:
+    """Grava a impressão digital dos trechos citados pelas respostas medidas (rodar uma vez, com a base julgada)."""
+    if _hash(base_julgada) != HASH_BASE_JULGADA:
+        raise ValueError(f"{base_julgada} não é a base julgada (sha256 {HASH_BASE_JULGADA}...)")
+    medidas = json.loads(MEDIDAS.read_text(encoding="utf-8"))["geradores"]
+    citados = {cid for g in GERADORES for r in medidas[g].values() for cid in (r.get("fontes") or []) if cid}
+    textos = _ler_trechos(base_julgada)
+    trechos = {cid: impressao(textos[cid]["texto"]) for cid in sorted(citados) if cid in textos}
+    destino.write_text(json.dumps({
+        "base_julgada_sha256": HASH_BASE_JULGADA,
+        "o_que_e": "sha256 (16 caracteres) do texto de cada trecho que os juízes leram; sem o texto, que tem licença restrita",
+        "trechos": trechos,
+    }, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return len(trechos)
+
+
 @lru_cache(maxsize=1)
 def _dados() -> dict[str, Any]:
     medidas = json.loads(MEDIDAS.read_text(encoding="utf-8"))["geradores"]
     vereditos = json.loads(VEREDITOS.read_text(encoding="utf-8"))
     perguntas = {i["id"]: i["pergunta"] for i in json.loads(PERGUNTAS.read_text(encoding="utf-8"))["itens"]}
-    textos: dict[str, dict[str, str]] = {}
-    for linha in arquivo_de_trechos().read_text(encoding="utf-8").splitlines():
-        if linha.strip():
-            c = json.loads(linha)
-            textos[c["chunk_id"]] = {"texto": c.get("texto", ""), "doc": c.get("doc_id", ""), "aviso": c.get("nota_uso") or ""}
+    textos = textos_julgados()
     dividir = _divisor()
     frases: dict[str, dict[str, Any]] = {}
     for g in GERADORES:
@@ -214,11 +278,11 @@ def proxima(avaliador: str) -> dict[str, Any]:
     """A próxima frase da amostra que esta pessoa ainda não avaliou, SEM o voto dos juízes."""
     if not RE_AVALIADOR.match(avaliador or ""):
         raise ValueError("código de avaliador: de 1 a 40 letras, números, ponto, hífen ou sublinhado (ex.: prof-A)")
-    a = amostra()
+    fila = fila_avaliavel()
     feitos = {u for (p, u) in _ultimo_por_pessoa(_ler_rotulos()) if p == avaliador}
-    feitos_na_amostra = sum(1 for u in a["uids"] if u in feitos)
-    base = {"avaliador": avaliador, "feitas": feitos_na_amostra, "total": len(a["uids"]), "opcoes": ROTULOS_VALIDOS}
-    for uid in a["uids"]:
+    feitos_na_amostra = sum(1 for u in fila if u in feitos)
+    base = {"avaliador": avaliador, "feitas": feitos_na_amostra, "total": len(fila), "opcoes": ROTULOS_VALIDOS}
+    for uid in fila:
         if uid not in feitos:
             f = _dados()["frases"][uid]
             return {**base, "acabou": False, "uid": uid, "pergunta": _dados()["perguntas"].get(f["qid"], ""),
@@ -268,6 +332,8 @@ def resumo() -> dict[str, Any]:
     saida: dict[str, Any] = {
         "avaliadas": n, "pessoas": len({p for p, _ in rotulos}), "total_amostra": len(a["uids"]),
         "minimo": MINIMO_PARA_CONCORDANCIA, "estratos": a["estratos"],
+        "fora_da_fila": {"frases": len(a["uids"]) - len(fila_avaliavel()),
+                         "motivo": "todos os trechos citados chegam sem texto (licença restrita); os juízes leram o texto completo"},
         "classes_da_pessoa": dict(Counter(r for r in rotulos.values())),
     }
     if n < MINIMO_PARA_CONCORDANCIA:
@@ -288,3 +354,22 @@ def resumo() -> dict[str, Any]:
         }
     saida["juizes"] = juizes
     return saida
+
+
+# ------------------------------------------------------------------ frases que a pessoa não tem como avaliar
+AVISO_LICENCA = "(texto não reproduzido por restrição de licença"
+
+
+def avaliavel(uid: str) -> bool:
+    """Falso quando todos os trechos que a frase cita chegam à tela sem texto (licença restrita ou texto mudado).
+
+    Os juízes leram o texto completo desses documentos (em ``respostas_passagens_v2.json`` a prova deles aparece como
+    ``restrita``); uma pessoa que só vê o aviso de licença discordaria do juiz por falta do que ler, não por discordar.
+    """
+    cits = _citacoes(_dados()["frases"][uid])
+    return any(c["texto"] and not c["texto"].startswith(AVISO_LICENCA) for c in cits)
+
+
+@lru_cache(maxsize=1)
+def fila_avaliavel() -> tuple[str, ...]:
+    return tuple(u for u in amostra()["uids"] if avaliavel(u))
