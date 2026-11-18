@@ -397,7 +397,7 @@ def no_adaptador(estado: EstadoIris, ctx: Contexto) -> dict:
         ctx.falhar_adaptador_uma_vez = False
         raise RuntimeError("falha simulada do Adaptador (ex.: o Ollama caiu)")
     tentativa = estado.get("tentativa", 0) + 1
-    res = AdapterAgent(llm_client=ctx.cliente).adapt(_pedido_adaptacao(estado), tentativa=tentativa)  # type: ignore[arg-type]
+    res = AdapterAgent(llm_client=ctx.cliente, comandos_por_regra=False).adapt(_pedido_adaptacao(estado), tentativa=tentativa)  # type: ignore[arg-type]
     return {"tentativa": tentativa, "minuta": res.texto_adaptado, "escopo_aprovado": res.escopo.aprovado}
 
 

@@ -519,7 +519,7 @@ def _no_adaptador(estado: EstadoIris, ctx: Contexto) -> dict:
         ctx.falhar_adaptador_uma_vez = False
         raise RuntimeError("falha simulada do Adaptador (por exemplo, o servidor do modelo caiu)")
     tentativa = estado.get("tentativa", 0) + 1
-    res = AdapterAgent(llm_client=ctx.cliente).adapt(_pedido_adaptacao(estado), tentativa=tentativa)
+    res = AdapterAgent(llm_client=ctx.cliente, comandos_por_regra=False).adapt(_pedido_adaptacao(estado), tentativa=tentativa)
     saida: dict[str, Any] = {"tentativa": tentativa, "minuta": res.texto_adaptado}
     if res.telemetry.motivo_fallback == "escopo_reprovado":
         # O próprio Adaptador barrou a minuta do modelo (palavra fora do enunciado) e devolveu a adaptação por
