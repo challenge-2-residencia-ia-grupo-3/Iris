@@ -20,7 +20,7 @@ import time
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Iterable, Optional
 
-from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, strip_thinking_tags
+from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, motivo_de_falha, strip_thinking_tags
 from iris.eval.escopo import ID_COMANDOS_MULTIPLOS, localizar_comandos, verificar_escopo
 from iris.schemas.adaptation import (
     LIMITE_LATENCIA_MS,
@@ -173,12 +173,47 @@ def resumir_ciclo(telemetrias: Iterable[object], nivel: int) -> dict:
     }
 
 
+# Níveis cujas ações permitidas mandam tirar ou reescrever texto: ali a minuta correta perde palavras do original, e o
+# conferente por regra não se aplica. Lista explícita, como REGRAS_ESCOPO; ao mudar o catálogo, revisar aqui.
+NIVEIS_QUE_REESCREVEM: frozenset[tuple[str, int]] = frozenset({
+    ("distratibilidade_poluicao_visual_layout", 1),              # "Remover ornamentos textuais desnecessários..."
+    ("distratibilidade_poluicao_visual_layout", 3),              # "Substituir referências cruzadas distantes..."
+    ("ritmo_processamento_pressao_temporal", 2),                 # "Converter frases ... em frases curtas na ordem direta"
+    ("ritmo_processamento_pressao_temporal", 3),                 # "Organizar as informações do enunciado em tópicos"
+    ("retencao_dados_intermediarios_problemas_multietapas", 3),  # "Agrupar informações contextuais em tópicos curtos"
+})
+
+
+def _acoes_tiram_texto(req: AdaptationRequest) -> bool:
+    """O nível pedido manda tirar ou reescrever texto (ver NIVEIS_QUE_REESCREVEM)."""
+    return (req.id_caracteristica, req.nivel) in NIVEIS_QUE_REESCREVEM
+
+
 class AdapterAgent:
     """Agente de IA que aplica o andaime do nível escolhido sem sair do escopo permitido."""
 
-    def __init__(self, llm_client: Optional[HybridLLMClient] = None, max_tokens: int = 900) -> None:
-        self.llm_client = llm_client or get_llm_client()
+    def __init__(
+        self,
+        llm_client: Optional[HybridLLMClient] = None,
+        max_tokens: int = 900,
+        comandos_por_regra: bool = True,
+        conferente_por_regra: bool = True,
+    ) -> None:
+        """`comandos_por_regra`: na característica de comandos múltiplos, usar a adaptação por regra sem chamar o
+        modelo. Medido em 15/11/2026 (benchmark do grupo, 30 pedidos): regra 30 de 30 dentro do escopo; Haiku 28,
+        Sonnet 16, Llama 4.
+
+        `conferente_por_regra`: nas características sem regra de escopo, se a minuta perdeu alguma palavra do
+        enunciado original, o modelo refaz uma vez com a lista do que perdeu; se perder de novo, entrega o original.
+        Não vale nos níveis que mandam tirar ou reescrever texto (NIVEIS_QUE_REESCREVEM). Medido em 16/11/2026 com o
+        Llama 3.1 8B (177 pedidos, juiz Codex): entregas com defeito de 0,38 para 0,23 (−0,16 [−0,21; −0,10]);
+        entregas boas −0,02 [−0,07; +0,02]; 17% dos pedidos ficam sem adaptação. Recontado em 18/11/2026 sobre minutas
+        já julgadas, com a lista de exclusão: com o Llama, reprova 47 de 75 minutas com defeito e 5 de 92 sem defeito;
+        com o Haiku, quase nunca age (reprova 1 de 223, que tinha defeito)."""
+        self.llm_client = llm_client or get_llm_client(agente="adaptador")
         self.max_tokens = max_tokens
+        self.comandos_por_regra = comandos_por_regra
+        self.conferente_por_regra = conferente_por_regra
 
     def adapt(self, request: AdaptationRequest, tentativa: int = 1) -> AdaptationResult:
         """Adapta o enunciado e devolve minuta, laudo de escopo e telemetria."""
@@ -195,6 +230,8 @@ class AdapterAgent:
         provider_configurado = getattr(self.llm_client, "provider_name", "custom")
         if provider_configurado in PROVEDORES_SEM_MODELO:
             motivo_fallback = "provedor_sem_modelo"
+        elif self.comandos_por_regra and request.id_caracteristica == ID_COMANDOS_MULTIPLOS:
+            motivo_fallback = "regra_comandos_multiplos"      # escolha, não falha: a regra é melhor que os modelos aqui
         else:
             try:
                 resposta_llm = self._chamar_llm(self._montar_prompt_usuario(request))
@@ -202,6 +239,28 @@ class AdapterAgent:
                 escopo = verificar_escopo(
                     request.enunciado, texto, request.id_caracteristica, request.nivel, trava
                 )
+                if escopo.aprovado and self._conferir(request, escopo):
+                    # Conferente por regra: a minuta perdeu palavra do original; o modelo refaz uma vez.
+                    refeito = request.model_copy(update={
+                        "feedback_auditor": "\n".join(filter(None, [request.feedback_auditor, (
+                            "A minuta perdeu palavras do enunciado original: "
+                            f"{', '.join(escopo.palavras_perdidas[:25])}. Mantenha todas as palavras, números e "
+                            "alternativas do original, na mesma ordem, e aplique só as ações permitidas."
+                        )])),
+                        "minuta_anterior": texto,
+                    })
+                    resposta_llm = self._chamar_llm(self._montar_prompt_usuario(refeito))
+                    texto, justificativas, json_valido_direto = self._parse_json_response(resposta_llm.text)
+                    escopo = verificar_escopo(
+                        request.enunciado, texto, request.id_caracteristica, request.nivel, trava
+                    )
+                    if escopo.aprovado and self._conferir(request, escopo):
+                        logger.warning(
+                            "Minuta do Agente Adaptador perdeu palavras do original duas vezes (%s). "
+                            "O enunciado original foi mantido.",
+                            ", ".join(escopo.palavras_perdidas[:10]),
+                        )
+                        motivo_fallback = "conferente_palavra_perdida"
                 if not escopo.aprovado:
                     logger.warning(
                         "Saída do Agente Adaptador reprovada no isolamento de escopo (%s). "
@@ -215,7 +274,7 @@ class AdapterAgent:
                     "Aplicando a saída de reserva.",
                     type(e).__name__,
                 )
-                motivo_fallback = f"falha_llm:{type(e).__name__}"
+                motivo_fallback = motivo_de_falha(e)
                 json_valido_direto = False
 
         if motivo_fallback:
@@ -272,6 +331,16 @@ class AdapterAgent:
             adaptacao_aplicada=texto.strip() != request.enunciado.strip(),
             escopo=escopo,
             telemetry=telemetria,
+        )
+
+    def _conferir(self, req: AdaptationRequest, escopo: ScopeReport) -> bool:
+        """True quando o conferente por regra reprova a minuta: perdeu palavra do original numa característica sem
+        regra de escopo (onde há regra, o próprio laudo já reprova) e num nível que não manda tirar texto."""
+        return (
+            self.conferente_por_regra
+            and not escopo.regra_aplicada
+            and bool(escopo.palavras_perdidas)
+            and not _acoes_tiram_texto(req)
         )
 
     def _chamar_llm(self, prompt_usuario: str) -> LLMResponse:

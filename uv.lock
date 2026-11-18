@@ -1677,6 +1677,9 @@ docs = [
     { name = "mkdocs-minify-plugin" },
     { name = "pymdown-extensions" },
 ]
+grafo = [
+    { name = "langgraph" },
+]
 rag = [
     { name = "huggingface-hub" },
     { name = "ipykernel" },
@@ -1738,6 +1741,7 @@ docs = [
     { name = "mkdocs-minify-plugin", specifier = ">=0.8.0" },
     { name = "pymdown-extensions", specifier = ">=10.7" },
 ]
+grafo = [{ name = "langgraph", specifier = ">=1.2.19" }]
 rag = [
     { name = "huggingface-hub", specifier = ">=0.23.0" },
     { name = "ipykernel", specifier = ">=6.29.0" },

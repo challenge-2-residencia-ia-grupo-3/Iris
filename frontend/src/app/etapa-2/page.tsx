@@ -25,6 +25,7 @@ export default function Etapa2Page() {
       teacherEmail="marina.alves@escola.edu.br"
       materialPreviewText={materialText}
       onBackToStep1={() => router.push("/etapa-1")}
+      onAdvanceToStep3={() => router.push("/etapa-3")}
     />
   );
 }

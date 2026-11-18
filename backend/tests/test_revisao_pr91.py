@@ -78,7 +78,7 @@ class TestBarreiraComNomeDoCatalogo(unittest.TestCase):
         dados = {**BASE, "caracteristicas_selecionadas": [],
                  "barreiras_observadas": [{"id_caracteristica": ID, "observacao": "Perde o fio."}]}
         texto = _texto_do_pdf(exportar_perfil(dados, "pdf").conteudo)
-        self.assertIn("Sobrecarga de memória de trabalho", texto)
+        self.assertIn("Múltiplos comandos na mesma questão", texto)
         self.assertNotIn(ID, texto)
 
     def test_barreira_fora_do_catalogo_mostra_o_proprio_id(self):

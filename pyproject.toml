@@ -39,6 +39,10 @@ docs = [
     "pymdown-extensions>=10.7",
     "mkdocs-minify-plugin>=0.8.0",
 ]
+grafo = [
+    # opcional: só a aba Arquitetura (LangGraph) do painel de qualidade usa; instalar com `uv sync --group grafo`
+    "langgraph>=1.2.19",
+]
 dev = [
     "pytest>=8.1.0",
     "httpx>=0.27.0",

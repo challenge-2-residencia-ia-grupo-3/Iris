@@ -140,6 +140,7 @@ class ExtractionTelemetry(BaseModel):
     provider: str = "unknown"
     model: str = "unknown"
     used_fallback: bool = False
+    motivo_fallback: Optional[str] = None
     json_valido_direto: bool = True
     total_ms: float = 0.0
     load_ms: float = 0.0

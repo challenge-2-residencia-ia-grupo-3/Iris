@@ -396,10 +396,12 @@ def avaliar_pipeline_ao_vivo(
     metodo_busca: str = "bm25",
     limite_consultas: int = 5,
     usar_fallback_extrativo: bool = True,
+    avaliador_geracao: str = "auto",
 ) -> dict[str, Any]:
     """Executa o RAG ao vivo para `limite_consultas` do gabarito e calcula todas as métricas."""
     import os
     from iris.core.llm_client import get_llm_client
+    from iris.eval.sonnet_judge import julgar_resposta_sonnet, sonnet_judge_status
 
     gabarito_map = _carregar_gabarito_oficial()
     _, _, gerar_mod = carregar_modulos_rag()
@@ -409,6 +411,11 @@ def avaliar_pipeline_ao_vivo(
     status = client.status()
     if not status["primary_available"] and usar_fallback_extrativo:
         os.environ["RAG_LLM"] = "extractive"
+
+    modo_av = (avaliador_geracao or "auto").strip().lower()
+    sonnet_status = sonnet_judge_status()
+    usar_sonnet = modo_av == "sonnet" or (modo_av == "auto" and sonnet_status["ready"])
+    avaliador_efetivo = "lexico_local"
 
     itens_avaliar = list(sorted(gabarito_map.items()))[:limite_consultas]
 
@@ -456,12 +463,12 @@ def avaliar_pipeline_ao_vivo(
             mrrs.append(mrr_q)
             aps_5.append(ap_q)
 
-        # Avalia sustentação frase a frase contra os trechos citados
+        # Avalia sustentação frase a frase contra os trechos citados (Léxico + Sonnet opcional)
         frases = [f.strip() for f in re.split(r"(?<=[.!?])\s+", resposta_texto.strip()) if len(f.split()) >= 4]
         if conf["absteve"]:
-            fid_q = 1.0 if not relevantes else 0.5
+            fid_lex_q = 1.0 if not relevantes else 0.5
         elif not frases:
-            fid_q = 0.0
+            fid_lex_q = 0.0
         else:
             pontos_frases = 0.0
             for f in frases:
@@ -472,11 +479,33 @@ def avaliar_pipeline_ao_vivo(
                     pontos_frases += 1.0
                 elif veredito_f == "parcial":
                     pontos_frases += 0.5
-            fid_q = pontos_frases / len(frases)
+            fid_lex_q = pontos_frases / len(frases)
+
+        rel_lex_q = min(
+            1.0,
+            calcular_similaridade_semantica(pergunta, resposta_texto) * 1.8,
+        ) if not conf["absteve"] else (1.0 if not relevantes else 0.2)
+
+        veredito_detalhado_q: dict[str, Any] | None = None
+        fid_q = fid_lex_q
+        rel_q_final = rel_lex_q
+
+        if usar_sonnet:
+            try:
+                ver_sonnet = julgar_resposta_sonnet(
+                    pergunta=pergunta,
+                    trechos=trechos_entregues,
+                    resposta=resposta_texto,
+                )
+                veredito_detalhado_q = ver_sonnet
+                fid_q = ver_sonnet["fidelidade_sonnet"]
+                rel_q_final = ver_sonnet["relevancia_sonnet"]
+                avaliador_efetivo = "claude_sonnet"
+            except Exception:
+                pass
 
         fidelidades.append(fid_q)
-        rel_q = calcular_similaridade_semantica(pergunta, resposta_texto)
-        relevancias.append(min(1.0, rel_q * 1.8) if not conf["absteve"] else (1.0 if not relevantes else 0.2))
+        relevancias.append(rel_q_final)
 
         just = gab.get("justificativa", "") or " ".join(t["trecho"][:200] for t in trechos_entregues[:2])
         sim_q = calcular_similaridade_semantica(resposta_texto, just)
@@ -506,9 +535,12 @@ def avaliar_pipeline_ao_vivo(
                 "barreira": gab.get("barreira", ""),
                 "llm": res_ao_vivo["llm"],
                 "metodo_efetivo": res_ao_vivo["metodo"],
+                "avaliador_fidelidade": "claude_sonnet" if veredito_detalhado_q else "lexico_local",
                 "resposta": resposta_texto,
                 "recall_at_5": round(r5, 3),
                 "fidelidade_frase": round(fid_q, 3),
+                "fidelidade_lexica": round(fid_lex_q, 3),
+                "veredito_detalhado": veredito_detalhado_q,
                 "citacoes_invalidas": len(conf["citacoes_invalidas"]),
                 "segundos_total": res_ao_vivo["segundos_total"],
                 "metricas_consulta": {
@@ -516,6 +548,7 @@ def avaliar_pipeline_ao_vivo(
                     "mrr": round(mrr_q, 3),
                     "precisao_contexto_ap5": round(ap_q, 3),
                     "atendida_top5": bool(hit),
+                    "veredito_responde": veredito_detalhado_q.get("responde") if veredito_detalhado_q else None,
                 },
                 "trechos_recuperados": trechos_detalhados,
             }
@@ -544,6 +577,8 @@ def avaliar_pipeline_ao_vivo(
 
     return {
         "modo": "ao_vivo",
+        "avaliador_fidelidade": avaliador_efetivo,
+        "sonnet_judge": sonnet_status,
         "n_consultas_avaliadas": len(itens_avaliar),
         "llm_status": status,
         "resumo_recuperacao": {

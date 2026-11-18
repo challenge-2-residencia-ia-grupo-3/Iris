@@ -1,6 +1,6 @@
 # Fontes da base do Íris
 
-40 documentos aceitos na curadoria; **38 entram no índice** (2 ficam só no catálogo como quase duplicata). 22 recusados e 19 não obtidos estão listados no fim.
+60 documentos aceitos na curadoria; **58 entram no índice** (2 ficam só no catálogo como quase duplicata). 23 recusados e 20 não obtidos estão listados no fim.
 
 Gerado por `scripts/juntar_catalogo.py` a partir de `fontes_A..D_*.json`. Acesso em 04/11/2026.
 
@@ -64,6 +64,31 @@ Gerado por `scripts/juntar_catalogo.py` a partir de `fontes_A..D_*.json`. Acesso
 | `AGRAWAL-2024-SIMPLIFICACAO-FIDELIDADE` | [Do Text Simplification Systems Preserve Meaning? A Human Evaluation via Reading Comprehens](https://aclanthology.org/2024.tacl-1.24.pdf) | 2024 | en | estudo_primario | CC BY 4.0 | sim |
 | `HUANG-2024-LLM-NIVEIS-LEITURA` | [Generating Educational Materials with Different Levels of Readability using LLMs](https://arxiv.org/pdf/2406.12787) | 2024 | en | preprint | CC BY 4.0 (licença da versão arXiv) | sim |
 
+## E. Avaliação acessível e redação de itens (20)
+
+| id | título | ano | idioma | evidência | licença | índice |
+|---|---|---|---|---|---|---|
+| `OCDE-2025-PISA-ACESSIBILIDADE` | [Improving accessibility in PISA: Guidelines for revising and designing PISA items (OECD Ed](https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/07/improving-accessibility-in-pisa_7904482a/aa90f707-en.pdf) | 2025 | en | diretriz | CC BY 4.0 (© OECD 2025; declarada na p. 3 do PDF) | sim |
+| `INEP-2010-GUIA-ITENS` | [Guia de Elaboração e Revisão de Itens, Volume 1](https://morretes.pr.gov.br/uploads/pagina/arquivos/GuiaelaboracaoitensINEP.pdf) | 2010 | pt-BR | diretriz | não declarada no PDF (documento público do Inep) | sim |
+| `CHIAVAROLI-2017-ENUNCIADO-NEGATIVO` | [Negatively-Worded Multiple Choice Questions: An Avoidable Threat to Validity](https://files.eric.ed.gov/fulltext/EJ1143360.pdf) | 2017 | en | revisao_narrativa | Copyright do autor; 'Permission is granted to distribute thi | sim |
+| `NCEO-2002-DESENHO-UNIVERSAL` | [Universal Design Applied to Large Scale Assessments (Synthesis Report 44)](https://nceo.umn.edu/publications/onlinepubs/Synthesis44.html) | 2002 | en | revisao_narrativa | 'Any or all portions of this document may be reproduced and  | sim |
+| `NCEO-2003-DESENHO-UNIVERSAL-DESEMPENHO` | [Improving Validity of Large-scale Tests: Universal Design and Student Performance (Technic](https://nceo.umn.edu/publications/onlinepubs/Technical37.htm) | 2003 | en | estudo_primario | 'Any or all portions of this document may be reproduced and  | sim |
+| `PANSANATO-2024-ADAPTACAO-TDAH` | [Um conjunto de diretrizes para a adaptação de avaliações de aprendizagem para alunos com T](https://periodicos.utfpr.edu.br/rtr/article/download/17713/10262) | 2024 | pt-BR | revisao_narrativa | CC BY 4.0 (Creative Commons Atribuição 4.0 Internacional; p. | sim |
+| `WWC-2012-RESOLUCAO-PROBLEMAS` | [Improving Mathematical Problem Solving in Grades 4 Through 8 (NCEE 2012-4055)](https://ies.ed.gov/ncee/wwc/Docs/PracticeGuide/mps_pg_052212.pdf) | 2012 | en | diretriz | domínio público ('This report is in the public domain', p. 4 | sim |
+| `WWC-2012-ESCRITA` | [Teaching Elementary School Students to Be Effective Writers (NCEE 2012-4058)](https://ies.ed.gov/ncee/wwc/Docs/PracticeGuide/writing_pg_062612.pdf) | 2012 | en | diretriz | domínio público ('This report is in the public domain', p. 4 | sim |
+| `PASHLER-2007-ORGANIZAR-ESTUDO` | [Organizing Instruction and Study to Improve Student Learning (NCER 2007-2004)](https://ies.ed.gov/ncee/WWC/Docs/PracticeGuide/20072004.pdf) | 2007 | en | diretriz | domínio público ('This report is in the public domain', p. 3 | sim |
+| `JAROSLAWSKA-2016-INSTRUCOES-MEMORIA` | [Following instructions in a virtual school: Does working memory play a role?](https://pmc.ncbi.nlm.nih.gov/articles/PMC4835523/) | 2016 | en | estudo_primario | CC BY 4.0 (tag <license> do JATS) | sim |
+| `HUNG-2016-EXERCICIO-TDAH` | [Neuroelectric and Behavioral Effects of Acute Exercise on Task Switching in Children with ](https://pmc.ncbi.nlm.nih.gov/articles/PMC5062018/) | 2016 | en | estudo_primario | CC BY 4.0 (tag <license> do JATS) | sim |
+| `IRWIN-2019-TDAH-ALTERNANCIA` | [Do children with attention-deficit/hyperactivity disorder (ADHD) have set shifting deficit](https://pmc.ncbi.nlm.nih.gov/articles/PMC6668027/) | 2019 | en | estudo_primario | sem licença aberta: manuscrito do autor (NIHMS1039490) sob ' | sim |
+| `HAASNOOT-2026-ORDEM-QUESTOES` | [Ordered or scrambled: how the forward sequencing of multiple choice questions affects test](https://pure.uva.nl/ws/files/327888630/Ordered_or_scrambled.pdf) | 2026 | en | estudo_primario | CC BY-NC-ND 4.0 (© 2025 the Author(s); p. 2) | sim |
+| `VANDEPOL-2010-ANDAIME` | [Scaffolding in teacher-student interaction: a decade of research](https://research.vu.nl/ws/files/2755348/252440.pdf) | 2010 | en | revisao_sistematica | CC BY-NC (Creative Commons Attribution Noncommercial License | sim |
+| `RENKL-2000-EXEMPLOS-RESOLVIDOS` | [From Studying Examples to Solving Problems: Fading Worked-Out Solution Steps Helps Learnin](https://escholarship.org/uc/item/81b9j9hs) | 2000 | en | estudo_primario | nenhuma declarada (API do eScholarship: rights = null; PDF s | sim |
+| `KLENDER-2019-ENUNCIADO-NEGATIVO` | [Differences in Item Statistics Between Positively and Negatively Worded Stems on Histology](https://files.eric.ed.gov/fulltext/EJ1239131.pdf) | 2019 | en | estudo_primario | não declarada no PDF; revista de acesso aberto (HAPS), cópia | sim |
+| `CALDWELL-2013-FORMATO-QUESTOES` | [Effects of question formats on student and item performance](https://pmc.ncbi.nlm.nih.gov/articles/PMC3663625/) | 2013 | en | estudo_primario | sem licença aberta: '© 2013 American Association of Colleges | sim |
+| `ARAUJOTOMBI-2022-QUALIDADE-ITENS` | [Qualidade dos itens de múltipla escolha utilizados em um teste de progresso](https://publicacoes.fcc.org.br/eae/article/download/7533/4350/46399) | 2022 | pt-BR | estudo_primario | CC BY-NC ('licença Creative Commons do tipo BY-NC', p. 20) | sim |
+| `CAED-2008-GUIA-ITENS-MATEMATICA` | [Guia de Elaboração de Itens: Matemática](https://docs.ufpr.br/~aanjos/CE095/3_Guia_De_-Elabora%C3%A7%C3%A3o_De_Itens_MT.pdf) | 2008 | pt-BR | diretriz | não declarada | sim |
+| `CASTRO-2023-ENEM-MATEMATICA-TDAH` | [Uma proposta de adaptação da prova do Enem de matemática para alunos com TDAH](http://www.bdtd.uerj.br/handle/1/23053) | 2023 | pt-BR | dissertacao | sem CC; repositório: 'Acesso Aberto'; PDF: 'Autorizo, apenas | sim |
+
 ## Recusados
 
 | parte | id | motivo |
@@ -90,6 +115,7 @@ Gerado por `scripts/juntar_catalogo.py` a partir de `fontes_A..D_*.json`. Acesso
 | D | DAY-2025-GENAI-SIMPLIFICACAO | Preprint arXiv não revisado (CC BY-NC-SA 4.0), 64 páginas. Os 2 documentos de IA já cobrem o bloco, um deles revisado (TACL). Fica como candidato futuro. Arquiv |
 | D | BACHMANN-2018-FONTS-BRAINSCI | Revisão narrativa sobre fontes para dislexia (CC BY, PMC5977080). O PDF da MDPI devolveu 403, e KUSTER/WERY/GALLIUSI já cobrem o tema com dados primários. Não t |
 | D | FIGSHARE-SWELLER-2019 | Cópia em repositório marcada "Copyright - All rights reserved". Usei a versão da editora (CC BY 4.0). |
+| E | FERREIRA-2026-PROVAS-PORTUGUES-TDAH | CC BY 4.0, mas a própria página diz que o texto vem de um TCC e foi adaptado com ferramenta de IA; não passa no critério de credibilidade. |
 
 ## Não obtidos
 
@@ -114,3 +140,4 @@ Gerado por `scripts/juntar_catalogo.py` a partir de `fontes_A..D_*.json`. Acesso
 | D | Meta-análise de sinalização (signaling): Schneider et al. 2018 (Educ Res Rev, 10.1016/j.ed | Unpaywall: is_oa=False nas duas. Sinalização segue SEM fonte no corpus. Sweller 2019 não trata do tema. |
 | D | Rey et al. 2019, "A Meta-analysis of the Segmenting Effect", Educ Psychol Rev, DOI 10.1007 | Unpaywall: is_oa=False. Springer devolveu HTML (paywall). A segmentação aparece só via Sweller 2019 (Spanjers et al. 201 |
 | D | PDF da editora de Dalgaard 2022 (Campbell) e de Simoes 2022 (MDPI) | 403 na Wiley, na MDPI e no PDF do PMC (página de desafio). Usei o XML JATS do Europe PMC, que tem o mesmo conteúdo e lic |
+| E | Beddow, Elliott e Kettler 2013, Test Accessibility: Item Reviews and Lessons Learned from  | CC BY pelo Unpaywall, mas o site pede verificação de robô e não há cópia no PMC, Europe PMC ou ERIC. |

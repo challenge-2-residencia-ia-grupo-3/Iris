@@ -272,8 +272,9 @@ try:
             deduped = _dedupe_str_list(values, "interesses_tematicos")
             unknown = [v for v in deduped if v not in THEMATIC_INTERESTS_BY_ID]
             if unknown:
+                msg_prefix = "Interesse temático desconhecido" if len(unknown) == 1 else "Interesses temáticos desconhecidos"
                 raise ValueError(
-                    f"Interesse(s) temático(s) desconhecido(s): {', '.join(unknown)}. "
+                    f"{msg_prefix}: {', '.join(unknown)}. "
                     f"Opções válidas: {', '.join(sorted(THEMATIC_INTERESTS_BY_ID))}."
                 )
             return deduped
@@ -284,8 +285,9 @@ try:
             deduped = _dedupe_str_list(values, "canais_engajamento_preferenciais")
             unknown = [v for v in deduped if v not in ENGAGEMENT_CHANNELS_BY_ID]
             if unknown:
+                msg_prefix = "Canal de engajamento desconhecido" if len(unknown) == 1 else "Canais de engajamento desconhecidos"
                 raise ValueError(
-                    f"Canal(is) de engajamento desconhecido(s): {', '.join(unknown)}. "
+                    f"{msg_prefix}: {', '.join(unknown)}. "
                     f"Opções válidas: {', '.join(sorted(ENGAGEMENT_CHANNELS_BY_ID))}."
                 )
             return deduped
@@ -321,7 +323,8 @@ except ImportError:
             )
             unknown_int = [v for v in self.interesses_tematicos if v not in THEMATIC_INTERESTS_BY_ID]
             if unknown_int:
-                raise ValueError(f"Interesse(s) temático(s) desconhecido(s): {', '.join(unknown_int)}.")
+                msg_prefix = "Interesse temático desconhecido" if len(unknown_int) == 1 else "Interesses temáticos desconhecidos"
+                raise ValueError(f"{msg_prefix}: {', '.join(unknown_int)}.")
 
             self.canais_engajamento_preferenciais = _dedupe_str_list(
                 canais_engajamento_preferenciais or [], "canais_engajamento_preferenciais"
@@ -330,7 +333,8 @@ except ImportError:
                 v for v in self.canais_engajamento_preferenciais if v not in ENGAGEMENT_CHANNELS_BY_ID
             ]
             if unknown_ch:
-                raise ValueError(f"Canal(is) de engajamento desconhecido(s): {', '.join(unknown_ch)}.")
+                msg_prefix = "Canal de engajamento desconhecido" if len(unknown_ch) == 1 else "Canais de engajamento desconhecidos"
+                raise ValueError(f"{msg_prefix}: {', '.join(unknown_ch)}.")
 
             self.interesses_customizados = _dedupe_str_list(
                 interesses_customizados or [], "interesses_customizados"

@@ -93,7 +93,7 @@ def test_juiz_detecta_intrusao_e_ignora_id_inventado():
     j = json.dumps({"resolveu_questao": False, "modificacoes_intrusivas": [
         {"caracteristica": "impulsividade_leitura_superficial_negacoes", "evidencia": "Vendeu também 8 bonés a R$ 15 cada"},
         {"caracteristica": "id_inexistente", "evidencia": "x"}]})
-    r = AgenteAuditor(Juiz(j)).auditar(ORIG, BOA, TRAVAS, NAO_SEL)
+    r = AgenteAuditor(Juiz(j), intrusao_bloqueia=True).auditar(ORIG, BOA, TRAVAS, NAO_SEL)
     assert r.intrusoes == ("impulsividade_leitura_superficial_negacoes",) and not r.aprovado
 
 
@@ -327,6 +327,11 @@ def test_intrusao_como_aviso_nao_reprova_mas_fica_registrada():
     assert any("intrusão" in m for m in r.motivos)
 
 
-def test_intrusao_bloqueia_por_padrao_e_entra_no_feedback():
+def test_intrusao_vira_aviso_por_padrao():
     r = AgenteAuditor(Juiz(_intrusao_json())).auditar(ORIG, BOA, TRAVAS, NAO_SEL)
+    assert r.aprovado and r.intrusoes == (NAO_SEL[0].id,)
+
+
+def test_intrusao_bloqueia_quando_pedido_e_entra_no_feedback():
+    r = AgenteAuditor(Juiz(_intrusao_json()), intrusao_bloqueia=True).auditar(ORIG, BOA, TRAVAS, NAO_SEL)
     assert not r.aprovado and NAO_SEL[0].id in r.feedback()

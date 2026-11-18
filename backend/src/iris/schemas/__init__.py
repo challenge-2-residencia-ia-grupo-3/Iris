@@ -43,6 +43,18 @@ from iris.schemas.strategy import (
     StrategySource,
     StrategyTelemetry,
 )
+from iris.schemas.scaffolding import (
+    NIVEL_INTENSIVO,
+    NIVEL_LEVE,
+    NIVEL_MODERADO,
+    NIVEIS_VALIDOS,
+    CharacteristicScaffoldingDirective,
+    ScaffoldingCalibrationRequest,
+    ScaffoldingCalibrationResponse,
+    ScaffoldingValidationError,
+    calibrate_scaffolding_service,
+    get_scaffolding_levels_metadata,
+)
 from iris.schemas.materials import (
     MAX_FILE_SIZE_BYTES,
     MAX_OCR_FILE_SIZE_BYTES,
@@ -127,6 +139,16 @@ __all__ = [
     "validate_file_size_limit",
     "validate_material_content",
     "validate_ocr_file_size_limit",
+    "NIVEL_LEVE",
+    "NIVEL_MODERADO",
+    "NIVEL_INTENSIVO",
+    "NIVEIS_VALIDOS",
+    "CharacteristicScaffoldingDirective",
+    "ScaffoldingCalibrationRequest",
+    "ScaffoldingCalibrationResponse",
+    "ScaffoldingValidationError",
+    "calibrate_scaffolding_service",
+    "get_scaffolding_levels_metadata",
 ]
 
 
