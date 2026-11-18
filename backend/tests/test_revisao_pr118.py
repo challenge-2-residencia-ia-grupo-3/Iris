@@ -34,6 +34,18 @@ class TestHistoricoSemDadoPessoal(unittest.TestCase):
         with self.assertRaises(PerfilInvalidoError):
             registrar_intervencao(criar_perfil([ID]), "Checklist", ID, "alta", f"CPF {CPF}; depois do laudo de TDAH melhorou")
 
+    def test_bloqueio_clinico_nao_e_contornado_por_cabecalho_pii(self):
+        with self.assertRaises(PerfilInvalidoError):
+            registrar_intervencao(criar_perfil([ID]), "Checklist", ID, "alta", "Aluno: TDAH precisa de pausas")
+
+    def test_observacao_no_limite_com_email_curto_e_espacos_vazios(self):
+        obs_500 = "a@b.co " + ("x" * 493)
+        self.assertEqual(len(obs_500), 500)
+        p = registrar_intervencao(criar_perfil([ID]), "Checklist", ID, "alta", obs_500)
+        self.assertIn("[EMAIL]", p.historico_intervencoes[-1].observacao or "")
+        p2 = registrar_intervencao(criar_perfil([ID]), "Checklist", ID, "alta", "   ")
+        self.assertIsNone(p2.historico_intervencoes[-1].observacao)
+
 
 if __name__ == "__main__":
     unittest.main()

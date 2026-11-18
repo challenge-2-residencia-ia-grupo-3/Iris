@@ -414,23 +414,31 @@ def registrar_intervencao(
             CODIGO_CARACTERISTICA_FORA_DO_PERFIL,
             ["A intervenção precisa ser ligada a uma característica que já está no perfil."],
         )
-    # O perfil volta ao navegador e fica no localStorage: documento e contato em texto livre saem como marcador antes
-    # (RNF-01/RNF-02). O bloqueio clínico continua na validação abaixo, que vê o texto já sanitizado.
+    # Valida estrutura, limites e termos clínicos (RNF-03) antes de expandir marcadores de PII; depois aplica
+    # sanitize_pii via model_copy para que o JSON retornado ao navegador não leve documentos nem contatos.
     from iris.security.pii_scrubber import sanitize_pii
 
-    def _limpo(t: Any) -> Any:
-        return sanitize_pii(t)[0] if isinstance(t, str) and t.strip() else t
-
+    obs_bruta = observacao.strip() or None if isinstance(observacao, str) else observacao
     novo = {
-        "estrategia": _limpo(estrategia),
+        "estrategia": estrategia,
         "id_caracteristica": id_caracteristica,
         "eficacia": eficacia,
-        "observacao": _limpo(observacao) or None,
+        "observacao": obs_bruta,
         "registrado_em": (agora or datetime.now(timezone.utc)).isoformat(),
     }
     dados = atual.para_json()
     dados["historico_intervencoes"] = [*dados["historico_intervencoes"], novo]
-    return validar_perfil(dados)
+    validar_perfil(dados)
+
+    reg = RegistroIntervencao.model_validate(novo)
+    reg_limpo = reg.model_copy(
+        update={
+            "estrategia": sanitize_pii(reg.estrategia)[0],
+            "observacao": (sanitize_pii(reg.observacao)[0].strip() or None) if reg.observacao else None,
+        }
+    )
+    historico = sorted([*atual.historico_intervencoes, reg_limpo], key=lambda r: r.registrado_em)
+    return atual.model_copy(update={"historico_intervencoes": historico})
 
 
 def resumo_eficacia(perfil: PerfilPedagogico) -> dict[str, dict[str, Any]]:
