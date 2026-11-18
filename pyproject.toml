@@ -64,6 +64,11 @@ rag = [
     "seaborn>=0.13.0",
 ]
 
+# Transcrição local da observação por voz (#10). faster-whisper traz o PyAV (av), usado também para decodificar o áudio em memória.
+voz = [
+    "faster-whisper>=1.1.0",
+]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -77,4 +82,4 @@ testpaths = ["backend/tests"]
 
 [tool.uv]
 package = true
-default-groups = ["docs", "dev"]
+default-groups = ["docs", "dev", "voz"]
