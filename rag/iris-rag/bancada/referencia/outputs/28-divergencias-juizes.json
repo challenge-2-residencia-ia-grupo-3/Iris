@@ -1,0 +1,916 @@
+{
+ "n": 41,
+ "itens": [
+  {
+   "id": "Q01",
+   "pergunta": "Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?",
+   "frase": "Distribua modelos, organizadores gráficos e mapas conceituais que facilitem a anotação e a organização das informações",
+   "refs": [],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "presente em T5"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "T5 lista esses recursos"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T5 sustenta 'modelos, organizadores gráficos, mapas conceituais' para facilitar a anotação; 'organização das informações' não aparece literalmente."
+    }
+   }
+  },
+  {
+   "id": "Q02",
+   "pergunta": "Meu aluno com TDAH perde o foco depois de uns 10 minutos de tarefa. Como dividir a atividade para ele manter a atenção até o fim?",
+   "frase": "Ensinar técnicas de organização e planejamento ajuda o aluno a estruturar o estudo e a execução das atividades.",
+   "refs": [
+    "T3"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "apóia T3"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T3 que fala sobre ensinar técnicas de organização e estudo"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T3 (item 7) fala em técnicas de organização e planejamento para o estudo em casa; 'execução das atividades' não aparece no trecho citado."
+    }
+   }
+  },
+  {
+   "id": "Q03",
+   "pergunta": "Como ajudar um aluno com TDAH que se perde na ordem dos passos de um problema, sem saber o que vem primeiro e o que vem depois?",
+   "frase": "O professor deve fornecer regras adequadas à idade e não duvidosas em relação às expectativas da sala de aula para melhorar o comportamento.",
+   "refs": [
+    "T3"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "texto presente em T3"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "T3 descreve a importância de regras claras"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "O texto diz que o professor 'pode' melhorar o comportamion ao fornecer regras; o 'deve' é uma obrigação que não está no trecho."
+    }
+   }
+  },
+  {
+   "id": "Q04",
+   "pergunta": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+   "frase": "Integrar avisos para que o aluno pare e pense antes de agir, bem como criar espaços adequados para essa reflexão, ajuda a superar a inércia inicial.",
+   "refs": [
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "suporte direto no T5"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T5 e descreve estratégia"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "Os avisos e espaços para parar e pensar estão em T5, mas o efeito de superar a inércia inicial não é afirmado no trecho."
+    }
+   }
+  },
+  {
+   "id": "Q04",
+   "pergunta": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+   "frase": "Oferecer indicações explícitas para cada etapa em qualquer processo sequencial reduz a ambiguidade que pode travar o início da tarefa.",
+   "refs": [
+    "T2"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "parcial",
+     "motivo": "trecho cobre a indicação explícita, mas não menciona redução de ambiguidade"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T2"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "A indicação explícita de etapas está em T2; a relação com redução de ambiguidade e travamento não está no trecho."
+    }
+   }
+  },
+  {
+   "id": "Q04",
+   "pergunta": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+   "frase": "Fornecer diretrizes para dividir as metas de longo prazo em objetivos atingíveis de curto prazo facilita o primeiro passo concreto.",
+   "refs": [
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "suporte direto no T5"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T5"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "A diretriz de dividir metas está em T5; a afirmação sobre facilitar o primeiro passo é inferência não presente no texto."
+    }
+   }
+  },
+  {
+   "id": "Q04",
+   "pergunta": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+   "frase": "Incorporar chamadas para mostrar e explicar o trabalho, como a revisão de portfólio, também pode servir como gatilho para o engajamento ativo.",
+   "refs": [
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "suporte direto no T5"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T5"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "A prática das chamadas e o exemplo de portfólio estão em T5; o papel de gatilho para engajamento não está nesse trecho."
+    }
+   }
+  },
+  {
+   "id": "Q05",
+   "pergunta": "A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?",
+   "frase": "Permitir pausas regulares entre as atividades é importante para que os alunos possam relaxar e recuperar a capacidade atencional.",
+   "refs": [
+    "T3"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "parcial",
+     "motivo": "T3 menciona pausa e relaxamento, mas não explicitamente recuperação da atenção"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "citado e suportado por T3"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T3 item 6 sustenta as pausas e o relaxamento, mas não diz que as pausas recuperam a capacidade atencional."
+    }
+   }
+  },
+  {
+   "id": "Q05",
+   "pergunta": "A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?",
+   "frase": "Essas orientações provêm de uma cartilha sem referências, servindo para linguagem prática com o professor, e não como evidência de eficácia.",
+   "refs": [
+    "T1",
+    "T2",
+    "T3",
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "nao",
+     "motivo": "Nenhum trecho confirma a afirmação sobre falta de referências ou validade"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "nao",
+     "motivo": "não há indicação nos trechos de que a cartilha carece de referências"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "Os trechos mostram um guia para professores, mas nada diz que ele não tem referências nem que não serve como evidência de eficácia. Os trechos citados também não sustentam essas afirmações."
+    }
+   }
+  },
+  {
+   "id": "Q07",
+   "pergunta": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+   "frase": "A leitura em voz alta é um recurso de acessibilidade previsto para garantir a equidade na avaliação de redações, sem alterar a competência avaliada.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "parcial",
+     "motivo": "T1 confirma o recurso de leitura e a equidade, mas não menciona que a competência não é alterada"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "T1 descreve recurso de leitura em voz alta como acessibilidade"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 prevê o auxílio para leitura e a equidade, mas não diz que a competência avaliada não é alterada."
+    }
+   }
+  },
+  {
+   "id": "Q07",
+   "pergunta": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+   "frase": "A simplificação do texto não é citada como estratégia, mas a divisão de trabalhos em etapas é sugerida para facilitar a organização e a conclusão das tarefas.",
+   "refs": [
+    "T3"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "parcial",
+     "motivo": "T3 apoia a divisão de trabalhos, mas não trata da ausência de simplificação"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "parcial",
+     "motivo": "T3 fala sobre divisão de trabalhos em etapas, mas não simplificação"
+    },
+    "haiku": {
+     "sustentada": "sim",
+     "motivo": "A ausência de simplificação vale para o conjunto dos trechos, não para T3; a divisão em etapas está em T3."
+    }
+   }
+  },
+  {
+   "id": "Q07",
+   "pergunta": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+   "frase": "O objetivo das adaptações é promover a inclusão por meio de medidas adaptativas durante os momentos do exame, mantendo os critérios de avaliação.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "parcial",
+     "motivo": "T1 menciona inclusão e medidas adaptativas, mas não afirma explicitamente a manutenção dos critérios de avaliação"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "T1 descreve medidas adaptativas e manutenção de critérios"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 traz inclusão e medidas adaptativas durante o exame, mas 'mantendo os critérios' é uma inferência não literal."
+    }
+   }
+  },
+  {
+   "id": "Q07",
+   "pergunta": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+   "frase": "A avaliação deve considerar as dificuldades de escrita específicas, mas a estrutura dissertativo-argumentativa e o tema proposto permanecem inalterados.",
+   "refs": [
+    "T1",
+    "T4"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T1 fala da consideração das dificuldades de escrita; T4 reforça a necessidade de manter a estrutura dissertativo‑argumentativa"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "T1 e T4 falam sobre manutenção da estrutura e tema"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 diz que as dificuldades de escrita serão consideradas e T4 pede respeitar a estrutura e não fugir ao tema, mas 'permanecem inalterados' é inferido."
+    }
+   }
+  },
+  {
+   "id": "Q08",
+   "pergunta": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+   "frase": "O reforço simbólico, como o uso de adesivos trocáveis por prêmios, é uma estratégia reativa eficaz para alunos com TDAH que necessitam de feedback imediato.",
+   "refs": [
+    "T2"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "Apresentado em T2"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T2 que descreve reforço simbólico"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T2 descreve o reforço simbólico como estratégia reativa com feedback imediato e diz que é 'particularmente útil' para TDAH, mas não diz 'eficaz'."
+    }
+   }
+  },
+  {
+   "id": "Q08",
+   "pergunta": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+   "frase": "A revisão da literatura indica que o reforçamento contingente produziu resultados mais sistemáticos na redução de comportamentos-problema do que o automonitoramento isolado.",
+   "refs": [
+    "T4"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "RC mais sistemático que automonitoramento conforme T4"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T4 que compara RC e automonitoramento"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T4 diz que os resultados do RC foram mais sistemáticos que os do automonitoramento, mas não fala em 'revisão da literatura' nem em automonitoramento 'isolado'; o RC de Gumpel visava comportamentos pró-sociais, não só redução de problemas."
+    }
+   }
+  },
+  {
+   "id": "Q08",
+   "pergunta": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+   "frase": "Estratégias de organização, como dividir trabalhos em etapas e usar cronogramas de atividades, auxiliam na manutenção do tempo de trabalho dedicado às tarefas.",
+   "refs": [
+    "T3",
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "Divisão de tarefas e cronogramas suportados por T3 e T5"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T3 e T5 que falam sobre dividir trabalhos e cronogramas"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T3 sustenta que o cronograma aumentou o tempo de trabalho independente; T5 diz que dividir em etapas facilita a conclusão, sem falar em tempo dedicado à tarefa."
+    }
+   }
+  },
+  {
+   "id": "Q08",
+   "pergunta": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+   "frase": "É importante destacar que a cartilha serve apenas para orientação prática e linguagem, não constituindo evidência de eficácia científica.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "nao",
+     "motivo": "T1 não afirma falta de evidência científica"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T1 que descreve a cartilha"
+    },
+    "haiku": {
+     "sustentada": "nao",
+     "motivo": "Nenhum trecho diz que o guia não é evidência científica; é uma afirmação metodológica sem suporte nos trechos."
+    }
+   }
+  },
+  {
+   "id": "Q11",
+   "pergunta": "Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?",
+   "frase": "Esses princípios estruturam as diretrizes para garantir flexibilidade na apresentação, na expressão e na motivação dos estudantes.",
+   "refs": [
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "parcial",
+     "motivo": "apenas parte suportada por T5"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T5 que descreve a flexibilidade em apresentação, expressão e motivação"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T5 sustenta a flexibilidade nas formas de apresentação, nas respostas e na motivação, mas não diz que os princípios estruturam as diretrizes; isso está em T3."
+    }
+   }
+  },
+  {
+   "id": "Q15",
+   "pergunta": "O que o DUA recomenda para o engajamento: como despertar o interesse e sustentar o esforço e a persistência dos alunos?",
+   "frase": "Essas estratégias visam desenvolver a competência emocional e a autorregulação, essenciais para enfrentar desafios com foco e determinação.",
+   "refs": [
+    "T3",
+    "T4"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T3 diretriz 9 e T4 enfatizam competência emocional e autorregulação"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T3 9.1 e T4 8.1 que tratam de competência emocional e autorregulação"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "Autorregulação e foco/determinação estão nos trechos; 'competência emocional' é a Diretriz 9 (T3), não uma estratégia das diretrizes citadas, e a resposta a liga às estratégias sem base explícita."
+    }
+   }
+  },
+  {
+   "id": "Q17",
+   "pergunta": "Nas diretrizes do DUA, o que se recomenda sobre estabelecer metas, planejar estratégias e monitorar o próprio progresso (as antigas 'funções executivas')?",
+   "frase": "Essas práticas visam desenvolver a autonomia do aluno, garantindo que ele tire maior proveito do ambiente de aprendizagem.",
+   "refs": [
+    "T1",
+    "T4"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T1 fala em tirar maior proveito; T4 fala em apoiar autonomia e maximizar a aprendizagem"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "informação presente em T1 e T4"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "'Tirar maior proveito' está em T1 e T4, mas 'autonomia' não aparece nos trechos citados (aparece só em T2, não citado) e 'garantindo' é um exagero."
+    }
+   }
+  },
+  {
+   "id": "Q18",
+   "pergunta": "Como aplicar o DUA no planejamento de aula numa sala comum inclusiva da escola brasileira? Tem exemplos práticos?",
+   "frase": "Outra estratégia é o uso de tecnologia para elaborar páginas de conteúdo em formato eletrônico acessível, garantindo o acesso ao programa de ensino.",
+   "refs": [
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "Presente em T5 sobre uso de tecnologia"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "contém informação de [T5]"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "A parte sobre páginas eletrônicas acessíveis está em T5; a afirmação de que isso garante o acesso ao programa não está no trecho, que associa o acesso ao programa individualizado."
+    }
+   }
+  },
+  {
+   "id": "Q19",
+   "pergunta": "O que a Lei 14.254/2021 garante aos alunos com TDAH e dislexia na escola?",
+   "frase": "Esse acompanhamento ocorre com o apoio da família e dos serviços de saúde existentes no território.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "corresponde ao Art. 2º de T1"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "texto completo em T1"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 fala em apoio da família e dos serviços de saúde existentes; a expressão 'no território' no T1 qualifica as redes de proteção social, não os serviços de saúde."
+    }
+   }
+  },
+  {
+   "id": "Q23",
+   "pergunta": "O que é o AEE (atendimento educacional especializado), quem tem direito e ele substitui a sala de aula comum?",
+   "frase": "O AEE é definido como uma ação transversal a todos os níveis e modalidades de ensino, que visa fortalecer sistemas de ensino inclusivos.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T1 contém definição transversal e objetivo de fortalecer sistemas inclusivos"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "T1 contém a definição"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 diz que o AEE é defendido como ação transversal, mas atribui o objetivo de fortalecer sistemas inclusivos à Política, não ao AEE."
+    }
+   }
+  },
+  {
+   "id": "Q23",
+   "pergunta": "O que é o AEE (atendimento educacional especializado), quem tem direito e ele substitui a sala de aula comum?",
+   "frase": "A matrícula no AEE não pode ser substitutiva à matrícula e à frequência na classe comum, garantindo a permanência do estudante no ensino regular.",
+   "refs": [
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "Art.8 de T5 proíbe substituição"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "T5 afirma não substitutiva"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T5 (art. 8º) sustenta a primeira parte; a ideia de garantir a permanência está em T1, não no T5 citado."
+    }
+   }
+  },
+  {
+   "id": "Q25",
+   "pergunta": "Aluno com dislexia no ENEM: que atendimento ele tem na redação e como a correção considera a dislexia?",
+   "frase": "A correção considera as dificuldades de escrita específicas da dislexia, como erros ortográficos e grafia irregular, para garantir uma nota mais justa.",
+   "refs": [
+    "T2",
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T2 fala de nota justa; T5 detalha erros ortográficos e grafia irregular"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "parcial",
+     "motivo": "cita T2 e T5; T2 menciona avaliação diferenciada, T5 descreve erros, mas não afirma explicitamente que a correção considera essas dificuldades"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T5 descreve grafia irregular e erros ortográficos como dificuldades e T2 fala em nota mais justa, mas nenhum trecho afirma que esses erros são especificamente considerados na correção; os critérios são apenas anunciados."
+    }
+   }
+  },
+  {
+   "id": "Q27",
+   "pergunta": "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?",
+   "frase": "Três estudos indicaram que o tempo extra teve efeitos positivos em alunos do ensino médio com TDAH em testes de leitura, escrita e matemática.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "descritos em T1"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T1 que descreve estudos positivos"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 cita três estudos positivos com alunos do ensino médio com TDAH, mas o estudo de matemática envolveu alunos do 8º ano e o de escrita incluía alunos com TDAH e DA; a frase generaliza esses detalhes."
+    }
+   }
+  },
+  {
+   "id": "Q27",
+   "pergunta": "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?",
+   "frase": "É importante notar que a maioria das pesquisas analisou o tempo extra em conjunto com outras adaptações, o que dificulta isolar seu efeito individual.",
+   "refs": [
+    "T3"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "refletido em T3"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T3 que fala sobre combinação com outras adaptações"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T3 diz que muitas pesquisas combinaram o tempo extra com outras adaptações; a consequência de dificultar isolar o efeito é inferência não explícita."
+    }
+   }
+  },
+  {
+   "id": "Q28",
+   "pergunta": "Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com TDAH? Qual o tamanho do efeito?",
+   "frase": "Sim, intervenções em sala de aula reduzem comportamentos disruptivos e fora da tarefa, como demonstrado por estudos que observaram a diminuição desses comportamentos após o uso de sistemas de comunicação e extinção.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T1 relata melhora com comunicação e extinção"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "referência direta a T1"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 descreve redução de comportamentos disruptivos (Feil; Stahr) com comunicação e extinção, mas o caso de Stahr é de uma única aluna, e a generalização para 'reduzem' em geral não é literal."
+    }
+   }
+  },
+  {
+   "id": "Q28",
+   "pergunta": "Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com TDAH? Qual o tamanho do efeito?",
+   "frase": "No entanto, os documentos fornecidos não especificam o tamanho do efeito estatístico dessas intervenções.",
+   "refs": [
+    "T4"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T4 não apresenta efeito estatístico"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "nao",
+     "motivo": "T4 não menciona tamanho de efeito"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "Nenhum trecho apresenta tamanho de efeito, então a ausência é coerente com os trechos, mas T4 não afirma isso e não sustenta a frase como citação."
+    }
+   }
+  },
+  {
+   "id": "Q29",
+   "pergunta": "Treino cognitivo (por exemplo, treino de memória de trabalho no computador) melhora os sintomas do TDAH?",
+   "frase": "A meta-análise concluiu que o treino cognitivo não é um tratamento de primeira linha, mas é um tratamento adjunto.",
+   "refs": [
+    "T3"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T3 afirma que há pouco apoio ao treinamento cognitivo como tratamento de primeira linha, mas há suporte como tratamento adjunto."
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "T3 conclui que não há suporte para tratamento de primeira linha"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T3 diz que houve 'pouco apoio' ao treino como tratamento de primeira linha e evidência 'um pouco mais forte' como adjunto; a resposta converte isso em conclusão categórica."
+    }
+   }
+  },
+  {
+   "id": "Q30",
+   "pergunta": "Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o desempenho acadêmico deles?",
+   "frase": "A meta-análise conclui que, embora alguns alunos se beneficiem da inclusão, outros podem se beneficiar de uma educação especial tradicional em ambiente segregado.",
+   "refs": [
+    "T2"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "reflete o que T2 relata"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T2 que menciona benefício misto"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "O conteúdo está em T2, mas os trechos não confirmam que a revisão seja uma meta-análise (T3 diz que a revisão de 2009 não teve meta-análises)."
+    }
+   }
+  },
+  {
+   "id": "Q30",
+   "pergunta": "Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o desempenho acadêmico deles?",
+   "frase": "Portanto, não há uma resposta única, pois o efeito depende das características específicas do aluno e da sala de aula.",
+   "refs": [
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "parcial",
+     "motivo": "T5 indica dependência de moderadores, mas não afirma explicitamente 'não há resposta única'"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T5 que enfatiza a necessidade de estudar moderadores"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T5 apenas diz que podem existir efeitos de interação com moderadores; a afirmação de que o efeito 'depende' é mais forte do que o citado e a conclusão é inferência."
+    }
+   }
+  },
+  {
+   "id": "Q31",
+   "pergunta": "O ensino diferenciado (diferenciação) no ensino médio/secundário tem efeito comprovado no desempenho dos alunos?",
+   "frase": "A implementação dessa abordagem é considerada complexa para os professores, que frequentemente necessitam de orientação considerável para realizá-la corretamente.",
+   "refs": [
+    "T5"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "apoiado por T5"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T5 que descreve complexidade e necessidade de apoio"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T5 diz que é complexa e que os professores 'may need' orientação; 'frequentemente' é acréscimo não presente na fonte."
+    }
+   }
+  },
+  {
+   "id": "Q32",
+   "pergunta": "Intervenções escolares para TDAH testadas em ensaios randomizados melhoram o desempenho acadêmico ou só o comportamento?",
+   "frase": "Esses resultados indicam que as intervenções são eficazes para a promoção de comportamentos mais adequados e para a prevenção do fracasso escolar.",
+   "refs": [
+    "T2"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T2 afirma relevância das intervenções para comportamento adequado e prevenção de fracasso escolar"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "informação completa presente em T2"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T2 diz que as intervenções são eficazes para comportamentos mais adequados, mas para prevenção do fracasso escolar só afirma relevância potencial, com ressalvas de cautela e necessidade de replicação."
+    }
+   }
+  },
+  {
+   "id": "Q34",
+   "pergunta": "Usar uma fonte especial para dislexia, como OpenDyslexic ou Dyslexie, ajuda o aluno a ler melhor?",
+   "frase": "Educadores devem evitar desperdiçar tempo com intervenções sem suporte empírico, priorizando instrução intensiva e multisensorial comprovada.",
+   "refs": [
+    "T2",
+    "T3"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T2 recomenda instrução intensiva multisensorial; T3 alerta contra intervenções sem evidência"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "informação completa nos trechos citados"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T3 sustenta a recomendação sobre intervenções sem suporte empírico; T2 diz que a instrução multisensorial 'provavelmente' inclui-se na intervenção, sem afirmar que é comprovada."
+    }
+   }
+  },
+  {
+   "id": "Q35",
+   "pergunta": "Aumentar o espaçamento entre as letras ajuda a leitura de quem tem dislexia?",
+   "frase": "Os resultados do estudo indicam que o aumento do espaçamento entre letras não produziu vantagem na velocidade ou precisão da leitura para crianças com dislexia.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "afirmação presente em T1"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T1 que relata ausência de vantagem"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 sustenta a ausência de vantagem na velocidade, mas não trata de precisão com espaçamento; a precisão aparece em T3, não citado."
+    }
+   }
+  },
+  {
+   "id": "Q36",
+   "pergunta": "Quantos professores acreditam em neuromitos? E como é isso entre educadores no Brasil?",
+   "frase": "No Brasil, as taxas de endosso de neuromitos foram de 74%, comparadas a 89% de precisão nas demais questões.",
+   "refs": [
+    "T1"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "informação presente em T1"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T1 e corresponde ao trecho"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "Os números 74% e 89% estão em T1, mas T1 os apresenta como precisão (acertos) e não como taxa de endosso. Interpretar 74% como endosso inverte o sentido do dado."
+    }
+   }
+  },
+  {
+   "id": "Q36",
+   "pergunta": "Quantos professores acreditam em neuromitos? E como é isso entre educadores no Brasil?",
+   "frase": "A pesquisa revelou que educadores brasileiros endossam vários neuromitos comuns, com desempenho inferior em itens específicos de neurofisiologia.",
+   "refs": [
+    "T2"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "informação presente em T2"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "parcial",
+     "motivo": "cita T2, mas a frase generaliza “itens específicos de neurofisiologia” que não aparece exatamente, apenas menciona “performance was lowest on questions pertaining to brain characteristics, neurophysiology and function” – parcialmente sustentado"
+    },
+    "haiku": {
+     "sustentada": "sim",
+     "motivo": "T2 afirma que os educadores brasileiros endossaram vários neuromitos comuns e que o desempenho foi menor em neurofisiologia e função."
+    }
+   }
+  },
+  {
+   "id": "Q37",
+   "pergunta": "Sistemas automáticos de simplificação de texto preservam o sentido original? Dá para confiar que o texto simplificado mantém a informação?",
+   "frase": "Portanto, não é possível confiar plenamente na manutenção integral da informação sem uma avaliação humana de compreensão de leitura.",
+   "refs": [
+    "T2",
+    "T4"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T2 e T4 sugerem necessidade de avaliação humana para garantir preservação do sentido"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T2 e T4 que defendem a necessidade de avaliação humana"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "Os trechos sustentam as premissas (avaliações intrínsecas não medem compreensão; RC é proposta), mas a conclusão sobre confiança e exigência de avaliação humana é inferência não afirmada."
+    }
+   }
+  },
+  {
+   "id": "Q38",
+   "pergunta": "Modelos de linguagem (LLMs) conseguem reescrever um material didático em diferentes níveis de leitura mantendo o conteúdo correto?",
+   "frase": "Estudos indicam que modelos de linguagem podem reescrever materiais didáticos para diferentes níveis de leitura, mas com limitações significativas na precisão.",
+   "refs": [
+    "T1",
+    "T2"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T1 mostra a capacidade de reescrever; T2 descreve desafios e limitações de precisão"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "sim",
+     "motivo": "cita T1 e T2 que afirmam a possibilidade e limitações"
+    },
+    "haiku": {
+     "sustentada": "parcial",
+     "motivo": "T1 apresenta o foco em reescrita por níveis, mas nenhum dos trechos citados fala em limitações de precisão. Essa parte está em T3 e T5, não em T1 ou T2."
+    }
+   }
+  },
+  {
+   "id": "Q38",
+   "pergunta": "Modelos de linguagem (LLMs) conseguem reescrever um material didático em diferentes níveis de leitura mantendo o conteúdo correto?",
+   "frase": "Portanto, é necessário mais pesquisa para garantir a qualidade e a confiabilidade do conteúdo educacional gerado por essas ferramentas.",
+   "refs": [
+    "T3"
+   ],
+   "votos": {
+    "gpt-oss-120b": {
+     "sustentada": "sim",
+     "motivo": "T3 conclui que mais pesquisa é necessária"
+    },
+    "gpt-oss-20b": {
+     "sustentada": "parcial",
+     "motivo": "afirmação não citada diretamente nos trechos"
+    },
+    "haiku": {
+     "sustentada": "sim",
+     "motivo": "T3 diz que os achados enfatizam a necessidade de mais pesquisa para garantir a qualidade do conteúdo educacional gerado; 'confiabilidade' é paráfrase próxima."
+    }
+   }
+  }
+ ]
+}

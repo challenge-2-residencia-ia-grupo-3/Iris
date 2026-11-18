@@ -1,0 +1,47 @@
+EXPERIMENTO 3: MODELOS MAIS FORTES NA BUSCA - ver avaliacao/PREREG-modelos-fortes.md (escrito antes)
+Máquina: NVIDIA GeForce RTX 5070 Ti | torch 2.14.1+cu130 | chunks.jsonl sha256 1b517d249bef1873
+Gabarito rascunho v0, 38 perguntas com resposta. 20 candidatos -> reranker -> top-5.
+IC 95% bootstrap por pergunta (2000, semente 20261106). Controle na VPS: recall@5 0,36.
+
+variante         embedding reranker           recall@5 hit@5   MRR   s/pergunta  VRAM   dif. pareada vs A
+A_controle       qwen3     mminilm  0.36 [0.26-0.45]  29/38  0.57      0.11    1.65 GB 
+B_reranker_bge   qwen3     bge-m3   0.37 [0.28-0.47]  29/38  0.61      0.47    3.43 GB +0.02 [-0.02 a +0.05] IC passa pelo zero
+C_embedding_4b   qwen3-4b  mminilm  0.44 [0.35-0.55]  33/38  0.65      0.13    8.21 GB +0.09 [+0.04 a +0.15] IC exclui o zero
+D_os_dois        qwen3-4b  bge-m3   0.47 [0.38-0.56]  34/38  0.67      0.50    9.86 GB +0.11 [+0.04 a +0.18] IC exclui o zero
+
+recall@5 por tipo:
+  dua          n= 8 A=0.41  B=0.45  C=0.51  D=0.50
+  estrategia   n=10 A=0.16  B=0.15  C=0.23  D=0.22
+  evidencia    n= 6 A=0.25  B=0.25  C=0.45  D=0.51
+  mito         n= 4 A=0.40  B=0.45  C=0.40  D=0.40
+  norma        n= 8 A=0.61  B=0.66  C=0.64  D=0.72
+  so_ingles    n= 2 A=0.37  B=0.27  C=0.53  D=0.60
+
+Perguntas que mudaram (recall@5 contra A):
+  Q01 [estrategia] A=0.17 C+0.17 D+0.17
+  Q02 [estrategia] A=0.40 B-0.20 D-0.20
+  Q04 [estrategia] A=0.00 D+0.50
+  Q08 [estrategia] A=0.17 B+0.17 D+0.17
+  Q09 [estrategia] A=0.67 C+0.33
+  Q10 [estrategia] A=0.00 C+0.25
+  Q11 [dua] A=0.20 D+0.20
+  Q13 [dua] A=0.33 C+0.17
+  Q14 [dua] A=0.33 B+0.17 C+0.17 D+0.17
+  Q15 [dua] A=0.40 C+0.20 D+0.20
+  Q16 [dua] A=0.50 C+0.25
+  Q17 [dua] A=0.33 B+0.11 D+0.11
+  Q20 [norma] A=0.25 C+0.25 D+0.25
+  Q23 [norma] A=0.40 D+0.20
+  Q24 [norma] A=0.67 B+0.17 D+0.17
+  Q25 [norma] A=0.50 B+0.25 D+0.25
+  Q27 [evidencia] A=1.00 D-0.33
+  Q28 [evidencia] A=0.00 C+0.80 D+0.80
+  Q29 [evidencia] A=0.50 C-0.25
+  Q30 [evidencia] A=0.00 C+0.17 D+0.33
+  Q31 [evidencia] A=0.00 D+0.25
+  Q32 [evidencia] A=0.00 C+0.50 D+0.50
+  Q34 [mito] A=0.20 B+0.20
+  Q35 [mito] A=0.75 B-0.25 D-0.25
+  Q36 [mito] A=0.25 B+0.25 D+0.25
+  Q37 [so_ingles] A=0.33 C+0.33 D+0.67
+  Q38 [so_ingles] A=0.40 B-0.20 D-0.20

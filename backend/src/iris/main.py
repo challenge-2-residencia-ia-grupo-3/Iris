@@ -26,6 +26,8 @@ from iris import __version__
 from iris.config import RAG_PACOTE_DIR, get_settings, validate_zero_database_configuration
 
 PLAYGROUND_HTML_PATH = Path(__file__).resolve().parent / "static" / "playground.html"
+# Símbolo da Íris, o mesmo do front (frontend/public/favicon.png): ícone da aba do navegador e marca do menu do painel
+ICONE_IRIS_PATH = Path(__file__).resolve().parents[3] / "frontend" / "public" / "favicon.png"
 
 # O gerador do pacote RAG (gerar.py) lê RAG_LLM e RAG_LLM_MODELO do ambiente do processo no momento da
 # geração. A rota de resposta ao vivo ajusta essas variáveis por requisição; a trava impede que duas
@@ -196,6 +198,7 @@ def _handle_rag_search(body: dict[str, Any]) -> dict[str, Any]:
         "metodo_solicitado": busca["metodo_solicitado"],
         "metodo_efetivo": busca["metodo_efetivo"],
         "fallback_aplicado": busca["fallback_aplicado"],
+        "fallback_motivo": busca.get("fallback_motivo"),
         "trechos_rag": trechos,
         "trechos_recuperados": [
             normalizar_trecho_ui(
@@ -321,6 +324,7 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
         "metodo_solicitado": metodo_solicitado,
         "metodo_efetivo": metodo_efetivo,
         "fallback_aplicado": metodo_efetivo != metodo_solicitado,
+        "fallback_motivo": res.get("fallback_motivo"),
         "llm": res.get("llm"),
         "llm_fallback_aplicado": llm_fallback_aplicado,
         "llm_erro": llm_erro,
@@ -559,6 +563,150 @@ def _handle_rag_escolar_run(body: dict[str, Any]) -> dict[str, Any]:
             _RAG_ESCOLAR_PROGRESSO["etapa"] = "concluido"
 
 
+def _handle_rag_escolar_baseline(body: dict[str, Any]) -> dict[str, Any]:
+    """Promove uma rodada a linha de base (`run_id`) ou remove a linha de base (`run_id` vazio)."""
+    from iris.eval.rag_escolar_benchmark import definir_linha_de_base
+
+    run_id = str(body.get("run_id") or "").strip()
+    return definir_linha_de_base(run_id or None)
+
+
+def _handle_arquitetura_langgraph() -> dict[str, Any]:
+    """Grafo dos agentes escrito com LangGraph e os cenários rodados sem modelo (dependência opcional)."""
+    from iris.eval.arquitetura_langgraph import obter_arquitetura
+
+    return obter_arquitetura()
+
+
+def _handle_arquitetura_executar(body: dict[str, Any]) -> dict[str, Any]:
+    """Roda o grafo dos agentes com o texto colado (provedor sem modelo) até a primeira pausa de revisão."""
+    from iris.eval.arquitetura_langgraph import iniciar_execucao
+
+    return iniciar_execucao(str(body.get("texto") or ""), nivel=int(body.get("nivel") or 2))
+
+
+def _handle_arquitetura_retomar(body: dict[str, Any]) -> dict[str, Any]:
+    """Entrega a decisão da professora à pausa e segue até a próxima pausa ou o fim."""
+    from iris.eval.arquitetura_langgraph import retomar_execucao
+
+    return retomar_execucao(
+        str(body.get("thread_id") or ""), str(body.get("decisao") or ""), body.get("texto_editado")
+    )
+
+
+def _handle_mapa_codigo() -> dict[str, Any]:
+    """Mapa do código: módulos lidos com `ast` e, se o arquivo existir, funções do grafo próprio (ast e networkx)."""
+    from iris.eval.mapa_codigo import obter_mapa_codigo
+
+    return obter_mapa_codigo()
+
+
+def _handle_verificacoes() -> dict[str, Any]:
+    """Abas das verificações de qualidade e se a página dele já foi gerada (o menu do playground é montado com isto)."""
+    from iris.eval.verificacoes_qualidade import descrever
+
+    return descrever()
+
+
+def _handle_verificacoes_gerar() -> dict[str, Any]:
+    """Gera de novo a página das verificações de qualidade a partir dos arquivos gravados (sem modelo, sem rede)."""
+    from iris.eval.verificacoes_qualidade import gerar_pagina
+
+    return gerar_pagina()
+
+
+def _handle_verificacoes_medir() -> dict[str, Any]:
+    """Roda as verificações de qualidade sem modelo contra o código atual e gera a página (alguns minutos)."""
+    from iris.eval.verificacoes_qualidade import medir_de_novo
+
+    return medir_de_novo()
+
+
+def _handle_avaliacao_proxima(avaliador: str) -> dict[str, Any]:
+    """A próxima frase para a pessoa avaliar, às cegas (sem o voto dos juízes)."""
+    from iris.eval.avaliacao_humana import proxima
+
+    return proxima(avaliador)
+
+
+def _handle_avaliacao_rotulo(body: dict[str, Any]) -> dict[str, Any]:
+    """Grava o rótulo da pessoa no fim do arquivo e devolve a próxima frase."""
+    from iris.eval.avaliacao_humana import registrar
+
+    return registrar(str(body.get("uid") or ""), str(body.get("rotulo") or ""), str(body.get("avaliador") or ""),
+                     str(body.get("motivo") or ""))
+
+
+def _handle_avaliacao_resumo() -> dict[str, Any]:
+    """Concordância de cada juiz com as pessoas (aparece a partir de 20 frases avaliadas)."""
+    from iris.eval.avaliacao_humana import resumo
+
+    return resumo()
+
+
+def _handle_ataque_pii_run() -> dict[str, Any]:
+    """Roda o ataque de dado pessoal contra o removedor `sanitize_pii` (sem modelo, valores fictícios)."""
+    from iris.eval.ataque_pii import executar_ataque_pii
+
+    return executar_ataque_pii()
+
+
+def _handle_ataque_pii() -> dict[str, Any]:
+    from iris.eval.ataque_pii import obter_ataque_pii
+
+    return obter_ataque_pii()
+
+
+def _handle_rag_escolar_repetir(body: dict[str, Any]) -> dict[str, Any]:
+    """Roda de novo uma rodada registrada (sem gravar) e conta em quantas questões deu igual.
+
+    Usa o mesmo acompanhamento de progresso da bateria, para a tela mostrar a barra durante a repetição.
+    """
+    from iris.eval.rag_escolar_benchmark import repetir_rodada_rag_escolar
+
+    with _RAG_ESCOLAR_LOCK:
+        _RAG_ESCOLAR_PROGRESSO.update(
+            {
+                "running": True,
+                "atual": 0,
+                "total": 0,
+                "questao_atual": None,
+                "etapa": "repetindo a rodada",
+                "inicio_utc": datetime.now(timezone.utc).isoformat(),
+                "inicio_monotonic": time.monotonic(),
+                "log_linhas": [],
+                "resumo_parcial": None,
+            }
+        )
+
+    def _on_step(step: dict[str, Any]) -> None:
+        with _RAG_ESCOLAR_LOCK:
+            _RAG_ESCOLAR_PROGRESSO["atual"] = int(step.get("atual", 0))
+            _RAG_ESCOLAR_PROGRESSO["total"] = int(step.get("total", 0))
+            _RAG_ESCOLAR_PROGRESSO["questao_atual"] = step.get("questao_atual")
+            _RAG_ESCOLAR_PROGRESSO["etapa"] = "repetindo a rodada"
+
+    try:
+        return repetir_rodada_rag_escolar(str(body.get("run_id") or "").strip() or None, on_step=_on_step)
+    finally:
+        with _RAG_ESCOLAR_LOCK:
+            _RAG_ESCOLAR_PROGRESSO["running"] = False
+            _RAG_ESCOLAR_PROGRESSO["etapa"] = "concluido"
+
+
+def _handle_rag_escolar_recusa_run(body: dict[str, Any]) -> dict[str, Any]:
+    """Roda o teste de recusa: perguntas que a base não responde, contando em quantas o RAG recusou."""
+    from iris.eval.rag_escolar_benchmark import executar_teste_de_recusa
+
+    return executar_teste_de_recusa(metodo=str(body.get("metodo") or "").strip() or None, k=int(body.get("k") or 5))
+
+
+def _handle_rag_escolar_recusa() -> dict[str, Any]:
+    from iris.eval.rag_escolar_benchmark import obter_teste_de_recusa
+
+    return obter_teste_de_recusa()
+
+
 def _handle_rag_escolar_analytics(
     run_id: str | None = None,
     disciplina: str | None = None,
@@ -621,6 +769,23 @@ def create_app() -> Any:
         allow_headers=["*"],
     )
 
+    @app.middleware("http")
+    async def so_local_para_bancada(request: Any, call_next: Any) -> Any:
+        # As telas de verificação de qualidade (rotas /verificacoes e /api/v1/eval/verificacoes-qualidade) só respondem ao próprio computador.
+        from iris.eval.verificacoes_qualidade import (
+            MENSAGEM_SO_LOCAL,
+            caminho_protegido,
+            pedido_local,
+        )
+
+        if caminho_protegido(request.url.path):
+            endereco = request.client.host if request.client else None
+            if not pedido_local(endereco, request.headers):
+                from fastapi.responses import JSONResponse
+
+                return JSONResponse({"detail": MENSAGEM_SO_LOCAL}, status_code=403)
+        return await call_next(request)
+
     @app.get("/", response_class=HTMLResponse, tags=["frontend"])
     def index_page() -> str:
         return _load_playground_html()
@@ -652,6 +817,12 @@ def create_app() -> Any:
 
     if scaffolding_router is not None:
         app.include_router(scaffolding_router, prefix="/api/v1")
+
+    # Registra rota de orquestração multiagentes da Etapa 4 (Issues #15, #16, #17, #18 e #19)
+    from iris.api.routes.agents import router as agents_router
+
+    if agents_router is not None:
+        app.include_router(agents_router, prefix="/api/v1")
 
     @app.get("/api/v1/catalog", tags=["catalogo"])
     def get_catalog() -> dict[str, Any]:
@@ -758,6 +929,157 @@ def create_app() -> Any:
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
 
+    @app.post("/api/v1/eval/rag-escolar/baseline", tags=["eval"])
+    # Body() como valor padrão, no mesmo padrão das rotas vizinhas: com anotações adiadas e o Body importado aqui
+    # dentro, a forma Annotated[..., Body()] não é resolvida pelo FastAPI e o corpo chega vazio.
+    def baseline_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_rag_escolar_baseline(payload)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v1/eval/arquitetura-langgraph", tags=["eval"])
+    def arquitetura_langgraph() -> dict[str, Any]:
+        return _handle_arquitetura_langgraph()
+
+    # Body() como valor padrão, no mesmo padrão das rotas vizinhas (ver a nota em baseline_rag_escolar).
+    @app.post("/api/v1/eval/arquitetura-langgraph/executar", tags=["eval"])
+    def arquitetura_executar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_arquitetura_executar(payload)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        except RuntimeError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/arquitetura-langgraph/retomar", tags=["eval"])
+    def arquitetura_retomar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_arquitetura_retomar(payload)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/favicon.png", include_in_schema=False)
+    @app.get("/favicon.ico", include_in_schema=False)
+    def icone_iris() -> Any:
+        from fastapi import HTTPException
+        from fastapi.responses import Response
+
+        if not ICONE_IRIS_PATH.exists():
+            raise HTTPException(status_code=404, detail="sem frontend/public/favicon.png")
+        return Response(content=ICONE_IRIS_PATH.read_bytes(), media_type="image/png")
+
+    @app.get("/verificacoes", include_in_schema=False)
+    def verificacoes_sem_barra() -> Any:
+        # a página pede "status.json" por caminho relativo: com a barra no fim ele cai em /verificacoes/status.json
+        from fastapi.responses import RedirectResponse
+
+        return RedirectResponse(url="/verificacoes/")
+
+    @app.get("/verificacoes/", response_class=HTMLResponse, tags=["frontend"])
+    def verificacoes_pagina(embutido: str | None = None) -> str:
+        from iris.eval.verificacoes_qualidade import ler_pagina
+
+        return ler_pagina(embutido=embutido is not None)
+
+    @app.get("/verificacoes/status.json", include_in_schema=False)
+    def verificacoes_status() -> Any:
+        from fastapi import HTTPException
+        from fastapi.responses import Response
+
+        from iris.eval.verificacoes_qualidade import ler_status
+
+        dado = ler_status()
+        if dado is None:
+            raise HTTPException(status_code=404, detail="sem status.json (só existe na cópia publicada pelo vigia)")
+        return Response(content=dado, media_type="application/json")
+
+    @app.get("/api/v1/eval/avaliacao-humana/proxima", tags=["eval"])
+    def avaliacao_proxima(avaliador: str = "") -> dict[str, Any]:
+        from fastapi import HTTPException
+
+        try:
+            return _handle_avaliacao_proxima(avaliador)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/avaliacao-humana/rotulo", tags=["eval"])
+    def avaliacao_rotulo(body: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_avaliacao_rotulo(body)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v1/eval/avaliacao-humana/resumo", tags=["eval"])
+    def avaliacao_resumo() -> dict[str, Any]:
+        return _handle_avaliacao_resumo()
+
+    @app.get("/api/v1/eval/verificacoes-qualidade", tags=["eval"])
+    def verificacoes() -> dict[str, Any]:
+        return _handle_verificacoes()
+
+    @app.post("/api/v1/eval/verificacoes-qualidade/gerar", tags=["eval"])
+    def verificacoes_gerar() -> dict[str, Any]:
+        return _handle_verificacoes_gerar()
+
+    @app.post("/api/v1/eval/verificacoes-qualidade/medir", tags=["eval"])
+    def verificacoes_medir() -> dict[str, Any]:
+        return _handle_verificacoes_medir()
+
+    @app.get("/api/v1/eval/mapa-codigo", tags=["eval"])
+    def mapa_codigo() -> dict[str, Any]:
+        return _handle_mapa_codigo()
+
+    @app.post("/api/v1/eval/ataque-pii", tags=["eval"])
+    def ataque_pii_run() -> dict[str, Any]:
+        return _handle_ataque_pii_run()
+
+    @app.get("/api/v1/eval/ataque-pii", tags=["eval"])
+    def ataque_pii() -> dict[str, Any]:
+        return _handle_ataque_pii()
+
+    @app.post("/api/v1/eval/rag-escolar/repetir", tags=["eval"])
+    # Body() como valor padrão, no mesmo padrão das rotas vizinhas: com anotações adiadas e o Body importado aqui
+    # dentro, a forma Annotated[..., Body()] não é resolvida pelo FastAPI e o corpo chega vazio.
+    def repetir_rag_escolar(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_rag_escolar_repetir(payload)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/rag-escolar/recusa", tags=["eval"])
+    # Body() como valor padrão, no mesmo padrão das rotas vizinhas: com anotações adiadas e o Body importado aqui
+    # dentro, a forma Annotated[..., Body()] não é resolvida pelo FastAPI e o corpo chega vazio.
+    def recusa_rag_escolar_run(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_rag_escolar_recusa_run(payload)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v1/eval/rag-escolar/recusa", tags=["eval"])
+    def recusa_rag_escolar() -> dict[str, Any]:
+        return _handle_rag_escolar_recusa()
+
     @app.get("/api/v1/eval/rag-escolar/progress", tags=["eval"])
     def progress_rag_escolar() -> dict[str, Any]:
         return _handle_rag_escolar_progress()
@@ -820,6 +1142,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
 
         def do_GET(self) -> None:  # noqa: N802
             parsed = urlparse(self.path)
+            if not self._bancada_permitida(parsed.path):
+                return
             if parsed.path == "/" or parsed.path.startswith("/index"):
                 raw = _load_playground_html().encode("utf-8")
                 self.send_response(200)
@@ -917,6 +1241,59 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 )
             elif parsed.path == "/api/v1/eval/rag-escolar/progress":
                 self._send_json(_handle_rag_escolar_progress())
+            elif parsed.path == "/api/v1/eval/rag-escolar/recusa":
+                self._send_json(_handle_rag_escolar_recusa())
+            elif parsed.path == "/api/v1/eval/ataque-pii":
+                self._send_json(_handle_ataque_pii())
+            elif parsed.path == "/api/v1/eval/arquitetura-langgraph":
+                self._send_json(_handle_arquitetura_langgraph())
+            elif parsed.path in ("/favicon.png", "/favicon.ico"):
+                if ICONE_IRIS_PATH.exists():
+                    dado = ICONE_IRIS_PATH.read_bytes()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "image/png")
+                    self.send_header("Content-Length", str(len(dado)))
+                    self.end_headers()
+                    self.wfile.write(dado)
+                else:
+                    self._send_json({"detail": "sem frontend/public/favicon.png"}, status=404)
+            elif parsed.path == "/verificacoes":
+                self.send_response(302)
+                self.send_header("Location", "/verificacoes/")
+                self.end_headers()
+            elif parsed.path == "/verificacoes/":
+                from iris.eval.verificacoes_qualidade import ler_pagina
+
+                raw = ler_pagina(embutido="embutido" in parse_qs(parsed.query, keep_blank_values=True)).encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(raw)))
+                self.end_headers()
+                self.wfile.write(raw)
+            elif parsed.path == "/verificacoes/status.json":
+                from iris.eval.verificacoes_qualidade import ler_status
+
+                dado = ler_status()
+                if dado is None:
+                    self._send_json({"detail": "sem status.json (só existe na cópia publicada pelo vigia)"}, status=404)
+                else:
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(dado)))
+                    self.end_headers()
+                    self.wfile.write(dado)
+            elif parsed.path == "/api/v1/eval/avaliacao-humana/proxima":
+                try:
+                    avaliador = (parse_qs(parsed.query).get("avaliador") or [""])[0]
+                    self._send_json(_handle_avaliacao_proxima(avaliador))
+                except ValueError as exc:
+                    self._send_json({"detail": str(exc)}, status=422)
+            elif parsed.path == "/api/v1/eval/avaliacao-humana/resumo":
+                self._send_json(_handle_avaliacao_resumo())
+            elif parsed.path == "/api/v1/eval/verificacoes-qualidade":
+                self._send_json(_handle_verificacoes())
+            elif parsed.path == "/api/v1/eval/mapa-codigo":
+                self._send_json(_handle_mapa_codigo())
             elif parsed.path == "/api/v1/eval/rag-escolar/analytics":
                 qs = parse_qs(parsed.query)
                 self._send_json(
@@ -982,7 +1359,22 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     status=500,
                 )
 
+        def _bancada_permitida(self, caminho: str) -> bool:
+            """As telas de verificação de qualidade só respondem ao próprio computador (a página leva texto sem licença aberta)."""
+            from iris.eval.verificacoes_qualidade import (
+            MENSAGEM_SO_LOCAL,
+            caminho_protegido,
+            pedido_local,
+        )
+
+            if caminho_protegido(caminho) and not pedido_local(self.client_address[0], self.headers):
+                self._send_json({"detail": MENSAGEM_SO_LOCAL}, status=403)
+                return False
+            return True
+
         def do_POST(self) -> None:  # noqa: N802
+            if not self._bancada_permitida(urlparse(self.path).path):
+                return
             if self.path.startswith("/api/v1/materials/upload"):
                 self._handle_upload()
                 return
@@ -1022,6 +1414,52 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/run":
                 try:
                     self._send_json(_handle_rag_escolar_run(body))
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/avaliacao-humana/rotulo":
+                try:
+                    self._send_json(_handle_avaliacao_rotulo(body))
+                except KeyError as exc:
+                    self._send_json({"detail": str(exc.args[0])}, status=404)
+                except ValueError as exc:
+                    self._send_json({"detail": str(exc)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/verificacoes-qualidade/gerar":
+                self._send_json(_handle_verificacoes_gerar())
+            elif urlparse(self.path).path == "/api/v1/eval/verificacoes-qualidade/medir":
+                self._send_json(_handle_verificacoes_medir())
+            elif urlparse(self.path).path == "/api/v1/eval/ataque-pii":
+                self._send_json(_handle_ataque_pii_run())
+            elif urlparse(self.path).path == "/api/v1/eval/arquitetura-langgraph/executar":
+                try:
+                    self._send_json(_handle_arquitetura_executar(body))
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
+                except RuntimeError as err:
+                    self._send_json({"detail": str(err)}, status=503)
+            elif urlparse(self.path).path == "/api/v1/eval/arquitetura-langgraph/retomar":
+                try:
+                    self._send_json(_handle_arquitetura_retomar(body))
+                except KeyError as err:
+                    self._send_json({"detail": str(err.args[0])}, status=404)
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/repetir":
+                try:
+                    self._send_json(_handle_rag_escolar_repetir(body))
+                except KeyError as err:
+                    self._send_json({"detail": str(err.args[0])}, status=404)
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/recusa":
+                try:
+                    self._send_json(_handle_rag_escolar_recusa_run(body))
+                except ValueError as err:
+                    self._send_json({"detail": str(err)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/rag-escolar/baseline":
+                try:
+                    self._send_json(_handle_rag_escolar_baseline(body))
+                except KeyError as err:
+                    self._send_json({"detail": str(err.args[0])}, status=404)
                 except ValueError as err:
                     self._send_json({"detail": str(err)}, status=422)
             elif self.path.startswith("/api/v1/catalogs/engagement"):
@@ -1113,6 +1551,29 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json(resp.model_dump())
                 except MaterialValidationError as err:
                     self._send_json({"detail": err.to_dict()}, status=422)
+            elif urlparse(self.path).path == "/api/v1/agents/adapt":
+                from iris.api.routes.agents import (
+                    AgentOrchestrationValidationError,
+                    adapt_material_multiagent_service,
+                )
+
+                try:
+                    resp = adapt_material_multiagent_service(body)
+                    self._send_json(resp.model_dump())
+                except AgentOrchestrationValidationError as err:
+                    self._send_json({"detail": err.to_dict()}, status=422)
+                except Exception as err:  # noqa: BLE001
+                    self._send_json(
+                        {
+                            "detail": {
+                                "status": "error",
+                                "code": "INTERNAL_ERROR",
+                                "field": "agents",
+                                "detail": f"Erro interno na orquestração multiagentes: {err}",
+                            }
+                        },
+                        status=500,
+                    )
             else:
 
                 self._send_json({"error": "Not found", "path": self.path}, status=404)

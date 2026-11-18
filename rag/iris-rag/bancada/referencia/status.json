@@ -1,0 +1,239 @@
+{
+ "commit_grupo": "65e1f09",
+ "commit_grupo_titulo": "build(make): automatiza instalacao do uv e verificacao idempotente no make up e setup",
+ "commit_grupo_autor": "Ian Costa",
+ "commit_privado": "b399203",
+ "rodada_em": "2026-11-12T21:09:39-03:00",
+ "verificado_em": "2026-11-13T09:15:49-03:00",
+ "aprovado": true,
+ "portoes": [
+  {
+   "portao": "CI do grupo (GitHub Actions)",
+   "ok": null,
+   "detalhe": "nenhum check registrado neste commit"
+  },
+  {
+   "portao": "rastro do pipeline",
+   "ok": true,
+   "segundos": 5.6,
+   "detalhe": ""
+  },
+  {
+   "portao": "bateria adversarial",
+   "ok": true,
+   "segundos": 6.4,
+   "detalhe": ""
+  },
+  {
+   "portao": "ablação",
+   "ok": true,
+   "segundos": 12.5,
+   "detalhe": ""
+  },
+  {
+   "portao": "mapa do código",
+   "ok": true,
+   "segundos": 1.7,
+   "detalhe": ""
+  },
+  {
+   "portao": "grafo do código (GitNexus)",
+   "ok": true,
+   "segundos": 104.0,
+   "detalhe": ""
+  },
+  {
+   "portao": "reprodutibilidade",
+   "ok": true,
+   "segundos": 0.2,
+   "detalhe": ""
+  },
+  {
+   "portao": "custo",
+   "ok": true,
+   "segundos": 0.2,
+   "detalhe": ""
+  },
+  {
+   "portao": "fila de revisão",
+   "ok": true,
+   "segundos": 0.2,
+   "detalhe": ""
+  },
+  {
+   "portao": "registro das métricas",
+   "ok": true,
+   "segundos": 1.6,
+   "detalhe": ""
+  },
+  {
+   "portao": "conjunto de avaliação (166 itens)",
+   "ok": true,
+   "segundos": 40.4,
+   "detalhe": ""
+  },
+  {
+   "portao": "juízes x pessoas",
+   "ok": true,
+   "segundos": 3.6,
+   "detalhe": ""
+  },
+  {
+   "portao": "RAG: tríade",
+   "ok": true,
+   "segundos": 1.1,
+   "detalhe": ""
+  },
+  {
+   "portao": "RAGAS do grupo",
+   "ok": true,
+   "segundos": 15.3,
+   "detalhe": ""
+  },
+  {
+   "portao": "ataque em massa",
+   "ok": true,
+   "segundos": 63.2,
+   "detalhe": ""
+  },
+  {
+   "portao": "orçamento RNF-07/08",
+   "ok": true,
+   "segundos": 16.5,
+   "detalhe": ""
+  },
+  {
+   "portao": "rastro de produção",
+   "ok": true,
+   "segundos": 8.4,
+   "detalhe": ""
+  },
+  {
+   "portao": "validação das saídas",
+   "ok": true,
+   "detalhe": ""
+  },
+  {
+   "portao": "qualidade: conjunto de avaliação",
+   "ok": true,
+   "detalhe": "166 itens, nota 1.0, conjunto v1"
+  },
+  {
+   "portao": "qualidade: juiz calibrado contra pessoas",
+   "ok": null,
+   "detalhe": "aguardando rotulos: 0 frases rotuladas por pessoa; recomendado 356. Notas do juiz não são calibradas."
+  },
+  {
+   "portao": "qualidade: RAG: busca, fidelidade, citação, abstenção",
+   "ok": true,
+   "detalhe": "v1 aprovada; primeiro elo quebrado: nenhum 27, busca 9, fidelidade 1, abstencao 2, citacao 1"
+  },
+  {
+   "portao": "qualidade: ataque em massa (dados pessoais)",
+   "ok": true,
+   "detalhe": "vazamento geral 708/1020; 33 padrões conhecidos (dívida, viram issue)"
+  },
+  {
+   "portao": "qualidade: orçamento (RNF-07 e RNF-08)",
+   "ok": true,
+   "detalhe": "0 estouros duros, 6 alertas; com modelo real, 14 cenários projetados estouram o RNF-07 (aviso)"
+  },
+  {
+   "portao": "qualidade: rastro de produção sem dado pessoal",
+   "ok": true,
+   "detalhe": "8/8 tentativas de vazamento recusadas"
+  },
+  {
+   "portao": "regressão das métricas",
+   "ok": true,
+   "detalhe": ""
+  }
+ ],
+ "metricas": {
+  "adversarial_ok": 30,
+  "adversarial_total": 41,
+  "pii_ok": 10,
+  "pii_total": 21,
+  "injecao_ok": 7,
+  "injecao_total": 7,
+  "formato_ok": 13,
+  "formato_total": 13,
+  "etapas_ok": 80,
+  "etapas_nao_implementadas": 14,
+  "etapas_erro": 0,
+  "latencia_pipeline_s": 2.255,
+  "modulos": 69,
+  "modulos_sem_teste": 27,
+  "funcoes": 579,
+  "testes": 33,
+  "simbolos": 1284,
+  "chamadas": 1210,
+  "ablacao_trcc_micro": 1.0,
+  "ablacao_comando_conj_pct": 3.3,
+  "ablacao_falhas": 0,
+  "avaliacao_nota": 1.0,
+  "avaliacao_trcc_aprovado": 0.994,
+  "avaliacao_conjugado_resolvido": 0.76,
+  "avaliacao_aderencia_nivel": 0.3916,
+  "ataque_vazamento_pct": 69.4,
+  "ataque_vaza_clinico_pct": 100.0,
+  "ataque_vaza_contato_pct": 33.3,
+  "ataque_vaza_documento_pct": 56.0,
+  "ataque_vaza_nome_pct": 83.3,
+  "ataque_falso_positivo_pct": 29.0,
+  "ataque_padroes": 33,
+  "orcamento_estouros_duros": 0
+ },
+ "alvo": "dev",
+ "pr": null,
+ "branch": "dev",
+ "prs_verificados": [
+  {
+   "pr": 85,
+   "sha": "c4f9719",
+   "aprovado": true,
+   "rodada_em": "2026-11-13T09:10:27-03:00"
+  },
+  {
+   "pr": 84,
+   "sha": "c978e9b",
+   "aprovado": true,
+   "rodada_em": "2026-11-13T08:38:05-03:00"
+  },
+  {
+   "pr": 83,
+   "sha": "b8f7451",
+   "aprovado": true,
+   "rodada_em": "2026-11-12T21:14:25-03:00"
+  },
+  {
+   "pr": 82,
+   "sha": "ff0c85a",
+   "aprovado": true,
+   "rodada_em": "2026-11-12T21:19:11-03:00"
+  },
+  {
+   "pr": 81,
+   "sha": "4479fd9",
+   "aprovado": false,
+   "rodada_em": "2026-11-12T20:57:13-03:00"
+  },
+  {
+   "pr": 80,
+   "sha": "0513128",
+   "aprovado": false,
+   "rodada_em": "2026-11-12T21:00:33-03:00"
+  },
+  {
+   "pr": 74,
+   "sha": "289d9ee",
+   "aprovado": true,
+   "rodada_em": "2026-11-12T21:24:02-03:00"
+  }
+ ],
+ "publicado": {
+  "grupo": "65e1f09",
+  "privado": "b399203",
+  "em": "2026-11-12T21:09:39-03:00"
+ }
+}

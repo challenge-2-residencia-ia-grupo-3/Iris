@@ -1,4 +1,4 @@
-"""Junta os quatro catálogos de curadoria (partes A a D) num único fontes.json e gera FONTES.md.
+"""Junta os cinco catálogos de curadoria (partes A a E) num único fontes.json e gera FONTES.md.
 
 uso:  python3 scripts/juntar_catalogo.py      (rodar na raiz iris-rag/)
 
@@ -19,6 +19,7 @@ PARTES = {
     "B": ("fontes_B_funcoes_executivas.json", "TDAH e funções executivas"),
     "C": ("fontes_C_normas_mec.json", "Normas e MEC"),
     "D": ("fontes_D_pesquisa.json", "Pesquisa acadêmica"),
+    "E": ("fontes_E_avaliacao.json", "Avaliação acessível e redação de itens"),
 }
 QUASE_DUPLICATAS = {
     "CAST-UDL-GUIDELINES-3-0-2024": "CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024",

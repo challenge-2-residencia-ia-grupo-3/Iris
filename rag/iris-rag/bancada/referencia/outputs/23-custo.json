@@ -1,0 +1,58 @@
+[
+ {
+  "peca": "busca + geração (qwen3+rerank, qwen3.8-27b Groq)",
+  "onde": "VPS CPU + Groq",
+  "n": 40,
+  "mediana_s": 28.6,
+  "extra": "inclui espera do limite do Groq"
+ },
+ {
+  "peca": "busca bilíngue (6 variantes juntas)",
+  "onde": "VPS CPU",
+  "n": 38,
+  "mediana_s": 28.4,
+  "extra": "inclui tradução no Groq"
+ },
+ {
+  "peca": "busca qwen3 + mminilm",
+  "onde": "PC RTX 5070 Ti",
+  "n": 38,
+  "mediana_s": 0.11,
+  "extra": "VRAM 1.65 GB"
+ },
+ {
+  "peca": "busca qwen3 + bge-m3",
+  "onde": "PC RTX 5070 Ti",
+  "n": 38,
+  "mediana_s": 0.47,
+  "extra": "VRAM 3.43 GB"
+ },
+ {
+  "peca": "busca qwen3-4b + mminilm",
+  "onde": "PC RTX 5070 Ti",
+  "n": 38,
+  "mediana_s": 0.13,
+  "extra": "VRAM 8.21 GB"
+ },
+ {
+  "peca": "busca qwen3-4b + bge-m3",
+  "onde": "PC RTX 5070 Ti",
+  "n": 38,
+  "mediana_s": 0.5,
+  "extra": "VRAM 9.86 GB"
+ },
+ {
+  "peca": "juiz Claude Haiku 5.5",
+  "onde": "API Anthropic",
+  "n": 35,
+  "mediana_s": 8.6,
+  "extra": "tokens 156057 entrada + 74403 saída = US$ 0.053 na rodada (US$ 1.51 por mil respostas)"
+ },
+ {
+  "peca": "juiz gpt-oss-20b local",
+  "onde": "PC RTX (Ollama)",
+  "n": 35,
+  "mediana_s": 36.4,
+  "extra": "tokens 91942 + 18242; custo de API zero; ~24 tokens/s medidos (abaixo do esperado, ver skill de hardware)"
+ }
+]

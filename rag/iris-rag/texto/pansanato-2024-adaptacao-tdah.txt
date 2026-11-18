@@ -1,0 +1,1106 @@
+=== p. 1 ===
+Página | 1
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+https://periodicos.utfpr.edu.br/rtr
+Um
+conjunto
+de
+diretrizes
+para
+a
+adaptação de avaliações de aprendizagem
+para alunos com TDAH
+RESUMO
+Luciano Tadeu Esteves
+Pansanato
+luciano@utfpr.edu.br
+https://orcid.org/0000-0002-7121-2735
+Universidade Tecnológica Federal do
+Paraná, Cornélio Procópio, Paraná,
+Brasil
+Bruna Rafaela da Silva
+brunnarafaelacrt@gmail.com
+https://orcid.org/0000-0002-2098-5869
+Universidade Tecnológica Federal do
+Paraná, Cornélio Procópio, Paraná,
+Brasil
+Para que alunos com Transtorno do Déficit de Atenção com Hiperatividade (TDAH)
+sejam incluídos de maneira adequada e possam participar de maneira permanente no
+processo de ensino e aprendizagem, podem ser necessárias algumas adaptações
+curriculares que criem as condições que favoreçam a inclusão. O objetivo deste
+trabalho foi desenvolver um conjunto de Diretrizes para a Adaptação de Avaliações de
+Aprendizagem para Alunos com TDAH. Essas diretrizes foram elaboradas a partir de
+revisão bibliográfica para levantamento das características do TDAH e de análise
+documental de uma coleção de avaliações de aprendizagem aplicadas a alunos do
+Ensino Fundamental para identificar casos nos quais um aluno com TDAH poderia ter
+dificuldade. O resultado é um conjunto de dez diretrizes que pode ser utilizado por um
+professor para adaptar as avaliações de aprendizagem para alunos com TDAH. Nesse
+sentido, este trabalho pode contribuir para a compreensão da importância da
+adaptação curricular de avaliações de aprendizagem para alunos com TDAH e o
+resultado oferece possibilidades para a melhoria das práticas de inclusão através da
+apropriação por professores da habilidade de elaborar material adaptado para alunos
+com TDAH.
+PALAVRAS-CHAVE: Transtorno de déficit de atenção e hiperatividade. Avaliação da
+aprendizagem. Adaptação curricular.
+
+=== p. 2 ===
+Página | 2
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+INTRODUÇÃO
+“O TDAH encontra-se entre as maiores demandas de encaminhamentos de
+alunos a profissionais da saúde, pelas escolas, sendo um transtorno altamente
+impactante na vida social e acadêmica do indivíduo” (BOGOSSIAN, 2021, p. 5). As
+características essenciais do transtorno são um padrão persistente de desatenção,
+hiperatividade
+e
+impulsividade,
+que
+interfere
+no
+desenvolvimento
+e
+funcionamento do aluno (SILVA; MENDES; BARBOSA, 2020). Essas características
+podem causar importantes implicações para a aprendizagem (MAIA; CONFORTIN,
+2015). Assim, a realidade impõe aos professores o desafio de planejar e executar
+atividades que atendam as particularidades de cada aluno (CARVALHO; SANTOS,
+2020).
+A avaliação é um instrumento de muita importância no ambiente escolar,
+pois é por meio da avaliação que o professor tem uma base de como seus alunos
+estão com relação ao aprendizado (SILVA; NUNES, 2020). O objetivo maior do ato
+de avaliar é o acompanhamento de cada etapa do processo de ensino e
+aprendizagem de maneira contínua, constante, gradual, cumulativa, coerente,
+cooperativa e participativa (FERRONATO et al., 2014). Um instrumento avaliativo
+mal elaborado pode causar distorções na avaliação e pode causar implicações na
+evolução dos alunos no processo de ensino e aprendizagem (FERRONATO et al.,
+2014).
+Na atualidade, muito se discute sobre a inclusão no ambiente escolar de
+alunos com TDAH, onde estes devem ser inseridos e receber uma educação de
+qualidade, tendo suas características e peculiaridades respeitadas, segundo a
+legislação (BOGOSSIAN, 2021). Para que os alunos sejam incluídos e possam
+participar de forma permanente no processo de ensino e aprendizagem, podem
+ser necessárias algumas adaptações curriculares que criem condições para
+favorecer a inclusão (ZANATO; GIMENEZ, 2017). Essas adaptações podem ser
+realizadas em materiais, objetivos, conteúdos, metodologias e avaliação, em três
+níveis: no âmbito do projeto pedagógico (currículo escolar), no currículo
+desenvolvido em sala de aula e em nível individual (ZANATO; GIMENEZ, 2017).
+Assim, entre essas adaptações, são necessários os “processos de avaliação
+adequados ao desenvolvimento dos alunos que apresentam necessidades
+educacionais especiais, em consonância com o projeto político da escola” (BRASIL,
+2001, p. 47). No entanto, os professores sentem a falta de informações sobre
+como realizar essas adaptações (BOGOSSIAN, 2021).
+De modo geral, as dificuldades enfrentadas para incluir alunos com TDAH
+estão relacionadas com a falta de formação dos professores, que proporciona
+grandes barreiras no processo da inclusão (ALENCAR et al., 2019). Nesse sentido,
+em meio a um cenário de prejuízos acadêmicos causados a alunos com TDAH,
+sobretudo na avaliação da aprendizagem, considera-se que é fundamental o
+desenvolvimento de material de apoio para o professor com o objetivo de
+auxiliar o seu trabalho com relação às adaptações necessárias para promover a
+inclusão.
+
+=== p. 3 ===
+Página | 3
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+O objetivo deste trabalho foi desenvolver um conjunto de diretrizes para a
+adaptação curricular de avaliações de aprendizagem para alunos com TDAH.
+Essas diretrizes foram elaboradas a partir de revisão bibliográfica e de análise
+documental de uma coleção de avaliações de aprendizagem (provas) aplicadas a
+alunos do Ensino Fundamental. O resultado apresentado favorece a inclusão de
+alunos com TDAH no processo de ensino e aprendizagem e representa um
+avanço para todos os envolvidos, principalmente através da possibilidade de
+apropriação por professores da habilidade de elaborar material adaptado para
+alunos com TDAH.
+CARACTERÍSTICAS DA PESSOA COM TDAH
+O TDAH é um transtorno do neurodesenvolvimento que acarreta prejuízos
+no funcionamento pessoal, social, acadêmico e profissional, conforme afirma o
+Manual Diagnóstico e Estatístico de Transtornos Mentais – DSM-5 (APA, 2014).
+Esse transtorno apresenta comportamentos classificados em três categorias
+(desatenção,
+impulsividade
+e
+hiperatividade)
+caracterizando
+um
+nível
+inadequado de atenção em relação ao esperado para a idade, resultando em
+distúrbios perceptivos, cognitivos e comportamentais (ROTTA, 2016). Configurase em três subtipos de apresentação (APA, 2014):
+a)
+combinada, se tanto a desatenção, impulsividade e hiperatividade
+são prevalentes;
+b)
+predominantemente desatenta, que apresenta apenas critérios de
+desatenção;
+c)
+hiperativa/impulsiva, com apenas critérios de hiperatividade e
+impulsividade.
+As manifestações da desatenção, hiperatividade e impulsividade são
+numerosas e geram impacto negativo diretamente nas atividades sociais,
+acadêmicas e profissionais (APA, 2014). A desatenção pode ser identificada por
+dificuldades para manter a atenção em aulas, conversas ou leituras prolongadas,
+falta de persistência e tendência à desorganização (ROHDE et al., 2019). A
+desorganização gera um gasto de tempo maior que o necessário, dificultando a
+realização de atividades cotidianas (SILVA, 2014). As pessoas com TDAH
+frequentemente cometem erros em atividades escolares, não conseguindo
+acompanhar as instruções longas, e perdem com frequência seus pertences em
+casa e na escola (ROTTA, 2016; APA, 2014).
+A falta de atenção no discurso alheio e a mudança repentina de assunto
+durante conversas fazem parte dos sintomas da desatenção apresentadas por
+pessoas com TDAH (SANTOS; VASCONCELOS, 2010). A desatenção causa
+dificuldades em conseguir administrar projetos de longo prazo e até mesmo
+finalizar trabalhos escolares (MISSAWA; ROSSETI, 2014). Esses prejuízos são
+causados pela perda de foco e pelas distrações por estímulos alheios às tarefas
+(APA, 2014).
+As pessoas com TDAH do subtipo desatento relutam em se envolver com
+atividades monótonas e repetitivas, trocam constantemente de interesse e
+
+=== p. 4 ===
+Página | 4
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+planos, e evitam se envolver em tarefas que exijam esforço mental constante
+(BEZERRA et al., 2014). As crianças com TDAH possuem dificuldades em manter a
+atenção em atividades muito longas, pois se distraem com quaisquer estímulos
+do ambiente ou com os próprios pensamentos (CORREIA; LINHARES, 2014).
+A instabilidade de atenção apresentada por crianças e adultos, por um lado
+causa dificuldades em manter a concentração em determinados assuntos ou
+enfrentar situações obrigatórias, e por outro lado podem apresentar o hiper foco
+em diversos temas e atividades que lhes despertam interesse espontâneo, como
+crianças com jogos eletrônicos ou adultos com esportes ou leituras diversas
+(SILVA, 2014). O hiper foco se caracteriza por intensa concentração em um
+assunto por determinado tempo, por exemplo, uma pessoa com TDAH pode ficar
+por horas a fio em frente ao computador sem notar o que acontece ao seu redor
+(SILVA, 2014).
+A próxima característica é a impulsividade, que pode ser caracterizada por
+baixa tolerância à frustração, não conseguir esperar, lançar-se nas tarefas, se
+irritar com facilidade quando alguma coisa não sai de forma esperada, e a
+tendência a não seguir regras ou normas estabelecidas (SILVA, 2014). O subtipo
+impulsivo também pode ser assim descrito: dificuldade em aguardar a vez,
+interrupções em assuntos alheios, e respostas precipitadas antes das perguntas
+terem sido concluídas (OLIVEIRA; DIAS, 2015).
+Por último, existem os comportamentos da hiperatividade. As crianças com
+TDAH apresentam intensa movimentação com mãos e pés quando estão
+sentadas e se levantam em situações inadequadas, e podem pular e correr
+demasiadamente (ROHDE et al., 2019; OLIVEIRA; DIAS, 2015). Reforçando as
+afirmações dos comportamentos da hiperatividade, as crianças com TDAH
+hiperativas são inquietas, não permanecendo paradas por muito tempo
+(BEZERRA et al., 2014).
+Além das características associadas com a desatenção, impulsividade e
+hiperatividade, outro fator de importância do TDAH é a alta presença de
+comorbidades com transtornos psiquiátricos ainda na infância (REINHARDT;
+REINHARDT, 2013). O transtorno de aprendizagem, transtorno de linguagem,
+transtorno de conduta, transtorno de ansiedade e transtorno de humor, são
+algumas das comorbidades associadas ao TDAH (ROTTA, 2016). As comorbidades
+que se apresentam de maneira frequente em crianças e, portanto, devem ser
+avaliadas rotineiramente são: transtorno opositor desafiador, transtorno de
+desenvolvimento intelectual, transtornos de sono vigília, transtornos afetivos,
+transtornos de tiques, distúrbios de coordenação do desenvolvimento e
+transtorno do espectro autista (ROHDE et al., 2019).
+No Quadro 1 é apresentado um resumo das características do TDAH com
+uma descrição, o comportamento central relacionado e a respectiva fonte.
+Quadro 1 - Resumo das características do TDAH
+Descrição da característica
+Comportamento
+central
+Fonte
+-
+Tem
+dificuldade
+de
+manter
+a
+atenção
+em
+aulas,
+conversas
+e
+Desatenção.
+Barkley e Murphy (2008),
+Santos
+e
+Vasconcelos
+
+=== p. 5 ===
+Página | 5
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+Descrição da característica
+Comportamento
+central
+Fonte
+leituras prolongadas.
+- Distrai-se facilmente e parece estar
+alheio ao que acontece durante as
+aulas.
+(2010); Correia e Linhares
+(2014), Silva e Dias (2014),
+Maia e Confortin (2015),
+Rohde et al. (2019).
+- Perde com frequência os seus
+pertences em casa e na escola.
+- Tem tendência à desorganização e
+a esquecimentos.
+Desatenção.
+Rotta (2016), Rohde et al.
+(2019), Oliveira e Miranda
+(2020).
+- Muda repentinamente de assunto
+durante uma conversa.
+-
+Troca
+constantemente
+de
+interesses e planos.
+Desatenção.
+Santos
+e
+Vasconcelos
+(2010),
+Bezerra
+et
+al.
+(2014).
+-
+Tem
+dificuldade
+em
+conseguir
+administrar projetos de longo prazo.
+-
+Comete
+erros
+em
+atividades
+escolares
+e
+não
+consegue
+acompanhar instruções longas e até
+mesmo finalizar trabalhos.
+Desatenção.
+Teixeira (2011), Mologni e
+Vitaliano (2014), Missawa e
+Rosseti (2014), Correia e
+Linhares
+(2014),
+Rotta
+(2016), Oliveira e Miranda
+(2020).
+-
+Reluta
+em
+se
+envolver
+com
+atividades monótonas e repetitivas.
+-
+Ausência
+de
+persistência
+nas
+atividades escolares.
+Desatenção.
+Bezerra et al. (2014), Rohde
+et al. (2019).
+-
+Tem
+dificuldade
+em
+esperar,
+aguardar a sua vez.
+- Inicia imediatamente as tarefas.
+Impulsividade.
+Silva (2014), Oliveira e Dias
+(2015).
+- Tem baixa tolerância à frustração e
+se
+irrita
+com
+facilidade
+quando
+alguma
+coisa
+não
+acontece
+da
+maneira esperada.
+Impulsividade.
+Silva (2014).
+- Provoca interrupções em assuntos
+alheios.
+- Apresenta respostas precipitadas
+antes
+das
+perguntas
+serem
+concluídas.
+Impulsividade.
+Oliveira
+e
+Dias
+(2015),
+Oliveira e Miranda (2020).
+- Levanta em situações em que se
+espera que permaneça sentado.
+- Tem tendência a não seguir regras
+ou normas estabelecidas.
+Impulsividade.
+Silva (2014), Rohde et al.
+(2019).
+- Tem intensa concentração em um
+assunto
+por
+determinado
+tempo
+(hiperfoco).
+Hiperatividade.
+Silva (2014).
+- Apresenta intensa movimentação
+com as mãos e pés quando está
+sentado.
+- Pula e corre demasiadamente.
+- Tem capacidade de fazer várias
+coisas ao mesmo tempo.
+- Tem dificuldade em permanecer
+parado
+por
+muito
+tempo
+(inquietação).
+Hiperatividade.
+Bezerra
+et
+al.
+(2015),
+Oliveira
+e
+Dias
+(2015),
+Rohde et al. (2019).
+Fonte: Elaborado pelos autores.
+
+=== p. 6 ===
+Página | 6
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+As dificuldades na aprendizagem, perturbações motoras (equilíbrio, noção
+de espaço e tempo, esquema corporal) e o fracasso escolar são manifestações
+que acompanham os alunos com TDAH (COUTO; MELO-JUNIOR; GOMES, 2010).
+No entanto, o TDAH não é um transtorno de aprendizagem, mas prejudica a
+capacidade de prestar atenção como resultado de um déficit de autocontrole,
+tratando-se de uma disfunção executiva que, portanto, afeta a capacidade de
+aprendizagem (AMORIM, 2008).
+O déficit de atenção associado ou não à hiperatividade e impulsividade
+regularmente comprometem o rendimento escolar (PISACCO et al., 2016). Além
+disso, frequentemente a inquietude e a impulsividade são interpretadas como
+falta
+de
+disciplina
+e
+desatenção
+(JOU;
+AMARAL;
+RIOTA,
+2010).
+Independentemente do predomínio do tipo dos comportamentos, o TDAH
+intensifica os problemas de aprendizagem e, neste contexto, a questão é qual
+domínio acadêmico detém maior prejuízo (PISACCO et al., 2016).
+As crianças diagnosticadas com TDAH apresentam mais dificuldade de
+aprendizado por influência de alterações na linguagem e dificuldade na
+apropriação da escrita, o que acarreta prejuízo no desempenho escolar (BOADA;
+WILLCUTT; PENNINGTON, 2012). Algumas crianças com TDAH podem apresentar
+dificuldade em perceber as propriedades visuais das palavras e capturar essas
+informações na memória de trabalho, o que é importante para a aquisição e
+desenvolvimento da leitura e escrita (PISACCO et al., 2016).
+Os professores que têm alunos com TDAH em sala de aula se questionam
+sobre como trabalhar de maneira positiva com esses alunos, se eles aprendem
+como os demais alunos da sala e qual posição tomar diante das dificuldades
+desses alunos (GONÇALVES; VOLKI, 2016). Conseguir equilibrar as necessidades
+dos demais alunos com a dedicação que um aluno com TDAH necessita não é
+tarefa fácil nas turmas numerosas impostas pelo sistema educacional (MATTOS,
+2011). Além disso, os professores nem sempre têm uma formação especializada
+para atender alunos com algum tipo de transtorno (SOUZA; SILVA, 2020).
+Nesse contexto, para que os alunos sejam incluídos e possam participar de
+maneira permanente no processo de ensino e aprendizagem, podem ser
+necessárias algumas adaptações curriculares que criem condições para favorecer
+a inclusão (ZANATO; GIMENEZ, 2017). Nesse contexto, adaptação curricular ou
+adequação curricular pode ser definida como “toda e qualquer ação pedagógica
+que tenha a intenção de flexibilizar o currículo para oferecer respostas educativas
+às necessidades especiais dos alunos no contexto escolar.” (HEREDERO, 2010, p.
+199; ZANATO; GIMENEZ, 2017, p. 292).
+Essas adaptações podem ser realizadas em materiais, objetivos, conteúdos,
+metodologias e avaliação, em três níveis: no âmbito do projeto pedagógico
+(currículo escolar), no currículo desenvolvido em sala de aula e em nível
+individual (ZANATO; GIMENEZ, 2017). Assim, entre essas adaptações, são
+necessários os “processos de avaliação adequados ao desenvolvimento dos
+alunos que apresentam necessidades educacionais especiais, em consonância
+com o projeto político da escola” (BRASIL, 2001, p. 47). No entanto, os
+
+=== p. 7 ===
+Página | 7
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+professores sentem a falta de informações sobre como realizar essas adaptações
+(BOGOSSIAN, 2021).
+DESENVOLVIMENTO DAS DIRETRIZES
+Os procedimentos metodológicos envolveram os métodos de pesquisa
+bibliográfica e de análise documental. A pesquisa bibliográfica é desenvolvida
+com base em material elaborado anteriormente, constituído principalmente de
+livros e artigos científicos (GIL, 2010). A análise documental se caracteriza como
+uma pesquisa de materiais que não receberam nenhum tratamento analítico,
+como cartas pessoais, diários, fotografias, gravações, memorandos, regulamentos,
+ofícios, boletins, dentre outros (GIL, 2010). A análise documental busca identificar
+informações reais nos documentos, a partir das questões de interesse do
+pesquisador (LUDKE; ANDRÉ, 2018).
+O desenvolvimento das Diretrizes para a Adaptação de Avaliações de
+Aprendizagem para Alunos com TDAH foi realizado ao longo de cinco etapas:
+1.
+Levantamento das características do TDAH por meio de revisão
+bibliográfica.
+2.
+Análise de avaliações de aprendizagem aplicadas para alunos do
+Ensino Fundamental com relação às características do TDAH.
+3.
+Definição das diretrizes por meio da formulação de um enunciado
+sintético para cada diretriz, da descrição do problema relacionado
+e de uma justificativa para a sua aplicação.
+4.
+Consolidação do conjunto de diretrizes.
+5.
+Análise de avaliações de aprendizagem aplicadas para alunos do
+Ensino Fundamental com relação às recomendações contidas no
+conjunto de diretrizes.
+Na primeira etapa, a revisão bibliográfica foi realizada com base em
+periódicos das áreas de Educação, Psicologia e Ciências da Saúde. A partir do
+levantamento de publicações que abordam o tema TDAH, foram selecionadas
+principalmente aquelas que apresentaram com mais ênfase as influências na
+aprendizagem. No Quadro 1, apresentado na seção anterior, pode-se encontrar
+um resumo descritivo das características que foram levantadas, assim como o
+comportamento central relacionado e a respectiva fonte de origem.
+Na segunda etapa, foi realizada a análise de 114 avaliações de
+aprendizagem (provas) de 9 disciplinas diferentes aplicadas para alunos do 4º e
+5º ano do Ensino Fundamental (Anos Iniciais) e do 7º e 8º ano do Ensino
+Fundamental (Anos Finais) de uma instituição de ensino. Essas avaliações foram
+elaboradas para turmas que possuíam alunos com TDAH e não receberam
+nenhum tipo de adaptação, mudança ou intervenção. As questões e a
+organização geral das avaliações foram analisadas considerando as características
+levantadas na primeira etapa. Nessa análise, os casos (de questões ou de
+organização das avaliações) nos quais um aluno com TDAH poderia ter
+dificuldade foram destacados e aqueles considerados semelhantes foram
+
+=== p. 8 ===
+Página | 8
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+agrupados. No Quadro 2 é mostrada a distribuição das avaliações por ano e
+disciplina correspondente.
+Quadro 2 - Distribuição das avaliações analisadas por ano e disciplina
+Ano
+Disciplina
+Avaliações analisadas
+4º
+Língua Portuguesa
+Matemática
+História
+Filosofia
+Geografia
+Ciências
+Artes
+4
+4
+4
+4
+4
+4
+2
+5º
+Língua Portuguesa
+Matemática
+História
+Filosofia
+Geografia
+Ciências
+Artes
+4
+4
+4
+4
+4
+4
+2
+7º
+Língua Portuguesa
+Matemática
+História
+Filosofia
+Geografia
+Ciências
+Física
+Artes
+4
+4
+4
+4
+4
+4
+4
+2
+8º
+Língua Portuguesa
+Matemática
+História
+Filosofia
+Geografia
+Ciências
+Física
+Química
+Artes
+4
+4
+4
+2
+4
+4
+4
+4
+2
+Total
+114
+Fonte: Elaborado pelos autores.
+Na terceira etapa, foi realizada a definição das diretrizes por meio da
+formulação de um enunciado sintético para cada diretriz, da descrição do
+problema relacionado e de uma justificativa para a sua aplicação. Como regra
+geral, cada agrupamento de casos (nos quais um aluno com TDAH poderia ter
+dificuldade) deu origem a uma proposta de diretriz, a qual foi definida (enunciado,
+descrição, problema e justificativa) e depois associada aos principais trabalhos da
+literatura como uma indicação da sua fundamentação.
+Na quarta etapa, consolidação do conjunto de diretrizes, as diretrizes
+definidas na etapa anterior foram examinadas na busca por recorrências e
+semelhanças entre as diretrizes, o que poderia indicar a possibilidade de união de
+duas ou mais diretrizes. Além disso, cada diretriz foi examinada individualmente
+para verificar a sua capacidade de aplicação direta, isto é, se a diretriz é
+suficientemente clara e passível de ser empregada como orientação para a
+
+=== p. 9 ===
+Página | 9
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+produção de uma adaptação, caso contrário, poderia ser considerada a
+possibilidade de eliminação da diretriz.
+Na quinta etapa, foi realizada nova análise das 114 avaliações de
+aprendizagem (provas) de 9 disciplinas diferentes aplicadas para alunos do Ensino
+Fundamental, mas desta vez com relação às recomendações do conjunto de
+diretrizes consolidado. Nessa análise, cada avaliação foi verificada de acordo com
+a recomendação de cada uma das diretrizes, com o objetivo de analisar se a
+aplicação prática do conjunto de diretrizes produziria nas avaliações de
+aprendizagem as adaptações necessárias para alunos com TDAH.
+RESULTADOS E DISCUSSÃO
+Como resultado da realização desse desenvolvimento em cinco etapas,
+foram obtidas as seguintes Diretrizes para a Adaptação de Avaliações de
+Aprendizagem para Alunos com TDAH:
+
+Diretriz 01: Divida logicamente uma avaliação sobre conteúdos
+diferentes em várias avaliações curtas sobre um mesmo conteúdo.
+Problema: A avaliação está extensa, com muitas questões sobre diversos
+conteúdos diferentes.
+Justificativa: O aluno com TDAH precisa tratar um tema de cada vez, para
+não dividir a atenção. As avaliações curtas podem ser aplicadas no mesmo
+dia, com um intervalo, ou em períodos e/ou dias diferentes.
+Fundamentação: O aluno com TDAH apresenta dificuldade na organização,
+no planejamento e na realização de tarefas que envolvam esforço mental
+sustentado (ROTTA, 2016). Além disso, frequentemente não segue
+instruções até o fim e não consegue terminar trabalhos escolares, tarefas
+ou deveres no local de trabalho (ROTTA, 2016). A atenção sustentada é
+deficiente ou possui pouca persistência de esforço na realização de tarefas
+(BARKLEY; MURPHY, 2008). Em qualquer criança, durante a realização de
+tarefas, a tendência é a de sempre diminuir um pouco a atenção.
+Entretanto, em crianças com TDAH essa queda é maior, ou seja, após um
+tempo ocorre a perda da sua capacidade de foco.
+
+Diretriz 02: Mescle questões mais demoradas, que levam mais tempo
+para serem respondidas, com questões mais rápidas.
+Problema: A avaliação tem muitas questões que precisam de esforço
+mental constante.
+Justificativa: As questões mais rápidas (por exemplo, de múltipla escolha
+ou de associação), quando mescladas com questões mais demoradas (por
+exemplo, dissertativas), podem incentivar o aluno com TDAH a continuar a
+
+=== p. 10 ===
+Página | 10
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+avaliação até o final e não perder o foco, pois este percebe que está
+ocorrendo progresso nas questões.
+Fundamentação: O aluno com TDAH evita envolver-se em tarefas que
+exijam esforço mental constante, devido à falta de foco e distrações
+(BEZERRA et al., 2014; APA, 2014). Os professores podem realizar uma
+mistura de questões abertas e fechadas, para permitir mais concentração
+no momento de apresentar as respostas e motivar os alunos no
+desenvolvimento das atividades ou do estudo (TEIXEIRA, 2011).
+
+Diretriz 03: Evite o uso de texto com tamanho da fonte pequeno.
+Problema: A avaliação utiliza texto com tamanho da fonte pequeno em
+enunciados e orientações.
+Justificativa: A apresentação adequada do texto para o aluno com TDAH
+pode facilitar a leitura e a compreensão.
+Fundamentação: A criança com TDAH tem dificuldade em prestar atenção
+a detalhes e por este motivo frequentemente comete erros em atividades
+escolares (ROTTA, 2016). Para a realização de atividades como a leitura de
+palavras isoladas ou texto, é necessário um processamento visual refinado
+dos sinais gráficos para que ocorra a varredura textual necessária para a
+identificação das partes constituintes da palavra (CUNHA et al., 2013). As
+crianças que apresentam falhas atencionais ou de processamento da
+informação terão dificuldade para acionar um processamento visual
+refinado (CAPELINI et al., 2007).
+
+Diretriz 04: Realce as informações e dados dos gráficos com cores e
+legendas significativas.
+Problema: A avaliação tem gráficos com nenhum ou poucos elementos
+indicativos das informações e dados.
+Justificativa: O aluno com TDAH pode ter dificuldade com representações
+gráficas, principalmente em compreender e lidar com gráficos, escalas,
+linhas e pontos.
+Fundamentação: O aluno com TDAH tem dificuldade de finalizar o que
+começa pela falta de percepção aos detalhes importantes, que acaba
+fazendo-o cometer erros nas suas tarefas (BARKLEY, 2020). O estímulo
+pode vir de um fator que influencia diretamente no desempenho das
+crianças com TDAH, por exemplo, materiais chamativos, coloridos e com
+muitos estímulos para aumentar a atenção dessas crianças (BARKLEY;
+MURPHY, 2008).
+
+=== p. 11 ===
+Página | 11
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+
+Diretriz 05: Mantenha uma questão em uma única página.
+Problema: A questão está dividida em duas ou mais páginas.
+Justificativa: O aluno com TDAH pode ter dificuldade de ficar virando as
+páginas para consultar alguma informação em uma página para responder
+em outra.
+Fundamentação: O aluno com TDAH não deve precisar virar a página para
+analisar algo (por exemplo, uma imagem) e voltar para responder à
+questão, porque pode se atrapalhar e não conseguir organizar suas ideias
+para finalizar a atividade, devido a sua tendência à desorganização (ROHDE
+et al., 2019; ROHDE; HALPERN, 2004).
+
+Diretriz 06: Divida uma questão muito longa com muitas respostas em
+itens numerados com resposta individual para cada item.
+Problema: A questão tem muitos itens em um mesmo enunciado para
+serem respondidos de uma vez em uma única resposta.
+Justificativa: Uma questão que tem muitos itens pode exigir que o aluno
+com TDAH lembre de cada item a ser respondido durante a formulação da
+resposta.
+Fundamentação:
+O
+aluno
+com
+TDAH
+apresenta
+tendência
+à
+desorganização (ROHDE et al., 2019) e tem dificuldade em seguir
+instruções longas (ROTTA, 2016). As características do TDAH causam
+dificuldades para conseguir administrar projetos muito longos e até
+mesmo finalizar trabalhos escolares (MISSAWA; ROSSETI, 2014), pois se
+distraem com quaisquer estímulos do ambiente ou com os próprios
+pensamentos (CORREIA; LINHARES, 2014). Assim, as tarefas propostas não
+devem ser demasiadamente longas e necessitam ser explicadas passo a
+passo (MOLOGNI, VITALIANO, 2014).
+
+Diretriz 07: Estabeleça um formato padrão para apresentar o mesmo
+tipo de questão.
+Problema: As questões de mesmo tipo, por exemplo, de múltipla escolha,
+associação etc., estão em diferentes formatos de apresentação por falta de
+padronização ou com o intuito de confundir o aluno para que escolha uma
+resposta errada, como em “pegadinhas”.
+Justificativa: A padronização das questões na avaliação pode auxiliar o
+aluno com TDAH na sua dificuldade em manter a organização e evitar que
+seja induzido a uma resposta errada.
+Fundamentação: A tendência à desorganização é uma das características
+do aluno com TDAH (ROHDE et al., 2019). As pessoas com TDAH
+
+=== p. 12 ===
+Página | 12
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+apresentam alterações na capacidade de permanecer no foco devido à
+defasagem na capacidade do controle inibitório, que causa falhas na
+autorregulação e função executiva (ROTTA, 2016). Além disso, apresentam
+atenção sustentada deficiente, e com frequência este problema surge
+quando são designadas ao indivíduo tarefas aborrecedoras, tediosas,
+demoradas ou repetitivas (BARKLEY; MURPHY, 2008).
+
+Diretriz 08: Evite a apresentação de informações desnecessárias antes
+do comando da questão.
+Problema: O texto-base da questão tem muitas informações e detalhes
+desnecessários antes de apresentar o comando (enunciado) que deve
+receber o foco principal do aluno.
+Justificativa: O aluno com TDAH pode deixar de perceber o foco principal
+da questão ao encontrar palavras em demasia na questão que exigem
+muita leitura desnecessária.
+Fundamentação: Para o aluno com TDAH, ler e seguir instruções
+cuidadosamente, quando combinado com suas dificuldades com a
+memória de trabalho, frequentemente resulta em importante interferência
+na compreensão da leitura, sobretudo em atribuições de leituras
+complexas, não-interessantes ou longas (BARKLEY; MURPHY, 2008). Além
+disso, o aluno com TDAH pode levar um tempo a mais do que é esperado
+para ler e compreender o que o enunciado pede e se organizar para
+responder à questão (ROHDE et al., 2019; SILVA, 2014)
+
+Diretriz 09: Destaque as palavras-chave principais do enunciado da
+questão.
+Problema: O enunciado da questão tem muitas palavras importantes que
+devem ser identificadas e consideradas para a formulação da resposta.
+Justificativa: O destaque das palavras mais significativas, que apresentam
+informações importantes e estão relacionadas ao comando da questão,
+podem auxiliar o aluno com TDAH a consultá-las novamente sempre que
+necessário.
+Fundamentação: O aluno com TDAH desvia facilmente a atenção do que
+está fazendo e comete erros por prestar pouca atenção a detalhes
+(BARKLEY; MURPHY, 2008). Nesse sentido, o aluno com TDAH deve ser
+estimulado a destacar e sublinhar as informações importantes contidas no
+texto e enunciado (SILVA; MARQUES; BARCELAR, 2021).
+
+Diretriz 10: Deixe espaço em branco suficiente para a resolução da
+questão.
+
+=== p. 13 ===
+Página | 13
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+Problema:
+A
+questão
+tem
+pouco
+espaço
+em
+branco
+para
+o
+desenvolvimento e apresentação da resolução ou resposta.
+Justificativa: O aluno com TDAH tem dificuldade de solucionar o problema
+apresentado na questão e ainda ter que organizar as informações em
+espaços pequenos.
+Fundamentação: A maioria dos alunos com TDAH apresentam disgrafia ou
+letra excessivamente grande (MATTOS, 2011; APA, 2014). Assim, é
+fundamental fornecer mais espaço para a escrita com o objetivo de facilitar
+a habilidade psicomotora necessária para produzir a grafia.
+As diretrizes 01 a 04 fazem referência à avaliação da aprendizagem como
+um todo, isto é, correspondem a adaptações que devem ser aplicadas ao
+instrumento de avaliação inteiro. As demais diretrizes, 05 a 10, fazem referência
+a questões individuais ou a partes de uma questão (por exemplo, fazem
+referência a somente o enunciado da questão).
+Ao realizar a quinta etapa, houve a necessidade de simplificar o conjunto
+de diretrizes para facilitar o seu uso por um professor, isto é, facilitar a
+verificação se uma avaliação de aprendizagem está em conformidade com todas
+as diretrizes. Nesse sentido, foi criada uma lista de verificação (checklist) a partir
+do conjunto de diretrizes. Por exemplo, o enunciado da Diretriz 01 recomenda o
+seguinte: “Divida logicamente uma avaliação sobre conteúdos diferentes em
+várias avaliações curtas sobre um mesmo conteúdo”. A partir desse enunciado,
+foi elaborada a seguinte pergunta de verificação: “A avaliação sobre conteúdos
+diferentes está dividida logicamente em várias avaliações curtas sobre um
+mesmo conteúdo?”. Esse procedimento foi realizado para todas as diretrizes de
+forma a obter uma lista de verificação correspondente ao conjunto completo.
+Para cada pergunta (item de verificação) foi acrescentada as seguintes
+possibilidades de respostas: “Sim”, “Não” e “Parcialmente”.
+Essa lista de verificação pode ser considerada um apoio ao trabalho do
+professor de analisar se uma avaliação está em conformidade com o conjunto de
+diretrizes. Assim, a lista de verificação é utilizada com o objetivo de reduzir a
+possibilidade de falha por meio da compensação dos possíveis limites da pessoa
+do professor com relação à sua memória e atenção. Em última análise, a lista de
+verificação é um auxílio para garantir a consistência e integridade na execução do
+trabalho de análise de uma avaliação. No decorrer do tempo e conforme a
+frequência de uso pelo professor, é esperado que a verificação se torne mais ágil,
+proporcionando rapidez e eficiência ainda no momento de elaboração de uma
+avaliação.
+Após a realização das cinco etapas, foi identificada uma limitação nos
+procedimentos (metodológicos) de desenvolvimento do conjunto de diretrizes.
+Como todas as 114 avaliações de aprendizagem foram utilizadas tanto na
+segunda etapa, de análise com relação às características do TDAH, quanto na
+quinta etapa, de análise com relação às recomendações do conjunto de diretrizes,
+esta abordagem pode ter produzido um viés no sentido de que as mesmas
+
+=== p. 14 ===
+Página | 14
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+informações utilizadas como fonte das diretrizes foram utilizadas para a
+verificação da aplicação das diretrizes. O ideal teria sido dividir as 114 avaliações
+em dois grupos e ter utilizado cada grupo em uma das etapas (segunda e quinta
+etapa). Para mitigar essa limitação, foi realizada a análise de outra coleção de
+avaliações de aprendizagem.
+Ao final, cabe ressaltar que não foi realizada uma investigação com os
+usuários
+potenciais
+do
+conjunto
+de
+diretrizes:
+professores
+do
+Ensino
+Fundamental que tiveram ou têm alunos com TDAH em suas turmas. O
+entendimento é que uma investigação dessa natureza deve revelar informações
+importantes sobre a utilização do conjunto de diretrizes na prática, assim como
+sobre possíveis ajustes e melhorias.
+CONCLUSÕES
+Neste artigo foi apresentado o desenvolvimento de um conjunto de
+Diretrizes para a Adaptação de Avaliações de Aprendizagem para Alunos com
+TDAH. Essas diretrizes foram elaboradas a partir de revisão bibliográfica, para
+levantamento das características do TDAH, e de análise documental de uma
+coleção
+de
+avaliações
+de
+aprendizagem
+aplicadas
+a
+alunos
+do
+Ensino
+Fundamental, para identificar casos nos quais um aluno com TDAH poderia ter
+dificuldade. O processo de desenvolvimento dessas diretrizes envolveu ainda as
+etapas de definição e consolidação das diretrizes, além de nova análise da
+coleção de avaliações de aprendizagem com relação ao conjunto de diretrizes.
+O resultado principal é um conjunto de dez diretrizes que pode ser
+utilizado por um professor para adaptar as avaliações de aprendizagem para
+alunos com TDAH e, dessa maneira, favorecer a inclusão destes alunos. Nesse
+sentido, cabe ressaltar que as adaptações realizadas com base no conjunto de
+diretrizes têm potencial para favorecer não somente os alunos com TDAH, mas
+todos os alunos, sem qualquer exceção.
+Cada uma das diretrizes foi definida por meio de um enunciado sintético,
+da descrição do problema relacionado e de uma justificativa para a sua aplicação
+na adaptação curricular de uma avaliação durante ou após a sua elaboração.
+Além disso, cada diretriz foi associada a trabalhos da literatura como uma
+indicação da sua fundamentação. Assim, o professor encontra apontadores
+relacionados a uma diretriz específica, a partir dos quais é possível aprofundar os
+seus conhecimentos com relação ao TDAH e às práticas pedagógicas de inclusão.
+Ao final do desenvolvimento do conjunto de Diretrizes para a Adaptação
+de Avaliações de Aprendizagem para Alunos com TDAH, o entendimento é que
+estas diretrizes favorecem a inclusão destes alunos no processo de ensino e
+aprendizagem e representa um avanço para todos os envolvidos, principalmente
+através da possibilidade de apropriação por professores da habilidade de
+elaborar material adaptado para alunos com TDAH. Uma vez que o atendimento
+às diretrizes seja incorporado à prática pedagógica do professor, a produção de
+avaliações com adaptações curriculares para alunos com TDAH deverá ocorrer
+naturalmente.
+
+=== p. 15 ===
+Página | 15
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+No contexto de trabalhos futuros, os esforços estão concentrados em
+realizar uma investigação da utilização do conjunto de diretrizes por professores
+do Ensino Fundamental que tiveram ou têm alunos com TDAH em suas turmas. O
+objetivo dessa investigação deverá ser a validação da aplicação das diretrizes no
+âmbito do trabalho cotidiano desses professores, assim como a obtenção de
+informações sobre a sua utilização na prática. Em última análise, essa
+investigação também deve coletar dados relevantes para servir de base para a
+melhoria das diretrizes.
+
+=== p. 16 ===
+Página | 16
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+A set of guidelines for adapting learning
+assessments for students with ADHD
+ABSTRACT
+For students with Attention-Deficit Hyperactivity Disorder (ADHD) to be included
+appropriately and to be able to participate permanently in the teaching and learning
+process, some curricular adaptations may be necessary to create the conditions that
+favor inclusion. The aim of this work was to develop a set of guidelines for the
+adaptation of learning assessments for students with ADHD. These guidelines were
+developed based on a literature review to survey the characteristics of ADHD and
+document analysis of a collection of learning assessments applied to elementary and
+middle school students to identify cases in which a student with ADHD could have
+difficulty. The result is a set of ten guidelines that can be used by a teacher to adapt
+learning assessments for students with ADHD. Hence, this work can contribute to the
+understanding of the importance of curricular adaptation of learning assessments for
+students with ADHD and the result offers possibilities for the improvement of inclusion
+practices through the appropriation by teachers of the ability to elaborate material
+adapted for students with ADHD.
+KEYWORDS: Attention-deficit hyperactivity disorder. Learning assessment. Curriculum
+adaptation.
+
+=== p. 17 ===
+Página | 17
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+Un conjunto de directrices para adaptar
+las
+evaluaciones
+de
+aprendizaje
+para
+estudiantes con TDAH
+RESUMEN
+Para que los estudiantes con Trastorno por Déficit de Atención e Hiperactividad (TDAH)
+sean incluidos adecuadamente y puedan participar de manera permanente en el
+proceso de enseñanza y aprendizaje, pueden ser necesarias algunas adaptaciones
+curriculares para crear las condiciones que favorezcan la inclusión. El objetivo de este
+trabajo fue desarrollar un conjunto de directrices para la adaptación de las
+evaluaciones de aprendizaje de los estudiantes con TDAH. Estas directrices se
+desarrollaron en base a una revisión de la literatura para estudiar las características del
+TDAH y análisis documental de una colección de evaluaciones de aprendizaje aplicadas
+a estudiantes de enseñanza básica para identificar casos en los que un estudiante con
+TDAH podría tener dificultades. El resultado es un conjunto de diez directrices que
+pueden ser utilizadas por un profesor para adaptar las evaluaciones de aprendizaje de
+los estudiantes con TDAH. Por lo tanto, este trabajo puede contribuir a la comprensión
+de la importancia de la adaptación curricular de las evaluaciones de aprendizaje para
+estudiantes con TDAH y el resultado ofrece posibilidades para la mejora de las prácticas
+de inclusión a través de la apropiación por parte de los docentes de la capacidad de
+elaborar material adaptado para estudiantes con TDAH.
+PALABRAS CLAVE: Trastorno por déficit de atención e hiperactividad. Evaluación del
+aprendizaje. Adaptación curricular.
+
+=== p. 18 ===
+Página | 18
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+REFERÊNCIAS
+ALENCAR, A. P. C.; LIMA, N. D. P.; LIMA, M. S.; MEDEIROS, T. C.; ROCHA, G. S. S.
+Prática Pedagógica e os Desafios na Inclusão Escolar da Pessoa com Transtorno
+do Déficit de Atenção e Hiperatividade (TDAH): uma revisão integrativa. Revista
+Diálogos e Perspectivas em Educação Especial, v. 6, n. 1, p. 3-20, 2019.
+AMORIM, C. Transtornos de Aprendizagem. IPDA: Instituto Paulista do Déficit de
+Atenção.
+2008.
+Disponível
+em:
+https://ddadeficitdeatencao.com.br/tdah/problemas-aprendizagem.html.
+Acesso
+em:
+29
+mar. 2022.
+APA. AMERICAN PSYCHIATRIC ASSOCIATION. Manual diagnóstico e estatístico de
+transtornos mentais: DSM-5. 5. ed. Porto Alegre: Artmed, 2014.
+BARKLEY, R. A. TDAH: Transtorno do Déficit de Atenção com Hiperatividade. Belo
+Horizonte: Autêntica, 2020.
+BARKLEY, R. A.; MURPHY, K. R. Transtorno de déficit de atenção/hiperatividade:
+exercícios clínicos. 3. ed. Porto Alegre: Artmed, 2008.
+BEZERRA, C. F. M.; TELLES, M. V. L.; BEZERRA, M. I. F. M.; RIBEIRO, S. O.; SÁ, N. D.
+A. O Transtorno do Déficit de Atenção e Hiperatividade. Revista de Psicologia, v.
+8, n. 23, p. 221-242, 2014.
+BOADA, R.; WILLCUTT, E. G.; PENNINGTON, B. F. Compreendendo a comorbidade
+entre dislexia e o transtorno do déficit de atenção e hiperatividade. Tópicos em
+distúrbios da linguagem, v. 32, n. 3, p. 264-284, 2012.
+BOGOSSIAN, T. The inclusion and learning process of children with ADHD. Global
+Academic Nursing Journal, v. 2, n. Sup. 3, 2021.
+BRASIL. Ministério da Educação; Secretaria de Educação Especial. Diretrizes
+nacionais para a educação especial na educação básica. Brasília: MEC; SEESP,
+2001.
+CAPELLINI, A. S.; FERREIRA, L. T.; SALGADO, A. C.; CIASCA, M. S. Desempenho de
+escolares bons leitores, com dislexia e com transtorno do déficit de atenção e
+hiperatividade em nomeação automática rápida. Revista da Sociedade Brasileira
+de Fonoaudiologia, v. 12, n. 2, p. 114-119, 2007.
+CARVALHO, E. D.; SANTOS, D. P. O processo de inclusão/exclusão de estudantes
+com TDAH na escola contemporânea: entre o real e o ideal. In: BORGES, K. P.;
+PEREIRA, L. L. S.; ALBUQUERQUE, S. L. Diálogos sobre educação: inclusão,
+linguagens e tecnologias. São Carlos: Pedro e João Editores, 2020.
+CORREIA, A. P.; LINHARES, T. C. A atuação do psicopedagogo com crianças com
+transtorno de déficit de atenção e hiperatividade (TDAH): intervenção necessária
+para pais e educadores. Paidéia, v. 11, n. 17, p. 141-161, 2014.
+
+=== p. 19 ===
+Página | 19
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+COUTO, T. S.; MELO-JUNIOR, M. R.; GOMES, C. R. A. Aspectos neurobiológicos do
+transtorno do déficit de atenção e hiperatividade (TDAH): uma revisão. Ciências
+& Cognição, v. 15, n. 1, p. 241-251, 2010.
+CUNHA V. L. O.; SILVA, C.; LOURENCETTI, M. D.; PADULA, N. A. M. R.; CAPELLINI,
+A. S. Desempenho de escolares com transtorno de déficit de atenção e
+hiperatividade em tarefas metalinguísticas e de leitura. Revista CEFAC, v.15, n. 1,
+p. 40-50, 2013.
+FERRONATO, R. F.; PAMPAZZO, S. R. R.; FAVERE, J.; BARBOSA, A. C. A. Teorias e
+práticas do currículo. Londrina: Editora e Distribuidora Educacional S.A., 2014.
+GIL, A. C. Como elaborar projetos de pesquisa. 5. ed. São Paulo: Atlas 2010.
+GONÇALVES, J. P.; VOLKI, M. Concepções das professoras e trabalho educativo
+voltado aos alunos portadores de TDAH. Revista de Ensino, Educação e Ciências
+Humanas, v. 17, n. 3, p. 220-231, 2016.
+HEREDERO, E. S. A escola inclusiva e estratégias para fazer frente a ela: as
+adaptações curriculares. Acta Scientiarum Education, v. 32, n. 2, p. 193-208,
+2010.
+JOU, G.; AMARAL, B.; RIOTA, C. Transtorno do déficit de atenção e hiperatividade:
+um olhar no ensino fundamental. Psicologia: Reflexão e Crítica, v. 23, n. 1, p 29-
+36, 2010.
+LUDKE, M.; ANDRÉ, M. E. D. Pesquisa em educação: abordagens qualitativas. 2.
+ed. Rio de Janeiro: E.P.U, 2018.
+MAIA, M. I. R.; CONFORTIN, H. TDAH e aprendizagem: um desafio para a
+educação. Revista Perspectiva, v. 39, n. 148, p. 73-84, 2015.
+MATTOS, P. No mundo da lua: perguntas e respostas sobre o transtorno do
+déficit de atenção com hiperatividade em crianças, adolescentes e adultos. São
+Paulo: ABDA, 2011.
+MISSAWA, D. D. A.; ROSSETI, C. B. Psicólogos e TDAH: possíveis caminhos para
+diagnóstico e tratamento. Construção Psicopedagógica, v. 22, n. 23, p. 81-90,
+2014.
+MOLOGNI, R. N.; VITALIANO, C. R. O aluno com TDAH: teorias e práticas
+necessárias para o professor. In: BATISTA, A. M. P.; VOLPATO, J. C.; BACH, M. R.
+(org.) O professor PDE e os desafios da escola pública paranaense. Curitiba:
+SEED – PR, 2014.
+OLIVEIRA, C. T.; DIAS, A. C. G. Repercussões do transtorno de déficit de
+atenção/hiperatividade (TDAH) na experiência universitária. Psicologia: Ciência e
+Profissão, v. 35, n. 2, p. 613-629, 2015.
+OLIVEIRA, G. S.; MIRANDA, M. I. Um olhar psicopedagógico para o TDAH.
+Cadernos da FUCAMP, v. 19, n. 41, 2020.
+
+=== p. 20 ===
+Página | 20
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+PISACCO, N. M. T.; SPERAFICO, Y. L. S.; COSTA, A. C.; DORNELES, B. V.
+Intervenções escolares em alunos com Transtorno do déficit de Atenção e
+hiperatividade. In: ROTTA, N. T.; OHLWEILER, L.; RIESGO, R. S. (org.). Transtornos
+da aprendizagem: abordagem neurobiológica e multidisciplinar. 2. ed. Porto
+Alegre: Artmed, 2016. p. 339-356.
+REINHARDT,
+M.
+C.;
+REINHARDT,
+C.
+A.
+U.
+Transtorno
+de
+déficit
+de
+atenção/hiperatividade, comorbidades e situações de risco. Jornal de Pediatria, v.
+89 n. 2, p. 124-130, 2013.
+ROHDE, L. A.; COGHILL, D.; ASHERSON, P.; BANASCHEWSKI, T. Avaliação de TDAH
+ao longo da vida. In: ROHDE, L. A.; BUITELAAR, J. K.; GERLACH, M.; FARAONE, S. V.
+Guia para compreensão e manejo do TDAH da World Federation of ADHD. Porto
+Alegre: Artmed, 2019.
+ROHDE, L.A; HALPERN, R. Transtorno do déficit de atenção\hiperatividade:
+atualização. Jornal de Pediatria, v. 80, n. 2, 2004.
+ROTTA, N. T. Transtorno do Déficit de Atenção e Hiperatividade: aspectos clínicos.
+In: ROTTA, N. T.; OHLWEILER, L.; RIESGO, R. S. (org.). Transtornos da
+aprendizagem: abordagem neurobiológica e multidisciplinar. 2. ed. Porto Alegre:
+Artmed, 2016. p. 274-286.
+SANTOS, L. F.; VASCONCELOS, L. A. Transtorno do Déficit de Atenção e
+Hiperatividade em crianças: uma revisão interdisciplinar. Psicologia: Teoria e
+Pesquisa, v. 26, n. 4, 2010.
+SILVA, A. B. B. Mentes Inquietas: TDAH: desatenção, hiperatividade e
+impulsividade. 4. ed. São Paulo: Globo, 2014.
+SILVA, C. M.; MENDES, D. F.; BARBOSA, D. O. Estudo de caso sobre uma criança
+com TDAH: o diagnóstico clínico. Psicologia e Saúde em Debate, v. 6, n. 2, p. 453-
+479, 2020.
+SILVA, F. M.; NUNES, C. A. Avaliação e suas dimensões no processo de ensino
+aprendizagem: Uma dinâmica pedagógica na visão de Hoffmann, Libâneo, Luckesi,
+Mello e Souza e, Sousa. Revista Multidisciplinar e de Psicologia, v. 14, n. 53, p.
+95-107, 2020.
+SILVA, L. B.; MARQUES, M. R. F. L. S.; BARCELAR, L. S. O desafio do professor
+frente ao aluno com transtorno do déficit de atenção e hiperatividade – TDAH.
+Revista Educação & Ensino. v. 5, n. 2, p. 20-39, 2021.
+SILVA, L. V.; CAMPOS, R. C.; SILVA, J. R.; SILVA, M. A.; BARRETO, M. Reflexões
+sobre a percepção da inclusão escolar: a perspectiva de professores e professoras.
+In: Congresso Nacional de Educação, 2., 2018, Poços de Caldas. Anais [...]. Poços
+de Caldas, 2018.
+SILVA, S. B.; DIAS, M. A. D. TDAH na Escola Estratégias de Metodologia para o
+Professor Trabalhar em Sala de Aula. Revista Eventos Pedagógicos, v.5, n.4, p.
+105-114, 2014.
+
+=== p. 21 ===
+Página | 21
+Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024.
+SOUZA, J. C. S.; SILVA, C. A. Desafios enfrentados por professoras de alunos com
+TDAH e contribuições docente no ensino e aprendizagem. In: Congresso
+Internacional de Educação Inclusiva, 4., 2020, Campina Grande. Anais [...].
+Campina Grande: Realize Editora, 2020.
+TEIXEIRA, G. Desatentos e hiperativos: manual para alunos, pais e professores.
+Rio de Janeiro: Best Seller, 2011.
+ZANATO, C. B.; GIMENEZ, R. Educação inclusiva: um olhar sobre as adaptações
+curriculares. Revista @mbienteeducação, v. 10, n. 2, p. 289-303, 2017.
+Recebido: 22 maio 2024
+Aprovado: 02 jul. 2024
+DOI: 10.3895/rtr.v9n0.17713
+Como Citar: PANSANATO, L. T. E.; SILVA, B. R. Um conjunto de diretrizes para a adaptação de avaliações de
+aprendizagem para alunos com TDAH. Revista Transmutare, Curitiba, v. 9, e17713, p. 1-21, 2024. Disponível
+em: <https://periodicos.utfpr.edu.br/rtr>. Acesso em: XXX.
+Correspondência:
+Luciano Tadeu Esteves Pansanato
+luciano@utfpr.edu.br
+Direito Autoral: Este artigo está licenciado sob os termos da licença Creative Commons Atribuição 4.0
+Internacional.

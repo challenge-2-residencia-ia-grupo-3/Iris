@@ -1,0 +1,154 @@
+{
+ "Q01": {
+  "pt": "Aluno esquece o enunciado no meio da questão de várias etapas: o que fazer sem dar a resposta?",
+  "en": "A student forgets the problem statement in the middle of a multi-step question: what should be done without giving the answer?"
+ },
+ "Q02": {
+  "pt": "Meu aluno com TDAH perde o foco depois de uns 10 minutos de tarefa. Como dividir a atividade para ele manter a atenção até o fim?",
+  "en": "My student with ADHD loses focus after about 10 minutes of a task; how can I break the activity down so that he can maintain his attention until the end?"
+ },
+ "Q03": {
+  "pt": "Como ajudar um aluno com TDAH que se perde na ordem dos passos de um problema, sem saber o que vem primeiro e o que vem depois?",
+  "en": "How can we help a student with ADHD who gets lost in the order of the steps of a problem, not knowing what comes first and what comes next?"
+ },
+ "Q04": {
+  "pt": "O aluno fica parado e não começa a atividade, mesmo sabendo o conteúdo. Que estratégia ajuda a iniciar a tarefa?",
+  "en": "The student remains still and does not start the activity, even though they know the content; what strategy helps initiate the task?"
+ },
+ "Q05": {
+  "pt": "A prova tem muita informação na mesma página e o aluno se perde. Como diagramar uma atividade para aluno com TDAH?",
+  "en": "The test has a lot of information on the same page and the student gets lost; how should an activity be designed for a student with ADHD?"
+ },
+ "Q06": {
+  "pt": "Aluno responde por impulso antes de terminar de ler a pergunta. O que posso fazer em sala para ele parar e conferir?",
+  "en": "The student answers impulsively before finishing reading the question; what can I do in the classroom to make them stop and check?"
+ },
+ "Q07": {
+  "pt": "Texto longo de interpretação: se eu ler em voz alta ou simplificar o texto para o aluno com TDAH, ainda estou avaliando a mesma habilidade?",
+  "en": "Long reading comprehension text: if I read it aloud or simplify the text for the student with ADHD, am I still assessing the same skill?"
+ },
+ "Q08": {
+  "pt": "Quais estratégias de manejo de sala (elogio, reforço, sistema de pontos, relatório diário com a família) ajudam o aluno com TDAH a ficar na tarefa?",
+  "en": "Which classroom management strategies (praise, reinforcement, point system, daily report with the family) help the student with ADHD stay on task?"
+ },
+ "Q09": {
+  "pt": "Onde devo sentar o aluno com TDAH e que ajustes no ambiente da sala ajudam a reduzir a distração?",
+  "en": "Where should I seat the student with ADHD, and what classroom environment adjustments help reduce distraction?"
+ },
+ "Q10": {
+  "pt": "Como dar instruções para um aluno com TDAH: falo tudo de uma vez ou em partes? Devo pedir para ele repetir o que entendeu?",
+  "en": "How to give instructions to a student with ADHD: should I say everything at once or in parts, and should I ask them to repeat what they understood?"
+ },
+ "Q11": {
+  "pt": "Quais são os três princípios do Desenho Universal para a Aprendizagem (DUA)?",
+  "en": "What are the three principles of Universal Design for Learning (UDL (DUA))?"
+ },
+ "Q12": {
+  "pt": "O que mudou na versão 3.0 das diretrizes do DUA em relação às versões anteriores?",
+  "en": "What changed in version 3.0 of the UDL (DUA) guidelines compared to previous versions?"
+ },
+ "Q13": {
+  "pt": "Dê exemplos de múltiplas formas de representação para apresentar um mesmo conteúdo aos alunos.",
+  "en": "Give examples of multiple forms of representation to present the same content to students."
+ },
+ "Q14": {
+  "pt": "Como oferecer múltiplos meios de ação e expressão numa avaliação, para o aluno mostrar o que sabe de outro jeito?",
+  "en": "How can multiple means of action and expression be offered in an assessment so that the student can demonstrate what they know in a different way?"
+ },
+ "Q15": {
+  "pt": "O que o DUA recomenda para o engajamento: como despertar o interesse e sustentar o esforço e a persistência dos alunos?",
+  "en": "What does UDL (DUA) recommend for engagement: how to spark interest and sustain students' effort and persistence?"
+ },
+ "Q16": {
+  "pt": "DUA é a mesma coisa que adaptação curricular individual? Qual a diferença entre planejar para todos e adaptar para um aluno?",
+  "en": "Is UDL (DUA) the same thing as an individual curricular adaptation? What is the difference between planning for everyone and adapting for one student?"
+ },
+ "Q17": {
+  "pt": "Nas diretrizes do DUA, o que se recomenda sobre estabelecer metas, planejar estratégias e monitorar o próprio progresso (as antigas 'funções executivas')?",
+  "en": "In the UDL (DUA) guidelines, what is recommended regarding setting goals, planning strategies, and monitoring one's own progress (the former 'executive functions')?"
+ },
+ "Q18": {
+  "pt": "Como aplicar o DUA no planejamento de aula numa sala comum inclusiva da escola brasileira? Tem exemplos práticos?",
+  "en": "How can UDL (DUA) be applied in lesson planning in a regular inclusive classroom in a Brazilian school? Are there practical examples?"
+ },
+ "Q19": {
+  "pt": "O que a Lei 14.254/2021 garante aos alunos com TDAH e dislexia na escola?",
+  "en": "What does Lei 14.254/2021 guarantee for students with ADHD and dyslexia in school?"
+ },
+ "Q20": {
+  "pt": "A escola pode exigir laudo médico para oferecer atendimento educacional ao aluno?",
+  "en": "Can the school require a medical report to provide educational support to the student?"
+ },
+ "Q21": {
+  "pt": "Como a Lei Brasileira de Inclusão (LBI) define barreiras e adaptações razoáveis?",
+  "en": "How does the Brazilian Inclusion Law (LBI) define barriers and reasonable accommodations?"
+ },
+ "Q22": {
+  "pt": "O que a LDB diz sobre a avaliação do aluno: contínua, cumulativa, com prevalência dos aspectos qualitativos?",
+  "en": "What does the LDB say about student assessment: continuous, cumulative, with a prevalence of qualitative aspects?"
+ },
+ "Q23": {
+  "pt": "O que é o AEE (atendimento educacional especializado), quem tem direito e ele substitui a sala de aula comum?",
+  "en": "What is AEE (specialized educational support), who is entitled to it, and does it replace the regular classroom?"
+ },
+ "Q24": {
+  "pt": "O que a nova Política Nacional de Educação Especial Inclusiva (Decreto 12.686/2025 e Portaria MEC 421/2026) estabelece?",
+  "en": "What does the new National Policy for Inclusive Special Education (Decree 12.686/2025 and MEC Ordinance 421/2026) establish?"
+ },
+ "Q25": {
+  "pt": "Aluno com dislexia no ENEM: que atendimento ele tem na redação e como a correção considera a dislexia?",
+  "en": "Students with dyslexia in the ENEM: what accommodations do they receive for the essay, and how does the grading process take dyslexia into account?"
+ },
+ "Q26": {
+  "pt": "Aluno com TDAH é público-alvo da educação especial? Ele tem direito ao AEE?",
+  "en": "Is a student with ADHD part of the target population for special education, and are they entitled to AEE?"
+ },
+ "Q27": {
+  "pt": "Tempo extra na prova funciona para aluno com TDAH ou com dificuldade? O que diz a pesquisa?",
+  "en": "Does extra time on the exam work for students with ADHD or with difficulties? What does the research say?"
+ },
+ "Q28": {
+  "pt": "Intervenções em sala de aula reduzem o comportamento fora da tarefa e disruptivo de crianças com TDAH? Qual o tamanho do efeito?",
+  "en": "Do classroom interventions reduce off-task and disruptive behavior in children with ADHD? What is the effect size?"
+ },
+ "Q29": {
+  "pt": "Treino cognitivo (por exemplo, treino de memória de trabalho no computador) melhora os sintomas do TDAH?",
+  "en": "Does cognitive training (for example, computer-based working memory training) improve ADHD symptoms?"
+ },
+ "Q30": {
+  "pt": "Colocar alunos com necessidades educacionais especiais na sala comum melhora ou piora o desempenho acadêmico deles?",
+  "en": "Does placing students with special educational needs in a regular classroom improve or worsen their academic performance?"
+ },
+ "Q31": {
+  "pt": "O ensino diferenciado (diferenciação) no ensino médio/secundário tem efeito comprovado no desempenho dos alunos?",
+  "en": "Does differentiated instruction (differentiation) in high school/secondary education have a proven effect on student performance?"
+ },
+ "Q32": {
+  "pt": "Intervenções escolares para TDAH testadas em ensaios randomizados melhoram o desempenho acadêmico ou só o comportamento?",
+  "en": "Do school-based interventions for ADHD tested in randomized trials improve academic performance or only behavior?"
+ },
+ "Q33": {
+  "pt": "Vale a pena ensinar de acordo com o estilo de aprendizagem do aluno (visual, auditivo, cinestésico)?",
+  "en": "Is it worth teaching according to the student's learning style (visual, auditory, kinesthetic)?"
+ },
+ "Q34": {
+  "pt": "Usar uma fonte especial para dislexia, como OpenDyslexic ou Dyslexie, ajuda o aluno a ler melhor?",
+  "en": "Does using a special font for dyslexia, such as OpenDyslexic or Dyslexie, help the student read better?"
+ },
+ "Q35": {
+  "pt": "Aumentar o espaçamento entre as letras ajuda a leitura de quem tem dislexia?",
+  "en": "Does increasing the spacing between letters help the reading of people with dyslexia?"
+ },
+ "Q36": {
+  "pt": "Quantos professores acreditam em neuromitos? E como é isso entre educadores no Brasil?",
+  "en": "How many teachers believe in neuromyths, and what is the situation among educators in Brazil?"
+ },
+ "Q37": {
+  "pt": "Sistemas automáticos de simplificação de texto preservam o sentido original? Dá para confiar que o texto simplificado mantém a informação?",
+  "en": "Do automatic text simplification systems preserve the original meaning? Can we trust that the simplified text retains the information?"
+ },
+ "Q38": {
+  "pt": "Modelos de linguagem (LLMs) conseguem reescrever um material didático em diferentes níveis de leitura mantendo o conteúdo correto?",
+  "en": "Can language models (LLMs) rewrite educational material at different reading levels while maintaining accurate content?"
+ }
+}

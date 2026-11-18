@@ -1,0 +1,1555 @@
+{
+  "versao": "v1",
+  "arquivo": "conjunto-v1.jsonl",
+  "sha256": "42b6df3f6c56591f1d8310753f416278b0ed7c9670f9556f6fc2941d675f94ef",
+  "n_itens": 166,
+  "congelado_em": "2026-11-12T20:50:39+00:00",
+  "commit_grupo_no_congelamento": "65e1f09",
+  "fontes": {
+    "data/golden_benchmark.json": {
+      "sha256": "5c6d0948c2b0c2612f10e3c552694e02ec5f837af75df6b18ce9937ba200d75f"
+    },
+    "data/benchmarks/questoes_escolares_v1.json": {
+      "sha256": "3ba6d5ea8fe9cda43c1b90aa46b2dabc4610fc618dd7525da326e7aaf44cb5c4"
+    }
+  },
+  "criterio_selecao": {
+    "data/golden_benchmark.json": "todos os itens (30); é o único banco com comando_conjugado_esperado",
+    "data/benchmarks/questoes_escolares_v1.json": "todos os itens com conceitos_trava_curricular; enunciado = enunciado_original + alternativas (uma por linha)",
+    "itens_disponiveis_por_disciplina_escolar": {
+      "Ciências": 32,
+      "Geografia": 21,
+      "História": 15,
+      "Língua Portuguesa": 29,
+      "Matemática": 39
+    },
+    "normalizacao_disciplina": {
+      "Português": "Língua Portuguesa"
+    },
+    "orcamento": "alvo de ~3 min na VPS compartilhada; medido ~0,15 s por item com o provedor eco, então os 166 itens cabem (~30 s) e não foi preciso amostrar"
+  },
+  "por_disciplina": {
+    "Ciências": {
+      "total": 38,
+      "data/golden_benchmark.json": 6,
+      "data/benchmarks/questoes_escolares_v1.json": 32
+    },
+    "Geografia": {
+      "total": 25,
+      "data/golden_benchmark.json": 4,
+      "data/benchmarks/questoes_escolares_v1.json": 21
+    },
+    "História": {
+      "total": 20,
+      "data/golden_benchmark.json": 5,
+      "data/benchmarks/questoes_escolares_v1.json": 15
+    },
+    "Língua Portuguesa": {
+      "total": 36,
+      "data/golden_benchmark.json": 7,
+      "data/benchmarks/questoes_escolares_v1.json": 29
+    },
+    "Matemática": {
+      "total": 47,
+      "data/golden_benchmark.json": 8,
+      "data/benchmarks/questoes_escolares_v1.json": 39
+    }
+  },
+  "itens": [
+    {
+      "id": "golden:Q01",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q01",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 172
+    },
+    {
+      "id": "golden:Q02",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q02",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 72
+    },
+    {
+      "id": "golden:Q03",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q03",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": null,
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 104
+    },
+    {
+      "id": "golden:Q04",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q04",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": null,
+      "n_conceitos_trava": 2,
+      "caracteres_enunciado": 109
+    },
+    {
+      "id": "golden:Q05",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q05",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 181
+    },
+    {
+      "id": "golden:Q06",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q06",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 122
+    },
+    {
+      "id": "golden:Q07",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q07",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 139
+    },
+    {
+      "id": "golden:Q08",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q08",
+      "disciplina": "Matemática",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 19
+    },
+    {
+      "id": "golden:Q09",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q09",
+      "disciplina": "Matemática",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 69
+    },
+    {
+      "id": "golden:Q10",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q10",
+      "disciplina": "Matemática",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 70
+    },
+    {
+      "id": "golden:Q11",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q11",
+      "disciplina": "Matemática",
+      "origem_externa": null,
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 118
+    },
+    {
+      "id": "golden:Q12",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q12",
+      "disciplina": "Matemática",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 78
+    },
+    {
+      "id": "golden:Q13",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q13",
+      "disciplina": "Matemática",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 77
+    },
+    {
+      "id": "golden:Q14",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q14",
+      "disciplina": "Matemática",
+      "origem_externa": null,
+      "n_conceitos_trava": 2,
+      "caracteres_enunciado": 45
+    },
+    {
+      "id": "golden:Q15",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q15",
+      "disciplina": "Matemática",
+      "origem_externa": null,
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 122
+    },
+    {
+      "id": "golden:Q16",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q16",
+      "disciplina": "Ciências",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 48
+    },
+    {
+      "id": "golden:Q17",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q17",
+      "disciplina": "Ciências",
+      "origem_externa": null,
+      "n_conceitos_trava": 2,
+      "caracteres_enunciado": 31
+    },
+    {
+      "id": "golden:Q18",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q18",
+      "disciplina": "Ciências",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 156
+    },
+    {
+      "id": "golden:Q19",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q19",
+      "disciplina": "Ciências",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 87
+    },
+    {
+      "id": "golden:Q20",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q20",
+      "disciplina": "Ciências",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 93
+    },
+    {
+      "id": "golden:Q21",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q21",
+      "disciplina": "Ciências",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 114
+    },
+    {
+      "id": "golden:Q22",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q22",
+      "disciplina": "História",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 45
+    },
+    {
+      "id": "golden:Q23",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q23",
+      "disciplina": "História",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 86
+    },
+    {
+      "id": "golden:Q24",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q24",
+      "disciplina": "História",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 206
+    },
+    {
+      "id": "golden:Q25",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q25",
+      "disciplina": "História",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 116
+    },
+    {
+      "id": "golden:Q26",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q26",
+      "disciplina": "História",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 148
+    },
+    {
+      "id": "golden:Q27",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q27",
+      "disciplina": "Geografia",
+      "origem_externa": null,
+      "n_conceitos_trava": 1,
+      "caracteres_enunciado": 24
+    },
+    {
+      "id": "golden:Q28",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q28",
+      "disciplina": "Geografia",
+      "origem_externa": null,
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 76
+    },
+    {
+      "id": "golden:Q29",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q29",
+      "disciplina": "Geografia",
+      "origem_externa": null,
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 108
+    },
+    {
+      "id": "golden:Q30",
+      "fonte": "data/golden_benchmark.json",
+      "id_original": "Q30",
+      "disciplina": "Geografia",
+      "origem_externa": null,
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 76
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-01",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-01",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 517
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-02",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-02",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 594
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-05",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-05",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 477
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-07",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-07",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 455
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-12",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-12",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 487
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-13",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-13",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 449
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-15",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-15",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 590
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-16",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-16",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 622
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-22",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-22",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 554
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-23",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-23",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 891
+    },
+    {
+      "id": "escolar:ENCCEJA2020-EF-CN-29",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENCCEJA2020-EF-CN-29",
+      "disciplina": "Ciências",
+      "origem_externa": "ENCCEJA 2020, Ensino Fundamental, Ciências Naturais, Prova I – Manhã (INEP). Exame para jovens e adultos, nível EF",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 717
+    },
+    {
+      "id": "escolar:ENEM2024-D2N-115",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2024-D2N-115",
+      "disciplina": "Ciências",
+      "origem_externa": "ENEM 2024, 2º dia, Caderno 11 – Laranja (versão ledor/leitor de tela), Ciências da Natureza e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 873
+    },
+    {
+      "id": "escolar:ENEM2024-D2N-127",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2024-D2N-127",
+      "disciplina": "Ciências",
+      "origem_externa": "ENEM 2024, 2º dia, Caderno 11 – Laranja (versão ledor/leitor de tela), Ciências da Natureza e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 894
+    },
+    {
+      "id": "escolar:ENEM2024-D2N-97",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2024-D2N-97",
+      "disciplina": "Ciências",
+      "origem_externa": "ENEM 2024, 2º dia, Caderno 11 – Laranja (versão ledor/leitor de tela), Ciências da Natureza e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 1021
+    },
+    {
+      "id": "escolar:ENEM2025-D2N-100",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2025-D2N-100",
+      "disciplina": "Ciências",
+      "origem_externa": "ENEM 2025, 2º dia, Caderno 11 – Laranja (versão ledor/leitor de tela), Ciências da Natureza e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 795
+    },
+    {
+      "id": "escolar:ENEM2025-D2N-111",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2025-D2N-111",
+      "disciplina": "Ciências",
+      "origem_externa": "ENEM 2025, 2º dia, Caderno 11 – Laranja (versão ledor/leitor de tela), Ciências da Natureza e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 1100
+    },
+    {
+      "id": "escolar:ENEM2025-D2N-122",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2025-D2N-122",
+      "disciplina": "Ciências",
+      "origem_externa": "ENEM 2025, 2º dia, Caderno 11 – Laranja (versão ledor/leitor de tela), Ciências da Natureza e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 676
+    },
+    {
+      "id": "escolar:OBC2026-F1-Q18",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBC2026-F1-Q18",
+      "disciplina": "Ciências",
+      "origem_externa": "Olimpíada Brasileira de Ciências 2026, 1ª fase (B8 Projetos Educacionais). Prova para nascidos a partir de 2011",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 660
+    },
+    {
+      "id": "escolar:OBC2026-F1-Q31",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBC2026-F1-Q31",
+      "disciplina": "Ciências",
+      "origem_externa": "Olimpíada Brasileira de Ciências 2026, 1ª fase (B8 Projetos Educacionais). Prova para nascidos a partir de 2011",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 488
+    },
+    {
+      "id": "escolar:OBC2026-F1-Q33",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBC2026-F1-Q33",
+      "disciplina": "Ciências",
+      "origem_externa": "Olimpíada Brasileira de Ciências 2026, 1ª fase (B8 Projetos Educacionais). Prova para nascidos a partir de 2011",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1089
+    },
+    {
+      "id": "escolar:OBC2026-F1-Q38",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBC2026-F1-Q38",
+      "disciplina": "Ciências",
+      "origem_externa": "Olimpíada Brasileira de Ciências 2026, 1ª fase (B8 Projetos Educacionais). Prova para nascidos a partir de 2011",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 662
+    },
+    {
+      "id": "escolar:OBC2026-F1-Q39",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBC2026-F1-Q39",
+      "disciplina": "Ciências",
+      "origem_externa": "Olimpíada Brasileira de Ciências 2026, 1ª fase (B8 Projetos Educacionais). Prova para nascidos a partir de 2011",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 795
+    },
+    {
+      "id": "escolar:OBC2026-F1-Q41",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBC2026-F1-Q41",
+      "disciplina": "Ciências",
+      "origem_externa": "Olimpíada Brasileira de Ciências 2026, 1ª fase (B8 Projetos Educacionais). Prova para nascidos a partir de 2011",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 723
+    },
+    {
+      "id": "escolar:OBC2026-F1-Q43",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBC2026-F1-Q43",
+      "disciplina": "Ciências",
+      "origem_externa": "Olimpíada Brasileira de Ciências 2026, 1ª fase (B8 Projetos Educacionais). Prova para nascidos a partir de 2011",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 938
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-76",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-76",
+      "disciplina": "Ciências",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 556
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-78",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-78",
+      "disciplina": "Ciências",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 476
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-81",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-81",
+      "disciplina": "Ciências",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 334
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-83",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-83",
+      "disciplina": "Ciências",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 530
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-85",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-85",
+      "disciplina": "Ciências",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 458
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-86",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-86",
+      "disciplina": "Ciências",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 650
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-87",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-87",
+      "disciplina": "Ciências",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 542
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-89",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-89",
+      "disciplina": "Ciências",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 324
+    },
+    {
+      "id": "escolar:ENEM2023-D1-53",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-53",
+      "disciplina": "Geografia",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 832
+    },
+    {
+      "id": "escolar:ENEM2023-D1-67",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-67",
+      "disciplina": "Geografia",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1054
+    },
+    {
+      "id": "escolar:ENEM2023-D1-78",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-78",
+      "disciplina": "Geografia",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1155
+    },
+    {
+      "id": "escolar:ESC05-1EM-GEO-02",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ESC05-1EM-GEO-02",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova escolar N1 – 2º período, 1º ano (identificada apenas pela tag \"05esc\"; escola não identificada, fonte não oficial)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 785
+    },
+    {
+      "id": "escolar:ESC05-1EM-GEO-03",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ESC05-1EM-GEO-03",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova escolar N1 – 2º período, 1º ano (identificada apenas pela tag \"05esc\"; escola não identificada, fonte não oficial)",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 391
+    },
+    {
+      "id": "escolar:ESC05-1EM-GEO-05",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ESC05-1EM-GEO-05",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova escolar N1 – 2º período, 1º ano (identificada apenas pela tag \"05esc\"; escola não identificada, fonte não oficial)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 181
+    },
+    {
+      "id": "escolar:ESC05-1EM-GEO-06",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ESC05-1EM-GEO-06",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova escolar N1 – 2º período, 1º ano (identificada apenas pela tag \"05esc\"; escola não identificada, fonte não oficial)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1274
+    },
+    {
+      "id": "escolar:ESC05-1EM-GEO-07",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ESC05-1EM-GEO-07",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova escolar N1 – 2º período, 1º ano (identificada apenas pela tag \"05esc\"; escola não identificada, fonte não oficial)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 593
+    },
+    {
+      "id": "escolar:ESC05-1EM-GEO-08",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ESC05-1EM-GEO-08",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova escolar N1 – 2º período, 1º ano (identificada apenas pela tag \"05esc\"; escola não identificada, fonte não oficial)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 966
+    },
+    {
+      "id": "escolar:ESC05-1EM-GEO-10",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ESC05-1EM-GEO-10",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova escolar N1 – 2º período, 1º ano (identificada apenas pela tag \"05esc\"; escola não identificada, fonte não oficial)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1719
+    },
+    {
+      "id": "escolar:OBG2018-F1-Q20",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBG2018-F1-Q20",
+      "disciplina": "Geografia",
+      "origem_externa": "Olimpíada Brasileira de Geografia (GeoBrasil) 2018. Prova aberta a 9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1559
+    },
+    {
+      "id": "escolar:OBG2018-F2-Q3",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBG2018-F2-Q3",
+      "disciplina": "Geografia",
+      "origem_externa": "Olimpíada Brasileira de Geografia (GeoBrasil) 2018. Prova aberta a 9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 259
+    },
+    {
+      "id": "escolar:OBG2023-F1-Q13",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBG2023-F1-Q13",
+      "disciplina": "Geografia",
+      "origem_externa": "Olimpíada Brasileira de Geografia (OBG) 2023. Prova aberta a 9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 461
+    },
+    {
+      "id": "escolar:OBG2023-F1-Q17",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBG2023-F1-Q17",
+      "disciplina": "Geografia",
+      "origem_externa": "Olimpíada Brasileira de Geografia (OBG) 2023. Prova aberta a 9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1121
+    },
+    {
+      "id": "escolar:OBG2023-F1-Q19",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBG2023-F1-Q19",
+      "disciplina": "Geografia",
+      "origem_externa": "Olimpíada Brasileira de Geografia (OBG) 2023. Prova aberta a 9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1446
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-59",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-59",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 716
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-60",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-60",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 589
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-61",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-61",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 875
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-62",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-62",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 489
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-63",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-63",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 847
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-65",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-65",
+      "disciplina": "Geografia",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 295
+    },
+    {
+      "id": "escolar:ENEM2023-D1-47",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-47",
+      "disciplina": "História",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 896
+    },
+    {
+      "id": "escolar:ENEM2023-D1-51",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-51",
+      "disciplina": "História",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 931
+    },
+    {
+      "id": "escolar:ENEM2023-D1-63",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-63",
+      "disciplina": "História",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1178
+    },
+    {
+      "id": "escolar:ENEM2023-D1-80",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-80",
+      "disciplina": "História",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 766
+    },
+    {
+      "id": "escolar:ENEM2023-D1-84",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-84",
+      "disciplina": "História",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1277
+    },
+    {
+      "id": "escolar:ONHB12-F1-Q02",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ONHB12-F1-Q02",
+      "disciplina": "História",
+      "origem_externa": "ONHB 12ª edição, Fase 1 (Unicamp/IFCH). Prova aberta a 8º/9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 3572
+    },
+    {
+      "id": "escolar:ONHB12-F1-Q05",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ONHB12-F1-Q05",
+      "disciplina": "História",
+      "origem_externa": "ONHB 12ª edição, Fase 1 (Unicamp/IFCH). Prova aberta a 8º/9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 4209
+    },
+    {
+      "id": "escolar:ONHB12-F1-Q06",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ONHB12-F1-Q06",
+      "disciplina": "História",
+      "origem_externa": "ONHB 12ª edição, Fase 1 (Unicamp/IFCH). Prova aberta a 8º/9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 2152
+    },
+    {
+      "id": "escolar:ONHB12-F1-Q07",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ONHB12-F1-Q07",
+      "disciplina": "História",
+      "origem_externa": "ONHB 12ª edição, Fase 1 (Unicamp/IFCH). Prova aberta a 8º/9º ano EF e Ensino Médio",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1794
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-66",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-66",
+      "disciplina": "História",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 655
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-67",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-67",
+      "disciplina": "História",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 828
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-68",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-68",
+      "disciplina": "História",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 635
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-73",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-73",
+      "disciplina": "História",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 741
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-74",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-74",
+      "disciplina": "História",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 848
+    },
+    {
+      "id": "escolar:SMESP2019-7EF-75",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SMESP2019-7EF-75",
+      "disciplina": "História",
+      "origem_externa": "Prova Semestral 2019, 7º ano, Caderno 2 (Secretaria Municipal de Educação de São Paulo)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1189
+    },
+    {
+      "id": "escolar:ENEM2010-1-LP-082",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2010-1-LP-082",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2010 (INEP), Linguagens, Códigos e suas Tecnologias; transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1956
+    },
+    {
+      "id": "escolar:ENEM2010-1-LP-089",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2010-1-LP-089",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2010 (INEP), Linguagens, Códigos e suas Tecnologias; transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 1942
+    },
+    {
+      "id": "escolar:ENEM2010-2-LP-120",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2010-2-LP-120",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2010 (INEP), Linguagens, Códigos e suas Tecnologias (aplicação em Unidades Prisionais); transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 2206
+    },
+    {
+      "id": "escolar:ENEM2011-1-LP-146",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2011-1-LP-146",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2011 (INEP), Linguagens, Códigos e suas Tecnologias; transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 2559
+    },
+    {
+      "id": "escolar:ENEM2011-2-LP-152",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2011-2-LP-152",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2011 (INEP), Linguagens, Códigos e suas Tecnologias (aplicação em Unidades Prisionais); transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1670
+    },
+    {
+      "id": "escolar:ENEM2012-1-LP-189",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2012-1-LP-189",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2012 (INEP), Linguagens, Códigos e suas Tecnologias; transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 2342
+    },
+    {
+      "id": "escolar:ENEM2012-1-LP-190",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2012-1-LP-190",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2012 (INEP), Linguagens, Códigos e suas Tecnologias; transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 2061
+    },
+    {
+      "id": "escolar:ENEM2012-2-LP-213",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2012-2-LP-213",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2012 (INEP), Linguagens, Códigos e suas Tecnologias (aplicação em Unidades Prisionais); transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1484
+    },
+    {
+      "id": "escolar:ENEM2013-1-LP-223",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2013-1-LP-223",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2013 (INEP), Linguagens, Códigos e suas Tecnologias; transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1650
+    },
+    {
+      "id": "escolar:ENEM2014-1-LP-271",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2014-1-LP-271",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2014 (INEP), Linguagens, Códigos e suas Tecnologias; transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1184
+    },
+    {
+      "id": "escolar:ENEM2014-2-LP-289",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2014-2-LP-289",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2014 (INEP), Linguagens, Códigos e suas Tecnologias; transcrito do Caderno Enem – Português (2009 a 2018)",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1703
+    },
+    {
+      "id": "escolar:ENEM2023-D1-09",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-09",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1294
+    },
+    {
+      "id": "escolar:ENEM2023-D1-11",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-11",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1608
+    },
+    {
+      "id": "escolar:ENEM2023-D1-45",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D1-45",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1647
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D1-Q04",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D1-Q04",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1286
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D10-Q03",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D10-Q03",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1512
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D11-Q05",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D11-Q05",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1427
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D12-Q01",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D12-Q01",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 869
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D13-Q04",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D13-Q04",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1219
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D16-Q02",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D16-Q02",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 929
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D19-Q04",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D19-Q04",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 842
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D2-Q05",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D2-Q05",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1036
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D20-Q02",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D20-Q02",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1871
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D21-Q02",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D21-Q02",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 2050
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D4-Q01",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D4-Q01",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 7,
+      "caracteres_enunciado": 1245
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D6-Q03",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D6-Q03",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1250
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D7-Q05",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D7-Q05",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 757
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D8-Q03",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D8-Q03",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 1187
+    },
+    {
+      "id": "escolar:SEDUES-9EF-D9-Q01",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "SEDUES-9EF-D9-Q01",
+      "disciplina": "Língua Portuguesa",
+      "origem_externa": "Banco de Atividades 2023 (SEDU-ES), itens alinhados à matriz do SAEB",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1418
+    },
+    {
+      "id": "escolar:ENEM2023-D2-136",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2-136",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 6,
+      "caracteres_enunciado": 1049
+    },
+    {
+      "id": "escolar:ENEM2023-D2-155",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2-155",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 8,
+      "caracteres_enunciado": 965
+    },
+    {
+      "id": "escolar:ENEM2023-D2-166",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2-166",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 6,
+      "caracteres_enunciado": 1205
+    },
+    {
+      "id": "escolar:ENEM2023-D2-169",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2-169",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 8,
+      "caracteres_enunciado": 848
+    },
+    {
+      "id": "escolar:ENEM2023-D2-171",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2-171",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 524
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-137",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-137",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 529
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-140",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-140",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 864
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-146",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-146",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 614
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-149",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-149",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 942
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-152",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-152",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1232
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-156",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-156",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 1018
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-161",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-161",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 702
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-163",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-163",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 628
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-165",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-165",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 893
+    },
+    {
+      "id": "escolar:ENEM2023-D2N-178",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "ENEM2023-D2N-178",
+      "disciplina": "Matemática",
+      "origem_externa": "ENEM 2023, 2º dia, Caderno 11 – Laranja (versão leitor de tela NVDA), Matemática e suas Tecnologias",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 566
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B1-Q02",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B1-Q02",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 301
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B1-Q04",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B1-Q04",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 198
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B1-Q05",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B1-Q05",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 227
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B1-Q08",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B1-Q08",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 200
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B2-Q02",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B2-Q02",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 2,
+      "caracteres_enunciado": 82
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B2-Q03",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B2-Q03",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 229
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B2-Q06",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B2-Q06",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 216
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B2-Q07",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B2-Q07",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 94
+    },
+    {
+      "id": "escolar:INEP-9EF-MAT-B2-Q12",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "INEP-9EF-MAT-B2-Q12",
+      "disciplina": "Matemática",
+      "origem_externa": "Prova modelo 9º ano EF (INEP/Prova Brasil), Matemática",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 99
+    },
+    {
+      "id": "escolar:OBMEP2024-N1-Q07",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2024-N1-Q07",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2024, 1ª fase, Nível 1",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 277
+    },
+    {
+      "id": "escolar:OBMEP2024-N1-Q09",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2024-N1-Q09",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2024, 1ª fase, Nível 1",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 169
+    },
+    {
+      "id": "escolar:OBMEP2024-N1-Q12",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2024-N1-Q12",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2024, 1ª fase, Nível 1",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 326
+    },
+    {
+      "id": "escolar:OBMEP2024-N1-Q16",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2024-N1-Q16",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2024, 1ª fase, Nível 1",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 187
+    },
+    {
+      "id": "escolar:OBMEP2024-N2-Q10",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2024-N2-Q10",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2024, 1ª fase, Nível 2",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 319
+    },
+    {
+      "id": "escolar:OBMEP2025-N1-Q06",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N1-Q06",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 1",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 374
+    },
+    {
+      "id": "escolar:OBMEP2025-N1-Q08",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N1-Q08",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 1",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 360
+    },
+    {
+      "id": "escolar:OBMEP2025-N1-Q12",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N1-Q12",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 1",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 161
+    },
+    {
+      "id": "escolar:OBMEP2025-N1-Q13",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N1-Q13",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 1",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 330
+    },
+    {
+      "id": "escolar:OBMEP2025-N1-Q20",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N1-Q20",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 1",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 548
+    },
+    {
+      "id": "escolar:OBMEP2025-N2-Q07",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N2-Q07",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 2",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 243
+    },
+    {
+      "id": "escolar:OBMEP2025-N2-Q09",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N2-Q09",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 2",
+      "n_conceitos_trava": 3,
+      "caracteres_enunciado": 161
+    },
+    {
+      "id": "escolar:OBMEP2025-N2-Q12",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N2-Q12",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 2",
+      "n_conceitos_trava": 6,
+      "caracteres_enunciado": 283
+    },
+    {
+      "id": "escolar:OBMEP2025-N2-Q15",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N2-Q15",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 2",
+      "n_conceitos_trava": 4,
+      "caracteres_enunciado": 304
+    },
+    {
+      "id": "escolar:OBMEP2025-N2-Q17",
+      "fonte": "data/benchmarks/questoes_escolares_v1.json",
+      "id_original": "OBMEP2025-N2-Q17",
+      "disciplina": "Matemática",
+      "origem_externa": "OBMEP 2025, 1ª fase, Nível 2",
+      "n_conceitos_trava": 5,
+      "caracteres_enunciado": 197
+    }
+  ],
+  "regra": "o conjunto não é refeito se o arquivo existir. Para mudar uma questão, crie conjunto-v2 (mude VERSAO); notas de versões diferentes não são comparáveis."
+}

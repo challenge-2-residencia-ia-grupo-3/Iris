@@ -146,7 +146,17 @@ def _ranking_bm25(pergunta: str, n: int, filtro: dict | None) -> list[tuple[str,
 def _ranking_denso(pergunta: str, apelido: str, n: int, filtro: dict | None) -> list[tuple[str, float]]:
     v = _modelo(apelido).vetor_pergunta(pergunta)
     bp, con = _pg()
-    return bp.buscar_denso(con, v, apelido, n, filtro)
+    resultado = bp.buscar_denso(con, v, apelido, n, filtro)
+    # O banco e o chunks.jsonl precisam vir da mesma base. Se o banco devolver um trecho que o arquivo não tem,
+    # a busca quebrava adiante com KeyError; aqui o erro diz o que aconteceu e quem chama pode recuar para o bm25.
+    _, por_id, _ = _base()
+    faltam = [cid for cid, _ in resultado if cid not in por_id]
+    if faltam:
+        raise RuntimeError(
+            f"o índice do banco tem trechos que o chunks.jsonl não tem (ex.: {faltam[0]}): o banco foi montado com "
+            "outra base de trechos; reconstrua o índice com a base atual ou use bm25"
+        )
+    return resultado
 
 
 def ranking(pergunta: str, metodo: str, n: int, filtro: dict | None = None) -> list[tuple[str, float]]:

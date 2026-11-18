@@ -105,7 +105,7 @@ def _percentil(valores: list[float], p: float) -> float:
 def medir(questoes: list[GoldenQuestion], cliente: HybridLLMClient | None = None) -> dict:
     """Roda o Adaptador com o modelo em cada questão e nível; devolve o resumo e os registros."""
     gravador = _Gravador(cliente or HybridLLMClient())
-    agente = AdapterAgent(llm_client=gravador)
+    agente = AdapterAgent(llm_client=gravador, comandos_por_regra=False)   # esta medição é do modelo, não da regra
 
     # Chamada de aquecimento, fora da contagem: carrega o modelo na memória e mede esse custo à parte.
     aquecimento = agente.adapt(_pedido(questoes[0], 1)).telemetry
