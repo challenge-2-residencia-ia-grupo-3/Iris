@@ -427,7 +427,7 @@
     "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
     "fonte": {
       "origem": "ENEM 2018",
-      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2018_PV_impresso_D1_CD1.pdf",
+      "url": "https://download.inep.gov.br/educacao_basica/enem/provas/2018/2018_PV_impresso_D1_CD1.pdf",
       "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos)"
     },
     "status": "rascunho"
@@ -447,7 +447,7 @@
     "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
     "fonte": {
       "origem": "OBMEP 2025",
-      "url": "https://www.obmep.org.br/provas.htm",
+      "url": "https://www.obmep.org.br/provas-2025.htm",
       "referencia": "Nível 2, 2ª fase, questão 4, itens c) e d) (itens a) e b), de preencher lacunas, omitidos)"
     },
     "status": "rascunho"

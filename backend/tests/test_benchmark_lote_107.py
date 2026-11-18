@@ -40,6 +40,20 @@ class TestLote107(unittest.TestCase):
             self.assertTrue(i.fonte.url.startswith(("https://download.inep.gov.br/", "https://www.obmep.org.br/")))
             self.assertEqual(i.status, "rascunho")
 
+    def test_url_aponta_para_a_prova_e_nao_para_a_lista(self):
+        # A fonte precisa levar à prova daquela aplicação: o PDF do Inep ou a página do ano na OBMEP.
+        # O endereço do ENEM 2018 sem "educacao_basica/" devolvia 404, e "provas.htm" é só a lista geral.
+        import re
+
+        for i in self.itens:
+            url = i.fonte.url
+            if url.startswith("https://download.inep.gov.br/"):
+                self.assertTrue(url.endswith(".pdf"), (i.id, url))
+                if i.id.startswith("ENEM2018"):
+                    self.assertIn("/educacao_basica/enem/provas/2018/", url, i.id)
+            else:
+                self.assertRegex(url, r"/provas-20\d\d\.htm$", i.id)
+
     def test_abertas_sem_alternativas(self):
         for i in self.itens:
             if i.id_caracteristica_alvo == ABERTAS:
