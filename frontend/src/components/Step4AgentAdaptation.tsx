@@ -105,6 +105,13 @@ export function Step4AgentAdaptation() {
     const scaffolding = loadScaffoldingFromSession();
     if (scaffolding && [1, 2, 3].includes(scaffolding.nivel)) {
       setNivel(scaffolding.nivel);
+      const travasEtapa3 =
+        scaffolding.invariantes_auditor?.conceitos_obrigatorios ||
+        scaffolding.trava_curricular?.conceitos_obrigatorios ||
+        [];
+      if (travasEtapa3.length > 0) {
+        setTravaManualTexto(travasEtapa3.join(", "));
+      }
     }
 
     const savedStep4 = loadStep4ResultFromSession();

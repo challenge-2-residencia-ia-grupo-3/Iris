@@ -35,6 +35,7 @@ import {
   SurgicalSelectionResponse,
 } from "@/services/catalogsApi";
 import {
+  calibrateScaffoldingLocally,
   calibrateScaffoldingSession,
   CurriculumLockInput,
   extractCurriculumLocksFromMaterialLocally,
@@ -169,6 +170,19 @@ export function Step3ScaffoldingLevel({
   // Recalibra sempre que o nível selecionado, os IDs ou a trava curricular mudam
   useEffect(() => {
     if (selectedIds.length === 0) return;
+
+    try {
+      const localImmediate = calibrateScaffoldingLocally(
+        selectedIds,
+        selectedLevel,
+        FALLBACK_OFFICIAL_CATALOG,
+        currentLockPayload
+      );
+      setCalibrationResult(localImmediate);
+      saveScaffoldingToSession(localImmediate);
+    } catch {
+      // Validação detalhada tratada abaixo
+    }
 
     let isMounted = true;
     setIsCalibrating(true);
