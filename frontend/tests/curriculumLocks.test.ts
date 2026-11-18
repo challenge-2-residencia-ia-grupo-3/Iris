@@ -109,3 +109,60 @@ describe("História 1.3.2 (#13): Travas Curriculares Inegociáveis e Alerta Prev
     expect(inv.conceitos_obrigatorios.length).toBeGreaterThan(0);
   });
 });
+
+describe("Revisão do PR #115 (achados 1 e 3) no navegador", () => {
+  const alerta = (objetivo: string, observacao?: string, nivel: 1 | 2 | 3 = 1) =>
+    evaluatePreventiveAntiCrutchLocally(nivel, [], {
+      conceitos_obrigatorios: [],
+      termos_tecnicos_intocaveis: [],
+      habilidade_bncc: null,
+      verbo_comando_bncc: null,
+      objetivo_avaliativo: objetivo,
+      observacao_adaptacao_docente: observacao ?? null,
+    });
+
+  it.each([
+    "Avaliar se o aluno sabe resumir o texto e identificar a ideia central",
+    "Resolver a equação e chegar ao resultado sem consultar o gabarito",
+    "Interpretar o poema; não entregar resposta pronta ao aluno",
+    "Interpretar o poema sem dar a ideia central pronta",
+  ])("objetivo que cita a habilidade ou proíbe a muleta não dispara alerta: %s", (objetivo) => {
+    expect(alerta(objetivo).emitido).toBe(false);
+  });
+
+  it("pedido explícito na observação continua disparando", () => {
+    expect(alerta("Avaliar interpretação de texto", "Incluir um resumo interpretativo para o aluno.").codigo).toBe(
+      "CONTRADICAO_DIRETA_INTERPRETACAO"
+    );
+    expect(alerta("Calcular o valor da incógnita na equação.", "Entregar a fórmula pronta.").codigo).toBe(
+      "CONTRADICAO_DIRETA_CALCULO"
+    );
+  });
+
+  it("pedido negado não dispara, e a negação só vale na mesma frase", () => {
+    expect(alerta("Avaliar interpretação de texto", "Não incluir resumo interpretativo.").emitido).toBe(false);
+    expect(alerta("Avaliar interpretação de texto", "Sem resumo interpretativo, apenas destaque.").emitido).toBe(false);
+    expect(alerta("Avaliar interpretação de texto", "Não use cores fortes. Incluir resumo interpretativo.").emitido).toBe(true);
+  });
+
+  it("verbo de pedido dentro do objetivo ainda dispara", () => {
+    expect(alerta("Avaliar interpretação de texto. Incluir resumo interpretativo para o aluno.").emitido).toBe(true);
+  });
+
+  it("Nível 3 em questão de inferência continua gerando aviso", () => {
+    expect(alerta("Inferir o sentido implícito da tirinha.", undefined, 3).codigo).toBe("RISCO_NIVEL_INTENSIVO_INFERENCIA");
+  });
+
+  it("a extração ignora o cabeçalho da prova", () => {
+    const e = extractCurriculumLocksFromMaterialLocally(
+      "Escola Estadual X. Aluno: Pedro Souza. Leia o texto sobre fotossíntese e explique o papel do cloroplasto."
+    );
+    expect(e.conceitos_obrigatorios).not.toContain("estadual");
+    expect(e.conceitos_obrigatorios).toContain("fotossíntese");
+    expect(e.objetivo_avaliativo).not.toMatch(/estadual|Pedro/i);
+  });
+
+  it("só cabeçalho: não perde o material", () => {
+    expect(extractCurriculumLocksFromMaterialLocally("Escola Municipal Machado de Assis.").objetivo_avaliativo).toBeTruthy();
+  });
+});

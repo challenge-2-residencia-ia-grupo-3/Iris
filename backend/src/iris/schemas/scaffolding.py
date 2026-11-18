@@ -326,6 +326,25 @@ class ScaffoldingCalibrationResponse(BaseModel):
     pii_removido_automaticamente: bool = Field(default=False)
 
 
+# Frases que falam de uma PESSOA ("laudo de TDAH do Pedro", "diagnóstico de TEA"). O detector global só pega CID,
+# laudo médico e medicação; aqui acrescentamos essas formas sem recusar conteúdo de currículo como "laudo técnico",
+# "síndrome de Down" ou "medicamentos genéricos".
+_RE_CLINICO_SOBRE_PESSOA = re.compile(
+    r"(?i)\b(?:laudo\s+(?:de|do|da|dos|das)\b|laudad[oa]s?\b|diagnosticad[oa]s?\b|"
+    r"diagn[oó]stico\s+(?:de|do|da)\s+(?:tea|tdah|tda|tod|autismo|autista|dislexia|discalculia|disgrafia|"
+    r"epilepsia|depress[aã]o|ansiedade|transtorno\w*|s[ií]ndrome\w*|defici[eê]ncia\w*))"
+)
+
+
+def _referencia_clinica(texto: str) -> str | None:
+    """CID/laudo médico/medicação (detector global) ou laudo/diagnóstico sobre uma pessoa (RNF-03)."""
+    achado = detect_clinical_reference(texto)
+    if achado:
+        return achado
+    m = _RE_CLINICO_SOBRE_PESSOA.search(texto)
+    return m.group(0).strip() if m else None
+
+
 # Padrões léxicos para o Validador Preventivo de Perda Cognitiva (RF-09)
 _RE_HABILIDADE_INTERPRETACAO_INFERENCIA = re.compile(
     r"(?i)\b(?:interpreta[cç][aã]o(?:\s+de\s+texto|\s+textual)?|interpretar|infer[eê]ncia|inferir|"
@@ -394,7 +413,7 @@ def _normalizar_lista_termos(raw: Any, field_name: str) -> tuple[list[str], bool
         texto = item.strip()
         if not texto:
             continue
-        clinical = detect_clinical_reference(texto)
+        clinical = _referencia_clinica(texto)
         if clinical:
             raise ScaffoldingValidationError(
                 message=(
@@ -437,7 +456,7 @@ def _normalizar_texto_opcional(
             code="CURRICULUM_LOCK_TOO_LONG",
             field=field_name,
         )
-    clinical = detect_clinical_reference(texto)
+    clinical = _referencia_clinica(texto)
     if clinical:
         raise ScaffoldingValidationError(
             message=(
@@ -613,6 +632,33 @@ def build_auditor_invariants(
     )
 
 
+_RE_NEGACAO = re.compile(r"(?i)\b(?:sem|n[aã]o|nunca|jamais|evit\w*|proib\w*|vedad\w*|nenhum\w*)\b")
+_RE_VERBO_DE_PEDIDO = re.compile(
+    r"(?i)\b(?:inclu\w*|fornec\w*|forne[cç]\w*|dar|d[eê]|d[aá]|dando|entreg(?:ue|ar|ando)|apresent\w*|coloc\w*|"
+    r"adicion\w*|acrescent\w*|disponibiliz\w*|ofere[cç]\w*|ger(?:e|ar|ando)|cri(?:e|ar|ando)|inser\w*|"
+    r"mostr\w*|escrev\w*|monte|montar|ped\w*|solicit\w*|quero|preciso|necessit\w*|traga|trazer)\b"
+)
+_JANELA_NEGACAO = 6  # palavras antes do termo em que um "sem"/"não" ainda o nega
+
+
+def _muleta_pedida(padrao: re.Pattern[str], texto: str, exigir_verbo: bool) -> re.Match[str] | None:
+    """Acha o termo-muleta que o docente PEDIU de fato.
+
+    Ignora o termo quando ele vem negado ("sem consultar o gabarito", "não entregar resposta pronta"). Com
+    `exigir_verbo` (texto do objetivo avaliativo, que descreve a habilidade e não um pedido), só vale se houver um
+    verbo de pedido antes do termo na mesma frase ("incluir um resumo interpretativo").
+    """
+    for frase in re.split(r"[.;!?\n]+", texto or ""):
+        for m in padrao.finditer(frase):
+            antes = frase[: m.start()]
+            if _RE_NEGACAO.search(" ".join(antes.split()[-_JANELA_NEGACAO:])):
+                continue
+            if exigir_verbo and not _RE_VERBO_DE_PEDIDO.search(antes):
+                continue
+            return m
+    return None
+
+
 def evaluate_preventive_anti_crutch(
     nivel: int,
     selected_ids: list[str],
@@ -636,30 +682,33 @@ def evaluate_preventive_anti_crutch(
             ],
         )
     )
-    texto_pedido_docente = " ".join(
-        filter(
-            None,
-            [
-                lock.observacao_adaptacao_docente,
-                lock.objetivo_avaliativo,
-            ],
+    # A observação de adaptação é, por definição, um pedido; o objetivo avaliativo descreve a habilidade e só conta
+    # como pedido quando traz um verbo de pedido e não vem negado.
+    observacao = lock.observacao_adaptacao_docente or ""
+    objetivo = lock.objetivo_avaliativo or ""
+
+    def _pedido(padrao: re.Pattern[str]) -> re.Match[str] | None:
+        return _muleta_pedida(padrao, observacao, exigir_verbo=False) or _muleta_pedida(
+            padrao, objetivo, exigir_verbo=True
         )
-    )
 
     conflitos: list[str] = []
 
     avalia_interpretacao = bool(_RE_HABILIDADE_INTERPRETACAO_INFERENCIA.search(texto_habilidade))
-    pede_muleta_interpretacao = bool(_RE_MULETA_INTERPRETACAO.search(texto_pedido_docente))
+    match_interpretacao = _pedido(_RE_MULETA_INTERPRETACAO)
+    pede_muleta_interpretacao = match_interpretacao is not None
 
     avalia_calculo = bool(_RE_HABILIDADE_CALCULO_ALGEBRA.search(texto_habilidade))
-    pede_muleta_calculo = bool(_RE_MULETA_CALCULO.search(texto_pedido_docente))
+    match_calculo = _pedido(_RE_MULETA_CALCULO)
+    pede_muleta_calculo = match_calculo is not None
 
     avalia_conceito = bool(_RE_HABILIDADE_CONCEITUAL.search(texto_habilidade)) or len(lock.conceitos_obrigatorios) > 0
-    pede_muleta_definicao = bool(_RE_MULETA_DEFINICAO_DIRETA.search(texto_pedido_docente))
+    match_definicao = _pedido(_RE_MULETA_DEFINICAO_DIRETA)
+    pede_muleta_definicao = match_definicao is not None
 
     # 1. Contradição direta explícita entre o pedido de adaptação e a habilidade avaliada (Ex.: Critério BDD da 1.3.2)
     if avalia_interpretacao and pede_muleta_interpretacao:
-        match_muleta = _RE_MULETA_INTERPRETACAO.search(texto_pedido_docente)
+        match_muleta = match_interpretacao
         termo_conflito = match_muleta.group(0) if match_muleta else "resumo interpretativo"
         conflitos.append(
             f"Solicitação de '{termo_conflito}' contradiz diretamente a habilidade avaliada de interpretação/inferência textual."
@@ -683,7 +732,7 @@ def evaluate_preventive_anti_crutch(
         )
 
     if avalia_calculo and pede_muleta_calculo:
-        match_muleta = _RE_MULETA_CALCULO.search(texto_pedido_docente)
+        match_muleta = match_calculo
         termo_conflito = match_muleta.group(0) if match_muleta else "fórmula/passo resolvido"
         conflitos.append(
             f"Solicitação de '{termo_conflito}' contradiz a habilidade avaliada de resolução matemática/algébrica."
@@ -706,7 +755,7 @@ def evaluate_preventive_anti_crutch(
         )
 
     if avalia_conceito and pede_muleta_definicao:
-        match_muleta = _RE_MULETA_DEFINICAO_DIRETA.search(texto_pedido_docente)
+        match_muleta = match_definicao
         termo_conflito = match_muleta.group(0) if match_muleta else "definição pronta da resposta"
         conflitos.append(
             f"Solicitação de '{termo_conflito}' entrega diretamente o conceito que é objeto de avaliação."
@@ -950,7 +999,23 @@ _STOPWORDS_EXTRACAO: frozenset[str] = frozenset({
     "mesma", "apenas", "somente", "então", "porque", "pois", "assim", "durante",
     "depois", "antes", "através", "acordo", "segundo", "aluno", "estudante",
     "escola", "professor", "atividade", "exercício", "exercicio", "enunciado",
+    "estadual", "municipal", "federal", "colégio", "colegio", "instituto", "turma",
+    "série", "serie", "bimestre", "disciplina", "avaliação", "avaliacao", "prova",
+    "professora", "nome", "data", "nota", "valor",
 })
+
+# Frases de cabeçalho de prova ("Escola Estadual X.", "Aluno: Pedro Souza.", "Data: 10/11") não são conteúdo.
+_RE_FRASE_DE_CABECALHO = re.compile(
+    r"(?i)^\s*(?:escola|col[eé]gio|instituto|centro\s+educacional|aluno|aluna|nome|data|turma|s[eé]rie|ano|"
+    r"bimestre|disciplina|professor|professora|prova|avalia[cç][aã]o|nota|valor)\b"
+)
+
+
+def _sem_cabecalho(texto: str) -> str:
+    """Tira as frases de cabeçalho antes de extrair conceitos; se sobrar nada, devolve o texto original."""
+    frases = re.split(r"(?<=[.!?])\s+|\n+", texto)
+    uteis = [f for f in frases if f.strip() and not _RE_FRASE_DE_CABECALHO.match(f)]
+    return " ".join(uteis) if uteis else texto
 
 
 def extract_curriculum_locks_from_material(material_text: str) -> CurriculumLockInput:
@@ -958,7 +1023,7 @@ def extract_curriculum_locks_from_material(material_text: str) -> CurriculumLock
     if not material_text or not material_text.strip():
         return CurriculumLockInput()
 
-    sanitized, _ = sanitize_pedagogical_note(material_text)
+    sanitized, _ = sanitize_pedagogical_note(_sem_cabecalho(material_text))
 
     # 1. Código BNCC explícito no texto (ex.: EF06CI05, EF67LP08, EM13CNT101)
     bncc_match = re.search(r"\b(?:EF\d{2}[A-Z]{2}\d{2}|EM\d{2}[A-Z]{3}\d{3})\b", sanitized)

@@ -230,6 +230,33 @@ const RE_HABILIDADE_CONCEITUAL =
 const RE_MULETA_DEFINICAO =
   /\b(?:definir\s+o\s+termo\s+avaliado|dar\s+a\s+defini[cç][aã]o\s+pronta|explicar\s+o\s+conceito\s+no\s+enunciado|gloss[aá]rio\s+com\s+a\s+resposta|destacar\s+a\s+resposta|indicar\s+a\s+alternativa\s+correta|resposta\s+pronta|gabarito)\b/i;
 
+const BORDA_ANTES = "(?<![\\p{L}\\p{N}])";
+const BORDA_DEPOIS = "(?![\\p{L}\\p{N}])";
+const RE_NEGACAO = new RegExp(`${BORDA_ANTES}(?:sem|n[aã]o|nunca|jamais|evit\\p{L}*|proib\\p{L}*|vedad\\p{L}*|nenhum\\p{L}*)${BORDA_DEPOIS}`, "iu");
+const RE_VERBO_DE_PEDIDO = new RegExp(
+  `${BORDA_ANTES}(?:inclu\\p{L}*|fornec\\p{L}*|forne[cç]\\p{L}*|dar|d[eê]|d[aá]|dando|entreg(?:ue|ar|ando)|apresent\\p{L}*|coloc\\p{L}*|adicion\\p{L}*|acrescent\\p{L}*|disponibiliz\\p{L}*|ofere[cç]\\p{L}*|ger(?:e|ar|ando)|cri(?:e|ar|ando)|inser\\p{L}*|mostr\\p{L}*|escrev\\p{L}*|monte|montar|ped\\p{L}*|solicit\\p{L}*|quero|preciso|necessit\\p{L}*|traga|trazer)${BORDA_DEPOIS}`,
+  "iu"
+);
+const JANELA_NEGACAO = 6; // palavras antes do termo em que um "sem"/"não" ainda o nega
+
+/**
+ * Acha o termo-muleta que o docente PEDIU de fato (espelha `_muleta_pedida` do backend).
+ * Ignora o termo negado ("sem consultar o gabarito"). Com `exigirVerbo` (texto do objetivo avaliativo, que descreve
+ * a habilidade e não um pedido), só vale se houver um verbo de pedido antes do termo na mesma frase.
+ */
+export function muletaPedida(padrao: RegExp, texto: string | null | undefined, exigirVerbo: boolean): RegExpMatchArray | null {
+  const global = new RegExp(padrao.source, padrao.flags.includes("g") ? padrao.flags : `${padrao.flags}g`);
+  for (const frase of (texto || "").split(/[.;!?\n]+/)) {
+    for (const m of Array.from(frase.matchAll(global))) {
+      const antes = frase.slice(0, m.index ?? 0);
+      if (RE_NEGACAO.test(antes.split(/\s+/).filter(Boolean).slice(-JANELA_NEGACAO).join(" "))) continue;
+      if (exigirVerbo && !RE_VERBO_DE_PEDIDO.test(antes)) continue;
+      return m;
+    }
+  }
+  return null;
+}
+
 /**
  * Validador Preventivo de Perda Cognitiva / Anti-Muleta executado localmente (RF-09).
  */
@@ -256,22 +283,21 @@ export function evaluatePreventiveAntiCrutchLocally(
     .filter(Boolean)
     .join(" ");
 
-  const textoPedidoDocente = [
-    safeLock.observacao_adaptacao_docente,
-    safeLock.objetivo_avaliativo,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  // A observação de adaptação é, por definição, um pedido; o objetivo avaliativo descreve a habilidade e só conta
+  // como pedido quando traz um verbo de pedido e não vem negado.
+  const pedido = (padrao: RegExp) =>
+    muletaPedida(padrao, safeLock.observacao_adaptacao_docente, false) ||
+    muletaPedida(padrao, safeLock.objetivo_avaliativo, true);
 
   const avaliaInterpretacao = RE_HABILIDADE_INTERPRETACAO.test(textoHabilidade);
-  const matchMuletaInterpretacao = textoPedidoDocente.match(RE_MULETA_INTERPRETACAO);
+  const matchMuletaInterpretacao = pedido(RE_MULETA_INTERPRETACAO);
 
   const avaliaCalculo = RE_HABILIDADE_CALCULO.test(textoHabilidade);
-  const matchMuletaCalculo = textoPedidoDocente.match(RE_MULETA_CALCULO);
+  const matchMuletaCalculo = pedido(RE_MULETA_CALCULO);
 
   const avaliaConceito =
     RE_HABILIDADE_CONCEITUAL.test(textoHabilidade) || safeLock.conceitos_obrigatorios.length > 0;
-  const matchMuletaDefinicao = textoPedidoDocente.match(RE_MULETA_DEFINICAO);
+  const matchMuletaDefinicao = pedido(RE_MULETA_DEFINICAO);
 
   if (avaliaInterpretacao && matchMuletaInterpretacao) {
     const termo = matchMuletaInterpretacao[0];
@@ -738,7 +764,22 @@ const STOPWORDS_EXTRACAO = new Set([
   "mesma", "apenas", "somente", "então", "porque", "pois", "assim", "durante",
   "depois", "antes", "através", "acordo", "segundo", "aluno", "estudante",
   "escola", "professor", "atividade", "exercício", "exercicio", "enunciado",
+  "estadual", "municipal", "federal", "colégio", "colegio", "instituto", "turma",
+  "série", "serie", "bimestre", "disciplina", "avaliação", "avaliacao", "prova",
+  "professora", "nome", "data", "nota", "valor",
 ]);
+
+// Frases de cabeçalho de prova ("Escola Estadual X.", "Aluno: Pedro Souza.") não são conteúdo.
+const RE_FRASE_DE_CABECALHO =
+  /^\s*(?:escola|col[eé]gio|instituto|centro\s+educacional|aluno|aluna|nome|data|turma|s[eé]rie|ano|bimestre|disciplina|professor|professora|prova|avalia[cç][aã]o|nota|valor)\b/i;
+
+/** Tira as frases de cabeçalho antes de extrair conceitos; se não sobrar nada, devolve o texto original. */
+export function semCabecalho(texto: string): string {
+  const uteis = texto
+    .split(/(?<=[.!?])\s+|\n+/)
+    .filter((f) => f.trim() && !RE_FRASE_DE_CABECALHO.test(f));
+  return uteis.length > 0 ? uteis.join(" ") : texto;
+}
 
 const VERBOS_COMANDO_MAP: Record<string, string> = {
   analise: "analisar", analisar: "analisar",
@@ -778,7 +819,7 @@ export function extractCurriculumLocksFromMaterialLocally(
     };
   }
 
-  const text = materialText.trim();
+  const text = semCabecalho(materialText.trim());
   const bnccMatch = text.match(/\b(?:EF\d{2}[A-Z]{2}\d{2}|EM\d{2}[A-Z]{3}\d{3})\b/);
   const habBncc = bnccMatch ? bnccMatch[0] : null;
 

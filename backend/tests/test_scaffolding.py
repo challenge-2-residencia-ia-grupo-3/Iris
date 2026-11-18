@@ -453,5 +453,91 @@ class TestCurriculumLocksAndAntiCrutch(unittest.TestCase):
         self.assertEqual(ctx.exception.code, "CLINICAL_REFERENCE_FORBIDDEN")
 
 
+from iris.schemas.scaffolding import parse_and_sanitize_curriculum_lock  # noqa: E402
+
+
+class TestRevisaoPR115(unittest.TestCase):
+    """Achados da revisão do PR #115: pedido x objetivo, termos clínicos sobre pessoas e cabeçalho do material."""
+
+    @staticmethod
+    def _alerta(objetivo: str | None, observacao: str | None = None, nivel: int = NIVEL_LEVE):
+        from iris.schemas.scaffolding import evaluate_preventive_anti_crutch, parse_and_sanitize_curriculum_lock
+
+        lock, _ = parse_and_sanitize_curriculum_lock(
+            {"objetivo_avaliativo": objetivo, "observacao_adaptacao_docente": observacao}
+        )
+        return evaluate_preventive_anti_crutch(nivel, [], lock)
+
+    # --- achado 1: o objetivo avaliativo não é um pedido de adaptação
+    def test_objetivo_que_cita_a_habilidade_ou_proibe_a_muleta_nao_dispara_alerta(self) -> None:
+        for objetivo in (
+            "Avaliar se o aluno sabe resumir o texto e identificar a ideia central",
+            "Resolver a equação e chegar ao resultado sem consultar o gabarito",
+            "Interpretar o poema; não entregar resposta pronta ao aluno",
+            "Interpretar o poema sem dar a ideia central pronta",
+        ):
+            with self.subTest(objetivo=objetivo):
+                self.assertFalse(self._alerta(objetivo).emitido)
+
+    def test_pedido_explicito_na_observacao_continua_disparando(self) -> None:
+        a = self._alerta("Avaliar interpretação de texto", "Incluir um resumo interpretativo para o aluno.")
+        self.assertTrue(a.emitido)
+        self.assertEqual(a.codigo, "CONTRADICAO_DIRETA_INTERPRETACAO")
+        b = self._alerta("Calcular o valor da incógnita na equação.", "Entregar a fórmula pronta.")
+        self.assertEqual(b.codigo, "CONTRADICAO_DIRETA_CALCULO")
+
+    def test_pedido_negado_na_observacao_nao_dispara(self) -> None:
+        for obs in ("Não incluir resumo interpretativo.", "Sem resumo interpretativo, apenas destaque visual."):
+            with self.subTest(obs=obs):
+                self.assertFalse(self._alerta("Avaliar interpretação de texto", obs).emitido)
+
+    def test_pedido_com_verbo_dentro_do_objetivo_ainda_dispara(self) -> None:
+        a = self._alerta("Avaliar interpretação de texto. Incluir resumo interpretativo para o aluno.")
+        self.assertTrue(a.emitido)
+
+    def test_negacao_so_vale_na_mesma_frase_e_perto_do_termo(self) -> None:
+        a = self._alerta("Avaliar interpretação de texto", "Não use cores fortes. Incluir resumo interpretativo.")
+        self.assertTrue(a.emitido)
+
+    def test_nivel_3_em_inferencia_continua_gerando_aviso(self) -> None:
+        a = self._alerta("Inferir o sentido implícito da tirinha.", None, NIVEL_INTENSIVO)
+        self.assertEqual(a.codigo, "RISCO_NIVEL_INTENSIVO_INFERENCIA")
+
+    # --- achado 2: laudo e diagnóstico sobre pessoas
+    def test_laudo_e_diagnostico_sobre_pessoa_sao_recusados_na_trava(self) -> None:
+        for texto in ("laudo de TDAH do Pedro", "diagnóstico de TEA", "aluno diagnosticado com dislexia", "laudo do Pedro"):
+            with self.subTest(texto=texto), self.assertRaises(ScaffoldingValidationError) as ctx:
+                parse_and_sanitize_curriculum_lock({"conceitos_obrigatorios": [texto]})
+            self.assertEqual(ctx.exception.code, "CLINICAL_REFERENCE_FORBIDDEN")
+
+    def test_conteudo_de_curriculo_parecido_continua_aceito(self) -> None:
+        lock, _ = parse_and_sanitize_curriculum_lock(
+            {"conceitos_obrigatorios": ["laudo técnico", "síndrome de Down", "medicamentos genéricos", "diagnóstico de rede"]}
+        )
+        self.assertEqual(len(lock.conceitos_obrigatorios), 4)
+
+    def test_laudo_sobre_pessoa_no_objetivo_tambem_e_recusado(self) -> None:
+        with self.assertRaises(ScaffoldingValidationError):
+            parse_and_sanitize_curriculum_lock({"objetivo_avaliativo": "Explicar fotossíntese conforme o laudo do aluno"})
+
+    # --- achado 3: cabeçalho do material
+    def test_extracao_ignora_cabecalho_da_prova(self) -> None:
+        from iris.schemas.scaffolding import extract_curriculum_locks_from_material
+
+        lock = extract_curriculum_locks_from_material(
+            "Escola Estadual X. Aluno: Pedro Souza. Leia o texto sobre fotossíntese e explique o papel do cloroplasto."
+        )
+        self.assertNotIn("estadual", lock.conceitos_obrigatorios)
+        self.assertIn("fotossíntese", lock.conceitos_obrigatorios)
+        self.assertNotIn("estadual", (lock.objetivo_avaliativo or "").lower())
+        self.assertNotIn("Pedro", lock.objetivo_avaliativo or "")
+
+    def test_extracao_nao_perde_o_material_quando_so_ha_cabecalho(self) -> None:
+        from iris.schemas.scaffolding import extract_curriculum_locks_from_material
+
+        lock = extract_curriculum_locks_from_material("Escola Municipal Machado de Assis.")
+        self.assertIsNotNone(lock.objetivo_avaliativo)
+
+
 if __name__ == "__main__":
     unittest.main()
