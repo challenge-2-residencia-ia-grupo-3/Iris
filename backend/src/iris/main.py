@@ -669,6 +669,12 @@ def create_app() -> Any:
     if sessoes_router is not None:
         app.include_router(sessoes_router, prefix="/api/v1")
 
+    # Registra a observação pedagógica por voz (História 1.2.3 - Issue #10)
+    from iris.api.routes.audio import router as audio_router
+
+    if audio_router is not None:
+        app.include_router(audio_router, prefix="/api/v1")
+
     @app.post("/api/v1/rag/build", tags=["rag"])
     def rag_build() -> dict[str, Any]:
         return _handle_rag_build()
