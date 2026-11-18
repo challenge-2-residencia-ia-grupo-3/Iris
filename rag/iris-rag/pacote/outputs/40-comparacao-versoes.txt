@@ -1,0 +1,39 @@
+O RAG ANTIGO CONTRA O NOVO, NO PROTOCOLO DO RELATÓRIO DE 09/11/2026
+Perguntas: 38 com resposta na base (gabarito de 09/11) e 27 sem (2 do relatório e 25 fora da base).
+Busca: a mesma para as duas versões (qwen3+rerank50, 5 trechos). Antigo: Llama 3.1 8B local, prompt de antes. Novo: Haiku 5.5, prompt com esclarecimento.
+Juiz do RAGAS: claude-sonnet-5-5; vetores Qwen/Qwen3-Embedding-0.6B. Intervalos de 95% por reamostragem das perguntas (2000). Nenhum modelo foi treinado.
+
+BUSCA (igual nas duas versões; gabarito de 09/11, por chunk_id, sem modelo)
+  recall@5 (IDBasedContextRecall)      0.32 [0.23; 0.42]
+  precisão@5 (IDBasedContextPrecision) 0.26 [0.18; 0.34]
+  perguntas com ao menos um trecho do gabarito: 27 de 38
+
+                                                        antigo          novo        novo20
+  recusa nas perguntas sem resposta                   16 de 27      27 de 27      27 de 27
+  recusa indevida nas perguntas com resposta           3 de 38       6 de 38       3 de 38
+  pediu esclarecimento                                 1 de 65       0 de 65       0 de 65
+  resposta com citação de trecho inexistente           0 de 38       0 de 38       0 de 38
+  resposta com frase sem citação                      12 de 38       2 de 38       3 de 38
+  erro do gerador                                      4 de 65       0 de 65       0 de 65
+
+RAGAS NAS 38 PERGUNTAS COM RESPOSTA (média; recusa entra como resposta e tende a nota baixa em relevância)
+  novo contra antigo, todas as respostas (recusa vale 0)
+    faithfulness         antigo 0.73   novo 0.82   diferença +0.09 [-0.01; +0.20]   (36 perguntas)
+    answer_relevancy     antigo 0.66   novo 0.65   diferença -0.01 [-0.14; +0.12]   (38 perguntas)
+  novo contra antigo, só onde as duas versões responderam
+    faithfulness         antigo 0.81   novo 0.92   diferença +0.12 [+0.03; +0.21]   (29 perguntas)
+    answer_relevancy     antigo 0.71   novo 0.77   diferença +0.05 [-0.04; +0.17]   (31 perguntas)
+  novo20 contra novo, todas as respostas (recusa vale 0)
+    faithfulness         novo 0.83   novo20 0.90   diferença +0.06 [-0.00; +0.14]   (38 perguntas)
+    answer_relevancy     novo 0.65   novo20 0.68   diferença +0.03 [-0.04; +0.12]   (38 perguntas)
+  novo20 contra novo, só onde as duas versões responderam
+    faithfulness         novo 0.93   novo20 0.95   diferença +0.02 [-0.04; +0.07]   (32 perguntas)
+    answer_relevancy     novo 0.77   novo20 0.74   diferença -0.03 [-0.07; +0.01]   (32 perguntas)
+  novo20 contra antigo, todas as respostas (recusa vale 0)
+    faithfulness         antigo 0.73   novo20 0.90   diferença +0.17 [+0.08; +0.27]   (36 perguntas)
+    answer_relevancy     antigo 0.66   novo20 0.68   diferença +0.02 [-0.10; +0.15]   (38 perguntas)
+  novo20 contra antigo, só onde as duas versões responderam
+    faithfulness         antigo 0.80   novo20 0.93   diferença +0.13 [+0.05; +0.23]   (31 perguntas)
+    answer_relevancy     antigo 0.71   novo20 0.73   diferença +0.02 [-0.06; +0.11]   (33 perguntas)
+
+custo do juiz do RAGAS, calculado pelos tokens com a tabela de preços da Anthropic: ragas_novo_5 US$ 0.1672; ragas_novo_33 US$ 1.261; ragas_novo20_38 US$ 2.1545; ragas_antigo_38 US$ 1.346
