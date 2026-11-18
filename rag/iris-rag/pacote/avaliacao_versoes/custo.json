@@ -1,0 +1,26 @@
+{
+ "ragas_novo_5": {
+  "juiz": "claude-sonnet-5-5",
+  "entrada": 48723,
+  "saida": 6977,
+  "dolar": 0.2508
+ },
+ "ragas_novo_33": {
+  "juiz": "claude-sonnet-5-5",
+  "entrada": 325265,
+  "saida": 61044,
+  "dolar": 1.8915
+ },
+ "ragas_novo20_38": {
+  "juiz": "claude-sonnet-5-5",
+  "entrada": 705938,
+  "saida": 74263,
+  "dolar": 3.2318
+ },
+ "ragas_antigo_38": {
+  "juiz": "claude-sonnet-5-5",
+  "entrada": 362013,
+  "saida": 62200,
+  "dolar": 2.019
+ }
+}
