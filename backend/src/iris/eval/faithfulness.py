@@ -46,14 +46,9 @@ def criar_pontuador_ragas(provider: str, modelo: str) -> Pontuador:
 
         client = AsyncOpenAI()
     elif provider == "anthropic":
-        import instructor
         from anthropic import AsyncAnthropic
 
         client = AsyncAnthropic()
-        # O RAGAS cria o Instructor no modo de ferramentas, com tool_choice forçado, que os modelos Claude 5 recusam
-        # (erro 400). O modo de JSON da Anthropic dá a mesma saída estruturada.
-        _de_anthropic = instructor.from_anthropic
-        instructor.from_anthropic = lambda c, **kw: _de_anthropic(c, mode=instructor.Mode.ANTHROPIC_JSON)
         # Os modelos Claude 5 recusam `temperature` e `top_p`, e o pensamento conta no limite de tokens.
         _criar = client.messages.create
 
@@ -66,7 +61,21 @@ def criar_pontuador_ragas(provider: str, modelo: str) -> Pontuador:
     else:
         raise ValueError(f"provider '{provider}' não suportado (use openai ou anthropic).")
 
-    metrica = Faithfulness(llm=llm_factory(modelo, provider=provider, client=client))
+    if provider == "anthropic":
+        # O RAGAS cria o Instructor no modo de ferramentas, com tool_choice forçado, que os modelos Claude 5 recusam
+        # (erro 400). Só durante a criação do modelo, o modo passa a ser o de JSON da Anthropic; depois a função
+        # original volta, para não mudar o Instructor para o resto do processo.
+        import instructor
+
+        original = instructor.from_anthropic
+        instructor.from_anthropic = lambda c, **kw: original(c, mode=instructor.Mode.ANTHROPIC_JSON)
+        try:
+            llm = llm_factory(modelo, provider=provider, client=client)
+        finally:
+            instructor.from_anthropic = original
+    else:
+        llm = llm_factory(modelo, provider=provider, client=client)
+    metrica = Faithfulness(llm=llm)
 
     async def pontuar(pergunta: str, resposta: str, contextos: Sequence[str]) -> float:
         resultado = await metrica.ascore(

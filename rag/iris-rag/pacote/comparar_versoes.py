@@ -154,10 +154,14 @@ def _juiz():
     cliente.messages.create = contar
     # O RAGAS pede resposta estruturada pelo modo de ferramentas do Instructor, com tool_choice forçado, que os modelos
     # Claude 5 recusam (erro 400, achado no piloto de 17/11/2026). O modo de JSON da Anthropic dá a mesma estrutura.
+    # Só durante a criação do modelo; depois a função original volta, para não mudar o Instructor no resto do processo.
     import instructor
-    _de_anthropic = instructor.from_anthropic
-    instructor.from_anthropic = lambda c, **kw: _de_anthropic(c, mode=instructor.Mode.ANTHROPIC_JSON)
-    llm = llm_factory(JUIZ, provider="anthropic", client=cliente)
+    original = instructor.from_anthropic
+    instructor.from_anthropic = lambda c, **kw: original(c, mode=instructor.Mode.ANTHROPIC_JSON)
+    try:
+        llm = llm_factory(JUIZ, provider="anthropic", client=cliente)
+    finally:
+        instructor.from_anthropic = original
     emb = HuggingFaceEmbeddings(model=EMBEDDINGS)
     return Faithfulness(llm=llm), AnswerRelevancy(llm=llm, embeddings=emb)
 
