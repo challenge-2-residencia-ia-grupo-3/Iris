@@ -1,6 +1,6 @@
 """gerar.py: a resposta fundamentada, com citação de fonte (etapa "G" do RAG).
 
-    responder(pergunta, metodo="hibrido+rerank", k=5) -> dict com resposta, citações, trechos e conferência
+    responder(pergunta, metodo="hibrido+rerank", k=None) -> dict com resposta, citações, trechos e conferência (k=None: 20 com a API, 5 local)
 
 Como funciona:
 1. busca os k trechos (consultar.buscar);
@@ -20,6 +20,7 @@ de documentos públicos saem da máquina.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import time
@@ -28,6 +29,17 @@ import urllib.request
 from pathlib import Path
 
 import consultar
+
+_log = logging.getLogger("iris.rag.gerar")
+
+
+def _erros_do_banco() -> tuple[type[BaseException], ...]:
+    try:
+        import psycopg
+
+        return (psycopg.Error,)
+    except ImportError:
+        return ()
 
 AQUI = Path(__file__).resolve().parent
 FRASE_SEM_RESPOSTA = "Não encontrei nos documentos da base informação suficiente para responder."
@@ -65,6 +77,23 @@ def usar_regras_de_esclarecimento() -> bool:
     if modo in {"off", "0", "false", "nao", "não"}:
         return False
     return os.environ.get("RAG_LLM", LLM).lower() in {"anthropic", "claude", "sonnet"}
+
+
+K_API, K_LOCAL = 20, 5
+
+
+def k_padrao() -> int:
+    """Quantos trechos o gerador recebe quando quem chama não diz. `RAG_K` fixa um número; sem ela, 20 com o gerador
+    da Anthropic e 5 com os demais.
+
+    Medido em 18/11/2026 (`avaliacao_versoes/`, 65 perguntas, RAGAS com juiz Sonnet 5.5): com o Haiku, 20 trechos
+    em vez de 5 levam a recusa indevida de 6 para 3 em 38 perguntas com resposta e a Faithfulness de 0,83 para 0,90
+    (+0,06 [0,00; +0,14]); a relevância empata. A entrada fica cerca de 3 vezes maior (mediana de 4.881 para 14.381
+    tokens). Com o Llama não cabe: em 63 de 65 perguntas a entrada com 20 trechos passa da janela de 8.192 tokens."""
+    fixo = os.environ.get("RAG_K", "").strip()
+    if fixo:
+        return max(1, int(fixo))
+    return K_API if os.environ.get("RAG_LLM", LLM).lower() in {"anthropic", "claude", "sonnet"} else K_LOCAL
 
 
 def instrucoes() -> str:
@@ -288,22 +317,25 @@ def conferir(resposta: str, trechos: list[dict]) -> dict:
 def responder(
     pergunta: str,
     metodo: str = consultar.METODO_PADRAO,
-    k: int = 5,
+    k: int | None = None,
     filtro_barreira: str | None = None,
 ) -> dict:
+    """`k=None`: o número de trechos vem de `k_padrao()` (20 com a API, 5 com os demais)."""
+    k = k or k_padrao()
     t0 = time.time()
     fallback_motivo = None
     try:
         trechos = consultar.buscar(pergunta, metodo, k=k, filtro_barreira=filtro_barreira)
         metodo_efetivo = metodo
-    except Exception as exc:
-        if metodo != "bm25":
-            trechos = consultar.buscar(pergunta, "bm25", k=k, filtro_barreira=filtro_barreira)
-            metodo_efetivo = "bm25"
-            # a busca pedida falhou e caiu na reserva por palavras: o motivo vai junto, para a tela poder avisar
-            fallback_motivo = f"{type(exc).__name__}: {exc}"
-        else:
+    except (ImportError, OSError, ConnectionError, TimeoutError, consultar.IndiceDessincronizado) + _erros_do_banco() as exc:
+        # só falha de infraestrutura cai na reserva; com IRIS_RAG_ESTRITO=1, nenhuma (avaliação)
+        if metodo == "bm25" or os.environ.get("IRIS_RAG_ESTRITO", "").strip().lower() in {"1", "true", "sim", "on"}:
             raise
+        fallback_motivo = f"{type(exc).__name__}: {exc}"
+        # no log só o tipo do erro: a mensagem pode trazer a pergunta ou parâmetros do banco (#37); ela vai só na resposta
+        _log.warning("Busca %r indisponível (%s); usando bm25, em modo reduzido.", metodo, type(exc).__name__)
+        trechos = consultar.buscar(pergunta, "bm25", k=k, filtro_barreira=filtro_barreira)
+        metodo_efetivo = "bm25"
     t_busca = time.time() - t0
     prompt = montar_prompt(pergunta, trechos)
     resposta, uso = gerar(prompt)

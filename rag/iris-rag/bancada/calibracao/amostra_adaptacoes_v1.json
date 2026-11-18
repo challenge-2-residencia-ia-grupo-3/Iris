@@ -1,0 +1,1376 @@
+{
+ "versao": 1,
+ "semente": 20261118,
+ "origem": "medição de 16/11/2026 (residência, issue-qualidade-rag-2026-11-13/agentes): Haiku no esforço baixo e Llama escrevendo a adaptação; veredito do Codex em lotes de 8, esforço medium, modelo não registrado",
+ "regra_boa": "aplicou = sim, fora = não e conteudo = sim",
+ "estratos": {
+  "haiku_ruim": {
+   "total": 8,
+   "na_amostra": 8
+  },
+  "haiku_boa": {
+   "total": 262,
+   "na_amostra": 17
+  },
+  "llama_ruim": {
+   "total": 114,
+   "na_amostra": 12
+  },
+  "llama_boa": {
+   "total": 153,
+   "na_amostra": 13
+  }
+ },
+ "itens": [
+  {
+   "chave": "N504|flexibilidade_cognitiva_alternancia_topicos|3",
+   "escritor": "llama",
+   "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Ancoragem de Transição e Ativação de Conhecimento Prévio",
+   "enunciado": "1. Escreva em algarismos romanos o século ao qual pertence o ano 476 d.C.\n2. Uma pesquisadora encontrou uma carta em que um morador descrevia as festas de sua cidade. Explique por que essa carta pode ser utilizada como fonte histórica.\n3. Marque V para verdadeiro ou F para falso: A sedentarização envolve a permanência de um grupo em um lugar por períodos prolongados.",
+   "acoes": [
+    "Incluir quadro curto de transição ('Mudando de assunto: encerramos o tema X. Agora vamos analisar o tema Y') e destacar a nova regra do comando.",
+    "Vincular explicitamente cada pergunta ao seu respectivo texto/figura de referência."
+   ],
+   "restricoes": [
+    "Proibido fornecer definições conceituais que façam parte da Trava Curricular avaliada.",
+    "Proibido simplificar o rigor da habilidade da BNCC."
+   ],
+   "adaptacao": "Mudando de assunto: encerramos o tema Fontes Históricas. Agora vamos analisar o tema Sedentarização. \n\n1. Escreva em algarismos romanos o século ao qual pertence o ano 476 d.C. \n\n2. Uma pesquisadora encontrou uma carta em que um morador descrevia as festas de sua cidade. Explique por que essa carta pode ser utilizada como fonte histórica. \n\n3. Marque V para verdadeiro ou F para falso: A sedentarização envolve a permanência de um grupo em um lugar por períodos prolongados. \n\nObservação: Vincule cada pergunta ao seu respectivo texto/figura de referência.",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": false,
+    "trecho": "Observação: Vincule cada pergunta ao seu respectivo texto/figura de referência."
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-01"
+  },
+  {
+   "chave": "N504|flexibilidade_cognitiva_alternancia_topicos|1",
+   "escritor": "llama",
+   "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Rótulo de Contexto e Tipo de Tarefa no Topo da Questão",
+   "enunciado": "1. Escreva em algarismos romanos o século ao qual pertence o ano 476 d.C.\n2. Uma pesquisadora encontrou uma carta em que um morador descrevia as festas de sua cidade. Explique por que essa carta pode ser utilizada como fonte histórica.\n3. Marque V para verdadeiro ou F para falso: A sedentarização envolve a permanência de um grupo em um lugar por períodos prolongados.",
+   "acoes": [
+    "Adicionar tag curta de transição no cabeçalho da questão (ex.: '[Novo Tema: Ciclo da Água | Tipo: Análise de Gráfico]').",
+    "Manter o enunciado e alternativas originais intactos."
+   ],
+   "restricoes": [
+    "Proibido revelar qual fórmula ou conceito responde à questão na tag de transição.",
+    "Proibido reescrever o enunciado."
+   ],
+   "adaptacao": "1. Escreva em algarismos romanos o século ao qual pertence o ano 476 d.C.\n\n[Novo Tema: Fontes Históricas | Tipo: Análise de Contexto]\n\n2. Uma pesquisadora encontrou uma carta em que um morador descrevia as festas de sua cidade. Explique por que essa carta pode ser utilizada como fonte histórica.\n\n3. Marque V para verdadeiro ou F para falso: A sedentarização envolve a permanência de um grupo em um lugar por períodos prolongados.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-02"
+  },
+  {
+   "chave": "Q12|bloqueio_iniciacao_tarefas_abertas|1",
+   "escritor": "haiku",
+   "caracteristica": "bloqueio_iniciacao_tarefas_abertas",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Indicação Explícita do Ponto de Partida",
+   "enunciado": "Observe a fração 3/4, represente-a em um desenho e escreva-a na forma decimal.",
+   "acoes": [
+    "Adicionar nota curta de partida ('Comece identificando no texto o trecho que fala sobre...').",
+    "Manter o enunciado original intacto."
+   ],
+   "restricoes": [
+    "Proibido apontar a resposta ou resolver o primeiro passo pelo aluno.",
+    "Proibido reduzir a complexidade conceitual."
+   ],
+   "adaptacao": "**Comece identificando na fração 3/4 o número de partes iguais em que o inteiro foi dividido.**\n\nObserve a fração 3/4, represente-a em um desenho e escreva-a na forma decimal.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-03"
+  },
+  {
+   "chave": "N305|impulsividade_leitura_superficial_negacoes|1",
+   "escritor": "llama",
+   "caracteristica": "impulsividade_leitura_superficial_negacoes",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Sinalização de Contraste em Termos Restritivos",
+   "enunciado": "No ciclo da água, ocorrem processos como evaporação, condensação e precipitação. Sobre esses processos, assinale a afirmação INCORRETA.\nA) Na evaporação, a água líquida passa para o estado gasoso.\nB) Na condensação, o vapor de água passa para o estado líquido.\nC) Na precipitação, toda a água que cai das nuvens chega ao solo na forma de neve.\nD) A energia do Sol contribui para a evaporação da água de rios e lagos.",
+   "acoes": [
+    "Aplicar caixa-alta e negrito em termos restritivos ('NÃO', 'EXCETO', 'INCORRETA', 'SOMENTE', 'RESPECTIVAMENTE').",
+    "Manter a redação original da questão."
+   ],
+   "restricoes": [
+    "Proibido alterar o sentido das alternativas.",
+    "Proibido adicionar explicações de conteúdo."
+   ],
+   "adaptacao": "No ciclo da água, ocorrem processos como evaporação, condensação e precipitação. Sobre esses processos, assinale a afirmação **INCORRETA**.\n\nA) Na evaporação, a água líquida passa para o estado gasoso.\nB) Na condensação, o vapor de água passa para o estado líquido.\nC) Na precipitação, toda a água que cai das nuvens chega ao solo na forma de neve.\nD) A energia do Sol contribui para a evaporação da água de rios e lagos.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-04"
+  },
+  {
+   "chave": "N509|flexibilidade_cognitiva_alternancia_topicos|3",
+   "escritor": "haiku",
+   "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Ancoragem de Transição e Ativação de Conhecimento Prévio",
+   "enunciado": "1. Coloque os acontecimentos em ordem cronológica: início da Era Vargas; promulgação da Constituição de 1988; Proclamação da República.\n2. Marque V para verdadeiro ou F para falso: A Constituição de 1891 garantiu o direito de voto a todas as pessoas adultas, incluindo as pessoas analfabetas.\n3. Explique uma consequência da Primeira Guerra Mundial para a população civil europeia.",
+   "acoes": [
+    "Incluir quadro curto de transição ('Mudando de assunto: encerramos o tema X. Agora vamos analisar o tema Y') e destacar a nova regra do comando.",
+    "Vincular explicitamente cada pergunta ao seu respectivo texto/figura de referência."
+   ],
+   "restricoes": [
+    "Proibido fornecer definições conceituais que façam parte da Trava Curricular avaliada.",
+    "Proibido simplificar o rigor da habilidade da BNCC."
+   ],
+   "adaptacao": "**Mudando de assunto:** encerramos o comando anterior. Agora vamos analisar a tarefa 1.\n\n**1.** **Coloque os acontecimentos em ordem cronológica**: início da Era Vargas; promulgação da Constituição de 1988; Proclamação da República.\n____\n\n**Mudando de assunto:** encerramos a tarefa 1. Agora vamos analisar a tarefa 2.\n\n**2.** **Marque V para verdadeiro ou F para falso**: A Constituição de 1891 garantiu o direito de voto a todas as pessoas adultas, incluindo as pessoas analfabetas.\n[ ] V   [ ] F\n\n**Mudando de assunto:** encerramos a tarefa 2. Agora vamos analisar a tarefa 3.\n\n**3.** **Explique uma consequência da Primeira Guerra Mundial para a população civil europeia.**\n____\n\nReferência: esta questão não possui texto ou figura de referência.",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": true,
+    "trecho": "Referência: esta questão não possui texto ou figura de referência."
+   },
+   "juiz_boa": false,
+   "estrato": "haiku_ruim",
+   "peso": 1.0,
+   "uid": "adapt-05"
+  },
+  {
+   "chave": "Q29|organizacao_sequencial_expressao_escrita|3",
+   "escritor": "llama",
+   "caracteristica": "organizacao_sequencial_expressao_escrita",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Organizador de Planejamento e Conectivos de Iniciação",
+   "enunciado": "Defina urbanização, explique duas consequências do crescimento desordenado das cidades e sugira uma solução.",
+   "acoes": [
+    "Incluir mini-roteiro de planejamento ('Ideia central -> Argumento -> Conclusão') antes das linhas definitivas.",
+    "Oferecer conectivos gramaticais neutros de iniciação ('Observa-se que... / Isso ocorre porque...') sem qualquer conteúdo conceitual."
+   ],
+   "restricoes": [
+    "Proibido completar o argumento ou transformar questão discursiva avaliativa em múltipla escolha sem autorização docente.",
+    "Proibido violar a Trava Curricular."
+   ],
+   "adaptacao": "Defina urbanização. Explique duas consequências do crescimento desordenado das cidades. Sugira uma solução. \n\n Ideia central -> Argumento -> Conclusão",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-06"
+  },
+  {
+   "chave": "N601|ritmo_processamento_pressao_temporal|2",
+   "escritor": "llama",
+   "caracteristica": "ritmo_processamento_pressao_temporal",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Ordem Direta no Comando e Recomendação de Tempo Flexível",
+   "enunciado": "Identifique, na expressão «a pequena praça arborizada», que foi utilizada por uma estudante para descrever o espaço onde os moradores do bairro costumam se reunir durante as tardes de domingo, os dois adjetivos que caracterizam o substantivo praça.",
+   "acoes": [
+    "Converter frases na voz passiva ou com múltiplas intercalações do comando em frases curtas na ordem direta, preservando 100% dos conceitos da Trava Curricular.",
+    "Sinalizar recomendação pedagógica ao docente sobre gestão de tempo / aplicação em etapas."
+   ],
+   "restricoes": [
+    "Proibido substituir vocabulário técnico-científico avaliado por sinônimos infantis.",
+    "Proibido alterar textos literários quando a análise sintática/estilística for o objeto da avaliação."
+   ],
+   "adaptacao": "Identifique os dois adjetivos que caracterizam o substantivo praça na expressão \"a pequena praça arborizada\", utilizada por uma estudante para descrever o espaço onde os moradores do bairro costumam se reunir durante as tardes de domingo.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-07"
+  },
+  {
+   "chave": "N408|fadiga_executiva_autorregulacao_provas_extensas|1",
+   "escritor": "haiku",
+   "caracteristica": "fadiga_executiva_autorregulacao_provas_extensas",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Indicadores Visuais de Progresso na Avaliação",
+   "enunciado": "Responda às questões sobre a água e os materiais no cotidiano.\n1. Uma roupa molhada seca no varal mesmo sem receber luz direta do Sol. Qual mudança de estado físico explica a evaporação da água presente no tecido?\n2. Aparecem gotas na parte externa de um copo gelado. Explique de onde vem a água que sofre condensação nessa superfície.\n3. Qual é a participação do calor do Sol no ciclo da água?\n4. Uma mistura contém água e areia. Explique como a filtração pode separar a areia da água.\n5. Por que uma água transparente não é necessariamente potável?\n6. Cite duas atitudes que ajudam a reduzir o desperdício de água em uma residência.",
+   "acoes": [
+    "Inserir indicador claro de posição em cada questão (ex.: 'Questão 2 de 6 — Bloco Inicial').",
+    "Preservar integralmente o conteúdo das questões."
+   ],
+   "restricoes": [
+    "Proibido alterar o enunciado ou excluir questões da prova.",
+    "Proibido modificar o nível de dificuldade conceitual."
+   ],
+   "adaptacao": "Responda às questões sobre a água e os materiais no cotidiano.\n\n**Questão 1 de 6 — Bloco Inicial**\n1. Uma roupa molhada seca no varal mesmo sem receber luz direta do Sol. Qual mudança de estado físico explica a evaporação da água presente no tecido?\n\n**Questão 2 de 6 — Bloco Inicial**\n2. Aparecem gotas na parte externa de um copo gelado. Explique de onde vem a água que sofre condensação nessa superfície.\n\n**Questão 3 de 6 — Bloco Inicial**\n3. Qual é a participação do calor do Sol no ciclo da água?\n\n**Questão 4 de 6 — Bloco Inicial**\n4. Uma mistura contém água e areia. Explique como a filtração pode separar a areia da água.\n\n**Questão 5 de 6 — Bloco Inicial**\n5. Por que uma água transparente não é necessariamente potável?\n\n**Questão 6 de 6 — Bloco Inicial**\n6. Cite duas atitudes que ajudam a reduzir o desperdício de água em uma residência.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-08"
+  },
+  {
+   "chave": "N110|atencao_sustentada_textos_longos|3",
+   "escritor": "haiku",
+   "caracteristica": "atencao_sustentada_textos_longos",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Leitura Guiada por Blocos com Checkpoints de Atenção",
+   "enunciado": "Uma empresa de equipamentos eletrônicos organiza a fabricação de seus aparelhos em diferentes países. O projeto de um novo modelo é desenvolvido por uma equipe instalada no país onde fica a sede, enquanto parte dos minerais utilizados nos componentes é extraída em outros territórios. Esses materiais passam por unidades de processamento e seguem para fábricas especializadas na produção de peças, que depois são enviadas a uma unidade de montagem. Os aparelhos prontos viajam de navio até centros de distribuição e chegam às lojas por rodovias e ferrovias. A escolha dos locais de cada atividade considera fatores como infraestrutura, qualificação dos trabalhadores, custos de produção, impostos e acesso aos mercados consumidores. Quando uma tempestade interrompeu por vários dias o funcionamento de um porto importante nesse percurso, algumas fábricas ficaram sem peças e lojas de países distantes receberam menos produtos. O episódio mostrou que a circulação de mercadorias depende de conexões entre lugares e que um problema localizado pode afetar várias etapas da cadeia produtiva.\nComo a organização dessa cadeia produtiva exemplifica a divisão internacional do trabalho no contexto da globalização, e por que a interrupção de um porto pode afetar a oferta de produtos em países distantes?",
+   "acoes": [
+    "Dividir o texto em blocos curtos acompanhados de uma pergunta-guia de localização (sem valor de nota) ou marcador de progresso de leitura.",
+    "Vincular explicitamente qual bloco do texto contém os elementos necessários para a análise."
+   ],
+   "restricoes": [
+    "Proibido substituir o texto original por resumo quando a habilidade avaliada for interpretação textual.",
+    "Proibido responder à inferência central exigida pela questão."
+   ],
+   "adaptacao": "**Bloco 1 de 5 – Marcador de progresso:** [ ]\nUma empresa de equipamentos eletrônicos organiza a fabricação de seus aparelhos em diferentes países. O projeto de um novo modelo é desenvolvido por uma equipe instalada no país onde fica a sede, enquanto parte dos minerais utilizados nos componentes é extraída em outros territórios.\n**Pergunta de localização (sem valor de nota):** Em qual bloco aparece a palavra \"sede\"? ____\n\n**Bloco 2 de 5 – Marcador de progresso:** [ ]\nEsses materiais passam por unidades de processamento e seguem para fábricas especializadas na produção de peças, que depois são enviadas a uma unidade de montagem. Os aparelhos prontos viajam de navio até centros de distribuição e chegam às lojas por rodovias e ferrovias.\n**Pergunta de localização (sem valor de nota):** Em qual bloco aparece a palavra \"navio\"? ____\n\n**Bloco 3 de 5 – Marcador de progresso:** [ ]\nA escolha dos locais de cada atividade considera fatores como infraestrutura, qualificação dos trabalhadores, custos de produção, impostos e acesso aos mercados consumidores.\n**Pergunta de localização (sem valor de nota):** Em qual bloco aparece a palavra \"impostos\"? ____\n\n**Bloco 4 de 5 – Marcador de progresso:** [ ]\nQuando uma tempestade interrompeu por vários dias o funcionamento de um porto importante nesse percurso, algumas fábricas ficaram sem peças e lojas de países distantes receberam menos produtos.\n**Pergunta de localização (sem valor de nota):** Em qual bloco aparece a palavra \"porto\"? ____\n\n**Bloco 5 de 5 – Marcador de progresso:** [ ]\nO episódio mostrou que a circulação de mercadorias depende de conexões entre lugares e que um problema localizado pode afetar várias etapas da cadeia produtiva.\n**Pergunta de localização (sem valor de nota):** Em qual bloco aparece a expressão \"etapas da cadeia produtiva\"? ____\n\n**Vínculo com o comando:** Os elementos necessários para a primeira pergunta estão nos blocos 1, 2 e 3. Os elementos necessários para a segunda pergunta estão nos blocos 4 e 5.\n\n**Comandos da questão:**\n1. **Como a organização dessa cadeia produtiva exemplifica a divisão internacional do trabalho no contexto da globalização,** ____\n2. **e por que a interrupção de um porto pode afetar a oferta de produtos em países distantes?** ____",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-09"
+  },
+  {
+   "chave": "Q10|retencao_dados_intermediarios_problemas_multietapas|3",
+   "escritor": "haiku",
+   "caracteristica": "retencao_dados_intermediarios_problemas_multietapas",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Organizador Gráfico de Memória Externa",
+   "enunciado": "Resolva a multiplicação e confira o resultado com uma divisão: 24 × 6.",
+   "acoes": [
+    "Adicionar organizador gráfico com colunas/campos rotulados ('Etapa Parcial', 'Registro / Rascunho', 'Verificação') para descarregar a memória de trabalho.",
+    "Agrupar informações contextuais em tópicos curtos."
+   ],
+   "restricoes": [
+    "Proibido resolver etapas intermediárias pelo estudante.",
+    "Proibido suprimir dados distratores caso a filtragem de dados seja a trava curricular declarada."
+   ],
+   "adaptacao": "**Tarefa:**\nResolva a multiplicação e confira o resultado com uma divisão: 24 × 6.\n\n**Organizador de memória externa**\n\n1. **Etapa Parcial:** ____\n   **Registro / Rascunho:** ____\n   **Verificação:** [ ]\n\n2. **Etapa Parcial:** ____\n   **Registro / Rascunho:** ____\n   **Verificação:** [ ]\n\n**Resposta final:** ____",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-10"
+  },
+  {
+   "chave": "N102|atencao_sustentada_textos_longos|1",
+   "escritor": "haiku",
+   "caracteristica": "atencao_sustentada_textos_longos",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Respiração Visual e Segmentação de Parágrafos",
+   "enunciado": "A escola do bairro organizou uma visita ao museu de história natural para os estudantes do quinto ano. Para o transporte, foram contratados 3 ônibus, cada um com 42 lugares disponíveis para passageiros. Participariam da visita 108 estudantes e 9 adultos, entre professores e funcionários, e todos deveriam viajar sentados. A equipe responsável decidiu distribuir os passageiros entre os veículos apenas no momento do embarque, pois algumas turmas chegariam ao portão antes das outras. Na reunião de preparação, também foi combinado que cada participante receberia um lanche individual depois da visita. A cozinha preparou 125 lanches e colocou todos em caixas que seriam levadas nos compartimentos de bagagem, sem ocupar assentos. Nenhum motorista estava incluído na contagem dos adultos, e os lugares informados para cada ônibus não incluíam o assento do motorista. Na manhã da saída, todos os estudantes e adultos previstos compareceram, e ninguém além dessas pessoas participou da atividade.\nConsiderando todos os participantes, quantos lugares ficaram vazios nos ônibus e quantos lanches sobraram depois que cada participante recebeu um?",
+   "acoes": [
+    "Dividir parágrafos excessivamente longos em parágrafos menores mantendo 100% das palavras originais.",
+    "Destacar em negrito até 1 ideia-chave por parágrafo para ancoragem ocular."
+   ],
+   "restricoes": [
+    "Proibido resumir, omitir frases ou alterar o léxico do texto-base.",
+    "Proibido alterar os comandos ou alternativas da questão."
+   ],
+   "adaptacao": "A **escola** do **bairro** **organizou** uma visita ao museu de história natural para os estudantes do quinto ano.\n\nPara o transporte, foram contratados 3 ônibus, cada um com **42 lugares disponíveis para passageiros**.\n\nParticipariam da visita **108 estudantes e 9 adultos**, entre professores e funcionários, e todos deveriam viajar sentados.\n\nA equipe responsável decidiu **distribuir os passageiros entre os veículos apenas no momento do embarque**, pois algumas turmas chegariam ao portão antes das outras.\n\nNa reunião de preparação, também foi combinado que **cada participante receberia um lanche individual** depois da visita.\n\nA cozinha preparou **125 lanches** e colocou todos em caixas que seriam levadas nos compartimentos de bagagem, sem ocupar assentos.\n\nNenhum motorista estava incluído na contagem dos adultos, e os lugares informados para cada ônibus **não incluíam o assento do motorista**.\n\nNa manhã da saída, todos os estudantes e adultos previstos compareceram, e **ninguém além dessas pessoas participou** da atividade.\n\nConsiderando todos os participantes, quantos lugares ficaram vazios nos ônibus e quantos lanches sobraram depois que cada participante recebeu um?",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": true,
+    "trecho": "A **escola** do **bairro** **organizou** uma visita ao museu de história natural para os estudantes do quinto ano."
+   },
+   "juiz_boa": false,
+   "estrato": "haiku_ruim",
+   "peso": 1.0,
+   "uid": "adapt-11"
+  },
+  {
+   "chave": "N601|ritmo_processamento_pressao_temporal|3",
+   "escritor": "llama",
+   "caracteristica": "ritmo_processamento_pressao_temporal",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Apresentação Direta de Premissas + Comando + Tempo Estendido",
+   "enunciado": "Identifique, na expressão «a pequena praça arborizada», que foi utilizada por uma estudante para descrever o espaço onde os moradores do bairro costumam se reunir durante as tardes de domingo, os dois adjetivos que caracterizam o substantivo praça.",
+   "acoes": [
+    "Organizar as informações do enunciado em tópicos curtos ('Contexto:', 'Situação:', 'Comando:') mantendo todos os conceitos obrigatórios.",
+    "Incluir orientação explícita ao docente sobre direito a tempo adicional e mediação leitora conforme diretrizes normativas."
+   ],
+   "restricoes": [
+    "Proibido eliminar a operação cognitiva exigida (inferir, calcular, relacionar).",
+    "Proibido reduzir o rigor curricular."
+   ],
+   "adaptacao": "Contexto:\nA pequena praça arborizada é um espaço onde os moradores do bairro costumam se reunir durante as tardes de domingo.\nSituação:\nUma estudante descreveu esse espaço com a expressão \"a pequena praça arborizada\".\nComando:\nIdentifique os dois adjetivos que caracterizam o substantivo praça.\nObservação: O docente deve informar aos alunos que eles têm direito a tempo adicional e mediação leitora se necessário.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-12"
+  },
+  {
+   "chave": "N609|ritmo_processamento_pressao_temporal|3",
+   "escritor": "haiku",
+   "caracteristica": "ritmo_processamento_pressao_temporal",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Apresentação Direta de Premissas + Comando + Tempo Estendido",
+   "enunciado": "Explique como a divisão internacional do trabalho se manifesta na fabricação de um telefone celular que, embora seja vendido por uma empresa sediada em um único país, utiliza matérias-primas extraídas em outros países e componentes produzidos em diferentes partes do mundo.",
+   "acoes": [
+    "Organizar as informações do enunciado em tópicos curtos ('Contexto:', 'Situação:', 'Comando:') mantendo todos os conceitos obrigatórios.",
+    "Incluir orientação explícita ao docente sobre direito a tempo adicional e mediação leitora conforme diretrizes normativas."
+   ],
+   "restricoes": [
+    "Proibido eliminar a operação cognitiva exigida (inferir, calcular, relacionar).",
+    "Proibido reduzir o rigor curricular."
+   ],
+   "adaptacao": "**Contexto:** A divisão internacional do trabalho.\n\n**Situação:**\n1. Na fabricação de um telefone celular, uma empresa utiliza matérias-primas extraídas em outros países.\n2. Esse telefone celular utiliza componentes produzidos em diferentes partes do mundo.\n\n**Comando:** Explique como a divisão internacional do trabalho se manifesta na fabricação de um telefone celular.\n\n**Orientação ao docente:** Conceder tempo adicional para a resolução, conforme as diretrizes normativas, e oferecer mediação leitora durante a leitura da questão.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": false,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "haiku_ruim",
+   "peso": 1.0,
+   "uid": "adapt-13"
+  },
+  {
+   "chave": "N310|impulsividade_leitura_superficial_negacoes|3",
+   "escritor": "haiku",
+   "caracteristica": "impulsividade_leitura_superficial_negacoes",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Protocolo de Checagem Pré-Resposta (Stop & Think)",
+   "enunciado": "A globalização envolve fluxos de mercadorias, informações e capitais entre diferentes países. Assinale a alternativa que apresenta apenas exemplos desses fluxos internacionais.\nA) Uma compra de pão na padaria do bairro e uma transferência bancária entre vizinhos do mesmo município.\nB) A exportação de café brasileiro para outro país e o envio de dados pela internet entre empresas situadas em países diferentes.\nC) A entrega de uma encomenda entre ruas da mesma cidade e a venda de frutas em uma feira local.\nD) Uma viagem de ônibus entre bairros e o transporte de materiais entre salas de uma escola.",
+   "acoes": [
+    "Adicionar coluna de validação `[ Verdadeiro | Falso ]` em cada alternativa antes da seleção da resposta definitiva.",
+    "Inserir prompt curto de autorregulação ao final ('Pare e confira: a opção que você escolheu atende à condição destacada no enunciado?')."
+   ],
+   "restricoes": [
+    "Proibido eliminar alternativas distratoras.",
+    "Proibido fornecer dicas sobre o erro contido na alternativa incorreta."
+   ],
+   "adaptacao": "A **globalização** envolve fluxos de **mercadorias**, **informações** e **capitais** entre diferentes **países**. **Assinale a alternativa que apresenta apenas exemplos desses fluxos internacionais.**\n\nA) Uma compra de pão na padaria do bairro e uma transferência bancária entre vizinhos do mesmo município.\n[ Verdadeiro | Falso ]\n\nB) A **exportação** de café brasileiro para outro país e o **envio de dados** pela **internet** entre **empresas** situadas em **países** diferentes.\n[ Verdadeiro | Falso ]\n\nC) A entrega de uma **encomenda** entre ruas da mesma cidade e a venda de frutas em uma **feira local**.\n[ Verdadeiro | Falso ]\n\nD) Uma **viagem de ônibus** entre bairros e o **transporte de materiais** entre salas de uma **escola**.\n[ Verdadeiro | Falso ]\n\nPare e confira: a opção que você escolheu atende à condição destacada no enunciado?\n\nResposta: ____",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-14"
+  },
+  {
+   "chave": "N510|flexibilidade_cognitiva_alternancia_topicos|1",
+   "escritor": "haiku",
+   "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Rótulo de Contexto e Tipo de Tarefa no Topo da Questão",
+   "enunciado": "1. Quando são 9 h em uma cidade situada no fuso UTC−3, que horas são, no mesmo instante, em outra cidade situada no fuso UTC+1? Considere que nenhuma delas adota horário de verão.\n2. Uma empresa desenvolve um produto em um país, compra componentes em outro e realiza a montagem em um terceiro. Explique como essa organização da produção se relaciona com a globalização.\n3. Marque V para verdadeiro ou F para falso: A urbanização corresponde ao aumento da proporção da população urbana em relação à população total.",
+   "acoes": [
+    "Adicionar tag curta de transição no cabeçalho da questão (ex.: '[Novo Tema: Ciclo da Água | Tipo: Análise de Gráfico]').",
+    "Manter o enunciado e alternativas originais intactos."
+   ],
+   "restricoes": [
+    "Proibido revelar qual fórmula ou conceito responde à questão na tag de transição.",
+    "Proibido reescrever o enunciado."
+   ],
+   "adaptacao": "[Novo Tema: Fusos Horários | Tipo: Cálculo]\n1. Quando são 9 h em uma cidade situada no fuso UTC−3, que horas são, no mesmo instante, em outra cidade situada no fuso UTC+1? Considere que nenhuma delas adota horário de verão.\n\n[Novo Tema: Globalização | Tipo: Explicação]\n2. Uma empresa desenvolve um produto em um país, compra componentes em outro e realiza a montagem em um terceiro. Explique como essa organização da produção se relaciona com a globalização.\n\n[Novo Tema: Urbanização | Tipo: Verdadeiro ou Falso]\n3. Marque V para verdadeiro ou F para falso: A urbanização corresponde ao aumento da proporção da população urbana em relação à população total.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-15"
+  },
+  {
+   "chave": "Q17|bloqueio_iniciacao_tarefas_abertas|3",
+   "escritor": "haiku",
+   "caracteristica": "bloqueio_iniciacao_tarefas_abertas",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Andaime de Iniciação com Conectivo Neutro e Roteiro",
+   "enunciado": "Explique como a chuva se forma.",
+   "acoes": [
+    "Oferecer iniciador frasal neutro ('Com base nos dados apresentados, verifica-se que...') seguido de linhas guiadas.",
+    "Incluir mini-checklist de partida ('[ ] Li o comando; [ ] Localizei os dados; [ ] Escrevi a resposta')."
+   ],
+   "restricoes": [
+    "Proibido incluir termos da resposta no iniciador frasal.",
+    "Proibido violar a Trava Curricular."
+   ],
+   "adaptacao": "Explique como a chuva se forma.\n\nCom base nos dados apresentados, verifica-se que...\n____\n____\n\n[ ] Li o comando\n[ ] Localizei os dados\n[ ] Escrevi a resposta",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-16"
+  },
+  {
+   "chave": "N206|distratibilidade_poluicao_visual_layout|2",
+   "escritor": "llama",
+   "caracteristica": "distratibilidade_poluicao_visual_layout",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Isolamento Visual de Contexto, Comando e Opções",
+   "enunciado": "❀ OFICINA DA LÍNGUA ❀ — PALAVRAS EM MOVIMENTO\n┌ NOTÍCIA DO MURAL: a equipe de vôlei recebeu novos uniformes. ┐\nLeia a oração: “O porteiro e a professora abriram o portão.”\nConsiderando os núcleos do sujeito, como se classifica o sujeito dessa oração?\n★ LEMBRETE ★ Confira se seu nome está na capa da prova.\nA) Simples, porque há apenas um verbo na oração.\nB) Composto, porque apresenta dois núcleos: porteiro e professora.\nC) Oculto, porque não é possível localizar quem realizou a ação.\nD) Inexistente, porque a oração descreve um fenômeno da natureza.",
+   "acoes": [
+    "Separar a questão em três zonas visuais distintas e limpas: [Texto de Apoio], [Pergunta] e [Alternativas].",
+    "Adicionar guia de leitura para figuras/gráficos essenciais ('Observe no gráfico o eixo horizontal X e o eixo vertical Y')."
+   ],
+   "restricoes": [
+    "Proibido interpretar o gráfico pelo estudante.",
+    "Proibido alterar o número de alternativas da questão."
+   ],
+   "adaptacao": "❀ OFICINA DA LÍNGUA ❀ — PALAVRAS EM MOVIMENTO\n\n**Texto de Apoio**\n\n┌ NOTÍCIA DO MURAL: a equipe de vôlei recebeu novos uniformes. ┐\n\n**Pergunta**\n\nLeia a oração: “O porteiro e a professora abriram o portão.”\n\n**Alternativas**\n\nConsiderando os núcleos do sujeito, como se classifica o sujeito dessa oração?\n\n1. A) Simples, porque há apenas um verbo na oração.\n2. B) Composto, porque apresenta dois núcleos: porteiro e professora.\n3. C) Oculto, porque não é possível localizar quem realizou a ação.\n4. D) Inexistente, porque a oração descreve um fenômeno da natureza.\n\n____\n\n**Observe no gráfico o eixo horizontal X e o eixo vertical Y.**",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": false,
+    "trecho": "Observe no gráfico o eixo horizontal X e o eixo vertical Y."
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-17"
+  },
+  {
+   "chave": "N502|flexibilidade_cognitiva_alternancia_topicos|1",
+   "escritor": "haiku",
+   "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Rótulo de Contexto e Tipo de Tarefa no Topo da Questão",
+   "enunciado": "1. Uma papelaria recebeu 6 caixas com 24 lápis em cada caixa. Calcule o total de lápis recebidos.\n2. Desenhe um retângulo, divida-o em 8 partes iguais e pinte uma parte para representar a fração 1/8.\n3. Marque V para verdadeiro ou F para falso: Todo triângulo tem quatro lados.",
+   "acoes": [
+    "Adicionar tag curta de transição no cabeçalho da questão (ex.: '[Novo Tema: Ciclo da Água | Tipo: Análise de Gráfico]').",
+    "Manter o enunciado e alternativas originais intactos."
+   ],
+   "restricoes": [
+    "Proibido revelar qual fórmula ou conceito responde à questão na tag de transição.",
+    "Proibido reescrever o enunciado."
+   ],
+   "adaptacao": "[Novo Tema: Situações com Papelaria, Caixas e Lápis | Tipo: Cálculo, Desenho e Marcação de V ou F]\n\n1. Uma papelaria recebeu 6 caixas com 24 lápis em cada caixa. Calcule o total de lápis recebidos.\n2. Desenhe um retângulo, divida-o em 8 partes iguais e pinte uma parte para representar a fração 1/8.\n3. Marque V para verdadeiro ou F para falso: Todo triângulo tem quatro lados.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-18"
+  },
+  {
+   "chave": "Q07|bloqueio_iniciacao_tarefas_abertas|2",
+   "escritor": "llama",
+   "caracteristica": "bloqueio_iniciacao_tarefas_abertas",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Estruturação do Primeiro Passo e Campos de Partida",
+   "enunciado": "Escreva um parágrafo argumentativo sobre o uso do celular na sala de aula. Apresente pelo menos dois argumentos e conclua com uma proposta.",
+   "acoes": [
+    "Dividir a área de resposta iniciando por um campo objetivo de ancoragem ('1. Elemento observado no texto/figura: ___').",
+    "Destacar o verbo de comando inicial."
+   ],
+   "restricoes": [
+    "Proibido preencher o campo pelo aluno.",
+    "Proibido eliminar a exigência de justificativa ou cálculo."
+   ],
+   "adaptacao": "1. Elemento observado no texto/figura: ___\n\nEscreva um parágrafo argumentativo sobre o uso do celular na sala de aula. Apresente pelo menos dois argumentos e conclua com uma proposta.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-19"
+  },
+  {
+   "chave": "N509|flexibilidade_cognitiva_alternancia_topicos|2",
+   "escritor": "llama",
+   "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Agrupamento por Natureza Cognitiva e Divisor de Transição",
+   "enunciado": "1. Coloque os acontecimentos em ordem cronológica: início da Era Vargas; promulgação da Constituição de 1988; Proclamação da República.\n2. Marque V para verdadeiro ou F para falso: A Constituição de 1891 garantiu o direito de voto a todas as pessoas adultas, incluindo as pessoas analfabetas.\n3. Explique uma consequência da Primeira Guerra Mundial para a população civil europeia.",
+   "acoes": [
+    "Inserir barra divisória de mudança de contexto ('--- NOVO TEXTO DE APOIO: As questões a seguir NÃO usam o texto anterior ---').",
+    "Explicitar a mudança de formato de resposta ('Mudança de formato: agora você deve associar as colunas')."
+   ],
+   "restricoes": [
+    "Proibido alterar o conteúdo avaliado nas questões.",
+    "Proibido dar exemplos resolvidos que respondam à própria questão avaliada."
+   ],
+   "adaptacao": "1. --- NOVO TEXTO DE APOIO: As questões a seguir NÃO usam o texto anterior ---\nColoque os acontecimentos em ordem cronológica: início da Era Vargas; promulgação da Constituição de 1988; Proclamação da República.\n2. Mudança de formato: agora você deve associar as colunas.\nMarque V para verdadeiro ou F para falso: A Constituição de 1891 garantiu o direito de voto a todas as pessoas adultas, incluindo as pessoas analfabetas.\n3. Explique uma consequência da Primeira Guerra Mundial para a população civil europeia.",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": false,
+    "trecho": "Mudança de formato: agora você deve associar as colunas."
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-20"
+  },
+  {
+   "chave": "Q08|retencao_dados_intermediarios_problemas_multietapas|2",
+   "escritor": "haiku",
+   "caracteristica": "retencao_dados_intermediarios_problemas_multietapas",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Quadro de Registro de Dados pelo Estudante",
+   "enunciado": "Calcule: 345 + 278.",
+   "acoes": [
+    "Inserir caixa estruturada de apoio ('Dados identificados no texto: ___ / O que a questão pede: ___') para preenchimento autônomo pelo aluno.",
+    "Destacar os dados no texto-base."
+   ],
+   "restricoes": [
+    "Proibido entregar o quadro de dados já preenchido se a identificação das variáveis fizer parte da habilidade avaliada.",
+    "Proibido indicar qual operação matemática ou regra aplicar."
+   ],
+   "adaptacao": "Calcule: **345** + **278**.\n\nDados identificados no texto: ____\nO que a questão pede: ____",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-21"
+  },
+  {
+   "chave": "N101|atencao_sustentada_textos_longos|2",
+   "escritor": "haiku",
+   "caracteristica": "atencao_sustentada_textos_longos",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Chunking Textual com Subtítulos Orientadores",
+   "enunciado": "Na manhã da feira de ciências, Helena chegou à escola carregando uma caixa de papelão com o pequeno moinho que havia construído com o avô. Durante uma semana, ela tinha explicado aos colegas como o vento movimentava as pás, mas agora, diante das mesas organizadas no pátio, mantinha os olhos baixos e apertava a caixa contra o peito. Quando a professora anunciou que as famílias começariam a entrar, Helena pediu para ficar responsável apenas pelos materiais. Seu colega Davi percebeu que uma das pás estava amassada e ofereceu ajuda para consertá-la. Os dois trabalharam em silêncio até que o moinho voltou a girar diante do ventilador. Mesmo assim, Helena continuou evitando o lugar reservado aos apresentadores. Foi somente quando uma criança pequena perguntou por que aquela roda se mexia que ela se aproximou, apoiou a caixa na mesa e começou a explicar o funcionamento do moinho, usando as mãos para acompanhar o movimento das pás.\nQue mudança ocorre no comportamento de Helena ao longo da narrativa e quais acontecimentos do texto permitem perceber essa mudança?",
+   "acoes": [
+    "Segmentar o texto-base em blocos curtos ('Bloco 1', 'Bloco 2') precedidos de rótulo temático neutro (ex.: '[Contexto Histórico]', '[Dados do Experimento]').",
+    "Apresentar o comando da questão também antes do texto ('Leia o texto buscando identificar: ...') para orientar a atenção seletiva."
+   ],
+   "restricoes": [
+    "Proibido usar subtítulos que entreguem a interpretação ou o gabarito da questão.",
+    "Proibido suprimir vocabulário curricular obrigatório."
+   ],
+   "adaptacao": "**Leia o texto buscando identificar:** que mudança ocorre no comportamento de Helena ao longo da narrativa e quais acontecimentos do texto permitem perceber essa mudança?\n\n**Bloco 1** [Chegada à Escola]\nNa manhã da feira de ciências, Helena chegou à escola carregando uma caixa de papelão com o pequeno moinho que havia construído com o avô. Durante uma semana, ela tinha explicado aos colegas como o vento movimentava as pás, mas agora, diante das mesas organizadas no pátio, mantinha os olhos baixos e apertava a caixa contra o peito.\n\n**Bloco 2** [Organização da Feira]\nQuando a professora anunciou que as famílias começariam a entrar, Helena pediu para ficar responsável apenas pelos materiais.\n\n**Bloco 3** [Conserto do Moinho]\nSeu colega Davi percebeu que uma das pás estava amassada e ofereceu ajuda para consertá-la. Os dois trabalharam em silêncio até que o moinho voltou a girar diante do ventilador.\n\n**Bloco 4** [Lugar dos Apresentadores]\nMesmo assim, Helena continuou evitando o lugar reservado aos apresentadores.\n\n**Bloco 5** [Pergunta da Criança]\nFoi somente quando uma criança pequena perguntou por que aquela roda se mexia que ela se aproximou, apoiou a caixa na mesa e começou a explicar o funcionamento do moinho, usando as mãos para acompanhar o movimento das pás.\n\n**Comando:** Que mudança ocorre no comportamento de Helena ao longo da narrativa e quais acontecimentos do texto permitem perceber essa mudança?",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-22"
+  },
+  {
+   "chave": "N202|distratibilidade_poluicao_visual_layout|1",
+   "escritor": "llama",
+   "caracteristica": "distratibilidade_poluicao_visual_layout",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Padronização Visual e Alinhamento Vertical",
+   "enunciado": "★ DESAFIO DOS NÚMEROS ★ — ATIVIDADE ESPECIAL\n╔ MURAL: oficina de pintura na quinta-feira, na sala 7. ╗\nUma turma arrecadou 36 livros para a biblioteca. Desse total, 1/3 são livros de poemas; os demais são livros de contos. Quantos livros de poemas a turma arrecadou?\n✎ CAPRICHE NA LETRA! ✎ ORGANIZE SEU MATERIAL!\nA) 9 livros.\n    B) 12 livros.\nC) 18 livros.\n    D) 24 livros.",
+   "acoes": [
+    "Dispor todas as alternativas estritamente em coluna única vertical com espaçamento limpo.",
+    "Remover ornamentos textuais desnecessários no cabeçalho da questão."
+   ],
+   "restricoes": [
+    "Proibido remover gráficos, mapas ou tabelas que sejam necessários para resolver a questão.",
+    "Proibido alterar o texto do enunciado."
+   ],
+   "adaptacao": "★ DESAFIO DOS NÚMEROS ★ — ATIVIDADE ESPECIAL\n\n╔ MURAL: oficina de pintura na quinta-feira, na sala 7. ╗\n\nUma turma arrecadou 36 livros para a biblioteca. Desse total, 1/3 são livros de poemas; os demais são livros de contos.\n\nQuantos livros de poemas a turma arrecadou?\n\nA) 9 livros.\nB) 12 livros.\nC) 18 livros.\nD) 24 livros.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-23"
+  },
+  {
+   "chave": "N202|distratibilidade_poluicao_visual_layout|3",
+   "escritor": "haiku",
+   "caracteristica": "distratibilidade_poluicao_visual_layout",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Apresentação Minimalista de Questão Única por Bloco",
+   "enunciado": "★ DESAFIO DOS NÚMEROS ★ — ATIVIDADE ESPECIAL\n╔ MURAL: oficina de pintura na quinta-feira, na sala 7. ╗\nUma turma arrecadou 36 livros para a biblioteca. Desse total, 1/3 são livros de poemas; os demais são livros de contos. Quantos livros de poemas a turma arrecadou?\n✎ CAPRICHE NA LETRA! ✎ ORGANIZE SEU MATERIAL!\nA) 9 livros.\n    B) 12 livros.\nC) 18 livros.\n    D) 24 livros.",
+   "acoes": [
+    "Formatar a questão para exibição isolada (uma questão por seção/página de impressão) com bordas de contenção visual suaves.",
+    "Substituir referências cruzadas distantes ('conforme o texto da página anterior') pela repetição local do trecho exato necessário."
+   ],
+   "restricoes": [
+    "Proibido simplificar o rigor conceitual da pergunta.",
+    "Proibido eliminar informações essenciais da figura ou tabela avaliada."
+   ],
+   "adaptacao": "──────────────────────────────\n**Uma turma arrecadou 36 livros para a biblioteca. Desse total, 1/3 são livros de poemas; os demais são livros de contos. Quantos livros de poemas a turma arrecadou?**\n\n[ ] A) 9 livros.\n[ ] B) 12 livros.\n[ ] C) 18 livros.\n[ ] D) 24 livros.\n\nResposta: ____\n──────────────────────────────",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": false,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "haiku_ruim",
+   "peso": 1.0,
+   "uid": "adapt-24"
+  },
+  {
+   "chave": "Q05|organizacao_sequencial_expressao_escrita|2",
+   "escritor": "llama",
+   "caracteristica": "organizacao_sequencial_expressao_escrita",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Particionamento do Espaço de Resposta por Tópico",
+   "enunciado": "Leia o trecho, explique o que o autor quis dizer e justifique com uma passagem do texto.\nA biblioteca da escola era pequena, mas cada livro parecia abrir uma porta para outro mundo.",
+   "acoes": [
+    "Dividir as linhas de resposta em subcampos rotulados neutros (ex.: 'Parte A — O que aconteceu:' / 'Parte B — Por que aconteceu:').",
+    "Fornecer caixa de palavras-chave do próprio enunciado para o aluno lembrar de utilizá-las."
+   ],
+   "restricoes": [
+    "Proibido incluir na caixa de palavras termos que não estejam no enunciado original se isso revelar a resposta.",
+    "Proibido redigir o conteúdo pelo estudante."
+   ],
+   "adaptacao": "Leia o trecho, explique o que o autor quis dizer e justifique com uma passagem do texto.\n\n**Parte A — O que o autor quis dizer:**\n____\n\n**Parte B — Justifique com uma passagem do texto:**\n____\n\n**Palavras-chave:**\n[ ] biblioteca da escola\n[ ] pequeno\n[ ] livro\n[ ] porta\n[ ] mundo",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": false,
+    "trecho": "[ ] pequeno"
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-25"
+  },
+  {
+   "chave": "N208|distratibilidade_poluicao_visual_layout|3",
+   "escritor": "haiku",
+   "caracteristica": "distratibilidade_poluicao_visual_layout",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Apresentação Minimalista de Questão Única por Bloco",
+   "enunciado": "⚙ TEMPOS DE TRANSFORMAÇÃO ⚙ — CADERNO DE HISTÓRIA\n[ESPAÇO CULTURAL: a biblioteca receberá uma exposição de miniaturas.]\nDurante a Revolução Industrial, iniciada na Inglaterra no século XVIII, a expansão das fábricas alterou a organização do trabalho. Qual alternativa apresenta uma mudança associada a esse processo?\n✧ ✧ ✧ OBSERVE AS MARGENS E MANTENHA A FOLHA ORGANIZADA ✧ ✧ ✧\nA) A substituição geral das máquinas por ferramentas manuais nas fábricas.\nB) O desaparecimento imediato do trabalho infantil em todas as indústrias.\nC) O fim do controle dos horários de trabalho pelos empregadores.\nD) A concentração de trabalhadores em fábricas, com uso de máquinas e horários controlados.",
+   "acoes": [
+    "Formatar a questão para exibição isolada (uma questão por seção/página de impressão) com bordas de contenção visual suaves.",
+    "Substituir referências cruzadas distantes ('conforme o texto da página anterior') pela repetição local do trecho exato necessário."
+   ],
+   "restricoes": [
+    "Proibido simplificar o rigor conceitual da pergunta.",
+    "Proibido eliminar informações essenciais da figura ou tabela avaliada."
+   ],
+   "adaptacao": "**Durante a Revolução Industrial, iniciada na Inglaterra no século XVIII, a expansão das fábricas alterou a organização do trabalho. Qual alternativa apresenta uma mudança associada a esse processo?**\n\n[ ] A) A substituição geral das máquinas por ferramentas manuais nas fábricas.\n\n[ ] B) O desaparecimento imediato do trabalho infantil em todas as indústrias.\n\n[ ] C) O fim do controle dos horários de trabalho pelos empregadores.\n\n[ ] D) A concentração de trabalhadores em fábricas, com uso de máquinas e horários controlados.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-26"
+  },
+  {
+   "chave": "N606|ritmo_processamento_pressao_temporal|2",
+   "escritor": "llama",
+   "caracteristica": "ritmo_processamento_pressao_temporal",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Ordem Direta no Comando e Recomendação de Tempo Flexível",
+   "enunciado": "Determine o valor de x na equação 3x + 7 = 28, que representa o total de 28 reais pago por uma cliente ao comprar três cadernos de mesmo preço e uma caneta de 7 reais em uma papelaria.",
+   "acoes": [
+    "Converter frases na voz passiva ou com múltiplas intercalações do comando em frases curtas na ordem direta, preservando 100% dos conceitos da Trava Curricular.",
+    "Sinalizar recomendação pedagógica ao docente sobre gestão de tempo / aplicação em etapas."
+   ],
+   "restricoes": [
+    "Proibido substituir vocabulário técnico-científico avaliado por sinônimos infantis.",
+    "Proibido alterar textos literários quando a análise sintática/estilística for o objeto da avaliação."
+   ],
+   "adaptacao": "Determine o valor de x na equação 3x + 7 = 28. Uma cliente paga 28 reais por três cadernos de mesmo preço e uma caneta de 7 reais.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": false,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-27"
+  },
+  {
+   "chave": "N604|ritmo_processamento_pressao_temporal|1",
+   "escritor": "llama",
+   "caracteristica": "ritmo_processamento_pressao_temporal",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Destaque da Pergunta Central e Dados Essenciais",
+   "enunciado": "Explique de que maneira as cheias do rio Nilo, que depositavam sedimentos nas margens e eram acompanhadas por períodos de recuo das águas, contribuíam para a agricultura no Egito Antigo, considerando a fertilidade das áreas utilizadas para o cultivo.",
+   "acoes": [
+    "Destacar em negrito a frase que contém a pergunta central da questão.",
+    "Preservar 100% do texto original."
+   ],
+   "restricoes": [
+    "Proibido cortar parágrafos ou simplificar termos técnicos.",
+    "Proibido sugerir a resposta."
+   ],
+   "adaptacao": "Explique de que maneira as cheias do **rio Nilo**, que depositavam sedimentos nas margens e eram acompanhadas por períodos de recuo das águas, contribuíam para a agricultura no **Egito Antigo**, considerando a fertilidade das áreas utilizadas para o cultivo.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-28"
+  },
+  {
+   "chave": "N609|ritmo_processamento_pressao_temporal|2",
+   "escritor": "haiku",
+   "caracteristica": "ritmo_processamento_pressao_temporal",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Ordem Direta no Comando e Recomendação de Tempo Flexível",
+   "enunciado": "Explique como a divisão internacional do trabalho se manifesta na fabricação de um telefone celular que, embora seja vendido por uma empresa sediada em um único país, utiliza matérias-primas extraídas em outros países e componentes produzidos em diferentes partes do mundo.",
+   "acoes": [
+    "Converter frases na voz passiva ou com múltiplas intercalações do comando em frases curtas na ordem direta, preservando 100% dos conceitos da Trava Curricular.",
+    "Sinalizar recomendação pedagógica ao docente sobre gestão de tempo / aplicação em etapas."
+   ],
+   "restricoes": [
+    "Proibido substituir vocabulário técnico-científico avaliado por sinônimos infantis.",
+    "Proibido alterar textos literários quando a análise sintática/estilística for o objeto da avaliação."
+   ],
+   "adaptacao": "**Explique como a divisão internacional do trabalho se manifesta na fabricação de um telefone celular.**\n\nUm telefone celular utiliza matérias-primas extraídas em outros países.\n\nEle utiliza componentes produzidos em diferentes partes do mundo.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": false,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "haiku_ruim",
+   "peso": 1.0,
+   "uid": "adapt-29"
+  },
+  {
+   "chave": "N409|fadiga_executiva_autorregulacao_provas_extensas|3",
+   "escritor": "haiku",
+   "caracteristica": "fadiga_executiva_autorregulacao_provas_extensas",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Aplicação Fracionada por Cadernos/Etapas Autônomas",
+   "enunciado": "Responda às questões sobre o estudo da História e as sociedades antigas.\n1. O que são fontes históricas? Cite um exemplo de fonte escrita e um de fonte material não escrita.\n2. Explique uma mudança que a agricultura trouxe ao modo de vida de grupos humanos no período Neolítico.\n3. Por que os rios Tigre e Eufrates eram importantes para as atividades agrícolas na Mesopotâmia?\n4. Explique como as cheias do rio Nilo contribuíam para a agricultura no Egito antigo.\n5. Na democracia ateniense, mulheres, pessoas escravizadas e estrangeiros tinham os mesmos direitos políticos dos cidadãos homens? Justifique.\n6. Qual era uma das funções dos aquedutos nas cidades da Roma antiga?",
+   "acoes": [
+    "Estruturar a diagramação em seções autônomas destacáveis ('Parte 1', 'Parte 2') com checklist de revisão e pausa ativa entre partes.",
+    "Incluir lembrete de estratégia de gestão de esforço ('Se travar em um item, marque [?] e avance para o próximo do bloco')."
+   ],
+   "restricoes": [
+    "Proibido alterar as Travas Curriculares ou gabaritos das questões.",
+    "Proibido adicionar menções clínicas ou diagnósticas nos lembretes de pausa."
+   ],
+   "adaptacao": "Responda às questões sobre o estudo da História e as sociedades antigas.\n\n**Parte 1**\nSe travar em um item, marque [?] e avance para o próximo do bloco.\n\n1. O que são fontes históricas? Cite um exemplo de fonte escrita e um de fonte material não escrita.\n____\n\n2. Explique uma mudança que a agricultura trouxe ao modo de vida de grupos humanos no período Neolítico.\n____\n\n3. Por que os rios Tigre e Eufrates eram importantes para as atividades agrícolas na Mesopotâmia?\n____\n\nChecklist de revisão da Parte 1:\n[ ] Conferi se respondi às questões 1, 2 e 3.\n[ ] Conferi se não deixei nenhum item sem resposta ou sem [?].\n\nPausa ativa: levante-se, alongue-se e beba um pouco de água antes de iniciar a Parte 2.\n\n**Parte 2**\nSe travar em um item, marque [?] e avance para o próximo do bloco.\n\n4. Explique como as cheias do rio Nilo contribuíam para a agricultura no Egito antigo.\n____\n\n5. Na democracia ateniense, mulheres, pessoas escravizadas e estrangeiros tinham os mesmos direitos políticos dos cidadãos homens? Justifique.\n____\n\n6. Qual era uma das funções dos aquedutos nas cidades da Roma antiga?\n____\n\nChecklist de revisão da Parte 2:\n[ ] Conferi se respondi às questões 4, 5 e 6.\n[ ] Conferi se não deixei nenhum item sem resposta ou sem [?].",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-30"
+  },
+  {
+   "chave": "N201|distratibilidade_poluicao_visual_layout|3",
+   "escritor": "haiku",
+   "caracteristica": "distratibilidade_poluicao_visual_layout",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Apresentação Minimalista de Questão Única por Bloco",
+   "enunciado": "✦ ✦ ✦ VIAGEM PELA LEITURA ✦ ✦ ✦\n┌ LEMBRETE DA TURMA: sexta-feira haverá exposição de desenhos. ┐\nLeia o texto e identifique por que Marina mudou o vaso de lugar.\nMarina deixou um vaso perto da janela. Ao meio-dia, percebeu que o sol forte fazia as folhas murcharem. Então, levou o vaso para um canto com sombra. No fim da tarde, as folhas estavam firmes novamente.\n★ ESPAÇO CULTURAL ★ Ler é descobrir novos caminhos!\nA) Porque queria esconder o vaso dos visitantes.\nB) Porque precisava abrir espaço para seus livros.\nC) Porque percebeu que o sol forte prejudicava as folhas.\nD) Porque as folhas estavam sujando a janela.",
+   "acoes": [
+    "Formatar a questão para exibição isolada (uma questão por seção/página de impressão) com bordas de contenção visual suaves.",
+    "Substituir referências cruzadas distantes ('conforme o texto da página anterior') pela repetição local do trecho exato necessário."
+   ],
+   "restricoes": [
+    "Proibido simplificar o rigor conceitual da pergunta.",
+    "Proibido eliminar informações essenciais da figura ou tabela avaliada."
+   ],
+   "adaptacao": "**Leia o texto e identifique por que Marina mudou o vaso de lugar.**\n\nMarina deixou um vaso perto da janela. Ao meio-dia, percebeu que o sol forte fazia as folhas murcharem. Então, levou o vaso para um canto com sombra. No fim da tarde, as folhas estavam firmes novamente.\n\n[ ] A) Porque queria esconder o vaso dos visitantes.\n[ ] B) Porque precisava abrir espaço para seus livros.\n[ ] C) Porque percebeu que o sol forte prejudicava as folhas.\n[ ] D) Porque as folhas estavam sujando a janela.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": false,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "haiku_ruim",
+   "peso": 1.0,
+   "uid": "adapt-31"
+  },
+  {
+   "chave": "N106|atencao_sustentada_textos_longos|2",
+   "escritor": "llama",
+   "caracteristica": "atencao_sustentada_textos_longos",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Chunking Textual com Subtítulos Orientadores",
+   "enunciado": "À direção da escola, nós, estudantes do sétimo ano, solicitamos que a biblioteca permaneça aberta durante parte do intervalo. Atualmente, o espaço funciona apenas nos horários em que estamos em aula, e muitos colegas dependem do transporte escolar, o que impede a permanência na escola depois do último sinal. Em uma consulta feita com as quatro turmas do ano, vários estudantes disseram que gostariam de retirar livros para ler em casa, mas encontram dificuldade para chegar à biblioteca nos horários disponíveis. Sabemos que a funcionária responsável também precisa de seu intervalo e, por isso, sugerimos que a escola avalie uma mudança de horário ou organize um revezamento com outro profissional autorizado. Acreditamos que ampliar o acesso aos livros pode fortalecer os projetos de leitura já desenvolvidos pelos professores. Nossa proposta não exige a abertura durante todo o recreio, mas um período suficiente para empréstimos e devoluções, conforme as possibilidades de organização da equipe escolar.\nQual é a solicitação principal dessa carta e como os argumentos sobre o transporte escolar e os horários de funcionamento procuram convencer a direção a atendê-la?",
+   "acoes": [
+    "Segmentar o texto-base em blocos curtos ('Bloco 1', 'Bloco 2') precedidos de rótulo temático neutro (ex.: '[Contexto Histórico]', '[Dados do Experimento]').",
+    "Apresentar o comando da questão também antes do texto ('Leia o texto buscando identificar: ...') para orientar a atenção seletiva."
+   ],
+   "restricoes": [
+    "Proibido usar subtítulos que entreguem a interpretação ou o gabarito da questão.",
+    "Proibido suprimir vocabulário curricular obrigatório."
+   ],
+   "adaptacao": "Leia o texto buscando identificar a solicitação principal e como os argumentos sobre o transporte escolar e os horários de funcionamento procuram convencer a direção a atendê-la.\n\nÀ direção da escola, nós, estudantes do sétimo ano, solicitamos que a biblioteca permaneça aberta durante parte do intervalo.\n\nBloco 1: Problema de Acesso aos Livros\n\nAtualmente, o espaço funciona apenas nos horários em que estamos em aula, e muitos colegas dependem do transporte escolar, o que impede a permanência na escola depois do último sinal.\n\nBloco 2: Proposta de Solução\n\nEm uma consulta feita com as quatro turmas do ano, vários estudantes disseram que gostariam de retirar livros para ler em casa, mas encontram dificuldade para chegar à biblioteca nos horários disponíveis.\n\nBloco 3: Argumentos de Convencimento\n\nSabemos que a funcionária responsável também precisa de seu intervalo e, por isso, sugerimos que a escola avalie uma mudança de horário ou organize um revezamento com outro profissional autorizado.\n\nBloco 4: Conclusão\n\nAcreditamos que ampliar o acesso aos livros pode fortalecer os projetos de leitura já desenvolvidos pelos professores.\n\nNossa proposta não exige a abertura durante todo o recreio, mas um período suficiente para empréstimos e devoluções, conforme as possibilidades de organização da equipe escolar.",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": true,
+    "trecho": "Bloco 1: Problema de Acesso aos Livros"
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-32"
+  },
+  {
+   "chave": "N607|ritmo_processamento_pressao_temporal|3",
+   "escritor": "llama",
+   "caracteristica": "ritmo_processamento_pressao_temporal",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Apresentação Direta de Premissas + Comando + Tempo Estendido",
+   "enunciado": "Explique por que as duas lâmpadas de um circuito em série, que inicialmente estavam acesas e eram alimentadas por uma pilha em boas condições, apagam quando uma delas é retirada do suporte, considerando a continuidade do caminho da corrente elétrica.",
+   "acoes": [
+    "Organizar as informações do enunciado em tópicos curtos ('Contexto:', 'Situação:', 'Comando:') mantendo todos os conceitos obrigatórios.",
+    "Incluir orientação explícita ao docente sobre direito a tempo adicional e mediação leitora conforme diretrizes normativas."
+   ],
+   "restricoes": [
+    "Proibido eliminar a operação cognitiva exigida (inferir, calcular, relacionar).",
+    "Proibido reduzir o rigor curricular."
+   ],
+   "adaptacao": "Explique por que as duas lâmpadas de um **circuito em série**, que inicialmente estavam acesas e eram alimentadas por uma **pilha** em boas condições, apagam quando uma delas é retirada do suporte, considerando a **continuidade do caminho da corrente elétrica**.\n\n**Contexto:**\n* Duas lâmpadas em um circuito em série.\n* Pilha em boas condições.\n\n**Situação:**\n* As lâmpadas apagam quando uma delas é retirada do suporte.\n\n**Comando:**\n* Explique por que isso acontece, considerando a continuidade do caminho da corrente elétrica.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-33"
+  },
+  {
+   "chave": "N103|atencao_sustentada_textos_longos|1",
+   "escritor": "haiku",
+   "caracteristica": "atencao_sustentada_textos_longos",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Respiração Visual e Segmentação de Parágrafos",
+   "enunciado": "Durante uma atividade no laboratório, uma turma recebeu um recipiente que continha água, areia e sal de cozinha. A professora explicou que o sal havia sido completamente dissolvido antes da adição da areia e que nenhuma reação química havia ocorrido entre os materiais. Depois de mexer o conteúdo com uma colher, os estudantes observaram que a água ficou turva por alguns instantes e que, ao deixar o recipiente em repouso, os grãos de areia começaram a se acumular no fundo. Sobre a bancada estavam disponíveis um funil, papel de filtro, dois copos resistentes ao aquecimento e uma fonte de calor que somente a professora poderia utilizar. O objetivo da atividade era recuperar a areia e obter o sal separado da água, sem necessidade de recolher a água ao final. Antes de tocar nos equipamentos, cada grupo deveria escrever uma proposta de procedimento, considerando que o papel de filtro retém os grãos de areia, mas permite a passagem da água com o sal dissolvido.\nComo o grupo pode empregar a filtração e a evaporação para atingir o objetivo da atividade, e por que somente a filtração não separa todos os componentes dessa mistura?",
+   "acoes": [
+    "Dividir parágrafos excessivamente longos em parágrafos menores mantendo 100% das palavras originais.",
+    "Destacar em negrito até 1 ideia-chave por parágrafo para ancoragem ocular."
+   ],
+   "restricoes": [
+    "Proibido resumir, omitir frases ou alterar o léxico do texto-base.",
+    "Proibido alterar os comandos ou alternativas da questão."
+   ],
+   "adaptacao": "Durante uma atividade no laboratório, uma turma recebeu um **recipiente** que continha água, areia e sal de cozinha.\n\nA professora explicou que o **sal dissolvido** antes da adição da areia e que nenhuma reação química havia ocorrido entre os materiais.\n\nDepois de mexer o conteúdo com uma colher, os estudantes observaram que a água ficou turva por alguns instantes e que, ao deixar o recipiente em repouso, os **grãos de areia** começaram a se acumular no fundo.\n\nSobre a bancada estavam disponíveis um funil, **papel de filtro**, dois copos resistentes ao aquecimento e uma fonte de calor que somente a professora poderia utilizar.\n\nO **objetivo da atividade** era recuperar a areia e obter o sal separado da água, sem necessidade de recolher a água ao final.\n\nAntes de tocar nos equipamentos, cada grupo deveria escrever uma **proposta de procedimento**, considerando que o papel de filtro retém os grãos de areia, mas permite a passagem da água com o sal dissolvido.\n\nComo o grupo pode empregar a filtração e a evaporação para atingir o objetivo da atividade, e por que somente a filtração não separa todos os componentes dessa mistura?",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": false,
+    "trecho": "A professora explicou que o **sal dissolvido** antes da adição da areia e que nenhuma reação química havia ocorrido entre os materiais."
+   },
+   "juiz_boa": false,
+   "estrato": "haiku_ruim",
+   "peso": 1.0,
+   "uid": "adapt-34"
+  },
+  {
+   "chave": "N110|atencao_sustentada_textos_longos|1",
+   "escritor": "llama",
+   "caracteristica": "atencao_sustentada_textos_longos",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Respiração Visual e Segmentação de Parágrafos",
+   "enunciado": "Uma empresa de equipamentos eletrônicos organiza a fabricação de seus aparelhos em diferentes países. O projeto de um novo modelo é desenvolvido por uma equipe instalada no país onde fica a sede, enquanto parte dos minerais utilizados nos componentes é extraída em outros territórios. Esses materiais passam por unidades de processamento e seguem para fábricas especializadas na produção de peças, que depois são enviadas a uma unidade de montagem. Os aparelhos prontos viajam de navio até centros de distribuição e chegam às lojas por rodovias e ferrovias. A escolha dos locais de cada atividade considera fatores como infraestrutura, qualificação dos trabalhadores, custos de produção, impostos e acesso aos mercados consumidores. Quando uma tempestade interrompeu por vários dias o funcionamento de um porto importante nesse percurso, algumas fábricas ficaram sem peças e lojas de países distantes receberam menos produtos. O episódio mostrou que a circulação de mercadorias depende de conexões entre lugares e que um problema localizado pode afetar várias etapas da cadeia produtiva.\nComo a organização dessa cadeia produtiva exemplifica a divisão internacional do trabalho no contexto da globalização, e por que a interrupção de um porto pode afetar a oferta de produtos em países distantes?",
+   "acoes": [
+    "Dividir parágrafos excessivamente longos em parágrafos menores mantendo 100% das palavras originais.",
+    "Destacar em negrito até 1 ideia-chave por parágrafo para ancoragem ocular."
+   ],
+   "restricoes": [
+    "Proibido resumir, omitir frases ou alterar o léxico do texto-base.",
+    "Proibido alterar os comandos ou alternativas da questão."
+   ],
+   "adaptacao": "Uma empresa de equipamentos eletrônicos organiza a fabricação de seus aparelhos em diferentes países.\n\nO projeto de um novo modelo é desenvolvido por uma equipe instalada no país onde fica a sede, enquanto parte dos minerais utilizados nos componentes é extraída em outros territórios.\n\nEsses materiais passam por unidades de processamento e seguem para fábricas especializadas na produção de peças, que depois são enviadas a uma unidade de montagem.\n\nOs aparelhos prontos viajam de navio até centros de distribuição e chegam às lojas por rodovias e ferrovias.\n\nA escolha dos locais de cada atividade considera fatores como infraestrutura, qualificação dos trabalhadores, custos de produção, impostos e acesso aos mercados consumidores.\n\nQuando uma tempestade interrompeu por vários dias o funcionamento de um porto importante nesse percurso, algumas fábricas ficaram sem peças e lojas de países distantes receberam menos produtos.\n\nO episódio mostrou que a circulação de mercadorias depende de conexões entre lugares e que um problema localizado pode afetar várias etapas da cadeia produtiva.\n\n**A organização dessa cadeia produtiva exemplifica a divisão internacional do trabalho no contexto da globalização.**\n\nPor que a interrupção de um porto pode afetar a oferta de produtos em países distantes?",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": false,
+    "trecho": "A organização dessa cadeia produtiva exemplifica a divisão internacional do trabalho no contexto da globalização."
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-35"
+  },
+  {
+   "chave": "N209|distratibilidade_poluicao_visual_layout|2",
+   "escritor": "llama",
+   "caracteristica": "distratibilidade_poluicao_visual_layout",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Isolamento Visual de Contexto, Comando e Opções",
+   "enunciado": "✹ ✹ MATÉRIA EM TRANSFORMAÇÃO ✹ ✹\n╔ MURAL VERDE: traga uma fotografia de uma árvore para a exposição da turma. ╗\nUma transformação química envolve a formação de novas substâncias. Em qual situação ocorre esse tipo de transformação, e não apenas uma mudança de estado físico ou de formato?\n★ AGENDA ★ Ensaio do coral após a última aula.\nA) Um cubo de gelo derrete em um copo.\nB) Uma folha de papel é cortada em tiras.\nC) Um prego de ferro enferruja em contato com ar e umidade.\nD) Uma porção de água congela no congelador.",
+   "acoes": [
+    "Separar a questão em três zonas visuais distintas e limpas: [Texto de Apoio], [Pergunta] e [Alternativas].",
+    "Adicionar guia de leitura para figuras/gráficos essenciais ('Observe no gráfico o eixo horizontal X e o eixo vertical Y')."
+   ],
+   "restricoes": [
+    "Proibido interpretar o gráfico pelo estudante.",
+    "Proibido alterar o número de alternativas da questão."
+   ],
+   "adaptacao": "✹ ✹ MATÉRIA EM TRANSFORMAÇÃO ✹ ✹\n\n**Texto de Apoio**\n\nUma transformação química envolve a formação de novas substâncias. Em qual situação ocorre esse tipo de transformação, e não apenas uma mudança de estado físico ou de formato?\n\n**Pergunta**\n\n**Alternativas**\n\nA) Um cubo de gelo derrete em um copo.\nB) Uma folha de papel é cortada em tiras.\nC) Um prego de ferro enferruja em contato com ar e umidade.\nD) Uma porção de água congela no congelador.",
+   "juiz": {
+    "aplicou": false,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-36"
+  },
+  {
+   "chave": "Q28|retencao_dados_intermediarios_problemas_multietapas|1",
+   "escritor": "haiku",
+   "caracteristica": "retencao_dados_intermediarios_problemas_multietapas",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Realce Visual de Dados e Variáveis",
+   "enunciado": "Leia as coordenadas 15° S e 47° O e indique em qual hemisfério o ponto está.",
+   "acoes": [
+    "Destacar em negrito os dados numéricos, grandezas, datas ou premissas condicionais presentes no enunciado.",
+    "Preservar integralmente a redação original da questão."
+   ],
+   "restricoes": [
+    "Proibido extrair os dados para fora do texto ou montar a equação pelo aluno.",
+    "Proibido destacar a alternativa correta."
+   ],
+   "adaptacao": "Leia as coordenadas **15° S** e **47° O** e indique em qual hemisfério o ponto está.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-37"
+  },
+  {
+   "chave": "N409|fadiga_executiva_autorregulacao_provas_extensas|1",
+   "escritor": "haiku",
+   "caracteristica": "fadiga_executiva_autorregulacao_provas_extensas",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Indicadores Visuais de Progresso na Avaliação",
+   "enunciado": "Responda às questões sobre o estudo da História e as sociedades antigas.\n1. O que são fontes históricas? Cite um exemplo de fonte escrita e um de fonte material não escrita.\n2. Explique uma mudança que a agricultura trouxe ao modo de vida de grupos humanos no período Neolítico.\n3. Por que os rios Tigre e Eufrates eram importantes para as atividades agrícolas na Mesopotâmia?\n4. Explique como as cheias do rio Nilo contribuíam para a agricultura no Egito antigo.\n5. Na democracia ateniense, mulheres, pessoas escravizadas e estrangeiros tinham os mesmos direitos políticos dos cidadãos homens? Justifique.\n6. Qual era uma das funções dos aquedutos nas cidades da Roma antiga?",
+   "acoes": [
+    "Inserir indicador claro de posição em cada questão (ex.: 'Questão 2 de 6 — Bloco Inicial').",
+    "Preservar integralmente o conteúdo das questões."
+   ],
+   "restricoes": [
+    "Proibido alterar o enunciado ou excluir questões da prova.",
+    "Proibido modificar o nível de dificuldade conceitual."
+   ],
+   "adaptacao": "Responda às questões sobre o estudo da História e as sociedades antigas.\n\n**Questão 1 de 6 — Bloco Inicial**\n1. O que são fontes históricas? Cite um exemplo de fonte escrita e um de fonte material não escrita.\n\n**Questão 2 de 6 — Bloco Inicial**\n2. Explique uma mudança que a agricultura trouxe ao modo de vida de grupos humanos no período Neolítico.\n\n**Questão 3 de 6 — Bloco Inicial**\n3. Por que os rios Tigre e Eufrates eram importantes para as atividades agrícolas na Mesopotâmia?\n\n**Questão 4 de 6 — Bloco Inicial**\n4. Explique como as cheias do rio Nilo contribuíam para a agricultura no Egito antigo.\n\n**Questão 5 de 6 — Bloco Inicial**\n5. Na democracia ateniense, mulheres, pessoas escravizadas e estrangeiros tinham os mesmos direitos políticos dos cidadãos homens? Justifique.\n\n**Questão 6 de 6 — Bloco Inicial**\n6. Qual era uma das funções dos aquedutos nas cidades da Roma antiga?",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-38"
+  },
+  {
+   "chave": "N204|distratibilidade_poluicao_visual_layout|1",
+   "escritor": "llama",
+   "caracteristica": "distratibilidade_poluicao_visual_layout",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Padronização Visual e Alinhamento Vertical",
+   "enunciado": "✧ MEMÓRIAS E DESCOBERTAS ✧\n╔ AGENDA CULTURAL: apresentação musical no pátio após o recreio. ╗\nAo pesquisar a história de um bairro, uma historiadora reuniu fotografias antigas, cartas de moradores e entrevistas gravadas. Esses materiais são fontes históricas. Para investigar as mudanças no bairro, como ela deve utilizá-los?\n★ CURIOSIDADE DO MURAL: coleções podem reunir selos, moedas e cartões. ★\nA) Comparar os materiais, considerando quando, por quem e em que contexto foram produzidos.\nB) Escolher apenas as fotografias, pois imagens sempre mostram todos os acontecimentos.\nC) Descartar as entrevistas, pois relatos orais não podem ser fontes históricas.\nD) Tratar todas as cartas como relatos completos e sem opiniões pessoais.",
+   "acoes": [
+    "Dispor todas as alternativas estritamente em coluna única vertical com espaçamento limpo.",
+    "Remover ornamentos textuais desnecessários no cabeçalho da questão."
+   ],
+   "restricoes": [
+    "Proibido remover gráficos, mapas ou tabelas que sejam necessários para resolver a questão.",
+    "Proibido alterar o texto do enunciado."
+   ],
+   "adaptacao": "MEMÓRIAS E DESCOBERTAS\n\nAo pesquisar a história de um bairro, uma historiadora reuniu fotografias antigas, cartas de moradores e entrevistas gravadas. Esses materiais são fontes históricas. Para investigar as mudanças no bairro, como ela deve utilizá-los?\n\nA) Comparar os materiais, considerando quando, por quem e em que contexto foram produzidos.\nB) Escolher apenas as fotografias, pois imagens sempre mostram todos os acontecimentos.\nC) Descartar as entrevistas, pois relatos orais não podem ser fontes históricas.\nD) Tratar todas as cartas como relatos completos e sem opiniões pessoais.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-39"
+  },
+  {
+   "chave": "N304|impulsividade_leitura_superficial_negacoes|1",
+   "escritor": "haiku",
+   "caracteristica": "impulsividade_leitura_superficial_negacoes",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Sinalização de Contraste em Termos Restritivos",
+   "enunciado": "Ao resolver a equação x² − 5x + 6 = 0 no conjunto dos números reais, um estudante encontrou suas raízes. Assinale a alternativa que apresenta apenas raízes dessa equação.\nA) 1 e 2.\nB) −2 e −3.\nC) 3 e 5.\nD) 2 e 3.",
+   "acoes": [
+    "Aplicar caixa-alta e negrito em termos restritivos ('NÃO', 'EXCETO', 'INCORRETA', 'SOMENTE', 'RESPECTIVAMENTE').",
+    "Manter a redação original da questão."
+   ],
+   "restricoes": [
+    "Proibido alterar o sentido das alternativas.",
+    "Proibido adicionar explicações de conteúdo."
+   ],
+   "adaptacao": "Ao resolver a equação x² − 5x + 6 = 0 no conjunto dos números reais, um estudante encontrou suas raízes. Assinale a alternativa que apresenta apenas raízes dessa equação.\nA) 1 e 2.\nB) −2 e −3.\nC) 3 e 5.\nD) 2 e 3.",
+   "juiz": {
+    "aplicou": false,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "haiku_ruim",
+   "peso": 1.0,
+   "uid": "adapt-40"
+  },
+  {
+   "chave": "N507|flexibilidade_cognitiva_alternancia_topicos|1",
+   "escritor": "llama",
+   "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Rótulo de Contexto e Tipo de Tarefa no Topo da Questão",
+   "enunciado": "1. Resolva a equação 3x + 7 = 22.\n2. Marque V para verdadeiro ou F para falso: A área de um retângulo de base 8 cm e altura 3 cm é 22 cm².\n3. Uma sacola contém 5 fichas azuis e 3 fichas amarelas, todas com o mesmo tamanho e formato. Uma ficha será retirada ao acaso. Escreva, na forma de fração, a probabilidade de retirar uma ficha amarela.",
+   "acoes": [
+    "Adicionar tag curta de transição no cabeçalho da questão (ex.: '[Novo Tema: Ciclo da Água | Tipo: Análise de Gráfico]').",
+    "Manter o enunciado e alternativas originais intactos."
+   ],
+   "restricoes": [
+    "Proibido revelar qual fórmula ou conceito responde à questão na tag de transição.",
+    "Proibido reescrever o enunciado."
+   ],
+   "adaptacao": "1. [Novo Tema: Equações | Tipo: Resolução de Equações] Resolva a equação 3x + 7 = 22.\n2. [Novo Tema: Geometria | Tipo: Verificação de Fatos] Marque V para verdadeiro ou F para falso: A área de um retângulo de base 8 cm e altura 3 cm é 22 cm².\n3. [Novo Tema: Probabilidade | Tipo: Cálculo de Probabilidade] Uma sacola contém 5 fichas azuis e 3 fichas amarelas, todas com o mesmo tamanho e formato. Uma ficha será retirada ao acaso. Escreva, na forma de fração, a probabilidade de retirar uma ficha amarela.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-41"
+  },
+  {
+   "chave": "Q24|bloqueio_iniciacao_tarefas_abertas|3",
+   "escritor": "llama",
+   "caracteristica": "bloqueio_iniciacao_tarefas_abertas",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Andaime de Iniciação com Conectivo Neutro e Roteiro",
+   "enunciado": "Leia o texto, identifique a causa principal da Revolução Industrial e explique suas consequências para os trabalhadores.\nNo século XVIII, máquinas passaram a substituir o trabalho manual em muitas fábricas.",
+   "acoes": [
+    "Oferecer iniciador frasal neutro ('Com base nos dados apresentados, verifica-se que...') seguido de linhas guiadas.",
+    "Incluir mini-checklist de partida ('[ ] Li o comando; [ ] Localizei os dados; [ ] Escrevi a resposta')."
+   ],
+   "restricoes": [
+    "Proibido incluir termos da resposta no iniciador frasal.",
+    "Proibido violar a Trava Curricular."
+   ],
+   "adaptacao": "Com base nos dados apresentados, verifica-se que no século XVIII, máquinas passaram a substituir o trabalho manual em muitas fábricas. [ ] Li o texto; [ ] Identifiquei a causa principal da Revolução Industrial; [ ] Expliquei suas consequências para os trabalhadores.",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": true,
+    "trecho": "Com base nos dados apresentados, verifica-se que no século XVIII, máquinas passaram a substituir o trabalho manual em muitas fábricas."
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-42"
+  },
+  {
+   "chave": "N102|atencao_sustentada_textos_longos|2",
+   "escritor": "haiku",
+   "caracteristica": "atencao_sustentada_textos_longos",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Chunking Textual com Subtítulos Orientadores",
+   "enunciado": "A escola do bairro organizou uma visita ao museu de história natural para os estudantes do quinto ano. Para o transporte, foram contratados 3 ônibus, cada um com 42 lugares disponíveis para passageiros. Participariam da visita 108 estudantes e 9 adultos, entre professores e funcionários, e todos deveriam viajar sentados. A equipe responsável decidiu distribuir os passageiros entre os veículos apenas no momento do embarque, pois algumas turmas chegariam ao portão antes das outras. Na reunião de preparação, também foi combinado que cada participante receberia um lanche individual depois da visita. A cozinha preparou 125 lanches e colocou todos em caixas que seriam levadas nos compartimentos de bagagem, sem ocupar assentos. Nenhum motorista estava incluído na contagem dos adultos, e os lugares informados para cada ônibus não incluíam o assento do motorista. Na manhã da saída, todos os estudantes e adultos previstos compareceram, e ninguém além dessas pessoas participou da atividade.\nConsiderando todos os participantes, quantos lugares ficaram vazios nos ônibus e quantos lanches sobraram depois que cada participante recebeu um?",
+   "acoes": [
+    "Segmentar o texto-base em blocos curtos ('Bloco 1', 'Bloco 2') precedidos de rótulo temático neutro (ex.: '[Contexto Histórico]', '[Dados do Experimento]').",
+    "Apresentar o comando da questão também antes do texto ('Leia o texto buscando identificar: ...') para orientar a atenção seletiva."
+   ],
+   "restricoes": [
+    "Proibido usar subtítulos que entreguem a interpretação ou o gabarito da questão.",
+    "Proibido suprimir vocabulário curricular obrigatório."
+   ],
+   "adaptacao": "**Leia o texto buscando identificar: Considerando todos os participantes, quantos lugares ficaram vazios nos ônibus e quantos lanches sobraram depois que cada participante recebeu um?**\n\n**Bloco 1 [Contexto da Visita]**\nA escola do bairro organizou uma visita ao museu de história natural para os estudantes do quinto ano.\n\n**Bloco 2 [Transporte]**\nPara o transporte, foram contratados 3 ônibus, cada um com 42 lugares disponíveis para passageiros. Participariam da visita 108 estudantes e 9 adultos, entre professores e funcionários, e todos deveriam viajar sentados.\n\n**Bloco 3 [Embarque]**\nA equipe responsável decidiu distribuir os passageiros entre os veículos apenas no momento do embarque, pois algumas turmas chegariam ao portão antes das outras.\n\n**Bloco 4 [Lanches]**\nNa reunião de preparação, também foi combinado que cada participante receberia um lanche individual depois da visita. A cozinha preparou 125 lanches e colocou todos em caixas que seriam levadas nos compartimentos de bagagem, sem ocupar assentos.\n\n**Bloco 5 [Motorista e Assentos]**\nNenhum motorista estava incluído na contagem dos adultos, e os lugares informados para cada ônibus não incluíam o assento do motorista.\n\n**Bloco 6 [Presença na Saída]**\nNa manhã da saída, todos os estudantes e adultos previstos compareceram, e ninguém além dessas pessoas participou da atividade.\n\n**Considerando todos os participantes, quantos lugares ficaram vazios nos ônibus e quantos lanches sobraram depois que cada participante recebeu um?**",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-43"
+  },
+  {
+   "chave": "N402|fadiga_executiva_autorregulacao_provas_extensas|2",
+   "escritor": "llama",
+   "caracteristica": "fadiga_executiva_autorregulacao_provas_extensas",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Agrupamento Modular em Baterias Curtas",
+   "enunciado": "Resolva as questões e apresente os cálculos utilizados.\n1. Calcule o valor da expressão numérica 84 − 6 × 9 + 12.\n2. Escreva todos os divisores de 36.\n3. Determine o mínimo múltiplo comum de 8 e 12.\n4. Uma biblioteca recebeu 135 livros e distribuiu a mesma quantidade entre 9 prateleiras. Quantos livros foram colocados em cada prateleira?\n5. Calcule 3/4 de 60 figurinhas.\n6. Uma fita mede 2,5 metros. Foram usados 0,85 metro em um trabalho e 0,6 metro em outro. Quantos metros de fita restaram?",
+   "acoes": [
+    "Agrupar questões a cada 2 ou 3 itens em blocos modulares com marcador de conclusão ('Fim do Bloco 1: faça uma breve pausa antes de seguir').",
+    "Manter a integridade total de todas as questões."
+   ],
+   "restricoes": [
+    "Proibido reduzir o conteúdo avaliado.",
+    "Proibido fornecer pistas de resolução nos marcadores de bloco."
+   ],
+   "adaptacao": "Resolva as questões e apresente os cálculos utilizados.\n\n**Etapa 1: Bloco 1**\n1. Calcule o valor da expressão numérica 84 − 6 × 9 + 12.\nFim do Bloco 1: faça uma breve pausa antes de seguir\n\n**Etapa 1: Bloco 2**\n2. Escreva todos os divisores de 36.\n3. Determine o mínimo múltiplo comum de 8 e 12.\nFim do Bloco 2: faça uma breve pausa antes de seguir\n\n**Etapa 2: Bloco 3**\n4. Uma biblioteca recebeu 135 livros e distribuiu a mesma quantidade entre 9 prateleiras. Quantos livros foram colocados em cada prateleira?\n5. Calcule 3/4 de 60 figurinhas.\nFim do Bloco 3: faça uma breve pausa antes de seguir\n\n**Etapa 2: Bloco 4**\n6. Uma fita mede 2,5 metros. Foram usados 0,85 metro em um trabalho e 0,6 metro em outro. Quantos metros de fita restaram?",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-44"
+  },
+  {
+   "chave": "N405|fadiga_executiva_autorregulacao_provas_extensas|2",
+   "escritor": "llama",
+   "caracteristica": "fadiga_executiva_autorregulacao_provas_extensas",
+   "nivel": "2",
+   "rotulo": "Adaptação Moderada — Agrupamento Modular em Baterias Curtas",
+   "enunciado": "Responda às questões sobre a organização do espaço mundial.\n1. Explique o que é globalização e dê um exemplo de sua presença no cotidiano.\n2. Como as empresas transnacionais podem distribuir as etapas de fabricação de um produto entre diferentes países?\n3. Explique como a divisão internacional do trabalho pode contribuir para desigualdades econômicas entre países.\n4. Qual é a importância do transporte marítimo para o comércio internacional de mercadorias?\n5. Cite um objetivo econômico dos blocos econômicos.\n6. Explique como a desigualdade de acesso à internet pode limitar a participação de uma população nas redes globais de informação.",
+   "acoes": [
+    "Agrupar questões a cada 2 ou 3 itens em blocos modulares com marcador de conclusão ('Fim do Bloco 1: faça uma breve pausa antes de seguir').",
+    "Manter a integridade total de todas as questões."
+   ],
+   "restricoes": [
+    "Proibido reduzir o conteúdo avaliado.",
+    "Proibido fornecer pistas de resolução nos marcadores de bloco."
+   ],
+   "adaptacao": "Responda às questões sobre a organização do espaço mundial.\n\n**Etapa 1: Globalização e Empresas Transnacionais**\n1. Explique o que é globalização e dê um exemplo de sua presença no cotidiano.\nFim do Bloco 1: faça uma breve pausa antes de seguir\n\n**Etapa 2: Divisão Internacional do Trabalho e Transporte Marítimo**\n1. Como as empresas transnacionais podem distribuir as etapas de fabricação de um produto entre diferentes países?\n2. Qual é a importância do transporte marítimo para o comércio internacional de mercadorias?\nFim do Bloco 2: faça uma breve pausa antes de seguir\n\n**Etapa 3: Blocos Econômicos e Desigualdade de Acesso à Internet**\n1. Cite um objetivo econômico dos blocos econômicos.\n2. Explique como a desigualdade de acesso à internet pode limitar a participação de uma população nas redes globais de informação.",
+   "juiz": {
+    "aplicou": true,
+    "fora": true,
+    "conteudo": false,
+    "trecho": "**Etapa 2: Divisão Internacional do Trabalho e Transporte Marítimo**"
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-45"
+  },
+  {
+   "chave": "N204|distratibilidade_poluicao_visual_layout|3",
+   "escritor": "llama",
+   "caracteristica": "distratibilidade_poluicao_visual_layout",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Apresentação Minimalista de Questão Única por Bloco",
+   "enunciado": "✧ MEMÓRIAS E DESCOBERTAS ✧\n╔ AGENDA CULTURAL: apresentação musical no pátio após o recreio. ╗\nAo pesquisar a história de um bairro, uma historiadora reuniu fotografias antigas, cartas de moradores e entrevistas gravadas. Esses materiais são fontes históricas. Para investigar as mudanças no bairro, como ela deve utilizá-los?\n★ CURIOSIDADE DO MURAL: coleções podem reunir selos, moedas e cartões. ★\nA) Comparar os materiais, considerando quando, por quem e em que contexto foram produzidos.\nB) Escolher apenas as fotografias, pois imagens sempre mostram todos os acontecimentos.\nC) Descartar as entrevistas, pois relatos orais não podem ser fontes históricas.\nD) Tratar todas as cartas como relatos completos e sem opiniões pessoais.",
+   "acoes": [
+    "Formatar a questão para exibição isolada (uma questão por seção/página de impressão) com bordas de contenção visual suaves.",
+    "Substituir referências cruzadas distantes ('conforme o texto da página anterior') pela repetição local do trecho exato necessário."
+   ],
+   "restricoes": [
+    "Proibido simplificar o rigor conceitual da pergunta.",
+    "Proibido eliminar informações essenciais da figura ou tabela avaliada."
+   ],
+   "adaptacao": "MEMÓRIAS E DESCOBERTAS\n\n╔ AGENDA CULTURAL: apresentação musical no pátio após o recreio. ╗\n\nAo pesquisar a história de um bairro, uma historiadora reuniu fotografias antigas, cartas de moradores e entrevistas gravadas. Esses materiais são fontes históricas. Para investigar as mudanças no bairro, como ela deve utilizá-los?\n\nA) Comparar os materiais, considerando quando, por quem e em que contexto foram produzidos.\nB) Escolher apenas as fotografias, pois imagens sempre mostram todos os acontecimentos.\nC) Descartar as entrevistas, pois relatos orais não podem ser fontes históricas.\nD) Tratar todas as cartas como relatos completos e sem opiniões pessoais.",
+   "juiz": {
+    "aplicou": false,
+    "fora": false,
+    "conteudo": false,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-46"
+  },
+  {
+   "chave": "N501|flexibilidade_cognitiva_alternancia_topicos|3",
+   "escritor": "haiku",
+   "caracteristica": "flexibilidade_cognitiva_alternancia_topicos",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Ancoragem de Transição e Ativação de Conhecimento Prévio",
+   "enunciado": "1. Reescreva a frase no passado: Os alunos organizam os livros.\n2. Leia: Quando o sinal tocou, Bia guardou o desenho ainda pela metade e foi para o pátio. O que indica que Bia não terminou o desenho?\n3. Marque V para verdadeiro ou F para falso: Na frase A mochila caiu, a palavra mochila é um substantivo.",
+   "acoes": [
+    "Incluir quadro curto de transição ('Mudando de assunto: encerramos o tema X. Agora vamos analisar o tema Y') e destacar a nova regra do comando.",
+    "Vincular explicitamente cada pergunta ao seu respectivo texto/figura de referência."
+   ],
+   "restricoes": [
+    "Proibido fornecer definições conceituais que façam parte da Trava Curricular avaliada.",
+    "Proibido simplificar o rigor da habilidade da BNCC."
+   ],
+   "adaptacao": "**Mudando de assunto:** encerramos o tema anterior. Agora vamos analisar a nova regra do comando.\n\n1. **Reescreva a frase no passado:** Os alunos organizam os livros.\nTexto de referência: Os alunos organizam os livros.\n____\n\n**Mudando de assunto:** encerramos a atividade anterior. Agora vamos analisar a nova regra do comando.\n\n2. **Leia:** Quando o sinal tocou, Bia guardou o desenho ainda pela metade e foi para o pátio. **O que indica que Bia não terminou o desenho?**\nTexto de referência: Quando o sinal tocou, Bia guardou o desenho ainda pela metade e foi para o pátio.\n____\n\n**Mudando de assunto:** encerramos a atividade anterior. Agora vamos analisar a nova regra do comando.\n\n3. **Marque V para verdadeiro ou F para falso:** Na frase A mochila caiu, a palavra mochila é um substantivo.\nTexto de referência: A mochila caiu.\n[ ] V   [ ] F",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-47"
+  },
+  {
+   "chave": "Q26|bloqueio_iniciacao_tarefas_abertas|3",
+   "escritor": "llama",
+   "caracteristica": "bloqueio_iniciacao_tarefas_abertas",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Andaime de Iniciação com Conectivo Neutro e Roteiro",
+   "enunciado": "Explique, com suas palavras, por que a Segunda Guerra Mundial foi chamada de guerra total. Em seguida, cite uma consequência para a população civil.",
+   "acoes": [
+    "Oferecer iniciador frasal neutro ('Com base nos dados apresentados, verifica-se que...') seguido de linhas guiadas.",
+    "Incluir mini-checklist de partida ('[ ] Li o comando; [ ] Localizei os dados; [ ] Escrevi a resposta')."
+   ],
+   "restricoes": [
+    "Proibido incluir termos da resposta no iniciador frasal.",
+    "Proibido violar a Trava Curricular."
+   ],
+   "adaptacao": "Com base nos dados apresentados, verifica-se que a Segunda Guerra Mundial foi chamada de guerra total. Em seguida, cite uma consequência para a população civil.\n\n[ ] Li o comando;\n[ ] Localizei os dados;\n[ ] Escrevi a resposta",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": false,
+    "trecho": ""
+   },
+   "juiz_boa": false,
+   "estrato": "llama_ruim",
+   "peso": 9.5,
+   "uid": "adapt-48"
+  },
+  {
+   "chave": "N307|impulsividade_leitura_superficial_negacoes|1",
+   "escritor": "haiku",
+   "caracteristica": "impulsividade_leitura_superficial_negacoes",
+   "nivel": "1",
+   "rotulo": "Adaptação Leve — Sinalização de Contraste em Termos Restritivos",
+   "enunciado": "No Egito Antigo, o rio Nilo tinha grande importância para a agricultura e para a circulação de pessoas e produtos. Todas as afirmações sobre essa relação estão corretas, EXCETO:\nA) As cheias do rio contribuíam para a fertilidade das terras próximas às margens.\nB) As águas do rio eram utilizadas na irrigação de áreas cultivadas.\nC) O rio servia como caminho para o transporte de pessoas e mercadorias.\nD) A presença do rio dispensava qualquer trabalho de preparação da terra e de cultivo.",
+   "acoes": [
+    "Aplicar caixa-alta e negrito em termos restritivos ('NÃO', 'EXCETO', 'INCORRETA', 'SOMENTE', 'RESPECTIVAMENTE').",
+    "Manter a redação original da questão."
+   ],
+   "restricoes": [
+    "Proibido alterar o sentido das alternativas.",
+    "Proibido adicionar explicações de conteúdo."
+   ],
+   "adaptacao": "No Egito Antigo, o rio Nilo tinha grande importância para a agricultura e para a circulação de pessoas e produtos. Todas as afirmações sobre essa relação estão corretas, **EXCETO**:\nA) As cheias do rio contribuíam para a fertilidade das terras próximas às margens.\nB) As águas do rio eram utilizadas na irrigação de áreas cultivadas.\nC) O rio servia como caminho para o transporte de pessoas e mercadorias.\nD) A presença do rio dispensava qualquer trabalho de preparação da terra e de cultivo.",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "haiku_boa",
+   "peso": 15.4118,
+   "uid": "adapt-49"
+  },
+  {
+   "chave": "Q05|organizacao_sequencial_expressao_escrita|3",
+   "escritor": "llama",
+   "caracteristica": "organizacao_sequencial_expressao_escrita",
+   "nivel": "3",
+   "rotulo": "Adaptação Intensiva — Organizador de Planejamento e Conectivos de Iniciação",
+   "enunciado": "Leia o trecho, explique o que o autor quis dizer e justifique com uma passagem do texto.\nA biblioteca da escola era pequena, mas cada livro parecia abrir uma porta para outro mundo.",
+   "acoes": [
+    "Incluir mini-roteiro de planejamento ('Ideia central -> Argumento -> Conclusão') antes das linhas definitivas.",
+    "Oferecer conectivos gramaticais neutros de iniciação ('Observa-se que... / Isso ocorre porque...') sem qualquer conteúdo conceitual."
+   ],
+   "restricoes": [
+    "Proibido completar o argumento ou transformar questão discursiva avaliativa em múltipla escolha sem autorização docente.",
+    "Proibido violar a Trava Curricular."
+   ],
+   "adaptacao": "Leia o trecho, explique o que o autor quis dizer e justifique com uma passagem do texto.\n\n**Mini-roteiro de planejamento: Ideia central -> Argumento -> Conclusão**\n\nA biblioteca da escola era pequena, mas cada livro parecia abrir uma porta para outro mundo.\n\nObserva-se que... / Isso ocorre porque...",
+   "juiz": {
+    "aplicou": true,
+    "fora": false,
+    "conteudo": true,
+    "trecho": ""
+   },
+   "juiz_boa": true,
+   "estrato": "llama_boa",
+   "peso": 11.7692,
+   "uid": "adapt-50"
+  }
+ ]
+}

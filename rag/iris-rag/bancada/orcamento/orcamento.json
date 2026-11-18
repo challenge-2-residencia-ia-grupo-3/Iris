@@ -59,7 +59,7 @@
       "medida": "tokens de entrada + saída de todas as chamadas ao modelo, numa atividade de 5 questões",
       "fonte": "RNF-08 literal",
       "etapas_do_grupo_com_modelo": ["extrator_curricular", "agente_adaptador"],
-      "etapas_do_arnes_com_modelo": ["diretiva_substituta_arnes"],
+      "etapas_do_arnes_com_modelo": ["diretiva_substituta_arnes", "agente_estrategista", "agente_auditor"],
       "tipo_portao": "duro só para a cadeia do grupo (extrator + adaptador), medida no rastro; alerta para a cadeia com a diretiva do arnês (ensaio do Estrategista que ainda não existe) e para a projeção com tokens de modelo real",
       "cuidado": "o eco conta 'tokens' como palavras separadas por espaço; um modelo real conta mais (a projeção usa o fator medido no Adaptador do grupo)"
     },
@@ -123,6 +123,24 @@
       "tokens_saida_max": 500,
       "chamadas_modelo_por_questao": 1,
       "fonte": "proposta da bancada, a confirmar com o grupo. Esta etapa é do ARNÊS (substitui o Agente Estrategista, que não existe no 65e1f09); serve de ensaio do custo que o estrategista vai ter",
+      "tipo_portao_latencia": "informativo",
+      "tipo_portao_tokens": "alerta"
+    },
+    "agente_estrategista": {
+      "latencia_p95_s": 8.0,
+      "tokens_entrada_max": 4000,
+      "tokens_saida_max": 1400,
+      "chamadas_modelo_por_questao": 1,
+      "fonte": "proposta da bancada alinhada a iris.agents.strategist_agent (TOKENS_MAXIMO=1400)",
+      "tipo_portao_latencia": "informativo",
+      "tipo_portao_tokens": "alerta"
+    },
+    "agente_auditor": {
+      "latencia_p95_s": 8.0,
+      "tokens_entrada_max": 2000,
+      "tokens_saida_max": 900,
+      "chamadas_modelo_por_questao": 1,
+      "fonte": "proposta da bancada alinhada a iris.agents.auditor (max_tokens=900)",
       "tipo_portao_latencia": "informativo",
       "tipo_portao_tokens": "alerta"
     },
