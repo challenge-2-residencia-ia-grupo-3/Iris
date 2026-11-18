@@ -389,5 +389,107 @@
       "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos)"
     },
     "status": "rascunho"
+  },
+  {
+    "id": "ENEM2021-D1-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "A partir da leitura dos textos motivadores e com base nos conhecimentos construídos ao longo de sua formação, redija texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema “Invisibilidade e registro civil: garantia de acesso à cidadania no Brasil”, apresentando proposta de intervenção que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para a defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "proposta de intervenção",
+      "registro civil"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENEM 2021",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2021_PV_impresso_D1_CD1.pdf",
+      "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2018-D1-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "A partir da leitura dos textos motivadores e com base nos conhecimentos construídos ao longo de sua formação, redija um texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema “Manipulação do comportamento do usuário pelo controle de dados na internet”, apresentando proposta de intervenção que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "proposta de intervenção",
+      "controle de dados"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENEM 2018",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2018_PV_impresso_D1_CD1.pdf",
+      "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "OBMEP2025-N2F2-Q4",
+    "disciplina": "Matemática",
+    "ano_escolar": "9º ano EF",
+    "habilidade_bncc": "EF06MA05",
+    "enunciado_original": "Um número de quatro algarismos é chamado dourado se: seus algarismos são todos diferentes; não possui o algarismo zero; o algarismo dos milhares é menor do que o algarismo das unidades; o número formado pelos algarismos das centenas e das dezenas é o produto do algarismo das unidades com o algarismo dos milhares. Por exemplo, 3248 é um número dourado. Explique por que o algarismo das unidades de um número dourado não pode ser 5. Encontre todos os números dourados nos quais aparece o algarismo 5.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "número dourado",
+      "algarismo das unidades"
+    ],
+    "operacao_cognitiva": "analisar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "OBMEP 2025",
+      "url": "https://www.obmep.org.br/provas.htm",
+      "referencia": "Nível 2, 2ª fase, questão 4, itens c) e d) (itens a) e b), de preencher lacunas, omitidos)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENCCEJA2020-PPL-EF-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "9º ano EF",
+    "habilidade_bncc": "EF89LP15",
+    "enunciado_original": "A partir da leitura dos textos motivadores e com base nos conhecimentos construídos ao longo de sua formação, redija um texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema A importância do saneamento básico para a população brasileira. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "saneamento básico"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENCCEJA 2020 (PPL/Reaplicação)",
+      "url": "https://download.inep.gov.br/encceja/provas_e_gabaritos/2020_PV_reaplicacao_PPL_EF_lingua_portuguesa.pdf",
+      "referencia": "Ensino Fundamental, Prova III - Tarde, proposta de redação (apenas o comando; textos motivadores omitidos)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENCCEJA2020-PPL-EM-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "A partir da leitura dos textos motivadores e com base nos conhecimentos construídos ao longo de sua formação, redija um texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema Formas de enfrentar a baixa escolaridade de brasileiros, apresentando proposta de intervenção, que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "baixa escolaridade"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENCCEJA 2020 (PPL/Reaplicação)",
+      "url": "https://download.inep.gov.br/encceja/provas_e_gabaritos/2020_PV_reaplicacao_PPL_EM_linguagens.pdf",
+      "referencia": "Ensino Médio, Linguagens, Códigos e suas Tecnologias e Redação, proposta de redação (apenas o comando; textos motivadores omitidos)"
+    },
+    "status": "rascunho"
   }
 ]

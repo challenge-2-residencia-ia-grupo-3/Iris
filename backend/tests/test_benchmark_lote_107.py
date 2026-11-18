@@ -20,9 +20,9 @@ class TestLote107(unittest.TestCase):
         cls.itens = [BenchmarkQuestionItem(**d) for d in json.loads(LOTE.read_text(encoding="utf-8"))]
 
     def test_minimos_do_criterio_de_aceite(self):
-        # fadiga: critério de aceite (>= 8). abertas: 3 até chegarem as demais fontes (meta 8).
+        # fadiga: critério de aceite (>= 8). abertas: critério de aceite (>= 8).
         self.assertGreaterEqual(sum(1 for i in self.itens if i.id_caracteristica_alvo == FADIGA), 8)
-        self.assertGreaterEqual(sum(1 for i in self.itens if i.id_caracteristica_alvo == ABERTAS), 3)
+        self.assertGreaterEqual(sum(1 for i in self.itens if i.id_caracteristica_alvo == ABERTAS), 8)
 
     def test_caracteristicas_existem_no_catalogo(self):
         cat = set(ids_caracteristicas())
@@ -37,7 +37,7 @@ class TestLote107(unittest.TestCase):
 
     def test_fonte_publica_e_rascunho(self):
         for i in self.itens:
-            self.assertTrue(i.fonte.url.startswith("https://download.inep.gov.br/"))
+            self.assertTrue(i.fonte.url.startswith(("https://download.inep.gov.br/", "https://www.obmep.org.br/")))
             self.assertEqual(i.status, "rascunho")
 
     def test_abertas_sem_alternativas(self):
