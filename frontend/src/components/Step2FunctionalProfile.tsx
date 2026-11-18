@@ -760,7 +760,7 @@ export function Step2FunctionalProfile({
                     <span>Princípio I do DUA — Rede de engajamento (opcional)</span>
                   </span>
                   <h1 className="font-display text-xl sm:text-2xl font-semibold tracking-tight text-[#0D0221] dark:text-white">
-                    Potencialidades, interesses e canais de engajamento
+                    Potencialidades, Interesses e Canais de Engajamento
                   </h1>
                   <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
                     Indique temas, canais preferenciais e facilidades observadas no estudante para contextualizar exemplos de apoio.
