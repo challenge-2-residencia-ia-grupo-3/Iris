@@ -1,4 +1,4 @@
-.PHONY: help up setup install dev front rag extrator extractor extrator-bench extrator-analytics check test db-up db-down docs backend ensure-uv ensure-env
+.PHONY: help up setup install dev front rag extrator extractor extrator-bench extrator-analytics multiagentes multiagentes-menu check test db-up db-down docs backend ensure-uv ensure-env
 
 SHELL := /bin/bash
 export PATH := $(shell echo "$$HOME/.local/bin:$$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$$PATH")
@@ -29,6 +29,7 @@ help:
 	@echo "  make extrator            Abre o Menu Interativo do Agente Extrator (#17) + Benchmark + Analytics"
 	@echo "  make extrator-bench      Roda o Benchmark Zero-Hint do Extrator no Golden Benchmark (30 questões)"
 	@echo "  make extrator-analytics  Exibe o painel Analytics de latência, tokens e recall por disciplina/idade"
+	@echo "  make multiagentes        Executa a demonstração completa dos 4 agentes colaborando (Semana 4)"
 	@echo "  make docs                Sobe o portal de documentação MkDocs em http://$(HOST):$(DOCS_PORT)"
 	@echo "  make db-up               Sobe o banco vetorial PostgreSQL + pgvector via Docker"
 	@echo "  make db-down             Para o container do banco vetorial pgvector"
@@ -96,6 +97,13 @@ extrator-bench: ensure-env
 
 extrator-analytics: ensure-env
 	@$(PYTHON_RUN) scripts/test_curriculum_extractor_cli.py --analytics
+
+# Demonstração do Sistema Multiagentes Completo (Semana 4: Extrator -> Estrategista -> Adaptador <-> Auditor)
+multiagentes: ensure-env
+	@$(PYTHON_RUN) scripts/demo_multiagentes.py --demo
+
+multiagentes-menu: ensure-env
+	@$(PYTHON_RUN) scripts/demo_multiagentes.py --menu
 
 # Smoke-check completo de ambiente, API, PII, RAG e Extrator
 check: ensure-env

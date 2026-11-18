@@ -4,7 +4,9 @@ Permite alternar transparentemente entre:
 1. `ollama`: Execução 100% local (Llama 3.1 8B, Qwen 3 8B, etc.) via Ollama HTTP API,
    garantindo privacidade estrita (LGPD / RNF-01) e custo zero de API para toda a equipe.
 2. `groq`: Execução via API externa compatível com OpenAI (Groq Cloud) para testes rápidos em nuvem.
-3. `extractive`: Modo determinístico offline para testes automatizados (CI/CD) sem GPU ou rede,
+3. `anthropic`: API da Anthropic (Claude). Padrão `claude-haiku-5-5`, esforço baixo. Os modelos novos pensam antes de
+   responder, recusam `temperature` e contam o pensamento no limite de tokens: o limite tem piso de 4.000.
+4. `extractive`: Modo determinístico offline para testes automatizados (CI/CD) sem GPU ou rede,
    sintetizando respostas diretamente das sentenças dos trechos `[T1]..[Tk]` entregues no prompt.
 """
 from __future__ import annotations
@@ -41,6 +43,15 @@ class LLMResponse:
     @property
     def llm_id(self) -> str:
         return f"{self.provider}:{self.model}"
+
+
+def motivo_de_falha(erro: BaseException, limite: int = 160) -> str:
+    """Motivo da queda na reserva para a telemetria: o tipo do erro e o começo da mensagem.
+
+    Só o tipo escondia a causa: o modo JSON do Ollama aborta com "token repeat limit reached" e o agente caía na reserva
+    registrando apenas o tipo do erro (reproduzido em 15/11/2026)."""
+    msg = " ".join(str(erro).split())[:limite]
+    return f"falha_llm:{type(erro).__name__}" + (f": {msg}" if msg else "")
 
 
 # --- Janela de contexto do Ollama (Issue #89) ---------------------------------------------------------------
@@ -408,6 +419,107 @@ class GroqLLMProvider(BaseLLMProvider):
         )
 
 
+MODELO_ANTHROPIC_PADRAO = "claude-haiku-5-5"
+PISO_TOKENS_ANTHROPIC = 4000      # o pensamento conta no limite; com 1.500 a resposta saía vazia (medido em 16/11/2026)
+
+
+def _modelo_anthropic_legado(modelo: str) -> bool:
+    """Famílias 3 e 4 aceitam `temperature`; as mais novas recusam e usam `output_config.effort`."""
+    return bool(re.search(r"claude-(?:3|(?:sonnet|opus|haiku)-4)", modelo))
+
+
+class AnthropicLLMProvider(BaseLLMProvider):
+    """Provedor para a API da Anthropic (Claude), sem SDK: a mesma chamada HTTP do gerador do RAG."""
+
+    provider_name = "anthropic"
+
+    def __init__(
+        self,
+        model: str | None = None,
+        api_key: str | None = None,
+        base_url: str = "https://api.anthropic.com/v1/messages",
+        timeout_seconds: int = 120,
+        esforco: str | None = None,
+    ) -> None:
+        settings = get_settings()
+        env_model = os.environ.get("IRIS_LLM_MODEL") or ""
+        pedido = model or env_model
+        # o servidor pode ter deixado o nome de um modelo local na variável: só nome de modelo Claude vale aqui
+        self.model = pedido if pedido.startswith("claude") else MODELO_ANTHROPIC_PADRAO
+        self.api_key = api_key if api_key is not None else (os.environ.get("ANTHROPIC_API_KEY") or settings.anthropic_api_key)
+        self.base_url = base_url
+        self.timeout_seconds = timeout_seconds
+        self.esforco = esforco or os.environ.get("IRIS_ANTHROPIC_ESFORCO") or "low"
+
+    def is_available(self) -> bool:
+        return bool(self.api_key and self.api_key.strip())
+
+    def _corpo(self, prompt: str, temperature: float, max_tokens: int, system_prompt: str | None, json_mode: bool) -> dict[str, Any]:
+        sistema = system_prompt or ""
+        if json_mode:
+            sistema = (sistema + "\n\n" if sistema else "") + "Responda apenas com o JSON pedido, sem texto antes ou depois."
+        corpo: dict[str, Any] = {"model": self.model, "messages": [{"role": "user", "content": prompt}]}
+        if sistema:
+            corpo["system"] = sistema
+        if _modelo_anthropic_legado(self.model):
+            corpo |= {"temperature": temperature, "max_tokens": max_tokens}
+        else:
+            corpo |= {"max_tokens": max(max_tokens, PISO_TOKENS_ANTHROPIC), "output_config": {"effort": self.esforco}}
+        return corpo
+
+    def generate(
+        self,
+        prompt: str,
+        temperature: float = 0.0,
+        max_tokens: int = 1500,
+        system_prompt: str | None = None,
+        json_mode: bool = False,
+    ) -> LLMResponse:
+        if not self.is_available():
+            raise RuntimeError("ANTHROPIC_API_KEY não configurada no ambiente. Configure no .env ou use outro provedor.")
+        t0 = time.perf_counter()
+        req = urllib.request.Request(
+            self.base_url,
+            data=json.dumps(self._corpo(prompt, temperature, max_tokens, system_prompt, json_mode)).encode("utf-8"),
+            headers={"x-api-key": self.api_key.strip(), "anthropic-version": "2023-06-01",
+                     "content-type": "application/json", "User-Agent": "iris-agentes/0.1"},
+        )
+        data: dict[str, Any] = {}
+        for tentativa in range(4):
+            try:
+                with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                break
+            except urllib.error.HTTPError as exc:
+                if exc.code in (429, 529) and tentativa < 3:      # limite de taxa ou serviço sobrecarregado
+                    time.sleep(5 * (tentativa + 1))
+                    continue
+                raise
+        latency_ms = round((time.perf_counter() - t0) * 1000, 2)
+        texto = "\n".join(b.get("text", "") for b in (data.get("content") or [])
+                           if isinstance(b, dict) and b.get("type") == "text").strip()
+        if not texto or data.get("stop_reason") == "max_tokens":
+            # resposta vazia ou cortada não vale: o agente cai na saída de reserva dele, com o motivo
+            raise RuntimeError(f"resposta do modelo {self.model} vazia ou cortada (stop_reason={data.get('stop_reason')})")
+        uso = dict(data.get("usage") or {})
+        entrada = int(uso.get("input_tokens") or 0)
+        saida = int(uso.get("output_tokens") or 0)
+        uso.setdefault("prompt_tokens", entrada)
+        uso.setdefault("completion_tokens", saida)
+        uso.setdefault("load_ms", 0.0)
+        uso.setdefault("inference_ms", latency_ms)
+        uso.setdefault("tokens_per_sec", round(saida / (latency_ms / 1000.0), 2) if latency_ms > 0 else 0.0)
+        return LLMResponse(
+            text=strip_thinking_tags(texto),
+            provider=self.provider_name,
+            model=data.get("model") or self.model,
+            prompt_tokens=entrada,
+            completion_tokens=saida,
+            latency_ms=latency_ms,
+            raw_usage=uso,
+        )
+
+
 class ExtractiveFallbackLLMProvider(BaseLLMProvider):
     """Provedor extrativo determinístico para execução offline / CI sem GPU ou API externa.
 
@@ -513,28 +625,39 @@ class HybridLLMClient:
         provider: str | None = None,
         model: str | None = None,
         allow_fallback_to_extractive: bool = False,
+        esforco: str | None = None,
     ) -> None:
         settings = get_settings()
-        self.provider_name = (
+        raw_provider = (
             provider
             or os.environ.get("IRIS_LLM_PROVIDER")
             or os.environ.get("RAG_LLM")
             or settings.llm_provider
         ).lower()
+        self.provider_name = "anthropic" if raw_provider in {"anthropic", "claude", "sonnet"} else raw_provider
+        if raw_provider == "sonnet" and not model:
+            env_llm_model = os.environ.get("IRIS_LLM_MODEL") or ""
+            if not env_llm_model.startswith("claude"):
+                model = os.environ.get("IRIS_JUDGE_MODEL") or settings.judge_model
         self.model = model
         self.allow_fallback_to_extractive = allow_fallback_to_extractive
-        self._primary = self._build_provider(self.provider_name, self.model)
+        self.esforco = esforco
+        self._primary = self._build_provider(self.provider_name, self.model, esforco)
 
     @staticmethod
-    def _build_provider(provider_name: str, model: str | None = None) -> BaseLLMProvider:
+    def _build_provider(
+        provider_name: str, model: str | None = None, esforco: str | None = None
+    ) -> BaseLLMProvider:
         if provider_name == "ollama":
             return OllamaLLMProvider(model=model)
         if provider_name == "groq":
             return GroqLLMProvider(model=model)
+        if provider_name in {"anthropic", "claude", "sonnet"}:
+            return AnthropicLLMProvider(model=model, esforco=esforco)
         if provider_name in {"extractive", "mock", "offline"}:
             return ExtractiveFallbackLLMProvider(model=model or "deterministic-bm25-extractive")
         raise ValueError(
-            f"Provedor de LLM desconhecido: {provider_name!r}. Use 'ollama', 'groq' ou 'extractive'."
+            f"Provedor de LLM desconhecido: {provider_name!r}. Use 'ollama', 'groq', 'anthropic' ou 'extractive'."
         )
 
     @staticmethod
@@ -600,6 +723,7 @@ class HybridLLMClient:
         """Retorna diagnóstico de conectividade dos provedores de LLM."""
         ollama_prov = OllamaLLMProvider(model=self.model)
         groq_prov = GroqLLMProvider(model=self.model)
+        anthropic_prov = AnthropicLLMProvider(model=self.model)
         return {
             "configured_provider": self.provider_name,
             "primary_available": self._primary.is_available(),
@@ -607,17 +731,46 @@ class HybridLLMClient:
             "ollama_url": ollama_prov.base_url,
             "ollama_installed_models": ollama_prov.list_installed_models(),
             "groq_configured": groq_prov.is_available(),
+            "anthropic_configured": anthropic_prov.is_available(),
         }
+
+
+AGENTES = ("extrator", "estrategista", "adaptador", "auditor")
+
+# Padrão por etapa, pelo que foi medido (diário do RAG, 15 e 16/11/2026): o Adaptador com o Haiku faz 0,97 de
+# adaptações boas contra 0,57 do Llama local nas características sem regra (270 pedidos). Extrator e Estrategista
+# ficam no provedor geral (local por padrão): no Extrator o local basta; no Estrategista o Haiku só foi medido em piloto.
+# O padrão só vale quando há chave da Anthropic; sem chave, nada muda.
+PADRAO_POR_AGENTE = {"adaptador": "anthropic"}
 
 
 def get_llm_client(
     provider: str | None = None,
     model: str | None = None,
     allow_fallback_to_extractive: bool = False,
+    agente: str | None = None,
 ) -> HybridLLMClient:
-    """Factory padrão para obter o cliente híbrido de LLM."""
+    """Factory padrão para obter o cliente híbrido de LLM.
+
+    Com `agente`, cada agente pode ter o seu provedor, o seu modelo e o seu esforço de raciocínio:
+    IRIS_LLM_PROVIDER_<AGENTE>, IRIS_LLM_MODEL_<AGENTE> e IRIS_ANTHROPIC_ESFORCO_<AGENTE> (por exemplo
+    IRIS_LLM_PROVIDER_ADAPTADOR=anthropic). Sem essas variáveis, vale o geral, como antes. O esforço padrão é o baixo:
+    medido em 16/11/2026, baixo e médio empataram no gerador do RAG (52 de 63 cada) e no Adaptador (0,97 cada).
+    """
+    esforco = None
+    if agente:
+        if agente not in AGENTES:
+            raise ValueError(f"Agente desconhecido: {agente!r}. Use um de {AGENTES}.")
+        sufixo = agente.upper()
+        provider = provider or os.environ.get(f"IRIS_LLM_PROVIDER_{sufixo}") or None
+        model = model or os.environ.get(f"IRIS_LLM_MODEL_{sufixo}") or None
+        esforco = os.environ.get(f"IRIS_ANTHROPIC_ESFORCO_{sufixo}") or None
+        padrao = PADRAO_POR_AGENTE.get(agente)
+        if provider is None and padrao == "anthropic" and AnthropicLLMProvider().is_available():
+            provider = "anthropic"
     return HybridLLMClient(
         provider=provider,
         model=model,
         allow_fallback_to_extractive=allow_fallback_to_extractive,
+        esforco=esforco,
     )
