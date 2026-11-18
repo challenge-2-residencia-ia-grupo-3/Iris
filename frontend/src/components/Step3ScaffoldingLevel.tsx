@@ -4,6 +4,7 @@ import React, { useEffect, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   AlertCircle,
+  AlertTriangle,
   ArrowLeft,
   ArrowRight,
   Check,
@@ -11,13 +12,15 @@ import {
   ChevronDown,
   ChevronUp,
   Loader2,
-  Moon,
+  Lock,
+  Plus,
   RotateCcw,
   Shield,
   ShieldAlert,
   ShieldCheck,
   Sliders,
-  Sun,
+  Sparkles,
+  X,
 } from "lucide-react";
 
 import { IrisHeader } from "./IrisHeader";
@@ -27,18 +30,21 @@ import {
   BARREIRA_LABELS,
   CharacteristicItem,
   FALLBACK_OFFICIAL_CATALOG,
+  STEP1_MATERIAL_STORAGE_KEY,
   SURGICAL_VECTOR_STORAGE_KEY,
   SurgicalSelectionResponse,
 } from "@/services/catalogsApi";
 import {
   calibrateScaffoldingSession,
-  clearScaffoldingFromSession,
+  CurriculumLockInput,
+  extractCurriculumLocksFromMaterialLocally,
   FALLBACK_SCAFFOLDING_LEVELS,
   loadScaffoldingFromSession,
   saveScaffoldingToSession,
   ScaffoldingCalibrationResult,
   ScaffoldingLevel,
   ScaffoldingLevelMeta,
+  validateCurriculumLocksSession,
 } from "@/services/scaffoldingApi";
 import { IrisApiError } from "@/services/materialsApi";
 
@@ -72,6 +78,13 @@ export function Step3ScaffoldingLevel({
   } | null>(null);
   const [showDetailedGuidelines, setShowDetailedGuidelines] = useState(false);
 
+  // Estados simplificados da Trava Curricular Inegociável (História 1.3.2 — RF-08 e RF-09)
+  const [conceitosObrigatorios, setConceitosObrigatorios] = useState<string[]>([]);
+  const [conceitoInput, setConceitoInput] = useState("");
+  const [objetivoAvaliativo, setObjetivoAvaliativo] = useState("");
+  const [extractedFromStep1, setExtractedFromStep1] = useState(false);
+  const [hasStep1Material, setHasStep1Material] = useState(false);
+
   useEffect(() => {
     const root = document.documentElement;
     if (highContrast) {
@@ -81,7 +94,7 @@ export function Step3ScaffoldingLevel({
     }
   }, [highContrast]);
 
-  // Carrega a seleção cirúrgica da Etapa 2 e a calibração prévia da Etapa 3 (se houver)
+  // Carrega a seleção cirúrgica da Etapa 2, o material da Etapa 1 e a calibração prévia da Etapa 3
   useEffect(() => {
     try {
       let activeIds: string[] = [];
@@ -94,7 +107,6 @@ export function Step3ScaffoldingLevel({
         }
       }
 
-      // Se não houver seleção na sessão, ativa 2 características por padrão para viabilizar testes e visualização direta
       if (activeIds.length === 0) {
         activeIds = [
           "sobrecarga_memoria_trabalho_comandos_multiplos",
@@ -113,11 +125,30 @@ export function Step3ScaffoldingLevel({
 
       setSelectedCharacteristics(items);
 
-      // Carrega calibração prévia salva na sessão
+      const rawStep1Text = window.sessionStorage.getItem(STEP1_MATERIAL_STORAGE_KEY) || "";
+      const step1Available = rawStep1Text.trim().length > 0;
+      setHasStep1Material(step1Available);
+
       const savedCalibration = loadScaffoldingFromSession();
+      const savedLock = savedCalibration?.trava_curricular;
+      const hasSavedLock =
+        Boolean(savedLock?.conceitos_obrigatorios && savedLock.conceitos_obrigatorios.length > 0) ||
+        Boolean(savedLock?.objetivo_avaliativo && savedLock.objetivo_avaliativo.trim());
+
       if (savedCalibration && [1, 2, 3].includes(savedCalibration.nivel)) {
         setSelectedLevel(savedCalibration.nivel);
         setCalibrationResult(savedCalibration);
+      }
+
+      if (hasSavedLock && savedLock) {
+        setConceitosObrigatorios(savedLock.conceitos_obrigatorios || []);
+        setObjetivoAvaliativo(savedLock.objetivo_avaliativo || "");
+      } else if (step1Available) {
+        // Extrai automaticamente os conceitos e objetivo diretamente do material anexado na Etapa 1
+        const autoExtracted = extractCurriculumLocksFromMaterialLocally(rawStep1Text);
+        setConceitosObrigatorios(autoExtracted.conceitos_obrigatorios || []);
+        setObjetivoAvaliativo(autoExtracted.objetivo_avaliativo || "");
+        setExtractedFromStep1(true);
       }
     } catch {
       // Ignora erro de parsing em sessionStorage
@@ -126,7 +157,16 @@ export function Step3ScaffoldingLevel({
     }
   }, []);
 
-  // Recalibra sempre que o nível selecionado ou os IDs mudam
+  const currentLockPayload: CurriculumLockInput = React.useMemo(
+    () => ({
+      conceitos_obrigatorios: conceitosObrigatorios,
+      termos_tecnicos_intocaveis: conceitosObrigatorios,
+      objetivo_avaliativo: objetivoAvaliativo.trim() || null,
+    }),
+    [conceitosObrigatorios, objetivoAvaliativo]
+  );
+
+  // Recalibra sempre que o nível selecionado, os IDs ou a trava curricular mudam
   useEffect(() => {
     if (selectedIds.length === 0) return;
 
@@ -136,6 +176,7 @@ export function Step3ScaffoldingLevel({
     calibrateScaffoldingSession({
       selected_ids: selectedIds,
       nivel: selectedLevel,
+      trava_curricular: currentLockPayload,
     })
       .then((res) => {
         if (isMounted) {
@@ -147,7 +188,7 @@ export function Step3ScaffoldingLevel({
         if (isMounted && err instanceof IrisApiError) {
           setFeedbackBanner({
             type: "error",
-            title: "Erro ao calibrar andaime",
+            title: "Erro na validação da Etapa 3",
             message: err.message,
           });
         }
@@ -161,15 +202,97 @@ export function Step3ScaffoldingLevel({
     return () => {
       isMounted = false;
     };
-  }, [selectedLevel, selectedIds]);
+  }, [selectedLevel, selectedIds, currentLockPayload]);
 
   useEffect(() => {
     if (!feedbackBanner) return;
     const timer = window.setTimeout(() => {
       setFeedbackBanner(null);
-    }, 4000);
+    }, 4500);
     return () => window.clearTimeout(timer);
   }, [feedbackBanner]);
+
+  const handleAddConceito = () => {
+    const raw = conceitoInput.trim();
+    if (!raw) return;
+    const novos = raw
+      .split(/[;,]/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (novos.length === 0) return;
+
+    setConceitosObrigatorios((prev) => {
+      const lowerSet = new Set(prev.map((item) => item.toLowerCase()));
+      const adicionados = [...prev];
+      for (const n of novos) {
+        if (!lowerSet.has(n.toLowerCase())) {
+          lowerSet.add(n.toLowerCase());
+          adicionados.push(n);
+        }
+      }
+      return adicionados;
+    });
+    setConceitoInput("");
+  };
+
+  const handleRemoveConceito = (termo: string) => {
+    setConceitosObrigatorios((prev) => prev.filter((c) => c !== termo));
+  };
+
+  const handleReextractFromStep1 = () => {
+    try {
+      const rawStep1Text = window.sessionStorage.getItem(STEP1_MATERIAL_STORAGE_KEY) || "";
+      if (!rawStep1Text.trim()) return;
+      const autoExtracted = extractCurriculumLocksFromMaterialLocally(rawStep1Text);
+      setConceitosObrigatorios(autoExtracted.conceitos_obrigatorios || []);
+      setObjetivoAvaliativo(autoExtracted.objetivo_avaliativo || "");
+      setExtractedFromStep1(true);
+      setFeedbackBanner({
+        type: "info",
+        title: "Conceitos extraídos do material",
+        message: "Os conceitos-chave e o objetivo foram atualizados a partir do material da Etapa 1.",
+      });
+    } catch {
+      // Ignora erro de leitura
+    }
+  };
+
+  const handleValidateLocksExplicitly = async () => {
+    try {
+      setIsCalibrating(true);
+      const res = await validateCurriculumLocksSession({
+        selected_ids: selectedIds,
+        nivel: selectedLevel,
+        trava_curricular: currentLockPayload,
+      });
+      setCalibrationResult(res);
+      saveScaffoldingToSession(res);
+
+      if (res.alerta_preventivo_antimuleta?.emitido) {
+        setFeedbackBanner({
+          type: "error",
+          title: res.alerta_preventivo_antimuleta.titulo,
+          message: res.alerta_preventivo_antimuleta.recomendacao_pedagogica,
+        });
+      } else {
+        setFeedbackBanner({
+          type: "success",
+          title: "Trava Curricular validada!",
+          message: `${res.invariantes_auditor?.conceitos_obrigatorios.length || 0} invariante(s) obrigatório(s) registrado(s) para o Agente Auditor.`,
+        });
+      }
+    } catch (err) {
+      if (err instanceof IrisApiError) {
+        setFeedbackBanner({
+          type: "error",
+          title: "Trava Curricular incompleta ou inválida",
+          message: err.message,
+        });
+      }
+    } finally {
+      setIsCalibrating(false);
+    }
+  };
 
   const activeMeta: ScaffoldingLevelMeta =
     FALLBACK_SCAFFOLDING_LEVELS.find((m) => m.nivel === selectedLevel) ||
@@ -424,9 +547,9 @@ export function Step3ScaffoldingLevel({
                     </div>
                   </div>
 
-                  <h3 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
+                  <h2 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
                     {card1.title}
-                  </h3>
+                  </h2>
                   <p className="text-xs text-[#0D0221]/75 dark:text-white/75 mt-1.5 leading-relaxed">
                     {card1.description}
                   </p>
@@ -468,9 +591,9 @@ export function Step3ScaffoldingLevel({
                     </div>
                   </div>
 
-                  <h3 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
+                  <h2 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
                     {card2.title}
-                  </h3>
+                  </h2>
                   <p className="text-xs text-[#0D0221]/75 dark:text-white/75 mt-1.5 leading-relaxed">
                     {card2.description}
                   </p>
@@ -512,9 +635,9 @@ export function Step3ScaffoldingLevel({
                     </div>
                   </div>
 
-                  <h3 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
+                  <h2 className="font-display font-semibold text-base text-[#0D0221] dark:text-white">
                     {card3.title}
-                  </h3>
+                  </h2>
                   <p className="text-xs text-[#0D0221]/75 dark:text-white/75 mt-1.5 leading-relaxed">
                     {card3.description}
                   </p>
@@ -561,9 +684,9 @@ export function Step3ScaffoldingLevel({
                           className="p-4 rounded-lg bg-[#FAF7F8] dark:bg-white/5 border border-[#335C67]/15 dark:border-white/10 space-y-2.5"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-2">
-                            <h5 className="text-xs font-bold text-[#0D0221] dark:text-white">
+                            <h3 className="text-xs font-bold text-[#0D0221] dark:text-white">
                               {d.nome_caracteristica}
-                            </h5>
+                            </h3>
                             <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-[#335C67]/12 dark:bg-[#335C67]/40 text-[#335C67] dark:text-[#9fd0de]">
                               {d.rotulo}
                             </span>
@@ -608,6 +731,216 @@ export function Step3ScaffoldingLevel({
               </div>
             )}
 
+            {/* Seção 3: Definição de Travas Curriculares Inegociáveis e Alerta Preventivo Anti-Muleta (História 1.3.2 — RF-08, RF-09) */}
+            <div
+              aria-labelledby="titulo-trava-curricular"
+              className="pt-6 border-t border-[#335C67]/15 dark:border-white/10 space-y-4"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2
+                      id="titulo-trava-curricular"
+                      className="font-display text-lg sm:text-xl font-semibold text-[#0D0221] dark:text-white flex items-center gap-2"
+                    >
+                      <Lock className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                      <span>Travas Curriculares Inegociáveis</span>
+                    </h2>
+                    {extractedFromStep1 && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/25">
+                        <Sparkles className="w-3 h-3" aria-hidden="true" />
+                        <span>Extraído automaticamente do material (Etapa 1)</span>
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
+                    Os conceitos abaixo foram extraídos do seu material e marcados como <strong>invariantes obrigatórios para o Agente Auditor</strong>. Você pode remover ou adicionar termos conforme o foco da avaliação.
+                  </p>
+                </div>
+
+                {hasStep1Material && (
+                  <button
+                    type="button"
+                    onClick={handleReextractFromStep1}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 border border-[#335C67]/25 transition-colors self-start flex-shrink-0"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>Reextrair do material</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Bloco Único Enxuto: 1) Conceitos Obrigatórios + 2) Objetivo Avaliativo */}
+              <div className="p-4 sm:p-5 rounded-xl bg-[#FAF7F8] dark:bg-white/[0.03] border border-[#335C67]/20 dark:border-white/15 space-y-4">
+                {/* Campo 1: Conceitos e termos obrigatórios */}
+                <div className="space-y-2">
+                  <label
+                    htmlFor="input-conceito-trava"
+                    className="block text-xs sm:text-sm font-bold text-[#0D0221] dark:text-white"
+                  >
+                    1. Conceitos e termos obrigatórios (Invariantes do Auditor)
+                  </label>
+
+                  {conceitosObrigatorios.length > 0 ? (
+                    <div
+                      aria-label="Conceitos marcados como invariantes obrigatórios"
+                      className="flex flex-wrap gap-2 py-1"
+                    >
+                      {conceitosObrigatorios.map((termo) => (
+                        <span
+                          key={termo}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-[#160A30] text-[#0D0221] dark:text-white border border-[#335C67]/30 dark:border-white/20 shadow-sm"
+                        >
+                          <Lock className="w-3 h-3 text-[#E35336]" aria-hidden="true" />
+                          <span>{termo}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveConceito(termo)}
+                            aria-label={`Remover conceito ${termo}`}
+                            className="ml-1 p-0.5 rounded hover:bg-red-500/15 text-[#0D0221]/60 dark:text-white/60 hover:text-red-600 dark:hover:text-red-300 transition-colors"
+                          >
+                            <X className="w-3 h-3" aria-hidden="true" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-[#0D0221]/55 dark:text-white/55 italic">
+                      Nenhum conceito listado ainda. Adicione abaixo os termos que não podem ser omitidos.
+                    </p>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      id="input-conceito-trava"
+                      type="text"
+                      value={conceitoInput}
+                      onChange={(e) => setConceitoInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          handleAddConceito();
+                        }
+                      }}
+                      placeholder="Adicionar outro conceito ou termo intocável (pressione Enter)..."
+                      className="flex-1 rounded-lg bg-white dark:bg-[#0D0221] border border-[#335C67]/30 dark:border-white/20 px-3.5 py-2 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:outline-none focus:border-[#E35336]"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddConceito}
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-[#335C67] hover:bg-[#26464f] text-white transition-colors flex-shrink-0"
+                    >
+                      <Plus className="w-4 h-4" aria-hidden="true" />
+                      <span>Adicionar</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Campo 2: Objetivo avaliativo / Habilidade da BNCC */}
+                <div className="space-y-1.5 pt-2 border-t border-[#335C67]/15 dark:border-white/10">
+                  <label
+                    htmlFor="input-objetivo-avaliativo"
+                    className="block text-xs sm:text-sm font-bold text-[#0D0221] dark:text-white"
+                  >
+                    2. Objetivo avaliativo ou habilidade da BNCC
+                  </label>
+                  <textarea
+                    id="input-objetivo-avaliativo"
+                    rows={2}
+                    value={objetivoAvaliativo}
+                    onChange={(e) => setObjetivoAvaliativo(e.target.value)}
+                    placeholder="Ex.: Avaliar interpretação de texto e inferência de sentido implícito (EF67LP08)..."
+                    className="w-full rounded-lg bg-white dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/20 p-3 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:outline-none focus:border-[#E35336] resize-none"
+                  />
+                </div>
+
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                  <span className="text-[11px] text-[#0D0221]/65 dark:text-white/65">
+                    Retenção mínima exigida pelo Agente Auditor:{" "}
+                    <strong>
+                      TRCC ≥{" "}
+                      {Math.round(
+                        (calibrationResult?.invariantes_auditor?.trcc_minimo_exigido || 0.95) * 100
+                      )}
+                      %
+                    </strong>
+                    .
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={handleValidateLocksExplicitly}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-white dark:bg-white/10 hover:bg-[#335C67]/15 text-[#335C67] dark:text-[#9fd0de] border border-[#335C67]/30 dark:border-white/20 transition-colors"
+                  >
+                    <ShieldCheck className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                    <span>Validar Trava Curricular</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Alerta Preventivo Anti-Muleta (RF-09) */}
+              {calibrationResult?.alerta_preventivo_antimuleta?.emitido && (
+                <div
+                  role="alert"
+                  aria-live="assertive"
+                  data-testid="alerta-preventivo-antimuleta"
+                  className={`p-4 sm:p-5 rounded-xl border border-l-4 space-y-3 ${
+                    calibrationResult.alerta_preventivo_antimuleta.severidade === "critical"
+                      ? "bg-red-500/10 dark:bg-red-950/35 border-red-500/40 border-l-red-600 text-red-950 dark:text-red-100"
+                      : "bg-amber-500/12 dark:bg-amber-950/35 border-amber-500/40 border-l-amber-500 text-amber-950 dark:text-amber-100"
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle
+                      className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
+                        calibrationResult.alerta_preventivo_antimuleta.severidade === "critical"
+                          ? "text-red-600 dark:text-red-400"
+                          : "text-amber-600 dark:text-amber-400"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    <div className="flex-1 space-y-1.5">
+                      <h3 className="text-xs sm:text-sm font-bold">
+                        {calibrationResult.alerta_preventivo_antimuleta.titulo}
+                      </h3>
+                      <p className="text-xs leading-relaxed">
+                        {calibrationResult.alerta_preventivo_antimuleta.mensagem}
+                      </p>
+                      <p className="text-xs font-semibold pt-0.5">
+                        Recomendação:{" "}
+                        <span className="font-normal">
+                          {calibrationResult.alerta_preventivo_antimuleta.recomendacao_pedagogica}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+
+                  {calibrationResult.alerta_preventivo_antimuleta.nivel_sugerido &&
+                    calibrationResult.alerta_preventivo_antimuleta.nivel_sugerido !==
+                      selectedLevel && (
+                      <div className="flex flex-wrap items-center gap-2 pt-1 pl-8">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleLevelSelect(
+                              calibrationResult.alerta_preventivo_antimuleta!
+                                .nivel_sugerido as ScaffoldingLevel
+                            )
+                          }
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#335C67] text-white hover:bg-[#26464f] transition-colors"
+                        >
+                          <Sliders className="w-3.5 h-3.5" aria-hidden="true" />
+                          <span>
+                            Ajustar para Nível{" "}
+                            {calibrationResult.alerta_preventivo_antimuleta.nivel_sugerido} recomendado
+                          </span>
+                        </button>
+                      </div>
+                    )}
+                </div>
+              )}
+            </div>
+
             {/* Rodapé da Etapa 3 */}
             <div className="pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <button
@@ -623,7 +956,7 @@ export function Step3ScaffoldingLevel({
                 type="button"
                 disabled={isCalibrating || !calibrationResult}
                 onClick={handleConfirmAndAdvance}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm text-white bg-[#C9411F] hover:bg-[#b03618] disabled:opacity-45 disabled:cursor-not-allowed transition-colors"
               >
                 {isCalibrating ? (
                   <>
@@ -633,7 +966,7 @@ export function Step3ScaffoldingLevel({
                 ) : (
                   <>
                     <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
-                    <span>Confirmar nível de andaime ({activeMeta.nome_curto})</span>
+                    <span>Confirmar nível e travas ({activeMeta.nome_curto})</span>
                     <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   </>
                 )}
