@@ -8,6 +8,7 @@ import {
   PerfilPortatilError,
   type PerfilPedagogicoPortatil,
 } from "@/services/portableProfile";
+import { InterventionFeedback } from "@/components/InterventionFeedback";
 import { baixarPerfilPdf } from "@/services/portableProfileExport";
 import {
   listarPerfisLocais,
@@ -18,6 +19,8 @@ import {
 interface Props {
   selectedIds: string[];
   validIds: string[];
+  /** Nome legível por id de característica, para o histórico de intervenções. */
+  nomesCaracteristicas?: Record<string, string>;
   onApplyProfile?: (perfil: PerfilPedagogicoPortatil) => void;
 }
 
@@ -25,7 +28,7 @@ interface Props {
  * Gera, guarda localmente no `localStorage` (sem nome nem dados pessoais/clínicos) e exporta o perfil portátil.
  * Nada do perfil é salvo no servidor.
  */
-export function PortableProfilePanel({ selectedIds, validIds, onApplyProfile }: Props) {
+export function PortableProfilePanel({ selectedIds, validIds, nomesCaracteristicas, onApplyProfile }: Props) {
   const [perfil, setPerfil] = useState<PerfilPedagogicoPortatil | null>(null);
   const [perfisSalvos, setPerfisSalvos] = useState<PerfilPedagogicoPortatil[]>([]);
   const [erro, setErro] = useState<string | null>(null);
@@ -56,6 +59,11 @@ export function PortableProfilePanel({ selectedIds, validIds, onApplyProfile }: 
     if (onApplyProfile) {
       onApplyProfile(salvo);
     }
+  };
+
+  const atualizarPerfil = (atualizado: PerfilPedagogicoPortatil) => {
+    setPerfil(atualizado);
+    setPerfisSalvos(salvarPerfilLocal(atualizado));
   };
 
   const excluirSalvo = (codigoAnonimo: string) => {
@@ -175,6 +183,15 @@ export function PortableProfilePanel({ selectedIds, validIds, onApplyProfile }: 
           </div>
         )}
 
+        {perfil && (
+          <InterventionFeedback
+            key={perfil.codigo_anonimo}
+            perfil={perfil}
+            nomes={nomesCaracteristicas}
+            onPerfilAtualizado={atualizarPerfil}
+          />
+        )}
+
         {perfisSalvos.length > 0 && (
           <div className="rounded-lg border border-[#335C67]/20 dark:border-white/10 p-3 space-y-2">
             <p className="text-xs font-bold text-[#335C67] dark:text-[#9fd0de]">
@@ -197,6 +214,8 @@ export function PortableProfilePanel({ selectedIds, validIds, onApplyProfile }: 
                       <span className="ml-2 text-[#0D0221]/70 dark:text-white/70">
                         • {salvo.caracteristicas_selecionadas.length} característica(s) •{" "}
                         {new Date(salvo.criado_em).toLocaleDateString("pt-BR")}
+                        {(salvo.historico_intervencoes?.length ?? 0) > 0 &&
+                          ` • ${salvo.historico_intervencoes?.length} intervenção(ões)`}
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">

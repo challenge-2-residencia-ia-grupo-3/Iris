@@ -16,6 +16,11 @@ Duas camadas, como pede o RNF-03:
 Privacidade: `str(exc)` NUNCA repete o trecho digitado (pode ir para logs); o trecho fica em
 `exc.violacoes[i].trecho` e só sai em `to_dict(incluir_trecho=True)`, para a interface.
 
+Histórico de eficácia das intervenções (#27, RF-15): `historico_intervencoes` guarda, por característica, a
+estratégia usada, a eficácia (`alta`/`media`/`baixa`), uma observação pedagógica e a data/hora (UTC) do registro. A
+lista é mantida em ordem cronológica. `registrar_intervencao` devolve um perfil NOVO com o registro anexado, tudo em
+memória, passando pelas mesmas validações (inclusive o bloqueio de conteúdo clínico).
+
 Limitações assumidas: lista de termos finita (nomes novos de medicamentos/transtornos exigem atualização
 das constantes) e sem lematização. Deficiências sensoriais/físicas (ex.: "baixa visão") NÃO são bloqueadas por
 serem informação de acessibilidade; o time pode mudar isso nas constantes abaixo.
@@ -249,6 +254,34 @@ class RegistroEstrategia(_Base):
     observacao: str | None = Field(default=None, max_length=500)
 
 
+EFICACIAS = ("alta", "media", "baixa")
+_EFICACIA_ALIASES = {"alta": "alta", "media": "media", "baixa": "baixa"}
+
+
+def _norm_eficacia(valor: Any) -> Any:
+    """Aceita "média"/"Média"/" ALTA ": o valor guardado é sempre `alta`, `media` ou `baixa`."""
+    if isinstance(valor, str):
+        return _EFICACIA_ALIASES.get(_norm(valor), valor)
+    return valor
+
+
+class RegistroIntervencao(_Base):
+    """Uma intervenção aplicada e o quanto ela funcionou para uma característica do perfil (#27)."""
+
+    estrategia: str = Field(min_length=3, max_length=300)
+    id_caracteristica: str = Field(pattern=_ID_CARACTERISTICA)
+    eficacia: Literal["alta", "media", "baixa"]
+    observacao: str | None = Field(default=None, max_length=500)
+    registrado_em: AwareDatetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+    @model_validator(mode="before")
+    @classmethod
+    def _eficacia_sem_acento(cls, dados: Any) -> Any:
+        if isinstance(dados, Mapping) and "eficacia" in dados:
+            dados = {**dados, "eficacia": _norm_eficacia(dados["eficacia"])}
+        return dados
+
+
 PREFIXO_CODIGO = "aluno-"
 _PADRAO_CODIGO = r"^aluno-[0-9a-f]{8,32}$"
 IdCaracteristica = Annotated[str, StringConstraints(pattern=_ID_CARACTERISTICA)]
@@ -272,6 +305,7 @@ class PerfilPedagogico(_Base):
     caracteristicas_selecionadas: list[IdCaracteristica] = Field(default_factory=list, max_length=50)
     barreiras_observadas: list[BarreiraObservada] = Field(default_factory=list, max_length=50)
     historico_estrategias: list[RegistroEstrategia] = Field(default_factory=list, max_length=200)
+    historico_intervencoes: list[RegistroIntervencao] = Field(default_factory=list, max_length=200)
     anotacoes_pedagogicas: list[str] = Field(default_factory=list, max_length=100)
 
     @model_validator(mode="after")
@@ -280,6 +314,8 @@ class PerfilPedagogico(_Base):
             raise ValueError("Cada anotação pedagógica deve ter no máximo 1000 caracteres.")
         if len(set(self.caracteristicas_selecionadas)) != len(self.caracteristicas_selecionadas):
             raise ValueError("caracteristicas_selecionadas não pode ter itens repetidos.")
+        # Histórico em ordem cronológica (sort estável: registros do mesmo instante mantêm a ordem de entrada).
+        self.historico_intervencoes = sorted(self.historico_intervencoes, key=lambda r: r.registrado_em)
         return self
 
     def para_json(self) -> dict[str, Any]:
@@ -288,7 +324,7 @@ class PerfilPedagogico(_Base):
 
 
 _CAMPOS_DECLARADOS = frozenset(
-    nome for modelo in (PerfilPedagogico, BarreiraObservada, RegistroEstrategia) for nome in modelo.model_fields
+    nome for modelo in (PerfilPedagogico, BarreiraObservada, RegistroEstrategia, RegistroIntervencao) for nome in modelo.model_fields
 )
 
 
@@ -350,3 +386,54 @@ def criar_perfil(
                 CODIGO_ESTRUTURA, [f"Característica(s) não encontrada(s) no catálogo: {desconhecidos}."]
             )
     return validar_perfil({"codigo_anonimo": gerar_codigo_anonimo(), "caracteristicas_selecionadas": ids})
+
+
+# ---------------------------------------------------------------- histórico de intervenções (#27)
+
+CODIGO_CARACTERISTICA_FORA_DO_PERFIL = "CHARACTERISTIC_NOT_IN_PROFILE"
+
+
+def registrar_intervencao(
+    perfil: PerfilPedagogico | Mapping[str, Any],
+    estrategia: str,
+    id_caracteristica: str,
+    eficacia: str,
+    observacao: str | None = None,
+    agora: datetime | None = None,
+) -> PerfilPedagogico:
+    """Anexa ao histórico do perfil o registro de eficácia de uma estratégia, EM MEMÓRIA.
+
+    Devolve um perfil novo (o recebido não é alterado) com o registro no fim do histórico. A característica precisa
+    estar entre as selecionadas do perfil. O resultado passa por `validar_perfil`: texto clínico, eficácia fora de
+    `alta`/`media`/`baixa`, estratégia curta demais e histórico acima de 200 registros viram `PerfilInvalidoError`.
+    """
+    base = perfil.para_json() if isinstance(perfil, PerfilPedagogico) else dict(perfil)
+    atual = validar_perfil(base)
+    if id_caracteristica not in atual.caracteristicas_selecionadas:
+        raise PerfilInvalidoError(
+            CODIGO_CARACTERISTICA_FORA_DO_PERFIL,
+            ["A intervenção precisa ser ligada a uma característica que já está no perfil."],
+        )
+    novo = {
+        "estrategia": estrategia,
+        "id_caracteristica": id_caracteristica,
+        "eficacia": eficacia,
+        "observacao": observacao or None,
+        "registrado_em": (agora or datetime.now(timezone.utc)).isoformat(),
+    }
+    dados = atual.para_json()
+    dados["historico_intervencoes"] = [*dados["historico_intervencoes"], novo]
+    return validar_perfil(dados)
+
+
+def resumo_eficacia(perfil: PerfilPedagogico) -> dict[str, dict[str, Any]]:
+    """Por característica: quantos registros de cada nível e a eficácia do registro mais recente."""
+    resumo: dict[str, dict[str, Any]] = {}
+    for r in perfil.historico_intervencoes:  # já em ordem cronológica
+        item = resumo.setdefault(
+            r.id_caracteristica, {"alta": 0, "media": 0, "baixa": 0, "total": 0, "ultima": None}
+        )
+        item[r.eficacia] += 1
+        item["total"] += 1
+        item["ultima"] = r.eficacia
+    return resumo
