@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 630" width="960" height="630" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="960" height="630" fill="#ffffff"/>
+
+  <!-- Título -->
+  <text x="40" y="30" font-size="16" font-weight="700" fill="#132325">Arquitetura do Sistema Multiagentes — Plataforma Íris (Semana 4)</text>
+  <text x="40" y="47" font-size="11" fill="#4b6163">Fluxo stateless em memória com isolamento de escopo, RAG filtrado por barreira e auditoria com auto-correção</text>
+
+  <!-- Linha 1: Entrada -> PII -> Decompositor -->
+  <rect x="40" y="62" width="265" height="64" rx="8" fill="#eef3f3" stroke="#335c67" stroke-width="1.5"/>
+  <text x="54" y="84" font-size="12.5" font-weight="700" fill="#132325">Insumo Pedagógico (Etapas 1–3)</text>
+  <text x="54" y="101" font-size="10.5" fill="#4b6163">Texto/Upload • selected_ids • Nível 1–3</text>
+  <text x="54" y="116" font-size="10.5" fill="#4b6163">Travas Manuais do Docente</text>
+
+  <line x1="305" y1="94" x2="337" y2="94" stroke="#335c67" stroke-width="1.8"/>
+  <polygon points="344,94 335,89 335,99" fill="#335c67"/>
+
+  <rect x="345" y="62" width="265" height="64" rx="8" fill="#fdf3f1" stroke="#b83523" stroke-width="1.5"/>
+  <text x="359" y="84" font-size="12.5" font-weight="700" fill="#132325">Gateway Local de Privacidade</text>
+  <text x="359" y="101" font-size="10.5" fill="#4b6163">sanitize_pii() — Zero-Retention</text>
+  <text x="359" y="116" font-size="10.5" fill="#4b6163">Remove nomes, CPF, e-mail, escola</text>
+
+  <line x1="610" y1="94" x2="642" y2="94" stroke="#335c67" stroke-width="1.8"/>
+  <polygon points="649,94 640,89 640,99" fill="#335c67"/>
+
+  <rect x="650" y="62" width="270" height="64" rx="8" fill="#eef3f3" stroke="#335c67" stroke-width="1.5"/>
+  <text x="664" y="84" font-size="12.5" font-weight="700" fill="#132325">Decompositor Estrutural (#5)</text>
+  <text x="664" y="101" font-size="10.5" fill="#4b6163">decompose_material() determinístico</text>
+  <text x="664" y="116" font-size="10.5" fill="#4b6163">Separa enunciados, comandos e opções</text>
+
+  <!-- Subgrafo Orquestrador -->
+  <rect x="40" y="170" width="635" height="436" rx="10" fill="#f7fafa" stroke="#143d40" stroke-width="1.5"/>
+  <rect x="56" y="158" width="490" height="24" rx="5" fill="#143d40"/>
+  <text x="68" y="174" font-size="11" font-weight="700" fill="#ffffff">Orquestrador Multiagentes (POST /api/v1/agents/adapt • make multiagentes)</text>
+
+  <!-- Seta do Decompositor para o Extrator (contornando pelo lado direito do cabeçalho) -->
+  <polyline points="785,126 785,146 600,146 600,222 478,222" fill="none" stroke="#335c67" stroke-width="1.8"/>
+  <polygon points="471,222 480,217 480,227" fill="#335c67"/>
+
+  <!-- Agente 1 -->
+  <rect x="155" y="206" width="315" height="70" rx="8" fill="#ffffff" stroke="#143d40" stroke-width="1.7"/>
+  <rect x="155" y="206" width="8" height="70" rx="3" fill="#143d40"/>
+  <text x="174" y="227" font-size="12.5" font-weight="700" fill="#132325">1. Agente Extrator Curricular (#17)</text>
+  <text x="174" y="244" font-size="10.5" font-weight="600" fill="#143d40">Papel: Analysis Agent</text>
+  <text x="174" y="261" font-size="10.5" fill="#4b6163">Invariantes BNCC, trava manual &amp; alerta anti-muleta</text>
+
+  <!-- Agente 2 -->
+  <rect x="155" y="308" width="315" height="70" rx="8" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.7"/>
+  <rect x="155" y="308" width="8" height="70" rx="3" fill="#1d4ed8"/>
+  <text x="174" y="329" font-size="12.5" font-weight="700" fill="#132325">2. Agente Estrategista RAG (#16)</text>
+  <text x="174" y="346" font-size="10.5" font-weight="600" fill="#1d4ed8">Papel: Research Agent</text>
+  <text x="174" y="363" font-size="10.5" fill="#4b6163">Busca filtrada por barreira + diretiva citada [T1..Tn]</text>
+
+  <!-- Agente 3 -->
+  <rect x="155" y="410" width="315" height="70" rx="8" fill="#ffffff" stroke="#9e5b08" stroke-width="1.7"/>
+  <rect x="155" y="410" width="8" height="70" rx="3" fill="#9e5b08"/>
+  <text x="174" y="431" font-size="12.5" font-weight="700" fill="#132325">3. Agente Adaptador Pedagógico (#18)</text>
+  <text x="174" y="448" font-size="10.5" font-weight="600" fill="#9e5b08">Papel: Communication Agent</text>
+  <text x="174" y="465" font-size="10.5" fill="#4b6163">Reescreve apresentação + verificar_escopo() + reserva</text>
+
+  <!-- Agente 4 -->
+  <rect x="155" y="512" width="315" height="70" rx="8" fill="#ffffff" stroke="#156f4e" stroke-width="1.7"/>
+  <rect x="155" y="512" width="8" height="70" rx="3" fill="#156f4e"/>
+  <text x="174" y="533" font-size="12.5" font-weight="700" fill="#132325">4. Agente Auditor de Integridade (#19)</text>
+  <text x="174" y="550" font-size="10.5" font-weight="600" fill="#156f4e">Papel: Validation Agent</text>
+  <text x="174" y="567" font-size="10.5" fill="#4b6163">TRCC ≥ 95%, intocáveis, anti-muleta &amp; não-intrusividade</text>
+
+  <!-- Setas verticais entre agentes -->
+  <line x1="312" y1="276" x2="312" y2="300" stroke="#335c67" stroke-width="1.8"/>
+  <polygon points="312,307 307,298 317,298" fill="#335c67"/>
+  <text x="322" y="296" font-size="10" font-weight="600" fill="#335c67">CurriculumInvariants</text>
+
+  <line x1="312" y1="378" x2="312" y2="402" stroke="#335c67" stroke-width="1.8"/>
+  <polygon points="312,409 307,400 317,400" fill="#335c67"/>
+  <text x="322" y="398" font-size="10" font-weight="600" fill="#335c67">diretiva_psicopedagogica [Tn]</text>
+
+  <line x1="312" y1="480" x2="312" y2="504" stroke="#335c67" stroke-width="1.8"/>
+  <polygon points="312,511 307,502 317,502" fill="#335c67"/>
+  <text x="322" y="500" font-size="10" font-weight="600" fill="#335c67">Minuta adaptada</text>
+
+  <!-- Canal lateral direito: Extrator -> Adaptador & Auditor -->
+  <polyline points="470,252 535,252 535,445 478,445" fill="none" stroke="#64748b" stroke-width="1.4"/>
+  <polygon points="471,445 480,440 480,450" fill="#64748b"/>
+  <polyline points="535,445 535,542 478,542" fill="none" stroke="#64748b" stroke-width="1.4"/>
+  <polygon points="471,542 480,537 480,547" fill="#64748b"/>
+  <rect x="488" y="274" width="168" height="44" rx="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="496" y="290" font-size="9.5" font-weight="600" fill="#334155">conceitos_obrigatorios</text>
+  <text x="496" y="302" font-size="9.5" fill="#475569">termos_tecnicos_intocaveis</text>
+  <text x="496" y="313" font-size="9.5" fill="#475569">alerta_anti_muleta</text>
+
+  <!-- Loop esquerdo: Auditor -> Adaptador -->
+  <polyline points="155,547 92,547 92,445 147,445" fill="none" stroke="#b83523" stroke-width="1.8"/>
+  <polygon points="154,445 145,440 145,450" fill="#b83523"/>
+  <rect x="48" y="476" width="98" height="42" rx="5" fill="#fdf3f1" stroke="#b83523" stroke-width="1"/>
+  <text x="97" y="491" text-anchor="middle" font-size="9.5" font-weight="700" fill="#b83523">Reprovação</text>
+  <text x="97" y="503" text-anchor="middle" font-size="9" fill="#7f1d1d">+ feedback()</text>
+  <text x="97" y="514" text-anchor="middle" font-size="8.5" fill="#7f1d1d">(até 2 retentativas)</text>
+
+  <!-- Base Científica RAG -->
+  <rect x="705" y="302" width="215" height="82" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="719" y="325" font-size="12" font-weight="700" fill="#1e3a8a">Base Científica RAG (#16)</text>
+  <text x="719" y="343" font-size="10.5" fill="#1e40af">pgvector / BM25 (38 docs)</text>
+  <text x="719" y="359" font-size="10.5" fill="#1e40af">DUA/CAST • MEC • TDAH</text>
+  <text x="719" y="374" font-size="10" fill="#475569">+ Catálogo Modular TDAH (#39)</text>
+
+  <line x1="478" y1="343" x2="697" y2="343" stroke="#1d4ed8" stroke-width="1.7"/>
+  <polygon points="471,343 480,338 480,348" fill="#1d4ed8"/>
+  <polygon points="704,343 695,338 695,348" fill="#1d4ed8"/>
+  <rect x="556" y="332" width="112" height="18" rx="4" fill="#ffffff"/>
+  <text x="612" y="345" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1d4ed8">Trechos [T1..Tn]</text>
+
+  <!-- Saída: Etapa 5 -->
+  <rect x="705" y="504" width="215" height="86" rx="8" fill="#ecfdf5" stroke="#156f4e" stroke-width="1.6"/>
+  <text x="719" y="527" font-size="12" font-weight="700" fill="#064e3b">Etapa 5: Revisão Lado a Lado</text>
+  <text x="719" y="546" font-size="10.5" fill="#065f46">Human-in-the-Loop Docente</text>
+  <text x="719" y="562" font-size="10.5" fill="#065f46">Exportação PDF / DOCX</text>
+  <text x="719" y="578" font-size="10" fill="#047857">+ Perfil Portátil (.json / .pdf)</text>
+
+  <line x1="470" y1="550" x2="697" y2="550" stroke="#156f4e" stroke-width="1.8"/>
+  <polygon points="704,550 695,545 695,555" fill="#156f4e"/>
+  <rect x="515" y="522" width="154" height="32" rx="5" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="592" y="535" text-anchor="middle" font-size="9.5" font-weight="700" fill="#156f4e">Aprovado (TRCC ≥ 95%)</text>
+  <text x="592" y="548" text-anchor="middle" font-size="8.5" fill="#065f46">ou Circuit Breaker (revisão humana)</text>
+</svg>
