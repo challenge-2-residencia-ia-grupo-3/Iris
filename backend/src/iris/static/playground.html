@@ -2039,7 +2039,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     async function avalRegistrar(rotulo) {
       if (aval.ocupado || !aval.atual || aval.atual.acabou) return;
       aval.ocupado = true;
-      document.querySelectorAll('.aval-opcao').forEach(b => { b.disabled = true; });
+      document.querySelectorAll('#aval-frase .aval-opcao').forEach(b => { b.disabled = true; });
       try {
         const r = await fetchJson('/api/v1/eval/avaliacao-humana/rotulo', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
