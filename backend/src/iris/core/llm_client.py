@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import inspect
 import json
+import math
 import os
 import re
 import time
@@ -53,6 +54,52 @@ def motivo_de_falha(erro: BaseException, limite: int = 160) -> str:
     return f"falha_llm:{type(erro).__name__}" + (f": {msg}" if msg else "")
 
 
+# --- Janela de contexto do Ollama (Issue #89) ---------------------------------------------------------------
+# Sem `num_ctx` na chamada vale a janela padrão do servidor (4.096 tokens). Quando o prompt não cabe, o Ollama
+# descarta o começo dele sem erro nem aviso, e o começo é onde ficam as regras do sistema. Por isso toda chamada
+# envia `num_ctx`: o piso configurado, ou a primeira janela da escada que comporta prompt + resposta.
+JANELAS_OLLAMA = (4096, 8192, 16384, 32768)
+JANELA_PISO_PADRAO = 8192
+# O cliente não tem o tokenizador do modelo; estima por caracteres, para cima, porque errar para mais custa
+# memória e errar para menos corta o prompt. Medido no `llama3.1:8b` com texto em português do repositório:
+# de 3,03 a 3,65 caracteres por token (prosa com markdown, prosa simples e JSON; 4 mil a 30 mil caracteres).
+CARACTERES_POR_TOKEN_ESTIMATIVA = 2.5
+FOLGA_TOKENS = 256
+# Para acusar corte depois da chamada. Um prompt lido inteiro fica em até 3,65 caracteres por token; um prompt
+# cortado fica acima de 6, porque o Ollama lê só metade da janela (2.050 tokens com a janela de 4.096).
+CARACTERES_POR_TOKEN_TETO = 5.0
+
+
+class PromptCortadoError(RuntimeError):
+    """O Ollama leu menos tokens do que o prompt enviado comporta: o começo do prompt foi descartado."""
+
+
+def estimar_tokens(texto: str | None) -> int:
+    """Estimativa conservadora (para cima) do número de tokens de um texto."""
+    return math.ceil(len(texto or "") / CARACTERES_POR_TOKEN_ESTIMATIVA)
+
+
+def escolher_janela(prompt: str, system_prompt: str | None, max_tokens: int, piso: int = JANELA_PISO_PADRAO) -> int:
+    """Menor janela da escada que comporta prompt + sistema + resposta + folga, nunca abaixo do piso.
+
+    Manter o piso evita que o Ollama recarregue o modelo a cada chamada: ele recarrega sempre que `num_ctx` muda.
+    """
+    necessario = estimar_tokens(prompt) + estimar_tokens(system_prompt) + max(0, int(max_tokens)) + FOLGA_TOKENS
+    alvo = max(necessario, piso)
+    for janela in JANELAS_OLLAMA:
+        if janela >= alvo:
+            return janela
+    return JANELAS_OLLAMA[-1]
+
+
+def prompt_foi_cortado(prompt: str, system_prompt: str | None, tokens_lidos: int) -> bool:
+    """Verdadeiro quando os tokens lidos são poucos demais para o texto enviado (sinal de corte silencioso)."""
+    if tokens_lidos <= 0:  # servidor não informou (ex.: resposta em cache): sem evidência de corte
+        return False
+    minimo_plausivel = (len(prompt) + len(system_prompt or "")) / CARACTERES_POR_TOKEN_TETO
+    return tokens_lidos < minimo_plausivel
+
+
 def strip_thinking_tags(text: str) -> str:
     """Remove blocos `<think>...</think>` emitidos por modelos de raciocínio (ex.: Qwen3/DeepSeek)."""
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
@@ -90,9 +137,11 @@ class OllamaLLMProvider(BaseLLMProvider):
         base_url: str | None = None,
         timeout_seconds: int = 300,
         keep_alive: str = "15m",
+        num_ctx: int | None = None,
     ) -> None:
         settings = get_settings()
         self.base_url = (base_url or os.environ.get("OLLAMA_URL") or settings.ollama_url).rstrip("/")
+        self.num_ctx_piso = self._ler_piso(num_ctx)
         self.timeout_seconds = timeout_seconds
         self.keep_alive = keep_alive
         self._resolved_model_cache: str | None = None
@@ -113,6 +162,16 @@ class OllamaLLMProvider(BaseLLMProvider):
                 self.model = installed[0]
             else:
                 self.model = settings.llm_model
+
+    @staticmethod
+    def _ler_piso(num_ctx: int | None) -> int:
+        """Piso da janela: argumento, depois `OLLAMA_NUM_CTX`, depois o padrão. Valor inválido cai no padrão."""
+        bruto = num_ctx if num_ctx is not None else os.environ.get("OLLAMA_NUM_CTX")
+        try:
+            valor = int(bruto) if bruto not in (None, "") else JANELA_PISO_PADRAO
+        except (TypeError, ValueError):
+            return JANELA_PISO_PADRAO
+        return valor if valor > 0 else JANELA_PISO_PADRAO
 
     def list_installed_models(self) -> list[str]:
         """Retorna a lista de modelos instalados no servidor Ollama local."""
@@ -191,6 +250,7 @@ class OllamaLLMProvider(BaseLLMProvider):
     ) -> LLMResponse:
         t0 = time.perf_counter()
         effective_model = self._resolve_model()
+        num_ctx = escolher_janela(prompt, system_prompt, max_tokens, piso=self.num_ctx_piso)
         body: dict[str, Any] = {
             "model": effective_model,
             "prompt": prompt,
@@ -199,6 +259,7 @@ class OllamaLLMProvider(BaseLLMProvider):
             "options": {
                 "temperature": temperature,
                 "num_predict": max_tokens,
+                "num_ctx": num_ctx,
                 "seed": 42,
             },
         }
@@ -227,6 +288,13 @@ class OllamaLLMProvider(BaseLLMProvider):
         cleaned = strip_thinking_tags(data.get("response", ""))
         prompt_tokens = int(data.get("prompt_eval_count") or 0)
         completion_tokens = int(data.get("eval_count") or 0)
+        if prompt_foi_cortado(prompt, system_prompt, prompt_tokens):
+            # Sem o texto do prompt na mensagem: ela pode ir para log (RNF-01).
+            raise PromptCortadoError(
+                f"O Ollama leu {prompt_tokens} tokens de um prompt de {len(prompt) + len(system_prompt or '')} "
+                f"caracteres com num_ctx={num_ctx}: o começo do prompt foi descartado. "
+                "Reduza o prompt ou aumente OLLAMA_NUM_CTX."
+            )
         load_ms = round((data.get("load_duration") or 0) / 1e6, 2)
         prompt_eval_ms = round((data.get("prompt_eval_duration") or 0) / 1e6, 2)
         eval_ms = round((data.get("eval_duration") or 0) / 1e6, 2)
@@ -240,6 +308,8 @@ class OllamaLLMProvider(BaseLLMProvider):
             "eval_ms": eval_ms,
             "inference_ms": inference_ms,
             "tokens_per_sec": tokens_per_sec,
+            "num_ctx": num_ctx,
+            "done_reason": data.get("done_reason"),
         }
         return LLMResponse(
             text=cleaned,
@@ -349,6 +419,107 @@ class GroqLLMProvider(BaseLLMProvider):
         )
 
 
+MODELO_ANTHROPIC_PADRAO = "claude-haiku-5-5"
+PISO_TOKENS_ANTHROPIC = 4000      # o pensamento conta no limite; com 1.500 a resposta saía vazia (medido em 16/11/2026)
+
+
+def _modelo_anthropic_legado(modelo: str) -> bool:
+    """Famílias 3 e 4 aceitam `temperature`; as mais novas recusam e usam `output_config.effort`."""
+    return bool(re.search(r"claude-(?:3|(?:sonnet|opus|haiku)-4)", modelo))
+
+
+class AnthropicLLMProvider(BaseLLMProvider):
+    """Provedor para a API da Anthropic (Claude), sem SDK: a mesma chamada HTTP do gerador do RAG."""
+
+    provider_name = "anthropic"
+
+    def __init__(
+        self,
+        model: str | None = None,
+        api_key: str | None = None,
+        base_url: str = "https://api.anthropic.com/v1/messages",
+        timeout_seconds: int = 120,
+        esforco: str | None = None,
+    ) -> None:
+        settings = get_settings()
+        env_model = os.environ.get("IRIS_LLM_MODEL") or ""
+        pedido = model or env_model
+        # o servidor pode ter deixado o nome de um modelo local na variável: só nome de modelo Claude vale aqui
+        self.model = pedido if pedido.startswith("claude") else MODELO_ANTHROPIC_PADRAO
+        self.api_key = api_key if api_key is not None else (os.environ.get("ANTHROPIC_API_KEY") or settings.anthropic_api_key)
+        self.base_url = base_url
+        self.timeout_seconds = timeout_seconds
+        self.esforco = esforco or os.environ.get("IRIS_ANTHROPIC_ESFORCO") or "low"
+
+    def is_available(self) -> bool:
+        return bool(self.api_key and self.api_key.strip())
+
+    def _corpo(self, prompt: str, temperature: float, max_tokens: int, system_prompt: str | None, json_mode: bool) -> dict[str, Any]:
+        sistema = system_prompt or ""
+        if json_mode:
+            sistema = (sistema + "\n\n" if sistema else "") + "Responda apenas com o JSON pedido, sem texto antes ou depois."
+        corpo: dict[str, Any] = {"model": self.model, "messages": [{"role": "user", "content": prompt}]}
+        if sistema:
+            corpo["system"] = sistema
+        if _modelo_anthropic_legado(self.model):
+            corpo |= {"temperature": temperature, "max_tokens": max_tokens}
+        else:
+            corpo |= {"max_tokens": max(max_tokens, PISO_TOKENS_ANTHROPIC), "output_config": {"effort": self.esforco}}
+        return corpo
+
+    def generate(
+        self,
+        prompt: str,
+        temperature: float = 0.0,
+        max_tokens: int = 1500,
+        system_prompt: str | None = None,
+        json_mode: bool = False,
+    ) -> LLMResponse:
+        if not self.is_available():
+            raise RuntimeError("ANTHROPIC_API_KEY não configurada no ambiente. Configure no .env ou use outro provedor.")
+        t0 = time.perf_counter()
+        req = urllib.request.Request(
+            self.base_url,
+            data=json.dumps(self._corpo(prompt, temperature, max_tokens, system_prompt, json_mode)).encode("utf-8"),
+            headers={"x-api-key": self.api_key.strip(), "anthropic-version": "2023-06-01",
+                     "content-type": "application/json", "User-Agent": "iris-agentes/0.1"},
+        )
+        data: dict[str, Any] = {}
+        for tentativa in range(4):
+            try:
+                with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                break
+            except urllib.error.HTTPError as exc:
+                if exc.code in (429, 529) and tentativa < 3:      # limite de taxa ou serviço sobrecarregado
+                    time.sleep(5 * (tentativa + 1))
+                    continue
+                raise
+        latency_ms = round((time.perf_counter() - t0) * 1000, 2)
+        texto = "\n".join(b.get("text", "") for b in (data.get("content") or [])
+                           if isinstance(b, dict) and b.get("type") == "text").strip()
+        if not texto or data.get("stop_reason") == "max_tokens":
+            # resposta vazia ou cortada não vale: o agente cai na saída de reserva dele, com o motivo
+            raise RuntimeError(f"resposta do modelo {self.model} vazia ou cortada (stop_reason={data.get('stop_reason')})")
+        uso = dict(data.get("usage") or {})
+        entrada = int(uso.get("input_tokens") or 0)
+        saida = int(uso.get("output_tokens") or 0)
+        uso.setdefault("prompt_tokens", entrada)
+        uso.setdefault("completion_tokens", saida)
+        uso.setdefault("load_ms", 0.0)
+        uso.setdefault("inference_ms", latency_ms)
+        uso.setdefault("tokens_per_sec", round(saida / (latency_ms / 1000.0), 2) if latency_ms > 0 else 0.0)
+        return LLMResponse(
+            text=strip_thinking_tags(texto),
+            provider=self.provider_name,
+            model=data.get("model") or self.model,
+            prompt_tokens=entrada,
+            completion_tokens=saida,
+            latency_ms=latency_ms,
+            raw_usage=uso,
+        )
+
+
 class ExtractiveFallbackLLMProvider(BaseLLMProvider):
     """Provedor extrativo determinístico para execução offline / CI sem GPU ou API externa.
 
@@ -446,104 +617,6 @@ class ExtractiveFallbackLLMProvider(BaseLLMProvider):
         )
 
 
-MODELO_ANTHROPIC_PADRAO = "claude-haiku-5-5"
-PISO_TOKENS_ANTHROPIC = 4000      # o pensamento conta no limite; com 1.500 a resposta saía vazia (medido em 16/11/2026)
-
-
-def _modelo_anthropic_legado(modelo: str) -> bool:
-    """Famílias 3 e 4 aceitam `temperature`; as mais novas recusam e usam `output_config.effort`."""
-    return bool(re.search(r"claude-(?:3|(?:sonnet|opus|haiku)-4)", modelo))
-
-
-class AnthropicLLMProvider(BaseLLMProvider):
-    """Provedor para a API da Anthropic (Claude), sem SDK: a mesma chamada HTTP do gerador do RAG."""
-
-    provider_name = "anthropic"
-
-    def __init__(
-        self,
-        model: str | None = None,
-        api_key: str | None = None,
-        base_url: str = "https://api.anthropic.com/v1/messages",
-        timeout_seconds: int = 120,
-        esforco: str | None = None,
-    ) -> None:
-        settings = get_settings()
-        env_model = os.environ.get("IRIS_LLM_MODEL") or ""
-        pedido = model or env_model
-        # o servidor pode ter deixado o nome de um modelo local na variável: só nome de modelo Claude vale aqui
-        self.model = pedido if pedido.startswith("claude") else MODELO_ANTHROPIC_PADRAO
-        self.api_key = api_key if api_key is not None else (os.environ.get("ANTHROPIC_API_KEY") or settings.anthropic_api_key)
-        self.base_url = base_url
-        self.timeout_seconds = timeout_seconds
-        self.esforco = esforco or os.environ.get("IRIS_ANTHROPIC_ESFORCO") or "low"
-
-    def is_available(self) -> bool:
-        return bool(self.api_key and self.api_key.strip())
-
-    def _corpo(self, prompt: str, temperature: float, max_tokens: int, system_prompt: str | None, json_mode: bool) -> dict[str, Any]:
-        sistema = system_prompt or ""
-        if json_mode:
-            sistema = (sistema + "\n\n" if sistema else "") + "Responda apenas com o JSON pedido, sem texto antes ou depois."
-        corpo: dict[str, Any] = {"model": self.model, "messages": [{"role": "user", "content": prompt}]}
-        if sistema:
-            corpo["system"] = sistema
-        if _modelo_anthropic_legado(self.model):
-            corpo |= {"temperature": temperature, "max_tokens": max_tokens}
-        else:
-            corpo |= {"max_tokens": max(max_tokens, PISO_TOKENS_ANTHROPIC), "output_config": {"effort": self.esforco}}
-        return corpo
-
-    def generate(
-        self,
-        prompt: str,
-        temperature: float = 0.0,
-        max_tokens: int = 1500,
-        system_prompt: str | None = None,
-        json_mode: bool = False,
-    ) -> LLMResponse:
-        if not self.is_available():
-            raise RuntimeError("ANTHROPIC_API_KEY não configurada no ambiente. Configure no .env ou use outro provedor.")
-        t0 = time.perf_counter()
-        req = urllib.request.Request(
-            self.base_url,
-            data=json.dumps(self._corpo(prompt, temperature, max_tokens, system_prompt, json_mode)).encode("utf-8"),
-            headers={"x-api-key": self.api_key, "anthropic-version": "2023-06-01",
-                     "content-type": "application/json", "User-Agent": "iris-agentes/0.1"},
-        )
-        data: dict[str, Any] = {}
-        for tentativa in range(4):
-            try:
-                with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
-                    data = json.loads(resp.read().decode("utf-8"))
-                break
-            except urllib.error.HTTPError as exc:
-                if exc.code in (429, 529) and tentativa < 3:      # limite de taxa ou serviço sobrecarregado
-                    time.sleep(5 * (tentativa + 1))
-                    continue
-                raise
-        latency_ms = round((time.perf_counter() - t0) * 1000, 2)
-        texto = "\n".join(b.get("text", "") for b in (data.get("content") or [])
-                           if isinstance(b, dict) and b.get("type") == "text").strip()
-        if not texto or data.get("stop_reason") == "max_tokens":
-            # resposta vazia ou cortada não vale: o agente cai na saída de reserva dele, com o motivo
-            raise RuntimeError(f"resposta do modelo {self.model} vazia ou cortada (stop_reason={data.get('stop_reason')})")
-        uso = dict(data.get("usage") or {})
-        saida = int(uso.get("output_tokens") or 0)
-        uso.setdefault("load_ms", 0.0)
-        uso.setdefault("inference_ms", latency_ms)
-        uso.setdefault("tokens_per_sec", round(saida / (latency_ms / 1000.0), 2) if latency_ms > 0 else 0.0)
-        return LLMResponse(
-            text=strip_thinking_tags(texto),
-            provider=self.provider_name,
-            model=data.get("model") or self.model,
-            prompt_tokens=int(uso.get("input_tokens") or 0),
-            completion_tokens=saida,
-            latency_ms=latency_ms,
-            raw_usage=uso,
-        )
-
-
 class HybridLLMClient:
     """Cliente unificado de LLM com seleção de provedor e fallback resiliente."""
 
@@ -555,24 +628,31 @@ class HybridLLMClient:
         esforco: str | None = None,
     ) -> None:
         settings = get_settings()
-        self.provider_name = (
+        raw_provider = (
             provider
             or os.environ.get("IRIS_LLM_PROVIDER")
             or os.environ.get("RAG_LLM")
             or settings.llm_provider
         ).lower()
+        self.provider_name = "anthropic" if raw_provider in {"anthropic", "claude", "sonnet"} else raw_provider
+        if raw_provider == "sonnet" and not model:
+            env_llm_model = os.environ.get("IRIS_LLM_MODEL") or ""
+            if not env_llm_model.startswith("claude"):
+                model = os.environ.get("IRIS_JUDGE_MODEL") or settings.judge_model
         self.model = model
         self.allow_fallback_to_extractive = allow_fallback_to_extractive
         self.esforco = esforco
         self._primary = self._build_provider(self.provider_name, self.model, esforco)
 
     @staticmethod
-    def _build_provider(provider_name: str, model: str | None = None, esforco: str | None = None) -> BaseLLMProvider:
+    def _build_provider(
+        provider_name: str, model: str | None = None, esforco: str | None = None
+    ) -> BaseLLMProvider:
         if provider_name == "ollama":
             return OllamaLLMProvider(model=model)
         if provider_name == "groq":
             return GroqLLMProvider(model=model)
-        if provider_name in {"anthropic", "claude"}:
+        if provider_name in {"anthropic", "claude", "sonnet"}:
             return AnthropicLLMProvider(model=model, esforco=esforco)
         if provider_name in {"extractive", "mock", "offline"}:
             return ExtractiveFallbackLLMProvider(model=model or "deterministic-bm25-extractive")
@@ -643,6 +723,7 @@ class HybridLLMClient:
         """Retorna diagnóstico de conectividade dos provedores de LLM."""
         ollama_prov = OllamaLLMProvider(model=self.model)
         groq_prov = GroqLLMProvider(model=self.model)
+        anthropic_prov = AnthropicLLMProvider(model=self.model)
         return {
             "configured_provider": self.provider_name,
             "primary_available": self._primary.is_available(),
@@ -650,7 +731,7 @@ class HybridLLMClient:
             "ollama_url": ollama_prov.base_url,
             "ollama_installed_models": ollama_prov.list_installed_models(),
             "groq_configured": groq_prov.is_available(),
-            "anthropic_configured": AnthropicLLMProvider(model=self.model).is_available(),
+            "anthropic_configured": anthropic_prov.is_available(),
         }
 
 

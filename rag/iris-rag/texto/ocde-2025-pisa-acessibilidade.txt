@@ -1,0 +1,1033 @@
+=== p. 1 ===
+OECD Education Working Papers No. 333
+Improving accessibility
+in PISA: Guidelines for
+revising and designing PISA
+items
+Camille Voisin,
+Ava Guez,
+Mario Piacentini
+https://dx.doi.org/10.1787/aa90f707-en
+
+=== p. 2 ===
+ 1
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+OECD Education Working Papers
+
+Improving Accessibility in PISA:
+Guidelines for Revising and Designing
+PISA Items
+
+Authorised by Andreas Schleicher, Director of the Directorate for Education and Skills, OECD
+
+Camille Voisin, Ava Guez, Mario Piacentini
+
+PUBE
+
+=== p. 3 ===
+2 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+OECD EDUCATION WORKING PAPERS SERIES
+OECD Working Papers should not be reported as representing the official views of the
+OECD or of its member countries. The opinions expressed and arguments employed herein
+are those of the author(s).
+Comments on Working Papers are welcome and may be sent to edu.contact@oecd.org or
+the Directorate for Education and Skills, OECD, 2 rue André-Pascal, 75775 Paris Cedex
+16, France.
+This document, as well as any data and map included herein, are without prejudice to the
+status of or sovereignty over any territory, to the delimitation of international frontiers and
+boundaries and to the name of any territory, city or area.
+The use of this work, whether digital or print, is governed by the Terms and Conditions to
+be found at http://www.oecd.org/termsandconditions.
+This working paper has been authorised by Andreas Schleicher, Director of the Directorate
+for Education and Skills, OECD.
+-------------------------------------------------------------------------
+https://doi.org/10.1787/19939019
+--------------------------------------------------------------------------
+© OECD 2025
+
+ Attribution 4.0 International (CC BY 4.0)
+This work is made available under the Creative Commons Attribution 4.0 International
+licence. By using this work, you accept to be bound by the terms of this licence
+(https://creativecommons.org/licenses/by/4.0/).
+Attribution – you must cite the work.
+Translations – you must cite the original work, identify changes to the original and add the
+following text: In the event of any discrepancy between the original work and the
+translation, only the text of original work should be considered valid.
+Adaptations – you must cite the original work and add the following text: This is an
+adaptation of an original work by the OECD. The opinions expressed and arguments
+employed in this adaptation should not be reported as representing the official views of the
+OECD or of its Member countries.
+Third-party material – the licence does not apply to third-party material in the work. If
+using such material, you are responsible for obtaining permission from the third party and
+for any claims of infringement.
+You must not use the OECD logo, visual identity or cover image without express
+permission or suggest the OECD endorses your use of the work.
+Any dispute arising under this licence shall be settled by arbitration in accordance with the
+Permanent Court of Arbitration (PCA) Arbitration Rules 2012. The seat of arbitration shall
+be Paris (France). The number of arbitrators shall be one.
+
+=== p. 4 ===
+ 3
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Abstract
+
+This paper presents the development and implementation of accessibility guidelines for
+PISA items, undertaken as part of the PISA Research, Development and Innovation (RDI)
+project on improving accessibility. We reviewed the literature and identified key
+accessibility frameworks and principles to develop a set of practical guidelines aimed at
+enhancing the accessibility of PISA items. The guidelines were applied to a set of PISA
+Science items for a new alternative PISA Science form. The form was piloted in 2024 in a
+small-scale observational study across seven countries and targeted students with moderate
+difficulties seeing, specific difficulties reading, and difficulties focusing and controlling
+behaviour. Feedback from participating students and national centres indicated that the
+revised items were significantly more accessible and highlighted areas for further
+refinement. This work lays the groundwork for broader efforts to enhance the accessibility
+in PISA across domains.
+
+=== p. 5 ===
+4 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Acknowledgements
+We thank the ACER team for their support with the selection of the items for the pilot
+study, Elodie Persem for her guidance on the revision of the selected items, and national
+centres for their feedback on the revisions. Finally, we express our sincere gratitude to the
+national centres, schools, and students who contributed to the observational pilot study,
+whose participation was essential to this research.
+
+=== p. 6 ===
+ 5
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Table of contents
+Abstract .................................................................................................................................................................. 3
+Acknowledgements ................................................................................................................................................ 4
+Table of contents .................................................................................................................................................... 5
+Improving accessibility in PISA: Guidelines for revising and designing PISA items...................................... 6
+1. Introduction ....................................................................................................................................................... 6
+2. Conceptual background and existing frameworks for designing accessible items ...................................... 7
+2.1. Universal Design .......................................................................................................................................... 7
+2.2. Cognitive Load Theory ................................................................................................................................. 8
+2.3. Accessibility Theory and the TAMI/ARM ................................................................................................... 9
+2.4. Web Content Accessibility Guidelines (WCAG) ....................................................................................... 12
+3. Guidelines for developing accessible PISA items .......................................................................................... 13
+3.1. Guidelines regarding the process for developing accessible items ............................................................. 13
+3.2. Guidelines regarding the content of the test ............................................................................................... 14
+3.2.1. Text ...................................................................................................................................................... 14
+3.2.2. Visuals ................................................................................................................................................. 15
+3.2.3. Layout .................................................................................................................................................. 15
+4. Towards accessible items in PISA: example from the PISA Accessibility Pilot Study .............................. 15
+4.1. The PISA Accessibility Pilot Study ............................................................................................................ 16
+4.2. Method for item revision ............................................................................................................................ 16
+4.3. Results from the pilot study ........................................................................................................................ 20
+5. Conclusion ........................................................................................................................................................ 24
+References ............................................................................................................................................................ 25
+
+=== p. 7 ===
+6 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Improving accessibility in PISA: Guidelines for revising and
+designing PISA items
+1.  Introduction
+Due to logistical and comparability concerns, accessibility has often been overlooked in
+international large-scale assessments (ILSAs). However, as more and more students are being
+diagnosed as having a disability or need that requires testing accommodations in participating
+countries, and as concerns on fairness and inclusion are growing, assessment organisations have
+started to place a greater emphasis on making ILSAs accessible.
+In the context of assessments, accessibility means that every student should get an opportunity to
+demonstrate their knowledge of the target construct (Beddow, Elliott and Kettler, 2013[1]; Kettler,
+Elliott and Beddow, 2009[2]), eliminating barriers and enabling equal access to the test through
+appropriate design or targeted affordances. It is a prerequisite for inclusion and fairness, i.e. that
+scores should reflect the same construct and have the same meaning for all test takers (Shyyan
+et al., 2017[3]).
+Test accessibility can be enhanced through different levels: task presentation (e.g. increasing the
+font size, contrast levels, reading text aloud, providing text descriptions of images or videos),
+response format (e.g. allowing students to use a special pen or keyboard, dictating answers instead
+of typing/writing, using spell-checking software), and administration procedure (e.g. extended
+time, allowing multiple breaks, small group/one-to-one setting). These elements can either be
+provided only to students with specific disabilities or needs, as accommodations, or can be provided
+to every student taking the test, following the Universal Design approach that seeks to “maximise
+accessibility to all intended examinees” (American Educational Research Association, American
+Psychological Association and National Council on Measurement in Education, 2014[4]),
+minimising the need for accommodations.
+Like other ILSAs, the Programme for International Student Assessment (PISA) has maintained
+strict guidelines on the participation of students with special education needs (hereafter, SEN).
+PISA, carried by the Organisation for Economic Co-operation and Development (OECD), assesses
+the learning outcomes of 15-year-old students around the world in order to provide comparative
+information on education systems. It is conducted every four years. Up to now, PISA
+administration guidelines have permitted the exclusion of students with “moderate to severe
+permanent physical disability” or with “cognitive, behavioural or emotional disability” such that
+they cannot participate in the PISA testing situation (PISA 2022 School Coordinator Manual). In
+order to reduce exclusions, the OECD has developed an adapted version of the PISA test, called
+the Une Heure (UH) form. The UH consists of a shorter computer-based test (two 30-minutes
+sections) and questionnaire (15 minutes). It is offered in a separate session for students who have
+an official SEN classification and/or would be excluded from taking the regular assessment. In
+addition to an adapted form, students also have access to other accommodations. However, national
+teams have expressed the concern that neither the UH nor the restricted range of allowed
+accommodations adequately cater to the needs of many students with SEN (Gamazo et al., 2019[5]).
+LeRoy and colleagues evaluated PISA 2012 data and found that very few SEN students (7%) use
+the UH form. They also noted that the form did not undergo “rigorous development” ad may have
+been developed primarily to reduce the inclusion of test participants from separate schools and
+those deemed to have limited skills” (LeRoy et al., 2018[6]).
+To address these concerns and improve accessibility in PISA, a new research, development and
+innovation project was launched in 2023. The goals of the project are twofold. The first goal of the
+
+=== p. 8 ===
+ 7
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+project is to identify the needs of SEN students in PISA and develop accommodations for these
+students based on their needs. The second goal of the project is to develop a universally accessible
+version of the assessment for all students to minimise the need for separate accommodations. To
+date, the project has mainly focused on the former by developing and piloting an alternative PISA
+Science form in 2024 that includes targeted digital accommodations as well as accessibly designed
+items.
+This paper focuses on the latter – the design of accessible items for PISA. In the context of the
+development of accessible items for the alternative PISA Science form, we reviewed the literature
+and existing work on accessible assessments (section 2), based on which we defined guidelines
+that should be followed when designing PISA items in order to enhance their accessibility (section
+3). We then present how these guidelines were applied in the development of items for the
+accessible PISA Science form that was piloted in 2024 in a small -scale observational study,
+providing concrete examples of process and design choices that were made to enhance PISA items’
+accessibility (section 4). Finally, we conclude and discuss challenges and future perspectives for
+the development of accessible items in PISA (section 5).
+2.  Conceptual background and existing frameworks for designing accessible items
+Any effort to design accessible PISA items shall be grounded in established research and informed
+by existing guidelines. In this section, we present four key frameworks that provide valuable
+insights for developing inclusive computer-based assessments: Universal Design, Cognitive Load
+Theory, Accessibility Theory, and the Web Content Accessibility Guidelines. Each framework
+offers a distinct perspective on reducing barriers and promoting accessibility, ensuring that PISA
+items are testing the constructs they are intended to test, and that they are equitable and cognitively
+manageable for all students, including those with SEN.
+2.1. Universal Design
+According to the US Assistive Technology Act, Universal Design, hereinafter UD, is the concept
+of designing and delivering products that are usable by people with the widest range of functional
+capacities, ensuring an equal access for all individuals. In the domain of education, Universal
+Design for Learning (UDL) emerged as a teaching approach to accommodate the needs and abilities
+of all the learners and eliminate the unnecessary hurdles in the learning process (Rose et al.,
+2006[7]). Concretely, UDL emphasises that teachers should use multiple ways to present
+information to students, such as texts, graphs, charts, pictures, videos, demonstrations, objects’
+manipulations; they should also provide students with multiple ways of expressing their
+knowledge, demonstrating their skills (i.e. through writing, speaking, demonstrating), and
+engaging with the course materials.
+Universal Design for Assessment (UDA) has been developed on the same principles as UDL but
+specifically focuses on assessments to improve validity, reliability and fairness for all the students
+(Lazarus et al., 2022[8]). It is “an approach to assessment development that attempts to maximise
+accessibility of a test for all its intended test takers” (American Educational Research Association,
+American Psychological Association and National Council on Measurement in Education, 2014[4]),
+with the end goal to minimise the need for accommodations. Tests which are universally designed
+should provide clear and explicit information and a testing environment that is equitable, flexible,
+and intuitive to increase the participation of students with disabilities (Ketterlin-Geller, 2005[9]).
+Building on universal design guidelines, Abedi et al. (2011[10]) identified seven elements of
+universally designed assessments:
+
+=== p. 9 ===
+8 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+1.
+Inclusive assessment population: when designing assessments, developers should
+remember that the target population includes all the students, no matter what their cognitive
+abilities or various backgrounds are.
+2.
+Precisely defined constructs: fair assessments should measure the cognitive
+construct they are intended to test. For instance, a test which intends to measure a construct
+in mathematics should not be failed by a student with specific difficulties in reading
+(i.e. dyslexia) because of a heavy reading load.
+3.
+Accessible, non-biased items: items should be understandable by all the cultures
+and genders. To design accessible assessments, it is recommended to avoid names
+and expressions as much as possible.
+4.
+Amenable to accommodations: there exists some difficulties for which the need
+for accommodations will never be removed, even when the test is considered as universally
+designed. For instance, students with blindness will always need a Braille screen reader to
+access text and visual information, even if the assessment is highly accessible according to
+the UD guidelines. Thus, the assessment should be designed in such a way that it is
+compatible with required accommodations.
+5.
+Simple, clear, and intuitive instructions and procedures: test developers should
+try as much as possible to provide simple and clear instructions and procedures,
+understandable by all the test takers by avoiding complex language and terms that may not
+be graspable by the target population.
+6.
+Maximum readability and comprehensibility: readability of a text is assessed
+through the length of the sentence and the number of difficult words: the longer
+and the more difficult, the less readable (Thompson et al., 2005[11]). When designing
+assessments, an effort should be placed in ensuring the use of clear and common words
+and the absence of complex sentences.
+7.
+Maximum legibility: test designers should ensure that test takers can decode text,
+graphs, tables, illustrations, and response format with ease.
+These general elements are applied in checklists and guidelines to assess the extent to which a test
+is accessible and to modify its items accordingly.
+2.2. Cognitive Load Theory
+The human cognitive architecture, on which the cognitive load theory is based, refers to the
+relationship between the working and the long-term memory to process information from the
+external environment. For instance, when navigating in a complex environment, the human
+cognitive architecture requires a large information store provided by the long-term memory to
+recall procedural knowledge – exercised in the performance of a task – as well as episodic
+knowledge – the mental representation of past events specific to a person’s life. In the meantime,
+the working memory buffer, essential to hold an idea in mind, is much more limited in terms of
+storage with ‘7 ± 2’ chunks of information held at the same time (Miller, 1956[12]). These limited
+resources are greatly determined by the type of cognitive demand a given task requires. There are
+three types of cognitive loads:
+•
+The intrinsic load, which comprises the mental processing required for a task;
+•
+The germane load, which reflects the cognitive demands that are not necessary to solve the
+task but improve the cognitive processing;
+•
+The extraneous load, which includes the non-essential cognitive elements to perform a
+primary task, but that might become important for higher cognitive tasks.
+
+=== p. 10 ===
+ 9
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+The Cognitive Load Theory (CLT) provides a model to understand how the limited working
+memory storage and cognitive demands interact and how to adjust accordingly, thanks to
+instructional procedures (Chandler and Sweller, 1991[13]). Following the CLT principles, we can
+design better tests by eliminating as much as possible the extraneous load that is not necessary to
+demonstrate proficiency in the target construct while maximising the intrinsic load and managing
+the germane load to enhance knowledge acquisition (Kettler, Elliott and Beddow, 2009[2]). This
+process reduces the cognitive information the working memory has to maintain while performing
+a task to allocate the available resources on the primary objectives of the task, increasing the testtaker’s ability to demonstrate their proficiency in the target construct. SEN students have needs
+that prevent them from managing the different types of loads effectively and are consequently
+and specifically more prone to be impacted by extraneous load. This management issue impacts
+procedural and episodic knowledge, which are essential to show the construct intended to be tested.
+Applying the CLT and its principles could help designing more accessible tests to improve the
+inclusion of SEN students in assessments (Elliott et al., 2009[14]).
+The CLT has been the starting point for the development of principles and guidelines to design
+more accessible test and facilitate learning by maximising the intrinsic load. Twenty-nine (29)
+principles have been proposed to design accessible tests and facilitate efficient learning (Clark
+et al., 2006[15]; Elliott et al., 2009[14]). Among many different guidelines, it has been shown, for
+instance, that presenting essential information directly into diagrams reduces extraneous cognitive
+load (Chandler and Sweller, 1991[13]). Moreover, presenting information in multiple sensory
+modalities (i.e. visual, auditory, tactile, etc.), synchronising information, aligning text and visuals
+to promote transfer between written words and graphics are also effective principles to follow when
+trying to reduce the extraneous load (Mayer and Moreno, 2003[16]).
+2.3. Accessibility Theory and the TAMI/ARM
+Accessibility theory can be defined as the process through which test-takers’ skills are separated
+into five different categories: physical, perceptive, receptive, emotive, and cognitive, and paired
+with some test features (Beddow, Elliott and Kettler, 2013[1]). For instance, the physical category
+involves the physical requirements to engage in the test (enter the room, sit, use a pen, etc.), which
+can be linked with test setting features. On the other end of the continuum, the cognitive skills,
+which involve long-term and working memories, can be paired with the cognitive demand of the
+test reflected for instance by the visual and verbal complexity of the contextual support. Figure 1
+presents a graphical representation of accessibility theory, showing the direct relationship between
+the test-taker characteristics and the test and item features (e.g. how responses to items are
+provided, how information is delivered, contextual support provided), as well as where and how
+accessibility comes into play. Making a test more accessible means adjusting and modifying these
+test features when students show difficulties or disabilities in the corresponding characteristics. For
+instance, students with difficulties in seeing, i.e. impaired visual perception, might benefit from
+accessible ways of delivering the information and the test, such as magnification procedures or
+text- to- speech accommodation. For students with a limited working memory, which falls into the
+cognitive capacity section, the focus must be put on decreasing the cognitive demand by playing
+on the visual and verbal complexity, for instance through the use of schematics and graphical
+representations instead of complex and lengthy paragraph.
+
+=== p. 11 ===
+10 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Figure 1. Accessibility theory
+
+Source: Beddow, Elliott and Kettler, 2013[1], Accessibility theory ([4], used with permission).
+Two evaluation and improvement tools have been developed in accordance with the accessibility
+theory to design more accessible test: the Test Accessibility and Modification Inventory (TAMI)
+(Beddow, Kettler and Elliott, 2008[17]) and the Accessibility Rating Matrix (ARM) (Beddow, Elliott
+and Kettler, 2013[1]). These tools intend to systematically evaluate, in a first phase, test
+accessibility, and in a second phase improve it by following specific guidelines. There are five
+goals for modifying items (Beddow, Kettler and Elliott, 2008[17]): increasing the access for all test
+takers, removing extraneous material, maintaining the same depth of knowledge, improving
+efficiency, and increasing validity of inferences from test results. The TAMI/ARM evaluate the
+five constituting elements of a test item: the stimulus, the visuals, the stem, the answer choices,
+and the layout. A set of rating rubrics guide the analysis of each item’s element with a 4-point scale
+(from maximally accessible for nearly all test takers, i.e. 95 to 99% of the population, to
+inaccessible for many test takers, i.e. less than 85%). A final score is produced to estimate the
+accessibility level of the entire item (see Figure 2).
+
+=== p. 12 ===
+ 11
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Figure 2. Test Accessibility and Modification Inventory (TAMI)
+
+Source: Beddow, Kettler and Elliott, 2008[17]
+
+After rating the level of accessibility for each element, scorers can follow modification rubrics and
+guidelines to improve the items and achieve accessibility standards. These guidelines and
+recommendations are supported by experimental findings from the literature on the accessibility of
+text, visuals, layout and answer choices.
+Guidelines regarding the text passages include, for instance, a simple, clear, and short stimulus
+with format specifications, such as important words in bold. The stem should be a clear, short
+question with the use of active voice and the absence of negative formulation, as well as key words
+in bold. Increased salience by bolding some important words in a paragraph can indeed help
+students with attention deficits to better focus their attention (McKnight, 2010[18]). Similarly, using
+plain text with common words as well as the active voice instead of the passive voice were found
+to increase accessibility (Abedi et al., 2011[10]). Moreover, it is recommended to avoid any
+complexity in the language used such as names or cultural words that could be misunderstood and
+could present unnecessary complexity (Abedi et al., 2011[10]).
+Guidelines for visuals include using them wisely, reflecting on the added value of displaying one.
+Visuals should be located at the right position and only contain necessary and useful information
+and not any complexity or distraction. Research indeed suggests that while visuals can help
+illustrate written information, improve clarity and meaning, they could also increase the number of
+distractors and therefore the unnecessary extraneous load (Solano-Flores et al., 2014[19]). For
+instance, visuals can increase the cognitive load for students with attention deficit hyperactivity
+disorder (ADHD) and consequently negatively impact their performance. On the contrary, they can
+convey essential meanings for students with reading difficulties, such as dyslexia, and therefore
+significantly improve their understanding of the test content.
+Guidelines on the answer choices suggest that raters verify whether the answer choices are simple,
+clear, balanced, with no distractors and with no more than one correct response. In addition, having
+
+=== p. 13 ===
+12 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+no more than three options is recommended, as supported by the literature (see meta-analysis by
+Rodriguez, 2005[20]): decreasing the answer options from five to three enables to reduce item
+difficulty without impacting the psychometric properties of the test.
+Finally, the item layout should provide enough space around the different elements and display
+them in a sufficiently large size while keeping the spread of information reasonable across a given
+page. Larger text and character spacing have indeed been found to enable faster reading for students
+with dyslexia (Rello and Baeza-Yates, 2015[20]), as well as lager intervals between lines (Zorzi
+et al., 2012[21]).
+In 2011, the TAMI has been evaluated in an experimental study by Kettler et al. (2011[22]) to assess
+the accessibility of original versions of standardised assessments in maths, reading, and science
+and perform subsequent modifications. The most common modifications they performed on test
+items included removing a multiple-choice option, simplifying the language of text parts, adding a
+visual, reorganising the layout by breaking one paragraph into several, bolding some important
+words and adding more space between text parts. After performing these changes, they recruited
+three groups of participants: students with disabilities eligible to be accommodated national
+assessments, students with disabilities non-eligible to be accommodated national assessments, and
+students without disabilities. Students from the three groups took the original tests and the modified
+ones without any other accommodations provided. The researchers found that mean difficulty was
+significantly lower in all groups in the modified versions of the tests. Reducing the number of
+options in multiple-choice answers was found to be particularly effective in reducing complexity.
+However, providing an explanatory graph was not significantly efficient, confirming the mixed
+findings regarding this type of item modification. Overall, the modifications performed to the
+original tests with the use of TAMI successfully improved the access to the test for eligible
+students, providing them with a differential boost while maintaining reliability between the
+modified and original versions of the tests.
+2.4. Web Content Accessibility Guidelines (WCAG)
+With the growth of online-based assessments, accessibility has become a critical concern in this
+type of testing environment. The Web Content Accessibility Guidelines (WCAG), developed by
+the World Wide Web Consortium (W3C), are highly valuable for designing computer-based
+assessments such as PISA. The goal behind these guidelines is to provide a single shared standard
+for web content accessibility that meets the needs of individuals, organisations, and governments
+internationally. The WCAG explain how to make web content more accessible to people with
+disabilities, including information such as text, images, and sounds, as well as structure and
+presentation of web sites and web pages.
+Guidelines are separated in four different principles: perceivable, operable, understandable, and
+robust, each including several standards.
+In the lowest level principle, perceivable, guidelines recommend to provide a text alternative for
+non-text content, captions and alternatives to multimedia content, and present content in multiple
+ways, the overall goal being for the users to perceive and access context in the easiest way for
+them.
+Under the operable principle, guidelines are linked to the actual use of the web content. For
+instance, it is recommended that all the functionalities should be available from a keyboard, users
+should have enough time to read and use content, help should be provided to navigate and find
+content, and the use of inputs different than a keyboard should be made available and easy to use.
+At a higher level, the understandable principle ensures that text is readable and understandable,
+that content appears and operates in predictable ways and that users can avoid and correct mistakes.
+
+=== p. 14 ===
+ 13
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Finally, the final step, the robust principle, intends to maximise the compatibility of the web
+content with current and future user tools.
+Each guideline encompasses three levels of conformance reflecting specific success criteria. Level
+A of conformance, the minimum level, includes the basic requirements to meet the WCAG. Level
+AA of conformance is associated with the minimum level of conformance for making web pages
+accessible to most people, whose success criteria involve more advanced requirements. The highest
+level of accessibility is characterised by the level AAA of conformance: when web pages reach
+this level, they are considered very, if not fully, accessible because they follow the most rigorous
+success criteria. For instance, under the ‘Perceivable’ principle, the ‘Distinguishable’ guideline
+states that web developers should make it easier for users to see and hear content including
+separating foreground from background. If we take colours, for instance, level A of conformance
+intends “to ensure that all sighted users can access information that is conveyed by colour
+differences” (WCAG SC 1.4.6). It is reached if colour is not used as the only visual mean of
+conveying information, indicating an action, prompting a response, or distinguishing a visual
+element. Level AA of conformance, called ‘Contrast (Minimum)’, intends “to provide enough
+contrast between text and its background so that it can be read by people with moderately low
+vision” (WCAG SC 1.4.3). To meet this level of conformance, the visual presentation of text and
+images should have a contrast ratio of at least 4.5:1, meeting the needs of users with 20/40 visual
+acuity. Finally, level AAA of conformance, ‘Contrast (Enhanced)’ is validated when the visual
+presentation of text and images reaches a contrast ratio of at least 7:1, which is the level required
+for users with 20/80 visual acuity. WCAG guidelines can be followed to review web sites
+accessibility and improve it by following the suggested guidelines. Since the development of web
+tools and environments is growing fast, some new versions of WCAG are developed through time
+to meet new criteria and ensure that evolving web environment remain accessible to all the users.
+3.  Guidelines for developing accessible PISA items
+Based on these findings and recommendations from the literature, we derived the following set of
+criteria to improve item design in PISA with respect to accessibility. These guidelines concern both
+the process that should be followed to revise existing PISA items or to design new ones, and the
+characteristics of the items and test layout. This set of guidelines was developed in the context
+creating of the accessible PISA Science form; they should be revised as appropriate depending on
+the domain at hand (e.g., some points regarding text simplification may not apply directly to a
+reading assessment, were the construct itself is language-based).
+3.1. Guidelines regarding the process for developing accessible items
+1. The item development team should include experts in accessibility.
+Note: At least one accessibility and disability expert should contribute to the item
+development process and review. They collaborate with the domain experts, software
+developers and UI/UX developers in order to identify barriers in the assessment and
+ensure that the item design and platform are accessible to students with SEN.
+2. When developing accessible items or revising existing items, item developers
+should use an item accessibility checklist to ensure that items are accessible and
+identify areas of improvement.
+Note: The item accessibility checklist should cover all aspects of section 3.2 below –
+Guidelines regarding the content of the test. This ensures that all aspects are
+systematically checked for all items. Using this checklist, items should be reviewed by
+at least two different raters.
+
+=== p. 15 ===
+14 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+3. New and revised items should be tested in qualitative pilot studies, including
+cognitive laboratories, and quantitative pilot studies. These pilots should be
+administered in multiple countries and languages and involve participants with
+diverse special education needs.
+Note: Cognitive laboratories focus on the processes that a test-taker engages in when
+presented with an assessment task. For instance, the laboratories can reveal instructions
+that are difficult to understand, items that are unclear or are subject to different
+interpretations, or vocabulary that is unnecessarily complex. Quantitative pilot studies
+aim to verify at an early stage issues such as the accuracy of data capture, item/task
+difficulty and duration, or dimensionality of the constructs. As much as possible,
+cognitive laboratories and quantitative pilot data collections should be conducted in
+several participating countries and involve students with different needs or disabilities
+in order to ensure the assessment is accessible for all students. Material such as
+administration manuals should be produced to ensure a standardised study protocol
+across countries. The validation of items should include analysis of response process
+data, such as reports of thinking aloud processes in cognitive labs and log-files.
+3.2. Guidelines regarding the content of the test
+3.2.1. Text
+1. The text should only contain essential information.
+Note: To minimise unnecessary reading load, all excess text that is not needed to
+understand the task at hand should be removed, as well an any trivial content.
+2. The text should be plain and easily understandable.
+Note: The text should use common words, avoiding idioms or jargon unless it is defined
+or related to the item content and skills assessed. Sentence structures should be kept
+simple, using as much as possible positive wording and active voice, and preferring the
+use of proper nouns over pronouns.
+3. Multiple-choice questions should have a maximum of three possible answers with
+only one correct.
+Note: Decreasing the answer options to three is well-supported by the literature,
+enabling to reduce item difficulty without impacting the psychometric properties of the
+test (see the meta-analysis by Rodriguez, 2005). When decreasing the number of
+distractors for an item, the least selected option should be eliminated.
+4. Text should be formatted to facilitate reading.
+Note: This includes:
+o Bolding essential words or terms
+o Breaking the text in manageable pieces through the use of paragraphs and white
+spaces
+o Keeping text alignment not justified so that spaces between words and letters
+is identical
+o Using a sans-serif font with large font-size and wide character and word spacing
+o Using increased inter-line interval
+
+=== p. 16 ===
+ 15
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+3.2.2. Visuals
+1. Visuals should only contain useful information.
+Note: Visuals should not be distracting and only contain information that is necessary
+to understand the task.
+2. Visuals should clearly represent intended images for all intended test-takers.
+Note: Information should be conveyed using more than distinctions between colours,
+e.g. through the use of labels, cross-hatching/lines/textures. Graphical objects should
+have a sufficient contrast ratio (3:1 for images/shapes/buttons to meet the WCAG level
+AAA).
+3. Important elements in visuals should be indicated with circles, arrows or
+highlights.
+4. Text in the visuals /graphs should be readable by a screen reader.
+Note: As much as possible, the inclusion of text within images should be avoided.
+5. Visuals should be accompanied by alternative text.
+3.2.3. Layout
+1. As much as possible, the entire item and all necessary information to answer
+should be presented on one screen, minimising the need for scrolling.
+2. Items should be read vertically and from left to right for left-to-right languages,
+and from right to left for right-to-left languages.
+3. The stimulus, item stem and question should be clearly distinguishable from each
+other.
+Note: For instance, this can be done through the use of demarcation lines, white spaces,
+or frames. The layout should be kept as simple and minimal as possible.
+4. Visuals should be integrated into the stimulus or stem, along with the relevant text
+passages.
+Note: Visuals should not be presented separately from the text in the stimulus or stem,
+but rather form an integral part of it.
+5. The mouse pointer should be visible.
+Note: It should be large and sufficiently contrasting with the background (ratio of 3:1).
+6. All layout and navigation elements should be clearly visible for all intended testtakers.
+Note: This implies ensuring sufficient contrast ratios between any text and their
+background (ratio of 7:1), and between different navigation/layout elements such as
+buttons, pop-up windows, or selected answers (ratio of 3:1).
+4.  Towards accessible items in PISA: example from the PISA Accessibility Pilot Study
+In this section, we exemplify how the above guidelines can be effectively applied in PISA,
+demonstrating how items can be made more accessible through the work carried with an
+observational pilot study that focused on the development of an alternative PISA Science form. We
+describe how we conducted item modification with a view to enhanced accessibility, and present
+
+=== p. 17 ===
+16 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+results from the observational pilot study that capture how these revised items were perceived by
+students and national centres.
+4.1. The PISA Accessibility Pilot Study
+Following the launch of the PISA Research, Development and Innovation project on improving
+accessibility in 2023, the OECD initiated the development of an alternative PISA test form
+incorporating targeted accommodations and revised PISA items with the goal of enhancing
+accessibility. Due to logistical constraints, this work focused on addressing first and foremost a set
+of priority needs in PISA. These needs were identified through a survey conducted among PISA
+participating countries (Guez, Ketan and Piacentini, 2024[23]), which enabled us to single out three
+priority SEN groups for the pilot, who are most likely to be excluded from the test and who already
+benefit from accommodations in their own national assessments: students with specific difficulties
+reading, students with moderate difficulties seeing, and students with difficulties focusing and
+controlling behaviour. We developed an alternative PISA Science test form to address these three
+needs through two main levers: (i) the inclusion of accommodations, including digital accessibility
+tools embedded in the platform (read-aloud, contrast colours, cursor colours and sizes, font types,
+font sizes, line height options, text spacing options, zoom levels), as well as the possibility to take
+breaks, and (ii) the modification of PISA items to enhance their accessibility. Here, we focus on
+this second lever to illustrate how accessible item design can be implemented in PISA and how
+these accessible items were perceived by students participating in the observational pilot (see Guez,
+Voisin and Piacentini, 2025[25]) for details and results regarding the implementation of
+accommodations).
+The accessible test form was piloted between April and September 2024 in seven countries: Brazil,
+Canada, Colombia, Denmark, France, Portugal and Sweden. A total of 260 students were tested,
+as presented in Table 1.
+Table 1: Testing timelines and number of tested students in each country
+Country
+Data collection period
+Total students tested
+Denmark
+12 – 23 April
+20
+France
+21 May – 14 June
+73
+Brazil
+23 May – 6 June
+33
+Sweden
+11 – 26 September
+21
+Canada
+23 – 27 September
+20
+Colombia
+16 – 27 September
+83
+Portugal
+16 – 30 September
+10
+
+The test consisted of 33 PISA 2025 Science items, including both multiple choice and open-ended
+questions. Students had an hour to answer the items, with a 10-minute flexibility margin. At the
+end of the test, students were asked to answer a short questionnaire, and focus groups were
+conducted to collect students’ opinions on the test’s accessibility.
+4.2. Method for item revision
+Thirty-three (33) PISA 2025 Science items were selected from the pool of new items developed
+for the PISA 2025 Science test, in collaboration with accessibility experts from ACER. The first
+
+=== p. 18 ===
+ 17
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+step in improving these items’ design was to develop an item accessibility checklist to assess their
+accessibility and identify areas of improvement. The developed checklist enabled to assess
+different elements of accessibility and suggest changes for text sections, visuals, and layout for
+each item (see Table 2). This assessment was performed by two scorers for each item. Findings
+were then compared and combined and suggested changes performed accordingly.
+Table 2. Accessibility checklist developed to review each PISA item's accessibility for the
+observational pilot
+Criteria
+Comments
+Suggested edits
+Text (item stimulus and stem)
+Essential words only
+
+Plain text, simple and common words/vocabulary, avoiding idioms
+or jargon (unless defined or related to item content)
+
+Simple sentence structure
+
+Pronouns instead of proper nouns
+
+Reduced excess/non-essential text
+
+No trivial content
+
+Essential words or terms in bold
+
+Only one possible correct answer
+
+Positive wording (avoid negative questions)
+
+Active voice (avoid passive voice use)
+
+Visuals
+No distractor, keep useful information only
+
+No text, if text useful information only
+
+Visuals clearly represent intended images
+
+Colours with sufficient contrast (3:1)
+
+Information conveyed using more than distinctions between colours
+
+Essential words or terms in bold
+
+Important elements indicated with circles, arrows or highlight
+
+Labels
+
+Layout
+Entire item and all the necessary information to answer presented on
+one screen
+
+Text chunked in manageable pieces (paragraphs)
+
+White spaces between paragraphs
+
+Items read vertically, from left to right
+
+Visuals integrated into the stimulus and stem
+
+Right margin unjustified (staggered)
+
+=== p. 19 ===
+18 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Following this review, several changes were performed on the items. These modifications involved
+the following elements:
+•
+Reshaping of the item layout: In the original PISA items, the stimulus is on the right, and
+the item stem and questions are on the left. For left-to-right languages, this layout is not
+intuitive, as web pages are usually navigated from left to right. Therefore, we placed all
+the information necessary to answer the question on the left, and the question was placed
+on the right of the screen. A demarcation line was added in the centre of the screen to
+clearly separate the two parts.
+•
+Changes performed on text parts: The original items often included long texts with
+information that was not necessary to answer the question, or with unnecessarily complex
+syntax or vocabulary. To improve the text’s accessibility, key words were bolded for
+saliency, sentences were reformulated when needed (e.g. use of active instead of passive
+voice), unnecessary complexity (sentences, words) was removed, and non-essential text
+was cut. One answer option was removed from an item as it contained two very similar
+possible correct response options.
+•
+Changes performed on graphs and visuals: Original images often were too complex or
+did not provide sufficient contrast for students with difficulties seeing. Changes involved
+adding text labels to identify each element on the visual, as well as ensuring that stimulus
+text described the visual. Colours were changed to increase contrast to a ratio of 7:1 for
+text included in the visuals, and of 3:1 for graphical elements. In addition, features were
+added to enhance visual distinction, such as contour lines, or cross-hatching. Some photos
+were replaced by simpler diagrams. Finally, new visuals were created when needed to
+provide another way of understanding complex written stimuli.
+Figure 3. Example of modifications performed on a dropped PISA 2025 Science item
+(Figure 3A: original item; Figure 3B: modified item)
+
+=== p. 20 ===
+ 19
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Source: PISA RDI Accessibility pilot survey (2024)
+
+=== p. 21 ===
+20 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Figure 3 shows an example of modifications performed on a dropped item, with the original item
+on the top (Figure 3A) and the modified item on the bottom (Figure 3B). The most notable change
+is the layout adjustment: in the original item, the stimulus was positioned on the right and the stem
+on the left, whereas in the modified version, the stimulus has been moved to the left and the stem
+to the right. Additionally, a demarcation line was introduced in the revised item to clearly separate
+the two sections. Furthermore, in this revised version, all essential information needed to answer
+the question is placed within the stimulus section, while non-essential text has been removed, and
+key words are highlighted in bold. In contrast, the original item had all relevant information
+embedded in the stem, while the stimulus included extraneous details that were not necessary for
+answering the item. Finally, a visual was added in the modified item to illustrate the complex
+information presented in the text. These modifications ensure that the stem remains as concise as
+possible, containing only the question and the answer choices.
+4.3. Results from the pilot study
+In order to understand how effective these modifications to the item design were in making the test
+accessible to students with priority needs for PISA (moderate difficulties seeing, difficulties
+reading, and difficulties controlling behaviour and focusing), we conducted an observational pilot
+study. Among the 260 students tested, 81 had specific difficulties reading, 79 were presenting
+difficulties in focusing and controlling behaviour, 55 had moderate difficulties seeing, and 33 were
+combining difficulties in focusing with specific difficulties reading. 14 students had needs that
+were not included in the three priority needs, which included severe learning difficulties, autism
+disorder or congenital malformation. The recruited students were aged fourteen to sixteen and the
+recruitment was done by the national centres. Here we present results from the pilot that regard
+modifications to item design. Readers interested in results that regard the effectiveness
+of accommodations can refer to (Guez, Piacentini and Voisin, 2025[24]), forthcoming.
+To assess the relevance of the modifications performed on the test items – including changes to
+images and graphs, layout, and text – we collected students’ opinions through 4-point Likert scales
+from a short-questionnaire that was administered at the end of the test, and through post-assessment
+interviews conducted in focus groups. It is worth mentioning that not all the students completed
+the student questionnaire: some of them stopped at the end of the 33 items and did not declare their
+opinions on the accommodations and modifications to item design. Consequently, the following
+results should be interpreted with caution since they do not reflect the full sample’s opinion.
+Figure 4 presents results regarding students’ perception of visuals and text clarity (respectively
+Figure 4A and 4B). The vast majority of students (83%) found the images and graphs clear or very
+clear, and the same was true for the texts (77%). This echoes findings from the focus groups, where
+students reported that the images were of good quality, clear, legible, with enough contrasts, and
+easy to understand. Regarding text, most of the students reported that the text bits were long but
+clear, with an easy language and understandable. However, some of the students highlighted that
+the text was sometimes confusing due to its length, which impacted some students’ ability to focus.
+Additionally, it was reported that questions were sometimes poorly formulated, even confusing,
+which required students to read the item many times to understand the text and content. The focus
+group also emphasised two major areas of improvement regarding visuals. First, images and graphs
+were not readable by the read-aloud tool, preventing the students to use this tool on the text labels
+integrated in the visuals; and there was no alternative text embedded with images, graphs and tables
+to describe the structure of a table or the content of a graphical representation or visual. This was
+indeed an important element of accessibility that we had planned on integrating initially, but which
+was unfortunately not implementable in this first iteration due to logistical issues. Students from
+all the testing countries did notice it and emphasised the need to develop such an improvement.
+Second, students reported the need to be able to zoom specifically on an element of the visuals.
+Indeed, in the current version of the test form, the zoom tool enabled users to increase the size of
+
+=== p. 22 ===
+ 21
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+the full screen content, but not of the image or graph only. The possibility to enlarge graphs and
+images only should also be considered for future improvements. These potential improvements
+suggested while interviewing the students may explain that around a fourth of the students found
+images, graphs and text not clear or not clear at all (respectively 18% and 25% in Figure 4A and
+4B).
+Figure 4. Opinions of students on the clarity of images and graphs (4A) and on the clarity
+of the text (4B)
+
+Source: PISA RDI Accessibility pilot survey (2024)
+
+Students’ feedback was also positive regarding the changes performed on the layout and the overall
+ease of navigation. The changes performed on the test’s layout (i.e. having the stimulus on the left
+and the questions on the right, adding a demarcation line in the middle of the screen, trying to fit
+all the item content on the screen to avoid scrolling) were appreciated by the students who reported
+finding the layout ‘intuitive’ with a test that ‘looked like something they are used to’ in their
+national centres. Besides, 88% of students reported finding navigating the test (i.e. switching from
+question to question, going back to a previous question, accessing the overview navigation or
+
+=== p. 23 ===
+22 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+completing the password screens) easy or somewhat easy (Figure 5A). This was supported by focus
+groups feedback with students declaring that it was “easy to navigate and find where to click”.
+Nevertheless, a few students declared that “navigation was a bit difficult at first” and it took time
+for some of them to figure out how to navigate the test. Some students from Sweden and Colombia
+suggested to have the button to move onto the next question a bit higher up on the screen to make
+it more visible and more straightforward to know where to click to move on. Indeed, in the current
+accessible form, the button was placed at the bottom right of the screen, making it difficult for
+students using small screens to locate it easily.
+Students’ opinions regarding the overall test difficulty, however, were slightly more mixed, with
+two thirds of the students who found the test easy or somewhat easy (67% in Figure 5B), and a
+third who found it difficult or somewhat difficult (35% in Figure 5B). Part of this difficulty can be
+explained by the fact that students were unfamiliar with some of the test content, since they reported
+in focus groups that some aspects had not been covered yet in the school curriculum in all the
+countries. However, part of the difficulty seemed to stem from remaining accessibility issues:
+students from all the countries, and especially those with specific difficulties reading, experienced
+difficulties answering the open-ended items, which required students to type an answer using their
+keyboard. They found open-ended answers very difficult because of typing, or even boring and not
+engaging due to the writing barrier. They reported the need to have access to a speech--to--text tool
+besides the read-aloud and/or to a word prediction tool to help with these items. Danish students
+actually used such a tool, called ‘App Writer’ while taking the test. French students also suggested
+to provide the access to words’ definitions because some of them found the vocabulary of some
+items very difficult, and Swedish students advocated in favour of the possibility to access a
+synonym or a definition / description for difficult words.
+
+=== p. 24 ===
+ 23
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Figure 5. Opinions of students on the test’s navigation (5A) and the test’s overall difficulty
+(5B)
+
+Source: PISA RDI Accessibility pilot survey (2024)
+
+Overall, results from the pilot were highly positive, indicating that the modified items were more
+accessible for our target population. National centres concurred and reported during the item
+review process that the revised items were significantly more intuitive and accessible than the
+original ones. The pilot also provided valuable insights for enhancing the test’s accessibility in
+terms of item design, including making the text elements in visuals readable by the read aloud tool,
+adding alternative text to visuals and tables, giving the possibility to zoom into graphical elements,
+and enabling the use of a speech-to-text tool.
+The accessible form developed for this project marked an important first step in enhancing
+accessibility in PISA. It maintained a familiar assessment format for students while incorporating
+effective accommodations and adaptations to improve their testing experience. Nevertheless, we
+acknowledge that this first phase was only a user experience study, and we could not directly
+compare the modified items with original PISA items. Besides, due to the small convenience
+sample, no generalisable conclusion can be drawn. A causal evaluation of the provided
+
+=== p. 25 ===
+24 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+accommodations and modifications performed on items would enable to validate the observations
+from this pilot. To assess the impact of these accommodations and modifications, a research design
+such as a Randomised Controlled Trial (RCT) or matched case-control study could be considered.
+This approach would involve administrating the accessible form to one group of students and the
+original form one to another, allowing for a more robust assessment of the accessible format’s
+effectiveness.
+5.  Conclusion
+The PISA Research, Development, and Innovation (RDI) project on improving accessibility marks
+a significant step towards making PISA more inclusive, notably through the design of accessible
+items. This paper outlined the foundational frameworks guiding this work – Universal Design,
+Cognitive Load Theory, Accessibility Theory, and the Web Content Accessibility Guidelines
+(WCAG) – and translated them into practical guidelines for developing accessible PISA items.
+These guidelines complement the PISA Quality Standards and provide a roadmap for revising
+existing items and for creating new ones, addressing both the design process and accessibility
+criteria for item content and layout. As a limitation, it is important to note that the guidelines were
+developed specifically in the context of the project on developing an accessible PISA Science form.
+As such, they may not transfer directly to other PISA domains, such as Reading, and should be
+revised accordingly. We applied these guidelines to the revision of a set of PISA items for the
+accessible PISA Science form, demonstrating how accessibility considerations can be integrated
+into PISA item design. This new form was piloted in an observational study conducted in seven
+countries. Feedback from national centres and students was overwhelmingly positive, suggesting
+that the revised items were significantly more accessible for students with moderate difficulties
+seeing, difficulties reading, and difficulties controlling behaviour and focusing, which were the
+target populations for this pilot. However, the need for a larger quantitative study remains to
+rigorously assess how these modified items compare to the originals in terms of difficulty. The
+pilot also provided valuable insights into areas for further improvement which will inform the next
+phase of development. Future efforts will also focus on expanding accessibility to include more
+diverse needs, such as those of students with dyspraxia and blindness.
+To achieve accessibility, inclusion and fairness in PISA, it is critical that the entire PISA item pool
+eventually complies with accessibility guidelines such as those outlined in this paper. This would
+imply not only developing new items, but also revising all existing items according to these
+standards. Revising the entire item pool in one cycle seems neither feasible nor desirable, as it
+would be logistically heavy and costly, and importantly, as it would compromise PISA’s ability to
+track trends over time. A gradual, phased approach, where a portion of the item pool is revised
+each cycle, would allow us to preserve these trends. However, this approach also poses challenges,
+as it would still require significant resources, particularly since new items must be developed
+simultaneously for the major domain of each cycle. One promising path forward may involve
+leveraging key moments in PISA’s development, such as a change in the testing platform, to
+introduce accessibility improvements. These improvements could include modifying the layout or
+adjusting visual elements (e.g. enhancing contrast ratios in images), without altering the item
+content. This approach would provide a practical way to enhance accessibility incrementally while
+minimising cost and disruption to trend continuity.
+In conclusion, the accessibility guidelines developed, and the insights gained from the
+observational pilot provide a solid foundation for future efforts to enhance accessibility in PISA.
+While challenges remain, we are on the path toward creating an accessible PISA assessment that
+will better meet the needs of all test-takers.
+
+=== p. 26 ===
+ 25
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+References
+
+Abedi, J. et al. (2011), Accessible Reading Assessments for Students with Disabilities: The Role
+of Cognitive, Grammatical, Lexical, and Textual/Visual Features.
+[10]
+American Educational Research Association, American Psychological Association and National
+Council on Measurement in Education (2014), Standards for educational and psychological
+testing, American Educational Research Association.
+[4]
+Beddow, P., S. Elliott and R. Kettler (2013), “Test Accessibility: Item Reviews and Lessons
+Learned from Four State Assessments”, Education Research International, Vol. 2013, pp. 1-
+12, https://doi.org/10.1155/2013/952704.
+[1]
+Beddow, P., R. Kettler and S. Elliott (2008), Test Accessibility and Modification Inventory
+(TAMI).
+[17]
+Chandler, P. and J. Sweller (1991), “Cognitive Load Theory and the Format of Instruction”,
+Cognition and Instruction, Vol. 8/4, pp. 293-332,
+https://doi.org/10.1207/s1532690xci0804_2.
+[13]
+Clark, R. et al. (2006), “Efficiency in learning: Evidence-based guidelines to manage cognitive
+load”, Performance Improvement, Vol. 45/9, pp. 46-47,
+https://doi.org/10.1002/pfi.4930450920.
+[15]
+Elliott, S. et al. (2009), Cognitive Load Theory: Instruction-based Research with Applications
+for Designing Tests.
+[14]
+Gamazo, A. et al. (2019), Assessment of Students with Special Education Needs in PISA:
+Participation Guidelines and Data Treatment, ACM.
+[5]
+Guez, A., Ketan and M. Piacentini (2024), “Mapping study for the integration of
+accommodations for students with Special Education Needs (SEN) in PISA”, OECD
+Education Working Papers, No. 308, OECD Publishing, Paris,
+https://doi.org/10.1787/ed03c717-en.
+[23]
+Guez, A., M. Piacentini and C. Voisin (2025), “Accommodating students with special education
+needs in PISA: Results from an observational pilot study”, OECD Education Working
+Papers, No. 332, OECD Publishing, Paris, https://doi.org/10.1787/256c6e12-en.
+[24]
+Ketterlin-Geller, L. (2005), “Knowing What All Students Know: Procedures for Developing
+Universal Design for Assessment”, Journal of Technology, Learning, and Assessment,
+Vol. 4/2, http://www.jtla.org.
+[9]
+
+=== p. 27 ===
+26 
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Kettler, R., S. Elliott and P. Beddow (2009), “Modifying Achievement Test Items: A Theory-
+Guided and Data-Based Approach for Better Measurement of What Students With
+Disabilities Know”, Peabody Journal of Education, Vol. 84/4, pp. 529-551,
+https://doi.org/10.1080/01619560903240996.
+[2]
+Kettler, R. et al. (2011), “Modified Multiple-Choice Items for Alternate Assessments:
+Reliability, Difficulty, and Differential Boost”, Applied Measurement in Education,
+Vol. 24/3, pp. 210-234, https://doi.org/10.1080/08957347.2011.580620.
+[22]
+Lazarus, S. et al. (2022), An updated state guide to universally designed assessments (NCEO
+Report 431), National Center on Educational Outcomes.
+[8]
+LeRoy, B. et al. (2018), “Students with special educational needs within PISA”, Assessment in
+Education: Principles, Policy &amp; Practice, Vol. 26/4, pp. 386-396,
+https://doi.org/10.1080/0969594x.2017.1421523.
+[6]
+Mayer, R. and R. Moreno (2003), “Nine Ways to Reduce Cognitive Load in Multimedia
+Learning”, Educational Psychologist, Vol. 38/1, pp. 43-52,
+https://doi.org/10.1207/s15326985ep3801_6.
+[16]
+McKnight, L. (2010), Designing for ADHD: In Search of Guidelines.
+[18]
+Miller, G. (1956), “The magical number seven, plus or minus two: Some limits on our capacity
+for processing information.”, Psychological Review, Vol. 63/2, pp. 81-97,
+https://doi.org/10.1037/h0043158.
+[12]
+Rello, L. and R. Baeza-Yates (2015), “How to present more readable text for people with
+dyslexia”, Universal Access in the Information Society, Vol. 16/1, pp. 29-49,
+https://doi.org/10.1007/s10209-015-0438-8.
+[20]
+Rodriguez, M. (2005), “Three Options Are Optimal for Multiple‐Choice Items: A Meta‐Analysis
+of 80 Years of Research”, Educational Measurement: Issues and Practice, Vol. 24/2, pp. 3-
+13, https://doi.org/10.1111/j.1745-3992.2005.00006.x.
+[25]
+Rose, D. et al. (2006), “Universal Design for Learning in Postsecondary Education: Reflections
+on Principles and their Application”, Journal of Postsecondary Education and Disability,
+Vol. 19/2.
+[7]
+Shyyan, V. et al. (2017), Data Informed Accessibility: A Review of the Literature,
+http://www.nceo.info.
+[3]
+Solano-Flores, G. et al. (2014), “Developing Testing Accommodations for English Language
+Learners: Illustrations as Visual Supports for Item Accessibility”, Educational Assessment,
+Vol. 19/4, pp. 267-283, https://doi.org/10.1080/10627197.2014.964116.
+[19]
+
+=== p. 28 ===
+ 27
+IMPROVING ACCESSIBILITY IN PISA: GUIDELINES FOR REVISING AND DESIGNING PISA ITEMS © OECD 2025
+
+Thompson, S. et al. (2005), Considerations for the Development and Review of Universally
+Designed Assessments.
+[11]
+Zorzi, M. et al. (2012), “Extra-large letter spacing improves reading in dyslexia”, Proceedings of
+the National Academy of Sciences, Vol. 109/28, pp. 11455-11459,
+https://doi.org/10.1073/pnas.1205566109.
+[21]

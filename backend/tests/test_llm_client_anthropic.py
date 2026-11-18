@@ -87,8 +87,9 @@ class TestAnthropicProvider(unittest.TestCase):
 
     def test_sem_chave_falha_com_mensagem(self):
         os.environ["ANTHROPIC_API_KEY"] = ""
-        with self.assertRaises(RuntimeError):
-            L.AnthropicLLMProvider().generate("x")
+        with mock.patch.object(L, "get_settings", return_value=mock.Mock(anthropic_api_key="")):
+            with self.assertRaises(RuntimeError):
+                L.AnthropicLLMProvider().generate("x")
 
 
 class TestModeloPorAgente(unittest.TestCase):

@@ -11,3 +11,14 @@ texto/fe_abda_guia_professores.md
 texto/fe_diamond2013.md
 texto/fe_nice_ng87.txt
 texto/mec_pneei_caderno4_praticas_inclusivas_2026.txt
+# Parte E (avaliação acessível, 17/11/2026): sem licença aberta, ND, "só cópia integral", cópia de terceiro
+# ou "só para fins acadêmicos". Origem de cada um em fontes_E_avaliacao.json (url) e FONTES.md.
+texto/caed-2008-guia-itens-matematica.txt
+texto/caldwell-2013-formato-questoes.md
+texto/castro-2023-enem-matematica-tdah.txt
+texto/chiavaroli-2017-enunciado-negativo.txt
+texto/haasnoot-2026-ordem-questoes.txt
+texto/inep-2010-guia-itens.txt
+texto/irwin-2019-tdah-alternancia.md
+texto/klender-2019-enunciado-negativo.txt
+texto/renkl-2000-exemplos-resolvidos.txt
