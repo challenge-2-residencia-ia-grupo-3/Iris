@@ -5,6 +5,7 @@ Estrategista RAG, Adaptador Pedagógico e Agente Auditor sobre um material didá
 """
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 from pydantic import ValidationError
@@ -14,6 +15,8 @@ from iris.agents.orchestrator import (
     MultiAgentMaterialResponse,
     MultiAgentOrchestrator,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class AgentOrchestrationValidationError(ValueError):
@@ -96,13 +99,14 @@ try:
                 detail=err.to_dict(),
             ) from err
         except Exception as err:  # noqa: BLE001
+            logger.error("Erro interno na orquestração multiagentes (%s).", type(err).__name__)
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail={
                     "status": "error",
                     "code": "INTERNAL_ERROR",
                     "field": "agents",
-                    "detail": f"Erro interno na orquestração multiagentes: {err}",
+                    "detail": f"Erro interno na orquestração multiagentes ({type(err).__name__}).",
                 },
             ) from err
 

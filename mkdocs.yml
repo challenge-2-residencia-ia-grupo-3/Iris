@@ -83,6 +83,7 @@ nav:
   - Arquitetura: arquitetura.md
   - Agentes:
       - Sistema Multiagentes (Semana 4): sistema_multiagentes.md
+      - Como Auditamos os Agentes: auditoria_agentes.md
       - Agente Auditor: agente_auditor.md
   - Perfil Pedagógico: perfil_pedagogico.md
   - Exportação do Material: exportacao_material.md

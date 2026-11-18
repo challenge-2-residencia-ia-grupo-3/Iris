@@ -24,6 +24,7 @@ from urllib.parse import urlparse
 
 from iris import __version__
 from iris.config import RAG_PACOTE_DIR, get_settings, validate_zero_database_configuration
+from iris.security.operational_logger import configure_zero_pii_logging, log_http_operational_event
 
 PLAYGROUND_HTML_PATH = Path(__file__).resolve().parent / "static" / "playground.html"
 # Símbolo da Íris, o mesmo do front (frontend/public/favicon.png): ícone da aba do navegador e marca do menu do painel
@@ -736,6 +737,7 @@ def create_app() -> Any:
     from fastapi.responses import HTMLResponse
 
     validate_zero_database_configuration(get_settings())
+    configure_zero_pii_logging()
 
     app = FastAPI(
         title="Íris — Adaptação Inteligente de Materiais Pedagógicos",
@@ -749,11 +751,25 @@ def create_app() -> Any:
     @app.middleware("http")
     async def enforce_stateless_privacy_headers(request: Request, call_next: Any) -> Any:
         """Garante operação 100% stateless sem retenção em cache HTTP ou cookies de sessão (RNF-01)."""
-        response = await call_next(request)
-        if request.url.path.startswith("/api/v1/"):
-            if "cache-control" not in response.headers:
-                response.headers["Cache-Control"] = "no-store"
-            response.headers.setdefault("Pragma", "no-cache")
+        t0 = time.perf_counter()
+        status_code = 500
+        response: Any = None
+        try:
+            response = await call_next(request)
+            status_code = int(getattr(response, "status_code", 200))
+        finally:
+            if request.url.path.startswith("/api/v1/"):
+                if response is not None:
+                    if "cache-control" not in response.headers:
+                        response.headers["Cache-Control"] = "no-store"
+                    response.headers.setdefault("Pragma", "no-cache")
+                log_http_operational_event(
+                    method=request.method,
+                    path=request.url.path,
+                    status_code=status_code,
+                    latency_s=time.perf_counter() - t0,
+                    error_code="INTERNAL_ERROR" if status_code >= 500 else None,
+                )
         return response
 
     app.add_middleware(
@@ -1118,6 +1134,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
     from http.server import BaseHTTPRequestHandler, HTTPServer
     from urllib.parse import parse_qs, urlparse
 
+    configure_zero_pii_logging()
+
     class IrisHandler(BaseHTTPRequestHandler):
         def _send_cors_headers(self) -> None:
             self.send_header("Access-Control-Allow-Origin", "*")
@@ -1134,6 +1152,18 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             self.send_header("Content-Length", str(len(raw)))
             self.end_headers()
             self.wfile.write(raw)
+            caminho = urlparse(getattr(self, "path", "")).path
+            if caminho.startswith("/api/v1/"):
+                det = data.get("detail") if isinstance(data, dict) else None
+                codigo = det.get("code") if isinstance(det, dict) else None
+                t0 = getattr(self, "_t0", None)
+                log_http_operational_event(
+                    method=getattr(self, "command", "HTTP"),
+                    path=caminho,
+                    status_code=status,
+                    latency_s=(time.perf_counter() - t0) if t0 is not None else 0.0,
+                    error_code=codigo if isinstance(codigo, str) else ("INTERNAL_ERROR" if status >= 500 else None),
+                )
 
         def do_OPTIONS(self) -> None:  # noqa: N802
             self.send_response(204)
@@ -1141,6 +1171,7 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             self.end_headers()
 
         def do_GET(self) -> None:  # noqa: N802
+            self._t0 = time.perf_counter()
             parsed = urlparse(self.path)
             if not self._bancada_permitida(parsed.path):
                 return
@@ -1355,7 +1386,7 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json({"detail": err.to_dict()}, status=422)
             except Exception as err:  # noqa: BLE001 - mesmo tratamento da rota do FastAPI
                 self._send_json(
-                    {"detail": {"detail": f"Erro interno ao processar arquivo: {err}", "code": "INTERNAL_ERROR"}},
+                    {"detail": {"detail": f"Erro interno ao processar arquivo ({type(err).__name__}).", "code": "INTERNAL_ERROR"}},
                     status=500,
                 )
 
@@ -1373,6 +1404,7 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             return True
 
         def do_POST(self) -> None:  # noqa: N802
+            self._t0 = time.perf_counter()
             if not self._bancada_permitida(urlparse(self.path).path):
                 return
             if self.path.startswith("/api/v1/materials/upload"):
@@ -1490,7 +1522,7 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     )
                 except Exception as err:  # noqa: BLE001
                     self._send_json(
-                        {"detail": {"detail": f"Erro interno ao validar seleção: {err}", "code": "INTERNAL_ERROR"}},
+                        {"detail": {"detail": f"Erro interno ao validar seleção ({type(err).__name__}).", "code": "INTERNAL_ERROR"}},
                         status=500,
                     )
             elif urlparse(self.path).path == "/api/v1/scaffolding/calibrate":
@@ -1510,7 +1542,7 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     )
                 except Exception as err:  # noqa: BLE001
                     self._send_json(
-                        {"detail": {"detail": f"Erro interno ao calibrar andaime: {err}", "code": "INTERNAL_ERROR"}},
+                        {"detail": {"detail": f"Erro interno ao calibrar andaime ({type(err).__name__}).", "code": "INTERNAL_ERROR"}},
                         status=500,
                     )
             elif urlparse(self.path).path == "/api/v1/catalogs/characteristics":
@@ -1560,7 +1592,7 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                                 "status": "error",
                                 "code": "INTERNAL_ERROR",
                                 "field": "agents",
-                                "detail": f"Erro interno na orquestração multiagentes: {err}",
+                                "detail": f"Erro interno na orquestração multiagentes ({type(err).__name__}).",
                             }
                         },
                         status=500,
