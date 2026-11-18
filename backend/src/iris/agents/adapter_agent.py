@@ -176,9 +176,18 @@ def resumir_ciclo(telemetrias: Iterable[object], nivel: int) -> dict:
 class AdapterAgent:
     """Agente de IA que aplica o andaime do nível escolhido sem sair do escopo permitido."""
 
-    def __init__(self, llm_client: Optional[HybridLLMClient] = None, max_tokens: int = 900) -> None:
+    def __init__(
+        self,
+        llm_client: Optional[HybridLLMClient] = None,
+        max_tokens: int = 900,
+        comandos_por_regra: bool = True,
+    ) -> None:
+        """`comandos_por_regra`: na característica de comandos múltiplos, usar a adaptação por regra sem chamar o
+        modelo. Medido em 15/11/2026 (benchmark do grupo, 30 pedidos): regra 30 de 30 dentro do escopo; Haiku 28,
+        Sonnet 16, Llama 4."""
         self.llm_client = llm_client or get_llm_client(agente="adaptador")
         self.max_tokens = max_tokens
+        self.comandos_por_regra = comandos_por_regra
 
     def adapt(self, request: AdaptationRequest, tentativa: int = 1) -> AdaptationResult:
         """Adapta o enunciado e devolve minuta, laudo de escopo e telemetria."""
@@ -195,6 +204,8 @@ class AdapterAgent:
         provider_configurado = getattr(self.llm_client, "provider_name", "custom")
         if provider_configurado in PROVEDORES_SEM_MODELO:
             motivo_fallback = "provedor_sem_modelo"
+        elif self.comandos_por_regra and request.id_caracteristica == ID_COMANDOS_MULTIPLOS:
+            motivo_fallback = "regra_comandos_multiplos"      # escolha, não falha: a regra é melhor que os modelos aqui
         else:
             try:
                 resposta_llm = self._chamar_llm(self._montar_prompt_usuario(request))

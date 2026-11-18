@@ -64,7 +64,7 @@ def _agente(texto_do_modelo: str | None = None, erro: Exception | None = None, p
             completion_tokens=80,
             raw_usage={"load_ms": 5.0, "tokens_per_sec": 31.0},
         )
-    return AdapterAgent(llm_client=llm)
+    return AdapterAgent(llm_client=llm, comandos_por_regra=False)   # estes testes exercitam o caminho do modelo
 
 
 class _SemLog(unittest.TestCase):
@@ -287,3 +287,18 @@ class TestNaoModificacaoNoGoldenBenchmark(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestComandosPorRegra(unittest.TestCase):
+    def test_comandos_multiplos_usa_a_regra_sem_chamar_o_modelo(self):
+        chamadas = []
+
+        class _Cliente:
+            provider_name = "ollama"
+
+            def generate(self, **kw):
+                chamadas.append(kw)
+                raise AssertionError("o modelo não deveria ser chamado")
+        r = AdapterAgent(llm_client=_Cliente()).adapt(_pedido())          # o pedido padrão é de comandos múltiplos
+        self.assertEqual(chamadas, [])
+        self.assertEqual(r.telemetry.motivo_fallback, "regra_comandos_multiplos")
