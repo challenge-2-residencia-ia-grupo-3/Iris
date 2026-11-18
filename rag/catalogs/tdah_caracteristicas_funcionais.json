@@ -368,6 +368,21 @@
           "citacao_curta": "Estratégias comportamentais e pedagógicas que sinalizam regras e promovem pausas de verificação reduzem erros por impulsividade no contexto escolar.",
           "tipo_evidencia": "diretriz_clinica_oficial",
           "ponto_verificacao_dua": "DUA Diretriz 6 / Ponto 6.1"
+        },
+        {
+          "doc_id": "INEP-2010-GUIA-ITENS",
+          "citacao_curta": "O guia de elaboração de itens do Inep orienta não usar 'exceto', 'não', 'incorreto' ou 'falso' no enunciado.",
+          "tipo_evidencia": "guia_oficial"
+        },
+        {
+          "doc_id": "OCDE-2025-PISA-ACESSIBILIDADE",
+          "citacao_curta": "As diretrizes de acessibilidade do PISA pedem enunciado afirmativo e palavra-chave em negrito, o que ajuda alunos com déficit de atenção a focar.",
+          "tipo_evidencia": "guia_oficial"
+        },
+        {
+          "doc_id": "CHIAVAROLI-2017-ENUNCIADO-NEGATIVO",
+          "citacao_curta": "Destacar o termo negativo não evita o erro; a forma afirmativa é preferível. Em contraprova, experimentos com itens pareados acham efeito nulo ou pequeno da negação (Caldwell e Pate 2013).",
+          "tipo_evidencia": "revisao_narrativa"
         }
       ]
     },
