@@ -46,9 +46,23 @@ def criar_pontuador_ragas(provider: str, modelo: str) -> Pontuador:
 
         client = AsyncOpenAI()
     elif provider == "anthropic":
+        import instructor
         from anthropic import AsyncAnthropic
 
         client = AsyncAnthropic()
+        # O RAGAS cria o Instructor no modo de ferramentas, com tool_choice forçado, que os modelos Claude 5 recusam
+        # (erro 400). O modo de JSON da Anthropic dá a mesma saída estruturada.
+        _de_anthropic = instructor.from_anthropic
+        instructor.from_anthropic = lambda c, **kw: _de_anthropic(c, mode=instructor.Mode.ANTHROPIC_JSON)
+        # Os modelos Claude 5 recusam `temperature` e `top_p`, e o pensamento conta no limite de tokens.
+        _criar = client.messages.create
+
+        async def _criar_sem_temperatura(*a, **k):
+            k.pop("temperature", None)
+            k.pop("top_p", None)
+            k["max_tokens"] = max(int(k.get("max_tokens") or 0), 4000)
+            return await _criar(*a, **k)
+        client.messages.create = _criar_sem_temperatura
     else:
         raise ValueError(f"provider '{provider}' não suportado (use openai ou anthropic).")
 
