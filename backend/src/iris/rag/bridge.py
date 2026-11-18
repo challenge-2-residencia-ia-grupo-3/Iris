@@ -7,12 +7,38 @@ independentemente do diretório de trabalho atual (`cwd`).
 from __future__ import annotations
 
 import json
+import logging
+import os
 import sys
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 from iris.config import RAG_BASE_DIR, RAG_PACOTE_DIR
+
+logger = logging.getLogger(__name__)
+
+
+def busca_estrita() -> bool:
+    """IRIS_RAG_ESTRITO=1: a busca nunca cai na reserva por palavras; a falha vira erro. Para avaliação e testes de
+    qualidade, em que um número medido com a busca errada sairia calado (aconteceu nas 30 questões de 15/11/2026)."""
+    return os.environ.get("IRIS_RAG_ESTRITO", "").strip().lower() in {"1", "true", "sim", "on"}
+
+
+def erros_de_infraestrutura() -> tuple[type[BaseException], ...]:
+    """Falhas que justificam cair na busca por palavras: banco fora do ar, pacote ou modelo de vetores ausente,
+    tempo esgotado. Qualquer outro erro (método desconhecido, defeito de código) sobe, em vez de ficar escondido."""
+    erros: list[type[BaseException]] = [ImportError, OSError, ConnectionError, TimeoutError]
+    indice = getattr(carregar_modulos_rag()[1], "IndiceDessincronizado", None)
+    if indice is not None:
+        erros.append(indice)                               # banco montado com outra base de trechos
+    try:
+        import psycopg  # type: ignore[import-not-found]
+
+        erros.append(psycopg.Error)
+    except ImportError:
+        pass
+    return tuple(erros)
 
 
 def _ensure_rag_path() -> None:
@@ -213,8 +239,13 @@ def buscar_evidencias_com_meta(
             "fallback_aplicado": False,
             "fallback_motivo": None,
         }
-    except Exception as exc:
-        if fallback_bm25_se_sem_banco and metodo_solicitado != "bm25":
+    except erros_de_infraestrutura() as exc:
+        if fallback_bm25_se_sem_banco and metodo_solicitado != "bm25" and not busca_estrita():
+            # no log só o tipo do erro: a mensagem pode trazer a pergunta ou parâmetros do banco (#37); ela vai só na resposta
+            logger.warning(
+                "Busca %r indisponível (%s); usando a busca por palavras (bm25), em modo reduzido.",
+                metodo_solicitado, type(exc).__name__,
+            )
             resultados = consultar.buscar(
                 pergunta=pergunta,
                 metodo="bm25",
@@ -246,7 +277,8 @@ def buscar_evidencias(
 
     Se o banco vetorial (`pgvector`) não estiver acessível no ambiente local
     e `fallback_bm25_se_sem_banco=True`, utiliza automaticamente o método lexical `bm25`
-    sobre os trechos carregados em memória.
+    sobre os trechos carregados em memória, com aviso no log. Só falhas de infraestrutura
+    (`erros_de_infraestrutura`) caem na reserva; com `IRIS_RAG_ESTRITO=1`, nenhuma cai.
     """
     return buscar_evidencias_com_meta(
         pergunta=pergunta,
@@ -262,10 +294,12 @@ def buscar_evidencias(
 def responder_fundamentado(
     pergunta: str,
     metodo: str | None = None,
-    k: int = 5,
+    k: int | None = None,
     filtro_barreira: str | None = None,
 ) -> dict[str, Any]:
-    """Gera uma resposta fundamentada com citações `[T1]..[Tk]` via módulo `gerar.py`."""
+    """Gera uma resposta fundamentada com citações `[T1]..[Tk]` via módulo `gerar.py`.
+
+    `k=None`: o gerador escolhe (`gerar.k_padrao`: 20 trechos com a API da Anthropic, 5 com os demais)."""
     _, consultar, gerar = carregar_modulos_rag()
     metodo_efetivo = metodo or consultar.METODO_PADRAO
     return gerar.responder(

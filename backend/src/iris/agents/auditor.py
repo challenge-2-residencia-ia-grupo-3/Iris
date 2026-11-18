@@ -399,3 +399,14 @@ class AgenteAuditor:
                 return RelatorioCiclo(True, minuta, tuple(historico))
             feedback = r.feedback()
         return RelatorioCiclo(False, minuta or "", tuple(historico))
+
+
+def get_auditor_agent(juiz: JuizLLM | None = None, **kw: Any) -> AgenteAuditor:
+    """Factory padrão do Agente Auditor. Sem `juiz`, usa o cliente do agente "auditor" (`get_llm_client(agente=
+    "auditor")`): o Haiku no esforço baixo quando há ANTHROPIC_API_KEY, senão o provedor geral.
+    IRIS_LLM_PROVIDER_AUDITOR escolhe outro."""
+    if juiz is None:
+        from iris.core.llm_client import get_llm_client
+
+        juiz = get_llm_client(agente="auditor")
+    return AgenteAuditor(juiz, **kw)

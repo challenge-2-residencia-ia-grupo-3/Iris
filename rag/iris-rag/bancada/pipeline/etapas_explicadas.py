@@ -135,11 +135,11 @@ EXPLICACOES: dict[str, dict[str, Any]] = {
         "se_falhar": "Erro 'sem evidência não há diretiva' quando a busca vem vazia; ou o aviso de uso de um trecho se perde.",
     },
     "agente_estrategista": {
-        "nome": "Agente Estrategista (não existe ainda)",
+        "nome": "Agente Estrategista RAG",
         "macro": 7, "agente": True, "dados_pessoais": False,
-        "o_que_faz": "Deveria ler o contexto do RAG e escrever a diretiva psicopedagógica: como adaptar esta questão para esta dificuldade, com cada frase citando um trecho [T1]. Não está implementado no commit 65e1f09 (issue #16 aberta, PR #68).",
-        "por_que_existe": "Liga a evidência dos documentos à adaptação; sem ele o Adaptador só segue a diretriz genérica do catálogo.",
-        "se_falhar": "Hoje não existe: o Adaptador trabalha sem diretiva (na bancada, com a diretiva substituta).",
+        "o_que_faz": "Lê o contexto do RAG filtrado pela barreira selecionada e escreve intervenções de apoio para a questão com citação obrigatória [T1..Tn], limite de 40 palavras e trava anti-cópia (História 2.1.1, issue #16).",
+        "por_que_existe": "Liga a evidência científica da base à adaptação pedagógica para a característica funcional ativada.",
+        "se_falhar": "Usa a diretiva de reserva estruturada com as ações permitidas do catálogo TDAH e as referências recuperadas.",
     },
     "diretiva_substituta_arnes": {
         "nome": "Diretiva substituta (bancada)",
@@ -177,11 +177,11 @@ EXPLICACOES: dict[str, dict[str, Any]] = {
         "se_falhar": "O professor recebe o enunciado original sem adaptação, com a justificativa de que nada pôde ser garantido.",
     },
     "agente_auditor": {
-        "nome": "Agente Auditor (não existe ainda)",
+        "nome": "Agente Auditor de Integridade",
         "macro": 9, "agente": True, "dados_pessoais": False,
-        "o_que_faz": "Deveria revisar a adaptação final (retenção de conceitos, TRCC) e devolvê-la ao Adaptador para refazer, no máximo 2 vezes (circuit breaker). Não está implementado no commit 65e1f09 (história 2.1.4, issue #19 aberta); só existe a métrica TRCC solta.",
-        "por_que_existe": "Seria a segunda checagem, independente do Adaptador, antes de o texto chegar ao professor.",
-        "se_falhar": "Hoje não existe: a única barreira é o laudo de escopo dentro do próprio Adaptador.",
+        "o_que_faz": "Valida a minuta adaptada quanto à retenção curricular determinística (TRCC >= 95%), termos técnicos intocáveis, ausência de gabarito/resolução indevida e respeito às características não selecionadas, acionando o ciclo de auto-correção (História 2.1.4, issue #19).",
+        "por_que_existe": "É a checagem independente de integridade curricular e anti-muleta antes de a questão chegar ao docente.",
+        "se_falhar": "Falha fechado (circuit breaker em até 3 tentativas) e sinaliza necessidade de revisão humana obrigatória.",
     },
     "ciclo_rnf07": {
         "nome": "Tempo total da questão",
@@ -327,6 +327,18 @@ def fmt_exemplo(etapa: str, r: dict, ctx: dict) -> tuple[str, str]:
         fs = [f"{f['rotulo']}={f['chunk_id']} ({len(f.get('trecho') or '')} car.)" for f in s.get("fontes", [])]
         return (corta(f"resultado da busca_rag + invariantes {e.get('invariantes')}", LIM_EXEMPLO),
                 corta(f"contexto de {len(s.get('contexto') or '')} caracteres (texto dos trechos omitido); fontes: " + "; ".join(fs), LIM_EXEMPLO))
+    if etapa == "agente_estrategista":
+        tel = (s or {}).get("telemetry", {})
+        return (
+            corta(f"característica {e.get('caracteristica')}, nível {e.get('nivel')}, trechos={e.get('trechos')} | enunciado: {e.get('enunciado')}", LIM_EXEMPLO),
+            corta(f"{(s or {}).get('diretiva')} | fallback={tel.get('used_fallback')} ({tel.get('motivo_fallback')})", LIM_EXEMPLO),
+        )
+    if etapa == "agente_auditor":
+        trcc_val = ((s or {}).get("trcc") or {}).get("trcc")
+        return (
+            corta(f"original: {e.get('original') or e.get('enunciado')} | adaptado: {e.get('adaptado')}", LIM_EXEMPLO),
+            corta(f"aprovado={(s or {}).get('aprovado')}; TRCC={trcc_val}; resolução={(s or {}).get('resolucao_indevida')}; motivos={(s or {}).get('motivos')}", LIM_EXEMPLO),
+        )
     if etapa == "diretiva_substituta_arnes":
         p = (e or {}).get("prompt") or ""
         perg = p[p.find("PERGUNTA:"):] if "PERGUNTA:" in p else ""
@@ -390,7 +402,10 @@ def chamadas_do_run(linhas: list[dict], sis_extrator: str | None, sis_adaptador:
             busca = ((q.get("busca_rag") or {}).get("saida") or {})
             d = busca.get("diretriz_andaime") or {}
             inv = (((q.get("extrator_curricular") or {}).get("saida") or {}).get("invariants")) or {}
-            diretiva = (q.get("diretiva_substituta_arnes") or {}).get("saida")
+            diretiva = (
+                ((q.get("agente_estrategista") or {}).get("saida") or {}).get("diretiva")
+                or (q.get("diretiva_substituta_arnes") or {}).get("saida")
+            )
             if d and inv:
                 partes = [
                     f"CARACTERÍSTICA FUNCIONAL: {e.get('caracteristica')}",
@@ -419,6 +434,14 @@ def chamadas_do_run(linhas: list[dict], sis_extrator: str | None, sis_adaptador:
             else:
                 saida = json.dumps(s, ensure_ascii=False) if s else None
                 origem_s = "a confirmar: houve reserva, a saída final não é a resposta do modelo"
+        elif etapa == "agente_estrategista":
+            ctx_txt = ((q.get("contexto_rag") or {}).get("saida") or {}).get("contexto") or ""
+            enun = e.get("enunciado") or ""
+            usuario = redigir_trechos(f"{ctx_txt}\n\nQUESTÃO (apenas para situar as intervenções; não a resolva):\n{enun}", fontes)
+            prompt = {"sistema": sis_estrategista or "a confirmar", "usuario": usuario}
+            origem_p = "reconstruído: SYSTEM_PROMPT_ESTRATEGISTA do grupo + contexto_rag"
+            saida = redigir_trechos(json.dumps(s, ensure_ascii=False), fontes) if s is not None else None
+            origem_s = "StrategyResult gravado no rastro"
         elif etapa == "diretiva_substituta_arnes":
             prompt = {"sistema": sis_estrategista or "a confirmar", "usuario": redigir_trechos(e.get("prompt") or "", fontes)}
             origem_p = "gravado no rastro (entrada.prompt) com o texto dos trechos do RAG substituído por marcador; sistema = gerar.INSTRUCOES do grupo"
@@ -566,7 +589,10 @@ def main(argv: list[str] | None = None) -> int:
     sis_ada = constante_texto(agentes_dir / "adapter_agent.py", "SYSTEM_PROMPT_ADAPTADOR")
     gerar = grupo / "rag" / "iris-rag" / "pacote" / "gerar.py"
     frase = constante_texto(gerar, "FRASE_SEM_RESPOSTA") or ""
-    sis_est = constante_texto(gerar, "INSTRUCOES", {"FRASE_SEM_RESPOSTA": frase})
+    sis_est = (
+        constante_texto(agentes_dir / "strategist_agent.py", "SYSTEM_PROMPT_ESTRATEGISTA")
+        or constante_texto(gerar, "INSTRUCOES", {"FRASE_SEM_RESPOSTA": frase})
+    )
 
     # runs principais: o mais recente de cada material, como está no resumo 26
     runs: list[tuple[str, list[dict]]] = []

@@ -1,6 +1,8 @@
 "use client";
 
 import { PortableProfilePanel } from "@/components/PortableProfilePanel";
+import { VoiceObservation } from "@/components/VoiceObservation";
+import { mesclarSelecao } from "@/services/voiceObservation";
 import type { PerfilPedagogicoPortatil } from "@/services/portableProfile";
 
 import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
@@ -28,6 +30,7 @@ import {
   Square,
   Sun,
   Unlock,
+  Mic,
 } from "lucide-react";
 import { IrisLogoBanner } from "./IrisLogoBanner";
 import { IrisSidebar, Step2SubStep } from "./IrisSidebar";
@@ -99,6 +102,8 @@ export function Step2FunctionalProfile({
 
   // Passo (A): Seleção cirúrgica de características
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  // Características que entraram na seleção por sugestão da observação por voz (História 1.2.3)
+  const [voiceSuggestedIds, setVoiceSuggestedIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedDetails, setExpandedDetails] = useState<Record<string, boolean>>({});
 
@@ -238,6 +243,35 @@ export function Step2FunctionalProfile({
       return [...prev, idCaracteristica];
     });
   }, []);
+
+  // Observação por voz (História 1.2.3): o professor já confirmou as sugestões; aqui elas entram pré-selecionadas
+  // e continuam livres para desmarcar nos cartões abaixo.
+  const handleApplyVoiceSuggestions = useCallback(
+    (ids: string[]) => {
+      const validos = new Set(catalog.caracteristicas.map((c) => c.id_caracteristica));
+      const aplicadas = ids.filter((id) => validos.has(id));
+      if (aplicadas.length === 0) return;
+      setConfirmedSelection(null);
+      setAttemptedEmptySubmit(false);
+      clearSurgicalSelectionFromSession();
+      setSelectedIds((prev) => mesclarSelecao(prev, aplicadas, validos));
+      setVoiceSuggestedIds((prev) => mesclarSelecao(prev, aplicadas));
+      setFeedbackBanner({
+        type: "info",
+        title: "Sugestões por voz aplicadas",
+        message: `${aplicadas.length} característica(s) pré-selecionada(s) a partir da sua observação. Confira a lista e desmarque o que não se aplica antes de prosseguir.`,
+      });
+    },
+    [catalog.caracteristicas]
+  );
+
+  // O selo "Sugerida por voz" some quando a característica deixa de estar selecionada.
+  useEffect(() => {
+    setVoiceSuggestedIds((prev) => {
+      const restantes = prev.filter((id) => selectedSet.has(id));
+      return restantes.length === prev.length ? prev : restantes;
+    });
+  }, [selectedSet]);
 
   const handleToggleDetails = (idCaracteristica: string, evt: React.MouseEvent) => {
     evt.stopPropagation();
@@ -559,6 +593,8 @@ export function Step2FunctionalProfile({
               </div>
             </div>
 
+            <VoiceObservation jaSelecionadas={selectedIds} onConfirm={handleApplyVoiceSuggestions} />
+
             {/* Barra de busca rápida */}
             <div className="relative w-full">
               <Search
@@ -639,9 +675,17 @@ export function Step2FunctionalProfile({
                                 <Square className="w-4 h-4" aria-hidden="true" />
                               )}
                             </div>
-                            <h2 className="text-sm font-extrabold text-[#0D0221] dark:text-white leading-snug">
-                              {item.nome}
-                            </h2>
+                            <div className="min-w-0">
+                              <h2 className="text-sm font-extrabold text-[#0D0221] dark:text-white leading-snug">
+                                {item.nome}
+                              </h2>
+                              {isSelected && voiceSuggestedIds.includes(item.id_caracteristica) && (
+                                <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-[#E6F0F2] px-2 py-0.5 text-[11px] font-bold text-[#1F4650] dark:bg-[#1E3A44] dark:text-[#CDE8F0]">
+                                  <Mic className="w-3 h-3" aria-hidden="true" />
+                                  Sugerida por voz
+                                </span>
+                              )}
+                            </div>
                           </div>
 
                           {isSelected ? (
@@ -729,6 +773,9 @@ export function Step2FunctionalProfile({
             <PortableProfilePanel
               selectedIds={selectedIds}
               validIds={catalog.caracteristicas.map((c) => c.id_caracteristica)}
+              nomesCaracteristicas={Object.fromEntries(
+                catalog.caracteristicas.map((c) => [c.id_caracteristica, c.nome])
+              )}
               onApplyProfile={handleApplyLocalProfile}
             />
 

@@ -63,6 +63,10 @@ def sem_dado_pessoal(perfil: PerfilPedagogico) -> PerfilPedagogico:
             r.model_copy(update={"estrategia": _limpo(r.estrategia), "observacao": _limpo(r.observacao)})
             for r in perfil.historico_estrategias
         ],
+        "historico_intervencoes": [
+            r.model_copy(update={"estrategia": _limpo(r.estrategia), "observacao": _limpo(r.observacao)})
+            for r in perfil.historico_intervencoes
+        ],
         "anotacoes_pedagogicas": [_limpo(a) for a in perfil.anotacoes_pedagogicas],
     })
 
@@ -85,6 +89,9 @@ p { margin: 2pt 0; }
 .item { margin: 5pt 0; }
 .nota { font-size: 8.5pt; color: #555555; margin-top: 16pt; }
 """
+
+
+_ROTULO_EFICACIA = {"alta": "alta", "media": "média", "baixa": "baixa"}
 
 
 def _e(valor: object) -> str:
@@ -123,6 +130,17 @@ def _html_relatorio(perfil: PerfilPedagogico) -> str:
         for r in perfil.historico_estrategias:
             obs = f" — {_e(r.observacao)}" if r.observacao else ""
             partes.append(f'<div class="item"><p><b>{_e(r.estrategia)}</b> ({_e(r.resultado)}){obs}</p></div>')
+    if perfil.historico_intervencoes:
+        partes.append("<h2>Histórico de eficácia das intervenções</h2>")
+        for r in perfil.historico_intervencoes:
+            item = catalogo.get(r.id_caracteristica)
+            rotulo = item.nome if item is not None else r.id_caracteristica
+            data = r.registrado_em.astimezone(timezone.utc).strftime("%d/%m/%Y")
+            obs = f" — {_e(r.observacao)}" if r.observacao else ""
+            partes.append(
+                f'<div class="item"><p><b>{_e(r.estrategia)}</b> — eficácia {_e(_ROTULO_EFICACIA[r.eficacia])}</p>'
+                f'<p class="meta">{_e(rotulo)} • {_e(data)}{obs}</p></div>'
+            )
     if perfil.anotacoes_pedagogicas:
         partes.append("<h2>Anotações pedagógicas</h2>")
         partes += [f"<p>{_e(a)}</p>" for a in perfil.anotacoes_pedagogicas]

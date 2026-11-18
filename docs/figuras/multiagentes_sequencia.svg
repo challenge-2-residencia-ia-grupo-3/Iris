@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 630" width="960" height="630" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="960" height="630" fill="#ffffff"/>
+
+  <!-- Título -->
+  <text x="36" y="28" font-size="16" font-weight="700" fill="#132325">Fluxo de Interação e Colaboração entre os Agentes — Plataforma Íris</text>
+  <text x="36" y="45" font-size="11" fill="#4b6163">Contratos trocados por questão e ciclo iterativo de auto-correção Auditor ↔ Adaptador</text>
+
+  <!-- Participantes (x centros: 92, 244, 396, 548, 700, 852) -->
+  <g>
+    <rect x="28" y="60" width="128" height="40" rx="6" fill="#eef3f3" stroke="#335c67" stroke-width="1.5"/>
+    <text x="92" y="84" text-anchor="middle" font-size="11.5" font-weight="700" fill="#132325">Docente / API</text>
+
+    <rect x="180" y="60" width="128" height="40" rx="6" fill="#143d40" stroke="#143d40" stroke-width="1.5"/>
+    <text x="244" y="84" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">Orquestrador</text>
+
+    <rect x="332" y="60" width="128" height="40" rx="6" fill="#f7fafa" stroke="#143d40" stroke-width="1.5"/>
+    <text x="396" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="#132325">Extrator (#17)</text>
+    <text x="396" y="93" text-anchor="middle" font-size="9.5" fill="#143d40">Analysis Agent</text>
+
+    <rect x="484" y="60" width="128" height="40" rx="6" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+    <text x="548" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="#132325">Estrategista (#16)</text>
+    <text x="548" y="93" text-anchor="middle" font-size="9.5" fill="#1d4ed8">Research Agent</text>
+
+    <rect x="636" y="60" width="128" height="40" rx="6" fill="#fffbeb" stroke="#9e5b08" stroke-width="1.5"/>
+    <text x="700" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="#132325">Adaptador (#18)</text>
+    <text x="700" y="93" text-anchor="middle" font-size="9.5" fill="#9e5b08">Communication Agent</text>
+
+    <rect x="788" y="60" width="128" height="40" rx="6" fill="#ecfdf5" stroke="#156f4e" stroke-width="1.5"/>
+    <text x="852" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="#132325">Auditor (#19)</text>
+    <text x="852" y="93" text-anchor="middle" font-size="9.5" fill="#156f4e">Validation Agent</text>
+  </g>
+
+  <!-- Lifelines -->
+  <line x1="92" y1="100" x2="92" y2="604" stroke="#cbd5e1" stroke-width="1.4"/>
+  <line x1="244" y1="100" x2="244" y2="604" stroke="#cbd5e1" stroke-width="1.4"/>
+  <line x1="396" y1="100" x2="396" y2="604" stroke="#cbd5e1" stroke-width="1.4"/>
+  <line x1="548" y1="100" x2="548" y2="604" stroke="#cbd5e1" stroke-width="1.4"/>
+  <line x1="700" y1="100" x2="700" y2="604" stroke="#cbd5e1" stroke-width="1.4"/>
+  <line x1="852" y1="100" x2="852" y2="604" stroke="#cbd5e1" stroke-width="1.4"/>
+
+  <!-- Passo 1 -->
+  <line x1="92" y1="130" x2="236" y2="130" stroke="#143d40" stroke-width="1.8"/>
+  <polygon points="243,130 234,125 234,135" fill="#143d40"/>
+  <text x="168" y="122" text-anchor="middle" font-size="10" font-weight="600" fill="#132325">1. Material + perfil + nível</text>
+
+  <!-- Nota PII -->
+  <rect x="148" y="142" width="192" height="28" rx="4" fill="#fdf3f1" stroke="#b83523" stroke-width="1"/>
+  <text x="244" y="160" text-anchor="middle" font-size="9.8" font-weight="600" fill="#7f1d1d">sanitize_pii() + decompose_material()</text>
+
+  <!-- Passo 2 e 3: Extrator -->
+  <line x1="244" y1="194" x2="388" y2="194" stroke="#143d40" stroke-width="1.8"/>
+  <polygon points="395,194 386,189 386,199" fill="#143d40"/>
+  <text x="318" y="187" text-anchor="middle" font-size="10" font-weight="600" fill="#132325">2. extract_with_telemetry()</text>
+
+  <line x1="396" y1="228" x2="252" y2="228" stroke="#4b6163" stroke-width="1.6"/>
+  <polygon points="245,228 254,223 254,233" fill="#4b6163"/>
+  <rect x="256" y="210" width="130" height="14" rx="2" fill="#ffffff"/>
+  <text x="321" y="221" text-anchor="middle" font-size="9.2" fill="#334155">3. Invariantes + anti-muleta</text>
+
+  <!-- Passo 4 e 5: Estrategista RAG -->
+  <line x1="244" y1="264" x2="540" y2="264" stroke="#143d40" stroke-width="1.8"/>
+  <polygon points="547,264 538,259 538,269" fill="#143d40"/>
+  <rect x="266" y="246" width="260" height="14" rx="2" fill="#ffffff"/>
+  <text x="396" y="257" text-anchor="middle" font-size="10" font-weight="600" fill="#132325">4. strategize(selected_ids, nível, invariantes)</text>
+
+  <rect x="466" y="276" width="164" height="26" rx="4" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1"/>
+  <text x="548" y="293" text-anchor="middle" font-size="9.5" fill="#1e3a8a">RAG filtrado + trava anti-cópia</text>
+
+  <line x1="548" y1="324" x2="252" y2="324" stroke="#4b6163" stroke-width="1.6"/>
+  <polygon points="245,324 254,319 254,329" fill="#4b6163"/>
+  <rect x="272" y="306" width="248" height="14" rx="2" fill="#ffffff"/>
+  <text x="396" y="317" text-anchor="middle" font-size="9.5" fill="#334155">5. StrategyResult (diretiva [T1..Tn] + fontes)</text>
+
+  <!-- Loop Auditor <-> Adaptador -->
+  <rect x="220" y="340" width="712" height="214" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1.3"/>
+  <rect x="220" y="340" width="400" height="22" rx="4" fill="#e2e8f0"/>
+  <text x="230" y="355" font-size="10" font-weight="700" fill="#1e293b">loop  Ciclo de Auto-Correção (até max_tentativas = 3 / max_retries = 2)</text>
+
+  <!-- Passo 6 -->
+  <line x1="244" y1="386" x2="692" y2="386" stroke="#143d40" stroke-width="1.8"/>
+  <polygon points="699,386 690,381 690,391" fill="#143d40"/>
+  <rect x="308" y="368" width="324" height="14" rx="2" fill="#f8fafc"/>
+  <text x="470" y="379" text-anchor="middle" font-size="10" font-weight="600" fill="#132325">6. adaptar(diretiva, invariantes, feedback_auditor, minuta)</text>
+
+  <rect x="614" y="396" width="172" height="26" rx="4" fill="#fffbeb" stroke="#9e5b08" stroke-width="1"/>
+  <text x="700" y="413" text-anchor="middle" font-size="9.5" fill="#78350f">Gera minuta + verificar_escopo()</text>
+
+  <!-- Passo 7 -->
+  <line x1="700" y1="442" x2="844" y2="442" stroke="#143d40" stroke-width="1.8"/>
+  <polygon points="851,442 842,437 842,447" fill="#143d40"/>
+  <text x="774" y="435" text-anchor="middle" font-size="10" font-weight="600" fill="#132325">7. Minuta (Tentativa k)</text>
+
+  <rect x="760" y="452" width="164" height="34" rx="4" fill="#ecfdf5" stroke="#156f4e" stroke-width="1"/>
+  <text x="842" y="467" text-anchor="middle" font-size="9.2" fill="#064e3b">TRCC ≥ 95% • intocáveis</text>
+  <text x="842" y="480" text-anchor="middle" font-size="9.2" fill="#064e3b">anti-muleta • juiz trechos_novos</text>
+
+  <!-- Passo 8a: Reprovação -->
+  <line x1="852" y1="508" x2="708" y2="508" stroke="#b83523" stroke-width="1.8"/>
+  <polygon points="701,508 710,503 710,513" fill="#b83523"/>
+  <text x="776" y="501" text-anchor="middle" font-size="9.6" font-weight="700" fill="#b83523">8a. Se reprovado (k &lt; 3): feedback()</text>
+
+  <!-- Passo 8b: Retorno ao Orquestrador -->
+  <line x1="852" y1="538" x2="252" y2="538" stroke="#156f4e" stroke-width="1.8"/>
+  <polygon points="245,538 254,533 254,543" fill="#156f4e"/>
+  <rect x="378" y="520" width="340" height="14" rx="2" fill="#f8fafc"/>
+  <text x="548" y="531" text-anchor="middle" font-size="9.8" font-weight="700" fill="#156f4e">8b. RelatorioCiclo (aprovado=True ou requer_revisao_humana=True)</text>
+
+  <!-- Passo 9: Resposta Final -->
+  <line x1="244" y1="584" x2="100" y2="584" stroke="#156f4e" stroke-width="1.8"/>
+  <polygon points="93,584 102,579 102,589" fill="#156f4e"/>
+  <text x="168" y="575" text-anchor="middle" font-size="10" font-weight="700" fill="#156f4e">9. Trace + Payload Etapa 5</text>
+</svg>

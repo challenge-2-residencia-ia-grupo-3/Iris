@@ -227,6 +227,17 @@ def _r_citacoes(s: Any) -> str:
             f"frases sem citação={len(s['frases_sem_citacao'])}")
 
 
+def _r_estrategista(s: Any) -> str:
+    t = s.telemetry
+    return (f"{len(s.intervencoes)} intervenção(ões); fallback={t.used_fallback} ({t.motivo_fallback}); "
+            f"{len(s.fontes)} fonte(s)")
+
+
+def _r_auditor(s: Any) -> str:
+    return (f"aprovado={s.aprovado}; TRCC={s.trcc.trcc}; resolução_indevida={s.resolucao_indevida}; "
+            f"motivos={len(s.motivos)}")
+
+
 def _r_escopo(s: Any) -> str:
     return f"aprovado={s.aprovado}; regra={s.regra_aplicada}; violações={len(s.violacoes)}"
 
@@ -319,11 +330,13 @@ def adaptar_questao(r: T.Rastreador, cliente: T.ClienteRastreado, enunciado: str
         out["extrator_fallback"] = None
     out["invariantes"] = invariantes.model_dump()
 
-    # 2. RAG: busca por característica (só bm25), contexto e diretiva
+    # 2. RAG: busca por característica (só bm25), contexto e Agente Estrategista
     diretiva = None
     if cfg.get("usar_rag", True):
         T.preparar_rag()
+        from iris.agents.strategist_agent import StrategistAgent
         from iris.rag import bridge, contexto as ctx
+        from iris.schemas.strategy import StrategyRequest
 
         with r.etapa("busca_rag", "iris.rag.bridge:buscar_por_caracteristica_atomica",
                      {"id_caracteristica": carac, "nivel": nivel, "pergunta_adicional": enunciado,
@@ -338,19 +351,27 @@ def adaptar_questao(r: T.Rastreador, cliente: T.ClienteRastreado, enunciado: str
                      {"buscas": "[resultado da busca_rag]", "invariantes": trava}, _r_contexto) as cx:
             contexto = ctx.montar_contexto_estrategista([busca], invariantes=trava)
             cx["saida"] = contexto
-        r.nao_implementada("agente_estrategista", "não há agente que transforme o contexto em diretiva; o arnês usa um substituto")
 
-        # Substituto do arnês: o cliente de LLM do grupo + as instruções do Estrategista do pacote RAG do grupo
-        _, _, gerar = bridge.carregar_modulos_rag()
-        nome_c = contexto["fontes"] and busca["nome_caracteristica"]
-        pergunta = (f"Que orientação de andaime de nível {nivel} ajuda o estudante com {nome_c} nesta questão, "
-                    f"sem alterar o que ela avalia? Questão: {enunciado[:600]}")
-        prompt = f"{contexto['contexto']}\n\nPERGUNTA: {pergunta}\n\nRESPOSTA:"
-        with r.etapa("diretiva_substituta_arnes", "bancada:cliente.generate(gerar.INSTRUCOES + contexto)",
-                     {"prompt": prompt}, lambda s: f"diretiva de {len(s)} caracteres") as cx:
-            resp = cliente.generate(prompt=prompt, temperature=0.0, max_tokens=500, system_prompt=gerar.INSTRUCOES)
-            diretiva = resp.text
-            cx["saida"] = diretiva
+        estrategista = StrategistAgent(llm_client=cliente)  # type: ignore[arg-type]
+        estrategista._buscar = lambda _req: ([busca], [], [] if busca["trechos_rag"] else [carac])  # type: ignore[method-assign]
+        req_est = StrategyRequest(
+            caracteristicas=[carac],
+            nivel=nivel,
+            invariantes=invariantes,
+            enunciado=enunciado,
+            metodo="bm25",
+            k=cfg.get("k", 5),
+            question_id=question_id,
+        )
+        with r.etapa("agente_estrategista", "iris.agents.strategist_agent:StrategistAgent.strategize",
+                     {"caracteristica": carac, "nivel": nivel, "enunciado": enunciado,
+                      "trechos": len(busca["trechos_rag"])}, _r_estrategista) as cx:
+            res_est = estrategista.strategize(req_est)
+            cx["saida"] = res_est
+        diretiva = res_est.diretiva
+        telemetrias.append(res_est.telemetry)
+        out["estrategista_fallback"] = res_est.telemetry.used_fallback
+
         with r.etapa("conferencia_citacoes", "iris.rag.contexto:conferir_citacoes",
                      {"diretiva": diretiva}, _r_citacoes) as cx:
             confere = ctx.conferir_citacoes(diretiva, contexto["fontes"])
@@ -362,9 +383,10 @@ def adaptar_questao(r: T.Rastreador, cliente: T.ClienteRastreado, enunciado: str
         for e in ("busca_rag", "contexto_rag", "agente_estrategista"):
             r.nao_implementada(e, "desligado nesta configuração (ablação)")
             r.linhas[-1].update(status="ok", funcao="ablacao:sem_rag", resumo_saida="desligado na ablação")
+        out["estrategista_fallback"] = None
 
     # 3. Agente Adaptador (o laudo e a reserva aparecem como subetapas pelos wrappers)
-    agente = AdapterAgent(llm_client=cliente)  # type: ignore[arg-type]
+    agente = AdapterAgent(llm_client=cliente, comandos_por_regra=False)  # type: ignore[arg-type]
     pedido = AdaptationRequest(enunciado=enunciado, id_caracteristica=carac, nivel=nivel, invariantes=invariantes,
                                diretiva_psicopedagogica=diretiva or None, question_id=question_id)
     n_antes = cliente.chamadas
@@ -377,7 +399,17 @@ def adaptar_questao(r: T.Rastreador, cliente: T.ClienteRastreado, enunciado: str
     out["prompt_adaptador"] = cliente.prompts[-1] if cliente.chamadas > n_antes else None
     out["resposta_bruta_adaptador"] = cliente.respostas[-1] if cliente.chamadas > n_antes else None
 
-    r.nao_implementada("agente_auditor", "Agente Auditor (História 2.1.4, issue #19 aberta) não existe no código")
+    # 4. Agente Auditor
+    from iris.agents.auditor import AgenteAuditor, caracteristicas_nao_selecionadas
+
+    juiz = T.JuizEco() if getattr(cliente, "provider_name", "") in ("eco", "extractive") else cliente
+    auditor = AgenteAuditor(juiz=juiz)
+    nao_sel = caracteristicas_nao_selecionadas([carac])
+    with r.etapa("agente_auditor", "iris.agents.auditor:AgenteAuditor.auditar",
+                 {"enunciado": enunciado, "adaptado": resultado.texto_adaptado, "caracteristica": carac},
+                 _r_auditor) as cx:
+        auditoria = auditor.auditar(enunciado, resultado.texto_adaptado, invariantes, nao_sel)
+        cx["saida"] = auditoria
 
     with r.etapa("ciclo_rnf07", "iris.agents.adapter_agent:resumir_ciclo", {"nivel": nivel}, _r_ciclo) as cx:
         ciclo = resumir_ciclo(telemetrias, nivel)
@@ -390,6 +422,8 @@ def adaptar_questao(r: T.Rastreador, cliente: T.ClienteRastreado, enunciado: str
         violacoes=list(resultado.escopo.violacoes),
         used_fallback=resultado.telemetry.used_fallback,
         motivo_fallback=resultado.telemetry.motivo_fallback,
+        auditor_aprovado=auditoria.aprovado,
+        auditor_trcc=auditoria.trcc.trcc,
         ciclo=ciclo,
     )
     return out

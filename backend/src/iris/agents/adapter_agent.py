@@ -31,6 +31,7 @@ from iris.schemas.adaptation import (
 )
 from iris.schemas.catalog import get_characteristic_by_id
 from iris.schemas.curriculum import CurriculumInvariants
+from iris.security.operational_logger import categorizar_violacoes_escopo
 
 if TYPE_CHECKING:
     from iris.eval.benchmark import GoldenQuestion
@@ -256,16 +257,17 @@ class AdapterAgent:
                     )
                     if escopo.aprovado and self._conferir(request, escopo):
                         logger.warning(
-                            "Minuta do Agente Adaptador perdeu palavras do original duas vezes (%s). "
+                            "Minuta do Agente Adaptador perdeu %d palavra(s) do original duas vezes. "
                             "O enunciado original foi mantido.",
-                            ", ".join(escopo.palavras_perdidas[:10]),
+                            len(escopo.palavras_perdidas),
                         )
                         motivo_fallback = "conferente_palavra_perdida"
                 if not escopo.aprovado:
+                    categorias = categorizar_violacoes_escopo(escopo)
                     logger.warning(
                         "Saída do Agente Adaptador reprovada no isolamento de escopo (%s). "
                         "Aplicando a saída de reserva.",
-                        "; ".join(escopo.violacoes),
+                        ", ".join(categorias) or "outra",
                     )
                     motivo_fallback = "escopo_reprovado"
             except Exception as e:

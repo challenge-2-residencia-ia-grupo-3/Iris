@@ -30,7 +30,17 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 
-GRUPO = Path(os.environ.get("GRUPO", "../Iris")).expanduser()  # clone do repositório do grupo; passe GRUPO=caminho
+import importlib.util as _ilu  # noqa: E402
+
+def _grupo_padrao() -> Path:
+    if os.environ.get("GRUPO"):
+        return Path(os.environ["GRUPO"]).expanduser()
+    sp = _ilu.spec_from_file_location("bancada_onde", Path(__file__).resolve().parents[1] / "onde.py")
+    mod = _ilu.module_from_spec(sp)  # type: ignore[arg-type]
+    sp.loader.exec_module(mod)  # type: ignore[union-attr]
+    return mod.grupo()
+
+GRUPO = _grupo_padrao()
 DESTINO_PADRAO = Path(os.environ.get("IRIS_MONTADO") or (Path(tempfile.gettempdir()) / "iris-montado-langgraph"))
 
 # (ref do PR, rótulo, arquivos que entram)
@@ -66,8 +76,11 @@ def montar(destino: Path = DESTINO_PADRAO) -> dict:
         shutil.rmtree(destino)
     destino.mkdir(parents=True)
 
-    dev = git("rev-parse", "--short=7", "origin/dev")
-    with tarfile.open(fileobj=io.BytesIO(git("archive", "origin/dev", binario=True))) as tar:
+    ref_base = "origin/dev"
+    if subprocess.run(["git", "-C", str(GRUPO), "rev-parse", "--verify", "-q", ref_base], capture_output=True).returncode != 0:
+        ref_base = "HEAD"
+    dev = git("rev-parse", "--short=7", ref_base)
+    with tarfile.open(fileobj=io.BytesIO(git("archive", ref_base, binario=True))) as tar:
         tar.extractall(destino, filter="data")
 
     montagem = {"dev": dev, "sobreposto": [], "limitacoes": [], "deixados_de_fora": []}

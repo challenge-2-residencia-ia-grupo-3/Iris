@@ -326,6 +326,32 @@ class ProvedorEco:
             nivel = int((re.search(r"NÍVEL (\d)", prompt) or [None, "2"])[1])
             adaptado = destacar_comandos(enunciado) if nivel == 1 else decompor_em_etapas(enunciado, com_registro=nivel == 3)
             texto = json.dumps({"texto_adaptado": adaptado, "justificativas": ["eco: andaime por regras"]}, ensure_ascii=False)
+        elif "Agente Estrategista Psicopedagógico" in sistema:
+            ids_carac = re.findall(r"^-\s*([a-z0-9_]+)\s*\(", prompt, flags=re.MULTILINE)
+            if not ids_carac:
+                ids_carac = ["sobrecarga_memoria_trabalho_comandos_multiplos"]
+            intervencoes = [
+                {
+                    "id_caracteristica": id_c,
+                    "texto": "Organize os comandos da atividade em passos curtos e numerados para apoiar a execução sequencial da tarefa pelo estudante [T1].",
+                }
+                for id_c in ids_carac
+            ]
+            texto = json.dumps({"intervencoes": intervencoes}, ensure_ascii=False)
+        elif "Você é um auditor pedagógico." in prompt:
+            texto = json.dumps(
+                {"resolveu_questao": False, "evidencia_resolucao": "", "modificacoes_intrusivas": []},
+                ensure_ascii=False,
+            )
+            return LLMResponse(
+                text=texto,
+                provider=self.provider_name,
+                model=self.model,
+                prompt_tokens=0,
+                completion_tokens=0,
+                latency_ms=round((time.perf_counter() - t0) * 1000, 2),
+                raw_usage={"prompt_tokens": 0, "completion_tokens": 0},
+            )
         else:
             r = self._extrativo.generate(prompt=prompt, temperature=temperature, max_tokens=max_tokens)
             return LLMResponse(text=r.text, provider=self.provider_name, model=self.model,
@@ -335,6 +361,16 @@ class ProvedorEco:
         return LLMResponse(text=texto, provider=self.provider_name, model=self.model, prompt_tokens=p,
                            completion_tokens=c, latency_ms=round((time.perf_counter() - t0) * 1000, 2),
                            raw_usage={"prompt_tokens": p, "completion_tokens": c})
+
+
+class JuizEco:
+    """Juiz determinístico para o Agente Auditor nos modos sem modelo (eco/extractive)."""
+
+    provider_name = "eco"
+    model = "juiz-eco-deterministico"
+
+    def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 1500, **_: Any) -> str:
+        return json.dumps({"resolveu_questao": False, "evidencia_resolucao": "", "modificacoes_intrusivas": []})
 
 
 class ClienteRastreado:
@@ -465,13 +501,15 @@ def instalar_cliente_nos_agentes(cliente: ClienteRastreado) -> Callable[[], None
     preparar_ambiente()
     import iris.agents.adapter_agent as aa
     import iris.agents.curriculum_extractor as ce
+    import iris.agents.strategist_agent as sa
 
-    orig_a, orig_c = aa.get_llm_client, ce.get_llm_client
+    orig_a, orig_c, orig_s = aa.get_llm_client, ce.get_llm_client, sa.get_llm_client
     aa.get_llm_client = lambda *a, **k: cliente  # type: ignore[assignment]
     ce.get_llm_client = lambda *a, **k: cliente  # type: ignore[assignment]
+    sa.get_llm_client = lambda *a, **k: cliente  # type: ignore[assignment]
 
     def desfazer() -> None:
-        aa.get_llm_client, ce.get_llm_client = orig_a, orig_c
+        aa.get_llm_client, ce.get_llm_client, sa.get_llm_client = orig_a, orig_c, orig_s
 
     return desfazer
 
