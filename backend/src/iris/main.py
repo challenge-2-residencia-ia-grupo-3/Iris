@@ -653,6 +653,28 @@ def _handle_avaliacao_resumo() -> dict[str, Any]:
     return resumo()
 
 
+def _handle_avaliacao_adaptacao_proxima(avaliador: str) -> dict[str, Any]:
+    """A próxima adaptação para a pessoa avaliar, às cegas (sem quem escreveu e sem o veredito do juiz). Issue #108."""
+    from iris.eval.avaliacao_humana import proxima_adaptacao
+
+    return proxima_adaptacao(avaliador)
+
+
+def _handle_avaliacao_adaptacao_rotulo(body: dict[str, Any]) -> dict[str, Any]:
+    """Grava as três respostas da pessoa no fim do arquivo e devolve a próxima adaptação."""
+    from iris.eval.avaliacao_humana import registrar_adaptacao
+
+    return registrar_adaptacao(str(body.get("uid") or ""), body.get("respostas") or {}, str(body.get("avaliador") or ""),
+                               str(body.get("motivo") or ""))
+
+
+def _handle_avaliacao_adaptacao_resumo() -> dict[str, Any]:
+    """Concordância do juiz das adaptações com as pessoas (aparece a partir de 20 adaptações avaliadas)."""
+    from iris.eval.avaliacao_humana import resumo_adaptacoes
+
+    return resumo_adaptacoes()
+
+
 def _handle_ataque_pii_run() -> dict[str, Any]:
     """Roda o ataque de dado pessoal contra o removedor `sanitize_pii` (sem modelo, valores fictícios)."""
     from iris.eval.ataque_pii import executar_ataque_pii
@@ -1075,6 +1097,30 @@ def create_app() -> Any:
     def avaliacao_resumo() -> dict[str, Any]:
         return _handle_avaliacao_resumo()
 
+    @app.get("/api/v1/eval/avaliacao-humana/adaptacao/proxima", tags=["eval"])
+    def avaliacao_adaptacao_proxima(avaliador: str = "") -> dict[str, Any]:
+        from fastapi import HTTPException
+
+        try:
+            return _handle_avaliacao_adaptacao_proxima(avaliador)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/avaliacao-humana/adaptacao/rotulo", tags=["eval"])
+    def avaliacao_adaptacao_rotulo(body: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        try:
+            return _handle_avaliacao_adaptacao_rotulo(body)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v1/eval/avaliacao-humana/adaptacao/resumo", tags=["eval"])
+    def avaliacao_adaptacao_resumo() -> dict[str, Any]:
+        return _handle_avaliacao_adaptacao_resumo()
+
     @app.get("/api/v1/eval/verificacoes-qualidade", tags=["eval"])
     def verificacoes() -> dict[str, Any]:
         return _handle_verificacoes()
@@ -1337,6 +1383,14 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                     self._send_json({"detail": str(exc)}, status=422)
             elif parsed.path == "/api/v1/eval/avaliacao-humana/resumo":
                 self._send_json(_handle_avaliacao_resumo())
+            elif parsed.path == "/api/v1/eval/avaliacao-humana/adaptacao/proxima":
+                try:
+                    avaliador = (parse_qs(parsed.query).get("avaliador") or [""])[0]
+                    self._send_json(_handle_avaliacao_adaptacao_proxima(avaliador))
+                except ValueError as exc:
+                    self._send_json({"detail": str(exc)}, status=422)
+            elif parsed.path == "/api/v1/eval/avaliacao-humana/adaptacao/resumo":
+                self._send_json(_handle_avaliacao_adaptacao_resumo())
             elif parsed.path == "/api/v1/eval/verificacoes-qualidade":
                 self._send_json(_handle_verificacoes())
             elif parsed.path == "/api/v1/eval/mapa-codigo":
@@ -1470,6 +1524,13 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             elif urlparse(self.path).path == "/api/v1/eval/avaliacao-humana/rotulo":
                 try:
                     self._send_json(_handle_avaliacao_rotulo(body))
+                except KeyError as exc:
+                    self._send_json({"detail": str(exc.args[0])}, status=404)
+                except ValueError as exc:
+                    self._send_json({"detail": str(exc)}, status=422)
+            elif urlparse(self.path).path == "/api/v1/eval/avaliacao-humana/adaptacao/rotulo":
+                try:
+                    self._send_json(_handle_avaliacao_adaptacao_rotulo(body))
                 except KeyError as exc:
                     self._send_json({"detail": str(exc.args[0])}, status=404)
                 except ValueError as exc:
