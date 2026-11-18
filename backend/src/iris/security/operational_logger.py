@@ -388,15 +388,30 @@ def categoria_fallback(motivo: Optional[str]) -> str:
     return norm if norm in fechados else "outro"
 
 
+class _IrisNamespaceZeroPiiFilter(ZeroPiiLogFilter):
+    """Aplica filtragem Zero-PII apenas a registros do namespace `iris` em handlers compartilhados."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        if record.name == IRIS_ROOT_LOGGER_NAME or record.name.startswith(f"{IRIS_ROOT_LOGGER_NAME}."):
+            return super().filter(record)
+        return True
+
+
 def _attach_filter_idempotent(target: logging.Filterer) -> None:
     if not any(getattr(f, "_is_iris_zero_pii_filter", False) for f in target.filters):
         target.addFilter(ZeroPiiLogFilter())
 
 
+def _attach_namespace_filter_idempotent(target: logging.Filterer) -> None:
+    if not any(getattr(f, "_is_iris_zero_pii_filter", False) for f in target.filters):
+        target.addFilter(_IrisNamespaceZeroPiiFilter())
+
+
 def configure_zero_pii_logging(level: int = logging.INFO) -> logging.Logger:
-    """Instala filtros e formatter Zero-PII nos loggers do namespace `iris`."""
+    """Instala filtros e formatter Zero-PII nos loggers do namespace `iris` e handlers ativos."""
     iris_logger = logging.getLogger(IRIS_ROOT_LOGGER_NAME)
     op_logger = logging.getLogger(OPERATIONAL_LOGGER_NAME)
+    root_logger = logging.getLogger()
 
     _attach_filter_idempotent(iris_logger)
     _attach_filter_idempotent(op_logger)
@@ -404,6 +419,12 @@ def configure_zero_pii_logging(level: int = logging.INFO) -> logging.Logger:
     for nome, lg in list(logging.Logger.manager.loggerDict.items()):
         if isinstance(lg, logging.Logger) and (nome == IRIS_ROOT_LOGGER_NAME or nome.startswith(f"{IRIS_ROOT_LOGGER_NAME}.")):
             _attach_filter_idempotent(lg)
+
+    if not iris_logger.handlers and not root_logger.handlers:
+        iris_logger.addHandler(logging.StreamHandler())
+
+    for h in root_logger.handlers:
+        _attach_namespace_filter_idempotent(h)
 
     for h in iris_logger.handlers:
         _attach_filter_idempotent(h)

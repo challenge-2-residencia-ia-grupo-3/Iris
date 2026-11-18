@@ -190,6 +190,28 @@ class TestAuditoriaLogsZeroPii(unittest.TestCase):
         for termo in ("cloroplastos", "glicose", "fotossíntese", "gabriel"):
             self.assertNotIn(termo, cap.text.casefold())
 
+    def test_logger_tardio_propagado_ao_root_handler_e_filtrado(self) -> None:
+        import io
+        import uuid
+
+        buf = io.StringIO()
+        root_handler = logging.StreamHandler(buf)
+        root_logger = logging.getLogger()
+        root_logger.addHandler(root_handler)
+        try:
+            create_app()
+            tardio = logging.getLogger(f"iris.tardio_{uuid.uuid4().hex[:8]}")
+            tardio.warning("Aluno: Gabriel Silva CPF 123.456.789-09 toma metilfenidato")
+        finally:
+            root_logger.removeHandler(root_handler)
+
+        saida = buf.getvalue()
+        self.assertIn("[ESTUDANTE]", saida)
+        self.assertIn("[CPF]", saida)
+        self.assertIn("[DADO_CLINICO_SUPRIMIDO]", saida)
+        for proibido in ("Gabriel", "123.456.789-09", "metilfenidato"):
+            self.assertNotIn(proibido, saida)
+
 
 if __name__ == "__main__":
     unittest.main()
