@@ -241,9 +241,10 @@ def buscar_evidencias_com_meta(
         }
     except erros_de_infraestrutura() as exc:
         if fallback_bm25_se_sem_banco and metodo_solicitado != "bm25" and not busca_estrita():
+            # no log só o tipo do erro: a mensagem pode trazer a pergunta ou parâmetros do banco (#37); ela vai só na resposta
             logger.warning(
-                "Busca %r indisponível (%s: %s); usando a busca por palavras (bm25), em modo reduzido.",
-                metodo_solicitado, type(exc).__name__, exc,
+                "Busca %r indisponível (%s); usando a busca por palavras (bm25), em modo reduzido.",
+                metodo_solicitado, type(exc).__name__,
             )
             resultados = consultar.buscar(
                 pergunta=pergunta,

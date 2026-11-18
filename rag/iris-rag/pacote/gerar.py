@@ -332,7 +332,8 @@ def responder(
         if metodo == "bm25" or os.environ.get("IRIS_RAG_ESTRITO", "").strip().lower() in {"1", "true", "sim", "on"}:
             raise
         fallback_motivo = f"{type(exc).__name__}: {exc}"
-        _log.warning("Busca %r indisponível (%s); usando bm25, em modo reduzido.", metodo, fallback_motivo)
+        # no log só o tipo do erro: a mensagem pode trazer a pergunta ou parâmetros do banco (#37); ela vai só na resposta
+        _log.warning("Busca %r indisponível (%s); usando bm25, em modo reduzido.", metodo, type(exc).__name__)
         trechos = consultar.buscar(pergunta, "bm25", k=k, filtro_barreira=filtro_barreira)
         metodo_efetivo = "bm25"
     t_busca = time.time() - t0

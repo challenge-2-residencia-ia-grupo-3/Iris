@@ -38,6 +38,7 @@ class TestPonteDaBusca(unittest.TestCase):
         self.assertEqual(r["metodo_efetivo"], "bm25")
         self.assertIn("OSError", r["fallback_motivo"])
         self.assertIn("modo reduzido", log.output[0])
+        self.assertNotIn("conexão recusada", log.output[0])         # a mensagem do erro não vai para o log (#37)
 
     def test_indice_dessincronizado_cai_na_reserva(self):
         erro = consultar.IndiceDessincronizado("o índice do banco tem trechos que o chunks.jsonl não tem")
