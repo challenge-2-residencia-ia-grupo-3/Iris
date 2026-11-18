@@ -177,7 +177,7 @@ class AdapterAgent:
     """Agente de IA que aplica o andaime do nível escolhido sem sair do escopo permitido."""
 
     def __init__(self, llm_client: Optional[HybridLLMClient] = None, max_tokens: int = 900) -> None:
-        self.llm_client = llm_client or get_llm_client()
+        self.llm_client = llm_client or get_llm_client(agente="adaptador")
         self.max_tokens = max_tokens
 
     def adapt(self, request: AdaptationRequest, tentativa: int = 1) -> AdaptationResult:

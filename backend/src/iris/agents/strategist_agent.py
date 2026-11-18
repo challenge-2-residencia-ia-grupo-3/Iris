@@ -86,7 +86,7 @@ class StrategistAgent:
     """Agente de IA que transforma evidências filtradas por característica em diretiva citada."""
 
     def __init__(self, llm_client: Optional[HybridLLMClient] = None) -> None:
-        self.llm_client = llm_client or get_llm_client()
+        self.llm_client = llm_client or get_llm_client(agente="estrategista")
         self._barreiras_por_trecho: Optional[dict[str, set[str]]] = None
 
     def strategize(self, request: StrategyRequest) -> StrategyResult:
