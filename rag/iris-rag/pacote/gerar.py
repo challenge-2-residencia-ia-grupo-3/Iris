@@ -20,6 +20,7 @@ de documentos públicos saem da máquina.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import time
@@ -28,6 +29,17 @@ import urllib.request
 from pathlib import Path
 
 import consultar
+
+_log = logging.getLogger("iris.rag.gerar")
+
+
+def _erros_do_banco() -> tuple[type[BaseException], ...]:
+    try:
+        import psycopg
+
+        return (psycopg.Error,)
+    except ImportError:
+        return ()
 
 AQUI = Path(__file__).resolve().parent
 FRASE_SEM_RESPOSTA = "Não encontrei nos documentos da base informação suficiente para responder."
@@ -315,14 +327,14 @@ def responder(
     try:
         trechos = consultar.buscar(pergunta, metodo, k=k, filtro_barreira=filtro_barreira)
         metodo_efetivo = metodo
-    except Exception as exc:
-        if metodo != "bm25":
-            trechos = consultar.buscar(pergunta, "bm25", k=k, filtro_barreira=filtro_barreira)
-            metodo_efetivo = "bm25"
-            # a busca pedida falhou e caiu na reserva por palavras: o motivo vai junto, para a tela poder avisar
-            fallback_motivo = f"{type(exc).__name__}: {exc}"
-        else:
+    except (ImportError, OSError, ConnectionError, TimeoutError) + _erros_do_banco() as exc:
+        # só falha de infraestrutura cai na reserva; com IRIS_RAG_ESTRITO=1, nenhuma (avaliação)
+        if metodo == "bm25" or os.environ.get("IRIS_RAG_ESTRITO", "").strip().lower() in {"1", "true", "sim", "on"}:
             raise
+        fallback_motivo = f"{type(exc).__name__}: {exc}"
+        _log.warning("Busca %r indisponível (%s); usando bm25, em modo reduzido.", metodo, fallback_motivo)
+        trechos = consultar.buscar(pergunta, "bm25", k=k, filtro_barreira=filtro_barreira)
+        metodo_efetivo = "bm25"
     t_busca = time.time() - t0
     prompt = montar_prompt(pergunta, trechos)
     resposta, uso = gerar(prompt)

@@ -729,6 +729,25 @@ def _handle_rag_escolar_analytics(
     )
 
 
+def avisar_saude_da_busca() -> dict[str, Any]:
+    """Confere, ao ligar o servidor, se a busca por vetores está disponível e avisa no log se não estiver. Sem isso a
+    busca cai na reserva por palavras em toda consulta, sem ninguém saber (aconteceu em 15/11/2026)."""
+    import logging
+
+    saude = get_health_status()
+    if saude.get("rag_backend") == "pgvector" and "bm25" == ",".join(saude.get("available_search_methods", [])):
+        motivos = []
+        if not saude.get("vector_db_online"):
+            motivos.append("banco pgvector fora do ar")
+        if saude.get("vector_deps_missing"):
+            motivos.append("pacotes ausentes: " + ", ".join(saude["vector_deps_missing"]))
+        logging.getLogger(__name__).warning(
+            "Busca por vetores indisponível (%s): toda consulta usará a busca por palavras (bm25), em modo reduzido.",
+            "; ".join(motivos) or "motivo não identificado",
+        )
+    return saude
+
+
 def create_app() -> Any:
     """Cria e configura a aplicação FastAPI stateless (com rotas de API, Materiais e Frontend Web)."""
     from fastapi import Body, FastAPI, Query, Request
@@ -736,6 +755,7 @@ def create_app() -> Any:
     from fastapi.responses import HTMLResponse
 
     validate_zero_database_configuration(get_settings())
+    avisar_saude_da_busca()
 
     app = FastAPI(
         title="Íris — Adaptação Inteligente de Materiais Pedagógicos",
@@ -1572,6 +1592,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
     print("================================================================================")
     print(f"  Íris Web & API rodando em: http://{host}:{port}")
     print(f"  Healthcheck              : http://{host}:{port}/api/v1/health")
+    if avisar_saude_da_busca().get("available_search_methods") == ["bm25"]:
+        print("  AVISO: busca por vetores indisponível; consultas em modo reduzido (bm25). Ver /api/v1/health")
     print("================================================================================")
     server = HTTPServer((host, port), IrisHandler)
     server.serve_forever()
