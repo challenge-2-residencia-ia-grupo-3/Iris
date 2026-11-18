@@ -19,6 +19,44 @@ from iris.main import app
 
 PLAYGROUND = SRC_DIR / "iris" / "static" / "playground.html"
 
+# O texto dos trechos como os juízes leram (base de 1.083) fica fora do git, porque leva trecho de documento sem
+# licença aberta. Onde ele não existe (no CI, por exemplo, que monta a base atual, já maior), os testes usam uma base
+# de mentira com os mesmos identificadores: amostra, cegueira, arquivo e concordância não dependem do texto. Só o
+# teste que confere o texto literal é pulado, dizendo por quê.
+_BASE_FALSA: tempfile.TemporaryDirectory | None = None
+_PATCH_BASE = None
+
+
+def _base_julgada_disponivel() -> bool:
+    try:
+        ah.arquivo_de_trechos()
+        return True
+    except RuntimeError:
+        return False
+
+
+def setUpModule() -> None:
+    global _BASE_FALSA, _PATCH_BASE
+    if _base_julgada_disponivel():
+        return
+    medidas = json.loads(ah.MEDIDAS.read_text(encoding="utf-8"))["geradores"]
+    ids = sorted({cid for g in medidas.values() for r in g.values() for cid in (r.get("fontes") or [])})
+    _BASE_FALSA = tempfile.TemporaryDirectory()
+    falsa = Path(_BASE_FALSA.name) / "chunks_julgados.jsonl"
+    falsa.write_text("".join(json.dumps({"chunk_id": c, "texto": f"texto de teste do trecho {c}", "doc_id": "teste"}) + "\n"
+                             for c in ids), encoding="utf-8")
+    _PATCH_BASE = patch.object(ah, "BASE_JULGADA", falsa)
+    _PATCH_BASE.start()
+    ah._dados.cache_clear()
+
+
+def tearDownModule() -> None:
+    if _PATCH_BASE is not None:
+        _PATCH_BASE.stop()
+        ah._dados.cache_clear()
+    if _BASE_FALSA is not None:
+        _BASE_FALSA.cleanup()
+
 
 class ComArquivoTemporario(unittest.TestCase):
     def setUp(self) -> None:
@@ -44,6 +82,8 @@ class TestAmostraECegueira(ComArquivoTemporario):
         self.assertEqual(ah.amostra()["uids"], a["uids"])  # fixa: semente
 
     def test_frases_e_trechos_sao_os_que_os_juizes_viram(self) -> None:
+        if _BASE_FALSA is not None:
+            self.skipTest("sem o texto dos trechos como os juízes leram (chunks_julgados.jsonl, fora do git)")
         passagens = json.loads((ah.PACOTE / "respostas_passagens_v2.json").read_text(encoding="utf-8"))
         textos = ah._dados()["textos"]
         achadas = 0

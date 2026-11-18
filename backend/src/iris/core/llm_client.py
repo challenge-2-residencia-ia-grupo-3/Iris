@@ -741,7 +741,11 @@ AGENTES = ("extrator", "estrategista", "adaptador", "auditor")
 # adaptações boas contra 0,57 do Llama local nas características sem regra (270 pedidos). Extrator e Estrategista
 # ficam no provedor geral (local por padrão): no Extrator o local basta; no Estrategista o Haiku só foi medido em piloto.
 # O padrão só vale quando há chave da Anthropic; sem chave, nada muda.
-PADRAO_POR_AGENTE = {"adaptador": "anthropic"}
+# Onde o Haiku entra por padrão quando há chave (cada linha com a medida que a sustenta):
+# - adaptador: adaptações boas 0,97 contra 0,57 do Llama em 270 pedidos (16/11/2026);
+# - auditor: acha 8 de 13 adaptações que entregam a resposta ao aluno, contra 0 do Llama, sem alarme falso em 25
+#   adaptações limpas (18/11/2026, decisão do Matheus; o Sonnet achou 10, a dez vezes o preço).
+PADRAO_POR_AGENTE = {"adaptador": "anthropic", "auditor": "anthropic"}
 
 
 def get_llm_client(
