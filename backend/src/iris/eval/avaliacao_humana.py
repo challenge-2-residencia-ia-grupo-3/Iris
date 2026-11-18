@@ -30,6 +30,11 @@ a julgada e não há cópia dela, a tela usa a base local trecho a trecho, só o
 prova é a impressão digital (sha256) de cada trecho julgado, versionada em ``trechos_julgados_sha256.json``, sem texto.
 Medido em 18/11/2026: os 68 trechos citados pelas 86 frases da amostra têm o mesmo texto na base de 1.881 trechos.
 
+Adaptações (issue #108, parte 2b): 50 adaptações de questões sorteadas por estrato em
+``rag/iris-rag/bancada/calibracao/amostra_adaptacoes_v1.json`` (Haiku no esforço baixo e Llama; veredito do Codex de
+16/11). A pessoa vê a questão original, o que a adaptação pode e não pode fazer e a adaptação, e responde as mesmas três
+perguntas que o juiz respondeu; nunca vê quem escreveu nem o veredito. Respostas em ``rotulos-humanos-adaptacoes.jsonl``,
+que também só cresce.
 """
 
 from __future__ import annotations
@@ -61,6 +66,8 @@ HASH_BASE_JULGADA = "cfc1481f449ef361"
 IMPRESSOES = PACOTE / "trechos_julgados_sha256.json"
 PERGUNTAS = RAG_BASE_DIR / "gabarito" / "gabarito_rascunho_v0.json"
 ROTULOS = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-grupo.jsonl"
+AMOSTRA_ADAPTACOES = RAG_BASE_DIR / "bancada" / "calibracao" / "amostra_adaptacoes_v1.json"
+ROTULOS_ADAPTACOES = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-adaptacoes.jsonl"
 
 SEMENTE = 20261116
 N_SORTEIO_UNANIMES = 40
@@ -373,3 +380,127 @@ def avaliavel(uid: str) -> bool:
 @lru_cache(maxsize=1)
 def fila_avaliavel() -> tuple[str, ...]:
     return tuple(u for u in amostra()["uids"] if avaliavel(u))
+
+
+# ------------------------------------------------------------------ adaptações (issue #108, parte 2b)
+PERGUNTAS_ADAPTACAO = {
+    "aplicou": "A adaptação faz ao menos uma das coisas que ela PODE fazer?",
+    "fora": "A adaptação acrescenta algo que ela NÃO pode (dica de conteúdo, exemplo, explicação, fórmula, resposta, "
+            "vocabulário simplificado)? Negrito, numeração, caixas e linhas de resposta não contam como acréscimo.",
+    "conteudo": "O que a questão pede ao aluno e os dados dela continuam os mesmos do original (nada retirado, nada trocado)?",
+}
+ESCONDIDO_DA_PESSOA = ("escritor", "juiz", "juiz_boa", "estrato", "peso", "chave")
+
+
+def boa_adaptacao(r: dict[str, Any]) -> bool:
+    """A mesma regra do juiz: aplicou, nada fora e conteúdo igual."""
+    return bool(r.get("aplicou")) and not r.get("fora") and bool(r.get("conteudo"))
+
+
+@lru_cache(maxsize=1)
+def adaptacoes() -> dict[str, dict[str, Any]]:
+    dados = json.loads(AMOSTRA_ADAPTACOES.read_text(encoding="utf-8"))
+    return {i["uid"]: i for i in dados["itens"]}
+
+
+def _ler_rotulos_adaptacoes() -> list[dict[str, Any]]:
+    if not ROTULOS_ADAPTACOES.exists():
+        return []
+    saida = []
+    for linha in ROTULOS_ADAPTACOES.read_text(encoding="utf-8").splitlines():
+        if linha.strip():
+            try:
+                saida.append(json.loads(linha))
+            except json.JSONDecodeError:
+                continue
+    return saida
+
+
+def _ultima_adaptacao_por_pessoa() -> dict[tuple[str, str], dict[str, bool]]:
+    out: dict[tuple[str, str], dict[str, bool]] = {}
+    for r in _ler_rotulos_adaptacoes():
+        out[(r["avaliador"], r["uid"])] = r["respostas"]
+    return out
+
+
+def proxima_adaptacao(avaliador: str) -> dict[str, Any]:
+    """A próxima adaptação que esta pessoa ainda não avaliou, sem quem escreveu e sem o veredito do juiz."""
+    if not RE_AVALIADOR.match(avaliador or ""):
+        raise ValueError("código de avaliador: de 1 a 40 letras, números, ponto, hífen ou sublinhado (ex.: prof-A)")
+    itens = adaptacoes()
+    feitos = {u for (p, u) in _ultima_adaptacao_por_pessoa() if p == avaliador}
+    base = {"avaliador": avaliador, "feitas": sum(1 for u in itens if u in feitos), "total": len(itens),
+            "perguntas": PERGUNTAS_ADAPTACAO}
+    for uid, item in itens.items():
+        if uid not in feitos:
+            visivel = {k: v for k, v in item.items() if k not in ESCONDIDO_DA_PESSOA}
+            return {**base, "acabou": False, **visivel}
+    return {**base, "acabou": True}
+
+
+def registrar_adaptacao(uid: str, respostas: dict[str, Any], avaliador: str, motivo: str = "") -> dict[str, Any]:
+    """Acrescenta as três respostas da pessoa no fim do arquivo (nunca reescreve as linhas anteriores)."""
+    if not RE_AVALIADOR.match(avaliador or ""):
+        raise ValueError("código de avaliador inválido")
+    if uid not in adaptacoes():
+        raise KeyError(f"adaptação {uid!r} não está na amostra")
+    if not isinstance(respostas, dict) or set(respostas) != set(PERGUNTAS_ADAPTACAO):
+        raise ValueError(f"responda as três perguntas: {sorted(PERGUNTAS_ADAPTACAO)}")
+    valores = {}
+    for k, v in respostas.items():
+        if v not in ("sim", "nao"):
+            raise ValueError(f"resposta de {k!r} deve ser 'sim' ou 'nao'")
+        valores[k] = v == "sim"
+    ROTULOS_ADAPTACOES.parent.mkdir(parents=True, exist_ok=True)
+    linha = {"uid": uid, "respostas": valores, "motivo": (motivo or "").strip()[:500], "avaliador": avaliador,
+             "data": datetime.now().astimezone().isoformat(timespec="seconds")}
+    with ROTULOS_ADAPTACOES.open("a", encoding="utf-8") as arq:
+        arq.write(json.dumps(linha, ensure_ascii=False) + "\n")
+    return proxima_adaptacao(avaliador)
+
+
+def resumo_adaptacoes() -> dict[str, Any]:
+    """Concordância do juiz com as pessoas: na adaptação boa ou não, e em cada uma das três perguntas."""
+    itens = adaptacoes()
+    rot = _ultima_adaptacao_por_pessoa()
+    por_item: dict[str, list[dict[str, bool]]] = {}
+    for (_, uid), r in rot.items():
+        if uid in itens:
+            por_item.setdefault(uid, []).append(r)
+    # várias pessoas no mesmo item: maioria; empate vai para o lado rígido (não boa, não aplicou, fora, conteúdo mudou)
+    def maioria(vs: list[bool], rigido: bool) -> bool:
+        s = sum(vs)
+        return rigido if s * 2 == len(vs) else s * 2 > len(vs)
+
+    pessoa = {}
+    for uid, rs in por_item.items():
+        pessoa[uid] = {
+            "aplicou": maioria([r["aplicou"] for r in rs], False),
+            "fora": maioria([r["fora"] for r in rs], True),
+            "conteudo": maioria([r["conteudo"] for r in rs], False),
+            "boa": maioria([boa_adaptacao(r) for r in rs], False),
+        }
+    n = len(pessoa)
+    saida: dict[str, Any] = {
+        "avaliadas": n, "pessoas": len({p for p, _ in rot}), "total_amostra": len(itens),
+        "minimo": MINIMO_PARA_CONCORDANCIA,
+        "duas_pessoas_ou_mais": sum(1 for rs in por_item.values() if len(rs) >= 2),
+    }
+    if n < MINIMO_PARA_CONCORDANCIA:
+        saida["faltam"] = MINIMO_PARA_CONCORDANCIA - n
+        return saida
+    medidas = {}
+    for campo in ("boa", "aplicou", "fora", "conteudo"):
+        pares = []
+        for uid, p in pessoa.items():
+            juiz = itens[uid]["juiz_boa"] if campo == "boa" else itens[uid]["juiz"][campo]
+            pares.append((int(p[campo]), int(juiz)))
+        medidas[campo] = {
+            "itens": len(pares), "iguais": sum(a == b for a, b in pares), "kappa": _kappa(pares),
+            "matriz": {"ambos_sim": sum(1 for a, b in pares if a and b), "so_pessoa_sim": sum(1 for a, b in pares if a and not b),
+                       "so_juiz_sim": sum(1 for a, b in pares if b and not a), "ambos_nao": sum(1 for a, b in pares if not a and not b)},
+        }
+    saida["medidas"] = medidas
+    saida["erro_caro"] = {"pessoa_reprovou": sum(1 for p in pessoa.values() if not p["boa"]),
+                          "juiz_aprovou": sum(1 for u, p in pessoa.items() if not p["boa"] and itens[u]["juiz_boa"])}
+    return saida
