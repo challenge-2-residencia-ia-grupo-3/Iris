@@ -414,11 +414,18 @@ def registrar_intervencao(
             CODIGO_CARACTERISTICA_FORA_DO_PERFIL,
             ["A intervenção precisa ser ligada a uma característica que já está no perfil."],
         )
+    # O perfil volta ao navegador e fica no localStorage: documento e contato em texto livre saem como marcador antes
+    # (RNF-01/RNF-02). O bloqueio clínico continua na validação abaixo, que vê o texto já sanitizado.
+    from iris.security.pii_scrubber import sanitize_pii
+
+    def _limpo(t: Any) -> Any:
+        return sanitize_pii(t)[0] if isinstance(t, str) and t.strip() else t
+
     novo = {
-        "estrategia": estrategia,
+        "estrategia": _limpo(estrategia),
         "id_caracteristica": id_caracteristica,
         "eficacia": eficacia,
-        "observacao": observacao or None,
+        "observacao": _limpo(observacao) or None,
         "registrado_em": (agora or datetime.now(timezone.utc)).isoformat(),
     }
     dados = atual.para_json()
