@@ -1,0 +1,1335 @@
+{
+  "gerado_em": "2026-11-12T21:49:00+00:00",
+  "versao_langgraph": "1.2.21",
+  "provedor": "eco",
+  "aviso": "Provedor determinístico (sem rede e sem modelo): mostra o fluxo, não a qualidade das adaptações.",
+  "codigo_montado": {
+    "dev": "65e1f09",
+    "estrategista": "PR #81 4479fd9",
+    "auditor": "PR #74 289d9ee",
+    "observacao": "Cópia do dev numa pasta fora do clone, com os arquivos novos do PR #81 (strategist_agent.py, schemas/strategy.py), do PR #74 (agents/auditor.py) e a versão do PR #80 de adapter_agent.py e schemas/adaptation.py (feedback do Auditor; sha 0513128); o dev não mexeu nesses dois arquivos desde a base do PR, então não houve conflito. O clone do grupo não foi alterado.",
+    "arquivos": [
+      {
+        "pr": "PR #81",
+        "sha": "4479fd9",
+        "base": "d926016",
+        "arquivo": "backend/src/iris/agents/strategist_agent.py",
+        "modo": "arquivo novo"
+      },
+      {
+        "pr": "PR #81",
+        "sha": "4479fd9",
+        "base": "d926016",
+        "arquivo": "backend/src/iris/schemas/strategy.py",
+        "modo": "arquivo novo"
+      },
+      {
+        "pr": "PR #74",
+        "sha": "289d9ee",
+        "base": "de155a2",
+        "arquivo": "backend/src/iris/agents/auditor.py",
+        "modo": "arquivo novo"
+      },
+      {
+        "pr": "PR #80",
+        "sha": "0513128",
+        "base": "d926016",
+        "arquivo": "backend/src/iris/agents/adapter_agent.py",
+        "modo": "substitui (o dev não mexeu no arquivo desde a base do PR)"
+      },
+      {
+        "pr": "PR #80",
+        "sha": "0513128",
+        "base": "d926016",
+        "arquivo": "backend/src/iris/schemas/adaptation.py",
+        "modo": "substitui (o dev não mexeu no arquivo desde a base do PR)"
+      }
+    ],
+    "deixados_de_fora": [
+      {
+        "pr": "PR #80 e PR #81",
+        "arquivo": "backend/src/iris/agents/__init__.py",
+        "motivo": "os dois PRs mudam o mesmo __init__ de jeitos diferentes; ficou o do dev (importamos os módulos pelo nome completo)"
+      },
+      {
+        "pr": "PR #81",
+        "arquivo": "backend/src/iris/schemas/__init__.py",
+        "motivo": "só acrescenta reexportações de strategy; ficou o do dev"
+      }
+    ]
+  },
+  "nos": [
+    {
+      "id": "entrada",
+      "nome": "Entrada do arquivo",
+      "o_que_faz": "Confere o tamanho do arquivo enviado pela professora.",
+      "funcao_grupo": "iris.schemas.materials:validate_file_size_limit",
+      "origem": "dev",
+      "tipo": "deterministico",
+      "camada": "material"
+    },
+    {
+      "id": "extracao_documento",
+      "nome": "Extração do texto",
+      "o_que_faz": "Tira o texto do PDF, DOCX ou TXT; o texto bruto fica fora do estado.",
+      "funcao_grupo": "iris.parsers.document_extractor:extract_text_from_file",
+      "origem": "dev",
+      "tipo": "deterministico",
+      "camada": "material"
+    },
+    {
+      "id": "filtro_pii",
+      "nome": "Filtro de dados pessoais",
+      "o_que_faz": "Troca nomes, CPF, telefone e escola por marcadores e descarta o texto bruto.",
+      "funcao_grupo": "iris.security.pii_scrubber:sanitize_pii",
+      "origem": "dev",
+      "tipo": "deterministico",
+      "camada": "material"
+    },
+    {
+      "id": "decomposicao",
+      "nome": "Decomposição em questões",
+      "o_que_faz": "Confere o conteúdo e separa o material em questões.",
+      "funcao_grupo": "iris.parsers.structural_decomposer:decompose_material",
+      "origem": "dev",
+      "tipo": "deterministico",
+      "camada": "material"
+    },
+    {
+      "id": "selecao_caracteristica",
+      "nome": "Seleção da característica",
+      "o_que_faz": "Valida a característica escolhida pela professora no catálogo.",
+      "funcao_grupo": "iris.api.routes.catalogs:select_surgical_characteristics_service",
+      "origem": "dev",
+      "tipo": "deterministico",
+      "camada": "material"
+    },
+    {
+      "id": "perfil",
+      "nome": "Perfil pedagógico",
+      "o_que_faz": "Valida o perfil anônimo do aluno (só código e barreiras observadas).",
+      "funcao_grupo": "iris.schemas.profile:validar_perfil",
+      "origem": "dev",
+      "tipo": "deterministico",
+      "camada": "material"
+    },
+    {
+      "id": "proxima_questao",
+      "nome": "Próxima questão",
+      "o_que_faz": "Pega a próxima questão da lista ou encerra quando acabam (substituto da bancada).",
+      "funcao_grupo": null,
+      "origem": "bancada",
+      "tipo": "decisao",
+      "camada": "questao"
+    },
+    {
+      "id": "extrator",
+      "nome": "Agente Extrator",
+      "o_que_faz": "Descobre o que a questão avalia (conceitos que não podem sumir).",
+      "funcao_grupo": "iris.agents.curriculum_extractor:CurriculumExtractorAgent.extract_with_telemetry",
+      "origem": "dev",
+      "tipo": "agente",
+      "camada": "questao"
+    },
+    {
+      "id": "busca_rag",
+      "nome": "Busca na base científica",
+      "o_que_faz": "Busca trechos de pesquisa filtrados pela barreira da característica.",
+      "funcao_grupo": "iris.agents.strategist_agent:StrategistAgent._buscar (usa iris.rag.bridge:buscar_por_caracteristica_atomica)",
+      "origem": "PR #81",
+      "tipo": "deterministico",
+      "camada": "questao"
+    },
+    {
+      "id": "estrategista",
+      "nome": "Agente Estrategista",
+      "o_que_faz": "Transforma os trechos numa orientação de apoio com citação [T1..Tn].",
+      "funcao_grupo": "iris.agents.strategist_agent:StrategistAgent.strategize",
+      "origem": "PR #81",
+      "tipo": "agente",
+      "camada": "questao"
+    },
+    {
+      "id": "adaptador",
+      "nome": "Agente Adaptador",
+      "o_que_faz": "Reescreve a apresentação da questão; na volta, recebe a correção do Auditor.",
+      "funcao_grupo": "iris.agents.adapter_agent:AdapterAgent.adapt",
+      "origem": "PR #80",
+      "tipo": "agente",
+      "camada": "questao"
+    },
+    {
+      "id": "auditor",
+      "nome": "Agente Auditor",
+      "o_que_faz": "Confere se a adaptação manteve os conceitos e não entregou a resposta (juiz LLM é substituto da bancada).",
+      "funcao_grupo": "iris.agents.auditor:AgenteAuditor.auditar",
+      "origem": "PR #74",
+      "tipo": "agente",
+      "camada": "questao"
+    },
+    {
+      "id": "decisao",
+      "nome": "Decisão do laço",
+      "o_que_faz": "Aprovado segue; reprovado volta ao Adaptador até 2 vezes; depois vai para a reserva.",
+      "funcao_grupo": null,
+      "origem": "bancada",
+      "tipo": "decisao",
+      "camada": "questao"
+    },
+    {
+      "id": "saida_de_reserva",
+      "nome": "Saída de reserva",
+      "o_que_faz": "Entrega a versão por regras (ou o original) com um alerta para a professora.",
+      "funcao_grupo": "iris.agents.adapter_agent:AdapterAgent._saida_de_reserva",
+      "origem": "dev",
+      "tipo": "reserva",
+      "camada": "questao"
+    },
+    {
+      "id": "revisao_professora",
+      "nome": "Revisão da professora",
+      "o_que_faz": "O grafo para e espera a professora aceitar ou editar (no protótipo, decisão sintética).",
+      "funcao_grupo": null,
+      "origem": "bancada",
+      "tipo": "pessoa",
+      "camada": "questao"
+    }
+  ],
+  "arestas": [
+    {
+      "de": "entrada",
+      "para": "extracao_documento",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "extracao_documento",
+      "para": "filtro_pii",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "filtro_pii",
+      "para": "decomposicao",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "decomposicao",
+      "para": "selecao_caracteristica",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "selecao_caracteristica",
+      "para": "perfil",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "perfil",
+      "para": "proxima_questao",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "proxima_questao",
+      "para": "extrator",
+      "tipo": "condicional",
+      "condicao": "ainda há questão"
+    },
+    {
+      "de": "proxima_questao",
+      "para": "__end__",
+      "tipo": "condicional",
+      "condicao": "acabaram as questões"
+    },
+    {
+      "de": "extrator",
+      "para": "busca_rag",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "busca_rag",
+      "para": "estrategista",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "estrategista",
+      "para": "adaptador",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "adaptador",
+      "para": "auditor",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "auditor",
+      "para": "decisao",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "decisao",
+      "para": "revisao_professora",
+      "tipo": "condicional",
+      "condicao": "aprovado"
+    },
+    {
+      "de": "decisao",
+      "para": "adaptador",
+      "tipo": "laco",
+      "condicao": "reprovado e voltas < 2"
+    },
+    {
+      "de": "decisao",
+      "para": "saida_de_reserva",
+      "tipo": "condicional",
+      "condicao": "reprovado e 2 voltas feitas"
+    },
+    {
+      "de": "saida_de_reserva",
+      "para": "revisao_professora",
+      "tipo": "normal",
+      "condicao": null
+    },
+    {
+      "de": "revisao_professora",
+      "para": "proxima_questao",
+      "tipo": "laco",
+      "condicao": "segue para a próxima questão"
+    }
+  ],
+  "estado": [
+    {
+      "campo": "material_id",
+      "tipo": "str",
+      "quem_escreve": "quem chama o grafo",
+      "contem_dado_pessoal": false,
+      "observacao": "id sintético do material; em produção, um id aleatório (nunca o nome do arquivo)"
+    },
+    {
+      "campo": "formato",
+      "tipo": "str",
+      "quem_escreve": "entrada",
+      "contem_dado_pessoal": false,
+      "observacao": "só a extensão (txt, docx, pdf); o nome do arquivo pode ter nome de aluno e fica fora"
+    },
+    {
+      "campo": "tamanho_bytes",
+      "tipo": "int",
+      "quem_escreve": "entrada",
+      "contem_dado_pessoal": false,
+      "observacao": null
+    },
+    {
+      "campo": "n_caracteres_extraidos",
+      "tipo": "int",
+      "quem_escreve": "extracao_documento",
+      "contem_dado_pessoal": false,
+      "observacao": "só a contagem; o texto bruto fica no Contexto, fora do estado e do checkpointer"
+    },
+    {
+      "campo": "texto_sanitizado",
+      "tipo": "str",
+      "quem_escreve": "filtro_pii",
+      "contem_dado_pessoal": false,
+      "observacao": "texto depois do sanitize_pii do grupo; só é livre de dado pessoal se o filtro pegou tudo (no M3 o filtro deixa passar um nome: ver 'pii_no_estado' em cada execução)"
+    },
+    {
+      "campo": "n_pii_removidos",
+      "tipo": "int",
+      "quem_escreve": "filtro_pii",
+      "contem_dado_pessoal": false,
+      "observacao": null
+    },
+    {
+      "campo": "questoes",
+      "tipo": "list[{id, enunciado}]",
+      "quem_escreve": "decomposicao",
+      "contem_dado_pessoal": false,
+      "observacao": "enunciados recortados do texto já sanitizado"
+    },
+    {
+      "campo": "caracteristica / nivel",
+      "tipo": "str / int",
+      "quem_escreve": "quem chama o grafo",
+      "contem_dado_pessoal": false,
+      "observacao": "escolha da professora (catálogo)"
+    },
+    {
+      "campo": "n_caracteristicas_bloqueadas",
+      "tipo": "int",
+      "quem_escreve": "selecao_caracteristica",
+      "contem_dado_pessoal": false,
+      "observacao": null
+    },
+    {
+      "campo": "perfil_codigo",
+      "tipo": "str",
+      "quem_escreve": "perfil",
+      "contem_dado_pessoal": false,
+      "observacao": "código anônimo do Perfil Pedagógico Portátil (#26); as barreiras observadas não entram no estado"
+    },
+    {
+      "campo": "indice_questao / questao_id / enunciado",
+      "tipo": "int / str / str",
+      "quem_escreve": "proxima_questao",
+      "contem_dado_pessoal": false,
+      "observacao": "a questão da vez, já sanitizada"
+    },
+    {
+      "campo": "invariantes",
+      "tipo": "dict (CurriculumInvariants)",
+      "quem_escreve": "extrator",
+      "contem_dado_pessoal": false,
+      "observacao": "conceitos e termos da trava curricular"
+    },
+    {
+      "campo": "chunk_ids / trechos_fora_do_filtro",
+      "tipo": "list[str]",
+      "quem_escreve": "busca_rag",
+      "contem_dado_pessoal": false,
+      "observacao": "só os ids dos trechos; o texto dos trechos (há licença restrita) fica no Contexto"
+    },
+    {
+      "campo": "diretiva / estrategista_reserva",
+      "tipo": "str / str|None",
+      "quem_escreve": "estrategista",
+      "contem_dado_pessoal": false,
+      "observacao": "diretiva citada [T1..Tn] ou a de reserva do catálogo, com o motivo"
+    },
+    {
+      "campo": "tentativa / minuta / minuta_anterior / escopo_aprovado",
+      "tipo": "int / str / str|None / bool",
+      "quem_escreve": "adaptador",
+      "contem_dado_pessoal": false,
+      "observacao": "minuta feita a partir do enunciado sanitizado"
+    },
+    {
+      "campo": "auditoria / feedback_auditor",
+      "tipo": "dict / str|None",
+      "quem_escreve": "auditor",
+      "contem_dado_pessoal": false,
+      "observacao": "aprovado, TRCC, motivos e a correção pedida ao Adaptador"
+    },
+    {
+      "campo": "voltas_auditor / rota",
+      "tipo": "int / str",
+      "quem_escreve": "decisao",
+      "contem_dado_pessoal": false,
+      "observacao": "contador do laço e a seta escolhida (aprovado, refazer, limite)"
+    },
+    {
+      "campo": "texto_proposto / alerta_professora",
+      "tipo": "str / str|None",
+      "quem_escreve": "decisao ou saida_de_reserva",
+      "contem_dado_pessoal": false,
+      "observacao": "o que a professora vai ver"
+    },
+    {
+      "campo": "decisao_professora / texto_final",
+      "tipo": "str / str",
+      "quem_escreve": "revisao_professora",
+      "contem_dado_pessoal": false,
+      "observacao": "aceitou ou editou; a edição real viria do front (#21, #22)"
+    },
+    {
+      "campo": "resultados",
+      "tipo": "list[dict] (acumula)",
+      "quem_escreve": "revisao_professora",
+      "contem_dado_pessoal": false,
+      "observacao": "um resumo por questão"
+    },
+    {
+      "campo": "caminho / latencias",
+      "tipo": "list (acumula)",
+      "quem_escreve": "todos os nós (embrulho de medição)",
+      "contem_dado_pessoal": false,
+      "observacao": "ids dos nós visitados e o tempo de cada um"
+    }
+  ],
+  "mermaid": "---\nconfig:\n  flowchart:\n    curve: linear\n---\ngraph TD;\n\t__start__([<p>__start__</p>]):::first\n\tentrada(entrada)\n\textracao_documento(extracao_documento)\n\tfiltro_pii(filtro_pii)\n\tdecomposicao(decomposicao)\n\tselecao_caracteristica(selecao_caracteristica)\n\tperfil(perfil)\n\tproxima_questao(proxima_questao)\n\textrator(extrator)\n\tbusca_rag(busca_rag)\n\testrategista(estrategista)\n\tadaptador(adaptador)\n\tauditor(auditor)\n\tdecisao(decisao)\n\tsaida_de_reserva(saida_de_reserva)\n\trevisao_professora(revisao_professora)\n\t__end__([<p>__end__</p>]):::last\n\t__start__ --> entrada;\n\tadaptador --> auditor;\n\tauditor --> decisao;\n\tbusca_rag --> estrategista;\n\tdecisao -.-> adaptador;\n\tdecisao -.-> revisao_professora;\n\tdecisao -.-> saida_de_reserva;\n\tdecomposicao --> selecao_caracteristica;\n\tentrada --> extracao_documento;\n\testrategista --> adaptador;\n\textracao_documento --> filtro_pii;\n\textrator --> busca_rag;\n\tfiltro_pii --> decomposicao;\n\tperfil --> proxima_questao;\n\tproxima_questao -.-> __end__;\n\tproxima_questao -.-> extrator;\n\trevisao_professora --> proxima_questao;\n\tsaida_de_reserva --> revisao_professora;\n\tselecao_caracteristica --> perfil;\n\tclassDef default fill:#f2f0ff,line-height:1.2\n\tclassDef first fill-opacity:0\n\tclassDef last fill:#bfb6fc\n",
+  "estrutura_langgraph": {
+    "nos": [
+      "__end__",
+      "__start__",
+      "adaptador",
+      "auditor",
+      "busca_rag",
+      "decisao",
+      "decomposicao",
+      "entrada",
+      "estrategista",
+      "extracao_documento",
+      "extrator",
+      "filtro_pii",
+      "perfil",
+      "proxima_questao",
+      "revisao_professora",
+      "saida_de_reserva",
+      "selecao_caracteristica"
+    ],
+    "arestas": [
+      {
+        "de": "__start__",
+        "para": "entrada",
+        "condicional": false
+      },
+      {
+        "de": "adaptador",
+        "para": "auditor",
+        "condicional": false
+      },
+      {
+        "de": "auditor",
+        "para": "decisao",
+        "condicional": false
+      },
+      {
+        "de": "busca_rag",
+        "para": "estrategista",
+        "condicional": false
+      },
+      {
+        "de": "decisao",
+        "para": "adaptador",
+        "condicional": true
+      },
+      {
+        "de": "decisao",
+        "para": "revisao_professora",
+        "condicional": true
+      },
+      {
+        "de": "decisao",
+        "para": "saida_de_reserva",
+        "condicional": true
+      },
+      {
+        "de": "decomposicao",
+        "para": "selecao_caracteristica",
+        "condicional": false
+      },
+      {
+        "de": "entrada",
+        "para": "extracao_documento",
+        "condicional": false
+      },
+      {
+        "de": "estrategista",
+        "para": "adaptador",
+        "condicional": false
+      },
+      {
+        "de": "extracao_documento",
+        "para": "filtro_pii",
+        "condicional": false
+      },
+      {
+        "de": "extrator",
+        "para": "busca_rag",
+        "condicional": false
+      },
+      {
+        "de": "filtro_pii",
+        "para": "decomposicao",
+        "condicional": false
+      },
+      {
+        "de": "perfil",
+        "para": "proxima_questao",
+        "condicional": false
+      },
+      {
+        "de": "proxima_questao",
+        "para": "__end__",
+        "condicional": true
+      },
+      {
+        "de": "proxima_questao",
+        "para": "extrator",
+        "condicional": true
+      },
+      {
+        "de": "revisao_professora",
+        "para": "proxima_questao",
+        "condicional": false
+      },
+      {
+        "de": "saida_de_reserva",
+        "para": "revisao_professora",
+        "condicional": false
+      },
+      {
+        "de": "selecao_caracteristica",
+        "para": "perfil",
+        "condicional": false
+      }
+    ]
+  },
+  "execucoes": [
+    {
+      "material": "M1-ciencias-docx",
+      "questao": "q_1",
+      "caminho": [
+        "entrada",
+        "extracao_documento",
+        "filtro_pii",
+        "decomposicao",
+        "selecao_caracteristica",
+        "perfil",
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 0,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "entrada": 0.0,
+        "extracao_documento": 0.0173,
+        "filtro_pii": 0.0003,
+        "decomposicao": 0.0016,
+        "selecao_caracteristica": 0.0017,
+        "perfil": 0.0014,
+        "proxima_questao": 0.0,
+        "extrator": 0.0018,
+        "busca_rag": 1.567,
+        "estrategista": 0.0022,
+        "adaptador": 0.0032,
+        "auditor": 0.0033,
+        "decisao": 0.0,
+        "revisao_professora": 0.0
+      },
+      "resultado": "aprovado",
+      "checkpoints": 16,
+      "decisao_professora": "aceitou",
+      "caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
+      "pii_no_estado": [],
+      "observacao": "os passos do material rodaram uma vez e aparecem na 1ª questão"
+    },
+    {
+      "material": "M1-ciencias-docx",
+      "questao": "q_2",
+      "caminho": [
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 0,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "proxima_questao": 0.0,
+        "extrator": 0.0007,
+        "busca_rag": 0.0547,
+        "estrategista": 0.0011,
+        "adaptador": 0.0037,
+        "auditor": 0.0023,
+        "decisao": 0.0,
+        "revisao_professora": 0.0
+      },
+      "resultado": "aprovado",
+      "checkpoints": 8,
+      "decisao_professora": "aceitou",
+      "caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
+      "pii_no_estado": [],
+      "observacao": null
+    },
+    {
+      "material": "M2-matematica-pdf",
+      "questao": "q_1",
+      "caminho": [
+        "entrada",
+        "extracao_documento",
+        "filtro_pii",
+        "decomposicao",
+        "selecao_caracteristica",
+        "perfil",
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 0,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "entrada": 0.0001,
+        "extracao_documento": 0.009,
+        "filtro_pii": 0.0005,
+        "decomposicao": 0.0003,
+        "selecao_caracteristica": 0.0012,
+        "perfil": 0.0009,
+        "proxima_questao": 0.0,
+        "extrator": 0.0007,
+        "busca_rag": 0.0396,
+        "estrategista": 0.0009,
+        "adaptador": 0.0029,
+        "auditor": 0.0028,
+        "decisao": 0.0,
+        "revisao_professora": 0.0
+      },
+      "resultado": "aprovado",
+      "checkpoints": 16,
+      "decisao_professora": "aceitou",
+      "caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
+      "pii_no_estado": [],
+      "observacao": "os passos do material rodaram uma vez e aparecem na 1ª questão"
+    },
+    {
+      "material": "M2-matematica-pdf",
+      "questao": "q_2",
+      "caminho": [
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 0,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "proxima_questao": 0.0,
+        "extrator": 0.0005,
+        "busca_rag": 0.0393,
+        "estrategista": 0.0013,
+        "adaptador": 0.002,
+        "auditor": 0.0018,
+        "decisao": 0.0,
+        "revisao_professora": 0.0
+      },
+      "resultado": "aprovado",
+      "checkpoints": 8,
+      "decisao_professora": "aceitou",
+      "caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
+      "pii_no_estado": [],
+      "observacao": null
+    },
+    {
+      "material": "M3-historia-txt",
+      "questao": "q_1",
+      "caminho": [
+        "entrada",
+        "extracao_documento",
+        "filtro_pii",
+        "decomposicao",
+        "selecao_caracteristica",
+        "perfil",
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 0,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "entrada": 0.0,
+        "extracao_documento": 0.0001,
+        "filtro_pii": 0.0003,
+        "decomposicao": 0.0003,
+        "selecao_caracteristica": 0.0015,
+        "perfil": 0.0008,
+        "proxima_questao": 0.0,
+        "extrator": 0.0006,
+        "busca_rag": 0.0442,
+        "estrategista": 0.001,
+        "adaptador": 0.0027,
+        "auditor": 0.0022,
+        "decisao": 0.0,
+        "revisao_professora": 0.0
+      },
+      "resultado": "aprovado",
+      "checkpoints": 16,
+      "decisao_professora": "aceitou",
+      "caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
+      "pii_no_estado": [
+        "Ciclana Exemplo Falso"
+      ],
+      "observacao": "os passos do material rodaram uma vez e aparecem na 1ª questão"
+    },
+    {
+      "material": "M3-historia-txt",
+      "questao": "q_2",
+      "caminho": [
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 0,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "proxima_questao": 0.0,
+        "extrator": 0.0005,
+        "busca_rag": 0.0456,
+        "estrategista": 0.0011,
+        "adaptador": 0.0025,
+        "auditor": 0.0022,
+        "decisao": 0.0,
+        "revisao_professora": 0.0
+      },
+      "resultado": "aprovado",
+      "checkpoints": 8,
+      "decisao_professora": "aceitou",
+      "caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
+      "pii_no_estado": [
+        "Ciclana Exemplo Falso"
+      ],
+      "observacao": null
+    },
+    {
+      "material": "M3-historia-txt",
+      "questao": "q_3",
+      "caminho": [
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 0,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "proxima_questao": 0.0,
+        "extrator": 0.0006,
+        "busca_rag": 0.0446,
+        "estrategista": 0.001,
+        "adaptador": 0.0025,
+        "auditor": 0.0024,
+        "decisao": 0.0,
+        "revisao_professora": 0.0
+      },
+      "resultado": "aprovado",
+      "checkpoints": 8,
+      "decisao_professora": "aceitou",
+      "caracteristica": "sobrecarga_memoria_trabalho_comandos_multiplos",
+      "pii_no_estado": [
+        "Ciclana Exemplo Falso"
+      ],
+      "observacao": null
+    },
+    {
+      "material": "M4-forcado-volta",
+      "questao": "q_1",
+      "caminho": [
+        "entrada",
+        "extracao_documento",
+        "filtro_pii",
+        "decomposicao",
+        "selecao_caracteristica",
+        "perfil",
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 1,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "entrada": 0.0,
+        "extracao_documento": 0.0001,
+        "filtro_pii": 0.0002,
+        "decomposicao": 0.0003,
+        "selecao_caracteristica": 0.0011,
+        "perfil": 0.0009,
+        "proxima_questao": 0.0,
+        "extrator": 0.0006,
+        "busca_rag": 0.0486,
+        "estrategista": 0.0051,
+        "adaptador": 0.0063,
+        "auditor": 0.0058,
+        "decisao": 0.0,
+        "revisao_professora": 0.0
+      },
+      "resultado": "aprovado",
+      "checkpoints": 19,
+      "decisao_professora": "aceitou",
+      "caracteristica": "impulsividade_leitura_superficial_negacoes",
+      "pii_no_estado": [],
+      "observacao": "os passos do material rodaram uma vez e aparecem na 1ª questão"
+    },
+    {
+      "material": "M5-forcado-limite",
+      "questao": "q_1",
+      "caminho": [
+        "entrada",
+        "extracao_documento",
+        "filtro_pii",
+        "decomposicao",
+        "selecao_caracteristica",
+        "perfil",
+        "proxima_questao",
+        "extrator",
+        "busca_rag",
+        "estrategista",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "adaptador",
+        "auditor",
+        "decisao",
+        "saida_de_reserva",
+        "revisao_professora"
+      ],
+      "voltas_auditor": 2,
+      "limite_voltas": 2,
+      "parou_para_professora": true,
+      "latencia_s": {
+        "entrada": 0.0001,
+        "extracao_documento": 0.0001,
+        "filtro_pii": 0.0002,
+        "decomposicao": 0.0003,
+        "selecao_caracteristica": 0.0015,
+        "perfil": 0.0009,
+        "proxima_questao": 0.0,
+        "extrator": 0.0005,
+        "busca_rag": 0.0378,
+        "estrategista": 0.0028,
+        "adaptador": 0.0077,
+        "auditor": 0.0085,
+        "decisao": 0.0,
+        "saida_de_reserva": 0.0001,
+        "revisao_professora": 0.0
+      },
+      "resultado": "reserva",
+      "checkpoints": 23,
+      "decisao_professora": "editou",
+      "caracteristica": "impulsividade_leitura_superficial_negacoes",
+      "pii_no_estado": [],
+      "observacao": "os passos do material rodaram uma vez e aparecem na 1ª questão"
+    }
+  ],
+  "historico_exemplo": {
+    "material": "M4-forcado-volta",
+    "explicacao": "get_state_history(): uma linha por estado salvo, do primeiro ao último",
+    "passos": [
+      {
+        "passo": -1,
+        "proximo": [
+          "__start__"
+        ],
+        "ultimo_no": null,
+        "tentativa": null,
+        "voltas_auditor": null,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 3
+      },
+      {
+        "passo": 0,
+        "proximo": [
+          "entrada"
+        ],
+        "ultimo_no": null,
+        "tentativa": null,
+        "voltas_auditor": null,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 6
+      },
+      {
+        "passo": 1,
+        "proximo": [
+          "extracao_documento"
+        ],
+        "ultimo_no": "entrada",
+        "tentativa": null,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 10
+      },
+      {
+        "passo": 2,
+        "proximo": [
+          "filtro_pii"
+        ],
+        "ultimo_no": "extracao_documento",
+        "tentativa": null,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 11
+      },
+      {
+        "passo": 3,
+        "proximo": [
+          "decomposicao"
+        ],
+        "ultimo_no": "filtro_pii",
+        "tentativa": null,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 13
+      },
+      {
+        "passo": 4,
+        "proximo": [
+          "selecao_caracteristica"
+        ],
+        "ultimo_no": "decomposicao",
+        "tentativa": null,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 14
+      },
+      {
+        "passo": 5,
+        "proximo": [
+          "perfil"
+        ],
+        "ultimo_no": "selecao_caracteristica",
+        "tentativa": null,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 15
+      },
+      {
+        "passo": 6,
+        "proximo": [
+          "proxima_questao"
+        ],
+        "ultimo_no": "perfil",
+        "tentativa": null,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 16
+      },
+      {
+        "passo": 7,
+        "proximo": [
+          "extrator"
+        ],
+        "ultimo_no": "proxima_questao",
+        "tentativa": 0,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 25
+      },
+      {
+        "passo": 8,
+        "proximo": [
+          "busca_rag"
+        ],
+        "ultimo_no": "extrator",
+        "tentativa": 0,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 26
+      },
+      {
+        "passo": 9,
+        "proximo": [
+          "estrategista"
+        ],
+        "ultimo_no": "busca_rag",
+        "tentativa": 0,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 28
+      },
+      {
+        "passo": 10,
+        "proximo": [
+          "adaptador"
+        ],
+        "ultimo_no": "estrategista",
+        "tentativa": 0,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 30
+      },
+      {
+        "passo": 11,
+        "proximo": [
+          "auditor"
+        ],
+        "ultimo_no": "adaptador",
+        "tentativa": 1,
+        "voltas_auditor": 0,
+        "auditor_aprovou": null,
+        "campos_preenchidos": 31
+      },
+      {
+        "passo": 12,
+        "proximo": [
+          "decisao"
+        ],
+        "ultimo_no": "auditor",
+        "tentativa": 1,
+        "voltas_auditor": 0,
+        "auditor_aprovou": false,
+        "campos_preenchidos": 32
+      },
+      {
+        "passo": 13,
+        "proximo": [
+          "adaptador"
+        ],
+        "ultimo_no": "decisao",
+        "tentativa": 1,
+        "voltas_auditor": 1,
+        "auditor_aprovou": false,
+        "campos_preenchidos": 32
+      },
+      {
+        "passo": 14,
+        "proximo": [
+          "auditor"
+        ],
+        "ultimo_no": "adaptador",
+        "tentativa": 2,
+        "voltas_auditor": 1,
+        "auditor_aprovou": false,
+        "campos_preenchidos": 32
+      },
+      {
+        "passo": 15,
+        "proximo": [
+          "decisao"
+        ],
+        "ultimo_no": "auditor",
+        "tentativa": 2,
+        "voltas_auditor": 1,
+        "auditor_aprovou": true,
+        "campos_preenchidos": 32
+      },
+      {
+        "passo": 16,
+        "proximo": [
+          "revisao_professora"
+        ],
+        "ultimo_no": "decisao",
+        "tentativa": 2,
+        "voltas_auditor": 1,
+        "auditor_aprovou": true,
+        "campos_preenchidos": 33
+      },
+      {
+        "passo": 17,
+        "proximo": [
+          "proxima_questao"
+        ],
+        "ultimo_no": "revisao_professora",
+        "tentativa": 2,
+        "voltas_auditor": 1,
+        "auditor_aprovou": true,
+        "campos_preenchidos": 34
+      },
+      {
+        "passo": 18,
+        "proximo": [],
+        "ultimo_no": "proxima_questao",
+        "tentativa": 2,
+        "voltas_auditor": 1,
+        "auditor_aprovou": true,
+        "campos_preenchidos": 34
+      }
+    ]
+  },
+  "demonstracoes": {
+    "retomar_apos_falha": {
+      "material": "M2-matematica-pdf",
+      "falhou": {
+        "erro": "falha simulada do Adaptador (ex.: o Ollama caiu)",
+        "proximo_no_salvo": [
+          "adaptador"
+        ]
+      },
+      "chamadas_antes_de_retomar": {
+        "entrada": 1,
+        "extracao_documento": 1,
+        "filtro_pii": 1,
+        "decomposicao": 1,
+        "selecao_caracteristica": 1,
+        "perfil": 1,
+        "proxima_questao": 1,
+        "extrator": 1,
+        "busca_rag": 1,
+        "estrategista": 1,
+        "adaptador": 1
+      },
+      "chamadas_no_fim": {
+        "entrada": 1,
+        "extracao_documento": 1,
+        "filtro_pii": 1,
+        "decomposicao": 1,
+        "selecao_caracteristica": 1,
+        "perfil": 1,
+        "proxima_questao": 3,
+        "extrator": 2,
+        "busca_rag": 2,
+        "estrategista": 2,
+        "adaptador": 3,
+        "auditor": 2,
+        "decisao": 2,
+        "revisao_professora": 4
+      },
+      "extrator_repetido": false,
+      "observacao": "a retomada partiu do adaptador: extrator, busca e estrategista da 1ª questão não rodaram de novo"
+    },
+    "retencao_checkpointer": [
+      {
+        "material": "M1-ciencias-docx",
+        "bytes_guardados": 183104,
+        "pii_plantado_no_checkpointer": [],
+        "bytes_depois_de_apagar": 0
+      },
+      {
+        "material": "M2-matematica-pdf",
+        "bytes_guardados": 181885,
+        "pii_plantado_no_checkpointer": [],
+        "bytes_depois_de_apagar": 0
+      },
+      {
+        "material": "M3-historia-txt",
+        "bytes_guardados": 276103,
+        "pii_plantado_no_checkpointer": [
+          "Ciclana Exemplo Falso"
+        ],
+        "bytes_depois_de_apagar": 0
+      },
+      {
+        "material": "M4-forcado-volta",
+        "bytes_guardados": 111829,
+        "pii_plantado_no_checkpointer": [],
+        "bytes_depois_de_apagar": 0
+      },
+      {
+        "material": "M5-forcado-limite",
+        "bytes_guardados": 142490,
+        "pii_plantado_no_checkpointer": [],
+        "bytes_depois_de_apagar": 0
+      }
+    ]
+  },
+  "hoje": {
+    "caminho": [
+      "entrada",
+      "extracao_documento",
+      "filtro_pii",
+      "decomposicao",
+      "selecao_caracteristica",
+      "perfil",
+      "extrator",
+      "busca_rag",
+      "adaptador"
+    ],
+    "observacao": "No dev (65e1f09) a API faz só entrada, extração, filtro e decomposição; os agentes ainda não são chamados por nenhuma rota. A sequência acima é a que o arnês da bancada chama, em Python corrido. Não há Estrategista (PR #81), Auditor (PR #74), laço nem pausa para a professora."
+  },
+  "comparacao": [
+    {
+      "aspecto": "Laço Auditor-Adaptador",
+      "hoje": "No PR #74 o laço é um for dentro de AgenteAuditor.executar_ciclo; o PR #80 liga o Adaptador por CicloComAuditor. Funciona, mas fica escondido dentro de uma função.",
+      "com_langgraph": "O laço vira uma seta com condição (decisao -> adaptador) e um contador no estado; o limite de 2 voltas (ADR-06) fica visível no desenho.",
+      "custo_ou_risco": "Duas formas do mesmo laço não podem conviver: ao adotar, executar_ciclo deixa de ser chamado pelo pipeline (continua útil em testes)."
+    },
+    {
+      "aspecto": "Pausa para a professora",
+      "hoje": "Não existe no backend: a revisão (#21, #22) seria outra requisição do front, sem ligação com o que o pipeline já fez.",
+      "com_langgraph": "interrupt() para o grafo na revisão e Command(resume=...) continua de onde parou, com o mesmo estado.",
+      "custo_ou_risco": "Para pausar entre duas requisições HTTP o estado precisa ficar guardado nesse intervalo: choca com zero retenção (RNF-01/RNF-02). Ver a linha do checkpointer."
+    },
+    {
+      "aspecto": "Retomar após falha",
+      "hoje": "Se o modelo cai no meio (ex.: Ollama), a requisição falha e tudo recomeça do upload.",
+      "com_langgraph": "Com checkpointer, invoke(None) retoma do último passo salvo; no protótipo, o Extrator e a busca não rodaram de novo.",
+      "custo_ou_risco": "Só vale enquanto o estado estiver guardado; com MemorySaver por requisição, só dentro da mesma requisição."
+    },
+    {
+      "aspecto": "Ver o estado de cada passo",
+      "hoje": "Só com print/log ou com o arnês da bancada (wrappers).",
+      "com_langgraph": "get_state_history() devolve a ficha completa depois de cada passo, com o próximo nó.",
+      "custo_ou_risco": "O histórico guarda o texto da questão e a minuta a cada passo: memória cresce com o material; apagar ao fim (delete_thread)."
+    },
+    {
+      "aspecto": "Rastro e observabilidade",
+      "hoje": "Telemetria por agente (total_ms, tokens) e resumir_ciclo para o RNF-07.",
+      "com_langgraph": "stream(stream_mode='updates') entrega cada passo em tempo real; o caminho e a latência por nó saem de graça.",
+      "custo_ou_risco": "O rastreamento pronto do ecossistema é o LangSmith, serviço externo e pago: não usar com material de aluno; manter a telemetria própria."
+    },
+    {
+      "aspecto": "Testes",
+      "hoje": "Cada agente tem teste unitário com mock do LLM (RNF-12).",
+      "com_langgraph": "Os mesmos testes continuam; somam-se testes de fluxo (o laço respeita o limite, o grafo para na revisão, o estado não tem dado pessoal).",
+      "custo_ou_risco": "Mais uma camada para testar; os testes de fluxo precisam de provedor determinístico (como o eco)."
+    },
+    {
+      "aspecto": "Dependência nova e licença",
+      "hoje": "O pyproject do dev não declara langgraph; ele já aparece no uv.lock como dependência indireta (langchain-community -> langchain -> langgraph).",
+      "com_langgraph": "Declarar langgraph (licença MIT) direto no pyproject, com versão fixa, via uv (RNF-11).",
+      "custo_ou_risco": "Traz langchain-core e langsmith (cliente) junto; a API mudou várias vezes entre versões 0.x e 1.x: fixar versão e ler o changelog antes de subir."
+    },
+    {
+      "aspecto": "Curva de aprendizado",
+      "hoje": "Python comum: qualquer pessoa do grupo lê a sequência de chamadas.",
+      "com_langgraph": "É preciso entender estado, nó, aresta condicional, checkpointer e interrupt.",
+      "custo_ou_risco": "Cerca de um dia para o grupo; erro comum é guardar no estado coisa que não devia (texto bruto, objetos grandes)."
+    },
+    {
+      "aspecto": "Zero retenção com checkpointer",
+      "hoje": "Nada é salvo: a requisição termina e o texto some (RNF-01, RNF-02, #35, #37).",
+      "com_langgraph": "O checkpointer salva o estado a cada passo. Solução do protótipo: MemorySaver só durante a requisição, texto bruto fora do estado (no Contexto) e delete_thread ao terminar.",
+      "custo_ou_risco": "Checkpointer em banco (SqliteSaver, PostgresSaver) guardaria texto de aluno em disco: proibido pelo RNF-01 sem um estado sem conteúdo (só ids e contagens)."
+    }
+  ],
+  "limitacoes": [
+    "Provedor determinístico 'eco': o Extrator e o Adaptador devolvem respostas por regras no formato pedido; mostra o fluxo, não a qualidade.",
+    "O Estrategista (PR #81) recebe do 'eco' um texto que não é JSON e cai na diretiva de reserva do catálogo (motivo falha_llm): o caminho com modelo dele não foi exercitado.",
+    "O juiz LLM do Auditor (PR #74) foi trocado por um substituto da bancada que nunca acusa nada; as checagens determinísticas do Auditor (TRCC, termos intocáveis, gabarito, cálculo, alternativas) são as do grupo.",
+    "A reprovação foi forçada: um embrulho do cliente acrescenta 'Resposta correta: a) oxigênio' à minuta do Adaptador. Usou a característica de impulsividade porque, na de comandos múltiplos, o próprio laudo de escopo do Adaptador já barra a marca e usa a reserva.",
+    "No laço, AgenteAuditor.executar_ciclo e CicloComAuditor (PR #80) não são chamados: o laço deles virou a aresta decisao -> adaptador; as peças chamadas (adapt e auditar) são as mesmas.",
+    "A revisão da professora é sintética: aceita o aprovado e 'edita' o que vem com alerta. Não há front (#21, #22).",
+    "A pausa e a retomada acontecem dentro do mesmo processo; numa API real, a pausa atravessa duas requisições e o estado teria de ficar guardado nesse meio-tempo.",
+    "Os __init__.py de agents e schemas ficaram como no dev (os PRs #80 e #81 mudam o mesmo arquivo de jeitos diferentes); os módulos novos são importados pelo caminho completo.",
+    "A busca usa só bm25 sobre o chunks.jsonl congelado da bancada (sem embeddings, sem banco).",
+    "O estado só fica livre de dado pessoal se o filtro do grupo pegar tudo: no M3 o sanitize_pii deixa passar o nome 'Ciclana Exemplo Falso' e ele entra no estado (achado já registrado nas saídas 26 e 35).",
+    "As latências medem o encanamento numa VPS sem GPU; não dizem nada sobre o RNF-07 com modelo de verdade."
+  ]
+}

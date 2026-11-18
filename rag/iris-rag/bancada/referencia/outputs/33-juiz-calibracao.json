@@ -1,0 +1,752 @@
+{
+ "estado": "aguardando rotulos",
+ "data": "2026-11-12T17:52:25-03:00",
+ "commit_grupo": "65e1f09",
+ "commit_bancada": "1af7aab",
+ "origem_dos_votos": "votos REAIS de juizes por modelo ja gravados (rodadas anteriores), nao do provedor deterministico 'eco'; este script nao chama nenhum modelo",
+ "unidade": "frase de resposta (prompt v1, 17-respostas.jsonl), casada entre juizes por texto normalizado",
+ "classes": [
+  "sim",
+  "parcial",
+  "nao"
+ ],
+ "ic95": "bootstrap por pergunta (2000 reamostragens, semente 20261112); proporcoes simples com Wilson",
+ "juizes": {
+  "haiku-r1": {
+   "arq": "17-juiz-haiku.jsonl",
+   "modelo": "claude-haiku-5-5",
+   "familia": "anthropic",
+   "distribuicao_votos": {
+    "n": 196,
+    "sim": {
+     "k": 157,
+     "prop": 0.801,
+     "ic95_wilson": [
+      0.74,
+      0.851
+     ]
+    },
+    "parcial": {
+     "k": 38,
+     "prop": 0.194,
+     "ic95_wilson": [
+      0.145,
+      0.255
+     ]
+    },
+    "nao": {
+     "k": 1,
+     "prop": 0.005,
+     "ic95_wilson": [
+      0.001,
+      0.028
+     ]
+    }
+   }
+  },
+  "haiku-r2": {
+   "arq": "17-juiz-haiku-r2.jsonl",
+   "modelo": "claude-haiku-5-5",
+   "familia": "anthropic",
+   "distribuicao_votos": {
+    "n": 196,
+    "sim": {
+     "k": 162,
+     "prop": 0.827,
+     "ic95_wilson": [
+      0.767,
+      0.873
+     ]
+    },
+    "parcial": {
+     "k": 32,
+     "prop": 0.163,
+     "ic95_wilson": [
+      0.118,
+      0.221
+     ]
+    },
+    "nao": {
+     "k": 2,
+     "prop": 0.01,
+     "ic95_wilson": [
+      0.003,
+      0.036
+     ]
+    }
+   }
+  },
+  "gpt-oss-20b": {
+   "arq": "17-juiz-local.jsonl",
+   "modelo": "gpt-oss:20b",
+   "familia": "openai-gpt-oss",
+   "distribuicao_votos": {
+    "n": 196,
+    "sim": {
+     "k": 189,
+     "prop": 0.964,
+     "ic95_wilson": [
+      0.928,
+      0.983
+     ]
+    },
+    "parcial": {
+     "k": 5,
+     "prop": 0.026,
+     "ic95_wilson": [
+      0.011,
+      0.058
+     ]
+    },
+    "nao": {
+     "k": 2,
+     "prop": 0.01,
+     "ic95_wilson": [
+      0.003,
+      0.036
+     ]
+    }
+   }
+  },
+  "gpt-oss-120b-r1": {
+   "arq": "17-juiz-r1.jsonl",
+   "modelo": "openai/gpt-oss-120b",
+   "familia": "openai-gpt-oss",
+   "distribuicao_votos": {
+    "n": 196,
+    "sim": {
+     "k": 186,
+     "prop": 0.949,
+     "ic95_wilson": [
+      0.909,
+      0.972
+     ]
+    },
+    "parcial": {
+     "k": 8,
+     "prop": 0.041,
+     "ic95_wilson": [
+      0.021,
+      0.078
+     ]
+    },
+    "nao": {
+     "k": 2,
+     "prop": 0.01,
+     "ic95_wilson": [
+      0.003,
+      0.036
+     ]
+    }
+   }
+  },
+  "gpt-oss-120b-r2": {
+   "arq": "17-juiz-r2.jsonl",
+   "modelo": "openai/gpt-oss-120b",
+   "familia": "openai-gpt-oss",
+   "distribuicao_votos": {
+    "n": 69,
+    "sim": {
+     "k": 60,
+     "prop": 0.87,
+     "ic95_wilson": [
+      0.77,
+      0.93
+     ]
+    },
+    "parcial": {
+     "k": 7,
+     "prop": 0.101,
+     "ic95_wilson": [
+      0.05,
+      0.195
+     ]
+    },
+    "nao": {
+     "k": 2,
+     "prop": 0.029,
+     "ic95_wilson": [
+      0.008,
+      0.1
+     ]
+    }
+   }
+  }
+ },
+ "fora_da_conta": {
+  "17-juiz-v2-busca-nova-r1.jsonl": "julga outras respostas (v2), 4 perguntas, sem outro juiz nas mesmas frases",
+  "17-juizes-comparados.txt": "relatorio por RESPOSTA (100% sustentada), refeito aqui por FRASE",
+  "28-divergencias-juizes.json": "subconjunto (so frases com desacordo) dos mesmos votos; usado como conferencia"
+ },
+ "rotulos_humanos": {
+  "arquivo": "bancada/calibracao/rotulos-humanos.jsonl",
+  "existe": false,
+  "n_frases_rotuladas": 0,
+  "avaliadores": {},
+  "busca_em_gabarito_avaliacao_outputs": "nenhum rotulo humano de frase encontrado. gabarito/ tem trechos relevantes por pergunta marcados por agente (Claude Opus), 'nao conferido por humano'; avaliacao/ so tem documentos .md; outputs/ so tem votos de modelo",
+  "distribuicao": null
+ },
+ "contra_a_pessoa_por_juiz": null,
+ "entre_juizes": {
+  "pares": [
+   {
+    "a": "haiku-r1",
+    "b": "haiku-r2",
+    "tipo": "mesmo modelo (repeticao)",
+    "n_frases": 196,
+    "n_perguntas": 35,
+    "concordancia_bruta": 0.959,
+    "concordancia_ic95_bootstrap": [
+     0.927,
+     0.985
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.922,
+     0.979
+    ],
+    "kappa": 0.867,
+    "kappa_ic95": [
+     0.752,
+     0.955
+    ],
+    "acaso_pe": 0.694,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       156,
+       1,
+       0
+      ],
+      [
+       6,
+       31,
+       1
+      ],
+      [
+       0,
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   {
+    "a": "haiku-r1",
+    "b": "gpt-oss-20b",
+    "tipo": "familia diferente",
+    "n_frases": 196,
+    "n_perguntas": 35,
+    "concordancia_bruta": 0.796,
+    "concordancia_ic95_bootstrap": [
+     0.732,
+     0.859
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.734,
+     0.846
+    ],
+    "kappa": 0.083,
+    "kappa_ic95": [
+     -0.019,
+     0.222
+    ],
+    "acaso_pe": 0.777,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       154,
+       3,
+       0
+      ],
+      [
+       34,
+       2,
+       2
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ]
+    }
+   },
+   {
+    "a": "haiku-r1",
+    "b": "gpt-oss-120b-r1",
+    "tipo": "familia diferente",
+    "n_frases": 195,
+    "n_perguntas": 35,
+    "concordancia_bruta": 0.841,
+    "concordancia_ic95_bootstrap": [
+     0.792,
+     0.888
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.783,
+     0.886
+    ],
+    "kappa": 0.304,
+    "kappa_ic95": [
+     0.146,
+     0.43
+    ],
+    "acaso_pe": 0.772,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       156,
+       1,
+       0
+      ],
+      [
+       29,
+       7,
+       1
+      ],
+      [
+       0,
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   {
+    "a": "haiku-r1",
+    "b": "gpt-oss-120b-r2",
+    "tipo": "familia diferente",
+    "n_frases": 68,
+    "n_perguntas": 12,
+    "concordancia_bruta": 0.824,
+    "concordancia_ic95_bootstrap": [
+     0.714,
+     0.925
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.716,
+     0.896
+    ],
+    "kappa": 0.475,
+    "kappa_ic95": [
+     0.299,
+     0.683
+    ],
+    "acaso_pe": 0.664,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       49,
+       1,
+       0
+      ],
+      [
+       10,
+       6,
+       1
+      ],
+      [
+       0,
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   {
+    "a": "haiku-r2",
+    "b": "gpt-oss-20b",
+    "tipo": "familia diferente",
+    "n_frases": 196,
+    "n_perguntas": 35,
+    "concordancia_bruta": 0.821,
+    "concordancia_ic95_bootstrap": [
+     0.76,
+     0.88
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.762,
+     0.869
+    ],
+    "kappa": 0.101,
+    "kappa_ic95": [
+     -0.036,
+     0.237
+    ],
+    "acaso_pe": 0.801,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       158,
+       3,
+       1
+      ],
+      [
+       30,
+       2,
+       0
+      ],
+      [
+       1,
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   {
+    "a": "haiku-r2",
+    "b": "gpt-oss-120b-r1",
+    "tipo": "familia diferente",
+    "n_frases": 195,
+    "n_perguntas": 35,
+    "concordancia_bruta": 0.882,
+    "concordancia_ic95_bootstrap": [
+     0.835,
+     0.926
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.829,
+     0.92
+    ],
+    "kappa": 0.425,
+    "kappa_ic95": [
+     0.206,
+     0.595
+    ],
+    "acaso_pe": 0.795,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       162,
+       0,
+       0
+      ],
+      [
+       23,
+       8,
+       0
+      ],
+      [
+       0,
+       0,
+       2
+      ]
+     ]
+    }
+   },
+   {
+    "a": "haiku-r2",
+    "b": "gpt-oss-120b-r2",
+    "tipo": "familia diferente",
+    "n_frases": 68,
+    "n_perguntas": 12,
+    "concordancia_bruta": 0.882,
+    "concordancia_ic95_bootstrap": [
+     0.776,
+     0.985
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.785,
+     0.939
+    ],
+    "kappa": 0.639,
+    "kappa_ic95": [
+     0.451,
+     0.894
+    ],
+    "acaso_pe": 0.674,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       51,
+       0,
+       0
+      ],
+      [
+       8,
+       7,
+       0
+      ],
+      [
+       0,
+       0,
+       2
+      ]
+     ]
+    }
+   },
+   {
+    "a": "gpt-oss-20b",
+    "b": "gpt-oss-120b-r1",
+    "tipo": "mesma familia",
+    "n_frases": 195,
+    "n_perguntas": 35,
+    "concordancia_bruta": 0.944,
+    "concordancia_ic95_bootstrap": [
+     0.913,
+     0.974
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.902,
+     0.968
+    ],
+    "kappa": 0.33,
+    "kappa_ic95": [
+     -0.017,
+     0.552
+    ],
+    "acaso_pe": 0.916,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       181,
+       6,
+       1
+      ],
+      [
+       3,
+       2,
+       0
+      ],
+      [
+       1,
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   {
+    "a": "gpt-oss-20b",
+    "b": "gpt-oss-120b-r2",
+    "tipo": "mesma familia",
+    "n_frases": 68,
+    "n_perguntas": 12,
+    "concordancia_bruta": 0.912,
+    "concordancia_ic95_bootstrap": [
+     0.843,
+     0.971
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.821,
+     0.959
+    ],
+    "kappa": 0.472,
+    "kappa_ic95": [
+     0.0,
+     0.738
+    ],
+    "acaso_pe": 0.833,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       59,
+       5,
+       1
+      ],
+      [
+       0,
+       2,
+       0
+      ],
+      [
+       0,
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   {
+    "a": "gpt-oss-120b-r1",
+    "b": "gpt-oss-120b-r2",
+    "tipo": "mesmo modelo (repeticao)",
+    "n_frases": 68,
+    "n_perguntas": 12,
+    "concordancia_bruta": 0.971,
+    "concordancia_ic95_bootstrap": [
+     0.926,
+     1.0
+    ],
+    "concordancia_ic95_wilson_ingenuo": [
+     0.899,
+     0.992
+    ],
+    "kappa": 0.875,
+    "kappa_ic95": [
+     0.743,
+     1.0
+    ],
+    "acaso_pe": 0.764,
+    "matriz_confusao": {
+     "linhas": "referencia",
+     "colunas": "comparado",
+     "ordem": [
+      "sim",
+      "parcial",
+      "nao"
+     ],
+     "valores": [
+      [
+       58,
+       1,
+       0
+      ],
+      [
+       1,
+       6,
+       0
+      ],
+      [
+       0,
+       0,
+       2
+      ]
+     ]
+    }
+   }
+  ],
+  "por_tipo_de_par": {
+   "familia diferente": {
+    "pares": [
+     "haiku-r1 x gpt-oss-20b",
+     "haiku-r1 x gpt-oss-120b-r1",
+     "haiku-r1 x gpt-oss-120b-r2",
+     "haiku-r2 x gpt-oss-20b",
+     "haiku-r2 x gpt-oss-120b-r1",
+     "haiku-r2 x gpt-oss-120b-r2"
+    ],
+    "kappa_medio": 0.338,
+    "concordancia_media": 0.841
+   },
+   "mesma familia": {
+    "pares": [
+     "gpt-oss-20b x gpt-oss-120b-r1",
+     "gpt-oss-20b x gpt-oss-120b-r2"
+    ],
+    "kappa_medio": 0.401,
+    "concordancia_media": 0.928
+   },
+   "mesmo modelo (repeticao)": {
+    "pares": [
+     "haiku-r1 x haiku-r2",
+     "gpt-oss-120b-r1 x gpt-oss-120b-r2"
+    ],
+    "kappa_medio": 0.871,
+    "concordancia_media": 0.965
+   }
+  },
+  "tres_principais": {
+   "juizes": [
+    "haiku-r1",
+    "gpt-oss-20b",
+    "gpt-oss-120b-r1"
+   ],
+   "n_frases_comuns": 195,
+   "unanimes": 155,
+   "unanimes_ic95_wilson": [
+    0.733,
+    0.846
+   ],
+   "com_desacordo": 40
+  },
+  "leitura": "Dois juízes concordarem não prova que acertam: podem errar igual (mesma família de modelo, mesma tendência a aprovar). Só a pessoa diz quem acerta."
+ },
+ "rotulos_necessarios": {
+  "meta_meia_largura_ic95_kappa": 0.15,
+  "formula": "n = 1,96^2 * po(1-po) / ((1-pe)^2 * h^2) * deff, com po = kappa(1-pe)+pe",
+  "pe_usado": 0.822,
+  "pe_origem": "media do acaso (pe) dos 3 pares de juizes principais; a pessoa deve ter distribuicao parecida",
+  "efeito_de_desenho_deff": 1.0,
+  "deff_origem": "mediana de (EP bootstrap por pergunta / EP formula)^2 nos pares principais; minimo 1",
+  "cenarios": [
+   {
+    "kappa_esperado": 0.4,
+    "n_frases_se_independentes": 513,
+    "n_frases_com_efeito_de_desenho": 513,
+    "cabe_no_total_disponivel": false
+   },
+   {
+    "kappa_esperado": 0.6,
+    "n_frases_se_independentes": 356,
+    "n_frases_com_efeito_de_desenho": 356,
+    "cabe_no_total_disponivel": false
+   },
+   {
+    "kappa_esperado": 0.8,
+    "n_frases_se_independentes": 185,
+    "n_frases_com_efeito_de_desenho": 185,
+    "cabe_no_total_disponivel": true
+   }
+  ],
+  "recomendado_kappa_0_6": 356,
+  "rotulados_ate_agora": 0,
+  "faltam": 356,
+  "total_frases_disponiveis": 198,
+  "aviso": "se a pessoa der quase tudo 'sim' (como os juizes), pe sobe e o kappa fica instavel: por isso a amostra do rotular.py puxa a mais as frases com voto 'parcial'/'nao' e com desacordo"
+ }
+}

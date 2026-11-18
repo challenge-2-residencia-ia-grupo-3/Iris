@@ -292,13 +292,16 @@ def responder(
     filtro_barreira: str | None = None,
 ) -> dict:
     t0 = time.time()
+    fallback_motivo = None
     try:
         trechos = consultar.buscar(pergunta, metodo, k=k, filtro_barreira=filtro_barreira)
         metodo_efetivo = metodo
-    except Exception:
+    except Exception as exc:
         if metodo != "bm25":
             trechos = consultar.buscar(pergunta, "bm25", k=k, filtro_barreira=filtro_barreira)
             metodo_efetivo = "bm25"
+            # a busca pedida falhou e caiu na reserva por palavras: o motivo vai junto, para a tela poder avisar
+            fallback_motivo = f"{type(exc).__name__}: {exc}"
         else:
             raise
     t_busca = time.time() - t0
@@ -308,7 +311,8 @@ def responder(
     modelo_atual = os.environ.get("RAG_LLM_MODELO", MODELO if provedor_atual == LLM else "llama3.1:8b")
     if provedor_atual.lower() in {"anthropic", "claude", "sonnet"}:
         modelo_atual = (uso or {}).get("modelo") or _modelo_anthropic()   # o modelo que de fato respondeu
-    return {"pergunta": pergunta, "metodo": metodo_efetivo, "llm": f"{provedor_atual}:{modelo_atual}", "resposta": resposta,
+    return {"pergunta": pergunta, "metodo": metodo_efetivo, "metodo_solicitado": metodo,
+            "fallback_motivo": fallback_motivo, "llm": f"{provedor_atual}:{modelo_atual}", "resposta": resposta,
             "trechos_entregues": trechos,
             "fontes": [{"ref": f"T{i}", "doc": t["doc"], "titulo": t["titulo"], "pagina": t["pagina"],
                         "secao": t["secao"], "url": t["url"], "idioma": t["idioma"], "chunk_id": t["chunk_id"]}

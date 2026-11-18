@@ -93,6 +93,7 @@ nav:
       - Arquitetura do RAG: rag/arquitetura.md
       - Avaliação do RAG: rag/avaliacao.md
       - LLM x RAG (Semana 3): rag/semana3/relatorio.md
+      - Painel de qualidade (comparativo): rag/painel_qualidade_comparativo.md
   - Metodologia CBL: cbl.md
   - Catálogo de Skills: skills.md
   - Roteiro de Testes: roteiro_testes.md

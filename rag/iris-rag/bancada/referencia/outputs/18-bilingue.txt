@@ -1,0 +1,46 @@
+EXPERIMENTO 2: BUSCA BILÍNGUE - ver avaliacao/PREREG-bilingue.md (escrito antes de rodar)
+Gabarito rascunho v0, 38 perguntas com resposta. Qwen3-Embedding + reranker mMiniLM, top-5.
+IC 95% bootstrap por pergunta (2000, semente 20261106). Gabarito provavelmente incompleto: ganho provisório.
+
+variante                     recall@5  hit@5   inglês no top-5   dif. pareada vs A (recall@5)
+A_pt                 0.36 [0.26-0.45]  29/38    52 de 190      
+B_en                 0.41 [0.32-0.50]  33/38    90 de 190      +0.05 [-0.02 a +0.14] IC passa pelo zero
+C_rrf                0.38 [0.29-0.47]  32/38    67 de 190      +0.03 [-0.02 a +0.07] IC passa pelo zero
+D_uniao_pt           0.45 [0.35-0.54]  35/38    82 de 190      +0.09 [+0.02 a +0.17] IC exclui o zero
+E_uniao_pt_en        0.42 [0.33-0.51]  34/38    78 de 190      +0.06 [-0.01 a +0.15] IC passa pelo zero
+F_4listas            0.44 [0.34-0.54]  34/38    82 de 190      +0.08 [+0.01 a +0.17] IC exclui o zero
+
+recall@5 por tipo:
+  tipo           n    A_pt    B_en   C_rrf  D_unia  E_unia  F_4lis
+  dua            8    0.41    0.45    0.46    0.44    0.48    0.44
+  estrategia    10    0.16    0.30    0.20    0.29    0.27    0.29
+  evidencia      6    0.25    0.51    0.37    0.54    0.54    0.51
+  mito           4    0.40    0.23    0.28    0.40    0.28    0.40
+  norma          8    0.61    0.58    0.61    0.64    0.58    0.61
+  so_ingles      2    0.37    0.20    0.37    0.37    0.20    0.37
+  resposta só em inglês (evidencia, mito, so_ingles): n=12 A=0.32 B=0.36 C=0.34 D=0.46 E=0.39 F=0.45
+  demais: n=26 A=0.37 B=0.43 C=0.41 D=0.44 E=0.43 F=0.43
+
+Tempo por pergunta (todas as variantes juntas, VPS): mediana 28 s
+
+Perguntas em que a melhor variante ganhou ou perdeu de A (recall@5):
+  Q01 [estrategia] A=0.17 B+0.17 E+0.17 | A student forgets the problem statement in the middle of a multi-step 
+  Q06 [estrategia] A=0.00 B+0.50 D+0.50 E+0.50 F+0.50 | The student answers impulsively before finishing reading the question;
+  Q07 [estrategia] A=0.00 B+0.20 D+0.20 E+0.20 F+0.20 | Long reading comprehension text: if I read it aloud or simplify the te
+  Q08 [estrategia] A=0.17 B+0.33 C+0.17 | Which classroom management strategies (praise, reinforcement, point sy
+  Q09 [estrategia] A=0.67 D+0.33 F+0.33 | Where should I seat the student with ADHD, and what classroom environm
+  Q10 [estrategia] A=0.00 B+0.25 C+0.25 D+0.25 E+0.25 F+0.25 | How to give instructions to a student with ADHD: should I say everythi
+  Q11 [dua] A=0.20 B+0.20 C+0.20 E+0.20 | What are the three principles of Universal Design for Learning (UDL (D
+  Q14 [dua] A=0.33 E+0.17 | How can multiple means of action and expression be offered in an asses
+  Q15 [dua] A=0.40 B+0.20 C+0.20 D+0.20 E+0.20 F+0.20 | What does UDL (DUA) recommend for engagement: how to spark interest an
+  Q17 [dua] A=0.33 B-0.11 | In the UDL (DUA) guidelines, what is recommended regarding setting goa
+  Q19 [norma] A=0.80 B-0.20 | What does Lei 14.254/2021 guarantee for students with ADHD and dyslexi
+  Q20 [norma] A=0.25 D+0.25 F+0.25 | Can the school require a medical report to provide educational support
+  Q23 [norma] A=0.40 E-0.20 F-0.20 | What is AEE (specialized educational support), who is entitled to it, 
+  Q28 [evidencia] A=0.00 B+0.80 C+0.20 D+0.80 E+0.80 F+0.80 | Do classroom interventions reduce off-task and disruptive behavior in 
+  Q29 [evidencia] A=0.50 B-0.25 D-0.25 E-0.25 F-0.25 | Does cognitive training (for example, computer-based working memory tr
+  Q30 [evidencia] A=0.00 D+0.17 E+0.17 | Does placing students with special educational needs in a regular clas
+  Q32 [evidencia] A=0.00 B+1.00 C+0.50 D+1.00 E+1.00 F+1.00 | Do school-based interventions for ADHD tested in randomized trials imp
+  Q33 [mito] A=0.40 B-0.20 | Is it worth teaching according to the student's learning style (visual
+  Q35 [mito] A=0.75 B-0.50 C-0.50 E-0.50 | Does increasing the spacing between letters help the reading of people
+  Q37 [so_ingles] A=0.33 B-0.33 E-0.33 | Do automatic text simplification systems preserve the original meaning

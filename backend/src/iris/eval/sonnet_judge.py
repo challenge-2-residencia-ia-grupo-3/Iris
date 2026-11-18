@@ -27,7 +27,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from iris.config import RAG_PACOTE_DIR, REPO_ROOT, get_settings
+from iris.config import JUIZ_MODELO_PADRAO, RAG_PACOTE_DIR, REPO_ROOT, get_settings
 
 REGRA_JUIZ_V2_PATH = RAG_PACOTE_DIR / "regra_juiz_respostas_v2.md"
 CACHE_JUIZ_PADRAO = REPO_ROOT / "reports" / "sonnet_judge_cache.jsonl"
@@ -57,7 +57,7 @@ def sonnet_judge_status() -> dict[str, Any]:
     key = (settings.anthropic_api_key or "").strip()
     return {
         "ready": bool(key),
-        "model": settings.judge_model or "claude-sonnet-4-5-20250929",
+        "model": settings.judge_model or JUIZ_MODELO_PADRAO,
         "key_configured": bool(key),
         "cache_path": str(CACHE_JUIZ_PADRAO),
     }
@@ -469,7 +469,7 @@ def julgar_resposta_sonnet(
 ) -> dict[str, Any]:
     """Avalia uma resposta gerada (ex.: pelo Llama 3) usando o Juiz Claude Sonnet e a Regra v2."""
     settings = get_settings()
-    modelo_alvo = modelo or settings.judge_model or "claude-sonnet-4-20250514"
+    modelo_alvo = modelo or settings.judge_model or JUIZ_MODELO_PADRAO
     cache_key = _calcular_chave_cache(pergunta, trechos, resposta, modelo_alvo, n_juizes)
 
     if usar_cache and chamar_api_fn is None:
@@ -616,6 +616,11 @@ def julgar_resposta_sonnet(
             (mapa_nota_resp.get(resp_a, 0.5) + mapa_nota_resp.get(resp_b, 0.5)) / 2.0,
             4,
         )
+    elif not resposta.strip():
+        # resposta vazia (geração cortada, por exemplo) não é resposta fiel: antes contava 1,0
+        fidelidade_sonnet = 0.0
+        fidelidade_bruta = 0.0
+        relevancia_sonnet = 0.0
     else:
         fidelidade_sonnet = 1.0
         fidelidade_bruta = 1.0

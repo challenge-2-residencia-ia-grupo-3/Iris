@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // tema escolhido no botão do rodapé do menu; sem escolha guardada, abre no claro
+    (function () {
+      let tema = 'claro';
+      try { tema = localStorage.getItem('iris-tema') || 'claro'; } catch (_) {}
+      document.documentElement.dataset.tema = tema === 'escuro' ? 'escuro' : 'claro';
+    })();
+  </script>
   <title>Íris — Bancada de Auditoria RAG e Evidências Pedagógicas</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -35,6 +44,18 @@
       --moss-soft: #e8f5f0;
       --ochre: #9e5b08;
       --ochre-soft: #fef5e7;
+
+      /* cores que estavam fixas no código; no tema claro valem o mesmo de antes */
+      --barra-ok: #1A6B42;
+      --barra-aviso: #8C5200;
+      --barra-ruim: #C93E22;
+      --seta: #b6c7c7;
+      --seta-usada: #143d40;
+      --texto-ok: #0f4f37;
+      --texto-aviso: #693c04;
+      --texto-ruim: #7e2215;
+      --texto-info: #143d40;
+      --destaque-trecho: #fff9f7;
 
       --font-sans: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       --font-prose: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
@@ -109,6 +130,8 @@
       color: #ffffff;
       line-height: 1.15;
     }
+    .brand-title { display: flex; align-items: center; gap: 0.55rem; }
+    .brand-icone { width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0; background: #fbf3ef; }
     .brand-sub {
       margin: 0.35rem 0 0;
       font-size: 0.78rem;
@@ -339,6 +362,9 @@
       gap: 1.5rem;
       align-items: start;
     }
+    /* Sem isto a coluna cresce até a largura mínima da tabela e a página rola para o lado em telas estreitas. */
+    .metrics-architecture > *,
+    .workbench > * { min-width: 0; }
     .verdict-panel {
       background: var(--wash);
       border: 1px solid var(--hairline-strong);
@@ -425,6 +451,232 @@
     .score-ok { color: var(--moss); }
     .score-warn { color: var(--ochre); }
     .score-danger { color: var(--vermilion); }
+    .score-neutral { color: var(--muted); }
+    .verdict-num.neutral { color: var(--ink-soft); }
+    .ledger-ic {
+      display: block;
+      margin-top: 0.12rem;
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .ledger-name {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.3rem 0.45rem;
+    }
+    .provenance-row { margin: 0 0 1rem; }
+    .provenance-row .tag { gap: 0.3rem; }
+    .provenance-row .tag code { font-family: var(--font-mono); font-size: 0.72rem; background: none; padding: 0; color: inherit; }
+    .baseline-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem 1rem;
+      margin: 0 0 0.6rem;
+    }
+    .baseline-head .ledger-heading { margin: 0; }
+    .baseline-rule { margin: 0.55rem 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .baseline-reasons { margin: 0.35rem 0 0; padding-left: 1.1rem; }
+    .baseline-rule code,
+    .ledger-group .notice code,
+    .context-box code { overflow-wrap: anywhere; }
+    .btn-compact { padding: 0.34rem 0.7rem; font-size: 0.78rem; }
+    .screen-question {
+      margin: 0 0 1rem;
+      padding: 0.6rem 0.85rem;
+      border-left: 3px solid var(--teal);
+      background: var(--teal-soft);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      overflow-wrap: anywhere;
+    }
+    .screen-question strong { color: var(--ink); }
+    .screen-question .screen-origin { display: block; margin-top: 0.2rem; color: var(--muted); }
+    .gate-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.4rem 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid var(--hairline-strong);
+      margin-bottom: 0.85rem;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+    .gate-banner > * { min-width: 0; }
+    .gate-word { font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.8rem; white-space: nowrap; }
+    .gate-reasons { margin: 0; padding-left: 1.1rem; flex: 1 1 260px; overflow-wrap: anywhere; }
+    .gate-notes { margin: -0.45rem 0 0.85rem; padding-left: 1.1rem; font-size: 0.78rem; color: var(--muted); line-height: 1.5; overflow-wrap: anywhere; }
+    .gate-aprovado { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.35); color: var(--texto-ok); }
+    .gate-aviso { background: var(--ochre-soft); border-color: rgba(158, 91, 8, 0.35); color: var(--texto-aviso); }
+    .gate-reprovado { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.38); color: var(--texto-ruim); }
+    .gate-neutro { background: var(--teal-soft); border-color: rgba(20, 61, 64, 0.28); color: var(--texto-info); }
+    .leak-cell { white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .leak-all { color: var(--vermilion); font-weight: 700; }
+    .leak-none { color: var(--moss); font-weight: 700; }
+    .leak-some { color: var(--ochre); font-weight: 700; }
+    .arch-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 620px) minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+    .arch-grid > * { min-width: 0; }
+    .arch-canvas {
+      overflow-x: auto;
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      background: var(--surface);
+      padding: 0.5rem;
+    }
+    .arch-canvas svg { display: block; }
+    .arch-node rect { fill: var(--surface); stroke: var(--hairline-strong); stroke-width: 1.2; }
+    .arch-node text { font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; fill: var(--ink-soft); }
+    .arch-node.visited rect { fill: var(--teal-soft); stroke: var(--teal); stroke-width: 1.8; }
+    .arch-node.visited text { fill: var(--teal); }
+    .arch-node.pause rect { stroke-dasharray: 5 3; }
+    .arch-node.border rect { fill: var(--wash); }
+    .arch-node .arch-count { font-size: 10.5px; font-weight: 700; fill: var(--teal); }
+    .arch-edge { fill: none; stroke: var(--hairline-strong); stroke-width: 1.3; }
+    .arch-edge.cond { stroke-dasharray: 5 4; }
+    .arch-edge.used { stroke: var(--teal); stroke-width: 2.2; }
+    .arch-label { font-family: var(--font-sans); font-size: 11px; fill: var(--muted); }
+    .arch-label.used { fill: var(--teal); font-weight: 700; }
+    .arch-path {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 0.35rem;
+      margin: 0.5rem 0 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.78rem;
+    }
+    .arch-path li {
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      padding: 0.12rem 0.55rem;
+      background: var(--surface);
+      white-space: nowrap;
+    }
+    .arch-path li.loop { border-color: var(--ochre); color: var(--ochre); background: var(--ochre-soft); }
+    .arch-path li.pause { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
+    .arch-path li.question { border: 0; background: transparent; font-weight: 700; padding-left: 0; color: var(--ink); }
+    .code-packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.75rem;
+      margin: 0.75rem 0;
+    }
+    .code-packages > * { min-width: 0; }
+    .code-package {
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 0.65rem 0.7rem;
+      background: var(--surface);
+    }
+    .code-package h3 { margin: 0 0 0.45rem; font-size: 0.82rem; font-weight: 700; color: var(--ink); }
+    .code-package h3 span { font-weight: 500; color: var(--muted); }
+    .code-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .mod-chip {
+      font-family: var(--font-mono, "JetBrains Mono", monospace);
+      font-size: 0.72rem;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 6px;
+      padding: 0.2rem 0.45rem;
+      background: var(--paper);
+      color: var(--ink-soft);
+      cursor: pointer;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      text-align: left;
+    }
+    .mod-chip:hover, .mod-chip:focus-visible { border-color: var(--teal); outline: none; }
+    .mod-chip.sem-teste { border-style: dashed; border-color: var(--vermilion); }
+    .mod-chip.pii::after { content: " DP"; font-weight: 700; color: var(--ochre); }
+    .mod-chip.sel { background: var(--teal); border-color: var(--teal); border-style: solid; color: #fff; }
+    .mod-chip.sel.pii::after { color: #fff; }
+    .mod-chip.importa { background: var(--teal-soft); border-color: var(--teal); border-style: solid; }
+    .mod-chip.importado { background: var(--ochre-soft); border-color: var(--ochre); border-style: solid; }
+    .mod-chip.dim { opacity: 0.3; }
+    .code-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; font-size: 0.78rem; color: var(--muted); margin: 0.5rem 0; }
+    .code-legend .mod-chip { cursor: default; }
+    .code-detail {
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 0.75rem 0.85rem;
+      background: var(--surface);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+    .code-detail h3 { margin: 0 0 0.3rem; font-size: 0.9rem; }
+    .code-detail ul { margin: 0.15rem 0 0.5rem; padding-left: 1.1rem; }
+    .code-search { max-width: 420px; width: 100%; }
+    .symbol-cell { min-width: 150px; overflow-wrap: anywhere; }
+    table.table-compact th, table.table-compact td { padding-left: 0.45rem; padding-right: 0.45rem; }
+    table.table-compact th, table.table-compact th.num { white-space: normal; letter-spacing: 0.02em; }
+    table.table-compact .ledger-ic { white-space: normal; }
+    @media (max-width: 420px) {
+      table.table-compact { font-size: 0.78rem; }
+      table.table-compact th, table.table-compact td { padding-left: 0.3rem; padding-right: 0.3rem; }
+      .symbol-cell { min-width: 0; }
+    }
+    @media (max-width: 360px) {
+      table.table-compact { font-size: 0.72rem; }
+      table.table-compact .tag { padding-left: 0.3rem; padding-right: 0.3rem; }
+      table.table-compact td.num { white-space: normal; }
+    }
+    .symbol-cell code { overflow-wrap: anywhere; }
+    .symbol-where { display: block; margin-top: 0.15rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); overflow-wrap: anywhere; }
+    details.flow-item { border-bottom: 1px solid var(--hairline); padding: 0.4rem 0; font-size: 0.84rem; }
+    details.flow-item summary { cursor: pointer; font-weight: 600; overflow-wrap: anywhere; }
+    details.flow-item ol { margin: 0.4rem 0 0.2rem; padding-left: 1.4rem; color: var(--ink-soft); overflow-wrap: anywhere; }
+    @media (max-width: 1500px) {
+      .arch-grid { grid-template-columns: minmax(0, 1fr); }
+      .arch-canvas { max-width: 640px; }
+    }
+    .arch-canvas svg { max-width: 100%; height: auto; }
+    .arch-zoom-note { display: none; margin: 0.4rem 0 0; font-size: 0.76rem; color: var(--muted); }
+    @media (max-width: 700px) {
+      .arch-zoom-note { display: block; }
+    }
+    .arch-run-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.75rem; margin: 0.6rem 0 0.9rem; }
+    .arch-run-controls > div { min-width: 0; flex: 0 1 280px; }
+    .arch-pause {
+      border: 1px solid var(--teal);
+      border-radius: 10px;
+      padding: 0.8rem 0.9rem;
+      background: var(--teal-soft);
+      margin-bottom: 0.9rem;
+    }
+    .arch-pause h3 { margin: 0 0 0.4rem; font-size: 0.92rem; }
+    .arch-pause textarea { width: 100%; min-height: 9rem; font-family: var(--font-mono); font-size: 0.8rem; }
+    .arch-stored { white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--font-mono); font-size: 0.76rem; background: var(--paper); border: 1px solid var(--hairline); border-radius: 8px; padding: 0.6rem 0.7rem; max-height: 14rem; overflow-y: auto; }
+    .chain-note { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .refusal-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin: 0.75rem 0;
+    }
+    .refusal-summary > * { min-width: 0; }
+    .refusal-cell {
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 0.7rem 0.8rem;
+      background: var(--surface);
+    }
+    .refusal-cell .verdict-num { font-size: 1.5rem; }
+    .refusal-cell .verdict-sub { overflow-wrap: anywhere; }
+    .refusal-answer { color: var(--muted); overflow-wrap: anywhere; min-width: 220px; }
 
     .bar-track {
       width: 84px;
@@ -478,21 +730,39 @@
       line-height: 1.45;
       white-space: normal;
       z-index: 40;
-      opacity: 0;
       pointer-events: none;
-      transform: translateY(4px);
-      transition: opacity 0.14s ease, transform 0.14s ease;
+      /* Fora do fluxo enquanto escondida: uma dica invisível de 300px alargava a página em telas estreitas. */
+      display: none;
     }
     .metric-tip:hover::after,
     .metric-tip:focus-visible::after {
-      opacity: 1;
-      transform: translateY(0);
+      display: block;
+      animation: metric-tip-in 0.14s ease;
+    }
+    @keyframes metric-tip-in {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     tbody tr:first-child .metric-tip::after {
       bottom: auto;
       top: calc(100% + 8px);
     }
-    @media (min-width: 760px) {
+    @media (max-width: 760px) {
+      /* Em tela estreita a dica abre presa ao rodapé, com margem dos dois lados, para nunca sair da tela. */
+      .metric-tip::after,
+      tbody tr:first-child .metric-tip::after {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        top: auto;
+        bottom: 12px;
+        width: auto;
+        max-width: none;
+      }
+    }
+    /* Só solta a tabela (para a dica poder sair da caixa) quando a tela comporta a tabela mais larga
+       (segmentação, ~820px) ao lado da barra lateral; abaixo disso a caixa rola e a página não estoura. */
+    @media (min-width: 1240px) {
       .ledger-group .table-scroll { overflow: visible; }
     }
 
@@ -504,10 +774,10 @@
       font-size: 0.85rem;
       margin-bottom: 1rem;
     }
-    .notice-ok { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.35); color: #0f4f37; }
-    .notice-warn { background: var(--ochre-soft); border-color: rgba(158, 91, 8, 0.35); color: #693c04; }
-    .notice-danger { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.38); color: #7e2215; }
-    .notice-info { background: var(--teal-soft); border-color: rgba(20, 61, 64, 0.28); color: #143d40; }
+    .notice-ok { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.35); color: var(--texto-ok); }
+    .notice-warn { background: var(--ochre-soft); border-color: rgba(158, 91, 8, 0.35); color: var(--texto-aviso); }
+    .notice-danger { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.38); color: var(--texto-ruim); }
+    .notice-info { background: var(--teal-soft); border-color: rgba(20, 61, 64, 0.28); color: var(--texto-info); }
 
     /* Benchmark Query Selector Rail + Split Evidence Workbench */
     .query-rail {
@@ -568,7 +838,7 @@
     /* Two-column Split Evidence Workbench */
     .workbench {
       display: grid;
-      grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.22fr);
+      grid-template-columns: minmax(260px, 0.92fr) minmax(300px, 1.22fr);
       gap: 1.5rem;
       align-items: start;
     }
@@ -678,8 +948,8 @@
       line-height: 1.55;
     }
     .rule-sheet li + li { margin-top: 0.35rem; }
-    .rule-allow { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.32); color: #0f4f37; }
-    .rule-forbid { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.32); color: #7e2215; }
+    .rule-allow { background: var(--moss-soft); border-color: rgba(21, 111, 78, 0.32); color: var(--texto-ok); }
+    .rule-forbid { background: var(--vermilion-soft); border-color: rgba(200, 62, 43, 0.32); color: var(--texto-ruim); }
 
     /* Right column: Evidence Stream */
     .sources-head {
@@ -706,7 +976,7 @@
     }
     .chunk-sheet.highlight {
       border-color: var(--vermilion);
-      background: #fff9f7;
+      background: var(--destaque-trecho);
     }
     .chunk-head {
       display: flex;
@@ -757,7 +1027,7 @@
       border: 1px solid rgba(158, 91, 8, 0.32);
       border-radius: 6px;
       font-size: 0.8rem;
-      color: #693c04;
+      color: var(--texto-aviso);
     }
     .license-note {
       margin-top: 0.6rem;
@@ -895,13 +1165,127 @@
       main { padding: 1.25rem 1rem 3rem; }
       .metrics-architecture,
       .workbench {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
       .workbench-left { position: static; }
     }
 
+
+    /* Tema escuro (botão no rodapé do menu). Só acréscimo: o tema claro continua sendo o :root acima. */
+    html[data-tema="escuro"] {
+      color-scheme: dark;
+      --rail: #0d1f21; --rail-elevated: #15302f; --rail-active: #1d4245; --rail-border: #23403f;
+      --rail-ink: #e6eeee; --rail-muted: #8fb3b5;
+      --ink: #e4ecec; --ink-soft: #c2d0d0; --muted: #94a9aa;
+      --paper: #0f1a1b; --surface: #162426; --wash: #1c2d2f; --wash-strong: #24393b;
+      --hairline: #2a3d3f; --hairline-strong: #3b5355;
+      --teal: #7cc4c4; --teal-soft: #17302f;
+      --vermilion: #ff8a75; --vermilion-hover: #ffa08f; --vermilion-soft: #3a1c18;
+      --moss: #63d1a2; --moss-soft: #12302a; --ochre: #e8ad5c; --ochre-soft: #302410;
+      --barra-ok: #3fae7c; --barra-aviso: #d9952f; --barra-ruim: #f0735c;
+      --seta: #3b5355; --seta-usada: #7cc4c4;
+      --texto-ok: #8fe0bb; --texto-aviso: #f2c27f; --texto-ruim: #ffab9c; --texto-info: #a9dcdc;
+      --destaque-trecho: #2b1b18;
+    }
+    html[data-tema="escuro"] .btn { background: #2b4a4d; border-color: #3d6366; color: #ffffff; }
+    html[data-tema="escuro"] .btn:hover:not(:disabled) { background: #355a5d; border-color: #4a7376; }
+    html[data-tema="escuro"] .btn-primary { background: #c4432f; border-color: #c4432f; color: #ffffff; }
+    html[data-tema="escuro"] .btn-primary:hover:not(:disabled) { background: #d65540; border-color: #d65540; }
+    html[data-tema="escuro"] .btn-secondary { background: var(--surface); border-color: var(--hairline-strong); color: var(--ink); }
+    html[data-tema="escuro"] .btn-secondary:hover:not(:disabled) { background: var(--wash); border-color: var(--ink-soft); }
+    html[data-tema="escuro"] .btn-secondary.active,
+    html[data-tema="escuro"] .btn-secondary.active:hover:not(:disabled) { background: #2f6f73; border-color: #2f6f73; color: #ffffff; }
+    html[data-tema="escuro"] .cite-btn:hover { background: #2f6f73; }
+    html[data-tema="escuro"] ::selection { background: #c4432f; }
+
+    /* botão de tema, no rodapé do menu */
+    .tema-btn {
+      width: 100%; display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.9rem;
+      padding: 0.5rem 0.75rem; border-radius: 6px; cursor: pointer;
+      background: var(--rail-elevated); border: 1px solid var(--rail-border); color: var(--rail-ink);
+      font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; text-align: left;
+    }
+    .tema-btn:hover { background: var(--rail-active); }
+    .tema-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .tema-btn .tema-lua { display: none; }
+    html[data-tema="escuro"] .tema-btn .tema-sol { display: none; }
+    html[data-tema="escuro"] .tema-btn .tema-lua { display: inline; }
+
+    /* Verificações de qualidade: as telas de verificação de qualidade (bancada), iguais às originais, em avaliação */
+    .bancada-grupo { margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid var(--rail-border); }
+    .bancada-toggle {
+      width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.85rem;
+      background: transparent; border: 1px solid transparent; border-radius: 6px; cursor: pointer;
+      color: var(--rail-ink); font-family: var(--font-sans); font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; text-align: left;
+    }
+    .bancada-toggle:hover { background: var(--rail-elevated); }
+    .bancada-toggle-txt { flex: 1; min-width: 0; }
+    .bancada-selo {
+      flex-shrink: 0; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.02em; text-transform: none;
+      padding: 0.15rem 0.45rem; border-radius: 999px; background: var(--ochre-soft); color: var(--ochre);
+    }
+    .bancada-seta { width: 14px; height: 14px; flex-shrink: 0; transition: transform 0.15s ease; }
+    .bancada-toggle[aria-expanded="true"] .bancada-seta { transform: rotate(180deg); }
+    .bancada-menu { display: flex; flex-direction: column; gap: 0.1rem; margin-top: 0.25rem; }
+    .bancada-menu[hidden] { display: none; }
+    .bancada-subgrupo {
+      font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--rail-muted); opacity: 0.8; padding: 0.55rem 0.85rem 0.15rem;
+    }
+    .tab-btn.tab-btn-sub { padding: 0.38rem 0.85rem 0.38rem 1.1rem; font-size: 0.8rem; font-weight: 500; }
+    .bancada-barra { display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem 0.8rem; margin: 0 0 0.75rem; }
+    .bancada-barra h2 { margin: 0; font-size: 1.1rem; letter-spacing: -0.01em; color: var(--ink); }
+    .bancada-barra .bancada-selo { font-size: 0.72rem; }
+    .bancada-barra .btn-row { margin-left: auto; }
+    .bancada-nota { font-size: 0.78rem; color: var(--muted); margin: 0 0 0.75rem; overflow-wrap: anywhere; }
+    .bancada-nota:empty { display: none; }
+    .bancada-frame {
+      display: block; width: 100%; height: 640px;
+      border: 1px solid var(--hairline-strong); border-radius: 8px; background: var(--paper);
+    }
+    @media (max-width: 1024px) {
+      .bancada-grupo { width: 100%; }
+      .bancada-menu:not([hidden]) { flex-direction: row; flex-wrap: wrap; }
+      .bancada-subgrupo { width: 100%; padding-left: 0.35rem; }
+    }
+    @media (max-width: 700px) {
+      .bancada-barra .btn-row { margin-left: 0; width: 100%; }
+    }
+
+    /* Avaliar uma frase, às cegas (aparece na tela Juízes x pessoas) */
+    .aval-bloco { margin-bottom: 0.9rem; }
+    .aval-cab { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: flex-end; justify-content: space-between; }
+    .aval-cab > div { flex: 1 1 26rem; min-width: 0; }
+    .aval-tit { margin: 0 0 0.25rem; font-size: 1rem; color: var(--ink); }
+    .aval-ajuda { margin: 0; font-size: 0.82rem; color: var(--muted); max-width: 70ch; }
+    .aval-quem { display: grid; gap: 0.25rem; font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); flex: 0 1 14rem; }
+    .aval-progresso { margin: 0.9rem 0 0.4rem; font-size: 0.8rem; color: var(--muted); }
+    .aval-progresso .aval-barra { display: block; height: 4px; border-radius: 2px; background: var(--wash-strong); margin-top: 0.3rem; overflow: hidden; }
+    .aval-progresso .aval-barra i { display: block; height: 100%; background: var(--teal); }
+    .aval-pergunta { font-size: 0.84rem; color: var(--ink-soft); margin: 0 0 0.45rem; overflow-wrap: anywhere; }
+    .aval-texto { margin: 0 0 0.6rem; padding: 0.6rem 0.8rem; border-left: 3px solid var(--teal); background: var(--teal-soft);
+      border-radius: 0 6px 6px 0; font-size: 0.95rem; color: var(--ink); overflow-wrap: anywhere; }
+    .aval-cit { margin: 0.35rem 0; border: 1px solid var(--hairline); border-radius: 6px; background: var(--surface); }
+    .aval-cit summary { cursor: pointer; padding: 0.4rem 0.6rem; font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); overflow-wrap: anywhere; }
+    .aval-cit-texto { padding: 0 0.7rem 0.6rem; font-size: 0.84rem; line-height: 1.55; color: var(--ink); white-space: pre-wrap;
+      overflow-wrap: anywhere; max-height: 18rem; overflow-y: auto; }
+    .aval-cit-aviso { margin: 0 0.7rem 0.5rem; font-size: 0.76rem; color: var(--texto-aviso); }
+    .aval-opcoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin: 0.75rem 0 0.5rem; }
+    .aval-opcao { text-align: left; padding: 0.6rem 0.75rem; border-radius: 6px; border: 1px solid var(--hairline-strong);
+      background: var(--surface); color: var(--ink); cursor: pointer; font-family: var(--font-sans); display: grid; gap: 0.2rem; }
+    .aval-opcao b { font-size: 0.86rem; }
+    .aval-opcao span { font-size: 0.76rem; color: var(--muted); }
+    .aval-opcao:hover:not(:disabled) { border-color: var(--teal); background: var(--wash); }
+    .aval-opcao[data-v="sim"] b { color: var(--moss); }
+    .aval-opcao[data-v="parcial"] b { color: var(--ochre); }
+    .aval-opcao[data-v="nao"] b { color: var(--vermilion); }
+    .aval-opcao:disabled { opacity: 0.55; cursor: wait; }
+    #aval-motivo { min-height: 2.6rem; }
+    .aval-resumo-tab { margin-top: 0.8rem; }
+    @media (max-width: 700px) { .aval-opcoes { grid-template-columns: minmax(0, 1fr); } }
     @media (prefers-reduced-motion: reduce) {
-      * { scroll-behavior: auto !important; transition: none !important; }
+      * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
     }
   </style>
 </head>
@@ -910,7 +1294,7 @@
     <aside class="field-rail" aria-label="Navegação e telemetria">
       <div>
         <div class="brand-block">
-          <h1 class="brand-title">Íris · Bancada RAG</h1>
+          <h1 class="brand-title"><img class="brand-icone" src="/favicon.png" alt="" width="28" height="28" />Íris · Bancada RAG</h1>
           <p class="brand-sub">Auditoria de evidências DUA/MEC, fidelidade e 39 barreiras TDAH.</p>
         </div>
 
@@ -931,14 +1315,54 @@
             <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
             <span>Consulta RAG ao Vivo</span>
           </button>
+          <button type="button" class="tab-btn" data-tab="arquitetura" onclick="ativarAba('arquitetura')">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="3" y="17" width="6" height="5" rx="1"/><rect x="15" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M6 17v-3h12v3"/></svg>
+            <span>Arquitetura (LangGraph)</span>
+          </button>
           <button type="button" class="tab-btn" data-tab="ferramentas" onclick="ativarAba('ferramentas')">
             <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             <span>Ferramentas da API</span>
           </button>
+        <div class="bancada-grupo">
+          <button type="button" class="bancada-toggle" id="bancada-toggle" aria-expanded="false" aria-controls="bancada-menu" onclick="alternarMenuBancada()">
+            <span class="bancada-toggle-txt">Verificações de qualidade</span>
+            <span class="bancada-selo">em avaliação</span>
+            <svg class="bancada-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="bancada-menu" id="bancada-menu" hidden>
+            <div class="bancada-subgrupo">Estado</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-visao" onclick="ativarAba('b-visao')"><span>Visão geral</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-commits" onclick="ativarAba('b-commits')"><span>Commits e portões</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-achados" onclick="ativarAba('b-achados')"><span>Achados</span></button>
+            <div class="bancada-subgrupo">Código</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-grafo" onclick="ativarAba('b-grafo')"><span>Grafo do código</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-pipeline" onclick="ativarAba('b-pipeline')"><span>Pipeline inteiro</span></button>
+            <div class="bancada-subgrupo">RAG</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-rastro-sec" onclick="ativarAba('b-rastro-sec')"><span>Rastro do RAG</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-llmxrag" onclick="ativarAba('b-llmxrag')"><span>LLM x RAG</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-qualidade" onclick="ativarAba('b-qualidade')"><span>Qualidade por versão</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-confianca" onclick="ativarAba('b-confianca')"><span>Reprodutibilidade e custo</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-revisao" onclick="ativarAba('b-revisao')"><span>Revisão humana</span></button>
+            <div class="bancada-subgrupo">Qualidade</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-avaliacao" onclick="ativarAba('b-q-avaliacao')"><span>Conjunto de avaliação</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-rag" onclick="ativarAba('b-q-rag')"><span>RAG: os quatro elos</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-juiz" onclick="ativarAba('b-q-juiz')"><span>Juízes x pessoas</span></button>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-q-orcamento" onclick="ativarAba('b-q-orcamento')"><span>Orçamento RNF-07</span></button>
+            <div class="bancada-subgrupo">Testes</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-seguranca" onclick="ativarAba('b-seguranca')"><span>Segurança e ablação</span></button>
+            <div class="bancada-subgrupo">Guia</div>
+            <button type="button" class="tab-btn tab-btn-sub" data-tab="b-ferramentas" onclick="ativarAba('b-ferramentas')"><span>Ferramentas</span></button>
+          </div>
+        </div>
         </nav>
       </div>
 
       <div class="rail-footer">
+        <button type="button" class="tema-btn" id="tema-btn" onclick="alternarTema()" aria-pressed="false">
+          <svg class="tema-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="tema-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <span id="tema-btn-txt">Tema claro</span>
+        </button>
         <div class="rail-section-title">Telemetria dos serviços</div>
         <div class="status-bar" id="status-strip">
           <span class="status-item">Verificando serviços locais...</span>
@@ -949,6 +1373,7 @@
   <main>
     <!-- ABA 1: AUDITORIA DO BENCHMARK -->
     <section id="tab-benchmark" class="tab-panel active">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> O pipeline registrado acha os trechos certos e sustenta o que escreve?<span class="screen-origin"><strong>De onde vem o número:</strong> perguntas do gabarito de referência (<code>gabarito_rascunho_v0.json</code>) e respostas já gravadas de Haiku e Opus. O gabarito é rascunho: os números valem para comparar configurações, não como nota final.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1028,6 +1453,7 @@
 
     <!-- ABA 2: BENCHMARK ESCOLAR (136 QUESTÕES POR CONTEXTO) -->
     <section id="tab-escolar" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> As 136 questões escolares recebem evidência e resposta fundamentada, e em que recorte o resultado é pior?<span class="screen-origin"><strong>De onde vem o número:</strong> bateria rodada aqui, com a busca e o gerador escolhidos abaixo. Cada rodada guarda o commit e o hash da prova; as questões não têm gabarito de trechos, então a tela não mede se a busca trouxe o trecho certo.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1142,6 +1568,22 @@
       <div class="panel-block">
         <div class="block-head">
           <div>
+            <h2 class="block-title">Teste de recusa: pergunta fora da base</h2>
+            <p class="block-desc">Perguntas que a base de evidências não responde. O certo é o sistema dizer que não encontrou, em vez de montar uma resposta com trechos que não tratam do assunto.</p>
+          </div>
+          <div class="btn-row">
+            <button type="button" id="btn-esc-recusa" class="btn btn-secondary" onclick="executarTesteDeRecusaEscolar()">Rodar teste de recusa</button>
+          </div>
+        </div>
+        <div id="esc-recusa-alert"></div>
+        <div id="esc-recusa-box">
+          <div class="empty-state">Carregando o último teste de recusa...</div>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
             <h2 class="block-title" id="esc-lista-titulo">Inspetor individual de questões</h2>
             <p class="block-desc">Selecione uma questão filtrada para testar ao vivo no RAG e confrontar o enunciado curado com os trechos recuperados.</p>
           </div>
@@ -1155,6 +1597,7 @@
 
     <!-- ABA 2: CATÁLOGO DE CARACTERÍSTICAS TDAH -->
     <section id="tab-catalogo" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> Para esta característica e este nível de andaime, que diretriz e que fontes o professor recebe?<span class="screen-origin"><strong>De onde vem o número:</strong> catálogo de características e busca filtrada pela barreira associada. Esta tela mostra o que é entregue; não há nota de qualidade aqui.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1205,6 +1648,7 @@
 
     <!-- ABA 3: CONSULTA AO VIVO -->
     <section id="tab-aovivo" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> Para uma pergunta digitada agora, o que a base devolve e a resposta cita o que afirma?<span class="screen-origin"><strong>De onde vem o número:</strong> busca e geração feitas na hora. A conferência de citações é mecânica (conta os <code>[Tn]</code>); ela não diz se o conteúdo está certo.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1253,8 +1697,81 @@
       </div>
     </section>
 
+    <!-- ABA: ARQUITETURA DOS AGENTES COM LANGGRAPH -->
+    <section id="tab-arquitetura" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> Como fica o fluxo dos agentes escrito como um grafo que o computador executa, e o que ele faz quando o Auditor reprova, quando chega ao limite e quando algo cai no meio?<span class="screen-origin"><strong>De onde vem o número:</strong> o grafo é montado com o LangGraph sobre as funções reais dos agentes e roda quatro cenários num material inventado, com um provedor sem modelo. Mostra o fluxo; não mede a qualidade do texto adaptado.</span></p>
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Fluxo dos agentes como grafo</h2>
+            <p class="block-desc">Cada caixa é um passo que chama uma função do projeto. Seta tracejada é seta com condição. Escolha um cenário para ver o caminho percorrido.</p>
+          </div>
+        </div>
+        <div id="arq-box">
+          <div class="empty-state">Carregando o grafo e rodando os cenários...</div>
+        </div>
+      </div>
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Rodar o grafo com o seu material</h2>
+            <p class="block-desc">Cole uma atividade. O grafo passa pelo filtro de dado pessoal, separa as questões e para na revisão de cada uma, esperando a sua decisão. Mesmo provedor sem modelo dos cenários acima: o andaime vem das regras do projeto.</p>
+          </div>
+        </div>
+        <label for="arq-texto">Texto da atividade (no mínimo 50 caracteres)</label>
+        <textarea id="arq-texto" rows="7">Atividade de Ciências - 6º ano B
+Aluno: Fulano Ficticio
+Student: Beltrana Inventada
+
+Questão 1: Leia o texto sobre o ciclo da água, identifique suas etapas principais e explique o papel da evaporação.
+
+Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justifique por que a quinta-feira foi o dia mais quente.</textarea>
+        <div class="arch-run-controls">
+          <div>
+            <label for="arq-nivel">Nível de andaime</label>
+            <select id="arq-nivel">
+              <option value="1">Nível 1: destaque dos comandos</option>
+              <option value="2" selected>Nível 2: etapas numeradas</option>
+              <option value="3">Nível 3: etapas e espaço para anotar</option>
+            </select>
+          </div>
+          <button type="button" id="btn-arq-executar" class="btn btn-primary" onclick="executarGrafoComMaterial()">Rodar o grafo</button>
+        </div>
+        <div id="arq-exec-box"></div>
+      </div>
+    </section>
+
     <!-- ABA 4: FERRAMENTAS DA API -->
+
+    <!-- VERIFICAÇÕES DE QUALIDADE: as telas de verificação de qualidade, abertas uma de cada vez, em avaliação -->
+    <section id="tab-bancada" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> <span id="bancada-pergunta">Que pergunta responde a tela de verificação escolhida no menu?</span><span class="screen-origin"><strong>De onde vem o número:</strong> tela das verificações de qualidade, gerada pelo <code>rag/iris-rag/pacote/bancada.py</code> a partir de arquivos já gravados (o retrato em <code>rag/iris-rag/bancada/referencia</code> e as saídas em <code>pacote/outputs</code>). Abrir não roda verificação nem chama modelo. <span id="bancada-equivalente"></span></span></p>
+      <div class="bancada-barra">
+        <h2 id="bancada-titulo">Verificações de qualidade</h2>
+        <span class="bancada-selo">em avaliação</span>
+        <div class="btn-row">
+          <button type="button" id="btn-bancada-gerar" class="btn btn-secondary" onclick="gerarBancadaDeNovo()" title="Roda as verificações de qualidade sem modelo contra o código atual do produto e gera a página (alguns minutos). As telas medidas com modelo continuam vindo do retrato.">Medir de novo sem modelo</button>
+          <a class="btn btn-secondary" href="/verificacoes/" target="_blank" rel="noopener">Abrir o painel inteiro</a>
+        </div>
+      </div>
+      <p class="bancada-nota" id="bancada-nota" aria-live="polite"></p>
+      <div class="panel-block aval-bloco" id="aval-bloco" hidden>
+        <div class="aval-cab">
+          <div>
+            <h3 class="aval-tit">Avaliar uma frase, às cegas</h3>
+            <p class="aval-ajuda">Você vê a pergunta, uma frase da resposta do RAG e os trechos que essa frase cita. Não vê o voto dos juízes, para ele não puxar o seu. Cada avaliação vai para um arquivo que nenhum script apaga. A concordância de cada juiz com as pessoas aparece a partir de 20 frases avaliadas.</p>
+          </div>
+          <label class="aval-quem">Seu código de avaliador
+            <input type="text" id="aval-codigo" maxlength="40" placeholder="ex.: prof-A" autocomplete="off" />
+          </label>
+        </div>
+        <div id="aval-frase" aria-live="polite"></div>
+        <div id="aval-resumo"></div>
+      </div>
+      <iframe id="bancada-frame" class="bancada-frame" title="Tela das verificações de qualidade" scrolling="no"></iframe>
+    </section>
     <section id="tab-ferramentas" class="tab-panel">
+      <p class="screen-question"><strong>Pergunta desta tela:</strong> O texto sai sem dados pessoais antes de ir a um modelo, e o material é decomposto nas partes certas?<span class="screen-origin"><strong>De onde vem o número:</strong> chamadas ao vivo às rotas de materiais, com o texto que você colar; esse resultado vale para o texto colado, não é taxa medida num conjunto. O ataque de dado pessoal roda casos fictícios, com sorteio de semente fixa, contra o removedor, e a telemetria do Extrator, mais abaixo, vem das execuções já registradas no servidor.</span></p>
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -1272,6 +1789,21 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           <button type="button" id="btn-mat-test" class="btn btn-primary" onclick="testarSanitizacaoEDecomposicao()">Sanitizar e decompor texto</button>
         </div>
         <div id="mat-results" style="margin-top: 1rem;"></div>
+      </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Ataque de dado pessoal ao removedor</h2>
+            <p class="block-desc">O mesmo dado inventado é escrito de várias formas (tipo, rótulo e posição no material), como texto colado e como arquivo .docx e .pdf, e passa pelo removedor. Conta-se em quantos casos ele continua legível na saída. Sem modelo; todos os valores são fictícios.</p>
+          </div>
+          <div class="btn-row">
+            <button type="button" id="btn-ataque-pii" class="btn btn-secondary" onclick="executarAtaquePii()">Rodar ataque</button>
+          </div>
+        </div>
+        <div id="ataque-pii-box">
+          <div class="empty-state">Carregando o último ataque...</div>
+        </div>
       </div>
 
       <div class="panel-block">
@@ -1302,6 +1834,11 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       trechosExpandidos: new Set(),
       extLoaded: false,
       escolarLoaded: false,
+      arquiteturaLoaded: false,
+      arquitetura: null,
+      cenarioArquitetura: 'normal',
+      codigoLoaded: false,
+      moduloSelecionado: null,
       escolarFacetas: null,
       escolarQuestoes: [],
       escolarSelecionadaId: null,
@@ -1317,6 +1854,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+    }
+
+    // Aviso único para "a busca pedida falhou e a consulta rodou na reserva por palavras (BM25)".
+    // Sem ele, uma medida tirada na reserva parecia ser do método pedido (caso real: KeyError no reordenador).
+    function avisoBuscaNaReserva(solicitado, efetivo, motivo) {
+      const nomeEfetivo = efetivo === 'bm25' ? 'busca por palavras (reserva)' : `${efetivo} (reserva)`;
+      return `<div class="notice notice-warn" data-aviso="busca-na-reserva">Você pediu <strong>${escapeHtml(solicitado)}</strong>, mas a consulta rodou com <strong>${escapeHtml(nomeEfetivo)}</strong>${motivo ? `. Motivo: <code>${escapeHtml(motivo)}</code>` : ''}. Os trechos e números abaixo são da reserva, não do método pedido.</div>`;
     }
 
     function safeUrl(url) {
@@ -1340,15 +1884,275 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       return data;
     }
 
+
+    // Verificações de qualidade: cada botão do grupo abre a mesma página (iframe), que mostra só a aba pedida.
+    const BANCADA_PERGUNTAS = {"visao": "O último commit verificado está bom? Há algo grave aberto?", "commits": "Qual commit passou em cada verificação?", "prs": "Cada PR aberto melhora ou piora as métricas?", "achados": "O que está quebrado agora, com o caso que reproduz?", "grafo": "Quem chama quem no código, e o que não tem teste?", "pipeline": "O que entrou e saiu de cada etapa da adaptação, e em quanto tempo?", "arquitetura": "Como fica o fluxo dos agentes desenhado como grafo?", "rastro-sec": "Para uma pergunta: o que a busca trouxe, o que a resposta disse, o que os juízes acharam?", "llmxrag": "O modelo sozinho, só a busca, ou os dois juntos: o RAG ajuda?", "qualidade": "Qual configuração é melhor, com incerteza?", "confianca": "Rodar de novo dá o mesmo resultado? Quanto custa?", "revisao": "Em que frases os juízes discordam, para uma pessoa decidir?", "q-avaliacao": "Este commit piorou algo na prova de sempre (166 questões de adaptação)?", "q-rag": "Em qual elo quebrou: busca, abstenção, fidelidade ou citação?", "q-ataque": "Que dado pessoal passa pelo filtro, em casos sintéticos?", "q-juiz": "Dá para confiar na nota do juiz?", "q-orcamento": "Cada etapa cabe no tempo e nos tokens prometidos pelo RNF-07?", "q-producao": "O registro em produção guarda só metadados?", "seguranca": "Dado pessoal vaza? Cada peça do pipeline faz diferença?", "comandos": "Como rodar cada verificação?", "mapa-painel": "Que pergunta cada tela de verificação responde?", "ferramentas": "Que ferramenta cada tela usa de verdade ou imita?"};
+    const BANCADA_EQUIVALENTES = {"commits": ["escolar", "o portão aprovado, aviso ou reprovado de cada rodada, no Benchmark Escolar"], "pipeline": ["aovivo", "a decomposição e a anonimização de um material colado"], "arquitetura": ["arquitetura", "a aba Arquitetura (LangGraph), com cenários e o material do professor"], "rastro-sec": ["benchmark", "a inspeção de consultas na Auditoria do Benchmark"], "qualidade": ["escolar", "o intervalo de 95% e a linha de base no Benchmark Escolar"], "confianca": ["escolar", "o botão de repetir a rodada no Benchmark Escolar (sem custo)"], "revisao": ["benchmark", "os votos dos juízes A e B por frase, na Auditoria do Benchmark"], "q-avaliacao": ["escolar", "o lacre por hash nas 136 questões do Benchmark Escolar (mede o RAG, não a adaptação)"], "q-rag": ["escolar", "a tabela do elo em que cada questão parou, no Benchmark Escolar"], "q-ataque": ["ferramentas", "o ataque de dado pessoal em 416 casos, nas Ferramentas da API"], "q-juiz": ["benchmark", "a concordância entre dois juízes, sem pessoas, na Auditoria do Benchmark"], "q-orcamento": ["escolar", "o limite do RNF-07 ao lado da latência, no Benchmark Escolar (sem tokens)"], "comandos": ["escolar", "os botões de rodar do Benchmark Escolar; os botões de comando da bancada não rodam por aqui"], "mapa-painel": ["escolar", "a linha “Pergunta desta tela” no topo de cada aba"]};
+    const NOMES_ABAS_IAN = { benchmark: 'Auditoria do Benchmark', escolar: 'Benchmark Escolar (136)', catalogo: 'Catálogo de Características TDAH', aovivo: 'Consulta RAG ao Vivo', arquitetura: 'Arquitetura (LangGraph)', ferramentas: 'Ferramentas da API' };
+
+    function alternarMenuBancada(forcarAberto) {
+      const btn = document.getElementById('bancada-toggle');
+      const menu = document.getElementById('bancada-menu');
+      const abrir = forcarAberto === undefined ? menu.hidden : forcarAberto;
+      menu.hidden = !abrir;
+      btn.setAttribute('aria-expanded', String(abrir));
+    }
+
+    function marcarAbaBancada(sid) {
+      const bloco = document.getElementById('aval-bloco');
+      if (bloco) {
+        const mostrar = sid === 'q-juiz';
+        if (mostrar && bloco.hidden) avalCarregar();
+        bloco.hidden = !mostrar;
+      }
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === `b-${sid}`));
+      const botao = document.querySelector(`.tab-btn[data-tab="b-${sid}"]`);
+      document.getElementById('bancada-titulo').textContent = botao ? botao.textContent.trim() : sid;
+      document.getElementById('bancada-pergunta').textContent = BANCADA_PERGUNTAS[sid] || '';
+      const eq = BANCADA_EQUIVALENTES[sid];
+      document.getElementById('bancada-equivalente').innerHTML = eq
+        ? `<strong>Neste painel já existe algo parecido:</strong> ${escapeHtml(eq[1])} (<button type="button" class="cite-btn" onclick="ativarAba('${eq[0]}')">${escapeHtml(NOMES_ABAS_IAN[eq[0]] || eq[0])}</button>).`
+        : '<strong>Neste painel não há tela equivalente.</strong>';
+    }
+
+    function mostrarBancada(sid) {
+      alternarMenuBancada(true);
+      marcarAbaBancada(sid);
+      const frame = document.getElementById('bancada-frame');
+      if (!frame.dataset.carregado) {
+        frame.dataset.carregado = '1';
+        frame.src = `/verificacoes/?embutido=1&tema=${document.documentElement.dataset.tema || 'claro'}#${encodeURIComponent(sid)}`;
+      } else if (frame.contentWindow) {
+        frame.contentWindow.postMessage({ bancadaIr: sid }, location.origin);
+      }
+      // em tela estreita o menu fica em cima e é longo; e como o quadro agora tem a altura da tela, quem desceu
+      // numa tela longa volta ao começo da próxima
+      const area = document.getElementById('tab-bancada');
+      if (window.matchMedia('(max-width: 1024px)').matches || window.scrollY > area.getBoundingClientRect().top + window.scrollY) {
+        area.scrollIntoView({ block: 'start' });
+      }
+      setTimeout(informarRolagem, 60);
+    }
+
+    // Tema claro ou escuro: vale para o painel inteiro, inclusive as telas de verificação (que leem a mesma escolha).
+    function mostrarTemaNoBotao() {
+      const escuro = document.documentElement.dataset.tema === 'escuro';
+      const btn = document.getElementById('tema-btn');
+      if (!btn) return;
+      btn.setAttribute('aria-pressed', String(escuro));
+      btn.title = escuro ? 'Trocar para o tema claro' : 'Trocar para o tema escuro';
+      document.getElementById('tema-btn-txt').textContent = escuro ? 'Tema escuro' : 'Tema claro';
+    }
+    function alternarTema() {
+      const novo = document.documentElement.dataset.tema === 'escuro' ? 'claro' : 'escuro';
+      document.documentElement.dataset.tema = novo;
+      try { localStorage.setItem('iris-tema', novo); } catch (_) {}
+      const frame = document.getElementById('bancada-frame');
+      if (frame && frame.dataset.carregado && frame.contentWindow) {
+        frame.contentWindow.postMessage({ bancadaTema: novo }, location.origin);
+      }
+      mostrarTemaNoBotao();
+    }
+    window.addEventListener('DOMContentLoaded', mostrarTemaNoBotao);
+
+
+    // ---------------- Avaliar uma frase, às cegas (tela Juízes x pessoas das verificações de qualidade)
+    const aval = { atual: null, ocupado: false };
+
+    function avalCodigo() {
+      const el = document.getElementById('aval-codigo');
+      return (el && el.value || '').trim();
+    }
+
+    function avalMostrarAviso(msg, tipo) {
+      document.getElementById('aval-frase').innerHTML = `<div class="notice notice-${tipo || 'info'}" style="margin-top:0.8rem;">${msg}</div>`;
+    }
+
+    async function avalCarregar() {
+      const codigo = avalCodigo();
+      if (!codigo) {
+        avalMostrarAviso('Escreva um código de avaliador para começar (por exemplo, <code>prof-A</code>; evite o nome completo). Ele separa as avaliações de cada pessoa.', 'info');
+        avalResumo();
+        return;
+      }
+      try {
+        const r = await fetchJson(`/api/v1/eval/avaliacao-humana/proxima?avaliador=${encodeURIComponent(codigo)}`);
+        avalDesenhar(r);
+      } catch (e) {
+        avalMostrarAviso(escapeHtml(e.message), 'danger');
+      }
+      avalResumo();
+    }
+
+    function avalDesenhar(r) {
+      aval.atual = r;
+      const pct = r.total ? Math.round(100 * r.feitas / r.total) : 0;
+      const prog = `<div class="aval-progresso">${r.feitas} de ${r.total} frases avaliadas por <b>${escapeHtml(r.avaliador)}</b><span class="aval-barra"><i style="width:${pct}%"></i></span></div>`;
+      if (r.acabou) {
+        document.getElementById('aval-frase').innerHTML = prog + '<div class="notice notice-ok">Você avaliou todas as frases da amostra. Obrigado. Outra pessoa pode continuar com outro código.</div>';
+        return;
+      }
+      const cits = (r.citacoes || []).map((c, i) => `
+        <details class="aval-cit"${i === 0 ? ' open' : ''}>
+          <summary>${escapeHtml(c.ref)} · ${escapeHtml(c.doc || c.chunk_id)}</summary>
+          ${c.aviso ? `<p class="aval-cit-aviso">Aviso de uso deste trecho: ${escapeHtml(c.aviso)}</p>` : ''}
+          <div class="aval-cit-texto">${escapeHtml(c.texto || '(texto do trecho não encontrado na base)')}</div>
+        </details>`).join('');
+      const opcoes = Object.entries(r.opcoes || {}).map(([v, desc]) => {
+        const [nome, ...resto] = desc.split(':');
+        return `<button type="button" class="aval-opcao" data-v="${v}" onclick="avalRegistrar('${v}')"><b>${escapeHtml(nome)}</b><span>${escapeHtml(resto.join(':').trim())}</span></button>`;
+      }).join('');
+      document.getElementById('aval-frase').innerHTML = `${prog}
+        <p class="aval-pergunta"><strong>Pergunta do professor:</strong> ${escapeHtml(r.pergunta)}</p>
+        <blockquote class="aval-texto">${escapeHtml(r.frase)}</blockquote>
+        ${cits || '<p class="aval-pergunta">Esta frase não cita trecho nenhum.</p>'}
+        <div class="aval-opcoes" role="group" aria-label="Sua avaliação">${opcoes}</div>
+        <textarea id="aval-motivo" rows="2" maxlength="500" placeholder="Motivo (opcional): o que falta ou sobra nos trechos?"></textarea>`;
+    }
+
+    async function avalRegistrar(rotulo) {
+      if (aval.ocupado || !aval.atual || aval.atual.acabou) return;
+      aval.ocupado = true;
+      document.querySelectorAll('.aval-opcao').forEach(b => { b.disabled = true; });
+      try {
+        const r = await fetchJson('/api/v1/eval/avaliacao-humana/rotulo', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ uid: aval.atual.uid, rotulo, avaliador: avalCodigo(), motivo: (document.getElementById('aval-motivo') || {}).value || '' }),
+        });
+        avalDesenhar(r);
+        avalResumo();
+      } catch (e) {
+        avalMostrarAviso(`Não gravei esta avaliação: ${escapeHtml(e.message)}`, 'danger');
+      } finally {
+        aval.ocupado = false;
+      }
+    }
+
+    async function avalResumo() {
+      const box = document.getElementById('aval-resumo');
+      try {
+        const s = await fetchJson('/api/v1/eval/avaliacao-humana/resumo');
+        if (s.faltam) {
+          box.innerHTML = `<p class="aval-progresso">Concordância com os juízes: aparece com ${s.minimo} frases avaliadas; hoje são ${s.avaliadas}, de ${s.pessoas} pessoa(s). Faltam ${s.faltam}.</p>`;
+          return;
+        }
+        const linhas = Object.values(s.juizes).map(j => `<tr><td>${escapeHtml(j.nome)}</td><td>${j.iguais} de ${j.frases}</td><td>${j.kappa === null ? '—' : String(j.kappa).replace('.', ',')}</td><td>${j.erro_caro.juiz_aprovou} de ${j.erro_caro.pessoa_reprovou}</td><td>${j.matriz.ambos_sustenta} · ${j.matriz.so_pessoa_sustenta} · ${j.matriz.so_juiz_sustenta} · ${j.matriz.ambos_nao}</td></tr>`).join('');
+        box.innerHTML = `<div class="aval-resumo-tab table-scroll"><table class="table-compact"><thead><tr><th>Juiz</th><th>Concorda com a pessoa</th><th>Kappa</th><th>Aprovou o que a pessoa reprovou</th><th>Ambos sim · só pessoa · só juiz · ambos não</th></tr></thead><tbody>${linhas}</tbody></table>
+          <p class="aval-progresso">Técnica: contagem e kappa de Cohen (fórmula), em "sustenta ou não"; parcial conta como não, como na fidelidade. ${s.avaliadas} frases, ${s.pessoas} pessoa(s). Sem intervalo ainda: com poucas frases o kappa oscila muito. A amostra exagera as frases difíceis de propósito; o peso de cada estrato está no módulo.</p></div>`;
+      } catch (e) {
+        box.innerHTML = '';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const el = document.getElementById('aval-codigo');
+      if (!el) return;
+      try { el.value = localStorage.getItem('iris-avaliador') || ''; } catch (_) {}
+      el.addEventListener('change', () => {
+        try { localStorage.setItem('iris-avaliador', avalCodigo()); } catch (_) {}
+        avalCarregar();
+      });
+    });
+
+    // O grupo Verificações de qualidade só aparece para quem abre o painel no próprio computador (o servidor recusa os outros).
+    async function verificarBancadaLocal() {
+      const grupo = document.querySelector('.bancada-grupo');
+      if (!grupo) return;
+      try {
+        const res = await fetch('/api/v1/eval/verificacoes-qualidade', { cache: 'no-store' });
+        grupo.hidden = !res.ok;
+      } catch (_) {
+        grupo.hidden = true;
+      }
+    }
+    window.addEventListener('DOMContentLoaded', verificarBancadaLocal);
+
+    // O quadro das verificações cresce até a altura da tela que mostra (sem rolagem dentro dele), e a tela usa a
+    // altura desta janela no lugar da dela para o que é medido pela altura (o grafo do código, por exemplo).
+    function informarAlturaDaJanela() {
+      const frame = document.getElementById('bancada-frame');
+      const doc = frame && frame.contentDocument;
+      if (doc && doc.documentElement) doc.documentElement.style.setProperty('--vhp', `${window.innerHeight / 100}px`);
+    }
+    window.addEventListener('resize', informarAlturaDaJanela);
+    window.addEventListener('DOMContentLoaded', () => {
+      const frame = document.getElementById('bancada-frame');
+      if (frame) frame.addEventListener('load', informarAlturaDaJanela);
+    });
+    function aplicarAlturaDoQuadro(altura) {
+      const frame = document.getElementById('bancada-frame');
+      const px = Math.max(200, Math.ceil(Number(altura) || 0));
+      if (frame && frame.style.height !== `${px}px`) frame.style.height = `${px}px`;
+    }
+    // a página de dentro avisa quando muda de tamanho...
+    window.addEventListener('message', ev => {
+      if (ev.origin !== location.origin || !ev.data || !ev.data.bancadaAltura) return;
+      aplicarAlturaDoQuadro(ev.data.bancadaAltura);
+    });
+    // Na bancada aberta sozinha, a faixa de cima e os painéis de detalhe ficam presos no topo ao rolar. Aqui quem rola
+    // é esta página: ela informa à de dentro quanto já passou do topo do quadro, e a de dentro prende os elementos.
+    function informarRolagem() {
+      const area = document.getElementById('tab-bancada');
+      const frame = document.getElementById('bancada-frame');
+      if (!area || !area.classList.contains('active') || !frame || !frame.contentWindow) return;
+      const passou = Math.max(0, -frame.getBoundingClientRect().top);
+      frame.contentWindow.postMessage({ bancadaRolagem: Math.round(passou) }, location.origin);
+    }
+    window.addEventListener('scroll', informarRolagem, { passive: true });
+    window.addEventListener('resize', informarRolagem);
+
+    // ...e o painel confere sozinho a cada segundo enquanto a área está aberta, porque o aviso pode não chegar
+    // (navegador com a aba em segundo plano, por exemplo). Mede o corpo da página, que encolhe junto com o conteúdo.
+    setInterval(() => {
+      const area = document.getElementById('tab-bancada');
+      const frame = document.getElementById('bancada-frame');
+      const corpo = frame && frame.contentDocument && frame.contentDocument.body;
+      if (area && area.classList.contains('active') && corpo) aplicarAlturaDoQuadro(corpo.getBoundingClientRect().height);
+      informarRolagem();
+    }, 1000);
+
+    // A navegação de dentro da página (por exemplo, o botão "ver portões") avisa qual aba abriu.
+    window.addEventListener('message', ev => {
+      if (ev.origin !== location.origin || !ev.data || !ev.data.bancadaEm) return;
+      if (!document.getElementById('tab-bancada').classList.contains('active')) return;
+      marcarAbaBancada(String(ev.data.bancadaEm));
+    });
+
+    async function gerarBancadaDeNovo() {
+      const nota = document.getElementById('bancada-nota');
+      setLoading('btn-bancada-gerar', true, 'Medindo...');
+      nota.textContent = 'Rodando as verificações sem modelo contra o código atual (pipeline, adversarial, ablação, mapa, avaliação, ataque, orçamento, produção, portões). Leva alguns minutos; nenhum modelo é chamado.';
+      try {
+        const r = await fetchJson('/api/v1/eval/verificacoes-qualidade/medir', { method: 'POST' });
+        nota.textContent = r.ok
+          ? `Medido de novo em ${String(r.segundos).replace('.', ',')} s, sem modelo. ${r.resumo}. As telas medidas com modelo continuam vindo do retrato.`
+          : `O gerador falhou (código ${r.codigo}): ${r.erro || r.resumo}`;
+        if (r.ok) {
+          const atual = document.querySelector('.tab-btn.tab-btn-sub.active');
+          document.getElementById('bancada-frame').src = `/verificacoes/?embutido=1&tema=${document.documentElement.dataset.tema || 'claro'}&v=${Date.now()}#${atual ? atual.dataset.tab.slice(2) : 'visao'}`;
+        }
+      } catch (e) {
+        nota.textContent = `Não consegui gerar: ${e.message}`;
+      } finally {
+        setLoading('btn-bancada-gerar', false);
+      }
+    }
+
     function ativarAba(nome) {
+      const ehBancada = nome.startsWith('b-');
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === nome);
       });
       document.querySelectorAll('.tab-panel').forEach(sec => {
-        sec.classList.toggle('active', sec.id === `tab-${nome}`);
+        sec.classList.toggle('active', sec.id === (ehBancada ? 'tab-bancada' : `tab-${nome}`));
       });
+      if (ehBancada) mostrarBancada(nome.slice(2));
       if (nome === 'ferramentas' && !state.extLoaded) {
+        carregarAtaquePii();
         carregarExtratorAnalytics();
+      }
+      if (nome === 'arquitetura' && !state.arquiteturaLoaded) {
+        carregarArquitetura();
       }
       if (nome === 'escolar' && !state.escolarLoaded) {
         inicializarBenchmarkEscolar();
@@ -1549,9 +2353,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     }
 
     function classeCor(ratio) {
-      if (ratio >= 0.8) return { cls: 'score-ok', fill: '#1A6B42' };
-      if (ratio >= 0.55) return { cls: 'score-warn', fill: '#8C5200' };
-      return { cls: 'score-danger', fill: '#C93E22' };
+      if (ratio >= 0.8) return { cls: 'score-ok', fill: 'var(--barra-ok)' };
+      if (ratio >= 0.55) return { cls: 'score-warn', fill: 'var(--barra-aviso)' };
+      return { cls: 'score-danger', fill: 'var(--barra-ruim)' };
     }
 
     function renderMetricasBenchmark(m) {
@@ -1591,7 +2395,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         ['Acordo entre juízes', `${ir.concordancia_bruta_pct}% (κ=${ir.kappa_cohen})`, ir.concordancia_bruta_pct / 100, 'Consenso entre avaliador A e avaliador B']
       ];
       document.getElementById('metrics-iris').innerHTML = `
-        <table>
+        <div class="table-scroll"><table>
           <thead><tr><th>Indicador</th><th>Leitura</th><th>Proporção</th><th class="num">Valor</th></tr></thead>
           <tbody>
             ${irisRows.map(([nome, valor, ratio, desc]) => {
@@ -1607,7 +2411,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               `;
             }).join('')}
           </tbody>
-        </table>
+        </table></div>
       `;
 
       const ragasRows = [
@@ -1620,7 +2424,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         ['7. Correção geral', n10['7_correcao_respostas'], 'Síntese ponderada (60% fidelidade + 40% similaridade)']
       ];
       document.getElementById('metrics-ragas').innerHTML = `
-        <table>
+        <div class="table-scroll"><table>
           <thead><tr><th>Métrica RAGAS</th><th>Critério</th><th>Proporção</th><th class="num">Nota</th></tr></thead>
           <tbody>
             ${ragasRows.map(([nome, nota, desc]) => {
@@ -1637,7 +2441,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               `;
             }).join('')}
           </tbody>
-        </table>
+        </table></div>
       `;
 
       if (m.comparativo_geradores) {
@@ -1669,7 +2473,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           <span>Comparativo Haiku versus Opus</span>
           <span class="ledger-scale">Diferença Δ = Opus − Haiku</span>
         </div>
-        <table>
+        <div class="table-scroll"><table>
           <thead>
             <tr><th>Indicador</th><th class="num">Haiku</th><th class="num">Opus</th><th class="num">Diferença (Δ)</th></tr>
           </thead>
@@ -1682,7 +2486,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               return `<tr><td>${escapeHtml(nome)}</td><td class="num">${escapeHtml(vh)}${suf}</td><td class="num">${escapeHtml(vo)}${suf}</td><td class="num ${cls}">${sign}${delta}${suf}</td></tr>`;
             }).join('')}
           </tbody>
-        </table>
+        </table></div>
       `;
     }
 
@@ -1753,7 +2557,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
       const frases = Array.isArray(vd.frases) ? vd.frases : [];
       const frasesTable = frases.length ? `
-        <table style="margin-top:0.55rem;">
+        <div class="table-scroll"><table style="margin-top:0.55rem;">
           <thead><tr><th>Frase</th><th>Tipo</th><th>Juiz A</th><th>Juiz B</th><th>Consenso</th></tr></thead>
           <tbody>
             ${frases.map(f => `
@@ -1766,7 +2570,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               </tr>
             `).join('')}
           </tbody>
-        </table>
+        </table></div>
       ` : '<p style="font-size:0.82rem; color:var(--muted); margin:0.4rem 0 0;">Sem avaliação por frase (consulta de abstenção).</p>';
 
       const trechos = c.trechos_recuperados || [];
@@ -1910,7 +2714,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
         const dir = res.diretriz_andaime || {};
         const fallbackBanner = res.fallback_aplicado
-          ? `<div class="notice notice-warn">Busca vetorial (${escapeHtml(res.metodo_solicitado)}) indisponível localmente. Resultados recuperados com <strong>${escapeHtml(res.metodo_efetivo)}</strong>.</div>`
+          ? avisoBuscaNaReserva(res.metodo_solicitado, res.metodo_efetivo, res.fallback_motivo)
           : '';
 
         const refsHtml = (res.referencias_catalogo || []).map(r => `
@@ -1988,7 +2792,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
         const tel = res.telemetria_consulta || {};
         const fallbackBanner = tel.fallback_aplicado
-          ? `<div class="notice notice-warn">Busca vetorial (${escapeHtml(tel.metodo_solicitado)}) indisponível; consulta executada com <strong>${escapeHtml(tel.metodo_efetivo)}</strong>.</div>`
+          ? avisoBuscaNaReserva(tel.metodo_solicitado, tel.metodo_efetivo, tel.fallback_motivo)
           : '';
         const llmFallbackBanner = tel.llm_fallback_aplicado
           ? `<div class="notice notice-warn">O modelo configurado não respondeu (${escapeHtml(tel.llm_erro || 'indisponível')}); resposta gerada em modo extrativo local.</div>`
@@ -2119,7 +2923,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             </div>
           </div>
           ${porDisc.length ? `
-            <table>
+            <div class="table-scroll"><table>
               <thead><tr><th>Disciplina</th><th class="num">Execuções</th><th class="num">Inferência média</th><th class="num">Recall da trava</th></tr></thead>
               <tbody>
                 ${porDisc.map(([nome, m]) => `
@@ -2131,7 +2935,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
                   </tr>
                 `).join('')}
               </tbody>
-            </table>
+            </table></div>
           ` : ''}
         `;
       } catch (err) {
@@ -2173,7 +2977,8 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       state.escolarLoaded = true;
       await Promise.all([
         aplicarFiltrosEscolar(),
-        carregarAnalyticsEscolar('')
+        carregarAnalyticsEscolar(''),
+        carregarTesteDeRecusaEscolar()
       ]);
     }
 
@@ -2284,6 +3089,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       `;
     }
 
+    // Recorte com menos questões que isto tem intervalo largo demais para comparar com outro recorte.
+    const RECORTE_MINIMO = 20;
+
     function renderTabelaSegmentadaUnificadaEscolar(an) {
       const secoes = [
         { titulo: 'Por faixa etária', mapa: an.por_faixa_etaria, caracteristica: false },
@@ -2313,15 +3121,17 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           const fid = m.fidelidade_media !== undefined && m.fidelidade_media !== null ? m.fidelidade_media : m.fidelidade_lexica_media;
           const fidStr = fid !== null && fid !== undefined ? Number(fid).toFixed(2) : '—';
           const fidCls = fid !== null && fid !== undefined ? classeCor(Number(fid)).cls : '';
+          const icFid = m.ic95 && Array.isArray(m.ic95.fidelidade_media) ? m.ic95.fidelidade_media : null;
+          const pequeno = Number(m.total || 0) < RECORTE_MINIMO;
           return `
             <tr>
               <td class="recorte-cell">${celulaRecorte}</td>
-              <td class="num">${escapeHtml(m.total)}</td>
+              <td class="num">${escapeHtml(m.total)}${pequeno ? '<span class="ledger-ic">poucas questões</span>' : ''}</td>
               <td class="num ${classePct(txtUtil, 95, 70)}">${escapeHtml(txtUtil)}%</td>
               <td class="num ${classePct(semAviso, 75, 45)}">${escapeHtml(semAviso)}%</td>
               <td class="num">${Number(m.score_top1_medio || 0).toFixed(3)}</td>
               <td class="num">${escapeHtml(m.latencia_busca_ms)} ms</td>
-              <td class="num ${fidCls}">${fidStr}</td>
+              <td class="num ${fidCls}">${fidStr}${icFid ? `<span class="ledger-ic">${Number(icFid[0]).toFixed(2)} a ${Number(icFid[1]).toFixed(2)}</span>` : ''}</td>
             </tr>
           `;
         }).join('');
@@ -2344,7 +3154,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
                   <th class="num">${renderMetricTip('Sem aviso', 'Percentual dos trechos sem restrição editorial nao_usar_para.')}</th>
                   <th class="num">${renderMetricTip('Score Top-1', 'Pontuação média do primeiro trecho recuperado (BM25 ≥ 0; Reranker pode ser negativo).')}</th>
                   <th class="num">${renderMetricTip('Busca', 'Latência média apenas da etapa de recuperação no RAG.')}</th>
-                  <th class="num">${renderMetricTip('Fidelidade', 'Média de fidelidade (0–1) do Claude Sonnet v2 ou fallback léxico.')}</th>
+                  <th class="num">${renderMetricTip('Fidelidade', 'Média de fidelidade (0–1) do Claude Sonnet v2 ou fallback léxico. Embaixo, o intervalo de 95% do recorte. Recorte com menos de 20 questões aparece em cinza: o intervalo é largo demais para dizer que ele vai melhor ou pior que outro.')}</th>
                 </tr>
               </thead>
               <tbody>${linhasHtml}</tbody>
@@ -2358,8 +3168,39 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       return `<span class="metric-tip" tabindex="0" data-tip="${escapeHtml(tip)}" aria-label="${escapeHtml(label)}: ${escapeHtml(tip)}">${escapeHtml(label)}<span class="metric-tip-badge" aria-hidden="true">?</span></span>`;
     }
 
+    const POR_CONSTRUCAO_PADRAO = {
+      taxa_retorno_pct: 'A busca devolve sempre os k trechos mais bem pontuados da barreira; só cai se a base não tiver nenhum trecho dessa barreira.',
+      aderencia_barreira_pct: 'A busca filtra pela barreira antes de ranquear; todo trecho devolvido já pertence a ela.'
+    };
+
+    // Abaixo de 1 segundo mostra em milissegundos, para o valor e o intervalo não arredondarem diferente.
+    function formatarLatencia(ms) {
+      const v = Number(ms || 0);
+      return v < 1000 ? `${v.toFixed(0)} ms` : `${(v / 1000).toFixed(1)}s`;
+    }
+
+    function motivoPorConstrucao(chave) {
+      const doServidor = state.escolarRunData && state.escolarRunData.metricas_por_construcao;
+      return (doServidor && doServidor[chave]) || POR_CONSTRUCAO_PADRAO[chave] || '';
+    }
+
+    // Intervalo de confiança de 95% de uma métrica do resumo, já formatado; '' quando não existe.
+    function textoIc95(r, chave, formatar) {
+      const ic = r && r.ic95 ? r.ic95[chave] : null;
+      if (!Array.isArray(ic) || ic.length !== 2) return '';
+      return `IC95 ${formatar(Number(ic[0]))} a ${formatar(Number(ic[1]))}`;
+    }
+
+    // Barra de proporção usada nas tabelas de indicadores (0 a 100).
+    function barraProporcao(pct, cls) {
+      const w = Math.max(0, Math.min(100, Number(pct || 0)));
+      const cor = cls === 'score-ok' ? 'var(--moss)' : (cls === 'score-warn' ? 'var(--ochre)' : (cls === 'score-neutral' ? 'var(--hairline-strong)' : 'var(--vermilion)'));
+      return `<span class="bar-track"><span class="bar-fill" style="width:${w}%;background:${cor};"></span></span>`;
+    }
+
     function renderLedgerIndicadoresEscolar(r, opts = {}) {
       if (!r) return '';
+      const rnf = opts.rnf07 || null;
       const temGen = Number(r.com_geracao || 0) > 0;
       const fid = r.fidelidade_media !== null && r.fidelidade_media !== undefined ? Number(r.fidelidade_media) : (r.fidelidade_lexica_media !== null && r.fidelidade_lexica_media !== undefined ? Number(r.fidelidade_lexica_media) : null);
       const rel = r.relevancia_media !== null && r.relevancia_media !== undefined ? Number(r.relevancia_media) : (r.relevancia_lexica_media !== null && r.relevancia_lexica_media !== undefined ? Number(r.relevancia_lexica_media) : null);
@@ -2374,28 +3215,34 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       const invalidas = Number(r.citacoes_invalidas_total ?? 0);
       const abstencao = r.taxa_abstencao_pct !== null && r.taxa_abstencao_pct !== undefined ? Number(r.taxa_abstencao_pct) : null;
 
-      const bar = (pct, cls) => {
-        const w = Math.max(0, Math.min(100, Number(pct || 0)));
-        const cor = cls === 'score-ok' ? 'var(--moss)' : (cls === 'score-warn' ? 'var(--ochre)' : 'var(--vermilion)');
-        return `<span class="bar-track"><span class="bar-fill" style="width:${w}%;background:${cor};"></span></span>`;
-      };
+      const bar = barraProporcao;
 
       const linhas = [
         {
           nome: 'Taxa de retorno Top-5',
-          tip: 'Percentual de questões que receberam pelo menos 1 trecho recuperado no Top-5 do RAG.',
+          tip: `Percentual de questões que receberam pelo menos 1 trecho recuperado no Top-5 do RAG. ${motivoPorConstrucao('taxa_retorno_pct')}`,
           leitura: `${escapeHtml(r.media_trechos ?? 0)} trechos/questão em média`,
           pct: retorno,
           cls: classePct(retorno, 95, 70),
+          porConstrucao: true,
           val: `${retorno.toFixed(1)}%`
         },
         {
           nome: 'Aderência à barreira TDAH',
-          tip: 'Proporção dos trechos retornados que pertencem exatamente à barreira funcional TDAH associada à questão.',
+          tip: `Proporção dos trechos retornados que pertencem exatamente à barreira funcional TDAH associada à questão. ${motivoPorConstrucao('aderencia_barreira_pct')}`,
           leitura: 'Filtro determinístico pré-ranqueamento',
           pct: aderencia,
           cls: classePct(aderencia, 90, 60),
+          porConstrucao: true,
           val: `${aderencia.toFixed(1)}%`
+        },
+        {
+          nome: 'Variedade da busca',
+          tip: 'Quantos conjuntos diferentes de 5 trechos a rodada devolveu. Ao contrário do retorno e da aderência, este número pode falhar: se muitas questões recebem os mesmos trechos, a busca está respondendo à característica, não à questão.',
+          leitura: `${r.conjuntos_distintos_trechos ?? '-'} conjuntos e ${r.trechos_distintos ?? '-'} trechos diferentes em ${r.total ?? '-'} questões`,
+          pct: r.total ? (Number(r.conjuntos_distintos_trechos || 0) / Number(r.total)) * 100 : 0,
+          cls: 'score-neutral',
+          val: r.total ? `${r.conjuntos_distintos_trechos ?? 0} de ${r.total}` : '—'
         },
         {
           nome: 'Trechos com texto útil',
@@ -2407,11 +3254,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         },
         {
           nome: 'Latência média (busca / total)',
-          tip: 'Tempo médio só da recuperação no índice vs. tempo completo com LLM local + juiz.',
-          leitura: `Busca: ${escapeHtml(r.latencia_busca_ms ?? 0)} ms`,
+          tip: rnf ? `Tempo médio só da recuperação no índice vs. tempo completo com LLM local + juiz. Ao lado, quantas questões ficaram dentro do limite do RNF-07 para o nível ${rnf.nivel} da rodada (15 s no nível 1, 40 s nos níveis 2 e 3). A questão mais lenta levou ${formatarLatencia(rnf.maior_ms)}. Mede só o RAG: o ciclo inteiro de adaptação soma os agentes por cima.`
+            : 'Tempo médio só da recuperação no índice vs. tempo completo com LLM local + juiz.',
+          leitura: `Busca: ${escapeHtml(r.latencia_busca_ms ?? 0)} ms` + (rnf ? ` · RNF-07 (${(rnf.limite_ms / 1000).toFixed(0)} s): ${escapeHtml(rnf.dentro)} de ${escapeHtml(rnf.total)} dentro` : ''),
           pct: Math.max(5, Math.min(100, 100 - (Number(r.latencia_total_ms || 0) / 1000))),
           cls: Number(r.latencia_total_ms || 0) <= 15000 ? 'score-ok' : (Number(r.latencia_total_ms || 0) <= 60000 ? 'score-warn' : 'score-danger'),
-          val: `${(Number(r.latencia_total_ms || 0) / 1000).toFixed(1)}s`
+          ic: textoIc95(r, 'latencia_total_ms', formatarLatencia),
+          val: formatarLatencia(Number(r.latencia_total_ms || 0))
         }
       ];
 
@@ -2423,6 +3272,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             leitura: ehSonnet && r.fidelidade_lexica_media != null ? `Léxica paralela: ${Number(r.fidelidade_lexica_media).toFixed(2)}` : 'Avaliador por sobreposição de palavras',
             pct: (fid || 0) * 100,
             cls: classeCor(fid || 0).cls,
+            ic: textoIc95(r, 'fidelidade_media', v => v.toFixed(2)),
             val: fid !== null ? fid.toFixed(2) : '—'
           },
           {
@@ -2431,6 +3281,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             leitura: ehSonnet ? 'Veredito semântico Claude Sonnet' : 'Similaridade léxica com a consulta',
             pct: (rel || 0) * 100,
             cls: classeCor(rel || 0).cls,
+            ic: textoIc95(r, 'relevancia_media', v => v.toFixed(2)),
             val: rel !== null ? rel.toFixed(2) : '—'
           },
           {
@@ -2459,10 +3310,12 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           },
           {
             nome: 'Taxa de abstenção',
-            tip: 'Percentual de questões em que o LLM recusou responder alegando falta de evidências nos trechos.',
+            tip: 'Percentual de questões em que o LLM recusou responder alegando falta de evidências nos trechos.'
+              + (opts.extrativo ? ' Nesta rodada não houve LLM: a resposta é a frase fixa de recusa. O gerador sem modelo descarta todo trecho com aviso de uso (nao_usar_para), mesmo quando o aviso só restringe um uso específico; quando os 5 trechos têm aviso, ele se abstém. Por isso, aqui a taxa mede quantas vezes a busca trouxe só trechos com aviso, e não a falta de evidência.' : ''),
             leitura: (abstencao || 0) <= 10 ? 'Dentro do esperado (próximo de 0%)' : 'Alta recusa: revise o prompt ou cobertura dos trechos',
             pct: abstencao !== null ? abstencao : 0,
             cls: (abstencao || 0) <= 10 ? 'score-ok' : ((abstencao || 0) <= 40 ? 'score-warn' : 'score-danger'),
+            ic: textoIc95(r, 'taxa_abstencao_pct', v => `${v.toFixed(1)}%`),
             val: abstencao !== null ? `${abstencao.toFixed(1)}%` : '0.0%'
           }
         );
@@ -2485,10 +3338,10 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               <tbody>
                 ${linhas.map(l => `
                   <tr>
-                    <td style="white-space:nowrap;"><strong>${renderMetricTip(l.nome, l.tip)}</strong></td>
+                    <td><span class="ledger-name"><strong>${renderMetricTip(l.nome, l.tip)}</strong>${l.porConstrucao ? '<span class="tag">por construção</span>' : ''}</span></td>
                     <td style="color:var(--muted);">${escapeHtml(l.leitura)}</td>
                     <td>${bar(l.pct, l.cls)}</td>
-                    <td class="num ${l.cls}">${escapeHtml(l.val)}</td>
+                    <td class="num ${l.cls}">${escapeHtml(l.val)}${l.ic ? `<span class="ledger-ic">${escapeHtml(l.ic)}</span>` : ''}</td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -2498,13 +3351,724 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       `;
     }
 
+    function renderProcedenciaEscolar(info, modelos) {
+      const p = info.procedencia;
+      if (!p) {
+        return '<div class="tag-row provenance-row"><span class="tag tag-warn">Rodada antiga: sem commit nem hash da prova registrados</span></div>';
+      }
+      const tags = [];
+      if (p.commit) {
+        tags.push(`<span class="tag ${p.commit_com_alteracoes_locais ? 'tag-warn' : ''}">commit <code>${escapeHtml(p.commit)}</code>${p.commit_com_alteracoes_locais ? ' + alterações locais' : ''}</span>`);
+      } else {
+        tags.push('<span class="tag tag-warn">commit não identificado</span>');
+      }
+      tags.push(`<span class="tag">prova <code>${escapeHtml(p.dataset_sha256 || 'sem hash')}</code></span>`);
+      if (p.base_trechos_sha256) {
+        tags.push(`<span class="tag">base de trechos <code>${escapeHtml(p.base_trechos_sha256)}</code></span>`);
+      }
+      const m = modelos || null;
+      if (m) {
+        (m.geradores || []).forEach(g => tags.push(`<span class="tag">gerador <code>${escapeHtml(g)}</code></span>`));
+        (m.juizes || []).forEach(j => tags.push(`<span class="tag">juiz <code>${escapeHtml(j)}</code></span>`));
+        if (Number(m.juiz_desconhecido || 0) > 0) {
+          tags.push('<span class="tag tag-warn">juiz: modelo não registrado nesta rodada</span>');
+        }
+      }
+      return `<div class="tag-row provenance-row" aria-label="Procedência da rodada">${tags.join('')}</div>`;
+    }
+
+    // Verdadeiro quando todas as respostas da rodada vieram do gerador extrativo (sem modelo de linguagem).
+    function geradorExtrativo(m) {
+      const g = (m && m.geradores) || [];
+      return g.length > 0 && g.every(x => String(x).toLowerCase().startsWith('extractive'));
+    }
+
+    // Aviso quando o modelo que julga é o mesmo que gerou: a nota vira teto, não medida.
+    function renderAvisoGeradorJuizEscolar(m) {
+      if (!m || Number(m.gerador_igual_ao_juiz || 0) === 0) return '';
+      return `<div class="notice notice-warn">Em <strong>${escapeHtml(m.gerador_igual_ao_juiz)}</strong> de <strong>${escapeHtml(m.julgados_por_modelo)}</strong> questões julgadas, o juiz é o mesmo modelo que gerou a resposta. Um modelo tende a aprovar o próprio texto, então a fidelidade desta rodada vale como teto, não como medida. Para medir, use um juiz de outro modelo (variável <code>IRIS_JUDGE_MODEL</code>).</div>`;
+    }
+
+    function formatarValorComparado(chave, v) {
+      if (v === null || v === undefined) return '—';
+      const n = Number(v);
+      if (chave.endsWith('_ms')) return `${n.toFixed(1)} ms`;
+      if (chave.endsWith('_pct')) return `${n.toFixed(1)}%`;
+      if (chave === 'score_top1_medio') return n.toFixed(2);
+      return n.toFixed(3);
+    }
+
+    // Portão: resume a comparação com a linha de base em aprovado, aviso ou reprovado.
+    function renderPortaoEscolar(p) {
+      if (!p) return '';
+      const mapa = {
+        aprovado: ['gate-aprovado', 'Portão: aprovado'],
+        aviso: ['gate-aviso', 'Portão: aviso'],
+        reprovado: ['gate-reprovado', 'Portão: reprovado'],
+        referencia: ['gate-neutro', 'Portão: linha de base'],
+        sem_base: ['gate-neutro', 'Portão: sem linha de base']
+      };
+      const [cls, rotulo] = mapa[p.veredito] || ['gate-neutro', `Portão: ${p.veredito}`];
+      return `
+        <div class="gate-banner ${cls}" role="status">
+          <span class="gate-word">${escapeHtml(rotulo)}</span>
+          <ul class="gate-reasons">${(p.motivos || []).map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+        </div>
+        ${(p.notas || []).length ? `<ul class="gate-notes" aria-label="Notas que não mudam o veredito">${p.notas.map(n => `<li>${escapeHtml(n)}</li>`).join('')}</ul>` : ''}`;
+    }
+
+    function celulaVazamento(x) {
+      if (!x || !x.total) return '<td class="leak-cell">—</td>';
+      const cls = x.vazou === 0 ? 'leak-none' : (x.vazou === x.total ? 'leak-all' : 'leak-some');
+      return `<td class="leak-cell ${cls}">${escapeHtml(x.vazou)} de ${escapeHtml(x.total)}</td>`;
+    }
+
+    function celulaResumoVazamento(titulo, sub, x) {
+      const ic = Array.isArray(x.ic95) ? `IC95 ${Number(x.ic95[0]).toFixed(1)}% a ${Number(x.ic95[1]).toFixed(1)}%` : 'sem intervalo';
+      return `<div class="refusal-cell">
+        <div class="verdict-num neutral">${escapeHtml(x.vazou)} de ${escapeHtml(x.total)}</div>
+        <div class="verdict-cap">${escapeHtml(titulo)}</div>
+        <div class="verdict-sub">${Number(x.taxa_pct || 0).toFixed(1)}% vazou · ${escapeHtml(ic)}${sub ? ` · ${escapeHtml(sub)}` : ''}</div>
+      </div>`;
+    }
+
+    function renderAtaquePii(a) {
+      const box = document.getElementById('ataque-pii-box');
+      const btn = document.getElementById('btn-ataque-pii');
+      if (!box) return;
+      if (btn && a && (a.total_casos || (a.geral && a.geral.total))) {
+        btn.textContent = `Rodar ataque (${a.total_casos || a.geral.total} casos)`;
+        btn.dataset.origLabel = btn.textContent;
+      }
+      if (!a || !a.tem_ataque) {
+        box.innerHTML = '<div class="empty-state">Nenhum ataque registrado ainda. Ele leva uns 10 segundos (monta cada caso também como .docx e .pdf) e não chama modelo.</div>';
+        return;
+      }
+      const rot = a.rotulos || {};
+      const chavesRot = Object.keys(rot);
+      const ctl = a.controles || {};
+      const promessa = a.prometidos_rotulo_pt || {};
+      const aviso = Number(promessa.vazou || 0) > 0
+        ? `<div class="notice notice-danger">Promessa quebrada: ${escapeHtml(promessa.vazou)} de ${escapeHtml(promessa.total)} casos vazaram no cenário mais simples (tipo que o removedor promete tirar, com o rótulo em português).</div>`
+        : (Number((a.prometidos || {}).vazou || 0) > 0
+          ? `<div class="notice notice-warn">No cenário para o qual foi escrito (rótulo em português) o removedor não deixou passar nada. Fora dele, ${escapeHtml(a.prometidos.vazou)} de ${escapeHtml(a.prometidos.total)} casos dos tipos prometidos vazaram: basta o rótulo vir em inglês, abreviado ou faltar.</div>`
+          : '<div class="notice notice-ok">Nenhum caso dos tipos prometidos vazou.</div>');
+      const avisoCtl = Number(ctl.apagou_conteudo || 0) > 0
+        ? `<div class="notice notice-danger">O removedor apagou conteúdo de ${escapeHtml(ctl.apagou_conteudo)} de ${escapeHtml(ctl.total)} enunciados sem dado pessoal: ${(ctl.itens || []).filter(c => c.apagou).map(c => `<code>${escapeHtml(c.protegido)}</code>`).join(', ')}.</div>`
+        : '';
+      const linhasTipo = Object.keys(a.por_tipo || {}).map(k => {
+        const t = a.por_tipo[k];
+        return `<tr>
+          <td style="min-width:150px;"><strong>${escapeHtml(t.nome)}</strong></td>
+          <td>${t.prometido ? '<span class="tag tag-teal">prometido</span>' : '<span class="tag">não prometido</span>'}</td>
+          ${celulaVazamento(t)}
+          ${chavesRot.map(r => celulaVazamento((t.por_rotulo || {})[r])).join('')}
+        </tr>`;
+      }).join('');
+      const exemplos = (a.exemplos || []).map(e => `<tr>
+          <td style="white-space:nowrap;">${escapeHtml(e.tipo)}</td>
+          <td style="white-space:nowrap;">${escapeHtml(e.rotulo)}</td>
+          <td class="refusal-answer"><code>${escapeHtml(e.linha_da_saida)}</code></td>
+        </tr>`).join('');
+      box.innerHTML = `
+        <div class="tag-row provenance-row" aria-label="Procedência do ataque">
+          <span class="tag">casos <code>${escapeHtml(a.assinatura_casos || '-')}</code></span>
+          <span class="tag">semente <code>${escapeHtml(a.semente)}</code></span>
+          <span class="tag tag-ok">valores fictícios</span>
+        </div>
+        ${aviso}
+        ${avisoCtl}
+        <div class="refusal-summary">
+          ${celulaResumoVazamento('Prometidos, rótulo em português', 'o cenário mais simples', promessa)}
+          ${celulaResumoVazamento('Tipos que o removedor promete tirar', 'todos os rótulos', a.prometidos || {})}
+          ${celulaResumoVazamento('Tipos que ele não promete', 'RG, nascimento, endereço, responsável', a.nao_prometidos || {})}
+          <div class="refusal-cell">
+            <div class="verdict-num neutral">${escapeHtml(ctl.apagou_conteudo ?? 0)} de ${escapeHtml(ctl.total ?? 0)}</div>
+            <div class="verdict-cap">Enunciados sem dado que perderam conteúdo</div>
+            <div class="verdict-sub">controle: o removedor não pode apagar matéria</div>
+          </div>
+        </div>
+        <p class="baseline-rule">Como ler: "vazou" é o dado continuar legível depois do removedor, inteiro ou num pedaço que ainda identifica. A régua é a promessa escrita no próprio módulo: os tipos marcados "prometido". Vazamento nos outros tipos não é promessa quebrada; mostra o que fica de fora. Cada célula abaixo junta as quatro posições no material (cabeçalho, meio da frase, rodapé e lista), ${escapeHtml(a.repeticoes)} valores sorteados em cada.</p>
+        <div class="table-scroll" style="margin-top:0.75rem;">
+          <table>
+            <thead><tr><th>Tipo de dado</th><th>Promessa</th><th>Vazou</th>${chavesRot.map(r => `<th>${escapeHtml(rot[r])}</th>`).join('')}</tr></thead>
+            <tbody>${linhasTipo}</tbody>
+          </table>
+        </div>
+        ${a.por_formato ? `<div class="ledger-heading" style="margin-top:1rem;"><span>Os mesmos casos como arquivo</span></div>
+        <div class="table-scroll"><table class="table-compact">
+          <thead><tr><th>Como o material chega</th><th class="num">Vazou</th><th class="num">Prometidos, rótulo em português</th></tr></thead>
+          <tbody>${Object.keys(a.por_formato).map(k => { const f = a.por_formato[k]; return `<tr>
+            <td>${escapeHtml(f.nome)}</td>
+            <td class="num">${escapeHtml(f.vazou)} de ${escapeHtml(f.total)}<span class="ledger-ic">${Array.isArray(f.ic95) ? `IC95 ${Number(f.ic95[0]).toFixed(1)}% a ${Number(f.ic95[1]).toFixed(1)}%` : ''}</span></td>
+            <td class="num">${escapeHtml(f.prometidos_rotulo_pt.vazou)} de ${escapeHtml(f.prometidos_rotulo_pt.total)}</td>
+          </tr>`; }).join('')}</tbody>
+        </table></div>
+        <p class="baseline-rule">O arquivo é montado com o mesmo texto, uma linha por parágrafo, e lido pelo extrator do projeto antes do removedor. Se a extração quebrasse a linha entre o rótulo e o nome, o vazamento do arquivo subiria.</p>` : ''}
+        ${exemplos ? `<div class="ledger-heading" style="margin-top:1rem;"><span>Exemplos do que passou (valores fictícios)</span></div>
+        <div class="table-scroll"><table>
+          <thead><tr><th>Tipo</th><th>Rótulo</th><th>Linha depois do removedor</th></tr></thead>
+          <tbody>${exemplos}</tbody>
+        </table></div>` : ''}
+      `;
+    }
+
+    async function carregarAtaquePii() {
+      try {
+        renderAtaquePii(await fetchJson('/api/v1/eval/ataque-pii'));
+      } catch (err) {
+        document.getElementById('ataque-pii-box').innerHTML =
+          `<div class="notice notice-danger">Falha ao carregar o ataque (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    async function executarAtaquePii() {
+      setLoading('btn-ataque-pii', true, 'Rodando ataque...');
+      try {
+        const a = await fetchJson('/api/v1/eval/ataque-pii', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+        setLoading('btn-ataque-pii', false);
+        renderAtaquePii(a);
+      } catch (err) {
+        setLoading('btn-ataque-pii', false);
+        document.getElementById('ataque-pii-box').innerHTML =
+          `<div class="notice notice-danger">O ataque não rodou (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    function renderLinhaDeBaseEscolar(an) {
+      const info = an.run_info || {};
+      const lb = an.linha_de_base;
+      const runId = escapeHtml(info.run_id || '');
+      const btnPromover = `<button type="button" class="btn btn-secondary btn-compact" onclick="definirLinhaDeBaseEscolar('${runId}')">Usar esta rodada como linha de base</button>`;
+      const btnRemover = '<button type="button" class="btn btn-secondary btn-compact" onclick="definirLinhaDeBaseEscolar(null)">Remover linha de base</button>';
+      const regra = '<p class="baseline-rule">Regra: uma métrica só "mudou" quando o valor desta rodada sai do intervalo de confiança de 95% da linha de base. Dentro do intervalo, a diferença pode ser só sorteio. Só se comparam rodadas com a mesma configuração, os mesmos filtros e a mesma prova.</p>';
+      const cabecalho = (botoes) => `
+          <div class="baseline-head">
+            <div class="ledger-heading"><span>Comparação com a linha de base</span></div>
+            <div class="btn-row">${botoes}</div>
+          </div>`;
+
+      if (!lb) {
+        return `<div class="ledger-group">${cabecalho(btnPromover)}
+          <div class="notice notice-info">Nenhuma linha de base definida. Sem ela, um número sozinho não diz se a rodada melhorou ou piorou.</div>${regra}</div>`;
+      }
+      const base = lb.base || {};
+      const idBase = `<code>${escapeHtml(base.run_id || '-')}</code>${base.commit ? ` (commit <code>${escapeHtml(base.commit)}</code>)` : ''}`;
+      if (lb.mesma_rodada) {
+        return `<div class="ledger-group">${cabecalho(btnRemover)}
+          <div class="notice notice-ok">Esta rodada é a linha de base. As próximas rodadas com a mesma configuração serão comparadas com ela.</div>${regra}</div>`;
+      }
+      if (!lb.comparavel) {
+        return `<div class="ledger-group">${cabecalho(btnPromover + btnRemover)}
+          <div class="notice notice-warn" style="display:block;">Esta rodada não é comparável com a linha de base ${idBase}:
+            <ul class="baseline-reasons">${(lb.motivos || []).map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+          </div>${regra}</div>`;
+      }
+      const rotulos = {
+        igual: ['igual', 'tag'],
+        melhorou: ['melhorou', 'tag tag-ok'],
+        piorou: ['piorou', 'tag tag-danger'],
+        mais_lenta: ['mais lenta (só informação)', 'tag'],
+        mais_rapida: ['mais rápida (só informação)', 'tag'],
+        mudou: ['mudou', 'tag tag-warn'],
+        sem_intervalo: ['sem intervalo', 'tag']
+      };
+      const linhas = (lb.metricas || []).map(m => {
+        const [txt, cls] = rotulos[m.veredito] || [m.veredito, 'tag'];
+        const ic = Array.isArray(m.ic95_base) ? `<span class="ledger-ic">IC95 ${escapeHtml(formatarValorComparado(m.chave, m.ic95_base[0]))} a ${escapeHtml(formatarValorComparado(m.chave, m.ic95_base[1]))}</span>` : '';
+        const dif = Number(m.diferenca || 0);
+        const sinal = dif > 0 ? '+' : '';
+        return `<tr>
+          <td><strong>${escapeHtml(m.rotulo)}</strong></td>
+          <td class="num">${escapeHtml(formatarValorComparado(m.chave, m.base))}${ic}</td>
+          <td class="num">${escapeHtml(formatarValorComparado(m.chave, m.atual))}</td>
+          <td class="num">${escapeHtml(sinal + formatarValorComparado(m.chave, dif))}</td>
+          <td><span class="${cls}">${escapeHtml(txt)}</span></td>
+        </tr>`;
+      }).join('');
+      return `<div class="ledger-group">${cabecalho(btnPromover + btnRemover)}
+          <p class="baseline-rule" style="margin:0 0 0.5rem;">Linha de base: ${idBase}, ${escapeHtml(base.total_itens ?? '-')} questões. A comparação usa a rodada inteira, sem os filtros de exibição.</p>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th style="min-width:170px;">Métrica</th><th class="num">Linha de base</th><th class="num">Esta rodada</th><th class="num">Diferença</th><th>Veredito</th></tr></thead>
+              <tbody>${linhas}</tbody>
+            </table>
+          </div>${regra}</div>`;
+    }
+
+    async function definirLinhaDeBaseEscolar(runId) {
+      const alertBox = document.getElementById('esc-alert');
+      try {
+        await fetchJson('/api/v1/eval/rag-escolar/baseline', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ run_id: runId || null })
+        });
+        alertBox.innerHTML = '';
+        await carregarAnalyticsEscolar(document.getElementById('esc-run-select').value);
+      } catch (err) {
+        alertBox.innerHTML = `<div class="notice notice-danger">Falha ao atualizar a linha de base (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    // ---------------- Aba Arquitetura (LangGraph)
+    // O servidor manda dois desenhos; no celular usa-se o estreito, com nomes em duas linhas.
+    const TELA_ESTREITA = window.matchMedia('(max-width: 700px)');
+    function desenhoAtual(grafo) {
+      const d = grafo.desenhos || {};
+      return (TELA_ESTREITA.matches ? d.estreito : d.largo) || grafo;
+    }
+    TELA_ESTREITA.addEventListener('change', () => { if (state.arquitetura && state.arquitetura.disponivel) renderArquitetura(); });
+
+    function renderGrafoArquitetura(grafoCompleto, exec) {
+      const grafo = desenhoAtual(grafoCompleto);
+      const m = grafo.medidas || { fonte_no: 12.5, fonte_rotulo: 11 };
+      const visitas = {};
+      const usadas = new Set();
+      const caminho = (exec && exec.caminho) || [];
+      caminho.forEach((p, i) => {
+        visitas[p.no] = (visitas[p.no] || 0) + 1;
+        if (i > 0) usadas.add(`${caminho[i - 1].no}>${p.no}`);
+      });
+      if (caminho.length) {
+        usadas.add(`__start__>${caminho[0].no}`);
+        usadas.add(`${caminho[caminho.length - 1].no}>__end__`);
+        visitas.__start__ = 1;
+        visitas.__end__ = 1;
+      }
+      const setas = grafo.setas.map(sx => {
+        const usada = usadas.has(`${sx.de}>${sx.para}`);
+        const d = sx.pontos.map((pt, i) => `${i ? 'L' : 'M'}${pt[0]} ${pt[1]}`).join(' ');
+        const rot = sx.rotulo && sx.rotulo_pos
+          ? `<text class="arch-label${usada ? ' used' : ''}" style="font-size:${m.fonte_rotulo}px" x="${sx.rotulo_pos.x}" y="${sx.rotulo_pos.y}" text-anchor="${sx.rotulo_pos.ancora}">${escapeHtml(sx.rotulo)}</text>`
+          : '';
+        return `<path class="arch-edge${sx.condicional ? ' cond' : ''}${usada ? ' used' : ''}" d="${d}" marker-end="url(#arq-seta${usada ? '-usada' : ''})"/>${rot}`;
+      }).join('');
+      const nos = grafo.nos.map(n => {
+        const v = visitas[n.id] || 0;
+        const cls = ['arch-node', v ? 'visited' : '', n.tipo === 'pausa' ? 'pause' : '', n.tipo === 'borda' ? 'border' : ''].filter(Boolean).join(' ');
+        const contagem = v > 1 && n.tipo !== 'borda' ? `<text class="arch-count" x="${n.x + n.l - 8}" y="${n.y + 14}" text-anchor="end">×${v}</text>` : '';
+        return `<g class="${cls}"><title>${escapeHtml(n.faz ? `${n.faz}. Função: ${n.funcao_do_grupo}` : n.nome)}</title>
+          <rect x="${n.x}" y="${n.y}" width="${n.l}" height="${n.a}" rx="${n.tipo === 'borda' ? 22 : 7}"/>
+          ${textoDoNo(n, m)}${contagem}</g>`;
+      }).join('');
+      return `<svg width="${grafo.largura}" height="${grafo.altura}" viewBox="0 0 ${grafo.largura} ${grafo.altura}" role="img" aria-label="Grafo dos agentes do Íris">
+        <defs>
+          <marker id="arq-seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--seta)"/></marker>
+          <marker id="arq-seta-usada" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--seta-usada)"/></marker>
+        </defs>
+        ${setas}${nos}
+      </svg>`;
+    }
+
+    function textoDoNo(n, m) {
+      const linhas = n.linhas || [n.nome];
+      const passo = m.fonte_no * 1.15;
+      const y0 = n.y + n.a / 2 + m.fonte_no * 0.36 - (passo * (linhas.length - 1)) / 2;
+      return `<text style="font-size:${m.fonte_no}px" text-anchor="middle">${linhas.map((l, i) => `<tspan x="${n.x + n.l / 2}" y="${y0 + i * passo}">${escapeHtml(l)}</tspan>`).join('')}</text>`;
+    }
+
+    function renderCaminhoArquitetura(exec, nomes) {
+      const itens = [];
+      let questaoAtual = null;
+      const vistos = {};
+      (exec.caminho || []).forEach(p => {
+        if (p.questao >= 0 && p.questao < exec.questoes && p.questao !== questaoAtual && p.no !== 'proxima_questao') {
+          questaoAtual = p.questao;
+          itens.push(`<li class="question">Questão ${p.questao + 1}:</li>`);
+        }
+        const chave = `${p.questao}|${p.no}`;
+        vistos[chave] = (vistos[chave] || 0) + 1;
+        const repetido = vistos[chave] > 1 && (p.no === 'adaptador' || p.no === 'auditor' || p.no === 'decisao');
+        const cls = p.no === 'revisao_professora' ? 'pause' : (repetido ? 'loop' : '');
+        itens.push(`<li class="${cls}">${escapeHtml(nomes[p.no] || p.no)}${repetido ? ` (${vistos[chave]}ª vez)` : ''}</li>`);
+      });
+      return `<ol class="arch-path" aria-label="Caminho percorrido">${itens.join('')}</ol>`;
+    }
+
+    function renderArquitetura() {
+      const box = document.getElementById('arq-box');
+      const a = state.arquitetura;
+      if (!box || !a) return;
+      if (!a.disponivel) {
+        box.innerHTML = `<div class="notice notice-warn" style="display:block;">${escapeHtml(a.motivo)} Esta aba é opcional e o resto do painel funciona sem ela. Para ativar: <code>${escapeHtml(a.como_instalar)}</code> e reinicie o servidor.</div>`;
+        return;
+      }
+      const exec = a.execucoes.find(e => e.id === state.cenarioArquitetura) || a.execucoes[0];
+      const nomes = Object.fromEntries(a.grafo.nos.map(n => [n.id, n.nome]));
+      const botoes = a.execucoes.map(e =>
+        `<button type="button" class="btn btn-secondary btn-compact${e.id === exec.id ? ' active' : ''}" aria-pressed="${e.id === exec.id}" onclick="selecionarCenarioArquitetura('${escapeHtml(e.id)}')">${escapeHtml(e.nome)}</button>`
+      ).join('');
+      const chamadas = exec.chamadas_por_no || {};
+      const falha = exec.falha
+        ? `<div class="notice notice-warn" style="display:block;">Falha simulada: <code>${escapeHtml(exec.falha.erro)}</code>. O próximo passo salvo era <strong>${escapeHtml((exec.falha.proximo_no_salvo || []).map(x => nomes[x] || x).join(', '))}</strong>. Depois da retomada, o Extrator rodou ${escapeHtml(chamadas.extrator)} vezes para ${escapeHtml(exec.questoes)} questões (não repetiu) e o Adaptador ${escapeHtml(chamadas.adaptador)} (a que falhou e as ${escapeHtml(exec.questoes)} que valeram).</div>`
+        : '';
+      const linhas = (exec.resultados || []).map(r => `<tr>
+          <td><strong>${escapeHtml(r.questao)}</strong> ${r.resultado === 'aprovado' ? '<span class="tag tag-ok">aprovado</span>' : '<span class="tag tag-warn">reserva</span>'}</td>
+          <td class="num">${escapeHtml(r.tentativas_do_adaptador ?? '-')}<span class="ledger-ic">${escapeHtml(r.voltas_auditor ?? '-')} de ${escapeHtml(a.limite_voltas)} voltas</span></td>
+          <td>${escapeHtml(r.decisao_professora || '-')}</td>
+        </tr>`).join('');
+      box.innerHTML = `
+        <div class="tag-row provenance-row" aria-label="Como o grafo foi gerado">
+          <span class="tag">LangGraph <code>${escapeHtml(a.versao_langgraph)}</code></span>
+          <span class="tag tag-warn">provedor sem modelo</span>
+          <span class="tag">limite de <code>${escapeHtml(a.limite_voltas)}</code> voltas ao Adaptador</span>
+          <span class="tag">${escapeHtml(a.grafo.nos.length - 2)} caixas, ${escapeHtml(a.grafo.setas.length)} setas</span>
+        </div>
+        <div class="btn-row" style="margin:0.6rem 0 0.9rem;" role="group" aria-label="Cenário">${botoes}</div>
+        <div class="arch-grid">
+          <div>
+            <div class="arch-canvas">${renderGrafoArquitetura(a.grafo, exec)}</div>
+            <p class="arch-zoom-note">Na tela estreita o desenho troca para uma versão mais compacta, reduzida para caber inteira. O caminho percorrido, abaixo, traz os mesmos passos em texto.</p>
+          </div>
+          <div>
+            <div class="notice notice-info" style="display:block;"><strong>${escapeHtml(exec.nome)}.</strong> ${escapeHtml(exec.o_que_mostra)}.</div>
+            ${falha}
+            <div class="refusal-summary">
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.passos)}</div><div class="verdict-cap">Caixas percorridas</div><div class="verdict-sub">${escapeHtml(exec.questoes)} questões no material</div></div>
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.voltas_ao_adaptador)}</div><div class="verdict-cap">Voltas ao Adaptador</div><div class="verdict-sub">limite de ${escapeHtml(a.limite_voltas)} por questão</div></div>
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.barradas_pelo_adaptador ?? 0)}</div><div class="verdict-cap">Barradas pelo próprio Adaptador</div><div class="verdict-sub">minuta com palavra fora do enunciado, trocada pela adaptação por regras antes do Auditor</div></div>
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml((exec.pausas || []).length)}</div><div class="verdict-cap">Pausas para a professora</div><div class="verdict-sub">${escapeHtml((exec.pausas || []).filter(p => p.com_alerta).length)} com alerta</div></div>
+              <div class="refusal-cell"><div class="verdict-num neutral">${escapeHtml(exec.estados_salvos)}</div><div class="verdict-cap">Estados salvos</div><div class="verdict-sub">${exec.nome_plantado_no_estado_salvo ? 'o nome plantado APARECE em estado salvo' : 'o nome plantado não aparece em nenhum'}</div></div>
+            </div>
+            ${exec.nome_plantado_no_estado_salvo ? '<div class="notice notice-danger">O nome inventado do cabeçalho ficou gravado num estado salvo: o filtro não o tirou antes de o texto entrar no grafo.</div>' : ''}
+            <div class="ledger-heading" style="margin-top:0.9rem;"><span>Caminho percorrido</span><span class="ledger-scale">${escapeHtml(exec.segundos_total)} s</span></div>
+            ${renderCaminhoArquitetura(exec, nomes)}
+            <div class="ledger-heading" style="margin-top:1rem;"><span>Resultado por questão</span></div>
+            <div class="table-scroll"><table class="table-compact">
+              <thead><tr><th>Questão e como terminou</th><th class="num">Minutas</th><th>Professora</th></tr></thead>
+              <tbody>${linhas}</tbody>
+            </table></div>
+            <p class="chain-note">Como ler: caixa pintada foi visitada neste cenário, e "×3" é quantas vezes. A caixa tracejada é a pausa: o grafo para, guarda o estado e só continua com a decisão de uma pessoa (aqui, uma decisão simulada: aceita o aprovado e edita o que veio com alerta). Cada questão termina aprovada pelo Auditor ou na saída de reserva; "Minutas" são as tentativas do Adaptador, e embaixo as voltas do Auditor ao Adaptador, sobre o limite. O texto bruto do material fica fora do estado salvo; só entra o texto já filtrado.</p>
+            <details class="audit-box" style="margin-top:0.75rem;"><summary>O mesmo grafo em Mermaid, como o LangGraph o exporta</summary><pre style="white-space:pre-wrap; overflow-wrap:anywhere; font-size:0.74rem; margin:0.5rem 0 0;">${escapeHtml(a.grafo.mermaid)}</pre></details>
+          </div>
+        </div>`;
+    }
+
+    // ---------------- Rodar o grafo com o material do professor (C14) e decidir na pausa (C15)
+    function renderExecucaoComMaterial(r) {
+      const box = document.getElementById('arq-exec-box');
+      const a = state.arquitetura;
+      const nomes = a && a.grafo ? Object.fromEntries(a.grafo.nos.map(n => [n.id, n.nome])) : {};
+      const sinais = r.sinais_de_dado_restante || [];
+      const avisoDado = sinais.length
+        ? `<div class="notice notice-danger" style="display:block;"><strong>Possível dado pessoal guardado.</strong> O filtro não reconhece estes rótulos, e o que vem depois deles ficou no estado salvo: ${sinais.map(x => `<code>${escapeHtml(x)}</code>`).join(', ')}. Troque o rótulo por "Aluno:" ou apague o nome antes de seguir.</div>`
+        : '<div class="notice notice-ok">Nenhum nome depois de rótulo não reconhecido no texto guardado. Isso não garante que não haja outro dado pessoal: confira o texto guardado abaixo.</div>';
+      let pausa = '';
+      if (r.estado === 'pausado') {
+        const p = r.pausa;
+        pausa = `<div class="arch-pause">
+          <h3>Revisão da questão ${escapeHtml(p.numero)} de ${escapeHtml(p.de)} (<code>${escapeHtml(p.questao_id)}</code>)</h3>
+          ${p.alerta ? `<div class="notice notice-warn">${escapeHtml(p.alerta)}</div>` : ''}
+          <label for="arq-proposto">Texto proposto; edite se quiser</label>
+          <textarea id="arq-proposto">${escapeHtml(p.texto_proposto)}</textarea>
+          <div class="btn-row" style="margin-top:0.6rem;">
+            <button type="button" id="btn-arq-aceitar" class="btn btn-primary" onclick="decidirPausaArquitetura('aceitou')">Aceitar</button>
+            <button type="button" id="btn-arq-editar" class="btn btn-secondary" onclick="decidirPausaArquitetura('editou')">Salvar a edição</button>
+          </div>
+        </div>`;
+      }
+      const linhas = (r.resultados || []).map(x => `<tr>
+          <td><strong>${escapeHtml(x.questao)}</strong> ${x.resultado === 'aprovado' ? '<span class="tag tag-ok">aprovado</span>' : (x.resultado === 'reserva' ? '<span class="tag tag-warn">reserva</span>' : `<span class="tag tag-danger">${escapeHtml(x.resultado)}</span>`)}</td>
+          <td class="num">${escapeHtml(x.tentativas_do_adaptador ?? '-')}</td>
+          <td>${escapeHtml(x.decisao_professora || x.motivo || '-')}</td>
+        </tr>`).join('');
+      box.innerHTML = `
+        <div class="tag-row provenance-row">
+          <span class="tag ${r.estado === 'pausado' ? 'tag-warn' : 'tag-ok'}">${r.estado === 'pausado' ? 'parado na revisão' : 'concluído'}</span>
+          <span class="tag">${escapeHtml(r.questoes)} questões</span>
+          <span class="tag">${escapeHtml(r.n_pii_removidos ?? 0)} ${Number(r.n_pii_removidos) === 1 ? 'dado removido' : 'dados removidos'} pelo filtro</span>
+          <span class="tag">${escapeHtml(r.estados_salvos)} estados salvos</span>
+          <span class="tag tag-warn">provedor sem modelo</span>
+        </div>
+        ${pausa}
+        ${avisoDado}
+        ${linhas ? `<div class="ledger-heading" style="margin-top:0.9rem;"><span>Questões já revisadas</span></div>
+        <div class="table-scroll"><table class="table-compact">
+          <thead><tr><th>Questão e como terminou</th><th class="num">Minutas</th><th>Decisão</th></tr></thead>
+          <tbody>${linhas}</tbody>
+        </table></div>` : ''}
+        <div class="ledger-heading" style="margin-top:0.9rem;"><span>Caminho até aqui</span><span class="ledger-scale">${escapeHtml((r.caminho || []).length)} caixas</span></div>
+        ${renderCaminhoArquitetura({ caminho: r.caminho, questoes: r.questoes }, nomes)}
+        <div class="ledger-heading" style="margin-top:0.9rem;"><span>Texto guardado no estado (depois do filtro)</span></div>
+        <div class="arch-stored">${escapeHtml(r.texto_guardado || '')}</div>
+        <p class="chain-note">O texto colado fica só na memória da requisição e é descartado no filtro${r.texto_bruto_descartado ? ' (descartado nesta execução)' : ''}; o que aparece acima é o que o grafo guarda a cada passo. A execução fica na memória do servidor e some quando ele reinicia.</p>`;
+    }
+
+    async function executarGrafoComMaterial() {
+      const box = document.getElementById('arq-exec-box');
+      setLoading('btn-arq-executar', true, 'Rodando...');
+      try {
+        state.execucaoArquitetura = await fetchJson('/api/v1/eval/arquitetura-langgraph/executar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ texto: document.getElementById('arq-texto').value, nivel: Number(document.getElementById('arq-nivel').value) })
+        });
+        renderExecucaoComMaterial(state.execucaoArquitetura);
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">O grafo não rodou (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        setLoading('btn-arq-executar', false);
+      }
+    }
+
+    async function decidirPausaArquitetura(decisao) {
+      const r = state.execucaoArquitetura;
+      if (!r) return;
+      const editado = document.getElementById('arq-proposto').value;
+      const botao = decisao === 'aceitou' ? 'btn-arq-aceitar' : 'btn-arq-editar';
+      setLoading(botao, true, 'Seguindo...');
+      try {
+        state.execucaoArquitetura = await fetchJson('/api/v1/eval/arquitetura-langgraph/retomar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ thread_id: r.thread_id, decisao, texto_editado: decisao === 'editou' ? editado : null })
+        });
+        renderExecucaoComMaterial(state.execucaoArquitetura);
+      } catch (err) {
+        setLoading(botao, false);
+        document.getElementById('arq-exec-box').insertAdjacentHTML('afterbegin', `<div class="notice notice-danger">Não foi possível seguir (${escapeHtml(err.message)}).</div>`);
+      }
+    }
+
+    function selecionarCenarioArquitetura(id) {
+      state.cenarioArquitetura = id;
+      renderArquitetura();
+    }
+
+    async function carregarArquitetura() {
+      const box = document.getElementById('arq-box');
+      try {
+        state.arquitetura = await fetchJson('/api/v1/eval/arquitetura-langgraph');
+        state.arquiteturaLoaded = true;
+        renderArquitetura();
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">Falha ao montar o grafo (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    const NOME_ELO = { busca: 'Busca', abstencao: 'Abstenção', citacao: 'Citação', fidelidade: 'Fidelidade' };
+
+    // Em que elo da corrente (busca, abstenção, citação, fidelidade) cada questão parou primeiro.
+    function renderElosEscolar(e) {
+      if (!e) return '';
+      const semMedida = new Set(e.elos_sem_medida || []);
+      const linhas = (e.ordem || []).map((k, idx) => {
+        const x = e.por_elo[k] || {};
+        const medido = !semMedida.has(k);
+        const parou = Number(x.parou_aqui || 0);
+        const estado = k === 'busca' && !medido
+          ? 'sem gabarito de trechos'
+          : (medido ? `medido em ${x.medido_em} de ${e.total}` : 'sem medida nesta rodada');
+        return `
+          <tr>
+            <td style="white-space:nowrap;"><strong>${idx + 1}. ${escapeHtml(NOME_ELO[k] || k)}</strong></td>
+            <td class="num ${parou > 0 ? 'score-danger' : ''}">${parou}<span class="ledger-ic">${escapeHtml(estado)}</span></td>
+            <td>${medido || parou > 0 ? barraProporcao(Number(x.pct_parou_aqui || 0), parou > 0 ? 'score-danger' : 'score-ok') : '<span class="tag">sem medida</span>'}</td>
+            <td style="color:var(--muted); min-width:200px;">${escapeHtml(x.pergunta || '')}</td>
+            <td style="color:var(--muted); min-width:220px;">${escapeHtml(x.medida || '')}</td>
+          </tr>`;
+      }).join('');
+      return `
+        <div class="ledger-group">
+          <div class="ledger-heading">
+            <span>Em que elo cada questão parou</span>
+            <span class="ledger-scale">${escapeHtml(e.total)} questões</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Elo</th><th class="num">Pararam aqui</th><th>Proporção</th><th>Pergunta que responde</th><th>Como é medido</th></tr></thead>
+              <tbody>
+                ${linhas}
+                <tr>
+                  <td><strong>Nenhuma quebra medida</strong></td>
+                  <td class="num">${escapeHtml(e.sem_quebra_medida)}</td>
+                  <td>${barraProporcao(Number(e.pct_sem_quebra_medida || 0), 'score-neutral')}</td>
+                  <td colspan="2" style="color:var(--muted);">nenhum dos elos medidos nesta rodada quebrou</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="chain-note">Como ler: cada questão conta uma vez, no primeiro elo que quebrou, na ordem da tabela. "Nenhuma quebra medida" não é o mesmo que "certa": só vale para os elos que esta rodada conseguiu medir${semMedida.size ? ` (sem medida: ${[...semMedida].map(k => (NOME_ELO[k] || k).toLowerCase()).join(' e ')})` : ''}. Busca, abstenção e citação são contadas por código; só a fidelidade depende de um modelo juiz.</p>
+        </div>`;
+    }
+
+    function renderRepeticaoEscolar(info) {
+      const runId = escapeHtml(info.run_id || '');
+      const pago = info.gerar_resposta ? ' Com gerador ou juiz pago, custa outra rodada inteira.' : '';
+      return `
+        <div class="ledger-group">
+          <div class="baseline-head">
+            <div class="ledger-heading"><span>Rodar de novo e conferir que dá igual</span></div>
+            <div class="btn-row"><button type="button" id="btn-esc-repetir" class="btn btn-secondary btn-compact" onclick="repetirRodadaEscolar('${runId}')">Repetir esta rodada</button></div>
+          </div>
+          <div id="esc-repetir-box"><div class="notice notice-info">Antes de confiar numa diferença pequena entre duas rodadas, vale saber se a mesma rodada, repetida, dá o mesmo resultado.</div></div>
+          <p class="baseline-rule">Repete a bateria com a mesma configuração e os mesmos filtros, sem gravar, e compara questão a questão: os trechos devolvidos (mesmos, na mesma ordem), o texto da resposta e a decisão de se abster. A latência fica de fora.${pago}</p>
+        </div>`;
+    }
+
+    function renderResultadoRepeticaoEscolar(r) {
+      const n = r.comparadas;
+      const linhas = [`<li>Trechos devolvidos: iguais em <strong>${escapeHtml(r.trechos_identicos)}</strong> de ${escapeHtml(n)} questões.</li>`];
+      if (r.com_geracao) {
+        linhas.push(`<li>Texto da resposta: igual em <strong>${escapeHtml(r.respostas_identicas)}</strong> de ${escapeHtml(n)}.</li>`);
+        linhas.push(`<li>Decisão de se abster: igual em <strong>${escapeHtml(r.abstencao_igual)}</strong> de ${escapeHtml(n)}.</li>`);
+        const d = r.diferenca_fidelidade;
+        if (d) {
+          linhas.push(`<li>Fidelidade, repetição menos referência: ${Number(d.media).toFixed(3)}${Array.isArray(d.ic95) ? ` (IC95 ${Number(d.ic95[0]).toFixed(3)} a ${Number(d.ic95[1]).toFixed(3)})` : ''}, em ${escapeHtml(d.n)} questões.</li>`);
+        }
+      }
+      const avisos = [];
+      if (!r.mesmas_questoes) avisos.push(`a repetição teve ${escapeHtml(r.total_repeticao)} questões e a referência ${escapeHtml(r.total_referencia)}`);
+      if (!r.mesma_prova) avisos.push('o arquivo da prova mudou desde a rodada de referência (ou ela não tinha hash)');
+      if (!r.mesma_base) avisos.push('a base de trechos mudou desde a rodada de referência (ou ela não tinha hash)');
+      if (!r.mesmo_commit) avisos.push('o código não é comprovadamente o mesmo (commit diferente ou alterações locais)');
+      const div = (r.divergentes || []).map(x => `<code>${escapeHtml(x.id)}</code> (${escapeHtml(x.mudou.join(', '))})`).join(', ');
+      const veredito = r.repete
+        ? '<div class="notice notice-ok">Repetiu: a mesma rodada, rodada de novo, deu o mesmo resultado.</div>'
+        : (r.busca_repete
+          ? '<div class="notice notice-warn">A busca repetiu, a geração não. Com modelo de linguagem isso é esperado; diferença entre rodadas menor que a diferença abaixo não quer dizer nada.</div>'
+          : '<div class="notice notice-danger">A busca não repetiu: a mesma pergunta recebeu trechos diferentes. Nenhuma comparação entre rodadas é confiável até isso ser explicado.</div>');
+      return `
+        ${veredito}
+        <ul class="baseline-reasons" style="font-size:0.84rem; margin-top:0.55rem;">${linhas.join('')}</ul>
+        ${div ? `<p class="baseline-rule">Mudaram${r.divergentes_total > r.divergentes.length ? ` (${r.divergentes.length} de ${escapeHtml(r.divergentes_total)})` : ''}: ${div}</p>` : ''}
+        ${avisos.length ? `<p class="baseline-rule">Ressalva: ${avisos.join('; ')}.</p>` : ''}
+        <p class="baseline-rule">Referência <code>${escapeHtml(r.run_id_referencia)}</code>; repetição em ${escapeHtml(r.duracao_s ?? '-')} s, não gravada.</p>`;
+    }
+
+    async function repetirRodadaEscolar(runId) {
+      const box = document.getElementById('esc-repetir-box');
+      setLoading('btn-esc-repetir', true, 'Repetindo a rodada...');
+      box.innerHTML = '<div class="notice notice-info" id="esc-repetir-progresso">Repetindo a rodada: começando...</div>';
+      const acompanhar = setInterval(async () => {
+        try {
+          const p = await fetchJson('/api/v1/eval/rag-escolar/progress');
+          const alvo = document.getElementById('esc-repetir-progresso');
+          if (alvo && p && p.running && p.total) {
+            alvo.textContent = `Repetindo a rodada: ${p.atual} de ${p.total} questões (${p.tempo_decorrido_s} s).`;
+          }
+        } catch (_err) { /* o resultado final ainda chega pela chamada principal */ }
+      }, 700);
+      try {
+        const r = await fetchJson('/api/v1/eval/rag-escolar/repetir', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ run_id: runId || null })
+        });
+        box.innerHTML = renderResultadoRepeticaoEscolar(r);
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">A repetição não rodou (${escapeHtml(err.message)}).</div>`;
+      } finally {
+        clearInterval(acompanhar);
+        setLoading('btn-esc-repetir', false);
+      }
+    }
+
+    function textoIcSimples(ic) {
+      if (!Array.isArray(ic) || ic.length !== 2) return 'sem intervalo';
+      return `IC95 ${Number(ic[0]).toFixed(1)}% a ${Number(ic[1]).toFixed(1)}%`;
+    }
+
+    function renderTesteDeRecusaEscolar(t) {
+      const box = document.getElementById('esc-recusa-box');
+      const btn = document.getElementById('btn-esc-recusa');
+      if (!box) return;
+      if (btn && t && t.total_perguntas) {
+        btn.textContent = `Rodar teste de recusa (${t.total_perguntas} perguntas)`;
+        btn.dataset.origLabel = btn.textContent;
+      }
+      if (!t || !t.tem_teste) {
+        box.innerHTML = '<div class="empty-state">Nenhum teste de recusa registrado ainda. Ele usa a busca escolhida acima e o gerador configurado no servidor.</div>';
+        return;
+      }
+      const r = t.resumo || {};
+      const tipos = t.por_tipo || {};
+      const nomeTipo = { longe: 'Longe do tema', perto: 'Perto do tema' };
+      const descTipo = { longe: 'assunto sem relação com a base', perto: 'escola ou TDAH, mas o fato pedido não está na base' };
+      const p = t.procedencia || {};
+      const db = t.dentro_da_base;
+      const celulas = [
+        `<div class="refusal-cell">
+           <div class="verdict-num neutral">${escapeHtml(r.recusou)} de ${escapeHtml(r.total)}</div>
+           <div class="verdict-cap">Recusou quando devia</div>
+           <div class="verdict-sub">${Number(r.taxa_recusa_pct || 0).toFixed(1)}% · ${escapeHtml(textoIcSimples(r.ic95))}</div>
+         </div>`,
+        ...Object.keys(tipos).map(k => `<div class="refusal-cell">
+           <div class="verdict-num neutral">${escapeHtml(tipos[k].recusou)} de ${escapeHtml(tipos[k].total)}</div>
+           <div class="verdict-cap">${escapeHtml(nomeTipo[k] || k)}</div>
+           <div class="verdict-sub">${escapeHtml(descTipo[k] || '')}</div>
+         </div>`),
+        `<div class="refusal-cell">
+           <div class="verdict-num neutral">${db ? `${Number(db.taxa_abstencao_pct).toFixed(1)}%` : '—'}</div>
+           <div class="verdict-cap">Abstenção dentro da base</div>
+           <div class="verdict-sub">${db ? `${escapeHtml(db.total)} questões da última bateria com geração · ${escapeHtml(textoIcSimples(db.ic95))}` : 'Rode uma bateria com geração na mesma busca para ter a régua'}</div>
+         </div>`
+      ];
+      const tags = [
+        `<span class="tag">busca <code>${escapeHtml(t.metodo_efetivo || '-')}</code></span>`,
+        ...(t.geradores || []).map(g => `<span class="tag">gerador <code>${escapeHtml(g)}</code></span>`),
+        p.commit ? `<span class="tag ${p.commit_com_alteracoes_locais ? 'tag-warn' : ''}">commit <code>${escapeHtml(p.commit)}</code>${p.commit_com_alteracoes_locais ? ' + alterações locais' : ''}</span>` : '',
+        `<span class="tag">perguntas <code>${escapeHtml(p.dataset_sha256 || 'sem hash')}</code></span>`
+      ];
+      box.innerHTML = `
+        <div class="tag-row provenance-row" aria-label="Procedência do teste de recusa">${tags.join('')}</div>
+        ${t.invertido ? `<div class="notice notice-danger">Invertido: o sistema recusou ${Number(r.taxa_recusa_pct || 0).toFixed(1)}% das perguntas fora da base e se absteve em ${Number(db.taxa_abstencao_pct).toFixed(1)}% das questões dentro dela, e os dois intervalos de 95% não se tocam. Com este gerador, recusar não acompanha a falta de evidência.</div>` : ''}
+        <div class="refusal-summary">${celulas.join('')}</div>
+        <p class="baseline-rule">Como ler: recusar é responder com a frase fixa "Não encontrei nos documentos da base...". O número sozinho engana, porque um sistema que recusa tudo acerta 100% aqui. Por isso a abstenção dentro da base fica ao lado: o desejado é recusa alta fora da base e abstenção baixa dentro dela. Com ${escapeHtml(r.total)} perguntas o intervalo é largo; serve para ver defeito grande, não diferença fina. Não há limite de aprovação definido.</p>
+        <div class="table-scroll" style="margin-top:0.75rem;">
+          <table>
+            <thead><tr><th>Pergunta</th><th>Tipo</th><th>Resultado</th><th>Início da resposta</th></tr></thead>
+            <tbody>
+              ${(t.itens || []).map(i => `
+                <tr>
+                  <td style="min-width:220px;"><strong>${escapeHtml(i.id)}</strong> ${escapeHtml(i.pergunta)}</td>
+                  <td style="white-space:nowrap;">${escapeHtml(nomeTipo[i.tipo] || i.tipo)}</td>
+                  <td>${i.recusou ? '<span class="tag tag-ok">recusou</span>' : '<span class="tag tag-danger">respondeu</span>'}</td>
+                  <td class="refusal-answer">${i.recusou ? '—' : escapeHtml(String(i.resposta || '').slice(0, 160))}${!i.recusou && String(i.resposta || '').length > 160 ? '…' : ''}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    async function carregarTesteDeRecusaEscolar() {
+      try {
+        renderTesteDeRecusaEscolar(await fetchJson('/api/v1/eval/rag-escolar/recusa'));
+      } catch (err) {
+        document.getElementById('esc-recusa-box').innerHTML =
+          `<div class="notice notice-danger">Falha ao carregar o teste de recusa (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    async function executarTesteDeRecusaEscolar() {
+      const alertBox = document.getElementById('esc-recusa-alert');
+      const metodoSel = document.getElementById('esc-metodo-select');
+      setLoading('btn-esc-recusa', true, 'Rodando teste de recusa...');
+      try {
+        const t = await fetchJson('/api/v1/eval/rag-escolar/recusa', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ metodo: metodoSel ? metodoSel.value : null })
+        });
+        alertBox.innerHTML = '';
+        setLoading('btn-esc-recusa', false);
+        renderTesteDeRecusaEscolar(t);
+      } catch (err) {
+        setLoading('btn-esc-recusa', false);
+        alertBox.innerHTML = `<div class="notice notice-danger">O teste de recusa não rodou (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
     function renderAnalyticsEscolar(an) {
       const box = document.getElementById('esc-analytics-box');
       const runSel = document.getElementById('esc-run-select');
       if (Array.isArray(an.runs_disponiveis)) {
         const atual = runSel.value;
         runSel.innerHTML = '<option value="">Mais recente</option>' + an.runs_disponiveis.map(r =>
-          `<option value="${escapeHtml(r.run_id)}">${escapeHtml(r.metodo_efetivo)} | ${escapeHtml(r.estrategia_query)} (${escapeHtml(r.total_itens)} itens)</option>`
+          `<option value="${escapeHtml(r.run_id)}">${r.eh_linha_de_base ? '[linha de base] ' : ''}${escapeHtml(r.metodo_efetivo)} | ${escapeHtml(r.estrategia_query)} (${escapeHtml(r.total_itens)} itens)${r.commit ? ` | ${escapeHtml(r.commit)}` : ''}</option>`
         ).join('');
         if (atual && an.runs_disponiveis.some(r => r.run_id === atual)) {
           runSel.value = atual;
@@ -2523,8 +4087,12 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       document.getElementById('esc-run-caption').textContent =
         `Rodada ${info.run_id || '-'} | Método efetivo: ${info.metodo_efetivo || '-'} | Estratégia: ${info.estrategia_query || '-'} | Nível ${info.nivel || 2} | ${info.duracao_total_s || 0}s total.`;
 
+      // Contagem por rodada: rodadas antigas não gravaram consultas_na_reserva, e aí o aviso fica só com o motivo
+      const contagemReserva = (info.consultas_na_reserva != null && info.total_consultas)
+        ? `<strong>${escapeHtml(info.consultas_na_reserva)} de ${escapeHtml(info.total_consultas)}</strong> consultas desta rodada caíram na reserva. `
+        : '';
       const fallbackBanner = info.fallback_aplicado
-        ? `<div class="notice notice-warn">Você solicitou <strong>${escapeHtml(info.metodo_solicitado)}</strong>, mas a execução caiu em fallback para <strong>${escapeHtml(info.metodo_efetivo)}</strong>${info.fallback_motivo ? ` (<code>${escapeHtml(info.fallback_motivo)}</code>)` : ''}. Se faltarem dependências densas, rode <code>uv sync --group rag</code> em <code>iris/</code> e reinicie o servidor.</div>`
+        ? `<div class="notice notice-warn" data-aviso="rodada-na-reserva">${contagemReserva}Você pediu <strong>${escapeHtml(info.metodo_solicitado)}</strong>, mas a busca rodou com <strong>${escapeHtml(info.metodo_efetivo === 'bm25' ? 'busca por palavras (reserva)' : info.metodo_efetivo)}</strong>${info.fallback_motivo ? `. Primeiro motivo: <code>${escapeHtml(info.fallback_motivo)}</code>` : ''}. As métricas desta rodada não descrevem o método pedido. Se faltarem dependências densas, rode <code>uv sync --group rag</code> em <code>iris/</code> e reinicie o servidor.</div>`
         : '';
       const sonnetWarnBanner = info.juiz_sonnet_erro
         ? `<div class="notice notice-warn">Juiz Claude Sonnet: <code>${escapeHtml(info.juiz_sonnet_erro)}</code>. Exibindo Fidelidade Léxica como fallback.</div>`
@@ -2534,12 +4102,16 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       const ehSonnetGeral = r.avaliador_fidelidade === 'claude_sonnet';
       const labelFid = ehSonnetGeral ? 'Fidelidade Sonnet' : 'Fidelidade léxica';
       const diagProse = r.com_geracao
-        ? `Em <strong>${escapeHtml(r.total)}</strong> questão(ões), o buscador <strong>${escapeHtml(info.metodo_efetivo || '-')}</strong> entregou <strong>${escapeHtml(r.taxa_retorno_pct)}%</strong> com evidências e <strong>${escapeHtml(r.aderencia_barreira_pct)}%</strong> de aderência à barreira. ${Number(r.frases_sem_citacao_total || 0) > 0 ? `Foram detectadas <strong>${escapeHtml(r.frases_sem_citacao_total)}</strong> frase(s) sem citação <code>[Tn]</code>, o que penaliza a fidelidade.` : 'Todas as frases analisadas citaram fontes.'}`
+        ? `Em <strong>${escapeHtml(r.total)}</strong> questão(ões), o buscador <strong>${escapeHtml(info.metodo_efetivo || '-')}</strong> entregou <strong>${escapeHtml(r.taxa_retorno_pct)}%</strong> com evidências e <strong>${escapeHtml(r.aderencia_barreira_pct)}%</strong> de aderência à barreira (os dois garantidos pelo filtro de barreira, não medem qualidade). ${Number(r.frases_sem_citacao_total || 0) > 0 ? `Foram detectadas <strong>${escapeHtml(r.frases_sem_citacao_total)}</strong> frase(s) sem citação <code>[Tn]</code>, o que penaliza a fidelidade.` : 'Todas as frases analisadas citaram fontes.'}`
         : `Rodada de recuperação pura sobre <strong>${escapeHtml(r.total)}</strong> questão(ões) via <strong>${escapeHtml(info.metodo_efetivo || '-')}</strong> (${escapeHtml(escalaTxt)}). Selecione um escopo com geração para medir fidelidade e vereditos frase a frase.`;
 
       box.innerHTML = `
         ${fallbackBanner}
         ${sonnetWarnBanner}
+        ${geradorExtrativo(an.modelos) ? '<div class="notice notice-warn"><strong>Rodada sem modelo de linguagem.</strong> O gerador desta rodada é o extrativo: ele não escreve resposta, recorta frases dos trechos que repetem palavras da pergunta e descarta todo trecho com aviso de uso. As notas de fidelidade, relevância e abstenção abaixo medem esse recorte, não um modelo. Para medir um modelo, configure o Ollama ou a chave e rode de novo.</div>' : ''}
+        ${renderPortaoEscolar(an.portao)}
+        ${renderAvisoGeradorJuizEscolar(an.modelos)}
+        ${renderProcedenciaEscolar(info, an.modelos)}
         <div class="metrics-architecture" style="margin-bottom:1.25rem;">
           <div class="verdict-panel">
             <div class="verdict-pair">
@@ -2550,16 +4122,19 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
               </div>
               <div>
                 <div class="verdict-num ${classePct(Number(r.taxa_retorno_pct || 0), 95, 70) === 'score-ok' ? 'ok' : 'warn'}">${escapeHtml(r.taxa_retorno_pct)}%</div>
-                <div class="verdict-cap">${renderMetricTip('Retorno Top-5', 'Percentual de questões que receberam evidências no Top-5.')}</div>
+                <div class="verdict-cap">${renderMetricTip('Retorno Top-5', `Percentual de questões que receberam evidências no Top-5. ${motivoPorConstrucao('taxa_retorno_pct')}`)}</div>
                 <div class="verdict-sub">${escapeHtml(r.aderencia_barreira_pct)}% aderência à barreira</div>
               </div>
             </div>
             <p class="verdict-prose">${diagProse}</p>
           </div>
           <div>
-            ${renderLedgerIndicadoresEscolar(r, { aoVivo: false })}
+            ${renderLedgerIndicadoresEscolar(r, { aoVivo: false, rnf07: an.rnf07, extrativo: geradorExtrativo(an.modelos) })}
           </div>
         </div>
+        <div style="margin-bottom:1.25rem;">${renderElosEscolar(an.elos)}</div>
+        <div style="margin-bottom:1.25rem;">${renderLinhaDeBaseEscolar(an)}</div>
+        <div style="margin-bottom:1.25rem;">${renderRepeticaoEscolar(info)}</div>
         ${renderTabelaSegmentadaUnificadaEscolar(an)}
       `;
     }
@@ -2641,6 +4216,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             ${fid !== null ? `<span class="tag ${fid >= 0.8 ? 'tag-ok' : 'tag-warn'}">Fidelidade: ${fid.toFixed(2)}</span>` : ''}
             ${rel !== null ? `<span class="tag ${rel >= 0.7 ? 'tag-ok' : 'tag-warn'}">Relevância: ${rel.toFixed(2)}</span>` : ''}
             ${hit.absteve ? '<span class="tag tag-warn">Absteve nesta questão</span>' : ''}
+            ${hit.estados ? (hit.primeiro_elo_quebrado ? `<span class="tag tag-danger">Parou no elo: ${escapeHtml((NOME_ELO[hit.primeiro_elo_quebrado] || hit.primeiro_elo_quebrado).toLowerCase())}</span>` : '<span class="tag">Nenhuma quebra medida</span>') : ''}
           </div>
           ${hit.resposta ? `<div class="answer-sheet" style="margin-top:0.75rem;"><div class="answer-sheet-head"><span class="answer-sheet-title">Resposta registrada na rodada</span></div><div class="answer-prose"><p>${escapeHtml(hit.resposta)}</p></div></div>` : ''}
           ${titulos.length ? `<div style="margin-top:0.65rem; font-size:0.82rem;"><strong>Top-3 fontes recuperadas:</strong><ul style="margin:0.35rem 0 0 1.1rem;">${titulos.map((t, idx) => `<li>${escapeHtml(t)} <code style="font-size:0.75rem;color:var(--muted);">${escapeHtml(chunks[idx] || '')}</code></li>`).join('')}</ul></div>` : ''}
@@ -2666,7 +4242,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           ? `<div class="answer-sheet" style="margin-bottom:0.85rem;"><div class="answer-sheet-head"><span class="answer-sheet-title">Resposta fundamentada (${escapeHtml(m.llm || 'RAG')})</span></div><div class="answer-prose">${formatarTextoComCitacoes(resultadoRag.resposta, scopeId)}</div></div>`
           : '';
         const fallbackOne = resultadoRag.fallback_aplicado
-          ? `<div class="notice notice-warn">Método <strong>${escapeHtml(resultadoRag.metodo_solicitado)}</strong> caiu em fallback para <strong>${escapeHtml(resultadoRag.metodo_efetivo)}</strong>${resultadoRag.fallback_motivo ? ` (<code>${escapeHtml(resultadoRag.fallback_motivo)}</code>)` : ''}.</div>`
+          ? avisoBuscaNaReserva(resultadoRag.metodo_solicitado, resultadoRag.metodo_efetivo, resultadoRag.fallback_motivo)
           : '';
         painelRagHtml = `
           ${fallbackOne}
@@ -2848,7 +4424,8 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         renderAnalyticsEscolar(an);
         renderRailEscolar();
       } catch (err) {
-        alertBox.innerHTML = `<div class="notice notice-danger">Falha ao executar bateria (${escapeHtml(err.message)}).</div>`;
+        await carregarAnalyticsEscolar(document.getElementById('esc-run-select').value);
+        alertBox.innerHTML = `<div class="notice notice-danger">A bateria não rodou: ${escapeHtml(err.message)}</div>`;
       } finally {
         if (pollId) clearInterval(pollId);
         setLoading('btn-esc-run', false);

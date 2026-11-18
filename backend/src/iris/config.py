@@ -18,6 +18,10 @@ RAG_PACOTE_DIR = RAG_BASE_DIR / "pacote"
 CATALOGS_DIR = RAG_DIR / "catalogs"
 BENCHMARKS_DIR = REPO_ROOT / "data" / "benchmarks"
 
+# Modelo padrão do juiz (e do gerador da bateria com chave), num lugar só, para a classe e a leitura do ambiente
+# não divergirem. O valor é o que o grupo fixou na dev; trocar o modelo é decisão do grupo (IRIS_JUDGE_MODEL).
+JUIZ_MODELO_PADRAO = "claude-sonnet-4-5-20250929"
+
 # Único armazenamento persistente autorizado no backend (RNF-01)
 ALLOWED_PERSISTENT_STORES: tuple[str, ...] = ("rag_vector_readonly",)
 FORBIDDEN_STUDENT_DB_ENV_VARS: tuple[str, ...] = (
@@ -98,7 +102,7 @@ class IrisSettings:
 
     # Juiz de Auditoria RAG (Claude Sonnet via API Anthropic)
     anthropic_api_key: str = ""
-    judge_model: str = "claude-sonnet-4-5-20250929"
+    judge_model: str = JUIZ_MODELO_PADRAO
 
     # Parâmetros do RAG (base vetorial somente-leitura de artigos e manuais públicos)
     rag_banco: str = "pgvector"
@@ -167,7 +171,7 @@ def get_settings() -> IrisSettings:
         ollama_url=_get_env("OLLAMA_URL", "http://127.0.0.1:11434", dotenv_map),
         groq_api_key=_get_env("GROQ_API_KEY", "", dotenv_map),
         anthropic_api_key=_get_env("ANTHROPIC_API_KEY", "", dotenv_map),
-        judge_model=_get_env("IRIS_JUDGE_MODEL", "claude-sonnet-4-5-20250929", dotenv_map),
+        judge_model=_get_env("IRIS_JUDGE_MODEL", JUIZ_MODELO_PADRAO, dotenv_map),
         rag_banco=_get_env("RAG_BANCO", "pgvector", dotenv_map),
         rag_metodo=_get_env("RAG_METODO", "qwen3+rerank50", dotenv_map),
         rag_reranker=_get_env("RAG_RERANKER", "mminilm", dotenv_map),

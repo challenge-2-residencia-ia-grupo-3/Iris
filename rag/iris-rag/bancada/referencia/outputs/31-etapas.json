@@ -1,0 +1,1002 @@
+{
+ "gerado_em": "2026-11-12T17:07:43-03:00",
+ "commit_grupo": "65e1f09",
+ "provedor": "eco",
+ "modelo": "eco-stub-deterministico",
+ "aviso": "provedor determinístico: latências e saídas medem o encanamento, não a qualidade de um modelo",
+ "fonte": {
+  "resumo": "outputs/26-rastro-pipeline-resumo.json",
+  "runs": [
+   "20261112-154323-eco-M1-ciencias-docx",
+   "20261112-154323-eco-M2-matematica-pdf",
+   "20261112-154323-eco-M3-historia-txt"
+  ],
+  "runs_adversariais_usados": [
+   "adv-20261112-154328-eco-fmt-04",
+   "adv-20261112-154328-eco-fmt-07"
+  ],
+  "runs_ausentes": [],
+  "nota": "texto dos trechos do RAG omitido (licenças restritas); prompts do Extrator e do Adaptador reconstruídos a partir do código do grupo e do rastro, porque o rastro só grava o prompt bruto da diretiva"
+ },
+ "etapas": [
+  {
+   "etapa": "upload_tamanho",
+   "nome": "Tamanho do arquivo",
+   "macro": 1,
+   "macro_etapa": "upload / entrada de material (texto, .pdf, .docx, .txt)",
+   "macro_status": "implementada",
+   "funcao": "iris.schemas.materials:validate_file_size_limit",
+   "agente": false,
+   "o_que_faz": "Confere se o arquivo enviado pelo professor tem até 10 MB antes de abri-lo.",
+   "por_que_existe": "O arquivo é lido inteiro na memória do servidor; um arquivo enorme poderia travar o sistema para todos.",
+   "se_falhar": "O envio é recusado com a mensagem de que o arquivo passa do limite de 10 MB (código FILE_TOO_LARGE).",
+   "dados_pessoais": true,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": null,
+    "entrada": "arquivo M1-ciencias-docx.docx (37144 bytes)",
+    "saida": "37144 bytes aceitos (limite 10 MB)",
+    "latencia_s": 0.0,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "entrada_texto",
+   "nome": "Texto colado",
+   "macro": 1,
+   "macro_etapa": "upload / entrada de material (texto, .pdf, .docx, .txt)",
+   "macro_status": "implementada",
+   "funcao": "iris.api.routes.materials:process_material_text_service (checagem de vazio)",
+   "agente": false,
+   "o_que_faz": "Quando o professor cola o texto em vez de enviar arquivo, confere se o texto não está vazio ou só com espaços.",
+   "por_que_existe": "Evita mandar um pedido vazio para as etapas seguintes.",
+   "se_falhar": "Aparece a mensagem de texto vazio (código EMPTY_TEXT) e nada é processado.",
+   "dados_pessoais": true,
+   "exemplo": {
+    "material": "fmt-07",
+    "questao": null,
+    "entrada": "{\"texto\": \"   \\n\\t   \\n   \"}",
+    "saida": "ERRO MaterialValidationError EMPTY_TEXT: O texto fornecido está vazio ou contém apenas espaços em branco.",
+    "latencia_s": 0.0,
+    "status": "erro",
+    "run_id": "adv-20261112-154328-eco-fmt-07"
+   },
+   "status_por_material": {
+    "fmt-07": "erro"
+   }
+  },
+  {
+   "etapa": "extracao_documento",
+   "nome": "Leitura do arquivo",
+   "macro": 3,
+   "macro_etapa": "extracao de texto do documento",
+   "macro_status": "implementada",
+   "funcao": "iris.parsers.document_extractor:extract_text_from_file",
+   "agente": false,
+   "o_que_faz": "Abre o arquivo (.pdf, .docx ou .txt) e tira dele só o texto, como quem copia e cola o conteúdo; em .docx também lê as tabelas. Não lê imagem: não há OCR para prova escaneada (issue #6 aberta).",
+   "por_que_existe": "Todas as etapas seguintes trabalham com texto; o professor não precisa redigitar a atividade.",
+   "se_falhar": "Formato não aceito (UNSUPPORTED_FORMAT) ou arquivo ilegível; numa prova escaneada sai pouco ou nenhum texto e a validação reclama de texto curto.",
+   "dados_pessoais": true,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": null,
+    "entrada": "arquivo M1-ciencias-docx.docx (<37144 bytes sha256=611b444d16eec754>)",
+    "saida": "[formato docx] Escola Estadual Ficticia do Teste\n\nAluno: Fulano Ficticio da Silva\n\nMatrícula: 2026-TESTE-001\n\nCPF do responsável: 111.111.111-11\n\nLeia o texto a seguir para responder às questões 1 e 2.\n\nTexto 1: A fotossíntese\n\nAs plantas usam a luz solar, a água e o gás carbônico para produzir glicose e liberar oxigênio. Esse processo acontece nos cloroplastos das folhas.\n\n1) Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese.\n\n2) Observe o texto e responda: qual gás é liberado na fotossíntese?\n\na) oxigênio\n\nb) nitrogên…",
+    "latencia_s": 0.0206,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "filtro_pii",
+   "nome": "Filtro de dados pessoais",
+   "macro": 2,
+   "macro_etapa": "sanitizacao de PII (zero-retention)",
+   "macro_status": "implementada",
+   "funcao": "iris.security.pii_scrubber:sanitize_pii",
+   "agente": false,
+   "o_que_faz": "Procura dados que identificam pessoas (CPF, e-mail, matrícula, telefone, nome depois de 'Aluno:' ou 'Professor:', nome de escola) e troca por etiquetas como [ESTUDANTE] e [CPF]. Funciona por padrões de texto (regex), sem IA, e não guarda o original.",
+   "por_que_existe": "Impede que nome e documentos do aluno cheguem ao modelo de IA e aos registros (LGPD, RNF-01/02).",
+   "se_falhar": "O nome ou documento do aluno segue para o modelo e pode aparecer no texto adaptado; nomes soltos no meio do texto, sem rótulo como 'Aluno:', passam (no M3, o nome plantado passou).",
+   "dados_pessoais": true,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": null,
+    "entrada": "Escola Estadual Ficticia do Teste\n\nAluno: Fulano Ficticio da Silva\n\nMatrícula: 2026-TESTE-001\n\nCPF do responsável: 111.111.111-11\n\nLeia o texto a seguir para responder às questões 1 e 2.\n\nTexto 1: A fotossíntese\n\nAs plantas usam a luz solar, a água e o gás carbônico para produzir glicose e liberar oxigênio. Esse processo acontece nos cloroplastos das folhas.\n\n1) Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese.\n\n2) Observe o texto e responda: qual gás é liberado na fotossíntese?\n\na) oxigênio\n\nb) nitrogênio\n\nc) hélio\n\nF…",
+    "saida": "[4 substituição(ões)] [ESCOLA]\nAluno: [ESTUDANTE]\n\nMatrícula: [IDENTIFICADOR]\n\nCPF do responsável: [CPF]\n\nLeia o texto a seguir para responder às questões 1 e 2.\n\nTexto 1: A fotossíntese\n\nAs plantas usam a luz solar, a água e o gás carbônico para produzir glicose e liberar oxigênio. Esse processo acontece nos cloroplastos das folhas.\n\n1) Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese.\n\n2) Observe o texto e responda: qual gás é liberado na fotossíntese?\n\na) oxigênio\n\nb) nitrogênio\n\nc) hélio\n\nFator | Efeito\n\nluz solar …",
+    "latencia_s": 0.0004,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "validacao_conteudo",
+   "nome": "Tamanho do texto",
+   "macro": 1,
+   "macro_etapa": "upload / entrada de material (texto, .pdf, .docx, .txt)",
+   "macro_status": "implementada",
+   "funcao": "iris.schemas.materials:validate_material_content",
+   "agente": false,
+   "o_que_faz": "Conta caracteres e palavras do texto já filtrado e recusa se tiver menos de 50 caracteres ou mais de 100.000.",
+   "por_que_existe": "Texto curto demais não dá para analisar; texto longo demais não cabe de uma vez na memória de trabalho do modelo (a janela de contexto).",
+   "se_falhar": "Mensagem de texto curto (TEXT_TOO_SHORT) ou longo demais (CONTEXT_WINDOW_EXCEEDED), pedindo para dividir o material.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": null,
+    "entrada": "texto filtrado com 617 caracteres",
+    "saida": "aceito: 617 caracteres, 100 palavras",
+    "latencia_s": 0.0,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "decomposicao_estrutural",
+   "nome": "Separação em questões",
+   "macro": 4,
+   "macro_etapa": "decomposicao estrutural / organizacao de prosa",
+   "macro_status": "implementada",
+   "funcao": "iris.parsers.structural_decomposer:decompose_material",
+   "agente": false,
+   "o_que_faz": "Separa a atividade em cabeçalho, textos de apoio, questões (com alternativas) e blocos não reconhecidos, olhando a numeração ('1)', 'Questão 1:'). Usa regras, sem IA.",
+   "por_que_existe": "Cada questão é adaptada separadamente, e o texto de apoio precisa ficar ligado às questões que dependem dele.",
+   "se_falhar": "Questões grudadas numa só, alternativas perdidas ou um subtítulo tomado por questão (no M3, '1. Contexto' e '2. O processo' viraram questões: 3 detectadas para 1 real).",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": null,
+    "entrada": "[ESCOLA]\nAluno: [ESTUDANTE]\n\nMatrícula: [IDENTIFICADOR]\n\nCPF do responsável: [CPF]\n\nLeia o texto a seguir para responder às questões 1 e 2.\n\nTexto 1: A fotossíntese\n\nAs plantas usam a luz solar, a água e o gás carbônico para produzir glicose e liberar oxigênio. Esse processo acontece nos cloroplast…",
+    "saida": "cabeçalho: [ESCOLA]\nAluno: [ESTUDANTE]\n\nMatrícula: [IDENTIFICADOR]\n\nCPF do responsável: [C… | textos de apoio: [\"ctx_1 'Texto 1: A fotossíntese' -> questões ['1', '2']\"] | questões: q_1 (dissertativa, 0 alternativas): Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam … || q_2 (multipla_escolha, 3 alternativas): Observe o texto e responda: qual gás é liberado na fotossíntese? | não classificados: 1",
+    "latencia_s": 0.0028,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "organizacao_texto_corrido",
+   "nome": "Organização do texto corrido",
+   "macro": 4,
+   "macro_etapa": "decomposicao estrutural / organizacao de prosa",
+   "macro_status": "implementada",
+   "funcao": "iris.parsers.structural_decomposer:organize_prose_structure",
+   "agente": false,
+   "o_que_faz": "Monta uma árvore do texto: títulos, seções, parágrafos e listas, na ordem original e sem apagar nada. É chamada por dentro da separação em questões.",
+   "por_que_existe": "Materiais que são texto (apostila, capítulo) e não lista de questões também precisam de estrutura para serem adaptados (história 1.1.4, issue #53).",
+   "se_falhar": "A estrutura mostrada ao professor fica errada; hoje nenhum agente usa essa árvore, então a adaptação não muda.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": null,
+    "entrada": "[ESCOLA]\nAluno: [ESTUDANTE]\n\nMatrícula: [IDENTIFICADOR]\n\nCPF do responsável: [CPF]\n\nLeia o texto a seguir para responder às questões 1 e 2.\n\nTexto 1: A fotossíntese\n\nAs plantas usam a luz solar, a água e o gás carbônico para produzir glicose e liberar oxigênio. Esse processo acontece nos cloroplast…",
+    "saida": "título '[ESCOLA]'; 16 elementos, profundidade 4; raiz: section: [ESCOLA] (1 filho(s)); subtitle: Matrícula: [IDENTIFICADOR] (2 filho(s)); subtitle: Texto 1: A fotossíntese (2 filho(s)); subtitle: Fator | Efeito (2 filho(s))",
+    "latencia_s": 0.0009,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "selecao_caracteristicas",
+   "nome": "Dificuldades escolhidas",
+   "macro": 6,
+   "macro_etapa": "catalogo de caracteristicas / perfil funcional",
+   "macro_status": "parcial",
+   "funcao": "iris.api.routes.catalogs:select_surgical_characteristics_service",
+   "agente": false,
+   "o_que_faz": "Registra quais dificuldades do aluno o professor marcou no catálogo de TDAH (aqui 1 de 10) e bloqueia as demais. Recusa campos clínicos ou extras, como CID ou laudo.",
+   "por_que_existe": "A adaptação mexe só na dificuldade escolhida, sem tirar autonomia do aluno no resto, e o sistema nunca recebe diagnóstico médico.",
+   "se_falhar": "A seleção é recusada (por exemplo com campo clínico ou nenhuma característica) e nada é adaptado.",
+   "dados_pessoais": true,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": null,
+    "entrada": "selected_ids=['sobrecarga_memoria_trabalho_comandos_multiplos']",
+    "saida": "Escopo cirúrgico registrado: 1 característica(s) ativada(s) para adaptação e 9 característica(s) bloqueada(s) para preservar a autonomia do estudante. ativadas=['sobrecarga_memoria_trabalho_comandos_multiplos']; bloqueadas=9",
+    "latencia_s": 0.0016,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "perfil_pedagogico",
+   "nome": "Perfil do aluno",
+   "macro": 6,
+   "macro_etapa": "catalogo de caracteristicas / perfil funcional",
+   "macro_status": "parcial",
+   "funcao": "iris.schemas.profile:validar_perfil",
+   "agente": false,
+   "o_que_faz": "Confere o formato do perfil: código anônimo, barreiras observadas, estratégias já usadas e anotações (cada uma com até 1000 caracteres). Nenhuma rota da API chama esta função ainda.",
+   "por_que_existe": "O perfil acompanha o aluno sem nome; um formato fechado impede que se guarde dado que não devia.",
+   "se_falhar": "O perfil é recusado ao importar (PerfilInvalidoError) com a lista do que está fora do formato.",
+   "dados_pessoais": true,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": null,
+    "entrada": "{\"codigo_anonimo\": \"SINT-0001\", \"barreiras_observadas\": [{\"id_caracteristica\": \"sobrecarga_memoria_trabalho_comandos_multiplos\", \"observacao\": \"Perde etapas quando o enunciado tem vários comandos.\"}], \"historico_estrategias\": [], \"anotacoes_pedagogicas\": []}",
+    "saida": "perfil válido (versão 1.0): {\"versao_schema\": \"1.0\", \"codigo_anonimo\": \"SINT-0001\", \"barreiras_observadas\": [{\"id_caracteristica\": \"sobrecarga_memoria_trabalho_comandos_multiplos\", \"observacao\": \"Perde etapas quando o enunciado tem vários comandos.\"}], \"historico_estrategias\": [], \"anotacoes_pedagogicas\": []}",
+    "latencia_s": 0.0017,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "extrator_curricular",
+   "nome": "Agente Extrator Curricular",
+   "macro": 5,
+   "macro_etapa": "extrator curricular (invariantes / trava)",
+   "macro_status": "parcial",
+   "funcao": "iris.agents.curriculum_extractor:CurriculumExtractorAgent.extract_with_telemetry",
+   "agente": true,
+   "o_que_faz": "Agente de IA que lê a questão e lista o que não pode mudar na adaptação: conceitos e termos técnicos, o verbo de comando (explicar, calcular...) e um alerta para não entregar a resposta. Se a IA falhar ou o provedor não tiver modelo, usa regras de texto como reserva.",
+   "por_que_existe": "Evita que a adaptação 'facilite' tirando o conteúdo que a questão avalia (empobrecimento curricular).",
+   "se_falhar": "Com conceitos errados, o laudo de escopo passa a proteger as palavras erradas e pode deixar sumir um conceito avaliado sem aviso.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "enunciado: Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese. | disciplina: Ciências | ano: 6º ano",
+    "saida": "conceitos=['cloroplastos', 'produzem', 'glicose']; verbo=explicar; alerta='Proibido fornecer a resposta pronta ou resolver o comando 'explicar' pelo estudante.'; reserva usada=False",
+    "latencia_s": 0.0017,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "busca_rag",
+   "nome": "Busca de estratégias (RAG)",
+   "macro": 7,
+   "macro_etapa": "RAG estrategista (busca por id_caracteristica + contexto)",
+   "macro_status": "parcial",
+   "funcao": "iris.rag.bridge:buscar_por_caracteristica_atomica",
+   "agente": false,
+   "o_que_faz": "Procura na base de documentos pedagógicos os 5 trechos mais ligados à dificuldade escolhida e à questão, por palavras em comum (BM25), só entre os trechos da barreira associada (ex.: memória de trabalho).",
+   "por_que_existe": "A orientação de adaptação precisa vir de fonte citável, não da memória do modelo.",
+   "se_falhar": "Vêm trechos fora do assunto ou nenhum; sem trecho, o contexto não é montado e não há diretiva.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "característica sobrecarga_memoria_trabalho_comandos_multiplos, nível 2, método bm25, k=5; questão: Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese.",
+    "saida": "barreira memoria_trabalho, método efetivo bm25; trechos (texto omitido): 1. RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043 (doc RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 26-27, 2231 caracteres, score 33.0676); 2. RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034 (doc RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 20-21, 2347 caracteres, score 26.8076); 3. RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0008 (doc RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA, p. 4-5, 1375 caracteres, score 26.3459); 4. RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044 (doc RBEE-SEBASTIAN-HEREDERO-2020-DIRETRI…",
+    "latencia_s": 1.5728,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "contexto_rag",
+   "nome": "Montagem do contexto",
+   "macro": 7,
+   "macro_etapa": "RAG estrategista (busca por id_caracteristica + contexto)",
+   "macro_status": "parcial",
+   "funcao": "iris.rag.contexto:montar_contexto_estrategista",
+   "agente": false,
+   "o_que_faz": "Junta num texto só a diretriz do nível escolhido, os conceitos que não podem mudar e os trechos numerados [T1]..[T5] com a referência (título, página, endereço), mais as regras de citação.",
+   "por_que_existe": "Deixa cada afirmação da diretiva rastreável até um trecho e uma página.",
+   "se_falhar": "Erro 'sem evidência não há diretiva' quando a busca vem vazia; ou o aviso de uso de um trecho se perde.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "resultado da busca_rag + invariantes ['cloroplastos', 'produzem', 'glicose', 'cloroplastos', 'produzem', 'glicose']",
+    "saida": "contexto de 14108 caracteres (texto dos trechos omitido); fontes: T1=RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043 (2231 car.); T2=RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034 (2347 car.); T3=RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0008 (1375 car.); T4=RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044 (2226 car.); T5=RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037 (2200 car.)",
+    "latencia_s": 0.0001,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "agente_estrategista",
+   "nome": "Agente Estrategista (não existe ainda)",
+   "macro": 7,
+   "macro_etapa": "RAG estrategista (busca por id_caracteristica + contexto)",
+   "macro_status": "parcial",
+   "funcao": "nao_implementada",
+   "agente": true,
+   "o_que_faz": "Deveria ler o contexto do RAG e escrever a diretiva psicopedagógica: como adaptar esta questão para esta dificuldade, com cada frase citando um trecho [T1]. Não está implementado no commit 65e1f09 (issue #16 aberta, PR #68).",
+   "por_que_existe": "Liga a evidência dos documentos à adaptação; sem ele o Adaptador só segue a diretriz genérica do catálogo.",
+   "se_falhar": "Hoje não existe: o Adaptador trabalha sem diretiva (na bancada, com a diretiva substituta).",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "(nenhuma: a etapa não existe no código)",
+    "saida": "não implementada no commit 65e1f09: não há agente que transforme o contexto em diretiva; o arnês usa um substituto",
+    "latencia_s": 0.0,
+    "status": "nao_implementada",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "nao_implementada",
+    "M2-matematica-pdf": "nao_implementada",
+    "M3-historia-txt": "nao_implementada"
+   }
+  },
+  {
+   "etapa": "diretiva_substituta_arnes",
+   "nome": "Diretiva substituta (bancada)",
+   "macro": 7,
+   "macro_etapa": "RAG estrategista (busca por id_caracteristica + contexto)",
+   "macro_status": "parcial",
+   "funcao": "bancada:cliente.generate(gerar.INSTRUCOES + contexto)",
+   "agente": true,
+   "o_que_faz": "Peça da bancada, não do grupo: no lugar do Estrategista, faz uma chamada ao modelo com as instruções do Estrategista do pacote RAG do grupo (gerar.INSTRUCOES) e o contexto montado.",
+   "por_que_existe": "Permite exercitar o caminho completo, com diretiva chegando ao Adaptador, enquanto o Estrategista (#16) não existe.",
+   "se_falhar": "Diretiva vazia ou sem citação; com o provedor determinístico ela sempre responde 'Não encontrei nos documentos...'.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "prompt de 14435 caracteres = contexto do RAG + PERGUNTA: Que orientação de andaime de nível 2 ajuda o estudante com Sobrecarga de memória de trabalho em comandos múltiplos conjugados nesta questão, sem alterar o que ela avalia? Questão: Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese.\n\nRESPOSTA:",
+    "saida": "Não encontrei nos documentos da base informação suficiente para responder.",
+    "latencia_s": 0.0012,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "conferencia_citacoes",
+   "nome": "Conferência das citações",
+   "macro": 7,
+   "macro_etapa": "RAG estrategista (busca por id_caracteristica + contexto)",
+   "macro_status": "parcial",
+   "funcao": "iris.rag.contexto:conferir_citacoes",
+   "agente": false,
+   "o_que_faz": "Confere a diretiva de forma mecânica: quais [Tn] citou, se citou trecho que não existe e quais frases (de 4 palavras ou mais) ficaram sem citação. Não julga se o trecho sustenta a frase.",
+   "por_que_existe": "Pega fonte inventada ou afirmação sem fonte antes de chegar ao Adaptador.",
+   "se_falhar": "Uma diretiva com fonte inventada segue sem aviso; na bancada o resultado só é registrado, nada é bloqueado.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "diretiva: Não encontrei nos documentos da base informação suficiente para responder.",
+    "saida": "citados=[]; inexistentes=[]; frases sem citação=['Não encontrei nos documentos da base informação suficiente para responder.']",
+    "latencia_s": 0.0003,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "agente_adaptador",
+   "nome": "Agente Adaptador",
+   "macro": 8,
+   "macro_etapa": "adaptador pedagogico (isolamento de escopo)",
+   "macro_status": "parcial",
+   "funcao": "iris.agents.adapter_agent:AdapterAgent.adapt",
+   "agente": true,
+   "o_que_faz": "Agente de IA que reescreve a apresentação da questão para a dificuldade e o nível escolhidos (no nível 2: comandos encadeados viram lista de etapas com [ ]), mantendo palavras, ordem e conceitos. Toda saída passa pelo laudo de escopo; se reprovar ou o modelo falhar, entra a saída de reserva.",
+   "por_que_existe": "É a entrega para o aluno: a mesma questão, com menos carga na memória de trabalho, sem facilitar o conteúdo.",
+   "se_falhar": "O professor recebe o enunciado original sem mudança (reserva) ou, se o laudo não pegar, uma versão que muda o que é avaliado.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "enunciado: Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese. | característica sobrecarga_memoria_trabalho_comandos_multiplos, nível 2, com diretiva=True",
+    "saida": "1. [ ] **Leia** o texto\n2. [ ] **Explique** como os cloroplastos produzem glicose.\n3. [ ] Em seguida, **cite** dois fatores que influenciam a fotossíntese. | adaptou=True; laudo aprovado=True; reserva usada=False (None)",
+    "latencia_s": 0.0029,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "laudo_isolamento_escopo",
+   "nome": "Laudo de escopo",
+   "macro": 8,
+   "macro_etapa": "adaptador pedagogico (isolamento de escopo)",
+   "macro_status": "parcial",
+   "funcao": "iris.agents.adapter_agent:verificar_escopo",
+   "agente": false,
+   "o_que_faz": "Compara o original com o adaptado: palavras perdidas ou novas, conceitos da trava ausentes, ordem e estrutura alteradas, conforme a regra da característica e do nível. Aprova ou reprova.",
+   "por_que_existe": "Impede que a adaptação dê dica, resuma, troque palavra ou tire comando.",
+   "se_falhar": "Uma adaptação que mudou o conteúdo é entregue como aprovada, ou uma adaptação boa é trocada pela reserva.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "original: Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese. | adaptado: 1. [ ] **Leia** o texto\n2. [ ] **Explique** como os cloroplastos produzem glicose.\n3. [ ] Em seguida, **cite** dois fatores que influenciam a fotossíntese. | nível 2",
+    "saida": "aprovado=True; palavras perdidas=[]; novas=[]; conceitos perdidos=[]; violações=[]",
+    "latencia_s": 0.001,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "agente_auditor",
+   "nome": "Agente Auditor (não existe ainda)",
+   "macro": 9,
+   "macro_etapa": "auditor de integridade (TRCC + circuit breaker max_retries=2)",
+   "macro_status": "parcial",
+   "funcao": "nao_implementada",
+   "agente": true,
+   "o_que_faz": "Deveria revisar a adaptação final (retenção de conceitos, TRCC) e devolvê-la ao Adaptador para refazer, no máximo 2 vezes (circuit breaker). Não está implementado no commit 65e1f09 (história 2.1.4, issue #19 aberta); só existe a métrica TRCC solta.",
+   "por_que_existe": "Seria a segunda checagem, independente do Adaptador, antes de o texto chegar ao professor.",
+   "se_falhar": "Hoje não existe: a única barreira é o laudo de escopo dentro do próprio Adaptador.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "(nenhuma: a etapa não existe no código)",
+    "saida": "não implementada no commit 65e1f09: Agente Auditor (História 2.1.4, issue #19 aberta) não existe no código",
+    "latencia_s": 0.0,
+    "status": "nao_implementada",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "nao_implementada",
+    "M2-matematica-pdf": "nao_implementada",
+    "M3-historia-txt": "nao_implementada"
+   }
+  },
+  {
+   "etapa": "ciclo_rnf07",
+   "nome": "Tempo total da questão",
+   "macro": 10,
+   "macro_etapa": "metricas e avaliacao (RAG, TRCC, legibilidade, benchmark)",
+   "macro_status": "implementada",
+   "funcao": "iris.agents.adapter_agent:resumir_ciclo",
+   "agente": false,
+   "o_que_faz": "Soma o tempo e os tokens das chamadas de IA da questão (Extrator + Adaptador) e compara com o limite do RNF-07: 15 s no nível 1, 40 s nos níveis 2 e 3.",
+   "por_que_existe": "O professor não pode ficar esperando; mostra se a adaptação cabe no tempo prometido.",
+   "se_falhar": "Marca dentro_do_limite=false; não bloqueia nada, só registra que demorou mais que o prometido.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "M1-ciencias-docx",
+    "questao": "q_1",
+    "entrada": "telemetria das chamadas da questão, nível 2",
+    "saida": "2 chamadas, 4.18 ms, 665 tokens; limite 40000.0 ms; dentro=True",
+    "latencia_s": 0.0,
+    "status": "ok",
+    "run_id": "20261112-154323-eco-M1-ciencias-docx"
+   },
+   "status_por_material": {
+    "M1-ciencias-docx": "ok",
+    "M2-matematica-pdf": "ok",
+    "M3-historia-txt": "ok"
+   }
+  },
+  {
+   "etapa": "agentes",
+   "nome": "Questão curta demais",
+   "macro": null,
+   "macro_etapa": null,
+   "macro_status": null,
+   "funcao": "nao_implementada",
+   "agente": false,
+   "o_que_faz": "Registro da bancada: a questão tem menos de 15 caracteres e o contrato dos agentes a recusaria, então eles não são chamados.",
+   "por_que_existe": "Mostra quando uma questão foi pulada em vez de esconder o caso.",
+   "se_falhar": "A questão aparece sem adaptação.",
+   "dados_pessoais": false,
+   "exemplo": {
+    "material": "fmt-04",
+    "questao": "q_1",
+    "entrada": "questão com menos de 15 caracteres",
+    "saida": "enunciado < 15 caracteres; agentes não chamados",
+    "latencia_s": 0.0,
+    "status": "erro",
+    "run_id": "adv-20261112-154328-eco-fmt-04"
+   },
+   "status_por_material": {
+    "fmt-04": "erro"
+   }
+  }
+ ],
+ "chamadas": [
+  {
+   "run_id": "20261112-154323-eco-M1-ciencias-docx",
+   "material": "M1-ciencias-docx",
+   "questao": "q_1",
+   "etapa": "extrator_curricular",
+   "agente": "Agente Extrator Curricular",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Extrator Curricular da plataforma Íris (BNCC e DUA).\nExtraia os INVARIANTES CURRICULARES de uma questão escolar em JSON estrito.\nREGRA CRÍTICA PARA TRCC: em \"conceitos_obrigatorios\", liste TERMOS LITERAIS exatamente como aparecem no enunciado (incluindo nomes próprios, dados numéricos, equações, elementos da frase analisada e termos-chave com o mesmo plural/flexão do texto original). NUNCA use rótulos genéricos ausentes do texto (como \"personagem\" ou \"ação\").\n\nCampos JSON:\n- conceitos_obrigatorios: termos literais do enunciado essenciais para preservar a questão.\n- termos_tecnicos_intocaveis: vocabulário disciplinar ou dados que NÃO podem ser trocados.\n- verbo_comando_bncc: verbo principal no infinitivo (ex: calcular, explicar, identificar, circular, ler).\n- operacao_cognitiva: 1 frase curta com o raciocínio exigido do aluno.\n- habilidade_bncc_sugerida: código BNCC (ex: EF06CI05, EF07MA18) ou null.\n- alerta_anti_muleta: 1 frase proibindo entregar a resposta ou resolver pelo aluno.\n- justificativa_preservacao: 1 frase curta justificando a trava.\n\nEx1 (Ciências): \"Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese.\"\n-> {\"conceitos_obrigatorios\":[\"fotossíntese\",\"cloroplastos\",\"luz solar\",\"glicose\",\"oxigênio\"],\"termos_tecnicos_intocaveis\":[\"cloroplastos\",\"glicose\"],\"verbo_comando_bncc\":\"explicar\",\"operacao_cognitiva\":\"explicar a conversão de energia solar em glicose\",\"habilidade_bncc_sugerida\":\"EF06CI05\",\"alerta_anti_muleta\":\"Não explique a função do cloroplasto nem dê a reação pronta.\",\"justificativa_preservacao\":\"Exige articulação causal.\"}\n\nEx2 (Matemática): \"Determine o valor da incógnita na equação 2x + 6 = 14.\"\n-> {\"conceitos_obrigatorios\":[\"equação\",\"incógnita\",\"2x + 6 = 14\"],\"termos_tecnicos_intocaveis\":[\"2x + 6 = 14\",\"incógnita\"],\"verbo_comando_bncc\":\"determinar\",\"operacao_cognitiva\":\"isolar a incógnita aplicando operações inversas\",\"habilidade_bncc_sugerida\":\"EF07MA18\",\"alerta_anti_muleta\":\"Proibido antecipar x = 4 ou resolver 14 - 6 = 8.\",\"justificativa_preservacao\":\"Avalia resolução algébrica.\"}\n\nEx3 (Português): \"Identifique o sujeito: Maria e João foram ao mercado.\"\n-> {\"conceitos_obrigatorios\":[\"sujeito\",\"Maria\",\"João\",\"mercado\"],\"termos_tecnicos_intocaveis\":[\"sujeito\",\"Maria\",\"João\"],\"verbo_comando_bncc\":\"identificar\",\"operacao_cognitiva\":\"reconhecer o sujeito da oração dada\",\"habilidade_bncc_sugerida\":\"EF06LP06\",\"alerta_anti_muleta\":\"Não aponte quem é o sujeito da frase.\",\"justificativa_preservacao\":\"Preserva os elementos literais avaliados.\"}\n\nRetorne APENAS o JSON válido.",
+    "usuario": "DISCIPLINA: Ciências\nANO/ETAPA: 6º ano\nENUNCIADO:\nLeia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese."
+   },
+   "saida": "{\"conceitos_obrigatorios\": [\"cloroplastos\", \"produzem\", \"glicose\"], \"termos_tecnicos_intocaveis\": [\"cloroplastos\", \"produzem\", \"glicose\"], \"verbo_comando_bncc\": \"explicar\", \"operacao_cognitiva\": \"Executar operação cognitiva orientada ao comando 'explicar' sobre o conteúdo pedagógico.\", \"habilidade_bncc_sugerida\": null, \"alerta_anti_muleta\": \"Proibido fornecer a resposta pronta ou resolver o comando 'explicar' pelo estudante.\", \"justificativa_preservacao\": \"Garantia de retenção curricular determinística e prevenção de empobrecimento cognitivo.\"}",
+   "tokens_entrada": 282,
+   "tokens_saida": 48,
+   "latencia_s": 0.0017,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_EXTRATOR do grupo + _montar_prompt_usuario com a entrada gravada",
+   "saida_origem": "invariantes interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M1-ciencias-docx",
+   "material": "M1-ciencias-docx",
+   "questao": "q_1",
+   "etapa": "diretiva_substituta_arnes",
+   "agente": "Diretiva substituta (bancada)",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Estrategista do Íris, que apoia professores a adaptar atividades para alunos\ncom TDAH sem reduzir a habilidade avaliada. Responda em português do Brasil.\n\nRegras:\n1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar.\n2. Toda frase da resposta termina com a citação do trecho que a sustenta, no formato [T1], [T2] etc.\n   Uma frase pode citar mais de um trecho: [T1][T3].\n3. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, citando-o normalmente.\n4. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova\n   de eficácia; não use norma revogada como regra vigente).\n5. Se os trechos não respondem à pergunta, responda exatamente: \"Não encontrei nos documentos da base informação suficiente para responder.\"\n   e nada mais. É melhor não responder do que inventar.\n6. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.\n7. No máximo 6 frases. Sem introdução, sem conclusão genérica.",
+    "usuario": "CARACTERÍSTICAS ATIVADAS:\n- sobrecarga_memoria_trabalho_comandos_multiplos (Sobrecarga de memória de trabalho em comandos múltiplos conjugados), nível 2\n  Objetivo do andaime: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\n  Ações permitidas: Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.; Destacar o verbo de comando no início de cada etapa da lista.\n  Restrições de escopo: Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.; Proibido reduzir o número de comandos avaliados na questão.\n\nINVARIANTES CURRICULARES (não alterar):\n- cloroplastos\n- produzem\n- glicose\n- cloroplastos\n- produzem\n- glicose\n\nTRECHOS:\n\n[trecho T1: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043, 2231 caracteres]\n\n[trecho T2: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034, 2347 caracteres]\n\n[trecho T3: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0008, 1375 caracteres]\n\n[trecho T4: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044, 2226 caracteres]\n\n[trecho T5: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037, 2200 caracteres]\n\nREGRAS DE CITAÇÃO:\n1. Use somente os trechos em TRECHOS; não use conhecimento próprio.\n2. Toda intervenção proposta termina com a citação do trecho que a sustenta, no formato [T1].\n3. Use um trecho apenas para a característica indicada nele.\n4. Respeite o AVISO DE USO quando houver.\n5. Não proponha intervenção para característica que não esteja em CARACTERÍSTICAS ATIVADAS.\n\nPERGUNTA: Que orientação de andaime de nível 2 ajuda o estudante com Sobrecarga de memória de trabalho em comandos múltiplos conjugados nesta questão, sem alterar o que ela avalia? Questão: Leia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese.\n\nRESPOSTA:"
+   },
+   "saida": "Não encontrei nos documentos da base informação suficiente para responder.",
+   "tokens_entrada": 2082,
+   "tokens_saida": 10,
+   "latencia_s": 0.0012,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "gravado no rastro (entrada.prompt) com o texto dos trechos do RAG substituído por marcador; sistema = gerar.INSTRUCOES do grupo",
+   "saida_origem": "resposta do modelo gravada no rastro"
+  },
+  {
+   "run_id": "20261112-154323-eco-M1-ciencias-docx",
+   "material": "M1-ciencias-docx",
+   "questao": "q_1",
+   "etapa": "agente_adaptador",
+   "agente": "Agente Adaptador",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Adaptador Pedagógico da plataforma Íris (BNCC e DUA).\nReescreva a APRESENTAÇÃO de uma questão escolar para reduzir uma barreira funcional, sem alterar o que ela avalia.\n\nREGRA DE ISOLAMENTO DE ESCOPO:\n1. Aplique somente as AÇÕES PERMITIDAS do nível informado. Nada além delas.\n2. Mantenha todas as palavras, números, expressões e termos técnicos do enunciado original, na mesma ordem.\n3. Não troque palavras por sinônimos, não simplifique o vocabulário e não resuma.\n4. Não acrescente dica, exemplo, explicação, fórmula ou resposta.\n5. Não retire nem junte comandos: a quantidade de comandos avaliados é a mesma do original.\n6. Os CONCEITOS OBRIGATÓRIOS e os TERMOS INTOCÁVEIS devem aparecer exatamente como no original.\n\nFormato permitido: negrito com **, item numerado \"1.\", caixa de seleção \"[ ]\" e linha de resposta \"____\".\n\nRetorne APENAS um JSON válido com os campos:\n- texto_adaptado: a questão adaptada, com quebras de linha.\n- justificativas: lista curta, uma frase por ação aplicada.",
+    "usuario": "CARACTERÍSTICA FUNCIONAL: sobrecarga_memoria_trabalho_comandos_multiplos\nNÍVEL 2: Adaptação Moderada — Decomposição em Checklist de Etapas\nOBJETIVO DO ANDAIME: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\nAÇÕES PERMITIDAS:\n- Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.\n- Destacar o verbo de comando no início de cada etapa da lista.\nRESTRIÇÕES DE ESCOPO:\n- Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.\n- Proibido reduzir o número de comandos avaliados na questão.\nCONCEITOS OBRIGATÓRIOS: ['cloroplastos', 'produzem', 'glicose']\nTERMOS INTOCÁVEIS: ['cloroplastos', 'produzem', 'glicose']\nALERTA ANTI-MULETA: Proibido fornecer a resposta pronta ou resolver o comando 'explicar' pelo estudante.\nDIRETIVA PSICOPEDAGÓGICA:\nNão encontrei nos documentos da base informação suficiente para responder.\nENUNCIADO ORIGINAL:\nLeia o texto e explique como os cloroplastos produzem glicose. Em seguida, cite dois fatores que influenciam a fotossíntese."
+   },
+   "saida": "{\"texto_adaptado\": \"1. [ ] **Leia** o texto\\n2. [ ] **Explique** como os cloroplastos produzem glicose.\\n3. [ ] Em seguida, **cite** dois fatores que influenciam a fotossíntese.\", \"justificativas\": [\"eco: andaime por regras\"]}",
+   "tokens_entrada": 304,
+   "tokens_saida": 31,
+   "latencia_s": 0.0029,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_ADAPTADOR do grupo + _montar_prompt_usuario com diretriz, invariantes e diretiva gravados no rastro",
+   "saida_origem": "campos interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M1-ciencias-docx",
+   "material": "M1-ciencias-docx",
+   "questao": "q_2",
+   "etapa": "extrator_curricular",
+   "agente": "Agente Extrator Curricular",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Extrator Curricular da plataforma Íris (BNCC e DUA).\nExtraia os INVARIANTES CURRICULARES de uma questão escolar em JSON estrito.\nREGRA CRÍTICA PARA TRCC: em \"conceitos_obrigatorios\", liste TERMOS LITERAIS exatamente como aparecem no enunciado (incluindo nomes próprios, dados numéricos, equações, elementos da frase analisada e termos-chave com o mesmo plural/flexão do texto original). NUNCA use rótulos genéricos ausentes do texto (como \"personagem\" ou \"ação\").\n\nCampos JSON:\n- conceitos_obrigatorios: termos literais do enunciado essenciais para preservar a questão.\n- termos_tecnicos_intocaveis: vocabulário disciplinar ou dados que NÃO podem ser trocados.\n- verbo_comando_bncc: verbo principal no infinitivo (ex: calcular, explicar, identificar, circular, ler).\n- operacao_cognitiva: 1 frase curta com o raciocínio exigido do aluno.\n- habilidade_bncc_sugerida: código BNCC (ex: EF06CI05, EF07MA18) ou null.\n- alerta_anti_muleta: 1 frase proibindo entregar a resposta ou resolver pelo aluno.\n- justificativa_preservacao: 1 frase curta justificando a trava.\n\nEx1 (Ciências): \"Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese.\"\n-> {\"conceitos_obrigatorios\":[\"fotossíntese\",\"cloroplastos\",\"luz solar\",\"glicose\",\"oxigênio\"],\"termos_tecnicos_intocaveis\":[\"cloroplastos\",\"glicose\"],\"verbo_comando_bncc\":\"explicar\",\"operacao_cognitiva\":\"explicar a conversão de energia solar em glicose\",\"habilidade_bncc_sugerida\":\"EF06CI05\",\"alerta_anti_muleta\":\"Não explique a função do cloroplasto nem dê a reação pronta.\",\"justificativa_preservacao\":\"Exige articulação causal.\"}\n\nEx2 (Matemática): \"Determine o valor da incógnita na equação 2x + 6 = 14.\"\n-> {\"conceitos_obrigatorios\":[\"equação\",\"incógnita\",\"2x + 6 = 14\"],\"termos_tecnicos_intocaveis\":[\"2x + 6 = 14\",\"incógnita\"],\"verbo_comando_bncc\":\"determinar\",\"operacao_cognitiva\":\"isolar a incógnita aplicando operações inversas\",\"habilidade_bncc_sugerida\":\"EF07MA18\",\"alerta_anti_muleta\":\"Proibido antecipar x = 4 ou resolver 14 - 6 = 8.\",\"justificativa_preservacao\":\"Avalia resolução algébrica.\"}\n\nEx3 (Português): \"Identifique o sujeito: Maria e João foram ao mercado.\"\n-> {\"conceitos_obrigatorios\":[\"sujeito\",\"Maria\",\"João\",\"mercado\"],\"termos_tecnicos_intocaveis\":[\"sujeito\",\"Maria\",\"João\"],\"verbo_comando_bncc\":\"identificar\",\"operacao_cognitiva\":\"reconhecer o sujeito da oração dada\",\"habilidade_bncc_sugerida\":\"EF06LP06\",\"alerta_anti_muleta\":\"Não aponte quem é o sujeito da frase.\",\"justificativa_preservacao\":\"Preserva os elementos literais avaliados.\"}\n\nRetorne APENAS o JSON válido.",
+    "usuario": "DISCIPLINA: Ciências\nANO/ETAPA: 6º ano\nENUNCIADO:\nObserve o texto e responda: qual gás é liberado na fotossíntese?\nA) oxigênio\nB) nitrogênio\nC) hélio"
+   },
+   "saida": "{\"conceitos_obrigatorios\": [\"Observe\", \"liberado\", \"fotossíntese\"], \"termos_tecnicos_intocaveis\": [\"Observe\", \"liberado\", \"fotossíntese\"], \"verbo_comando_bncc\": \"responder\", \"operacao_cognitiva\": \"Executar operação cognitiva orientada ao comando 'responder' sobre o conteúdo pedagógico.\", \"habilidade_bncc_sugerida\": null, \"alerta_anti_muleta\": \"Proibido fornecer a resposta pronta ou resolver o comando 'responder' pelo estudante.\", \"justificativa_preservacao\": \"Garantia de retenção curricular determinística e prevenção de empobrecimento cognitivo.\"}",
+   "tokens_entrada": 280,
+   "tokens_saida": 48,
+   "latencia_s": 0.0004,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_EXTRATOR do grupo + _montar_prompt_usuario com a entrada gravada",
+   "saida_origem": "invariantes interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M1-ciencias-docx",
+   "material": "M1-ciencias-docx",
+   "questao": "q_2",
+   "etapa": "diretiva_substituta_arnes",
+   "agente": "Diretiva substituta (bancada)",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Estrategista do Íris, que apoia professores a adaptar atividades para alunos\ncom TDAH sem reduzir a habilidade avaliada. Responda em português do Brasil.\n\nRegras:\n1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar.\n2. Toda frase da resposta termina com a citação do trecho que a sustenta, no formato [T1], [T2] etc.\n   Uma frase pode citar mais de um trecho: [T1][T3].\n3. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, citando-o normalmente.\n4. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova\n   de eficácia; não use norma revogada como regra vigente).\n5. Se os trechos não respondem à pergunta, responda exatamente: \"Não encontrei nos documentos da base informação suficiente para responder.\"\n   e nada mais. É melhor não responder do que inventar.\n6. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.\n7. No máximo 6 frases. Sem introdução, sem conclusão genérica.",
+    "usuario": "CARACTERÍSTICAS ATIVADAS:\n- sobrecarga_memoria_trabalho_comandos_multiplos (Sobrecarga de memória de trabalho em comandos múltiplos conjugados), nível 2\n  Objetivo do andaime: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\n  Ações permitidas: Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.; Destacar o verbo de comando no início de cada etapa da lista.\n  Restrições de escopo: Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.; Proibido reduzir o número de comandos avaliados na questão.\n\nINVARIANTES CURRICULARES (não alterar):\n- Observe\n- liberado\n- fotossíntese\n- Observe\n- liberado\n- fotossíntese\n\nTRECHOS:\n\n[trecho T1: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043, 2231 caracteres]\n\n[trecho T2: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034, 2347 caracteres]\n\n[trecho T3: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037, 2200 caracteres]\n\n[trecho T4: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044, 2226 caracteres]\n\n[trecho T5: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041, 2256 caracteres]\n\nREGRAS DE CITAÇÃO:\n1. Use somente os trechos em TRECHOS; não use conhecimento próprio.\n2. Toda intervenção proposta termina com a citação do trecho que a sustenta, no formato [T1].\n3. Use um trecho apenas para a característica indicada nele.\n4. Respeite o AVISO DE USO quando houver.\n5. Não proponha intervenção para característica que não esteja em CARACTERÍSTICAS ATIVADAS.\n\nPERGUNTA: Que orientação de andaime de nível 2 ajuda o estudante com Sobrecarga de memória de trabalho em comandos múltiplos conjugados nesta questão, sem alterar o que ela avalia? Questão: Observe o texto e responda: qual gás é liberado na fotossíntese?\nA) oxigênio\nB) nitrogênio\nC) hélio\n\nRESPOSTA:"
+   },
+   "saida": "Não encontrei nos documentos da base informação suficiente para responder.",
+   "tokens_entrada": 2221,
+   "tokens_saida": 10,
+   "latencia_s": 0.0006,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "gravado no rastro (entrada.prompt) com o texto dos trechos do RAG substituído por marcador; sistema = gerar.INSTRUCOES do grupo",
+   "saida_origem": "resposta do modelo gravada no rastro"
+  },
+  {
+   "run_id": "20261112-154323-eco-M1-ciencias-docx",
+   "material": "M1-ciencias-docx",
+   "questao": "q_2",
+   "etapa": "agente_adaptador",
+   "agente": "Agente Adaptador",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Adaptador Pedagógico da plataforma Íris (BNCC e DUA).\nReescreva a APRESENTAÇÃO de uma questão escolar para reduzir uma barreira funcional, sem alterar o que ela avalia.\n\nREGRA DE ISOLAMENTO DE ESCOPO:\n1. Aplique somente as AÇÕES PERMITIDAS do nível informado. Nada além delas.\n2. Mantenha todas as palavras, números, expressões e termos técnicos do enunciado original, na mesma ordem.\n3. Não troque palavras por sinônimos, não simplifique o vocabulário e não resuma.\n4. Não acrescente dica, exemplo, explicação, fórmula ou resposta.\n5. Não retire nem junte comandos: a quantidade de comandos avaliados é a mesma do original.\n6. Os CONCEITOS OBRIGATÓRIOS e os TERMOS INTOCÁVEIS devem aparecer exatamente como no original.\n\nFormato permitido: negrito com **, item numerado \"1.\", caixa de seleção \"[ ]\" e linha de resposta \"____\".\n\nRetorne APENAS um JSON válido com os campos:\n- texto_adaptado: a questão adaptada, com quebras de linha.\n- justificativas: lista curta, uma frase por ação aplicada.",
+    "usuario": "CARACTERÍSTICA FUNCIONAL: sobrecarga_memoria_trabalho_comandos_multiplos\nNÍVEL 2: Adaptação Moderada — Decomposição em Checklist de Etapas\nOBJETIVO DO ANDAIME: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\nAÇÕES PERMITIDAS:\n- Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.\n- Destacar o verbo de comando no início de cada etapa da lista.\nRESTRIÇÕES DE ESCOPO:\n- Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.\n- Proibido reduzir o número de comandos avaliados na questão.\nCONCEITOS OBRIGATÓRIOS: ['Observe', 'liberado', 'fotossíntese']\nTERMOS INTOCÁVEIS: ['Observe', 'liberado', 'fotossíntese']\nALERTA ANTI-MULETA: Proibido fornecer a resposta pronta ou resolver o comando 'responder' pelo estudante.\nDIRETIVA PSICOPEDAGÓGICA:\nNão encontrei nos documentos da base informação suficiente para responder.\nENUNCIADO ORIGINAL:\nObserve o texto e responda: qual gás é liberado na fotossíntese?\nA) oxigênio\nB) nitrogênio\nC) hélio"
+   },
+   "saida": "{\"texto_adaptado\": \"1. [ ] **Observe** o texto\\n2. [ ] **Responda**: qual gás é liberado na fotossíntese?\\nA) oxigênio\\nB) nitrogênio\\nC) hélio\", \"justificativas\": [\"eco: andaime por regras\"]}",
+   "tokens_entrada": 302,
+   "tokens_saida": 24,
+   "latencia_s": 0.0033,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_ADAPTADOR do grupo + _montar_prompt_usuario com diretriz, invariantes e diretiva gravados no rastro",
+   "saida_origem": "campos interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M2-matematica-pdf",
+   "material": "M2-matematica-pdf",
+   "questao": "q_1",
+   "etapa": "extrator_curricular",
+   "agente": "Agente Extrator Curricular",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Extrator Curricular da plataforma Íris (BNCC e DUA).\nExtraia os INVARIANTES CURRICULARES de uma questão escolar em JSON estrito.\nREGRA CRÍTICA PARA TRCC: em \"conceitos_obrigatorios\", liste TERMOS LITERAIS exatamente como aparecem no enunciado (incluindo nomes próprios, dados numéricos, equações, elementos da frase analisada e termos-chave com o mesmo plural/flexão do texto original). NUNCA use rótulos genéricos ausentes do texto (como \"personagem\" ou \"ação\").\n\nCampos JSON:\n- conceitos_obrigatorios: termos literais do enunciado essenciais para preservar a questão.\n- termos_tecnicos_intocaveis: vocabulário disciplinar ou dados que NÃO podem ser trocados.\n- verbo_comando_bncc: verbo principal no infinitivo (ex: calcular, explicar, identificar, circular, ler).\n- operacao_cognitiva: 1 frase curta com o raciocínio exigido do aluno.\n- habilidade_bncc_sugerida: código BNCC (ex: EF06CI05, EF07MA18) ou null.\n- alerta_anti_muleta: 1 frase proibindo entregar a resposta ou resolver pelo aluno.\n- justificativa_preservacao: 1 frase curta justificando a trava.\n\nEx1 (Ciências): \"Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese.\"\n-> {\"conceitos_obrigatorios\":[\"fotossíntese\",\"cloroplastos\",\"luz solar\",\"glicose\",\"oxigênio\"],\"termos_tecnicos_intocaveis\":[\"cloroplastos\",\"glicose\"],\"verbo_comando_bncc\":\"explicar\",\"operacao_cognitiva\":\"explicar a conversão de energia solar em glicose\",\"habilidade_bncc_sugerida\":\"EF06CI05\",\"alerta_anti_muleta\":\"Não explique a função do cloroplasto nem dê a reação pronta.\",\"justificativa_preservacao\":\"Exige articulação causal.\"}\n\nEx2 (Matemática): \"Determine o valor da incógnita na equação 2x + 6 = 14.\"\n-> {\"conceitos_obrigatorios\":[\"equação\",\"incógnita\",\"2x + 6 = 14\"],\"termos_tecnicos_intocaveis\":[\"2x + 6 = 14\",\"incógnita\"],\"verbo_comando_bncc\":\"determinar\",\"operacao_cognitiva\":\"isolar a incógnita aplicando operações inversas\",\"habilidade_bncc_sugerida\":\"EF07MA18\",\"alerta_anti_muleta\":\"Proibido antecipar x = 4 ou resolver 14 - 6 = 8.\",\"justificativa_preservacao\":\"Avalia resolução algébrica.\"}\n\nEx3 (Português): \"Identifique o sujeito: Maria e João foram ao mercado.\"\n-> {\"conceitos_obrigatorios\":[\"sujeito\",\"Maria\",\"João\",\"mercado\"],\"termos_tecnicos_intocaveis\":[\"sujeito\",\"Maria\",\"João\"],\"verbo_comando_bncc\":\"identificar\",\"operacao_cognitiva\":\"reconhecer o sujeito da oração dada\",\"habilidade_bncc_sugerida\":\"EF06LP06\",\"alerta_anti_muleta\":\"Não aponte quem é o sujeito da frase.\",\"justificativa_preservacao\":\"Preserva os elementos literais avaliados.\"}\n\nRetorne APENAS o JSON válido.",
+    "usuario": "DISCIPLINA: Matemática\nANO/ETAPA: 7º ano\nENUNCIADO:\nLeia o problema, calcule o total de lápis e explique como você chegou ao resultado. Uma caixa tem 12 lápis e Ana comprou 4\ncaixas."
+   },
+   "saida": "{\"conceitos_obrigatorios\": [\"problema\", \"total\", \"lápis\"], \"termos_tecnicos_intocaveis\": [\"problema\"], \"verbo_comando_bncc\": \"calcular\", \"operacao_cognitiva\": \"Executar operação cognitiva orientada ao comando 'calcular' sobre o conteúdo pedagógico.\", \"habilidade_bncc_sugerida\": null, \"alerta_anti_muleta\": \"Proibido fornecer a resposta pronta ou resolver o comando 'calcular' pelo estudante.\", \"justificativa_preservacao\": \"Garantia de retenção curricular determinística e prevenção de empobrecimento cognitivo.\"}",
+   "tokens_entrada": 288,
+   "tokens_saida": 46,
+   "latencia_s": 0.0006,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_EXTRATOR do grupo + _montar_prompt_usuario com a entrada gravada",
+   "saida_origem": "invariantes interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M2-matematica-pdf",
+   "material": "M2-matematica-pdf",
+   "questao": "q_1",
+   "etapa": "diretiva_substituta_arnes",
+   "agente": "Diretiva substituta (bancada)",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Estrategista do Íris, que apoia professores a adaptar atividades para alunos\ncom TDAH sem reduzir a habilidade avaliada. Responda em português do Brasil.\n\nRegras:\n1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar.\n2. Toda frase da resposta termina com a citação do trecho que a sustenta, no formato [T1], [T2] etc.\n   Uma frase pode citar mais de um trecho: [T1][T3].\n3. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, citando-o normalmente.\n4. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova\n   de eficácia; não use norma revogada como regra vigente).\n5. Se os trechos não respondem à pergunta, responda exatamente: \"Não encontrei nos documentos da base informação suficiente para responder.\"\n   e nada mais. É melhor não responder do que inventar.\n6. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.\n7. No máximo 6 frases. Sem introdução, sem conclusão genérica.",
+    "usuario": "CARACTERÍSTICAS ATIVADAS:\n- sobrecarga_memoria_trabalho_comandos_multiplos (Sobrecarga de memória de trabalho em comandos múltiplos conjugados), nível 2\n  Objetivo do andaime: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\n  Ações permitidas: Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.; Destacar o verbo de comando no início de cada etapa da lista.\n  Restrições de escopo: Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.; Proibido reduzir o número de comandos avaliados na questão.\n\nINVARIANTES CURRICULARES (não alterar):\n- problema\n- total\n- lápis\n- problema\n\nTRECHOS:\n\n[trecho T1: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043, 2231 caracteres]\n\n[trecho T2: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034, 2347 caracteres]\n\n[trecho T3: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037, 2200 caracteres]\n\n[trecho T4: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044, 2226 caracteres]\n\n[trecho T5: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042, 1769 caracteres]\n\nREGRAS DE CITAÇÃO:\n1. Use somente os trechos em TRECHOS; não use conhecimento próprio.\n2. Toda intervenção proposta termina com a citação do trecho que a sustenta, no formato [T1].\n3. Use um trecho apenas para a característica indicada nele.\n4. Respeite o AVISO DE USO quando houver.\n5. Não proponha intervenção para característica que não esteja em CARACTERÍSTICAS ATIVADAS.\n\nPERGUNTA: Que orientação de andaime de nível 2 ajuda o estudante com Sobrecarga de memória de trabalho em comandos múltiplos conjugados nesta questão, sem alterar o que ela avalia? Questão: Leia o problema, calcule o total de lápis e explique como você chegou ao resultado. Uma caixa tem 12 lápis e Ana comprou 4\ncaixas.\n\nRESPOSTA:"
+   },
+   "saida": "Não encontrei nos documentos da base informação suficiente para responder.",
+   "tokens_entrada": 2150,
+   "tokens_saida": 10,
+   "latencia_s": 0.0007,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "gravado no rastro (entrada.prompt) com o texto dos trechos do RAG substituído por marcador; sistema = gerar.INSTRUCOES do grupo",
+   "saida_origem": "resposta do modelo gravada no rastro"
+  },
+  {
+   "run_id": "20261112-154323-eco-M2-matematica-pdf",
+   "material": "M2-matematica-pdf",
+   "questao": "q_1",
+   "etapa": "agente_adaptador",
+   "agente": "Agente Adaptador",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Adaptador Pedagógico da plataforma Íris (BNCC e DUA).\nReescreva a APRESENTAÇÃO de uma questão escolar para reduzir uma barreira funcional, sem alterar o que ela avalia.\n\nREGRA DE ISOLAMENTO DE ESCOPO:\n1. Aplique somente as AÇÕES PERMITIDAS do nível informado. Nada além delas.\n2. Mantenha todas as palavras, números, expressões e termos técnicos do enunciado original, na mesma ordem.\n3. Não troque palavras por sinônimos, não simplifique o vocabulário e não resuma.\n4. Não acrescente dica, exemplo, explicação, fórmula ou resposta.\n5. Não retire nem junte comandos: a quantidade de comandos avaliados é a mesma do original.\n6. Os CONCEITOS OBRIGATÓRIOS e os TERMOS INTOCÁVEIS devem aparecer exatamente como no original.\n\nFormato permitido: negrito com **, item numerado \"1.\", caixa de seleção \"[ ]\" e linha de resposta \"____\".\n\nRetorne APENAS um JSON válido com os campos:\n- texto_adaptado: a questão adaptada, com quebras de linha.\n- justificativas: lista curta, uma frase por ação aplicada.",
+    "usuario": "CARACTERÍSTICA FUNCIONAL: sobrecarga_memoria_trabalho_comandos_multiplos\nNÍVEL 2: Adaptação Moderada — Decomposição em Checklist de Etapas\nOBJETIVO DO ANDAIME: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\nAÇÕES PERMITIDAS:\n- Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.\n- Destacar o verbo de comando no início de cada etapa da lista.\nRESTRIÇÕES DE ESCOPO:\n- Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.\n- Proibido reduzir o número de comandos avaliados na questão.\nCONCEITOS OBRIGATÓRIOS: ['problema', 'total', 'lápis']\nTERMOS INTOCÁVEIS: ['problema']\nALERTA ANTI-MULETA: Proibido fornecer a resposta pronta ou resolver o comando 'calcular' pelo estudante.\nDIRETIVA PSICOPEDAGÓGICA:\nNão encontrei nos documentos da base informação suficiente para responder.\nENUNCIADO ORIGINAL:\nLeia o problema, calcule o total de lápis e explique como você chegou ao resultado. Uma caixa tem 12 lápis e Ana comprou 4\ncaixas."
+   },
+   "saida": "{\"texto_adaptado\": \"1. [ ] **Leia** o problema\\n2. [ ] **Calcule** o total de lápis\\n3. [ ] **Explique** como você chegou ao resultado. Uma caixa tem 12 lápis e Ana comprou 4\\ncaixas.\", \"justificativas\": [\"eco: andaime por regras\"]}",
+   "tokens_entrada": 308,
+   "tokens_saida": 36,
+   "latencia_s": 0.0049,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_ADAPTADOR do grupo + _montar_prompt_usuario com diretriz, invariantes e diretiva gravados no rastro",
+   "saida_origem": "campos interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M2-matematica-pdf",
+   "material": "M2-matematica-pdf",
+   "questao": "q_2",
+   "etapa": "extrator_curricular",
+   "agente": "Agente Extrator Curricular",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Extrator Curricular da plataforma Íris (BNCC e DUA).\nExtraia os INVARIANTES CURRICULARES de uma questão escolar em JSON estrito.\nREGRA CRÍTICA PARA TRCC: em \"conceitos_obrigatorios\", liste TERMOS LITERAIS exatamente como aparecem no enunciado (incluindo nomes próprios, dados numéricos, equações, elementos da frase analisada e termos-chave com o mesmo plural/flexão do texto original). NUNCA use rótulos genéricos ausentes do texto (como \"personagem\" ou \"ação\").\n\nCampos JSON:\n- conceitos_obrigatorios: termos literais do enunciado essenciais para preservar a questão.\n- termos_tecnicos_intocaveis: vocabulário disciplinar ou dados que NÃO podem ser trocados.\n- verbo_comando_bncc: verbo principal no infinitivo (ex: calcular, explicar, identificar, circular, ler).\n- operacao_cognitiva: 1 frase curta com o raciocínio exigido do aluno.\n- habilidade_bncc_sugerida: código BNCC (ex: EF06CI05, EF07MA18) ou null.\n- alerta_anti_muleta: 1 frase proibindo entregar a resposta ou resolver pelo aluno.\n- justificativa_preservacao: 1 frase curta justificando a trava.\n\nEx1 (Ciências): \"Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese.\"\n-> {\"conceitos_obrigatorios\":[\"fotossíntese\",\"cloroplastos\",\"luz solar\",\"glicose\",\"oxigênio\"],\"termos_tecnicos_intocaveis\":[\"cloroplastos\",\"glicose\"],\"verbo_comando_bncc\":\"explicar\",\"operacao_cognitiva\":\"explicar a conversão de energia solar em glicose\",\"habilidade_bncc_sugerida\":\"EF06CI05\",\"alerta_anti_muleta\":\"Não explique a função do cloroplasto nem dê a reação pronta.\",\"justificativa_preservacao\":\"Exige articulação causal.\"}\n\nEx2 (Matemática): \"Determine o valor da incógnita na equação 2x + 6 = 14.\"\n-> {\"conceitos_obrigatorios\":[\"equação\",\"incógnita\",\"2x + 6 = 14\"],\"termos_tecnicos_intocaveis\":[\"2x + 6 = 14\",\"incógnita\"],\"verbo_comando_bncc\":\"determinar\",\"operacao_cognitiva\":\"isolar a incógnita aplicando operações inversas\",\"habilidade_bncc_sugerida\":\"EF07MA18\",\"alerta_anti_muleta\":\"Proibido antecipar x = 4 ou resolver 14 - 6 = 8.\",\"justificativa_preservacao\":\"Avalia resolução algébrica.\"}\n\nEx3 (Português): \"Identifique o sujeito: Maria e João foram ao mercado.\"\n-> {\"conceitos_obrigatorios\":[\"sujeito\",\"Maria\",\"João\",\"mercado\"],\"termos_tecnicos_intocaveis\":[\"sujeito\",\"Maria\",\"João\"],\"verbo_comando_bncc\":\"identificar\",\"operacao_cognitiva\":\"reconhecer o sujeito da oração dada\",\"habilidade_bncc_sugerida\":\"EF06LP06\",\"alerta_anti_muleta\":\"Não aponte quem é o sujeito da frase.\",\"justificativa_preservacao\":\"Preserva os elementos literais avaliados.\"}\n\nRetorne APENAS o JSON válido.",
+    "usuario": "DISCIPLINA: Matemática\nANO/ETAPA: 7º ano\nENUNCIADO:\nResolva a equação 3x + 12 = 30 e verifique se a resposta está correta."
+   },
+   "saida": "{\"conceitos_obrigatorios\": [\"3x + 12\"], \"termos_tecnicos_intocaveis\": [\"3x + 12\"], \"verbo_comando_bncc\": \"resolver\", \"operacao_cognitiva\": \"Executar operação cognitiva orientada ao comando 'resolver' sobre o conteúdo pedagógico.\", \"habilidade_bncc_sugerida\": null, \"alerta_anti_muleta\": \"Proibido fornecer a resposta pronta ou resolver o comando 'resolver' pelo estudante.\", \"justificativa_preservacao\": \"Garantia de retenção curricular determinística e prevenção de empobrecimento cognitivo.\"}",
+   "tokens_entrada": 278,
+   "tokens_saida": 48,
+   "latencia_s": 0.0005,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_EXTRATOR do grupo + _montar_prompt_usuario com a entrada gravada",
+   "saida_origem": "invariantes interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M2-matematica-pdf",
+   "material": "M2-matematica-pdf",
+   "questao": "q_2",
+   "etapa": "diretiva_substituta_arnes",
+   "agente": "Diretiva substituta (bancada)",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Estrategista do Íris, que apoia professores a adaptar atividades para alunos\ncom TDAH sem reduzir a habilidade avaliada. Responda em português do Brasil.\n\nRegras:\n1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar.\n2. Toda frase da resposta termina com a citação do trecho que a sustenta, no formato [T1], [T2] etc.\n   Uma frase pode citar mais de um trecho: [T1][T3].\n3. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, citando-o normalmente.\n4. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova\n   de eficácia; não use norma revogada como regra vigente).\n5. Se os trechos não respondem à pergunta, responda exatamente: \"Não encontrei nos documentos da base informação suficiente para responder.\"\n   e nada mais. É melhor não responder do que inventar.\n6. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.\n7. No máximo 6 frases. Sem introdução, sem conclusão genérica.",
+    "usuario": "CARACTERÍSTICAS ATIVADAS:\n- sobrecarga_memoria_trabalho_comandos_multiplos (Sobrecarga de memória de trabalho em comandos múltiplos conjugados), nível 2\n  Objetivo do andaime: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\n  Ações permitidas: Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.; Destacar o verbo de comando no início de cada etapa da lista.\n  Restrições de escopo: Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.; Proibido reduzir o número de comandos avaliados na questão.\n\nINVARIANTES CURRICULARES (não alterar):\n- 3x + 12\n- 3x + 12\n\nTRECHOS:\n\n[trecho T1: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043, 2231 caracteres]\n\n[trecho T2: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034, 2347 caracteres]\n\n[trecho T3: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037, 2200 caracteres]\n\n[trecho T4: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044, 2226 caracteres]\n\n[trecho T5: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041, 2256 caracteres]\n\nREGRAS DE CITAÇÃO:\n1. Use somente os trechos em TRECHOS; não use conhecimento próprio.\n2. Toda intervenção proposta termina com a citação do trecho que a sustenta, no formato [T1].\n3. Use um trecho apenas para a característica indicada nele.\n4. Respeite o AVISO DE USO quando houver.\n5. Não proponha intervenção para característica que não esteja em CARACTERÍSTICAS ATIVADAS.\n\nPERGUNTA: Que orientação de andaime de nível 2 ajuda o estudante com Sobrecarga de memória de trabalho em comandos múltiplos conjugados nesta questão, sem alterar o que ela avalia? Questão: Resolva a equação 3x + 12 = 30 e verifique se a resposta está correta.\n\nRESPOSTA:"
+   },
+   "saida": "Não encontrei nos documentos da base informação suficiente para responder.",
+   "tokens_entrada": 2215,
+   "tokens_saida": 10,
+   "latencia_s": 0.0006,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "gravado no rastro (entrada.prompt) com o texto dos trechos do RAG substituído por marcador; sistema = gerar.INSTRUCOES do grupo",
+   "saida_origem": "resposta do modelo gravada no rastro"
+  },
+  {
+   "run_id": "20261112-154323-eco-M2-matematica-pdf",
+   "material": "M2-matematica-pdf",
+   "questao": "q_2",
+   "etapa": "agente_adaptador",
+   "agente": "Agente Adaptador",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Adaptador Pedagógico da plataforma Íris (BNCC e DUA).\nReescreva a APRESENTAÇÃO de uma questão escolar para reduzir uma barreira funcional, sem alterar o que ela avalia.\n\nREGRA DE ISOLAMENTO DE ESCOPO:\n1. Aplique somente as AÇÕES PERMITIDAS do nível informado. Nada além delas.\n2. Mantenha todas as palavras, números, expressões e termos técnicos do enunciado original, na mesma ordem.\n3. Não troque palavras por sinônimos, não simplifique o vocabulário e não resuma.\n4. Não acrescente dica, exemplo, explicação, fórmula ou resposta.\n5. Não retire nem junte comandos: a quantidade de comandos avaliados é a mesma do original.\n6. Os CONCEITOS OBRIGATÓRIOS e os TERMOS INTOCÁVEIS devem aparecer exatamente como no original.\n\nFormato permitido: negrito com **, item numerado \"1.\", caixa de seleção \"[ ]\" e linha de resposta \"____\".\n\nRetorne APENAS um JSON válido com os campos:\n- texto_adaptado: a questão adaptada, com quebras de linha.\n- justificativas: lista curta, uma frase por ação aplicada.",
+    "usuario": "CARACTERÍSTICA FUNCIONAL: sobrecarga_memoria_trabalho_comandos_multiplos\nNÍVEL 2: Adaptação Moderada — Decomposição em Checklist de Etapas\nOBJETIVO DO ANDAIME: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\nAÇÕES PERMITIDAS:\n- Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.\n- Destacar o verbo de comando no início de cada etapa da lista.\nRESTRIÇÕES DE ESCOPO:\n- Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.\n- Proibido reduzir o número de comandos avaliados na questão.\nCONCEITOS OBRIGATÓRIOS: ['3x + 12']\nTERMOS INTOCÁVEIS: ['3x + 12']\nALERTA ANTI-MULETA: Proibido fornecer a resposta pronta ou resolver o comando 'resolver' pelo estudante.\nDIRETIVA PSICOPEDAGÓGICA:\nNão encontrei nos documentos da base informação suficiente para responder.\nENUNCIADO ORIGINAL:\nResolva a equação 3x + 12 = 30 e verifique se a resposta está correta."
+   },
+   "saida": "{\"texto_adaptado\": \"1. [ ] **Resolva** a equação 3x + 12 = 30\\n2. [ ] **Verifique** se a resposta está correta.\", \"justificativas\": [\"eco: andaime por regras\"]}",
+   "tokens_entrada": 300,
+   "tokens_saida": 25,
+   "latencia_s": 0.0026,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_ADAPTADOR do grupo + _montar_prompt_usuario com diretriz, invariantes e diretiva gravados no rastro",
+   "saida_origem": "campos interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_1",
+   "etapa": "extrator_curricular",
+   "agente": "Agente Extrator Curricular",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Extrator Curricular da plataforma Íris (BNCC e DUA).\nExtraia os INVARIANTES CURRICULARES de uma questão escolar em JSON estrito.\nREGRA CRÍTICA PARA TRCC: em \"conceitos_obrigatorios\", liste TERMOS LITERAIS exatamente como aparecem no enunciado (incluindo nomes próprios, dados numéricos, equações, elementos da frase analisada e termos-chave com o mesmo plural/flexão do texto original). NUNCA use rótulos genéricos ausentes do texto (como \"personagem\" ou \"ação\").\n\nCampos JSON:\n- conceitos_obrigatorios: termos literais do enunciado essenciais para preservar a questão.\n- termos_tecnicos_intocaveis: vocabulário disciplinar ou dados que NÃO podem ser trocados.\n- verbo_comando_bncc: verbo principal no infinitivo (ex: calcular, explicar, identificar, circular, ler).\n- operacao_cognitiva: 1 frase curta com o raciocínio exigido do aluno.\n- habilidade_bncc_sugerida: código BNCC (ex: EF06CI05, EF07MA18) ou null.\n- alerta_anti_muleta: 1 frase proibindo entregar a resposta ou resolver pelo aluno.\n- justificativa_preservacao: 1 frase curta justificando a trava.\n\nEx1 (Ciências): \"Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese.\"\n-> {\"conceitos_obrigatorios\":[\"fotossíntese\",\"cloroplastos\",\"luz solar\",\"glicose\",\"oxigênio\"],\"termos_tecnicos_intocaveis\":[\"cloroplastos\",\"glicose\"],\"verbo_comando_bncc\":\"explicar\",\"operacao_cognitiva\":\"explicar a conversão de energia solar em glicose\",\"habilidade_bncc_sugerida\":\"EF06CI05\",\"alerta_anti_muleta\":\"Não explique a função do cloroplasto nem dê a reação pronta.\",\"justificativa_preservacao\":\"Exige articulação causal.\"}\n\nEx2 (Matemática): \"Determine o valor da incógnita na equação 2x + 6 = 14.\"\n-> {\"conceitos_obrigatorios\":[\"equação\",\"incógnita\",\"2x + 6 = 14\"],\"termos_tecnicos_intocaveis\":[\"2x + 6 = 14\",\"incógnita\"],\"verbo_comando_bncc\":\"determinar\",\"operacao_cognitiva\":\"isolar a incógnita aplicando operações inversas\",\"habilidade_bncc_sugerida\":\"EF07MA18\",\"alerta_anti_muleta\":\"Proibido antecipar x = 4 ou resolver 14 - 6 = 8.\",\"justificativa_preservacao\":\"Avalia resolução algébrica.\"}\n\nEx3 (Português): \"Identifique o sujeito: Maria e João foram ao mercado.\"\n-> {\"conceitos_obrigatorios\":[\"sujeito\",\"Maria\",\"João\",\"mercado\"],\"termos_tecnicos_intocaveis\":[\"sujeito\",\"Maria\",\"João\"],\"verbo_comando_bncc\":\"identificar\",\"operacao_cognitiva\":\"reconhecer o sujeito da oração dada\",\"habilidade_bncc_sugerida\":\"EF06LP06\",\"alerta_anti_muleta\":\"Não aponte quem é o sujeito da frase.\",\"justificativa_preservacao\":\"Preserva os elementos literais avaliados.\"}\n\nRetorne APENAS o JSON válido.",
+    "usuario": "DISCIPLINA: História\nANO/ETAPA: 8º ano\nENUNCIADO:\nContexto\nNo início do século XIX, a família real portuguesa se mudou para o Rio de Janeiro. A abertura dos portos mudou o comércio da colônia."
+   },
+   "saida": "{\"conceitos_obrigatorios\": [\"Contexto\", \"início\", \"século\"], \"termos_tecnicos_intocaveis\": [\"Contexto\"], \"verbo_comando_bncc\": \"identificar\", \"operacao_cognitiva\": \"Executar operação cognitiva orientada ao comando 'identificar' sobre o conteúdo pedagógico.\", \"habilidade_bncc_sugerida\": null, \"alerta_anti_muleta\": \"Proibido fornecer a resposta pronta ou resolver o comando 'identificar' pelo estudante.\", \"justificativa_preservacao\": \"Garantia de retenção curricular determinística e prevenção de empobrecimento cognitivo.\"}",
+   "tokens_entrada": 289,
+   "tokens_saida": 46,
+   "latencia_s": 0.0005,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_EXTRATOR do grupo + _montar_prompt_usuario com a entrada gravada",
+   "saida_origem": "invariantes interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_1",
+   "etapa": "diretiva_substituta_arnes",
+   "agente": "Diretiva substituta (bancada)",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Estrategista do Íris, que apoia professores a adaptar atividades para alunos\ncom TDAH sem reduzir a habilidade avaliada. Responda em português do Brasil.\n\nRegras:\n1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar.\n2. Toda frase da resposta termina com a citação do trecho que a sustenta, no formato [T1], [T2] etc.\n   Uma frase pode citar mais de um trecho: [T1][T3].\n3. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, citando-o normalmente.\n4. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova\n   de eficácia; não use norma revogada como regra vigente).\n5. Se os trechos não respondem à pergunta, responda exatamente: \"Não encontrei nos documentos da base informação suficiente para responder.\"\n   e nada mais. É melhor não responder do que inventar.\n6. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.\n7. No máximo 6 frases. Sem introdução, sem conclusão genérica.",
+    "usuario": "CARACTERÍSTICAS ATIVADAS:\n- sobrecarga_memoria_trabalho_comandos_multiplos (Sobrecarga de memória de trabalho em comandos múltiplos conjugados), nível 2\n  Objetivo do andaime: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\n  Ações permitidas: Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.; Destacar o verbo de comando no início de cada etapa da lista.\n  Restrições de escopo: Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.; Proibido reduzir o número de comandos avaliados na questão.\n\nINVARIANTES CURRICULARES (não alterar):\n- Contexto\n- início\n- século\n- Contexto\n\nTRECHOS:\n\n[trecho T1: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043, 2231 caracteres]\n\n[trecho T2: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034, 2347 caracteres]\n\n[trecho T3: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037, 2200 caracteres]\n\n[trecho T4: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044, 2226 caracteres]\n\n[trecho T5: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041, 2256 caracteres]\n\nREGRAS DE CITAÇÃO:\n1. Use somente os trechos em TRECHOS; não use conhecimento próprio.\n2. Toda intervenção proposta termina com a citação do trecho que a sustenta, no formato [T1].\n3. Use um trecho apenas para a característica indicada nele.\n4. Respeite o AVISO DE USO quando houver.\n5. Não proponha intervenção para característica que não esteja em CARACTERÍSTICAS ATIVADAS.\n\nPERGUNTA: Que orientação de andaime de nível 2 ajuda o estudante com Sobrecarga de memória de trabalho em comandos múltiplos conjugados nesta questão, sem alterar o que ela avalia? Questão: Contexto\nNo início do século XIX, a família real portuguesa se mudou para o Rio de Janeiro. A abertura dos portos mudou o comércio da colônia.\n\nRESPOSTA:"
+   },
+   "saida": "Não encontrei nos documentos da base informação suficiente para responder.",
+   "tokens_entrada": 2226,
+   "tokens_saida": 10,
+   "latencia_s": 0.0007,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "gravado no rastro (entrada.prompt) com o texto dos trechos do RAG substituído por marcador; sistema = gerar.INSTRUCOES do grupo",
+   "saida_origem": "resposta do modelo gravada no rastro"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_1",
+   "etapa": "agente_adaptador",
+   "agente": "Agente Adaptador",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Adaptador Pedagógico da plataforma Íris (BNCC e DUA).\nReescreva a APRESENTAÇÃO de uma questão escolar para reduzir uma barreira funcional, sem alterar o que ela avalia.\n\nREGRA DE ISOLAMENTO DE ESCOPO:\n1. Aplique somente as AÇÕES PERMITIDAS do nível informado. Nada além delas.\n2. Mantenha todas as palavras, números, expressões e termos técnicos do enunciado original, na mesma ordem.\n3. Não troque palavras por sinônimos, não simplifique o vocabulário e não resuma.\n4. Não acrescente dica, exemplo, explicação, fórmula ou resposta.\n5. Não retire nem junte comandos: a quantidade de comandos avaliados é a mesma do original.\n6. Os CONCEITOS OBRIGATÓRIOS e os TERMOS INTOCÁVEIS devem aparecer exatamente como no original.\n\nFormato permitido: negrito com **, item numerado \"1.\", caixa de seleção \"[ ]\" e linha de resposta \"____\".\n\nRetorne APENAS um JSON válido com os campos:\n- texto_adaptado: a questão adaptada, com quebras de linha.\n- justificativas: lista curta, uma frase por ação aplicada.",
+    "usuario": "CARACTERÍSTICA FUNCIONAL: sobrecarga_memoria_trabalho_comandos_multiplos\nNÍVEL 2: Adaptação Moderada — Decomposição em Checklist de Etapas\nOBJETIVO DO ANDAIME: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\nAÇÕES PERMITIDAS:\n- Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.\n- Destacar o verbo de comando no início de cada etapa da lista.\nRESTRIÇÕES DE ESCOPO:\n- Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.\n- Proibido reduzir o número de comandos avaliados na questão.\nCONCEITOS OBRIGATÓRIOS: ['Contexto', 'início', 'século']\nTERMOS INTOCÁVEIS: ['Contexto']\nALERTA ANTI-MULETA: Proibido fornecer a resposta pronta ou resolver o comando 'identificar' pelo estudante.\nDIRETIVA PSICOPEDAGÓGICA:\nNão encontrei nos documentos da base informação suficiente para responder.\nENUNCIADO ORIGINAL:\nContexto\nNo início do século XIX, a família real portuguesa se mudou para o Rio de Janeiro. A abertura dos portos mudou o comércio da colônia."
+   },
+   "saida": "{\"texto_adaptado\": \"Contexto\\nNo início do século XIX, a família real portuguesa se mudou para o Rio de Janeiro. A abertura dos portos mudou o comércio da colônia.\", \"justificativas\": [\"eco: andaime por regras\"]}",
+   "tokens_entrada": 309,
+   "tokens_saida": 31,
+   "latencia_s": 0.0029,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_ADAPTADOR do grupo + _montar_prompt_usuario com diretriz, invariantes e diretiva gravados no rastro",
+   "saida_origem": "campos interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_2",
+   "etapa": "extrator_curricular",
+   "agente": "Agente Extrator Curricular",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Extrator Curricular da plataforma Íris (BNCC e DUA).\nExtraia os INVARIANTES CURRICULARES de uma questão escolar em JSON estrito.\nREGRA CRÍTICA PARA TRCC: em \"conceitos_obrigatorios\", liste TERMOS LITERAIS exatamente como aparecem no enunciado (incluindo nomes próprios, dados numéricos, equações, elementos da frase analisada e termos-chave com o mesmo plural/flexão do texto original). NUNCA use rótulos genéricos ausentes do texto (como \"personagem\" ou \"ação\").\n\nCampos JSON:\n- conceitos_obrigatorios: termos literais do enunciado essenciais para preservar a questão.\n- termos_tecnicos_intocaveis: vocabulário disciplinar ou dados que NÃO podem ser trocados.\n- verbo_comando_bncc: verbo principal no infinitivo (ex: calcular, explicar, identificar, circular, ler).\n- operacao_cognitiva: 1 frase curta com o raciocínio exigido do aluno.\n- habilidade_bncc_sugerida: código BNCC (ex: EF06CI05, EF07MA18) ou null.\n- alerta_anti_muleta: 1 frase proibindo entregar a resposta ou resolver pelo aluno.\n- justificativa_preservacao: 1 frase curta justificando a trava.\n\nEx1 (Ciências): \"Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese.\"\n-> {\"conceitos_obrigatorios\":[\"fotossíntese\",\"cloroplastos\",\"luz solar\",\"glicose\",\"oxigênio\"],\"termos_tecnicos_intocaveis\":[\"cloroplastos\",\"glicose\"],\"verbo_comando_bncc\":\"explicar\",\"operacao_cognitiva\":\"explicar a conversão de energia solar em glicose\",\"habilidade_bncc_sugerida\":\"EF06CI05\",\"alerta_anti_muleta\":\"Não explique a função do cloroplasto nem dê a reação pronta.\",\"justificativa_preservacao\":\"Exige articulação causal.\"}\n\nEx2 (Matemática): \"Determine o valor da incógnita na equação 2x + 6 = 14.\"\n-> {\"conceitos_obrigatorios\":[\"equação\",\"incógnita\",\"2x + 6 = 14\"],\"termos_tecnicos_intocaveis\":[\"2x + 6 = 14\",\"incógnita\"],\"verbo_comando_bncc\":\"determinar\",\"operacao_cognitiva\":\"isolar a incógnita aplicando operações inversas\",\"habilidade_bncc_sugerida\":\"EF07MA18\",\"alerta_anti_muleta\":\"Proibido antecipar x = 4 ou resolver 14 - 6 = 8.\",\"justificativa_preservacao\":\"Avalia resolução algébrica.\"}\n\nEx3 (Português): \"Identifique o sujeito: Maria e João foram ao mercado.\"\n-> {\"conceitos_obrigatorios\":[\"sujeito\",\"Maria\",\"João\",\"mercado\"],\"termos_tecnicos_intocaveis\":[\"sujeito\",\"Maria\",\"João\"],\"verbo_comando_bncc\":\"identificar\",\"operacao_cognitiva\":\"reconhecer o sujeito da oração dada\",\"habilidade_bncc_sugerida\":\"EF06LP06\",\"alerta_anti_muleta\":\"Não aponte quem é o sujeito da frase.\",\"justificativa_preservacao\":\"Preserva os elementos literais avaliados.\"}\n\nRetorne APENAS o JSON válido.",
+    "usuario": "DISCIPLINA: História\nANO/ETAPA: 8º ano\nENUNCIADO:\nO processo\nEm 1822, Dom Pedro declarou a independência. A aluna Ciclana Exemplo Falso deve apresentar este tópico na sexta-feira."
+   },
+   "saida": "{\"conceitos_obrigatorios\": [\"processo\", \"Pedro\", \"declarou\"], \"termos_tecnicos_intocaveis\": [\"processo\", \"declarou\"], \"verbo_comando_bncc\": \"identificar\", \"operacao_cognitiva\": \"Executar operação cognitiva orientada ao comando 'identificar' sobre o conteúdo pedagógico.\", \"habilidade_bncc_sugerida\": null, \"alerta_anti_muleta\": \"Proibido fornecer a resposta pronta ou resolver o comando 'identificar' pelo estudante.\", \"justificativa_preservacao\": \"Garantia de retenção curricular determinística e prevenção de empobrecimento cognitivo.\"}",
+   "tokens_entrada": 283,
+   "tokens_saida": 47,
+   "latencia_s": 0.0005,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_EXTRATOR do grupo + _montar_prompt_usuario com a entrada gravada",
+   "saida_origem": "invariantes interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_2",
+   "etapa": "diretiva_substituta_arnes",
+   "agente": "Diretiva substituta (bancada)",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Estrategista do Íris, que apoia professores a adaptar atividades para alunos\ncom TDAH sem reduzir a habilidade avaliada. Responda em português do Brasil.\n\nRegras:\n1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar.\n2. Toda frase da resposta termina com a citação do trecho que a sustenta, no formato [T1], [T2] etc.\n   Uma frase pode citar mais de um trecho: [T1][T3].\n3. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, citando-o normalmente.\n4. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova\n   de eficácia; não use norma revogada como regra vigente).\n5. Se os trechos não respondem à pergunta, responda exatamente: \"Não encontrei nos documentos da base informação suficiente para responder.\"\n   e nada mais. É melhor não responder do que inventar.\n6. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.\n7. No máximo 6 frases. Sem introdução, sem conclusão genérica.",
+    "usuario": "CARACTERÍSTICAS ATIVADAS:\n- sobrecarga_memoria_trabalho_comandos_multiplos (Sobrecarga de memória de trabalho em comandos múltiplos conjugados), nível 2\n  Objetivo do andaime: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\n  Ações permitidas: Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.; Destacar o verbo de comando no início de cada etapa da lista.\n  Restrições de escopo: Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.; Proibido reduzir o número de comandos avaliados na questão.\n\nINVARIANTES CURRICULARES (não alterar):\n- processo\n- Pedro\n- declarou\n- processo\n- declarou\n\nTRECHOS:\n\n[trecho T1: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043, 2231 caracteres]\n\n[trecho T2: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034, 2347 caracteres]\n\n[trecho T3: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044, 2226 caracteres]\n\n[trecho T4: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037, 2200 caracteres]\n\n[trecho T5: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0042, 1769 caracteres]\n\nREGRAS DE CITAÇÃO:\n1. Use somente os trechos em TRECHOS; não use conhecimento próprio.\n2. Toda intervenção proposta termina com a citação do trecho que a sustenta, no formato [T1].\n3. Use um trecho apenas para a característica indicada nele.\n4. Respeite o AVISO DE USO quando houver.\n5. Não proponha intervenção para característica que não esteja em CARACTERÍSTICAS ATIVADAS.\n\nPERGUNTA: Que orientação de andaime de nível 2 ajuda o estudante com Sobrecarga de memória de trabalho em comandos múltiplos conjugados nesta questão, sem alterar o que ela avalia? Questão: O processo\nEm 1822, Dom Pedro declarou a independência. A aluna Ciclana Exemplo Falso deve apresentar este tópico na sexta-feira.\n\nRESPOSTA:"
+   },
+   "saida": "Não encontrei nos documentos da base informação suficiente para responder.",
+   "tokens_entrada": 2147,
+   "tokens_saida": 10,
+   "latencia_s": 0.0009,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "gravado no rastro (entrada.prompt) com o texto dos trechos do RAG substituído por marcador; sistema = gerar.INSTRUCOES do grupo",
+   "saida_origem": "resposta do modelo gravada no rastro"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_2",
+   "etapa": "agente_adaptador",
+   "agente": "Agente Adaptador",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Adaptador Pedagógico da plataforma Íris (BNCC e DUA).\nReescreva a APRESENTAÇÃO de uma questão escolar para reduzir uma barreira funcional, sem alterar o que ela avalia.\n\nREGRA DE ISOLAMENTO DE ESCOPO:\n1. Aplique somente as AÇÕES PERMITIDAS do nível informado. Nada além delas.\n2. Mantenha todas as palavras, números, expressões e termos técnicos do enunciado original, na mesma ordem.\n3. Não troque palavras por sinônimos, não simplifique o vocabulário e não resuma.\n4. Não acrescente dica, exemplo, explicação, fórmula ou resposta.\n5. Não retire nem junte comandos: a quantidade de comandos avaliados é a mesma do original.\n6. Os CONCEITOS OBRIGATÓRIOS e os TERMOS INTOCÁVEIS devem aparecer exatamente como no original.\n\nFormato permitido: negrito com **, item numerado \"1.\", caixa de seleção \"[ ]\" e linha de resposta \"____\".\n\nRetorne APENAS um JSON válido com os campos:\n- texto_adaptado: a questão adaptada, com quebras de linha.\n- justificativas: lista curta, uma frase por ação aplicada.",
+    "usuario": "CARACTERÍSTICA FUNCIONAL: sobrecarga_memoria_trabalho_comandos_multiplos\nNÍVEL 2: Adaptação Moderada — Decomposição em Checklist de Etapas\nOBJETIVO DO ANDAIME: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\nAÇÕES PERMITIDAS:\n- Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.\n- Destacar o verbo de comando no início de cada etapa da lista.\nRESTRIÇÕES DE ESCOPO:\n- Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.\n- Proibido reduzir o número de comandos avaliados na questão.\nCONCEITOS OBRIGATÓRIOS: ['processo', 'Pedro', 'declarou']\nTERMOS INTOCÁVEIS: ['processo', 'declarou']\nALERTA ANTI-MULETA: Proibido fornecer a resposta pronta ou resolver o comando 'identificar' pelo estudante.\nDIRETIVA PSICOPEDAGÓGICA:\nNão encontrei nos documentos da base informação suficiente para responder.\nENUNCIADO ORIGINAL:\nO processo\nEm 1822, Dom Pedro declarou a independência. A aluna Ciclana Exemplo Falso deve apresentar este tópico na sexta-feira."
+   },
+   "saida": "{\"texto_adaptado\": \"O processo\\nEm 1822, Dom Pedro declarou a independência. A aluna Ciclana Exemplo Falso deve apresentar este tópico na sexta-feira.\", \"justificativas\": [\"eco: andaime por regras\"]}",
+   "tokens_entrada": 304,
+   "tokens_saida": 25,
+   "latencia_s": 0.0029,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_ADAPTADOR do grupo + _montar_prompt_usuario com diretriz, invariantes e diretiva gravados no rastro",
+   "saida_origem": "campos interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_3",
+   "etapa": "extrator_curricular",
+   "agente": "Agente Extrator Curricular",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Extrator Curricular da plataforma Íris (BNCC e DUA).\nExtraia os INVARIANTES CURRICULARES de uma questão escolar em JSON estrito.\nREGRA CRÍTICA PARA TRCC: em \"conceitos_obrigatorios\", liste TERMOS LITERAIS exatamente como aparecem no enunciado (incluindo nomes próprios, dados numéricos, equações, elementos da frase analisada e termos-chave com o mesmo plural/flexão do texto original). NUNCA use rótulos genéricos ausentes do texto (como \"personagem\" ou \"ação\").\n\nCampos JSON:\n- conceitos_obrigatorios: termos literais do enunciado essenciais para preservar a questão.\n- termos_tecnicos_intocaveis: vocabulário disciplinar ou dados que NÃO podem ser trocados.\n- verbo_comando_bncc: verbo principal no infinitivo (ex: calcular, explicar, identificar, circular, ler).\n- operacao_cognitiva: 1 frase curta com o raciocínio exigido do aluno.\n- habilidade_bncc_sugerida: código BNCC (ex: EF06CI05, EF07MA18) ou null.\n- alerta_anti_muleta: 1 frase proibindo entregar a resposta ou resolver pelo aluno.\n- justificativa_preservacao: 1 frase curta justificando a trava.\n\nEx1 (Ciências): \"Explique como os cloroplastos utilizam a luz solar para produzir glicose e oxigênio na fotossíntese.\"\n-> {\"conceitos_obrigatorios\":[\"fotossíntese\",\"cloroplastos\",\"luz solar\",\"glicose\",\"oxigênio\"],\"termos_tecnicos_intocaveis\":[\"cloroplastos\",\"glicose\"],\"verbo_comando_bncc\":\"explicar\",\"operacao_cognitiva\":\"explicar a conversão de energia solar em glicose\",\"habilidade_bncc_sugerida\":\"EF06CI05\",\"alerta_anti_muleta\":\"Não explique a função do cloroplasto nem dê a reação pronta.\",\"justificativa_preservacao\":\"Exige articulação causal.\"}\n\nEx2 (Matemática): \"Determine o valor da incógnita na equação 2x + 6 = 14.\"\n-> {\"conceitos_obrigatorios\":[\"equação\",\"incógnita\",\"2x + 6 = 14\"],\"termos_tecnicos_intocaveis\":[\"2x + 6 = 14\",\"incógnita\"],\"verbo_comando_bncc\":\"determinar\",\"operacao_cognitiva\":\"isolar a incógnita aplicando operações inversas\",\"habilidade_bncc_sugerida\":\"EF07MA18\",\"alerta_anti_muleta\":\"Proibido antecipar x = 4 ou resolver 14 - 6 = 8.\",\"justificativa_preservacao\":\"Avalia resolução algébrica.\"}\n\nEx3 (Português): \"Identifique o sujeito: Maria e João foram ao mercado.\"\n-> {\"conceitos_obrigatorios\":[\"sujeito\",\"Maria\",\"João\",\"mercado\"],\"termos_tecnicos_intocaveis\":[\"sujeito\",\"Maria\",\"João\"],\"verbo_comando_bncc\":\"identificar\",\"operacao_cognitiva\":\"reconhecer o sujeito da oração dada\",\"habilidade_bncc_sugerida\":\"EF06LP06\",\"alerta_anti_muleta\":\"Não aponte quem é o sujeito da frase.\",\"justificativa_preservacao\":\"Preserva os elementos literais avaliados.\"}\n\nRetorne APENAS o JSON válido.",
+    "usuario": "DISCIPLINA: História\nANO/ETAPA: 8º ano\nENUNCIADO:\nLeia o texto, identifique duas mudanças causadas pela vinda da família real e explique por que a abertura dos portos foi importante."
+   },
+   "saida": "{\"conceitos_obrigatorios\": [\"mudanças\", \"causadas\", \"vinda\"], \"termos_tecnicos_intocaveis\": [\"mudanças\", \"causadas\"], \"verbo_comando_bncc\": \"identificar\", \"operacao_cognitiva\": \"Executar operação cognitiva orientada ao comando 'identificar' sobre o conteúdo pedagógico.\", \"habilidade_bncc_sugerida\": null, \"alerta_anti_muleta\": \"Proibido fornecer a resposta pronta ou resolver o comando 'identificar' pelo estudante.\", \"justificativa_preservacao\": \"Garantia de retenção curricular determinística e prevenção de empobrecimento cognitivo.\"}",
+   "tokens_entrada": 285,
+   "tokens_saida": 47,
+   "latencia_s": 0.0004,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_EXTRATOR do grupo + _montar_prompt_usuario com a entrada gravada",
+   "saida_origem": "invariantes interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_3",
+   "etapa": "diretiva_substituta_arnes",
+   "agente": "Diretiva substituta (bancada)",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Estrategista do Íris, que apoia professores a adaptar atividades para alunos\ncom TDAH sem reduzir a habilidade avaliada. Responda em português do Brasil.\n\nRegras:\n1. Use SOMENTE os trechos em TRECHOS. Não use conhecimento próprio, nem para completar.\n2. Toda frase da resposta termina com a citação do trecho que a sustenta, no formato [T1], [T2] etc.\n   Uma frase pode citar mais de um trecho: [T1][T3].\n3. Se um trecho estiver em inglês, use o conteúdo dele e responda em português, citando-o normalmente.\n4. Se um trecho tiver AVISO DE USO, respeite o aviso (ex.: não use cartilha sem referências como prova\n   de eficácia; não use norma revogada como regra vigente).\n5. Se os trechos não respondem à pergunta, responda exatamente: \"Não encontrei nos documentos da base informação suficiente para responder.\"\n   e nada mais. É melhor não responder do que inventar.\n6. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.\n7. No máximo 6 frases. Sem introdução, sem conclusão genérica.",
+    "usuario": "CARACTERÍSTICAS ATIVADAS:\n- sobrecarga_memoria_trabalho_comandos_multiplos (Sobrecarga de memória de trabalho em comandos múltiplos conjugados), nível 2\n  Objetivo do andaime: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\n  Ações permitidas: Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.; Destacar o verbo de comando no início de cada etapa da lista.\n  Restrições de escopo: Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.; Proibido reduzir o número de comandos avaliados na questão.\n\nINVARIANTES CURRICULARES (não alterar):\n- mudanças\n- causadas\n- vinda\n- mudanças\n- causadas\n\nTRECHOS:\n\n[trecho T1: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0043, 2231 caracteres]\n\n[trecho T2: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0037, 2200 caracteres]\n\n[trecho T3: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0034, 2347 caracteres]\n\n[trecho T4: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0041, 2256 caracteres]\n\n[trecho T5: RBEE-SEBASTIAN-HEREDERO-2020-DIRETRIZES-DUA#0044, 2226 caracteres]\n\nREGRAS DE CITAÇÃO:\n1. Use somente os trechos em TRECHOS; não use conhecimento próprio.\n2. Toda intervenção proposta termina com a citação do trecho que a sustenta, no formato [T1].\n3. Use um trecho apenas para a característica indicada nele.\n4. Respeite o AVISO DE USO quando houver.\n5. Não proponha intervenção para característica que não esteja em CARACTERÍSTICAS ATIVADAS.\n\nPERGUNTA: Que orientação de andaime de nível 2 ajuda o estudante com Sobrecarga de memória de trabalho em comandos múltiplos conjugados nesta questão, sem alterar o que ela avalia? Questão: Leia o texto, identifique duas mudanças causadas pela vinda da família real e explique por que a abertura dos portos foi importante.\n\nRESPOSTA:"
+   },
+   "saida": "Não encontrei nos documentos da base informação suficiente para responder.",
+   "tokens_entrada": 2224,
+   "tokens_saida": 10,
+   "latencia_s": 0.0006,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "gravado no rastro (entrada.prompt) com o texto dos trechos do RAG substituído por marcador; sistema = gerar.INSTRUCOES do grupo",
+   "saida_origem": "resposta do modelo gravada no rastro"
+  },
+  {
+   "run_id": "20261112-154323-eco-M3-historia-txt",
+   "material": "M3-historia-txt",
+   "questao": "q_3",
+   "etapa": "agente_adaptador",
+   "agente": "Agente Adaptador",
+   "modelo": "eco-stub-deterministico",
+   "provedor": "eco",
+   "prompt": {
+    "sistema": "Você é o Agente Adaptador Pedagógico da plataforma Íris (BNCC e DUA).\nReescreva a APRESENTAÇÃO de uma questão escolar para reduzir uma barreira funcional, sem alterar o que ela avalia.\n\nREGRA DE ISOLAMENTO DE ESCOPO:\n1. Aplique somente as AÇÕES PERMITIDAS do nível informado. Nada além delas.\n2. Mantenha todas as palavras, números, expressões e termos técnicos do enunciado original, na mesma ordem.\n3. Não troque palavras por sinônimos, não simplifique o vocabulário e não resuma.\n4. Não acrescente dica, exemplo, explicação, fórmula ou resposta.\n5. Não retire nem junte comandos: a quantidade de comandos avaliados é a mesma do original.\n6. Os CONCEITOS OBRIGATÓRIOS e os TERMOS INTOCÁVEIS devem aparecer exatamente como no original.\n\nFormato permitido: negrito com **, item numerado \"1.\", caixa de seleção \"[ ]\" e linha de resposta \"____\".\n\nRetorne APENAS um JSON válido com os campos:\n- texto_adaptado: a questão adaptada, com quebras de linha.\n- justificativas: lista curta, uma frase por ação aplicada.",
+    "usuario": "CARACTERÍSTICA FUNCIONAL: sobrecarga_memoria_trabalho_comandos_multiplos\nNÍVEL 2: Adaptação Moderada — Decomposição em Checklist de Etapas\nOBJETIVO DO ANDAIME: Externalizar a carga da memória de trabalho convertendo comandos encadeados em uma lista sequencial verificável.\nAÇÕES PERMITIDAS:\n- Separar cada comando conjugado em um item numerado ou caixa de seleção ([ ]) independente.\n- Destacar o verbo de comando no início de cada etapa da lista.\nRESTRIÇÕES DE ESCOPO:\n- Proibido responder a qualquer etapa ou sugerir a fórmula/inferência exigida pela trava curricular.\n- Proibido reduzir o número de comandos avaliados na questão.\nCONCEITOS OBRIGATÓRIOS: ['mudanças', 'causadas', 'vinda']\nTERMOS INTOCÁVEIS: ['mudanças', 'causadas']\nALERTA ANTI-MULETA: Proibido fornecer a resposta pronta ou resolver o comando 'identificar' pelo estudante.\nDIRETIVA PSICOPEDAGÓGICA:\nNão encontrei nos documentos da base informação suficiente para responder.\nENUNCIADO ORIGINAL:\nLeia o texto, identifique duas mudanças causadas pela vinda da família real e explique por que a abertura dos portos foi importante."
+   },
+   "saida": "{\"texto_adaptado\": \"1. [ ] **Leia** o texto\\n2. [ ] **Identifique** duas mudanças causadas pela vinda da família real\\n3. [ ] **Explique** por que a abertura dos portos foi importante.\", \"justificativas\": [\"eco: andaime por regras\"]}",
+   "tokens_entrada": 306,
+   "tokens_saida": 34,
+   "latencia_s": 0.0041,
+   "status": "ok",
+   "erro": null,
+   "prompt_origem": "reconstruído: SYSTEM_PROMPT_ADAPTADOR do grupo + _montar_prompt_usuario com diretriz, invariantes e diretiva gravados no rastro",
+   "saida_origem": "campos interpretados pelo agente (o rastro não guarda a resposta bruta; no provedor eco ela é este mesmo JSON)"
+  }
+ ]
+}
