@@ -165,4 +165,18 @@ describe("Revisão do PR #115 (achados 1 e 3) no navegador", () => {
   it("só cabeçalho: não perde o material", () => {
     expect(extractCurriculumLocksFromMaterialLocally("Escola Municipal Machado de Assis.").objetivo_avaliativo).toBeTruthy();
   });
+
+  it("sanitiza PII inline antes de extrair conceitos locais e evita chaves extras no alerta", () => {
+    const e = extractCurriculumLocksFromMaterialLocally(
+      "Questão 1 (Colégio Paulo Freire): O aluno Gabriel Silva calculou a fotossíntese dos cloroplastos."
+    );
+    expect(e.conceitos_obrigatorios).not.toContain("gabriel");
+    expect(e.conceitos_obrigatorios).not.toContain("freire");
+    expect(e.conceitos_obrigatorios).toContain("fotossíntese");
+
+    const res = alerta("Definir o conceito de fotossíntese.", "Dar a definição pronta ao aluno.");
+    expect(res.codigo).toBe("CONTRADICAO_DIRETA_CONCEITO");
+    expect(res.mensagem).not.toContain("{");
+    expect(res.mensagem).not.toContain("}");
+  });
 });

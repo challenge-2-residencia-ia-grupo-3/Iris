@@ -13,6 +13,7 @@ import {
   ChevronUp,
   Loader2,
   Lock,
+  Moon,
   Plus,
   RotateCcw,
   Shield,
@@ -20,10 +21,11 @@ import {
   ShieldCheck,
   Sliders,
   Sparkles,
+  Sun,
   X,
 } from "lucide-react";
 
-import { IrisHeader } from "./IrisHeader";
+import { IrisLogoBanner } from "./IrisLogoBanner";
 import { IrisSidebar } from "./IrisSidebar";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
@@ -35,8 +37,8 @@ import {
   SurgicalSelectionResponse,
 } from "@/services/catalogsApi";
 import {
-  calibrateScaffoldingLocally,
   calibrateScaffoldingSession,
+  clearScaffoldingFromSession,
   CurriculumLockInput,
   extractCurriculumLocksFromMaterialLocally,
   FALLBACK_SCAFFOLDING_LEVELS,
@@ -65,13 +67,13 @@ export function Step3ScaffoldingLevel({
   const router = useRouter();
   const { darkMode, toggleDarkMode } = useTheme();
 
-  const [highContrast, setHighContrast] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<ScaffoldingLevel>(initialLevel);
   const [selectedCharacteristics, setSelectedCharacteristics] = useState<CharacteristicItem[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isLoadingSession, setIsLoadingSession] = useState(true);
   const [isCalibrating, setIsCalibrating] = useState(false);
   const [calibrationResult, setCalibrationResult] = useState<ScaffoldingCalibrationResult | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
   const [feedbackBanner, setFeedbackBanner] = useState<{
     type: "success" | "error" | "info";
     title: string;
@@ -85,15 +87,6 @@ export function Step3ScaffoldingLevel({
   const [objetivoAvaliativo, setObjetivoAvaliativo] = useState("");
   const [extractedFromStep1, setExtractedFromStep1] = useState(false);
   const [hasStep1Material, setHasStep1Material] = useState(false);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (highContrast) {
-      root.classList.add("high-contrast");
-    } else {
-      root.classList.remove("high-contrast");
-    }
-  }, [highContrast]);
 
   // Carrega a seleção cirúrgica da Etapa 2, o material da Etapa 1 e a calibração prévia da Etapa 3
   useEffect(() => {
@@ -171,50 +164,45 @@ export function Step3ScaffoldingLevel({
   useEffect(() => {
     if (selectedIds.length === 0) return;
 
-    try {
-      const localImmediate = calibrateScaffoldingLocally(
-        selectedIds,
-        selectedLevel,
-        FALLBACK_OFFICIAL_CATALOG,
-        currentLockPayload
-      );
-      setCalibrationResult(localImmediate);
-      saveScaffoldingToSession(localImmediate);
-    } catch {
-      // Validação detalhada tratada abaixo
-    }
-
     let isMounted = true;
-    setIsCalibrating(true);
+    const timer = window.setTimeout(() => {
+      setIsCalibrating(true);
+      setValidationError(null);
 
-    calibrateScaffoldingSession({
-      selected_ids: selectedIds,
-      nivel: selectedLevel,
-      trava_curricular: currentLockPayload,
-    })
-      .then((res) => {
-        if (isMounted) {
+      calibrateScaffoldingSession({
+        selected_ids: selectedIds,
+        nivel: selectedLevel,
+        trava_curricular: currentLockPayload,
+      })
+        .then((res) => {
+          if (!isMounted) return;
+          setValidationError(null);
           setCalibrationResult(res);
           saveScaffoldingToSession(res);
-        }
-      })
-      .catch((err) => {
-        if (isMounted && err instanceof IrisApiError) {
-          setFeedbackBanner({
-            type: "error",
-            title: "Erro na validação da Etapa 3",
-            message: err.message,
-          });
-        }
-      })
-      .finally(() => {
-        if (isMounted) {
-          setIsCalibrating(false);
-        }
-      });
+        })
+        .catch((err) => {
+          if (!isMounted) return;
+          if (err instanceof IrisApiError) {
+            setValidationError(err.message);
+            setCalibrationResult(null);
+            clearScaffoldingFromSession();
+            setFeedbackBanner({
+              type: "error",
+              title: "Erro na validação da Etapa 3",
+              message: err.message,
+            });
+          }
+        })
+        .finally(() => {
+          if (isMounted) {
+            setIsCalibrating(false);
+          }
+        });
+    }, 50);
 
     return () => {
       isMounted = false;
+      window.clearTimeout(timer);
     };
   }, [selectedLevel, selectedIds, currentLockPayload]);
 
@@ -274,6 +262,7 @@ export function Step3ScaffoldingLevel({
   const handleValidateLocksExplicitly = async () => {
     try {
       setIsCalibrating(true);
+      setValidationError(null);
       const res = await validateCurriculumLocksSession({
         selected_ids: selectedIds,
         nivel: selectedLevel,
@@ -297,6 +286,9 @@ export function Step3ScaffoldingLevel({
       }
     } catch (err) {
       if (err instanceof IrisApiError) {
+        setValidationError(err.message);
+        setCalibrationResult(null);
+        clearScaffoldingFromSession();
         setFeedbackBanner({
           type: "error",
           title: "Trava Curricular incompleta ou inválida",
@@ -398,19 +390,38 @@ export function Step3ScaffoldingLevel({
   const radioGroupId = useId();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors hc-surface">
-      <IrisHeader
-        currentStep={3}
-        stepTitle="Calibragem de suporte e travas"
-        teacherEmail={teacherEmail}
-        highContrast={highContrast}
-        onToggleHighContrast={() => setHighContrast((prev) => !prev)}
-        darkMode={darkMode}
-        onToggleDarkMode={toggleDarkMode}
-      />
+    <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors">
+      {/* Cabeçalho Institucional da Plataforma Íris */}
+      <header className="w-full bg-[#0D0221] text-white border-b border-white/10 px-4 sm:px-8 py-3.5">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <IrisLogoBanner compact />
+            <div className="hidden md:block h-7 w-px bg-white/15" aria-hidden="true" />
+            <div className="hidden md:block">
+              <p className="text-xs font-semibold text-[#E35336] uppercase tracking-wider">
+                Etapa 3 de 5 • Calibragem de Nível de Andaime e Travas
+              </p>
+              <p className="text-xs text-white/75">
+                Docente: <span className="font-mono text-white">{teacherEmail}</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleDarkMode}
+              aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+              className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              {darkMode ? <Sun className="w-4 h-4 text-[#E35336]" /> : <Moon className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+      </header>
 
       {/* Conteúdo Principal com Sidebar Lateral */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 flex flex-col lg:flex-row gap-6 items-start">
+      <div className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
         {/* Sidebar Lateral Modular */}
         <IrisSidebar
           currentStep={3}
@@ -460,7 +471,7 @@ export function Step3ScaffoldingLevel({
           {/* Seção 1: Resumo do Escopo Cirúrgico Ativado na Etapa 2 */}
           <section
             aria-labelledby="titulo-escopo-cirurgico"
-            className="p-5 rounded-xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 space-y-3 hc-surface"
+            className="p-5 rounded-xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 space-y-3"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <h2
@@ -506,7 +517,7 @@ export function Step3ScaffoldingLevel({
           {/* Seção 2: Seletor dos 3 Níveis de Andaime Cognitivo (RF-07) */}
           <section
             aria-labelledby="titulo-calibragem-andaime"
-            className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 space-y-6 hc-surface"
+            className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 space-y-6"
           >
             <div className="space-y-1 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
               <h1
@@ -968,7 +979,7 @@ export function Step3ScaffoldingLevel({
 
               <button
                 type="button"
-                disabled={isCalibrating || !calibrationResult}
+                disabled={isCalibrating || !calibrationResult || Boolean(validationError)}
                 onClick={handleConfirmAndAdvance}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm text-white bg-[#C9411F] hover:bg-[#b03618] disabled:opacity-45 disabled:cursor-not-allowed transition-colors"
               >

@@ -24,11 +24,13 @@ async function violacoes(container: HTMLElement) {
 
 beforeEach(() => {
   window.sessionStorage.clear();
+  vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
 });
 
 afterEach(() => {
   cleanup();
   window.sessionStorage.clear();
+  vi.unstubAllGlobals();
 });
 
 describe("Etapa 3 (Histórias 1.3.1 e 1.3.2): Travas Curriculares, Anti-Muleta e Acessibilidade WCAG 2.1 AA", () => {
@@ -92,5 +94,35 @@ describe("Etapa 3 (Histórias 1.3.1 e 1.3.2): Travas Curriculares, Anti-Muleta e
     // Verifica persistência na sessão
     const saved = window.sessionStorage.getItem(SCAFFOLDING_STORAGE_KEY);
     expect(saved).toBeTruthy();
+  });
+
+  it("limpa sessão e bloqueia avanço quando o backend rejeita a trava com HTTP 422", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 422,
+        json: async () => ({
+          detail: {
+            code: "CLINICAL_REFERENCE_FORBIDDEN",
+            detail: "Não utilize rótulos clínicos ou CID na trava curricular.",
+          },
+        }),
+      })
+    );
+
+    render(
+      <ThemeProvider>
+        <Step3ScaffoldingLevel />
+      </ThemeProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Erro na validação da Etapa 3/i)).toBeTruthy();
+    });
+
+    const confirmBtn = screen.getByRole("button", { name: /Confirmar nível e travas/i }) as HTMLButtonElement;
+    expect(confirmBtn.disabled).toBe(true);
+    expect(window.sessionStorage.getItem(SCAFFOLDING_STORAGE_KEY)).toBeNull();
   });
 });

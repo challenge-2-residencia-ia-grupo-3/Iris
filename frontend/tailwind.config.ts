@@ -15,12 +15,10 @@ const config: Config = {
           terracotta: "#E35336",
           midnight: "#0D0221",
           blush: "#F5EDF0",
-          paper: "#FAF7F8",
         },
       },
       fontFamily: {
         sans: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
-        display: ["'Fraunces'", "Georgia", "serif"],
         mono: ["'JetBrains Mono'", "monospace"],
       },
     },

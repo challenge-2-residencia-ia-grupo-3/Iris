@@ -538,6 +538,29 @@ class TestRevisaoPR115(unittest.TestCase):
         lock = extract_curriculum_locks_from_material("Escola Municipal Machado de Assis.")
         self.assertIsNotNone(lock.objetivo_avaliativo)
 
+    def test_invariantes_etapa3_propagam_para_o_orquestrador(self) -> None:
+        from iris.agents.orchestrator import MultiAgentMaterialRequest, MultiAgentOrchestrator
+
+        res = MultiAgentOrchestrator().run(
+            MultiAgentMaterialRequest(
+                text="Leia o texto e explique como a fotossíntese ocorre nos cloroplastos.",
+                selected_ids=["sobrecarga_memoria_trabalho_comandos_multiplos"],
+                nivel=3,
+                provider="extractive",
+                invariantes_etapa3={
+                    "conceitos_obrigatorios": ["fotossíntese", "cloroplastos"],
+                    "termos_tecnicos_intocaveis": ["clorofila"],
+                    "habilidade_bncc": "EF06CI05",
+                    "alerta_anti_muleta_auditor": "Proibido antecipar a conclusão lógica.",
+                    "blindagem_ativa": True,
+                },
+            )
+        )
+        inv = res.questoes_trace[0].extrator.invariants
+        self.assertIn("clorofila", inv.termos_tecnicos_intocaveis)
+        self.assertEqual(inv.habilidade_bncc_sugerida, "EF06CI05")
+        self.assertIn("Proibido antecipar a conclusão lógica.", inv.alerta_anti_muleta or "")
+
 
 if __name__ == "__main__":
     unittest.main()

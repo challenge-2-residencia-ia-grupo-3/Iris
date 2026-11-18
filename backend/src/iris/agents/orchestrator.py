@@ -103,6 +103,10 @@ class MultiAgentMaterialRequest(BaseModel):
     disciplina: Optional[str] = None
     ano_escolar: Optional[str] = None
     trava_manual_docente: Optional[list[str]] = None
+    invariantes_etapa3: Optional[dict[str, Any]] = Field(
+        default=None,
+        description="Contrato AuditorInvariantsContract validado na Etapa 3 (termos intocáveis, BNCC e alerta anti-muleta).",
+    )
     provider: Optional[str] = Field(
         default=None,
         description="Provedor LLM ('auto', 'anthropic', 'claude', 'sonnet', 'ollama', 'groq', 'extractive').",
@@ -382,6 +386,37 @@ class MultiAgentOrchestrator:
                     trava_manual_docente=req.trava_manual_docente,
                     question_id=qid,
                 )
+
+                if req.invariantes_etapa3 and req.invariantes_etapa3.get("blindagem_ativa"):
+                    inv = extracao.invariants
+                    conceitos_etapa3 = [
+                        str(c).strip()
+                        for c in (req.invariantes_etapa3.get("conceitos_obrigatorios") or [])
+                        if str(c).strip()
+                    ]
+                    if conceitos_etapa3:
+                        inv.conceitos_obrigatorios = list(
+                            dict.fromkeys([*inv.conceitos_obrigatorios, *conceitos_etapa3])
+                        )
+                    intocaveis_etapa3 = [
+                        str(t).strip()
+                        for t in (req.invariantes_etapa3.get("termos_tecnicos_intocaveis") or [])
+                        if str(t).strip()
+                    ]
+                    if intocaveis_etapa3:
+                        inv.termos_tecnicos_intocaveis = list(
+                            dict.fromkeys([*inv.termos_tecnicos_intocaveis, *intocaveis_etapa3])
+                        )
+                    habilidade_etapa3 = str(req.invariantes_etapa3.get("habilidade_bncc") or "").strip()
+                    if habilidade_etapa3 and not inv.habilidade_bncc_sugerida:
+                        inv.habilidade_bncc_sugerida = habilidade_etapa3
+                    alerta_etapa3 = str(req.invariantes_etapa3.get("alerta_anti_muleta_auditor") or "").strip()
+                    if alerta_etapa3:
+                        inv.alerta_anti_muleta = (
+                            f"{inv.alerta_anti_muleta} | {alerta_etapa3}"
+                            if inv.alerta_anti_muleta
+                            else alerta_etapa3
+                        )
 
                 # --- Agente 2: Estrategista RAG (#16) ---
                 estrategia = estrategista.strategize(

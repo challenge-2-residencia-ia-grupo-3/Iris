@@ -340,7 +340,7 @@ export function evaluatePreventiveAntiCrutchLocally(
       severidade: "critical",
       codigo: "CONTRADICAO_DIRETA_CONCEITO",
       titulo: "Alerta Preventivo Anti-Muleta: Exposição da Resposta Conceitual",
-      mensagem: `A adaptação solicitada ('{${termo}}') antecipa a definição ou alternativa avaliada pela questão.`,
+      mensagem: `A adaptação solicitada ('${termo}') antecipa a definição ou alternativa avaliada pela questão.`,
       conflitos_detectados: [
         `Solicitação de '${termo}' entrega diretamente o conceito que é objeto de avaliação.`,
       ],
@@ -802,6 +802,20 @@ const VERBOS_COMANDO_MAP: Record<string, string> = {
   resolva: "resolver", resolver: "resolver",
 };
 
+function sanitizeInlinePiiLocally(texto: string): string {
+  return texto
+    .replace(/\b(?:\d{3}\.){2}\d{3}-\d{2}\b/g, "[CPF]")
+    .replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g, "[EMAIL]")
+    .replace(
+      /\b((?:[oa]|d[oa]|a[o]?|pel[oa])\s+(?:[Aa]luno|[Aa]luna|[Ee]studante|[Dd]iscente)|(?:[Aa]luno|[Aa]luna|[Ee]studante|[Dd]iscente))\s+[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ']{1,29}(?:\s+(?:(?:da|de|do|das|dos|e)\s+)?[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ']{1,29}){0,3}/g,
+      "$1 [ESTUDANTE]"
+    )
+    .replace(
+      /\b(?:[Cc]ol[eé]gio|[Ee]scola|[Ii]nstituto|[Cc]entro\s+[Ee]ducacional)\s+[A-ZÀ-ÖØ-Þ][A-Za-zÀ-ÖØ-öø-ÿ0-9'.-]*(?:\s+[A-ZÀ-ÖØ-Þ][A-Za-zÀ-ÖØ-öø-ÿ0-9'.-]*){0,4}/g,
+      "[ESCOLA]"
+    );
+}
+
 /**
  * Extrai automaticamente os conceitos-chave, termos técnicos e o objetivo avaliativo
  * diretamente do texto do material enviado/colado na Etapa 1.
@@ -819,7 +833,7 @@ export function extractCurriculumLocksFromMaterialLocally(
     };
   }
 
-  const text = semCabecalho(materialText.trim());
+  const text = sanitizeInlinePiiLocally(semCabecalho(materialText.trim()));
   const bnccMatch = text.match(/\b(?:EF\d{2}[A-Z]{2}\d{2}|EM\d{2}[A-Z]{3}\d{3})\b/);
   const habBncc = bnccMatch ? bnccMatch[0] : null;
 
