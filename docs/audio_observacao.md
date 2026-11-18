@@ -62,7 +62,8 @@ Um teste garante que o léxico cobre todas as características do catálogo.
   Medição interna (20 frases novas, 2 por característica, escritas sem olhar o léxico): o léxico acerta 7 de 20 (35%),
   e ampliá-lo com as formas da revisão do PR #110 não mudou isso em frases inéditas (as 20 frases da revisão passam a
   ser reconhecidas, mas por serem as que motivaram os novos padrões). Errar é ficar em silêncio, nunca sugerir algo
-  errado (0 falsos positivos em frases neutras). Para subir a cobertura é preciso medir com falas reais de professores
+  errado nas frases neutras do teste. Padrões que descrevem só a situação ("pede mais de um passo", "segunda parte da
+  prova", "não aguenta mais", "responde correndo") têm peso fraco: sozinhos não sugerem, precisam de outro sinal. Para subir a cobertura é preciso medir com falas reais de professores
   ou trocar o léxico por outro método (por exemplo, embeddings); acrescentar padrões à mão não generaliza.
 - Nome próprio dito sem "o aluno" pode escapar do removedor por regex; a transcrição é só exibida, nunca gravada nem repassada.
 - Em WAV a validação usa só a biblioteca padrão; WebM/Ogg/MP4 exigem `av` (instalado junto do faster-whisper).

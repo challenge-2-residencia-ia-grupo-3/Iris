@@ -254,6 +254,12 @@ def test_relatos_da_revisao_sugerem_a_caracteristica_certa(cid, fala):
         "Ele escreveu uma carta para a avó e adorou a atividade.",
         "A prova foi longa mas a turma toda gostou.",
         "Respondeu as perguntas com calma e acertou quase tudo.",
+        # Revisão do #125: frases que descrevem a situação, não a dificuldade, e não podem sugerir sozinhas.
+        "O problema pede mais de um passo e ele resolveu tudo certinho.",
+        "Não aguenta mais esperar o recreio.",
+        "Na segunda parte da prova ele acertou tudo.",
+        "Ele lê o primeiro parágrafo e depois para para tomar água, depois continua.",
+        "Respondeu correndo porque o sinal ia bater, mas acertou.",
     ],
 )
 def test_frases_neutras_parecidas_com_o_lexico_nao_sugerem(fala):
