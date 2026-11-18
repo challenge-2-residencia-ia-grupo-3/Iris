@@ -223,6 +223,43 @@ def test_relato_sugere_a_caracteristica_certa(cid, fala):
     assert cid in [s.id_caracteristica for s in sugerir_caracteristicas(fala, CATALOGO)]
 
 
+# Relatos escritos na revisão do PR #110 (formas de dizer que o léxico não cobria). Servem de regressão: o léxico foi
+# ampliado para eles. NÃO medem a precisão com fala real (ver docs/audio_observacao.md).
+RELATOS_REVISAO = {
+"sobrecarga_memoria_trabalho_comandos_multiplos":["Quando a questão tem três perguntas juntas ele faz só uma e esquece as outras.","Se eu passo várias tarefas de uma vez na lousa, ele faz a primeira e se perde nas demais."],
+"retencao_dados_intermediarios_problemas_multietapas":["Nos problemas de matemática com várias contas ele acerta o começo mas esquece o resultado da conta anterior.","Em problema que precisa de mais de um passo ele se embola e perde o que já tinha calculado."],
+"atencao_sustentada_textos_longos":["Em texto grande ele lê o primeiro parágrafo e depois desiste, começa a olhar pela janela.","Quando o texto passa de uma página ele não consegue ficar concentrado até o fim."],
+"distratibilidade_poluicao_visual_layout":["Quando a folha tem muitas figuras e quadros coloridos ele fica olhando os desenhos e esquece da questão.","A prova com muita coisa na página confunde ele, não sabe para onde olhar."],
+"impulsividade_leitura_superficial_negacoes":["Ele marca a primeira alternativa que parece certa sem ler as outras e erra as perguntas com a palavra não.","Responde correndo, nem lê a pergunta até o final e cai nas pegadinhas de exceto."],
+"organizacao_sequencial_expressao_escrita":["Ele explica tudo falando, mas quando escreve fica tudo embaralhado.","Na hora de escrever a resposta as ideias saem fora de ordem e ele não sabe montar o texto."],
+"fadiga_executiva_autorregulacao_provas_extensas":["Em prova comprida ele começa muito bem, mas lá pela metade já está exausto e erra coisa que sabe.","Na segunda parte da avaliação ele não aguenta mais, entrega no chute."],
+"flexibilidade_cognitiva_alternancia_topicos":["Quando a atividade muda de assunto ele continua pensando no anterior e demora a se ajustar.","Ele fica preso no jeito de resolver da questão de antes mesmo quando o tipo de exercício muda."],
+"bloqueio_iniciacao_tarefas_abertas":["Quando a atividade é livre, sem um modelo, ele não sabe como começar e fica enrolando.","Diante de uma redação ele fica olhando para a folha e não escreve nem a primeira linha."],
+"ritmo_processamento_pressao_temporal":["Ele entende, mas é mais lento para ler e a prova acaba antes de ele terminar.","Quando eu cronometro a atividade ele fica nervoso e não consegue render."],
+}
+
+CASOS_REVISAO = [(cid, fala) for cid, falas in RELATOS_REVISAO.items() for fala in falas]
+
+
+@pytest.mark.parametrize("cid,fala", CASOS_REVISAO, ids=[f"rev-{c[:10]}-{i}" for i, (c, _) in enumerate(CASOS_REVISAO)])
+def test_relatos_da_revisao_sugerem_a_caracteristica_certa(cid, fala):
+    assert cid in [s.id_caracteristica for s in sugerir_caracteristicas(fala, CATALOGO)]
+
+
+@pytest.mark.parametrize(
+    "fala",
+    [
+        "Ele cai da bicicleta no recreio e machucou o joelho.",
+        "Ela erra as questões de geometria porque ainda não estudou o conteúdo.",
+        "Ele escreveu uma carta para a avó e adorou a atividade.",
+        "A prova foi longa mas a turma toda gostou.",
+        "Respondeu as perguntas com calma e acertou quase tudo.",
+    ],
+)
+def test_frases_neutras_parecidas_com_o_lexico_nao_sugerem(fala):
+    assert sugerir_caracteristicas(fala, CATALOGO) == []
+
+
 @pytest.mark.parametrize(
     "fala",
     [
