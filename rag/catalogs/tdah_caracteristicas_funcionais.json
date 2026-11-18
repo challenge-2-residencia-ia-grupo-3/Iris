@@ -335,7 +335,7 @@
           "objetivo_andaime": "Evitar duplas negações confusas no comando e inserir marcador de parada reflexiva antes das alternativas.",
           "acoes_permitidas": [
             "Destacar a condição restritiva em linha própria antes das alternativas ('ATENÇÃO: Você deve marcar a opção INCORRETA').",
-            "Incluir marcador `[V] ou [F]` ao lado de cada alternativa para incentivar a análise de todas as opções antes da escolha final."
+            "Inserir, em linha própria logo antes das alternativas, o aviso 'Confira cada alternativa antes de marcar a sua resposta.', sem acrescentar marcação nas alternativas e sem mudar a forma de responder."
           ],
           "restricoes_escopo": [
             "Proibido indicar quais alternativas são verdadeiras ou falsas.",
