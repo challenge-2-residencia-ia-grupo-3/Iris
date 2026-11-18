@@ -13,6 +13,9 @@ Como funciona:
 LLM: Qwen (qwen/qwen3.8-27b) pelo Groq, plano gratuito, só com documentos públicos e perguntas de
 teste (nada de dado de aluno). Troca por Ollama local com RAG_LLM=ollama (modelo em RAG_LLM_MODELO,
 padrão qwen3:8b), para quando houver dado sensível.
+Com RAG_LLM=anthropic o gerador usa a API da Anthropic: Haiku no esforço baixo por padrão (issue #86);
+outro modelo Claude em RAG_LLM_MODELO, esforço em RAG_ANTHROPIC_ESFORCO. Só a pergunta e os trechos
+de documentos públicos saem da máquina.
 """
 from __future__ import annotations
 
@@ -44,6 +47,29 @@ Regras:
 7. Diferencie o que é evidência de pesquisa, o que é norma e o que é orientação prática.
 8. No máximo 6 frases. Sem introdução, sem conclusão genérica."""
 
+# Duas regras a mais, medidas só com o Haiku (issue #86, 17/11/2026): pedir esclarecimento quando a pergunta é
+# vaga e recusar quando os trechos só rodeiam o que foi pedido. Em 15 perguntas vagas, o pedido de esclarecimento
+# foi de 0 para 14, sem nenhum pedido indevido em 63 perguntas claras. Ressalva medida: nas 21 perguntas de
+# reserva, as respostas úteis foram de 8 para 6 de 11 e as recusas certas de 6 para 8 de 10.
+# Com outros modelos as regras não foram medidas; por isso entram, por padrão, só com o gerador da Anthropic.
+REGRAS_ESCLARECIMENTO = f"""
+9. Se a pergunta não disser qual é a barreira ou a dificuldade do aluno, nem qual é a atividade ou o que o professor quer fazer, não dê orientação geral: responda só com uma ou duas perguntas curtas pedindo o que falta, sem citar trechos. Esta é a única exceção às regras 2 e 3. Se a pergunta já traz a barreira ou a atividade, responda normalmente.
+10. Se os trechos falam do tema mas não trazem o fato, a norma, o número ou a recomendação específica que a pergunta pede, responda exatamente: "{FRASE_SEM_RESPOSTA}" e nada mais. Não responda com informação vizinha no lugar da que foi pedida."""
+
+
+def usar_regras_de_esclarecimento() -> bool:
+    """RAG_PROMPT_ESCLARECIMENTO: `on`, `off` ou `auto` (padrão: ligado só com o gerador da Anthropic)."""
+    modo = os.environ.get("RAG_PROMPT_ESCLARECIMENTO", "auto").strip().lower()
+    if modo in {"on", "1", "true", "sim"}:
+        return True
+    if modo in {"off", "0", "false", "nao", "não"}:
+        return False
+    return os.environ.get("RAG_LLM", LLM).lower() in {"anthropic", "claude", "sonnet"}
+
+
+def instrucoes() -> str:
+    return INSTRUCOES + (REGRAS_ESCLARECIMENTO if usar_regras_de_esclarecimento() else "")
+
 
 def montar_prompt(pergunta: str, trechos: list[dict]) -> str:
     blocos = []
@@ -52,7 +78,7 @@ def montar_prompt(pergunta: str, trechos: list[dict]) -> str:
         aviso = f"\nAVISO DE USO: {t['nota_uso']}" if t.get("nao_usar_para") else ""
         tipo = f" | {t['tipo_evidencia']}" if t.get("tipo_evidencia") else ""
         blocos.append(f"[T{i}] {t['titulo']}{pag} ({t['idioma']}{tipo}){aviso}\n{t['trecho']}")
-    return f"{INSTRUCOES}\n\nTRECHOS:\n\n" + "\n\n".join(blocos) + f"\n\nPERGUNTA: {pergunta}\n\nRESPOSTA:"
+    return f"{instrucoes()}\n\nTRECHOS:\n\n" + "\n\n".join(blocos) + f"\n\nPERGUNTA: {pergunta}\n\nRESPOSTA:"
 
 
 def _chamar_groq(prompt: str) -> tuple[str, dict]:
@@ -73,35 +99,65 @@ def _chamar_groq(prompt: str) -> tuple[str, dict]:
             raise
 
 
+# Gerador pela API da Anthropic. Padrão: Haiku no esforço baixo.
+# Medido em 13 a 17/11/2026 (issue #86): nas perguntas do gabarito, o Haiku responde melhor que o Llama local
+# e não se separa do Sonnet em respostas úteis, por cerca de um décimo do custo por consulta.
+MODELO_ANTHROPIC_PADRAO = "claude-haiku-5-5"
+MODELO_ANTHROPIC_RESERVA = "claude-sonnet-5-5"    # reserva se o modelo pedido não existir (o Sonnet 4.5 anterior sai do ar em 30/11/2026)
+ESFORCO_ANTHROPIC = os.environ.get("RAG_ANTHROPIC_ESFORCO", "low")
+
+
+def _modelo_anthropic() -> str:
+    """Modelo do gerador: RAG_LLM_MODELO se for um modelo Claude, depois CLAUDE_SONNET_MODEL (compatibilidade), depois o padrão.
+
+    O servidor grava em RAG_LLM_MODELO o modelo do provedor ativo (por exemplo `llama3.1:8b`); um nome que não é
+    de modelo Claude não pode ir para a API da Anthropic.
+    """
+    pedido = (os.environ.get("RAG_LLM_MODELO") or "").strip()
+    if pedido.startswith("claude"):
+        return pedido
+    return (os.environ.get("CLAUDE_SONNET_MODEL") or "").strip() or MODELO_ANTHROPIC_PADRAO
+
+
+def _modelo_legado(modelo: str) -> bool:
+    """Modelos das famílias 3 e 4 aceitam `temperature`; os mais novos recusam e usam `output_config.effort`."""
+    return bool(re.search(r"claude-(?:3|(?:sonnet|opus|haiku)-4)", modelo))
+
+
+def _corpo_anthropic(modelo: str, prompt: str, com_temperatura: bool) -> dict:
+    corpo: dict = {"model": modelo, "messages": [{"role": "user", "content": prompt}]}
+    if com_temperatura:
+        corpo |= {"temperature": 0, "max_tokens": 1500}
+    else:
+        # Nos modelos novos o raciocínio conta como saída: com 1.500 a resposta chegava cortada (medido: ~1.500 tokens por resposta).
+        esforco = (os.environ.get("RAG_ANTHROPIC_ESFORCO") or ESFORCO_ANTHROPIC).strip() or ESFORCO_ANTHROPIC
+        corpo |= {"max_tokens": 4000, "output_config": {"effort": esforco}}
+    return corpo
+
+
 def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
     chave = os.environ.get("ANTHROPIC_API_KEY", "").strip()
     if not chave:
         raise RuntimeError("ANTHROPIC_API_KEY não configurada para geração.")
-    modelo_alvo = os.environ.get("RAG_LLM_MODELO") or os.environ.get("CLAUDE_SONNET_MODEL") or "claude-sonnet-4-5-20250929"
+    modelo_alvo = _modelo_anthropic()
     modelos_tentar = [modelo_alvo]
-    if modelo_alvo != "claude-sonnet-4-5-20250929":
-        modelos_tentar.append("claude-sonnet-4-5-20250929")
+    if modelo_alvo != MODELO_ANTHROPIC_RESERVA:
+        modelos_tentar.append(MODELO_ANTHROPIC_RESERVA)
 
     for idx_m, mod in enumerate(modelos_tentar):
-        corpo = json.dumps(
-            {
-                "model": mod,
-                "temperature": 0,
-                "max_tokens": 1500,
-                "messages": [{"role": "user", "content": prompt}],
-            }
-        ).encode()
-        req = urllib.request.Request(
-            "https://api.anthropic.com/v1/messages",
-            data=corpo,
-            headers={
-                "x-api-key": chave,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
-                "User-Agent": "iris-rag/0.1",
-            },
-        )
-        for tentativa in range(4):
+        com_temperatura = _modelo_legado(mod)
+        tentativa = 0
+        while tentativa < 4:
+            req = urllib.request.Request(
+                "https://api.anthropic.com/v1/messages",
+                data=json.dumps(_corpo_anthropic(mod, prompt, com_temperatura)).encode(),
+                headers={
+                    "x-api-key": chave,
+                    "anthropic-version": "2023-06-01",
+                    "content-type": "application/json",
+                    "User-Agent": "iris-rag/0.1",
+                },
+            )
             try:
                 r = json.loads(urllib.request.urlopen(req, timeout=120).read())
                 partes = [
@@ -110,30 +166,49 @@ def _chamar_anthropic(prompt: str) -> tuple[str, dict]:
                     if isinstance(bloco, dict) and bloco.get("type") == "text"
                 ]
                 texto = "\n".join(p for p in partes if p).strip()
+                if not texto or r.get("stop_reason") == "max_tokens":
+                    # resposta vazia ou cortada não vai ao professor: quem chamou cai para o gerador sem modelo
+                    raise RuntimeError(f"resposta do modelo {mod} vazia ou cortada (stop_reason={r.get('stop_reason')})")
                 uso_raw = r.get("usage") or {}
                 uso = {
                     "prompt_tokens": uso_raw.get("input_tokens"),
                     "completion_tokens": uso_raw.get("output_tokens"),
+                    "modelo": r.get("model") or mod,
+                    "cortada": r.get("stop_reason") == "max_tokens",
                 }
                 return texto, uso
             except urllib.error.HTTPError as e:
+                if e.code == 400 and com_temperatura:
+                    # Modelo que não aceita `temperature` e não foi reconhecido pelo nome: tenta de novo sem ela.
+                    detalhe = e.read().decode("utf-8", "replace")
+                    if "temperature" in detalhe:
+                        com_temperatura = False
+                        continue
+                    raise
                 if e.code == 404 and idx_m + 1 < len(modelos_tentar):
                     break
                 if e.code in (429, 529) and tentativa < 3:
                     time.sleep(5 * (tentativa + 1))
+                    tentativa += 1
                     continue
                 raise
+    raise RuntimeError(f"Nenhum modelo da Anthropic respondeu ({', '.join(modelos_tentar)}).")
 
 
 def _chamar_ollama(prompt: str) -> tuple[str, dict]:
     modelo_alvo = os.environ.get("RAG_LLM_MODELO", MODELO if LLM == "ollama" else "llama3.1:8b")
     url_base = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
-    corpo = json.dumps({"model": modelo_alvo, "prompt": prompt, "stream": False,
-                        "options": {"temperature": 0}}).encode()
+    # Issue #89: sem `num_ctx` vale a janela padrão do Ollama (4.096) e o começo do prompt é descartado sem aviso
+    # quando ele não cabe; sem `num_predict` uma resposta em laço só para no teto interno do servidor.
+    opcoes = {"temperature": 0,
+              "num_ctx": int(os.environ.get("RAG_NUM_CTX", "8192")),
+              "num_predict": int(os.environ.get("RAG_NUM_PREDICT", "1024"))}
+    corpo = json.dumps({"model": modelo_alvo, "prompt": prompt, "stream": False, "options": opcoes}).encode()
     req = urllib.request.Request(url_base + "/api/generate",
                                  data=corpo, headers={"Content-Type": "application/json"})
     r = json.loads(urllib.request.urlopen(req, timeout=600).read())
-    return r["response"], {"prompt_tokens": r.get("prompt_eval_count"), "completion_tokens": r.get("eval_count")}
+    return r["response"], {"prompt_tokens": r.get("prompt_eval_count"), "completion_tokens": r.get("eval_count"),
+                           "num_ctx": opcoes["num_ctx"], "done_reason": r.get("done_reason")}
 
 
 def _chamar_extractive(prompt: str) -> tuple[str, dict]:
@@ -189,15 +264,23 @@ def gerar(prompt: str) -> tuple[str, dict]:
     return texto, uso
 
 
+def pediu_esclarecimento(resposta: str) -> bool:
+    """A resposta é uma pergunta de volta ao professor: não é recusa, não cita trecho e tem interrogação."""
+    return (FRASE_SEM_RESPOSTA.lower()[:40] not in resposta.lower()
+            and not re.search(r"\[T\d+\]", resposta) and "?" in resposta)
+
+
 def conferir(resposta: str, trechos: list[dict]) -> dict:
     """Conferência mecânica (não mede se o conteúdo está certo; isso é o juiz/humano da semana 3)."""
     absteve = FRASE_SEM_RESPOSTA.lower()[:40] in resposta.lower()
+    esclarecimento = pediu_esclarecimento(resposta)
     citados = sorted({int(n) for n in re.findall(r"\[T(\d+)\]", resposta)})
     invalidas = [n for n in citados if not 1 <= n <= len(trechos)]
     frases = [f for f in re.split(r"(?<=[.!?])\s+", resposta.strip()) if len(f.split()) >= 4]
-    sem_citacao = [f for f in frases if not re.search(r"\[T\d+\]", f)] if not absteve else []
+    # Recusa e pedido de esclarecimento não afirmam nada sobre a base: não se cobra citação deles.
+    sem_citacao = [f for f in frases if not re.search(r"\[T\d+\]", f)] if not (absteve or esclarecimento) else []
     aviso_citado = [n for n in citados if 1 <= n <= len(trechos) and trechos[n - 1].get("nao_usar_para")]
-    return {"absteve": absteve, "trechos_citados": citados, "citacoes_invalidas": invalidas,
+    return {"absteve": absteve, "pediu_esclarecimento": esclarecimento, "trechos_citados": citados, "citacoes_invalidas": invalidas,
             "frases": len(frases), "frases_sem_citacao": sem_citacao,
             "citou_trecho_com_aviso": [trechos[n - 1]["doc"] for n in aviso_citado]}
 
@@ -226,6 +309,8 @@ def responder(
     resposta, uso = gerar(prompt)
     provedor_atual = os.environ.get("RAG_LLM", LLM)
     modelo_atual = os.environ.get("RAG_LLM_MODELO", MODELO if provedor_atual == LLM else "llama3.1:8b")
+    if provedor_atual.lower() in {"anthropic", "claude", "sonnet"}:
+        modelo_atual = (uso or {}).get("modelo") or _modelo_anthropic()   # o modelo que de fato respondeu
     return {"pergunta": pergunta, "metodo": metodo_efetivo, "metodo_solicitado": metodo,
             "fallback_motivo": fallback_motivo, "llm": f"{provedor_atual}:{modelo_atual}", "resposta": resposta,
             "trechos_entregues": trechos,
