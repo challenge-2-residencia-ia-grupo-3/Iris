@@ -142,6 +142,20 @@ class TestModeloPorAgente(unittest.TestCase):
         with self.assertRaises(ValueError):
             L.get_llm_client(agente="revisor")
 
+    def test_auditor_vai_para_o_haiku_quando_ha_chave(self):
+        os.environ["IRIS_LLM_PROVIDER"] = "ollama"
+        os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        c = L.get_llm_client(agente="auditor")
+        self.assertEqual(c.provider_name, "anthropic")
+        self.assertEqual(c._primary.esforco, "low")
+
+    def test_fabrica_do_auditor_usa_o_cliente_do_seu_agente(self):
+        os.environ["IRIS_LLM_PROVIDER_AUDITOR"] = "extractive"
+        from iris.agents.auditor import get_auditor_agent
+        self.assertEqual(get_auditor_agent().juiz.provider_name, "extractive")
+        juiz = mock.Mock()
+        self.assertIs(get_auditor_agent(juiz).juiz, juiz)
+
     def test_adaptador_usa_o_cliente_do_seu_agente(self):
         os.environ["IRIS_LLM_PROVIDER_ADAPTADOR"] = "extractive"
         from iris.agents.adapter_agent import AdapterAgent
