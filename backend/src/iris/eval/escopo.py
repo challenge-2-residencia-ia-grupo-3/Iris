@@ -5,12 +5,13 @@ Compara o enunciado original com o adaptado, sem LLM, e responde quatro pergunta
   1. alguma palavra do original foi perdida? (contagem de palavras, com repetições);
   2. entrou palavra que não pertence ao vocabulário do andaime do nível? (ex.: dica, resposta, sinônimo);
   3. a ordem das palavras do original foi mantida? (maior subsequência comum);
-  4. algum conceito da trava curricular deixou de aparecer? (TRCC do adaptado contra o do original).
+  4. algum conceito da trava curricular deixou de aparecer? (TRCC do adaptado contra o do original);
+  5. algum número ou alguma negação do original deixou de aparecer? (vale em toda característica).
 
 As perguntas 1 a 3 dependem de uma regra por característica e nível (``REGRAS_ESCOPO``). Só a
 característica de comandos múltiplos tem regra definida; nas demais, as ações permitidas pelo
 catálogo acrescentam ou reescrevem texto de formas que uma lista fixa de palavras não cobre, e o
-laudo decide apenas pela trava curricular, informando as diferenças sem julgá-las.
+laudo decide pela trava curricular e pela pergunta 5, informando as outras diferenças sem julgá-las.
 
 Limitação assumida: a comparação é por palavra, sem semântica. Uma lista de palavras permitidas
 não impede que elas sejam recombinadas em uma frase nova.
@@ -35,6 +36,9 @@ VERBOS_IMPERATIVOS = frozenset(v for v in COMMAND_VERBS if not v.endswith("r"))
 _DETERMINANTES = frozenset("a o as os um uma da do das dos na no nas nos de sua seu suas seus".split())
 
 _RE_PALAVRA = re.compile(r"[A-Za-zÀ-ÿ]+")
+_RE_NUMERO = re.compile(r"\d+(?:[.,]\d+)*")
+# Negações que invertem o que a questão pede ("Qual NÃO...", "EXCETO"). Sem elas, a adaptação troca a resposta certa.
+_RE_NEGACAO = re.compile(r"\b(n[ãa]o|nunca|nenhum|nenhuma|exceto|incorret[ao]s?|fals[ao]s?)\b", re.IGNORECASE)
 _RE_NEGRITO = re.compile(r"\*\*|__")
 _RE_MARCADOR_DE_LINHA = re.compile(r"^[ \t]*(?:\d+[.)]|[-•])?[ \t]*(?:\[[ xX]?\])?[ \t]*", re.MULTILINE)
 _RE_LINHA_DE_RESPOSTA = re.compile(r"_{3,}")
@@ -126,6 +130,17 @@ def verificar_escopo(
     if conceitos_perdidos:
         violacoes.append(f"conceito da trava curricular ausente: {conceitos_perdidos}")
 
+    # Números e negações do original valem em toda característica. Sem esta conferência, tirar o "NÃO" ou trocar
+    # "12" por "10" passava em 9 das 10 características, porque as palavras comparadas acima são só letras.
+    numeros_perdidos = sorted(set(_RE_NUMERO.findall(original)) - set(_RE_NUMERO.findall(adaptado)))
+    neg_a = Counter(m.lower() for m in _RE_NEGACAO.findall(original))
+    neg_b = Counter(m.lower() for m in _RE_NEGACAO.findall(adaptado))
+    negacoes_perdidas = sorted((neg_a - neg_b).elements())
+    if numeros_perdidos:
+        violacoes.append(f"número do original ausente: {numeros_perdidos}")
+    if negacoes_perdidas:
+        violacoes.append(f"negação do original ausente: {negacoes_perdidas}")
+
     if regra is None:
         return ScopeReport(
             aprovado=not violacoes,
@@ -133,6 +148,8 @@ def verificar_escopo(
             palavras_perdidas=sorted(perdidas.elements()),
             palavras_novas=sorted(novas.elements()),
             conceitos_perdidos=conceitos_perdidos,
+            numeros_perdidos=numeros_perdidos,
+            negacoes_perdidas=negacoes_perdidas,
             violacoes=violacoes,
         )
 
@@ -179,6 +196,8 @@ def verificar_escopo(
         palavras_novas=palavras_novas,
         conectivos_removidos=conectivos_removidos,
         conceitos_perdidos=conceitos_perdidos,
+        numeros_perdidos=numeros_perdidos,
+        negacoes_perdidas=negacoes_perdidas,
         ordem_alterada=ordem_alterada,
         estrutura_alterada=estrutura_alterada,
         violacoes=violacoes,

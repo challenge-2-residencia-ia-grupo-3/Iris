@@ -138,3 +138,50 @@ class TestCaracteristicaSemRegra(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestNumerosENegacoesEmTodaCaracteristica(unittest.TestCase):
+    """Número ou negação do original que some muda a questão, em qualquer característica (não só na que tem regra).
+
+    Antes desta conferência, tirar o "NÃO" ou trocar "12" por "10" passava em 9 das 10 características: o laudo só
+    comparava palavras de letras e, sem regra, decidia apenas pela trava curricular.
+    """
+
+    ORIGINAL = ("Uma loja vende 12 camisetas por R$ 25 cada. Qual das alternativas NÃO apresenta o valor total correto?\n"
+                "A) R$ 300\nB) R$ 250\nC) R$ 200")
+    TRAVA = ["valor total"]
+    CARACTERISTICAS = (
+        "impulsividade_leitura_superficial_negacoes",
+        "retencao_dados_intermediarios_problemas_multietapas",
+        "atencao_sustentada_textos_longos",
+        ID_COMANDOS_MULTIPLOS,
+    )
+
+    def _laudo(self, adaptado: str, caracteristica: str):
+        return verificar_escopo(self.ORIGINAL, adaptado, caracteristica, 2, self.TRAVA)
+
+    def test_acusa_negacao_retirada(self) -> None:
+        for c in self.CARACTERISTICAS:
+            laudo = self._laudo(self.ORIGINAL.replace("NÃO ", ""), c)
+            self.assertFalse(laudo.aprovado, c)
+            self.assertEqual(laudo.negacoes_perdidas, ["não"], c)
+
+    def test_acusa_numero_trocado(self) -> None:
+        for c in self.CARACTERISTICAS:
+            laudo = self._laudo(self.ORIGINAL.replace("12 camisetas", "10 camisetas"), c)
+            self.assertFalse(laudo.aprovado, c)
+            self.assertIn("12", laudo.numeros_perdidos, c)
+
+    def test_acusa_valor_de_alternativa_trocado(self) -> None:
+        for c in self.CARACTERISTICAS:
+            laudo = self._laudo(self.ORIGINAL.replace("R$ 300", "R$ 330"), c)
+            self.assertFalse(laudo.aprovado, c)
+            self.assertIn("300", laudo.numeros_perdidos, c)
+
+    def test_destaque_e_numeracao_nao_contam_como_perda(self) -> None:
+        adaptado = ("Uma loja vende **12** camisetas por R$ 25 cada.\n\n1. Qual das alternativas **NÃO** apresenta o "
+                    "**valor total** correto?\n\nA) R$ 300\nB) R$ 250\nC) R$ 200")
+        laudo = self._laudo(adaptado, "impulsividade_leitura_superficial_negacoes")
+        self.assertEqual(laudo.numeros_perdidos, [])
+        self.assertEqual(laudo.negacoes_perdidas, [])
+        self.assertTrue(laudo.aprovado, laudo.violacoes)

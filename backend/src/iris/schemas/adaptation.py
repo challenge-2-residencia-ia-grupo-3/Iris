@@ -45,6 +45,9 @@ class ScopeReport(BaseModel):
     palavras_novas: list[str] = Field(default_factory=list)
     conectivos_removidos: int = 0
     conceitos_perdidos: list[str] = Field(default_factory=list)
+    # Valem em toda característica, com ou sem regra: número ou negação do original que some muda a questão.
+    numeros_perdidos: list[str] = Field(default_factory=list)
+    negacoes_perdidas: list[str] = Field(default_factory=list)
     ordem_alterada: bool = False
     estrutura_alterada: bool = False
     violacoes: list[str] = Field(default_factory=list)
