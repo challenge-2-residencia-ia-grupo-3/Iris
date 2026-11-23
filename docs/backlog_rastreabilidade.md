@@ -344,10 +344,10 @@ Como professor, quero definir explicitamente quais conceitos técnicos e habilid
 * **E** se o professor solicitar uma adaptação que contradiga diretamente a habilidade avaliada (ex.: pedir resumo interpretativo em questão que avalia interpretação de texto), o sistema deve emitir um alerta preventivo anti-muleta.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Backend]** Schema Pydantic para invariantes da Trava Curricular (conceitos obrigatórios, habilidades BNCC).
-- [ ] **[Frontend]** Campo de texto estruturado na Etapa 3 com exemplos de travas e aviso de validação cognitiva.
-- [ ] **[RAG / IA]** Validador preventivo de perda cognitiva (alerta anti-muleta) cruzando nível solicitado com trava definida.
-- [ ] **[Testes]** Teste automatizado de detecção de incompatibilidade pedagógica (ex.: trava de inferência vs. andaime simplificador).
+- [x] **[Backend]** Schema Pydantic para invariantes da Trava Curricular (conceitos obrigatórios, habilidades BNCC).
+- [x] **[Frontend]** Campo de texto estruturado na Etapa 3 com exemplos de travas e aviso de validação cognitiva.
+- [x] **[RAG / IA]** Validador preventivo de perda cognitiva (alerta anti-muleta) cruzando nível solicitado com trava definida.
+- [x] **[Testes]** Teste automatizado de detecção de incompatibilidade pedagógica (ex.: trava de inferência vs. andaime simplificador).
 
 ---
 

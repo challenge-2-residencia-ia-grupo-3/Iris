@@ -1638,13 +1638,22 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                         {"detail": {"detail": f"Erro interno ao validar seleção ({type(err).__name__}).", "code": "INTERNAL_ERROR"}},
                         status=500,
                     )
-            elif urlparse(self.path).path == "/api/v1/scaffolding/calibrate":
-                from iris.api.routes.scaffolding import calibrate_scaffolding_session_service
+            elif urlparse(self.path).path in (
+                "/api/v1/scaffolding/calibrate",
+                "/api/v1/scaffolding/curriculum-locks/validate",
+            ):
+                from iris.api.routes.scaffolding import (
+                    calibrate_scaffolding_session_service,
+                    validate_curriculum_locks_session_service,
+                )
                 from iris.schemas.catalog import CatalogValidationError, CharacteristicSelectionError
                 from iris.schemas.scaffolding import ScaffoldingValidationError
 
                 try:
-                    resp = calibrate_scaffolding_session_service(body)
+                    if urlparse(self.path).path == "/api/v1/scaffolding/curriculum-locks/validate":
+                        resp = validate_curriculum_locks_session_service(body)
+                    else:
+                        resp = calibrate_scaffolding_session_service(body)
                     self._send_json(resp.model_dump())
                 except (ScaffoldingValidationError, CharacteristicSelectionError) as err:
                     self._send_json({"detail": err.to_dict()}, status=422)

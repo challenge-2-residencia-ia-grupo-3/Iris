@@ -263,6 +263,304 @@ class TestScaffoldingServerApi(unittest.TestCase):
         self.assertEqual(status, 422)
         self.assertEqual(corpo["detail"]["code"], "INVALID_SCAFFOLDING_LEVEL")
 
+    def test_api_post_curriculum_locks_validate_returns_200_with_invariants(self) -> None:
+        payload = {
+            "selected_ids": ["atencao_sustentada_textos_longos"],
+            "nivel": 1,
+            "trava_curricular": {
+                "conceitos_obrigatorios": ["fotossíntese", "cloroplastos"],
+                "habilidade_bncc": "EF06CI05",
+                "verbo_comando_bncc": "explicar",
+                "objetivo_avaliativo": "Explicar o papel dos cloroplastos na fotossíntese.",
+            },
+        }
+        status, corpo = self._post(
+            "/api/v1/scaffolding/curriculum-locks/validate",
+            json.dumps(payload).encode("utf-8"),
+        )
+        self.assertEqual(status, 200)
+        self.assertTrue(corpo["invariantes_auditor"]["blindagem_ativa"])
+        self.assertEqual(
+            corpo["invariantes_auditor"]["conceitos_obrigatorios"],
+            ["fotossíntese", "cloroplastos"],
+        )
+        self.assertEqual(corpo["invariantes_auditor"]["trcc_minimo_exigido"], 0.95)
+        self.assertFalse(corpo["alerta_preventivo_antimuleta"]["emitido"])
+
+    def test_api_post_curriculum_locks_validate_empty_returns_422(self) -> None:
+        payload = {
+            "selected_ids": ["atencao_sustentada_textos_longos"],
+            "nivel": 1,
+            "trava_curricular": {
+                "conceitos_obrigatorios": [],
+            },
+        }
+        status, corpo = self._post(
+            "/api/v1/scaffolding/curriculum-locks/validate",
+            json.dumps(payload).encode("utf-8"),
+        )
+        self.assertEqual(status, 422)
+        self.assertEqual(corpo["detail"]["code"], "EMPTY_CURRICULUM_LOCK")
+
+
+class TestCurriculumLocksAndAntiCrutch(unittest.TestCase):
+    """Testes da História 1.3.2 (Issue #13): Travas Curriculares Inegociáveis e Alerta Preventivo Anti-Muleta."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.catalog = load_official_tdah_catalog()
+
+    def test_marks_concepts_as_mandatory_invariants_for_auditor(self) -> None:
+        """Critério BDD 1: Conceitos inseridos na Trava Curricular são marcados como invariantes obrigatórios para o Auditor."""
+        resp = calibrate_scaffolding_service(
+            payload={
+                "selected_ids": ["sobrecarga_memoria_trabalho_comandos_multiplos"],
+                "nivel": NIVEL_MODERADO,
+                "trava_curricular": {
+                    "conceitos_obrigatorios": ["equação", "incógnita", "2x + 6 = 14", "equação"],
+                    "termos_tecnicos_intocaveis": ["incógnita", "2x + 6 = 14"],
+                    "habilidade_bncc": "EF07MA18",
+                    "verbo_comando_bncc": "Calcule",
+                    "objetivo_avaliativo": "Resolver equações polinomiais do 1º grau.",
+                },
+            },
+            catalog=self.catalog,
+        )
+        self.assertTrue(resp.invariantes_auditor.blindagem_ativa)
+        self.assertEqual(
+            resp.invariantes_auditor.conceitos_obrigatorios,
+            ["equação", "incógnita", "2x + 6 = 14"],
+        )
+        self.assertEqual(
+            resp.invariantes_auditor.termos_tecnicos_intocaveis,
+            ["incógnita", "2x + 6 = 14"],
+        )
+        self.assertEqual(resp.invariantes_auditor.verbo_comando_bncc, "calcular")
+        self.assertEqual(resp.invariantes_auditor.habilidade_bncc, "EF07MA18")
+        self.assertEqual(resp.invariantes_auditor.trcc_minimo_exigido, 0.95)
+        self.assertFalse(resp.alerta_preventivo_antimuleta.emitido)
+
+    def test_emits_critical_anti_crutch_alert_on_interpretative_summary_in_reading_question(self) -> None:
+        """Critério BDD 2: Pedir resumo interpretativo em questão que avalia interpretação de texto emite alerta preventivo anti-muleta."""
+        resp = calibrate_scaffolding_service(
+            payload={
+                "selected_ids": ["atencao_sustentada_textos_longos"],
+                "nivel": NIVEL_MODERADO,
+                "trava_curricular": {
+                    "conceitos_obrigatorios": ["ironia", "intenção do autor"],
+                    "habilidade_bncc": "EF67LP08",
+                    "verbo_comando_bncc": "interpretar",
+                    "objetivo_avaliativo": "Avaliar interpretação de texto e inferência na crônica.",
+                    "observacao_adaptacao_docente": "Incluir um resumo interpretativo explicando o texto para o aluno.",
+                },
+            },
+            catalog=self.catalog,
+        )
+        alerta = resp.alerta_preventivo_antimuleta
+        self.assertTrue(alerta.emitido)
+        self.assertEqual(alerta.severidade, "critical")
+        self.assertEqual(alerta.codigo, "CONTRADICAO_DIRETA_INTERPRETACAO")
+        self.assertIn("resumo interpretativo", alerta.mensagem.lower())
+        self.assertGreaterEqual(len(alerta.conflitos_detectados), 1)
+
+    def test_emits_critical_anti_crutch_alert_on_ready_formula_in_math_question(self) -> None:
+        """Pedir fórmula pronta ou passo resolvido em questão de cálculo/equação emite alerta crítico anti-muleta."""
+        resp = calibrate_scaffolding_service(
+            payload={
+                "selected_ids": ["retencao_dados_intermediarios_problemas_multietapas"],
+                "nivel": NIVEL_MODERADO,
+                "trava_curricular": {
+                    "conceitos_obrigatorios": ["equação", "2x + 6 = 14"],
+                    "verbo_comando_bncc": "calcular",
+                    "objetivo_avaliativo": "Calcular o valor da incógnita na equação.",
+                    "observacao_adaptacao_docente": "Entregar a fórmula pronta e o primeiro passo resolvido.",
+                },
+            },
+            catalog=self.catalog,
+        )
+        alerta = resp.alerta_preventivo_antimuleta
+        self.assertTrue(alerta.emitido)
+        self.assertEqual(alerta.severidade, "critical")
+        self.assertEqual(alerta.codigo, "CONTRADICAO_DIRETA_CALCULO")
+
+    def test_emits_warning_when_level_3_intensive_used_for_inference_skill(self) -> None:
+        """Nível 3 (Intensivo) em questão de inferência/interpretação emite aviso preventivo sugerindo Nível 2."""
+        resp = calibrate_scaffolding_service(
+            payload={
+                "selected_ids": ["bloqueio_iniciacao_tarefas_abertas"],
+                "nivel": NIVEL_INTENSIVO,
+                "trava_curricular": {
+                    "conceitos_obrigatorios": ["sentido implícito", "humor"],
+                    "verbo_comando_bncc": "inferir",
+                    "objetivo_avaliativo": "Inferir o sentido implícito da tirinha.",
+                },
+            },
+            catalog=self.catalog,
+        )
+        alerta = resp.alerta_preventivo_antimuleta
+        self.assertTrue(alerta.emitido)
+        self.assertEqual(alerta.severidade, "warning")
+        self.assertEqual(alerta.codigo, "RISCO_NIVEL_INTENSIVO_INFERENCIA")
+        self.assertEqual(alerta.nivel_sugerido, NIVEL_MODERADO)
+
+    def test_emits_glossary_caution_when_vocabulary_support_active_with_locked_terms(self) -> None:
+        """Suporte intensivo de iniciação/expressão escrita em Nível 3 com termos intocáveis travados emite salvaguarda."""
+        resp = calibrate_scaffolding_service(
+            payload={
+                "selected_ids": ["organizacao_sequencial_expressao_escrita"],
+                "nivel": NIVEL_INTENSIVO,
+                "trava_curricular": {
+                    "conceitos_obrigatorios": ["mitocôndria", "respiração celular"],
+                    "termos_tecnicos_intocaveis": ["mitocôndria", "respiração celular"],
+                    "verbo_comando_bncc": "explicar",
+                },
+            },
+            catalog=self.catalog,
+        )
+        alerta = resp.alerta_preventivo_antimuleta
+        self.assertTrue(alerta.emitido)
+        self.assertEqual(alerta.severidade, "warning")
+        self.assertEqual(alerta.codigo, "CAUTELA_GLOSSARIO_TERMOS_TRAVADOS")
+
+    def test_sanitizes_pii_and_rejects_clinical_references_in_curriculum_lock(self) -> None:
+        """Garante sanitização de PII (RNF-02) e rejeição de menções clínicas/CID (RNF-03) na trava curricular."""
+        resp = calibrate_scaffolding_service(
+            payload={
+                "selected_ids": ["atencao_sustentada_textos_longos"],
+                "nivel": NIVEL_LEVE,
+                "trava_curricular": {
+                    "conceitos_obrigatorios": ["fotossíntese"],
+                    "objetivo_avaliativo": "Avaliar o aluno Gabriel Silva na explicação da fotossíntese.",
+                },
+            },
+            catalog=self.catalog,
+        )
+        self.assertTrue(resp.pii_removido_automaticamente)
+        self.assertNotIn("Gabriel Silva", resp.trava_curricular.objetivo_avaliativo or "")
+        self.assertIn("[ESTUDANTE]", resp.trava_curricular.objetivo_avaliativo or "")
+
+        with self.assertRaises(ScaffoldingValidationError) as ctx:
+            calibrate_scaffolding_service(
+                payload={
+                    "selected_ids": ["atencao_sustentada_textos_longos"],
+                    "nivel": NIVEL_LEVE,
+                    "trava_curricular": {
+                        "conceitos_obrigatorios": ["laudo médico CID F90.0"],
+                    },
+                },
+                catalog=self.catalog,
+            )
+        self.assertEqual(ctx.exception.code, "CLINICAL_REFERENCE_FORBIDDEN")
+
+
+from iris.schemas.scaffolding import parse_and_sanitize_curriculum_lock  # noqa: E402
+
+
+class TestRevisaoPR115(unittest.TestCase):
+    """Achados da revisão do PR #115: pedido x objetivo, termos clínicos sobre pessoas e cabeçalho do material."""
+
+    @staticmethod
+    def _alerta(objetivo: str | None, observacao: str | None = None, nivel: int = NIVEL_LEVE):
+        from iris.schemas.scaffolding import evaluate_preventive_anti_crutch, parse_and_sanitize_curriculum_lock
+
+        lock, _ = parse_and_sanitize_curriculum_lock(
+            {"objetivo_avaliativo": objetivo, "observacao_adaptacao_docente": observacao}
+        )
+        return evaluate_preventive_anti_crutch(nivel, [], lock)
+
+    # --- achado 1: o objetivo avaliativo não é um pedido de adaptação
+    def test_objetivo_que_cita_a_habilidade_ou_proibe_a_muleta_nao_dispara_alerta(self) -> None:
+        for objetivo in (
+            "Avaliar se o aluno sabe resumir o texto e identificar a ideia central",
+            "Resolver a equação e chegar ao resultado sem consultar o gabarito",
+            "Interpretar o poema; não entregar resposta pronta ao aluno",
+            "Interpretar o poema sem dar a ideia central pronta",
+        ):
+            with self.subTest(objetivo=objetivo):
+                self.assertFalse(self._alerta(objetivo).emitido)
+
+    def test_pedido_explicito_na_observacao_continua_disparando(self) -> None:
+        a = self._alerta("Avaliar interpretação de texto", "Incluir um resumo interpretativo para o aluno.")
+        self.assertTrue(a.emitido)
+        self.assertEqual(a.codigo, "CONTRADICAO_DIRETA_INTERPRETACAO")
+        b = self._alerta("Calcular o valor da incógnita na equação.", "Entregar a fórmula pronta.")
+        self.assertEqual(b.codigo, "CONTRADICAO_DIRETA_CALCULO")
+
+    def test_pedido_negado_na_observacao_nao_dispara(self) -> None:
+        for obs in ("Não incluir resumo interpretativo.", "Sem resumo interpretativo, apenas destaque visual."):
+            with self.subTest(obs=obs):
+                self.assertFalse(self._alerta("Avaliar interpretação de texto", obs).emitido)
+
+    def test_pedido_com_verbo_dentro_do_objetivo_ainda_dispara(self) -> None:
+        a = self._alerta("Avaliar interpretação de texto. Incluir resumo interpretativo para o aluno.")
+        self.assertTrue(a.emitido)
+
+    def test_negacao_so_vale_na_mesma_frase_e_perto_do_termo(self) -> None:
+        a = self._alerta("Avaliar interpretação de texto", "Não use cores fortes. Incluir resumo interpretativo.")
+        self.assertTrue(a.emitido)
+
+    def test_nivel_3_em_inferencia_continua_gerando_aviso(self) -> None:
+        a = self._alerta("Inferir o sentido implícito da tirinha.", None, NIVEL_INTENSIVO)
+        self.assertEqual(a.codigo, "RISCO_NIVEL_INTENSIVO_INFERENCIA")
+
+    # --- achado 2: laudo e diagnóstico sobre pessoas
+    def test_laudo_e_diagnostico_sobre_pessoa_sao_recusados_na_trava(self) -> None:
+        for texto in ("laudo de TDAH do Pedro", "diagnóstico de TEA", "aluno diagnosticado com dislexia", "laudo do Pedro"):
+            with self.subTest(texto=texto), self.assertRaises(ScaffoldingValidationError) as ctx:
+                parse_and_sanitize_curriculum_lock({"conceitos_obrigatorios": [texto]})
+            self.assertEqual(ctx.exception.code, "CLINICAL_REFERENCE_FORBIDDEN")
+
+    def test_conteudo_de_curriculo_parecido_continua_aceito(self) -> None:
+        lock, _ = parse_and_sanitize_curriculum_lock(
+            {"conceitos_obrigatorios": ["laudo técnico", "síndrome de Down", "medicamentos genéricos", "diagnóstico de rede"]}
+        )
+        self.assertEqual(len(lock.conceitos_obrigatorios), 4)
+
+    def test_laudo_sobre_pessoa_no_objetivo_tambem_e_recusado(self) -> None:
+        with self.assertRaises(ScaffoldingValidationError):
+            parse_and_sanitize_curriculum_lock({"objetivo_avaliativo": "Explicar fotossíntese conforme o laudo do aluno"})
+
+    # --- achado 3: cabeçalho do material
+    def test_extracao_ignora_cabecalho_da_prova(self) -> None:
+        from iris.schemas.scaffolding import extract_curriculum_locks_from_material
+
+        lock = extract_curriculum_locks_from_material(
+            "Escola Estadual X. Aluno: Pedro Souza. Leia o texto sobre fotossíntese e explique o papel do cloroplasto."
+        )
+        self.assertNotIn("estadual", lock.conceitos_obrigatorios)
+        self.assertIn("fotossíntese", lock.conceitos_obrigatorios)
+        self.assertNotIn("estadual", (lock.objetivo_avaliativo or "").lower())
+        self.assertNotIn("Pedro", lock.objetivo_avaliativo or "")
+
+    def test_extracao_nao_perde_o_material_quando_so_ha_cabecalho(self) -> None:
+        from iris.schemas.scaffolding import extract_curriculum_locks_from_material
+
+        lock = extract_curriculum_locks_from_material("Escola Municipal Machado de Assis.")
+        self.assertIsNotNone(lock.objetivo_avaliativo)
+
+    def test_invariantes_etapa3_propagam_para_o_orquestrador(self) -> None:
+        from iris.agents.orchestrator import MultiAgentMaterialRequest, MultiAgentOrchestrator
+
+        res = MultiAgentOrchestrator().run(
+            MultiAgentMaterialRequest(
+                text="Leia o texto e explique como a fotossíntese ocorre nos cloroplastos.",
+                selected_ids=["sobrecarga_memoria_trabalho_comandos_multiplos"],
+                nivel=3,
+                provider="extractive",
+                invariantes_etapa3={
+                    "conceitos_obrigatorios": ["fotossíntese", "cloroplastos"],
+                    "termos_tecnicos_intocaveis": ["clorofila"],
+                    "habilidade_bncc": "EF06CI05",
+                    "alerta_anti_muleta_auditor": "Proibido antecipar a conclusão lógica.",
+                    "blindagem_ativa": True,
+                },
+            )
+        )
+        inv = res.questoes_trace[0].extrator.invariants
+        self.assertIn("clorofila", inv.termos_tecnicos_intocaveis)
+        self.assertEqual(inv.habilidade_bncc_sugerida, "EF06CI05")
+        self.assertIn("Proibido antecipar a conclusão lógica.", inv.alerta_anti_muleta or "")
+
 
 if __name__ == "__main__":
     unittest.main()
