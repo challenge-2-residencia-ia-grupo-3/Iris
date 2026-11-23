@@ -244,6 +244,9 @@ AGENTES_DA_CORRENTE = ("extrator", "estrategista", "adaptador", "auditor")
 
 def _disponivel(cliente: Any) -> bool:
     try:
+        primario = getattr(cliente, "_primary", None)
+        if primario is not None and callable(getattr(primario, "is_available", None)):
+            return bool(primario.is_available())
         return bool(cliente.status().get("primary_available"))
     except Exception:  # noqa: BLE001 - status indisponível conta como provedor fora do ar
         return False
@@ -409,6 +412,7 @@ class MultiAgentOrchestrator:
             traces: list[QuestionMultiAgentTrace] = []
             etapa5_questoes: list[dict[str, Any]] = []
             modelos_usados: list[str] = []
+            modelos_adaptador: list[str] = []
             total_tokens = 0
             prompt_tokens_total = 0
             completion_tokens_total = 0
@@ -525,6 +529,9 @@ class MultiAgentOrchestrator:
                         modelos_usados.append(tel.model)
                     if getattr(tel, "used_fallback", False) and getattr(tel, "motivo_fallback", None):
                         fallbacks_ocorridos.append(str(tel.motivo_fallback))
+                for tel in ciclo.telemetrias:
+                    if tel.model and tel.model != "deterministic-fallback":
+                        modelos_adaptador.append(tel.model)
 
                 ultimo_adap = ciclo.resultados[-1]
                 adaptacao_aplicada = relatorio.texto_final.strip() != enunciado_q.strip()
@@ -564,7 +571,11 @@ class MultiAgentOrchestrator:
             aprovadas = sum(1 for t in traces if t.aprovado_final)
             revisao_humana = sum(1 for t in traces if t.requer_revisao_humana)
             provider_str = str(getattr(llm_client, "provider_name", "custom"))
-            model_str = modelos_usados[0] if modelos_usados else "deterministic-fallback"
+            model_str = (
+                modelos_adaptador[0]
+                if modelos_adaptador
+                else (modelos_usados[0] if modelos_usados else "deterministic-fallback")
+            )
 
             log_agent_operational_event(
                 nivel=req.nivel,
