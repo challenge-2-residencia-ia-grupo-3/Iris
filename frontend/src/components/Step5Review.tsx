@@ -2,13 +2,12 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AlertTriangle, ArrowLeft, Contrast, Moon, Sun } from "lucide-react";
-import { IrisLogoBanner } from "./IrisLogoBanner";
+import { AlertTriangle } from "lucide-react";
+import { IrisHeader, STEP_TITLES } from "./IrisHeader";
 import { IrisSidebar } from "./IrisSidebar";
 import { ReviewEditor } from "./ReviewEditor";
 import { JustificativaCard } from "./JustificativaCard";
 import { FALLBACK_OFFICIAL_CATALOG } from "@/services/catalogsApi";
-import { useTheme } from "@/contexts/ThemeContext";
 import { criarSessao, SessaoRevisao, SessaoRevisaoError } from "@/services/sessionReview";
 import { indicadoresAndaime, montarCartao, QuestaoEtapa5, Step5Entrada } from "@/services/comparisonCards";
 
@@ -28,20 +27,13 @@ interface Props {
  */
 export function Step5Review({ entrada, demo = false, teacherEmail = "marina.alves@escola.edu.br" }: Props) {
   const router = useRouter();
-  const { darkMode, toggleDarkMode } = useTheme();
   const [sessao, setSessao] = useState<SessaoRevisao | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [tentativa, setTentativa] = useState(0);
-  const [altoContraste, setAltoContraste] = useState(false);
   const iniciada = useRef<number | null>(null);
 
   const porId = useMemo(() => new Map<string, QuestaoEtapa5>((entrada?.questoes ?? []).map((q) => [q.id, q])), [entrada]);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("high-contrast", altoContraste);
-    return () => document.documentElement.classList.remove("high-contrast");
-  }, [altoContraste]);
 
   useEffect(() => {
     if (!entrada || entrada.questoes.length === 0 || iniciada.current === tentativa) return;
@@ -59,48 +51,18 @@ export function Step5Review({ entrada, demo = false, teacherEmail = "marina.alve
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F5EDF0] text-[#0D0221] dark:bg-[#0D0221] dark:text-[#F5EDF0]">
-      <header className="w-full border-b border-white/10 bg-[#0D0221] px-4 py-3.5 text-white sm:px-8">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <IrisLogoBanner compact />
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#FF8A70]">Etapa 5 de 5 • Revisão lado a lado</p>
-            <p className="hidden text-xs text-white/80 md:block">
-              Docente: <span className="font-mono text-white">{teacherEmail}</span>
-            </p>
-          </div>
-          <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => setAltoContraste((v) => !v)}
-              aria-pressed={altoContraste}
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20"
-            >
-              <Contrast className="h-4 w-4" aria-hidden /> Alto Contraste
-            </button>
-            <button
-              type="button"
-              onClick={toggleDarkMode}
-              aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white hover:bg-white/20"
-            >
-              {darkMode ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
-            </button>
-            <button
-              type="button"
-              onClick={() => router.push("/etapa-2")}
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-[#335C67] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#2A4D56]"
-            >
-              <ArrowLeft className="h-4 w-4" aria-hidden /> Etapa 2
-            </button>
-          </div>
-        </div>
-      </header>
+      <IrisHeader currentStep={5} teacherEmail={teacherEmail} />
 
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-start gap-6 px-4 py-6 sm:px-8 lg:flex-row">
         <IrisSidebar currentStep={5} enabledSteps={[1, 2, 3, 4, 5]} onNavigateStep={(s) => router.push(`/etapa-${s}`)} />
 
         <main id="conteudo-principal" className="min-w-0 flex-1 space-y-5">
-          <h1 className="text-xl font-extrabold">Revise a adaptação, questão por questão</h1>
+          <div className="space-y-1.5">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E35336]">
+              <span>{STEP_TITLES[5]}</span>
+            </div>
+            <h1 className="text-xl sm:text-2xl font-extrabold">Revise a adaptação, questão por questão</h1>
+          </div>
           <p className="text-sm text-[#0D0221]/80 dark:text-[#F5EDF0]/85">
             À esquerda, o material original. À direita, a versão sugerida pela IA: você pode editar qualquer palavra. Abra “Por que mudou” para ver a
             característica funcional tratada e a diretriz do DUA/MEC que fundamenta a mudança. A exportação só é liberada depois que você aprovar

@@ -69,15 +69,26 @@ export function ReviewEditor({ sessao, extras }: Props) {
     return () => clearTimeout(t);
   }, [pendente, sincronizar]);
 
+  const temQuestaoVazia = estado.questoes.some((q) => !q.adaptado.trim());
+  const podeConfirmarDireto = estado.questoes.length > 0 && !temQuestaoVazia && !salvando && !estado.homologada;
+
   const homologarAgora = async () => {
-    if (!podeHomologar(estado) || !salvo) return;
+    if (!podeConfirmarDireto) return;
     setErro(null);
+    setSalvando(true);
     try {
-      const resp = await salvarRevisao(sessao.id, { homologar: true });
+      const questoesParaAprovar = estado.questoes.map((q) => ({ ...q, aprovada: true }));
+      const envio = diferencas(questoesParaAprovar, confirmado);
+      const resp = await salvarRevisao(sessao.id, {
+        ...(envio.length > 0 ? { questoes: envio } : {}),
+        homologar: true,
+      });
       setConfirmado(resp.questoes);
-      setEstado((e) => ({ ...e, homologada: resp.homologada }));
+      setEstado({ questoes: resp.questoes, homologada: resp.homologada });
     } catch (e) {
       setErro(e instanceof SessaoRevisaoError ? e.message : "Não foi possível confirmar a revisão.");
+    } finally {
+      setSalvando(false);
     }
   };
 
@@ -146,7 +157,7 @@ export function ReviewEditor({ sessao, extras }: Props) {
         <button
           type="button"
           onClick={homologarAgora}
-          disabled={!podeHomologar(estado) || !salvo || estado.homologada}
+          disabled={!podeConfirmarDireto}
           className="inline-flex min-h-[44px] items-center gap-1 rounded-md bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-60 dark:bg-slate-100 dark:text-slate-900"
         >
           <ShieldCheck className="h-4 w-4" aria-hidden />
