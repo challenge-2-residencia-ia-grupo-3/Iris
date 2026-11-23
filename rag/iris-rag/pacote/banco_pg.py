@@ -99,7 +99,8 @@ def colunas_prontas(con) -> list[str]:
 def buscar_denso(con, vetor, apelido: str, n: int, filtro: dict | None = None) -> list[tuple[str, float]]:
     """Os n trechos mais perto do vetor da pergunta. '<=>' é a distância cosseno do pgvector."""
     import numpy as np
-    where, params = [f"vec_{apelido} IS NOT NULL"], []
+    # n_palavras > 0: o trecho que é só o aviso de licença não entra na busca (ver consultar.buscavel)
+    where, params = [f"vec_{apelido} IS NOT NULL", "n_palavras > 0"], []
     if filtro and filtro.get("barreira"):
         where.append("%s = ANY(barreiras)")
         params.append(filtro["barreira"])
