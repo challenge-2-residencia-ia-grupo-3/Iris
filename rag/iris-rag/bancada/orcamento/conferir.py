@@ -45,7 +45,7 @@ AVISO_TEMPO = ("Com o modelo substituto, o tempo de modelo é quase zero (ele re
                "quando o pipeline rodar com modelo real. A projeção ao lado estima esse tempo a partir de "
                "medições já feitas pelo grupo.")
 ETAPAS_MODELO_GRUPO = ("extrator_curricular", "agente_adaptador")
-ETAPAS_MODELO_ARNES = ("diretiva_substituta_arnes",)
+ETAPAS_MODELO_ARNES = ("diretiva_substituta_arnes", "agente_estrategista", "agente_auditor")
 
 
 # ------------------------------------------------------------------ estatística simples
@@ -222,8 +222,16 @@ def conferir_material(run_id: str, linhas: list[dict], nivel: int, orc: dict, fa
     tok_grupo = soma(ETAPAS_MODELO_GRUPO, "tokens_entrada") + soma(ETAPAS_MODELO_GRUPO, "tokens_saida")
     tok_arnes = soma(ETAPAS_MODELO_ARNES, "tokens_entrada") + soma(ETAPAS_MODELO_ARNES, "tokens_saida")
     ciclos = [l for l in linhas if l["etapa"] == "ciclo_rnf07" and isinstance(l.get("saida"), dict)]
-    chamadas_grupo = sum(int(c["saida"].get("chamadas", 0)) for c in ciclos)
-    chamadas_arnes = sum(1 for l in linhas if l["etapa"] in ETAPAS_MODELO_ARNES and l["status"] == "ok")
+    chamadas_grupo = sum(
+        1 for l in linhas
+        if l["etapa"] in ETAPAS_MODELO_GRUPO and l["status"] == "ok" and (l.get("tokens_entrada") or 0) > 0
+    )
+    if not chamadas_grupo and not any(l["etapa"] in ("agente_estrategista", "agente_auditor") for l in linhas):
+        chamadas_grupo = sum(int(c["saida"].get("chamadas", 0)) for c in ciclos)
+    chamadas_arnes = sum(
+        1 for l in linhas
+        if l["etapa"] in ETAPAS_MODELO_ARNES and l["status"] == "ok" and (l.get("tokens_entrada") or 0) > 0
+    )
     chamadas = chamadas_grupo + chamadas_arnes
     por_q = {q: sum(1 for l in linhas if l.get("questao") == q and (l.get("tokens_entrada") or 0) > 0) for q in questoes}
     fator5 = padrao["max_questoes"] / nq if nq else 0.0
@@ -316,9 +324,17 @@ def projetar(grupo: Path, runs: dict[str, list[dict]], orc: dict, custo23: list,
     geracao = statistics.median(r["tokens_per_sec"] for r in adapt["registros"] if r.get("tokens_per_sec"))
 
     # fator tokens reais por "token" do eco (palavras): mesmo agente (Adaptador), prompts equivalentes
-    eco_ad_in = [l["tokens_entrada"] for ls in runs.values() for l in ls if l["etapa"] == "agente_adaptador" and l["status"] == "ok"]
-    fator_tok = statistics.median(ad_pt) / statistics.median(eco_ad_in) if eco_ad_in else 2.0
-    eco_dir_in = [l["tokens_entrada"] for ls in runs.values() for l in ls if l["etapa"] == "diretiva_substituta_arnes" and l["status"] == "ok"]
+    eco_ad_in = [
+        l["tokens_entrada"] for ls in runs.values() for l in ls
+        if l["etapa"] == "agente_adaptador" and l["status"] == "ok" and (l.get("tokens_entrada") or 0) > 0
+    ]
+    med_ad = statistics.median(eco_ad_in) if eco_ad_in else 0
+    fator_tok = statistics.median(ad_pt) / med_ad if med_ad > 0 else 2.0
+    eco_dir_in = [
+        l["tokens_entrada"] for ls in runs.values() for l in ls
+        if l["etapa"] in ("agente_estrategista", "diretiva_substituta_arnes")
+        and l["status"] == "ok" and (l.get("tokens_entrada") or 0) > 0
+    ]
     dir_in_real = (statistics.median(eco_dir_in) if eco_dir_in else 2200) * fator_tok
     dir_out = orc["limites_por_etapa"]["diretiva_substituta_arnes"]["tokens_saida_max"]
 

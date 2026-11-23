@@ -84,4 +84,4 @@ houver juiz validado, considerar `AgenteAuditor(juiz, intrusao_bloqueia=False)`.
 - `retencao_dados_intermediarios`, `sobrecarga_memoria_trabalho_comandos_multiplos` e `organizacao_sequencial`
   produzem adaptações parecidas ("dividir em etapas"); nenhum juiz as distingue de forma confiável.
 - TRCC não lematiza: flexões devem ser listadas como alternativas (`a|b`) na trava.
-- Ainda não integrado ao Agente Adaptador (#18): o ciclo recebe uma função `adaptar(feedback, minuta_anterior)`.
+- Integrado ao Agente Adaptador (#18) via `CicloComAuditor` no `MultiAgentOrchestrator`. Para a metodologia completa de avaliação dos 4 agentes, consulte [Como Auditamos os Agentes](auditoria_agentes.md).

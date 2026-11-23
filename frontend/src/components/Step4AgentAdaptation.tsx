@@ -77,6 +77,13 @@ export function Step4AgentAdaptation({
   ]);
   const [nivel, setNivel] = useState<ScaffoldingLevel>(2);
   const [travaManualTexto, setTravaManualTexto] = useState<string>("");
+  const [invariantesEtapa3, setInvariantesEtapa3] = useState<
+    ReturnType<typeof loadScaffoldingFromSession> extends infer T
+      ? T extends { invariantes_auditor?: infer I }
+        ? I | null
+        : null
+      : null
+  >(null);
   const [disciplina, setDisciplina] = useState<string>("");
   const [anoEscolar, setAnoEscolar] = useState<string>("");
   const [provider, setProvider] = useState<AgentProviderOption>("auto");
@@ -107,6 +114,16 @@ export function Step4AgentAdaptation({
     const scaffolding = loadScaffoldingFromSession();
     if (scaffolding && [1, 2, 3].includes(scaffolding.nivel)) {
       setNivel(scaffolding.nivel);
+      if (scaffolding.invariantes_auditor) {
+        setInvariantesEtapa3(scaffolding.invariantes_auditor);
+      }
+      const travasEtapa3 =
+        scaffolding.invariantes_auditor?.conceitos_obrigatorios ||
+        scaffolding.trava_curricular?.conceitos_obrigatorios ||
+        [];
+      if (travasEtapa3.length > 0) {
+        setTravaManualTexto(travasEtapa3.join("; "));
+      }
     }
 
     const savedStep4 = loadStep4ResultFromSession();
@@ -123,8 +140,9 @@ export function Step4AgentAdaptation({
     setErrorMsg(null);
     setIsRunning(true);
     try {
+      const separador = /[;\n]/.test(travaManualTexto) ? /[;\n]+/ : /[;\n,]+/;
       const travas = travaManualTexto
-        .split(/[;\n,]+/)
+        .split(separador)
         .map((s) => s.trim())
         .filter(Boolean);
 
@@ -136,6 +154,7 @@ export function Step4AgentAdaptation({
         disciplina: disciplina.trim() || undefined,
         ano_escolar: anoEscolar.trim() || undefined,
         trava_manual_docente: travas.length > 0 ? travas : undefined,
+        invariantes_etapa3: invariantesEtapa3 || undefined,
         provider,
         metodo_rag: "bm25",
         simular_autocorrecao: simularAutocorrecao,

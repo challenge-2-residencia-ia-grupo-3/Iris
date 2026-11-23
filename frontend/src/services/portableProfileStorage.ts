@@ -7,11 +7,15 @@
  */
 
 import {
+  EFICACIAS,
+  type EficaciaIntervencao,
   MAX_CARACTERISTICAS,
+  MAX_INTERVENCOES,
   PADRAO_CODIGO,
   PADRAO_ID_CARACTERISTICA,
   type PerfilPedagogicoPortatil,
   PerfilPortatilError,
+  type RegistroIntervencao,
 } from "./portableProfile";
 
 export const LOCAL_PROFILES_STORAGE_KEY = "iris_local_perfis_portateis_v1";
@@ -24,6 +28,7 @@ const ALLOWED_PROFILE_KEYS = new Set([
   "caracteristicas_selecionadas",
   "barreiras_observadas",
   "historico_estrategias",
+  "historico_intervencoes",
   "anotacoes_pedagogicas",
 ]);
 
@@ -51,6 +56,35 @@ function getLocalStorage(): Storage | null {
     return null;
   }
   return candidate;
+}
+
+/** Mantém só registros de intervenção bem formados; qualquer outra chave do registro é descartada. */
+function sanitizarIntervencoes(raw: unknown): RegistroIntervencao[] {
+  if (!Array.isArray(raw)) return [];
+  const out: RegistroIntervencao[] = [];
+  for (const item of raw.slice(0, MAX_INTERVENCOES)) {
+    if (!item || typeof item !== "object") continue;
+    const r = item as Record<string, unknown>;
+    if (
+      typeof r.estrategia !== "string" ||
+      r.estrategia.trim().length < 3 ||
+      typeof r.id_caracteristica !== "string" ||
+      !PADRAO_ID_CARACTERISTICA.test(r.id_caracteristica) ||
+      !EFICACIAS.includes(r.eficacia as EficaciaIntervencao) ||
+      typeof r.registrado_em !== "string" ||
+      Number.isNaN(Date.parse(r.registrado_em))
+    ) {
+      continue;
+    }
+    out.push({
+      estrategia: r.estrategia.trim(),
+      id_caracteristica: r.id_caracteristica,
+      eficacia: r.eficacia as EficaciaIntervencao,
+      observacao: typeof r.observacao === "string" && r.observacao.trim() ? r.observacao.trim() : null,
+      registrado_em: r.registrado_em,
+    });
+  }
+  return out;
 }
 
 /**
@@ -115,7 +149,7 @@ export function sanitizarPerfilParaLocalStorage(raw: unknown): PerfilPedagogicoP
     throw new PerfilPortatilError("Identificador de característica inválido no perfil.", "INVALID_CHARACTERISTIC_ID");
   }
 
-  return {
+  const perfil: PerfilPedagogicoPortatil = {
     versao_schema: "1.0",
     codigo_anonimo: record.codigo_anonimo,
     criado_em: record.criado_em,
@@ -124,6 +158,10 @@ export function sanitizarPerfilParaLocalStorage(raw: unknown): PerfilPedagogicoP
     historico_estrategias: Array.isArray(record.historico_estrategias) ? (record.historico_estrategias as []) : [],
     anotacoes_pedagogicas: Array.isArray(record.anotacoes_pedagogicas) ? (record.anotacoes_pedagogicas as []) : [],
   };
+  if ("historico_intervencoes" in record) {
+    perfil.historico_intervencoes = sanitizarIntervencoes(record.historico_intervencoes);
+  }
+  return perfil;
 }
 
 /**

@@ -1,0 +1,495 @@
+[
+  {
+    "id": "ENEM2024-D2-157",
+    "disciplina": "Matemática",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13MAT314",
+    "enunciado_original": "Uma piscina tem capacidade de 2 500 000 litros. Seu sistema de abastecimento foi regulado para ter uma vazão constante de 6 000 litros de água por minuto. O mesmo sistema foi instalado em uma segunda piscina, com capacidade de 2 750 000 litros, e regulado para ter uma vazão, também constante, capaz de enchê-la em um tempo 20% maior que o gasto para encher a primeira piscina. A vazão do sistema de abastecimento da segunda piscina, em litro por minuto, é",
+    "alternativas": [
+      {
+        "letra": "A",
+        "texto": "8 250."
+      },
+      {
+        "letra": "B",
+        "texto": "7 920."
+      },
+      {
+        "letra": "C",
+        "texto": "6 545."
+      },
+      {
+        "letra": "D",
+        "texto": "5 500."
+      },
+      {
+        "letra": "E",
+        "texto": "5 280."
+      }
+    ],
+    "conceitos_trava_curricular": [
+      "vazão",
+      "20%"
+    ],
+    "operacao_cognitiva": "aplicar",
+    "id_caracteristica_alvo": "fadiga_executiva_autorregulacao_provas_extensas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "referencia": "2º dia, Caderno 5 Amarelo, questão 157 (posição 22 de 45 em Matemática; 67 de 90 no dia; bloco final da prova)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2024-D2-160",
+    "disciplina": "Matemática",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13MAT203",
+    "enunciado_original": "Uma doceira vende e entrega, em seu bairro, porções de 100 g de docinhos de aniversário. Atualmente, a taxa única de entrega é R$ 10,00, e o valor cobrado por uma porção é R$ 25,00. Por uma estratégia de vendas, a partir da próxima semana, a taxa única de entrega será R$ 15,00, e um novo valor será cobrado por uma porção, de maneira que o valor total a ser pago por um cliente na compra de 5 porções permaneça o mesmo. A partir da próxima semana, qual será o novo valor cobrado, em real, por uma porção?",
+    "alternativas": [
+      {
+        "letra": "A",
+        "texto": "12,50"
+      },
+      {
+        "letra": "B",
+        "texto": "20,00"
+      },
+      {
+        "letra": "C",
+        "texto": "24,00"
+      },
+      {
+        "letra": "D",
+        "texto": "30,00"
+      },
+      {
+        "letra": "E",
+        "texto": "37,50"
+      }
+    ],
+    "conceitos_trava_curricular": [
+      "taxa única de entrega",
+      "5 porções"
+    ],
+    "operacao_cognitiva": "aplicar",
+    "id_caracteristica_alvo": "fadiga_executiva_autorregulacao_provas_extensas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "referencia": "2º dia, Caderno 5 Amarelo, questão 160 (posição 25 de 45 em Matemática; 70 de 90 no dia; bloco final da prova)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2024-D2-164",
+    "disciplina": "Matemática",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13MAT316",
+    "enunciado_original": "Ao calcular a média de suas notas em 4 provas, um estudante dividiu, por engano, a soma das notas por 5. Com isso, a média obtida foi 1 unidade menor do que deveria ser, caso fosse calculada corretamente. O valor correto da média das notas desse estudante é",
+    "alternativas": [
+      {
+        "letra": "A",
+        "texto": "4."
+      },
+      {
+        "letra": "B",
+        "texto": "5."
+      },
+      {
+        "letra": "C",
+        "texto": "6."
+      },
+      {
+        "letra": "D",
+        "texto": "19."
+      },
+      {
+        "letra": "E",
+        "texto": "21."
+      }
+    ],
+    "conceitos_trava_curricular": [
+      "média",
+      "4 provas"
+    ],
+    "operacao_cognitiva": "analisar",
+    "id_caracteristica_alvo": "fadiga_executiva_autorregulacao_provas_extensas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "referencia": "2º dia, Caderno 5 Amarelo, questão 164 (posição 29 de 45 em Matemática; 74 de 90 no dia; bloco final da prova)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2024-D2-167",
+    "disciplina": "Matemática",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13MAT101",
+    "enunciado_original": "João e Felipe participaram, na escola, de uma maratona de matemática na qual, durante uma semana, resolveram 200 questões cada. Nessa maratona, a porcentagem P de acertos de cada participante é convertida em um conceito: • insatisfatório: se 0 ≤ P < 50; • regular: se 50 ≤ P < 60; • bom: se 60 ≤ P < 75; • muito bom: se 75 ≤ P < 90; • excelente: se 90 ≤ P ≤ 100. João acertou 75% das questões da maratona e Felipe acertou 30% a menos que a quantidade de questões que João acertou. Os conceitos de João e Felipe foram, respectivamente,",
+    "alternativas": [
+      {
+        "letra": "A",
+        "texto": "muito bom e bom."
+      },
+      {
+        "letra": "B",
+        "texto": "muito bom e regular."
+      },
+      {
+        "letra": "C",
+        "texto": "muito bom e insatisfatório."
+      },
+      {
+        "letra": "D",
+        "texto": "bom e regular."
+      },
+      {
+        "letra": "E",
+        "texto": "bom e insatisfatório."
+      }
+    ],
+    "conceitos_trava_curricular": [
+      "75%",
+      "30% a menos"
+    ],
+    "operacao_cognitiva": "aplicar",
+    "id_caracteristica_alvo": "fadiga_executiva_autorregulacao_provas_extensas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "referencia": "2º dia, Caderno 5 Amarelo, questão 167 (posição 32 de 45 em Matemática; 77 de 90 no dia; bloco final da prova)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2024-D2-170",
+    "disciplina": "Matemática",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13MAT203",
+    "enunciado_original": "Uma casa de shows terá um evento cujo custo total de produção é de R$ 34 350,00, sendo que comporta 500 pessoas. O preço do ingresso será de R$ 130,00 e, normalmente, 60% das pessoas adquirem meia-entrada, pagando R$ 65,00 pelo ingresso. Além do faturamento proveniente da venda de ingressos, a casa de shows vende, com 60% de lucro, bebidas e petiscos ao público no dia do evento. Após ter vendido todos os 500 ingressos, constatou-se que a quantidade de meias-entradas vendidas superou em 50% o que estava previsto, impactando o faturamento estimado com a venda de ingressos. No dia do evento, decidiu-se manter o percentual de 60% de lucro sobre as bebidas e petiscos, pois todo o público que comprou ingresso compareceu ao show. Com isso, espera-se ter lucro de R$ 17 000,00 nesse evento. Para que se alcance o lucro esperado, o gasto médio por pessoa com bebidas e petiscos, em real, deverá ser de",
+    "alternativas": [
+      {
+        "letra": "A",
+        "texto": "19,50."
+      },
+      {
+        "letra": "B",
+        "texto": "28,80."
+      },
+      {
+        "letra": "C",
+        "texto": "34,00."
+      },
+      {
+        "letra": "D",
+        "texto": "52,00."
+      },
+      {
+        "letra": "E",
+        "texto": "68,70."
+      }
+    ],
+    "conceitos_trava_curricular": [
+      "60%",
+      "meia-entrada"
+    ],
+    "operacao_cognitiva": "analisar",
+    "id_caracteristica_alvo": "fadiga_executiva_autorregulacao_provas_extensas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "referencia": "2º dia, Caderno 5 Amarelo, questão 170 (posição 35 de 45 em Matemática; 80 de 90 no dia; bloco final da prova)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2024-D2-172",
+    "disciplina": "Matemática",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13MAT307",
+    "enunciado_original": "O estádio do Maracanã passou por algumas modificações estruturais para a realização da Copa do Mundo de 2014, como, por exemplo, as dimensões do campo retangular. Para se adaptar aos padrões da Fifa, as dimensões do campo foram reduzidas de 110 m × 75 m para 105 m × 68 m. Disponível em: http://virgula.uol.com.br. Acesso em: 14 ago. 2013 (adaptado). Em quantos metros quadrados a área do campo do Maracanã foi reduzida?",
+    "alternativas": [
+      {
+        "letra": "A",
+        "texto": "24"
+      },
+      {
+        "letra": "B",
+        "texto": "35"
+      },
+      {
+        "letra": "C",
+        "texto": "555"
+      },
+      {
+        "letra": "D",
+        "texto": "1 110"
+      },
+      {
+        "letra": "E",
+        "texto": "1 145"
+      }
+    ],
+    "conceitos_trava_curricular": [
+      "110 m",
+      "68 m"
+    ],
+    "operacao_cognitiva": "aplicar",
+    "id_caracteristica_alvo": "fadiga_executiva_autorregulacao_provas_extensas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "referencia": "2º dia, Caderno 5 Amarelo, questão 172 (posição 37 de 45 em Matemática; 82 de 90 no dia; bloco final da prova)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2024-D2-176",
+    "disciplina": "Matemática",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13MAT101",
+    "enunciado_original": "Um instituto de pesquisa constatou que, nos últimos dez anos, o crescimento populacional de uma cidade foi de 135,25%. Qual é a representação decimal da taxa percentual desse crescimento populacional?",
+    "alternativas": [
+      {
+        "letra": "A",
+        "texto": "13 525,0"
+      },
+      {
+        "letra": "B",
+        "texto": "135,25"
+      },
+      {
+        "letra": "C",
+        "texto": "13,525"
+      },
+      {
+        "letra": "D",
+        "texto": "1,3525"
+      },
+      {
+        "letra": "E",
+        "texto": "0,13525"
+      }
+    ],
+    "conceitos_trava_curricular": [
+      "135,25%",
+      "representação decimal"
+    ],
+    "operacao_cognitiva": "compreender",
+    "id_caracteristica_alvo": "fadiga_executiva_autorregulacao_provas_extensas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "referencia": "2º dia, Caderno 5 Amarelo, questão 176 (posição 41 de 45 em Matemática; 86 de 90 no dia; bloco final da prova)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2024-D2-177",
+    "disciplina": "Matemática",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13MAT302",
+    "enunciado_original": "Um fazendeiro pretende construir um galinheiro ocupando uma região plana de formato retangular, com lados de comprimentos L metro e C metro. Os lados serão cercados por telas de tipos diferentes. Nos lados de comprimento L metro, será utilizada uma tela cujo metro linear custa R$ 20,00, enquanto, nos outros dois lados, uma que custa R$ 15,00. O fazendeiro quer gastar, no máximo, R$ 6 000,00 na compra de toda a tela necessária para o galinheiro, e deseja que o galinheiro tenha a maior área possível. Qual será a medida, em metro, do maior lado do galinheiro?",
+    "alternativas": [
+      {
+        "letra": "A",
+        "texto": "85"
+      },
+      {
+        "letra": "B",
+        "texto": "100"
+      },
+      {
+        "letra": "C",
+        "texto": "175"
+      },
+      {
+        "letra": "D",
+        "texto": "200"
+      },
+      {
+        "letra": "E",
+        "texto": "350"
+      }
+    ],
+    "conceitos_trava_curricular": [
+      "maior área possível",
+      "R$ 6 000,00"
+    ],
+    "operacao_cognitiva": "analisar",
+    "id_caracteristica_alvo": "fadiga_executiva_autorregulacao_provas_extensas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "referencia": "2º dia, Caderno 5 Amarelo, questão 177 (posição 42 de 45 em Matemática; 87 de 90 no dia; bloco final da prova)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2023-D1-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "Com base nos conhecimentos construídos ao longo de sua formação, redija texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema “Desafios para o enfrentamento da invisibilidade do trabalho de cuidado realizado pela mulher no Brasil”, apresentando proposta de intervenção que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para a defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "proposta de intervenção",
+      "invisibilidade do trabalho de cuidado"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENEM 2023",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2023_PV_impresso_D1_CD1.pdf",
+      "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos; a oração inicial \"A partir da leitura dos textos motivadores e\" foi cortada do enunciado porque eles não estão no item)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2024-D1-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "Com base nos conhecimentos construídos ao longo de sua formação, redija texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema “Desafios para a valorização da herança africana no Brasil”, apresentando proposta de intervenção que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "proposta de intervenção",
+      "herança africana"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENEM 2024",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D1_CD1.pdf",
+      "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos; a oração inicial \"A partir da leitura dos textos motivadores e\" foi cortada do enunciado porque eles não estão no item)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2025-D1-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "Com base nos conhecimentos construídos ao longo de sua formação, redija um texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema “Perspectivas acerca do envelhecimento na sociedade brasileira”, apresentando proposta de intervenção que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para a defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "proposta de intervenção",
+      "envelhecimento"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENEM 2025",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2025_PV_impresso_D1_CD1.pdf",
+      "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos; a oração inicial \"A partir da leitura dos textos motivadores e\" foi cortada do enunciado porque eles não estão no item)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2021-D1-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "Com base nos conhecimentos construídos ao longo de sua formação, redija texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema “Invisibilidade e registro civil: garantia de acesso à cidadania no Brasil”, apresentando proposta de intervenção que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para a defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "proposta de intervenção",
+      "registro civil"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENEM 2021",
+      "url": "https://download.inep.gov.br/enem/provas_e_gabaritos/2021_PV_impresso_D1_CD1.pdf",
+      "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos; a oração inicial \"A partir da leitura dos textos motivadores e\" foi cortada do enunciado porque eles não estão no item)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENEM2018-D1-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "Com base nos conhecimentos construídos ao longo de sua formação, redija um texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema “Manipulação do comportamento do usuário pelo controle de dados na internet”, apresentando proposta de intervenção que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "proposta de intervenção",
+      "controle de dados"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENEM 2018",
+      "url": "https://download.inep.gov.br/educacao_basica/enem/provas/2018/2018_PV_impresso_D1_CD1.pdf",
+      "referencia": "1º dia, Caderno 1 Azul, proposta de redação (apenas o comando da proposta; textos motivadores omitidos; a oração inicial \"A partir da leitura dos textos motivadores e\" foi cortada do enunciado porque eles não estão no item)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "OBMEP2025-N2F2-Q4",
+    "disciplina": "Matemática",
+    "ano_escolar": "9º ano EF",
+    "habilidade_bncc": "EF06MA05",
+    "enunciado_original": "Um número de quatro algarismos é chamado dourado se: seus algarismos são todos diferentes; não possui o algarismo zero; o algarismo dos milhares é menor do que o algarismo das unidades; o número formado pelos algarismos das centenas e das dezenas é o produto do algarismo das unidades com o algarismo dos milhares. Por exemplo, 3248 é um número dourado. Explique por que o algarismo das unidades de um número dourado não pode ser 5. Encontre todos os números dourados nos quais aparece o algarismo 5.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "número dourado",
+      "algarismo das unidades"
+    ],
+    "operacao_cognitiva": "analisar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "OBMEP 2025",
+      "url": "https://www.obmep.org.br/provas-2025.htm",
+      "referencia": "Nível 2, 2ª fase, questão 4, itens c) e d) (itens a) e b), de preencher lacunas, omitidos)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENCCEJA2020-PPL-EF-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "9º ano EF",
+    "habilidade_bncc": "EF89LP15",
+    "enunciado_original": "Com base nos conhecimentos construídos ao longo de sua formação, redija um texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema A importância do saneamento básico para a população brasileira. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "saneamento básico"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENCCEJA 2020 (PPL/Reaplicação)",
+      "url": "https://download.inep.gov.br/encceja/provas_e_gabaritos/2020_PV_reaplicacao_PPL_EF_lingua_portuguesa.pdf",
+      "referencia": "Ensino Fundamental, Prova III - Tarde, proposta de redação (apenas o comando; textos motivadores omitidos; a oração inicial \"A partir da leitura dos textos motivadores e\" foi cortada do enunciado porque eles não estão no item)"
+    },
+    "status": "rascunho"
+  },
+  {
+    "id": "ENCCEJA2020-PPL-EM-RED",
+    "disciplina": "Língua Portuguesa",
+    "ano_escolar": "3ª série EM",
+    "habilidade_bncc": "EM13LP15",
+    "enunciado_original": "Com base nos conhecimentos construídos ao longo de sua formação, redija um texto dissertativo-argumentativo em modalidade escrita formal da língua portuguesa sobre o tema Formas de enfrentar a baixa escolaridade de brasileiros, apresentando proposta de intervenção, que respeite os direitos humanos. Selecione, organize e relacione, de forma coerente e coesa, argumentos e fatos para defesa de seu ponto de vista.",
+    "alternativas": null,
+    "conceitos_trava_curricular": [
+      "texto dissertativo-argumentativo",
+      "baixa escolaridade"
+    ],
+    "operacao_cognitiva": "criar",
+    "id_caracteristica_alvo": "bloqueio_iniciacao_tarefas_abertas",
+    "fonte": {
+      "origem": "ENCCEJA 2020 (PPL/Reaplicação)",
+      "url": "https://download.inep.gov.br/encceja/provas_e_gabaritos/2020_PV_reaplicacao_PPL_EM_linguagens.pdf",
+      "referencia": "Ensino Médio, Linguagens, Códigos e suas Tecnologias e Redação, proposta de redação (apenas o comando; textos motivadores omitidos; a oração inicial \"A partir da leitura dos textos motivadores e\" foi cortada do enunciado porque eles não estão no item)"
+    },
+    "status": "rascunho"
+  }
+]

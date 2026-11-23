@@ -24,6 +24,17 @@ comentário):
 A pessoa vê a pergunta, a frase e os trechos que a frase cita, nunca o voto dos juízes. Cada clique acrescenta uma
 linha em ``rag/iris-rag/bancada/calibracao/rotulos-humanos-grupo.jsonl``; nenhum script reescreve esse arquivo
 (regra 14). A concordância só aparece a partir de ``MINIMO_PARA_CONCORDANCIA`` frases avaliadas.
+
+Em qualquer máquina (issue #108): o texto que os juízes leram fica fora do git por licença. Quando a base local não é
+a julgada e não há cópia dela, a tela usa a base local trecho a trecho, só onde o texto é idêntico ao julgado: a
+prova é a impressão digital (sha256) de cada trecho julgado, versionada em ``trechos_julgados_sha256.json``, sem texto.
+Medido em 18/11/2026: os 68 trechos citados pelas 86 frases da amostra têm o mesmo texto na base de 1.881 trechos.
+
+Adaptações (issue #108, parte 2b): 50 adaptações de questões sorteadas por estrato em
+``rag/iris-rag/bancada/calibracao/amostra_adaptacoes_v1.json`` (Haiku no esforço baixo e Llama; veredito do Codex de
+16/11). A pessoa vê a questão original, o que a adaptação pode e não pode fazer e a adaptação, e responde as mesmas três
+perguntas que o juiz respondeu; nunca vê quem escreveu nem o veredito. Respostas em ``rotulos-humanos-adaptacoes.jsonl``,
+que também só cresce.
 """
 
 from __future__ import annotations
@@ -32,6 +43,7 @@ import importlib.util
 import json
 import random
 import re
+import hashlib
 from collections import Counter
 from datetime import datetime
 from functools import lru_cache
@@ -49,8 +61,13 @@ CHUNKS = PACOTE / "chunks.jsonl"
 # chunks_julgados.jsonl, fora do git (leva texto sem licença aberta), copiado sozinho enquanto a base ainda é a julgada.
 BASE_JULGADA = PACOTE / "chunks_julgados.jsonl"
 HASH_BASE_JULGADA = "cfc1481f449ef361"
+# Impressão digital (sha256, 16 primeiros caracteres) do texto de cada trecho que os juízes leram: sem o texto, pode ir
+# para o git. Serve para usar a base local trecho a trecho quando ela não é a julgada (issue #108).
+IMPRESSOES = PACOTE / "trechos_julgados_sha256.json"
 PERGUNTAS = RAG_BASE_DIR / "gabarito" / "gabarito_rascunho_v0.json"
 ROTULOS = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-grupo.jsonl"
+AMOSTRA_ADAPTACOES = RAG_BASE_DIR / "bancada" / "calibracao" / "amostra_adaptacoes_v1.json"
+ROTULOS_ADAPTACOES = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-adaptacoes.jsonl"
 
 SEMENTE = 20261116
 N_SORTEIO_UNANIMES = 40
@@ -84,9 +101,21 @@ def _divisor():
 
 
 def _hash(caminho: Path) -> str:
-    import hashlib
-
     return hashlib.sha256(caminho.read_bytes()).hexdigest()[:16]
+
+
+def impressao(texto: str) -> str:
+    """Impressão digital do texto de um trecho: igual se, e só se, o texto for igual (sha256, 16 caracteres)."""
+    return hashlib.sha256((texto or "").encode("utf-8")).hexdigest()[:16]
+
+
+def _ler_trechos(caminho: Path) -> dict[str, dict[str, str]]:
+    textos: dict[str, dict[str, str]] = {}
+    for linha in caminho.read_text(encoding="utf-8").splitlines():
+        if linha.strip():
+            c = json.loads(linha)
+            textos[c["chunk_id"]] = {"texto": c.get("texto", ""), "doc": c.get("doc_id", ""), "aviso": c.get("nota_uso") or ""}
+    return textos
 
 
 def arquivo_de_trechos() -> Path:
@@ -109,16 +138,58 @@ def arquivo_de_trechos() -> Path:
     )
 
 
+TEXTO_MUDOU = (
+    "O texto deste trecho na sua base não é o que os juízes leram, então não é mostrado. Se a frase depender dele, "
+    "avalie pelo que os outros trechos mostram ou passe para a próxima."
+)
+
+
+def textos_julgados() -> dict[str, dict[str, str]]:
+    """O texto de cada trecho como os juízes leram, por chunk_id.
+
+    1. Cópia guardada da base julgada, ou a própria base local se ela for a julgada (``arquivo_de_trechos``).
+    2. Senão, a base local trecho a trecho: entra o trecho cuja impressão digital é igual à do julgado; o que mudou
+       ou sumiu entra sem texto e com aviso, para a pessoa nunca avaliar um texto diferente do que o juiz viu.
+    """
+    try:
+        return _ler_trechos(arquivo_de_trechos())
+    except RuntimeError as sem_copia:
+        if not (IMPRESSOES.exists() and CHUNKS.exists()):
+            raise sem_copia
+    esperadas: dict[str, str] = json.loads(IMPRESSOES.read_text(encoding="utf-8"))["trechos"]
+    locais = _ler_trechos(CHUNKS)
+    saida: dict[str, dict[str, str]] = {}
+    for cid, imp in esperadas.items():
+        t = locais.get(cid)
+        if t is not None and impressao(t["texto"]) == imp:
+            saida[cid] = t
+        else:
+            saida[cid] = {"texto": "", "doc": (t or {}).get("doc", ""), "aviso": TEXTO_MUDOU, "mudou": "sim"}
+    return saida
+
+
+def gravar_impressoes(base_julgada: Path, destino: Path = IMPRESSOES) -> int:
+    """Grava a impressão digital dos trechos citados pelas respostas medidas (rodar uma vez, com a base julgada)."""
+    if _hash(base_julgada) != HASH_BASE_JULGADA:
+        raise ValueError(f"{base_julgada} não é a base julgada (sha256 {HASH_BASE_JULGADA}...)")
+    medidas = json.loads(MEDIDAS.read_text(encoding="utf-8"))["geradores"]
+    citados = {cid for g in GERADORES for r in medidas[g].values() for cid in (r.get("fontes") or []) if cid}
+    textos = _ler_trechos(base_julgada)
+    trechos = {cid: impressao(textos[cid]["texto"]) for cid in sorted(citados) if cid in textos}
+    destino.write_text(json.dumps({
+        "base_julgada_sha256": HASH_BASE_JULGADA,
+        "o_que_e": "sha256 (16 caracteres) do texto de cada trecho que os juízes leram; sem o texto, que tem licença restrita",
+        "trechos": trechos,
+    }, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return len(trechos)
+
+
 @lru_cache(maxsize=1)
 def _dados() -> dict[str, Any]:
     medidas = json.loads(MEDIDAS.read_text(encoding="utf-8"))["geradores"]
     vereditos = json.loads(VEREDITOS.read_text(encoding="utf-8"))
     perguntas = {i["id"]: i["pergunta"] for i in json.loads(PERGUNTAS.read_text(encoding="utf-8"))["itens"]}
-    textos: dict[str, dict[str, str]] = {}
-    for linha in arquivo_de_trechos().read_text(encoding="utf-8").splitlines():
-        if linha.strip():
-            c = json.loads(linha)
-            textos[c["chunk_id"]] = {"texto": c.get("texto", ""), "doc": c.get("doc_id", ""), "aviso": c.get("nota_uso") or ""}
+    textos = textos_julgados()
     dividir = _divisor()
     frases: dict[str, dict[str, Any]] = {}
     for g in GERADORES:
@@ -214,11 +285,11 @@ def proxima(avaliador: str) -> dict[str, Any]:
     """A próxima frase da amostra que esta pessoa ainda não avaliou, SEM o voto dos juízes."""
     if not RE_AVALIADOR.match(avaliador or ""):
         raise ValueError("código de avaliador: de 1 a 40 letras, números, ponto, hífen ou sublinhado (ex.: prof-A)")
-    a = amostra()
+    fila = fila_avaliavel()
     feitos = {u for (p, u) in _ultimo_por_pessoa(_ler_rotulos()) if p == avaliador}
-    feitos_na_amostra = sum(1 for u in a["uids"] if u in feitos)
-    base = {"avaliador": avaliador, "feitas": feitos_na_amostra, "total": len(a["uids"]), "opcoes": ROTULOS_VALIDOS}
-    for uid in a["uids"]:
+    feitos_na_amostra = sum(1 for u in fila if u in feitos)
+    base = {"avaliador": avaliador, "feitas": feitos_na_amostra, "total": len(fila), "opcoes": ROTULOS_VALIDOS}
+    for uid in fila:
         if uid not in feitos:
             f = _dados()["frases"][uid]
             return {**base, "acabou": False, "uid": uid, "pergunta": _dados()["perguntas"].get(f["qid"], ""),
@@ -268,6 +339,8 @@ def resumo() -> dict[str, Any]:
     saida: dict[str, Any] = {
         "avaliadas": n, "pessoas": len({p for p, _ in rotulos}), "total_amostra": len(a["uids"]),
         "minimo": MINIMO_PARA_CONCORDANCIA, "estratos": a["estratos"],
+        "fora_da_fila": {"frases": len(a["uids"]) - len(fila_avaliavel()),
+                         "motivo": "todos os trechos citados chegam sem texto (licença restrita); os juízes leram o texto completo"},
         "classes_da_pessoa": dict(Counter(r for r in rotulos.values())),
     }
     if n < MINIMO_PARA_CONCORDANCIA:
@@ -287,4 +360,147 @@ def resumo() -> dict[str, Any]:
                        "ambos_nao": sum(1 for x, y in pares if x == 0 and y == 0)},
         }
     saida["juizes"] = juizes
+    return saida
+
+
+# ------------------------------------------------------------------ frases que a pessoa não tem como avaliar
+AVISO_LICENCA = "(texto não reproduzido por restrição de licença"
+
+
+def avaliavel(uid: str) -> bool:
+    """Falso quando todos os trechos que a frase cita chegam à tela sem texto (licença restrita ou texto mudado).
+
+    Os juízes leram o texto completo desses documentos (em ``respostas_passagens_v2.json`` a prova deles aparece como
+    ``restrita``); uma pessoa que só vê o aviso de licença discordaria do juiz por falta do que ler, não por discordar.
+    """
+    cits = _citacoes(_dados()["frases"][uid])
+    return any(c["texto"] and not c["texto"].startswith(AVISO_LICENCA) for c in cits)
+
+
+@lru_cache(maxsize=1)
+def fila_avaliavel() -> tuple[str, ...]:
+    return tuple(u for u in amostra()["uids"] if avaliavel(u))
+
+
+# ------------------------------------------------------------------ adaptações (issue #108, parte 2b)
+PERGUNTAS_ADAPTACAO = {
+    "aplicou": "A adaptação faz ao menos uma das coisas que ela PODE fazer?",
+    "fora": "A adaptação acrescenta algo que ela NÃO pode (dica de conteúdo, exemplo, explicação, fórmula, resposta, "
+            "vocabulário simplificado)? Negrito, numeração, caixas e linhas de resposta não contam como acréscimo.",
+    "conteudo": "O que a questão pede ao aluno e os dados dela continuam os mesmos do original (nada retirado, nada trocado)?",
+}
+ESCONDIDO_DA_PESSOA = ("escritor", "juiz", "juiz_boa", "estrato", "peso", "chave")
+
+
+def boa_adaptacao(r: dict[str, Any]) -> bool:
+    """A mesma regra do juiz: aplicou, nada fora e conteúdo igual."""
+    return bool(r.get("aplicou")) and not r.get("fora") and bool(r.get("conteudo"))
+
+
+@lru_cache(maxsize=1)
+def adaptacoes() -> dict[str, dict[str, Any]]:
+    dados = json.loads(AMOSTRA_ADAPTACOES.read_text(encoding="utf-8"))
+    return {i["uid"]: i for i in dados["itens"]}
+
+
+def _ler_rotulos_adaptacoes() -> list[dict[str, Any]]:
+    if not ROTULOS_ADAPTACOES.exists():
+        return []
+    saida = []
+    for linha in ROTULOS_ADAPTACOES.read_text(encoding="utf-8").splitlines():
+        if linha.strip():
+            try:
+                saida.append(json.loads(linha))
+            except json.JSONDecodeError:
+                continue
+    return saida
+
+
+def _ultima_adaptacao_por_pessoa() -> dict[tuple[str, str], dict[str, bool]]:
+    out: dict[tuple[str, str], dict[str, bool]] = {}
+    for r in _ler_rotulos_adaptacoes():
+        out[(r["avaliador"], r["uid"])] = r["respostas"]
+    return out
+
+
+def proxima_adaptacao(avaliador: str) -> dict[str, Any]:
+    """A próxima adaptação que esta pessoa ainda não avaliou, sem quem escreveu e sem o veredito do juiz."""
+    if not RE_AVALIADOR.match(avaliador or ""):
+        raise ValueError("código de avaliador: de 1 a 40 letras, números, ponto, hífen ou sublinhado (ex.: prof-A)")
+    itens = adaptacoes()
+    feitos = {u for (p, u) in _ultima_adaptacao_por_pessoa() if p == avaliador}
+    base = {"avaliador": avaliador, "feitas": sum(1 for u in itens if u in feitos), "total": len(itens),
+            "perguntas": PERGUNTAS_ADAPTACAO}
+    for uid, item in itens.items():
+        if uid not in feitos:
+            visivel = {k: v for k, v in item.items() if k not in ESCONDIDO_DA_PESSOA}
+            return {**base, "acabou": False, **visivel}
+    return {**base, "acabou": True}
+
+
+def registrar_adaptacao(uid: str, respostas: dict[str, Any], avaliador: str, motivo: str = "") -> dict[str, Any]:
+    """Acrescenta as três respostas da pessoa no fim do arquivo (nunca reescreve as linhas anteriores)."""
+    if not RE_AVALIADOR.match(avaliador or ""):
+        raise ValueError("código de avaliador inválido")
+    if uid not in adaptacoes():
+        raise KeyError(f"adaptação {uid!r} não está na amostra")
+    if not isinstance(respostas, dict) or set(respostas) != set(PERGUNTAS_ADAPTACAO):
+        raise ValueError(f"responda as três perguntas: {sorted(PERGUNTAS_ADAPTACAO)}")
+    valores = {}
+    for k, v in respostas.items():
+        if v not in ("sim", "nao"):
+            raise ValueError(f"resposta de {k!r} deve ser 'sim' ou 'nao'")
+        valores[k] = v == "sim"
+    ROTULOS_ADAPTACOES.parent.mkdir(parents=True, exist_ok=True)
+    linha = {"uid": uid, "respostas": valores, "motivo": (motivo or "").strip()[:500], "avaliador": avaliador,
+             "data": datetime.now().astimezone().isoformat(timespec="seconds")}
+    with ROTULOS_ADAPTACOES.open("a", encoding="utf-8") as arq:
+        arq.write(json.dumps(linha, ensure_ascii=False) + "\n")
+    return proxima_adaptacao(avaliador)
+
+
+def resumo_adaptacoes() -> dict[str, Any]:
+    """Concordância do juiz com as pessoas: na adaptação boa ou não, e em cada uma das três perguntas."""
+    itens = adaptacoes()
+    rot = _ultima_adaptacao_por_pessoa()
+    por_item: dict[str, list[dict[str, bool]]] = {}
+    for (_, uid), r in rot.items():
+        if uid in itens:
+            por_item.setdefault(uid, []).append(r)
+    # várias pessoas no mesmo item: maioria; empate vai para o lado rígido (não boa, não aplicou, fora, conteúdo mudou)
+    def maioria(vs: list[bool], rigido: bool) -> bool:
+        s = sum(vs)
+        return rigido if s * 2 == len(vs) else s * 2 > len(vs)
+
+    pessoa = {}
+    for uid, rs in por_item.items():
+        pessoa[uid] = {
+            "aplicou": maioria([r["aplicou"] for r in rs], False),
+            "fora": maioria([r["fora"] for r in rs], True),
+            "conteudo": maioria([r["conteudo"] for r in rs], False),
+            "boa": maioria([boa_adaptacao(r) for r in rs], False),
+        }
+    n = len(pessoa)
+    saida: dict[str, Any] = {
+        "avaliadas": n, "pessoas": len({p for p, _ in rot}), "total_amostra": len(itens),
+        "minimo": MINIMO_PARA_CONCORDANCIA,
+        "duas_pessoas_ou_mais": sum(1 for rs in por_item.values() if len(rs) >= 2),
+    }
+    if n < MINIMO_PARA_CONCORDANCIA:
+        saida["faltam"] = MINIMO_PARA_CONCORDANCIA - n
+        return saida
+    medidas = {}
+    for campo in ("boa", "aplicou", "fora", "conteudo"):
+        pares = []
+        for uid, p in pessoa.items():
+            juiz = itens[uid]["juiz_boa"] if campo == "boa" else itens[uid]["juiz"][campo]
+            pares.append((int(p[campo]), int(juiz)))
+        medidas[campo] = {
+            "itens": len(pares), "iguais": sum(a == b for a, b in pares), "kappa": _kappa(pares),
+            "matriz": {"ambos_sim": sum(1 for a, b in pares if a and b), "so_pessoa_sim": sum(1 for a, b in pares if a and not b),
+                       "so_juiz_sim": sum(1 for a, b in pares if b and not a), "ambos_nao": sum(1 for a, b in pares if not a and not b)},
+        }
+    saida["medidas"] = medidas
+    saida["erro_caro"] = {"pessoa_reprovou": sum(1 for p in pessoa.values() if not p["boa"]),
+                          "juiz_aprovou": sum(1 for u, p in pessoa.items() if not p["boa"] and itens[u]["juiz_boa"])}
     return saida
