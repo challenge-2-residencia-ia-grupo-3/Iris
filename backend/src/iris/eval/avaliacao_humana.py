@@ -37,7 +37,7 @@ perguntas que o juiz respondeu; nunca vê quem escreveu nem o veredito. Resposta
 que também só cresce.
 
 Banco de exemplos (issues #108 e #133): 168 adaptações-exemplo do nível 2, escritas por modelo e aprovadas por regra,
-em ``rag/iris-rag/bancada/calibracao/banco_exemplos_v2.json``. A pessoa responde as três perguntas das adaptações e uma
+em ``rag/iris-rag/bancada/calibracao/banco_exemplos_v3.json``. A pessoa responde as três perguntas das adaptações e uma
 quarta, se serve de modelo; não vê quem escreveu. Respostas em ``rotulos-humanos-exemplos.jsonl``, que só cresce. Um
 exemplo vira "ouro" quando duas pessoas o aprovam (as três perguntas certas e "serve de modelo") e nenhuma o reprova.
 """
@@ -73,7 +73,7 @@ PERGUNTAS = RAG_BASE_DIR / "gabarito" / "gabarito_rascunho_v0.json"
 ROTULOS = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-grupo.jsonl"
 AMOSTRA_ADAPTACOES = RAG_BASE_DIR / "bancada" / "calibracao" / "amostra_adaptacoes_v1.json"
 ROTULOS_ADAPTACOES = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-adaptacoes.jsonl"
-BANCO_EXEMPLOS = RAG_BASE_DIR / "bancada" / "calibracao" / "banco_exemplos_v2.json"
+BANCO_EXEMPLOS = RAG_BASE_DIR / "bancada" / "calibracao" / "banco_exemplos_v3.json"
 ROTULOS_EXEMPLOS = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-exemplos.jsonl"
 APROVACOES_PARA_OURO = 2
 

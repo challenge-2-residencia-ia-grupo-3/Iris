@@ -5,6 +5,7 @@ Nenhum teste escreve no arquivo de respostas de verdade: o caminho é trocado po
 from __future__ import annotations
 
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -106,3 +107,32 @@ class TestRotasETela(ComArquivoTemporario):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# Um exemplo ensina o Adaptador pelo que mostra: o que estiver nele aparece nas adaptações. Duas coisas que o banco
+# anterior mostrava nos exemplos de ritmo e que não podem ir para a prova do aluno ficam fixadas aqui.
+RECADO_AO_DOCENTE = re.compile(
+    r"(?im)^[ \t>*_-]*(recomenda[çc][ãa]o|orienta[çc][ãa]o|nota|observa[çc][ãa]o|aviso|sugest[ãa]o)\s+"
+    r"(pedag[óo]gica\s+)?(ao|à|a|para\s+o|para\s+a)\s+(docente|professora?|aplicadora?|mediadora?)\b")
+LINHA_NUMERADA = r"(?m)^[ \t>*_]*{n}[.)][ \t*_]+\S"
+
+
+class BancoSemDefeitoConhecido(unittest.TestCase):
+    def test_nenhum_exemplo_traz_recado_ao_docente_dentro_da_questao(self) -> None:
+        # a resposta do Adaptador tem um campo só e a exportação não altera o corpo: o recado sairia na prova do aluno
+        com = [uid for uid, e in ah.exemplos().items() if RECADO_AO_DOCENTE.search(e["adaptacao"])]
+        self.assertEqual(com, [])
+
+    def test_a_regra_acusa_um_recado_plantado(self) -> None:
+        self.assertTrue(RECADO_AO_DOCENTE.search("Calcule.\n\nRecomendação pedagógica ao docente: ofereça tempo flexível."))
+        self.assertFalse(RECADO_AO_DOCENTE.search("A aluna entregou a redação ao professor."))
+
+    def test_nenhum_exemplo_cria_item_1_sem_item_2(self) -> None:
+        soltos = []
+        for uid, e in ah.exemplos().items():
+            tinha = re.search(LINHA_NUMERADA.format(n=1), e["enunciado"])
+            criou_1 = re.search(LINHA_NUMERADA.format(n=1), e["adaptacao"])
+            tem_2 = re.search(LINHA_NUMERADA.format(n=2), e["adaptacao"])
+            if criou_1 and not tinha and not tem_2:
+                soltos.append(uid)
+        self.assertEqual(soltos, [])
