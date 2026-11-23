@@ -35,6 +35,11 @@ Adaptações (issue #108, parte 2b): 50 adaptações de questões sorteadas por 
 16/11). A pessoa vê a questão original, o que a adaptação pode e não pode fazer e a adaptação, e responde as mesmas três
 perguntas que o juiz respondeu; nunca vê quem escreveu nem o veredito. Respostas em ``rotulos-humanos-adaptacoes.jsonl``,
 que também só cresce.
+
+Banco de exemplos (issues #108 e #133): 168 adaptações-exemplo do nível 2, escritas por modelo e aprovadas por regra,
+em ``rag/iris-rag/bancada/calibracao/banco_exemplos_v2.json``. A pessoa responde as três perguntas das adaptações e uma
+quarta, se serve de modelo; não vê quem escreveu. Respostas em ``rotulos-humanos-exemplos.jsonl``, que só cresce. Um
+exemplo vira "ouro" quando duas pessoas o aprovam (as três perguntas certas e "serve de modelo") e nenhuma o reprova.
 """
 
 from __future__ import annotations
@@ -68,6 +73,9 @@ PERGUNTAS = RAG_BASE_DIR / "gabarito" / "gabarito_rascunho_v0.json"
 ROTULOS = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-grupo.jsonl"
 AMOSTRA_ADAPTACOES = RAG_BASE_DIR / "bancada" / "calibracao" / "amostra_adaptacoes_v1.json"
 ROTULOS_ADAPTACOES = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-adaptacoes.jsonl"
+BANCO_EXEMPLOS = RAG_BASE_DIR / "bancada" / "calibracao" / "banco_exemplos_v2.json"
+ROTULOS_EXEMPLOS = RAG_BASE_DIR / "bancada" / "calibracao" / "rotulos-humanos-exemplos.jsonl"
+APROVACOES_PARA_OURO = 2
 
 SEMENTE = 20261116
 N_SORTEIO_UNANIMES = 40
@@ -504,3 +512,95 @@ def resumo_adaptacoes() -> dict[str, Any]:
     saida["erro_caro"] = {"pessoa_reprovou": sum(1 for p in pessoa.values() if not p["boa"]),
                           "juiz_aprovou": sum(1 for u, p in pessoa.items() if not p["boa"] and itens[u]["juiz_boa"])}
     return saida
+
+
+# ---------------------------------------------------------------- banco de exemplos (#108, #133)
+PERGUNTAS_EXEMPLO = {**PERGUNTAS_ADAPTACAO,
+                     "modelo": "Você mostraria esta adaptação a quem vai adaptar outras questões desta dificuldade, como modelo?"}
+
+
+@lru_cache(maxsize=1)
+def exemplos() -> dict[str, dict[str, Any]]:
+    dados = json.loads(BANCO_EXEMPLOS.read_text(encoding="utf-8"))
+    return {i["uid"]: i for i in dados["itens"]}
+
+
+def _ultimo_exemplo_por_pessoa() -> dict[tuple[str, str], dict[str, bool]]:
+    out: dict[tuple[str, str], dict[str, bool]] = {}
+    if not ROTULOS_EXEMPLOS.exists():
+        return out
+    for linha in ROTULOS_EXEMPLOS.read_text(encoding="utf-8").splitlines():
+        if linha.strip():
+            try:
+                r = json.loads(linha)
+            except json.JSONDecodeError:
+                continue
+            out[(r["avaliador"], r["uid"])] = r["respostas"]
+    return out
+
+
+def exemplo_aprovado(r: dict[str, Any]) -> bool:
+    """Boa adaptação (a regra das três perguntas) e boa como modelo."""
+    return boa_adaptacao(r) and bool(r.get("modelo"))
+
+
+def proxima_exemplo(avaliador: str) -> dict[str, Any]:
+    """O próximo exemplo que esta pessoa ainda não avaliou, sem quem escreveu. Primeiro os que têm menos avaliações."""
+    if not RE_AVALIADOR.match(avaliador or ""):
+        raise ValueError("código de avaliador: de 1 a 40 letras, números, ponto, hífen ou sublinhado (ex.: prof-A)")
+    itens = exemplos()
+    rot = _ultimo_exemplo_por_pessoa()
+    feitos = {u for (p, u) in rot if p == avaliador}
+    contagem: dict[str, int] = {}
+    for (_, u) in rot:
+        contagem[u] = contagem.get(u, 0) + 1
+    base = {"avaliador": avaliador, "feitas": sum(1 for u in itens if u in feitos), "total": len(itens),
+            "perguntas": PERGUNTAS_EXEMPLO}
+    pendentes = [u for u in itens if u not in feitos]
+    if not pendentes:
+        return {**base, "acabou": True}
+    uid = min(pendentes, key=lambda u: (contagem.get(u, 0), u))
+    visivel = {k: v for k, v in itens[uid].items() if k not in ESCONDIDO_DA_PESSOA}
+    return {**base, "acabou": False, **visivel}
+
+
+def registrar_exemplo(uid: str, respostas: dict[str, Any], avaliador: str, motivo: str = "") -> dict[str, Any]:
+    """Acrescenta as quatro respostas no fim do arquivo (nunca reescreve as linhas anteriores)."""
+    if not RE_AVALIADOR.match(avaliador or ""):
+        raise ValueError("código de avaliador inválido")
+    if uid not in exemplos():
+        raise KeyError(f"exemplo {uid!r} não está no banco")
+    if not isinstance(respostas, dict) or set(respostas) != set(PERGUNTAS_EXEMPLO):
+        raise ValueError(f"responda as quatro perguntas: {sorted(PERGUNTAS_EXEMPLO)}")
+    valores = {}
+    for k, v in respostas.items():
+        if v not in ("sim", "nao"):
+            raise ValueError(f"resposta de {k!r} deve ser 'sim' ou 'nao'")
+        valores[k] = v == "sim"
+    ROTULOS_EXEMPLOS.parent.mkdir(parents=True, exist_ok=True)
+    linha = {"uid": uid, "respostas": valores, "motivo": (motivo or "").strip()[:500], "avaliador": avaliador,
+             "data": datetime.now().astimezone().isoformat(timespec="seconds")}
+    with ROTULOS_EXEMPLOS.open("a", encoding="utf-8") as arq:
+        arq.write(json.dumps(linha, ensure_ascii=False) + "\n")
+    return proxima_exemplo(avaliador)
+
+
+def resumo_exemplos() -> dict[str, Any]:
+    """Quantos exemplos já viraram ouro (duas aprovações, nenhuma reprovação) e quantos foram reprovados."""
+    itens = exemplos()
+    por_item: dict[str, list[bool]] = {}
+    for (_, uid), r in _ultimo_exemplo_por_pessoa().items():
+        if uid in itens:
+            por_item.setdefault(uid, []).append(exemplo_aprovado(r))
+    ouro = sorted(u for u, vs in por_item.items() if sum(vs) >= APROVACOES_PARA_OURO and all(vs))
+    reprovados = sorted(u for u, vs in por_item.items() if not all(vs))
+    por_car: dict[str, dict[str, int]] = {}
+    for uid, item in itens.items():
+        c = por_car.setdefault(item["caracteristica"], {"total": 0, "ouro": 0, "reprovados": 0})
+        c["total"] += 1
+        c["ouro"] += uid in ouro
+        c["reprovados"] += uid in reprovados
+    return {"total": len(itens), "avaliados": len(por_item),
+            "pessoas": len({p for p, _ in _ultimo_exemplo_por_pessoa()}),
+            "aprovacoes_para_ouro": APROVACOES_PARA_OURO, "ouro": len(ouro), "reprovados": len(reprovados),
+            "ids_ouro": ouro, "por_caracteristica": por_car}
