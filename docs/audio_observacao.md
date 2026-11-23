@@ -41,15 +41,14 @@ Erros: `{status:"error", code, field, detail}`.
 
 ## Instalação do motor de voz
 
-O reconhecimento é local (faster-whisper) e é dependência **opcional**:
-
-```bash
-pip install faster-whisper
-```
+O reconhecimento é local (faster-whisper) e fica no grupo `voz` do `pyproject.toml`. Esse grupo é instalado por padrão
+(`uv sync` e `make setup`) e na CI, então os testes que dependem do `av` rodam em vez de serem pulados. Custo: ~140 MB
+(faster-whisper, ctranslate2, av, onnxruntime, tokenizers). Para uma instalação enxuta, sem voz: `uv sync --no-group voz`.
+Sem o pacote, o endpoint continua respondendo 503 e a tela avisa que dá para selecionar manualmente.
 
 Na primeira transcrição o modelo é baixado (precisa de internet nesse momento). Variáveis:
 `IRIS_STT_MODEL` (padrão `small`), `IRIS_STT_DEVICE`, `IRIS_STT_COMPUTE`, `IRIS_STT_OFFLINE=1` (só usa modelo já baixado).
-Sem o pacote, o endpoint responde 503 e a tela avisa que dá para selecionar manualmente. O motor é trocável via `definir_transcritor`.
+O motor é trocável via `definir_transcritor`.
 
 ## Como as sugestões são geradas
 
@@ -60,5 +59,15 @@ Um teste garante que o léxico cobre todas as características do catálogo.
 ## Limitações
 
 - A precisão do mapeador em fala real de professores ainda não foi medida; as frases de teste foram escritas pela equipe.
+  Medição interna (20 frases novas, 2 por característica, escritas sem olhar o léxico): o léxico acerta 7 de 20 (35%),
+  e ampliá-lo com as formas da revisão do PR #110 não mudou isso em frases inéditas (as 20 frases da revisão passam a
+  ser reconhecidas, mas por serem as que motivaram os novos padrões). Acrescentar padrões à mão não generaliza; para
+  subir a cobertura é preciso medir com falas reais de professores ou trocar o método (por exemplo, embeddings).
+- Falsos positivos: o mapeador pode sugerir uma característica que o professor não descreveu. Na revisão do PR #125, 5
+  de 8 frases neutras escritas para se parecer com os padrões novos geravam sugestão. Padrões que descrevem só a
+  situação ("pede mais de um passo", "na segunda parte da prova", "não aguenta mais") passaram a peso fraco (um sinal
+  sozinho não sugere nada) e a negação passou a ser obrigatória onde faz parte do sentido. Hoje 0 de 30 frases neutras
+  do teste geram sugestão, mas isso vale só para essas frases, não é uma taxa em fala real. O professor sempre
+  confirma ou desmarca antes de seguir.
 - Nome próprio dito sem "o aluno" pode escapar do removedor por regex; a transcrição é só exibida, nunca gravada nem repassada.
 - Em WAV a validação usa só a biblioteca padrão; WebM/Ogg/MP4 exigem `av` (instalado junto do faster-whisper).
