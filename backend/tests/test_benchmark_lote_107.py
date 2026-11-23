@@ -40,6 +40,11 @@ class TestLote107(unittest.TestCase):
             self.assertTrue(i.fonte.url.startswith(("https://download.inep.gov.br/", "https://www.obmep.org.br/")))
             self.assertEqual(i.status, "rascunho")
 
+    def test_enunciado_nao_manda_ler_texto_que_nao_esta_no_item(self):
+        # Os textos motivadores das redações foram omitidos (direitos de terceiros): o comando não pode mandar lê-los.
+        for i in self.itens:
+            self.assertNotIn("textos motivadores", i.enunciado_original.lower(), i.id)
+
     def test_abertas_sem_alternativas(self):
         for i in self.itens:
             if i.id_caracteristica_alvo == ABERTAS:
