@@ -229,4 +229,27 @@ describe("Step4AgentAdaptation: renderização e acessibilidade (WCAG 2.1 AA)", 
     fireEvent.click(screen.getByRole("button", { name: /Avançar para Etapa 5/i }));
     expect(pushMock).toHaveBeenCalledWith("/etapa-5");
   });
+
+  it("mostra a recomendação ao docente fora do texto da questão, e só quando ela existe", async () => {
+    const comRecado: MultiAgentMaterialResponse = {
+      ...MOCK_RESPONSE,
+      questoes_trace: [{ ...MOCK_RESPONSE.questoes_trace[0], recomendacao_docente: "Ofereça tempo flexível." }],
+    };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => comRecado }));
+    renderStep4();
+    fireEvent.click(screen.getByRole("button", { name: /Executar Sistema Multiagentes/i }));
+    await waitFor(() => expect(screen.getByText(/3\. Agente Adaptador/i)).toBeTruthy());
+    const bloco = screen.getByTestId("recomendacao-docente");
+    expect(bloco.textContent).toContain("Ofereça tempo flexível.");
+    expect(bloco.textContent).toContain("não vai para a prova");
+    expect(bloco.closest("pre")).toBeNull();
+
+    cleanup();
+    window.sessionStorage.clear();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => MOCK_RESPONSE }));
+    renderStep4();
+    fireEvent.click(screen.getByRole("button", { name: /Executar Sistema Multiagentes/i }));
+    await waitFor(() => expect(screen.getByText(/3\. Agente Adaptador/i)).toBeTruthy());
+    expect(screen.queryByTestId("recomendacao-docente")).toBeNull();
+  });
 });

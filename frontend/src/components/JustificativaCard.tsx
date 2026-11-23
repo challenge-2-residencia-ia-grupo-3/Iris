@@ -114,6 +114,13 @@ export function JustificativaCard({ numero, cartao, original, adaptado, indicado
           </div>
         )}
 
+        {cartao.recomendacaoDocente && (
+          <div data-testid="recomendacao-docente">
+            <h4 className="text-xs font-bold uppercase text-slate-700 dark:text-slate-300">Para o docente (não vai para a prova)</h4>
+            <p className="mt-1">{cartao.recomendacaoDocente}</p>
+          </div>
+        )}
+
         {cartao.objetivoAndaime && (
           <div>
             <h4 className="text-xs font-bold uppercase text-slate-700 dark:text-slate-300">Objetivo do andaime</h4>

@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import inspect
 import json
+from collections import Counter
 import logging
 import os
 import re
@@ -49,12 +50,117 @@ REGRA DE ISOLAMENTO DE ESCOPO:
 4. Não acrescente dica, exemplo, explicação, fórmula ou resposta.
 5. Não retire nem junte comandos: a quantidade de comandos avaliados é a mesma do original.
 6. Os CONCEITOS OBRIGATÓRIOS e os TERMOS INTOCÁVEIS devem aparecer exatamente como no original.
+7. Nada dirigido ao docente entra em texto_adaptado: a questão é o que o estudante lê. Quando uma AÇÃO PERMITIDA pedir
+   recomendação ou orientação ao docente, não a escreva: o sistema a entrega ao docente fora da questão.
 
 Formato permitido: negrito com **, item numerado "1.", caixa de seleção "[ ]" e linha de resposta "____".
 
 Retorne APENAS um JSON válido com os campos:
 - texto_adaptado: a questão adaptada, com quebras de linha.
 - justificativas: lista curta, uma frase por ação aplicada."""
+
+# O que o docente lê quando o nível tem ação dirigida a ele. Texto fixo, e não escrito pelo modelo: assim ele não
+# comenta a resposta nem explica conteúdo, e aparece sempre. Lista explícita, como REGRAS_ESCOPO; ao mudar o catálogo,
+# revisar aqui (o teste `test_todo_nivel_com_acao_ao_docente_tem_texto` acusa o nível que ficar sem texto).
+RECOMENDACAO_AO_DOCENTE: dict[tuple[str, int], str] = {
+    ("ritmo_processamento_pressao_temporal", 2): (
+        "Ofereça tempo flexível para esta questão. Se preciso, aplique-a em etapas: primeiro a leitura do texto, "
+        "depois o comando e as alternativas."
+    ),
+    ("ritmo_processamento_pressao_temporal", 3): (
+        "Este nível prevê tempo adicional e mediação leitora, conforme as diretrizes normativas. Combine com a "
+        "coordenação como oferecê-los nesta avaliação."
+    ),
+}
+
+
+def recomendacao_ao_docente(id_caracteristica: str, nivel: int) -> Optional[str]:
+    """Texto fixo para o docente neste nível, ou None quando o catálogo não lista ação dirigida a ele."""
+    return RECOMENDACAO_AO_DOCENTE.get((id_caracteristica, nivel))
+
+# Linha dirigida a quem aplica a prova: "Recomendação ao docente: ...", "[Orientação aos professores: ...]",
+# "### Nota para o(a) professor(a)", "Recomendação pedagógica: ...", "Professor, ofereça ...".
+_PREFIXO_DE_LINHA = r"^[ \t>*_#\-\[\(]*"
+_QUEM_APLICA = r"(?:docentes?|professor(?:es|as?)?(?:\(a\))?|aplicador(?:es|as?)?|mediador(?:es|as?)?)"
+_RE_RECADO_AO_DOCENTE = re.compile(
+    _PREFIXO_DE_LINHA
+    + r"(?:(?:recomenda[çc](?:[ãa]o|[õo]es)|orienta[çc](?:[ãa]o|[õo]es)|notas?|observa[çc](?:[ãa]o|[õo]es)|avisos?|sugest(?:[ãa]o|[õo]es))"
+    + r"(?:\s+pedag[óo]gic[ao]s?)?\s+(?:aos?|[àa]s?|para\s+(?:os?|as?|o\(a\)))\s+" + _QUEM_APLICA + r"\b"
+    + r"|(?:recomenda[çc](?:[ãa]o|[õo]es)|orienta[çc](?:[ãa]o|[õo]es))\s+pedag[óo]gic[ao]s?\s*\**\s*:"
+    + r"|" + _QUEM_APLICA + r"\s*\**\s*[,:])",
+    re.IGNORECASE,
+)
+_RE_ROTULO_DO_RECADO = re.compile(r"^[^:\n]{0,70}:\s*")
+_RE_MARCAS = re.compile(r"[*_#>`\[\]]")
+_RE_ALTERNATIVA = re.compile(r"^\s*(?:\[ \]\s*)?\(?[A-Ea-e][\).]\s+\S")
+_RE_NUMERO_DA_QUESTAO = re.compile(r"\d+(?:[.,]\d+)*")
+_RE_PALAVRA_DA_QUESTAO = re.compile(r"[^\W\d_]{4,}")
+_RE_SO_QUEM_APLICA = re.compile(_PREFIXO_DE_LINHA + _QUEM_APLICA + r"\s*\**\s*[,:]", re.IGNORECASE)
+
+
+def _sem_marcas(texto: str) -> str:
+    """Texto sem negrito, título, citação nem colchete, com os espaços colapsados: para comparar com o original."""
+    return re.sub(r"\s+", " ", _RE_MARCAS.sub("", texto)).strip().lower()
+
+
+def separar_recado_ao_docente(original: str, texto: str) -> tuple[str, Optional[str], bool]:
+    """Tira da minuta o que é dito ao docente: ``(texto para o aluno, recado ou None, sobrou recado na questão)``.
+
+    A resposta do Adaptador tem um texto só para a questão, e a exportação o imprime como está. Sem esta separação, a
+    ação "sinalizar recomendação ao docente" do catálogo acabava dentro da prova do aluno.
+
+    Sai só a LINHA que começa por um rótulo de recado, tem o recado nela mesma e não existe no enunciado original
+    (comparação sem negrito e sem diferença de espaços): uma questão que fale de professor, ou cujo texto-base seja um
+    aviso à professora, fica intacta, e o que vem depois do recado nunca é levado junto. Duas situações não se
+    resolvem tirando texto e devolvem ``True`` no terceiro valor, para quem chama recusar a minuta: o rótulo sozinho
+    numa linha (o recado está em outro lugar, que a regra não sabe delimitar) e a separação que faria sumir
+    alternativa, número ou palavra do enunciado que a minuta tinha.
+    """
+    base = _sem_marcas(original)
+    mantidas: list[str] = []
+    recados: list[str] = []
+    sobrou = False
+    for linha in texto.split("\n"):
+        achado = _RE_RECADO_AO_DOCENTE.match(linha)
+        if not achado or _sem_marcas(linha) in base:
+            mantidas.append(linha)
+            continue
+        # O rótulo que já está no enunciado é da questão (aviso, bilhete), mesmo com a frase reescrita. E "Professor:"
+        # ou "Professores, ..." só contam quando a palavra não vem do enunciado (fala de personagem, enumeração).
+        rotulo = _sem_marcas(achado.group(0))
+        if rotulo in base or (_RE_SO_QUEM_APLICA.match(linha) and rotulo.rstrip(" ,:") in base):
+            mantidas.append(linha)
+            continue
+        corpo = _RE_ROTULO_DO_RECADO.sub("", _RE_MARCAS.sub("", linha).strip(), count=1).strip().rstrip(")] ").strip()
+        if ":" not in linha or len(corpo) < 8:
+            sobrou = True                                 # rótulo sem o recado na mesma linha: não dá para delimitar
+            mantidas.append(linha)
+            continue
+        recados.append(corpo)
+    if not recados:
+        return texto, None, sobrou
+    limpo = re.sub(r"\n{3,}", "\n\n", "\n".join(mantidas)).strip()
+    # Rede de segurança: tirar o recado não pode levar alternativa nem número que a questão tinha na minuta.
+    perdeu_alternativa = sum(bool(_RE_ALTERNATIVA.match(x)) for x in texto.split("\n")) != sum(
+        bool(_RE_ALTERNATIVA.match(x)) for x in limpo.split("\n")
+    )
+    numeros_do_original = set(_RE_NUMERO_DA_QUESTAO.findall(original))
+    perdeu_numero = bool(
+        (numeros_do_original & set(_RE_NUMERO_DA_QUESTAO.findall(texto))) - set(_RE_NUMERO_DA_QUESTAO.findall(limpo))
+    )
+    # E não pode levar palavra do enunciado: o recado e o comando podem estar na mesma linha.
+    no_original = Counter(p.lower() for p in _RE_PALAVRA_DA_QUESTAO.findall(original))
+    na_minuta = Counter(p.lower() for p in _RE_PALAVRA_DA_QUESTAO.findall(texto))
+    no_limpo = Counter(p.lower() for p in _RE_PALAVRA_DA_QUESTAO.findall(limpo))
+    perdeu_palavra = any(min(n, na_minuta[p]) > no_limpo[p] for p, n in no_original.items())
+    if perdeu_alternativa or perdeu_numero or perdeu_palavra:
+        return texto, None, True
+    return limpo, " ".join(recados), sobrou
+
+
+class _RecadoNaQuestao(Exception):
+    """A minuta trouxe, duas vezes, recado ao docente que não dá para tirar da questão com segurança."""
+
 
 PROVEDORES_SEM_MODELO = frozenset({"extractive", "mock", "offline"})
 
@@ -237,6 +343,23 @@ class AdapterAgent:
             try:
                 resposta_llm = self._chamar_llm(self._montar_prompt_usuario(request))
                 texto, justificativas, json_valido_direto = self._parse_json_response(resposta_llm.text)
+                # O recado ao docente sai da questão antes do laudo: escopo e Auditor julgam o texto que o aluno lê.
+                texto, sobrou = self._sem_recado(request, texto)
+                if sobrou:
+                    # Recado que a regra não sabe delimitar: tirar texto às cegas pode levar parte da questão.
+                    # O modelo refaz uma vez; se repetir, o original é o único texto garantido.
+                    sem_recado = request.model_copy(update={
+                        "feedback_auditor": "\n".join(filter(None, [request.feedback_auditor, (
+                            "A minuta trouxe texto dirigido ao docente dentro da questão. Nada dirigido ao docente "
+                            "entra em texto_adaptado: retire-o; o sistema já entrega a recomendação ao docente."
+                        )])),
+                        "minuta_anterior": texto,
+                    })
+                    resposta_llm = self._chamar_llm(self._montar_prompt_usuario(sem_recado))
+                    texto, justificativas, json_valido_direto = self._parse_json_response(resposta_llm.text)
+                    texto, sobrou = self._sem_recado(sem_recado, texto)
+                    if sobrou:
+                        raise _RecadoNaQuestao
                 escopo = verificar_escopo(
                     request.enunciado, texto, request.id_caracteristica, request.nivel, trava
                 )
@@ -252,6 +375,9 @@ class AdapterAgent:
                     })
                     resposta_llm = self._chamar_llm(self._montar_prompt_usuario(refeito))
                     texto, justificativas, json_valido_direto = self._parse_json_response(resposta_llm.text)
+                    texto, sobrou = self._sem_recado(refeito, texto)
+                    if sobrou:
+                        raise _RecadoNaQuestao
                     escopo = verificar_escopo(
                         request.enunciado, texto, request.id_caracteristica, request.nivel, trava
                     )
@@ -270,6 +396,12 @@ class AdapterAgent:
                         ", ".join(categorias) or "outra",
                     )
                     motivo_fallback = "escopo_reprovado"
+            except _RecadoNaQuestao:
+                logger.warning(
+                    "Minuta do Agente Adaptador trouxe recado ao docente dentro da questão duas vezes. "
+                    "O enunciado original foi mantido."
+                )
+                motivo_fallback = "recado_ao_docente_na_questao"
             except Exception as e:
                 logger.warning(
                     "Falha na chamada ou parsing do LLM para o Agente Adaptador (%s). "
@@ -330,10 +462,19 @@ class AdapterAgent:
         return AdaptationResult(
             texto_adaptado=texto,
             justificativas=justificativas,
+            # Vale para o nível escolhido, mude ou não o texto: é orientação de aplicação, não descrição da minuta.
+            recomendacao_docente=recomendacao_ao_docente(request.id_caracteristica, request.nivel),
             adaptacao_aplicada=texto.strip() != request.enunciado.strip(),
             escopo=escopo,
             telemetry=telemetria,
         )
+
+    @staticmethod
+    def _sem_recado(req: AdaptationRequest, texto: str) -> tuple[str, bool]:
+        """A minuta sem a linha dirigida ao docente, e se sobrou recado que a regra não tirou. O que o modelo escreveu
+        para o docente é descartado: a recomendação entregue é o texto fixo do nível."""
+        texto_limpo, _, sobrou = separar_recado_ao_docente(req.enunciado, texto)
+        return texto_limpo, sobrou
 
     def _conferir(self, req: AdaptationRequest, escopo: ScopeReport) -> bool:
         """True quando o conferente por regra reprova a minuta: perdeu palavra do original numa característica sem

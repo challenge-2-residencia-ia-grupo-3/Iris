@@ -115,6 +115,8 @@ export interface QuestionMultiAgentTrace {
   original: string;
   adaptado: string;
   justificativas: string[];
+  /** Orientação ao docente; nunca faz parte de `adaptado`, que é o texto do aluno. */
+  recomendacao_docente?: string | null;
   id_caracteristica: string;
   caracteristicas_selecionadas: string[];
   nivel: ScaffoldingLevel;
