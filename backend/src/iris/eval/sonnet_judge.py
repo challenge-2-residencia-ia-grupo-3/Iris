@@ -468,6 +468,27 @@ def _calcular_kappa(pares: list[tuple[str, str]]) -> tuple[float, float]:
     return round(po, 4), round((po - pe) / (1.0 - pe), 4)
 
 
+def registro_do_juiz(modelo_pedido: str, modelo_efetivo: str, etiquetas: list[str], chamadas: int) -> dict[str, Any]:
+    """Como este julgamento foi feito (issue #108, parte 1): sem isso, dois julgamentos não são comparáveis.
+
+    Em 16/11/2026 descobrimos que roteiros de avaliação usavam o modelo configurado na máquina, sem gravar o nome.
+    Aqui ficam o modelo pedido e o que respondeu, o esforço, a temperatura de cada juiz, o limite de tokens e quantas
+    respostas do RAG vão em cada chamada (uma: este juiz nunca agrupa respostas em lote).
+    """
+    pensa = bool(RE_MODELO_QUE_PENSA.search(modelo_efetivo or modelo_pedido))
+    return {
+        "modelo_pedido": modelo_pedido,
+        "modelo_efetivo": modelo_efetivo,
+        "esforco": "padrão do modelo (nenhum parâmetro de esforço enviado)",
+        "temperatura": {etq: (None if pensa else (0.0 if i == 0 else 0.15)) for i, etq in enumerate(etiquetas)},
+        "max_tokens": MAX_TOKENS_JUIZ_QUE_PENSA if pensa else 2048,
+        "respostas_por_chamada": 1,
+        "chamadas": chamadas,
+        "regra": REGRA_JUIZ_V2_PATH.name,
+        "regra_sha256": (hashlib.sha256(REGRA_JUIZ_V2_PATH.read_bytes()).hexdigest()[:16] if REGRA_JUIZ_V2_PATH.exists() else None),
+    }
+
+
 def julgar_resposta_sonnet(
     pergunta: str,
     trechos: list[dict[str, Any]],
@@ -640,6 +661,7 @@ def julgar_resposta_sonnet(
 
     modelo_efetivo = next((u.get("modelo") for u in usos if u.get("modelo")), modelo_alvo)
     resultado = {
+        "registro_juiz": registro_do_juiz(modelo_alvo, modelo_efetivo, etiquetas, len(usos)),
         "disponivel": True,
         "avaliador": "claude_sonnet",
         "modelo": modelo_efetivo,
