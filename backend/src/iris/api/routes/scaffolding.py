@@ -1,13 +1,15 @@
-"""Rotas e serviços de Calibragem de Nível de Andaime Cognitivo (História 1.3.1 — Issue #12).
+"""Rotas e serviços de Calibragem de Nível de Andaime Cognitivo e Travas Curriculares (Histórias 1.3.1 e 1.3.2 — Issues #12 e #13).
 
 Atende:
 - RF-07: Calibragem do Nível de Andaime Cognitivo (Scaffolding em 3 Níveis: Leve, Moderado, Intensivo).
+- RF-08: Definição Explícita de Travas Curriculares Inegociáveis.
+- RF-09: Validador Preventivo de Perda Cognitiva (Alerta Anti-Muleta).
 - RNF-10: Carga Cognitiva Reduzida na Interface do Professor (Etapa 3 do fluxo guiado).
-- Pilar 1 & Pilar 2: Intervenção Cirúrgica e Blindagem da Trava Curricular (Anti-muleta).
 
 Endpoints:
-- GET  /api/v1/scaffolding/levels    -> Retorna os metadados dos 3 níveis de suporte com transformações e salvaguardas.
-- POST /api/v1/scaffolding/calibrate -> Calibra a diretiva de andaime estritamente para as características ativadas.
+- GET  /api/v1/scaffolding/levels                    -> Retorna os metadados dos 3 níveis e exemplos de travas.
+- POST /api/v1/scaffolding/calibrate                 -> Calibra a diretiva de andaime e opcionalmente valida a trava curricular.
+- POST /api/v1/scaffolding/curriculum-locks/validate -> Valida explicitamente a Trava Curricular Inegociável e emite alerta anti-muleta.
 """
 from __future__ import annotations
 
@@ -25,6 +27,7 @@ from iris.schemas.scaffolding import (
     ScaffoldingValidationError,
     calibrate_scaffolding_service,
     get_scaffolding_levels_metadata,
+    validate_curriculum_locks_service,
 )
 
 
@@ -43,6 +46,16 @@ def calibrate_scaffolding_session_service(
     return calibrate_scaffolding_service(payload=payload, catalog=catalog)
 
 
+def validate_curriculum_locks_session_service(
+    payload: dict[str, Any] | ScaffoldingCalibrationRequest,
+    catalog: CharacteristicCatalog | None = None,
+) -> ScaffoldingCalibrationResponse:
+    """Valida obrigatoriamente a Trava Curricular Inegociável e executa o validador preventivo anti-muleta (RF-08, RF-09)."""
+    if catalog is None:
+        catalog = load_official_tdah_catalog()
+    return validate_curriculum_locks_service(payload=payload, catalog=catalog)
+
+
 # Roteamento FastAPI (quando FastAPI estiver disponível no ambiente)
 try:
     from fastapi import APIRouter, Body, HTTPException, status
@@ -52,10 +65,10 @@ try:
     @router.get(
         "/levels",
         response_model=dict[str, Any],
-        summary="Metadados dos 3 níveis de andaime cognitivo (Etapa 3)",
+        summary="Metadados dos 3 níveis de andaime cognitivo e exemplos de travas (Etapa 3)",
         description=(
-            "Retorna as especificações estruturais, objetivos psicopedagógicos e salvaguardas "
-            "anti-muleta para os Níveis 1 (Leve), 2 (Moderado) e 3 (Intensivo)."
+            "Retorna as especificações estruturais, objetivos psicopedagógicos, salvaguardas "
+            "anti-muleta e exemplos de travas curriculares para a Etapa 3."
         ),
     )
     async def get_scaffolding_levels() -> dict[str, Any]:
@@ -64,7 +77,7 @@ try:
     @router.post(
         "/calibrate",
         response_model=ScaffoldingCalibrationResponse,
-        summary="Calibragem de andaime cognitivo cirúrgico (Etapa 3)",
+        summary="Calibragem de andaime cognitivo cirúrgico e trava curricular (Etapa 3)",
         description=(
             "Configura as diretrizes de andaime estrutural estritamente para as características "
             "funcionais selecionadas na Etapa 2, mantendo isolamento de escopo e travas curriculares."
@@ -75,6 +88,36 @@ try:
     ) -> ScaffoldingCalibrationResponse:
         try:
             return calibrate_scaffolding_session_service(payload=payload)
+        except ScaffoldingValidationError as err:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=err.to_dict(),
+            ) from err
+        except CharacteristicSelectionError as err:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=err.to_dict(),
+            ) from err
+        except CatalogValidationError as err:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail={"detail": str(err), "code": "CATALOG_SCHEMA_ERROR", "field": "catalog"},
+            ) from err
+
+    @router.post(
+        "/curriculum-locks/validate",
+        response_model=ScaffoldingCalibrationResponse,
+        summary="Validação explícita de Travas Curriculares Inegociáveis e Alerta Anti-Muleta (História 1.3.2)",
+        description=(
+            "Marca os conceitos técnicos e habilidades da BNCC como invariantes obrigatórios para o Agente Auditor "
+            "e executa o validador preventivo de perda cognitiva (anti-muleta)."
+        ),
+    )
+    async def validate_curriculum_locks(
+        payload: dict[str, Any] = Body(...),
+    ) -> ScaffoldingCalibrationResponse:
+        try:
+            return validate_curriculum_locks_session_service(payload=payload)
         except ScaffoldingValidationError as err:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,

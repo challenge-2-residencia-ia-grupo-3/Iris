@@ -1,4 +1,4 @@
-.PHONY: qualidade qualidade-painel help up setup install dev front rag extrator extractor extrator-bench extrator-analytics multiagentes multiagentes-menu check test db-up db-down docs backend ensure-uv ensure-env
+.PHONY: qualidade qualidade-painel help up setup install dev front rag extrator extractor extrator-bench extrator-analytics multiagentes multiagentes-menu eval-agentes eval-adaptador eval-ciclo eval-juiz check test db-up db-down docs backend ensure-uv ensure-env
 
 SHELL := /bin/bash
 export PATH := $(shell echo "$$HOME/.local/bin:$$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$$PATH")
@@ -30,6 +30,10 @@ help:
 	@echo "  make extrator-bench      Roda o Benchmark Zero-Hint do Extrator no Golden Benchmark (30 questões)"
 	@echo "  make extrator-analytics  Exibe o painel Analytics de latência, tokens e recall por disciplina/idade"
 	@echo "  make multiagentes        Executa a demonstração completa dos 4 agentes colaborando (Semana 4)"
+	@echo "  make eval-agentes        Audita o ciclo dos 4 agentes no Golden Benchmark (use PROV=eco|ollama LIMITE=N)"
+	@echo "  make eval-adaptador      Mede o Agente Adaptador com modelo contra o isolamento de escopo (90 chamadas)"
+	@echo "  make eval-ciclo          Mede latência Extrator + Adaptador contra o orçamento RNF-07 (90 ciclos)"
+	@echo "  make eval-juiz           Mede precisão e recall do juiz LLM do Auditor em juiz_auditor_v1.json"
 	@echo "  make docs                Sobe o portal de documentação MkDocs em http://$(HOST):$(DOCS_PORT)"
 	@echo "  make db-up               Sobe o banco vetorial PostgreSQL + pgvector via Docker"
 	@echo "  make db-down             Para o container do banco vetorial pgvector"
@@ -106,6 +110,19 @@ multiagentes: ensure-env
 
 multiagentes-menu: ensure-env
 	@$(PYTHON_RUN) scripts/demo_multiagentes.py --menu
+
+# Auditoria e avaliação reproduzível dos agentes (docs/auditoria_agentes.md)
+eval-agentes: ensure-env
+	@$(PYTHON_RUN) -m iris.eval.multiagentes_ciclo --provider $(or $(PROV),eco) $(if $(LIMITE),--limite $(LIMITE),)
+
+eval-adaptador: ensure-env
+	@$(PYTHON_RUN) -m iris.eval.adaptador_com_modelo
+
+eval-ciclo: ensure-env
+	@$(PYTHON_RUN) -m iris.eval.adaptador_ciclo
+
+eval-juiz: ensure-env
+	@$(PYTHON_RUN) -m iris.eval.juiz_auditor --provider $(or $(PROV),ollama)
 
 # Smoke-check completo de ambiente, API, PII, RAG e Extrator
 check: ensure-env

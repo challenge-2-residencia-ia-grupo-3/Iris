@@ -8,7 +8,7 @@
 
 import { STEP5_ADAPTACAO_STORAGE_KEY, Step5Entrada } from "./comparisonCards";
 import { IrisApiError } from "./materialsApi";
-import { ScaffoldingLevel } from "./scaffoldingApi";
+import { AuditorInvariantsContract, ScaffoldingLevel } from "./scaffoldingApi";
 
 const API_BASE_URL =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_API_BASE_URL
@@ -27,6 +27,7 @@ export interface MultiAgentAdaptPayload {
   disciplina?: string;
   ano_escolar?: string;
   trava_manual_docente?: string[];
+  invariantes_etapa3?: AuditorInvariantsContract;
   provider?: AgentProviderOption;
   model?: string;
   metodo_rag?: string;

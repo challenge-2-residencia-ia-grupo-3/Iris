@@ -1282,6 +1282,21 @@
     .aval-opcao[data-v="nao"] b { color: var(--vermilion); }
     .aval-opcao:disabled { opacity: 0.55; cursor: wait; }
     #aval-motivo { min-height: 2.6rem; }
+    /* Avaliar uma adaptação, às cegas (issue #108): acrescentado, sem mudar o bloco das frases */
+    .avad-modo { display: flex; gap: 0.4rem; margin: 0.8rem 0 0.2rem; flex-wrap: wrap; }
+    .avad-modo .aval-opcao { display: inline-flex; padding: 0.4rem 0.8rem; }
+    .avad-modo .aval-opcao[aria-pressed="true"] { border-color: var(--teal); background: var(--wash); }
+    .avad-lado { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; margin: 0.4rem 0 0.6rem; }
+    .avad-lado h4 { margin: 0 0 0.3rem; font-size: 0.8rem; color: var(--ink-soft); }
+    .avad-lado .aval-cit-texto { padding: 0.6rem 0.7rem; border: 1px solid var(--hairline); border-radius: 6px; background: var(--surface); }
+    .avad-regras { font-size: 0.8rem; color: var(--ink-soft); margin: 0 0 0.5rem; }
+    .avad-regras ul { margin: 0.2rem 0 0.4rem 1.1rem; padding: 0; }
+    .avad-perg { margin: 0.55rem 0; display: grid; gap: 0.3rem; }
+    .avad-perg p { margin: 0; font-size: 0.84rem; color: var(--ink); }
+    .avad-perg .avad-sn { display: flex; gap: 0.4rem; }
+    .avad-perg .avad-sn button { min-width: 4.5rem; display: inline-flex; justify-content: center; padding: 0.35rem 0.7rem; }
+    .avad-perg .avad-sn button[aria-pressed="true"] { border-color: var(--teal); background: var(--teal-soft); font-weight: 700; }
+    @media (max-width: 700px) { .avad-lado { grid-template-columns: minmax(0, 1fr); } }
     .aval-resumo-tab { margin-top: 0.8rem; }
     @media (max-width: 700px) { .aval-opcoes { grid-template-columns: minmax(0, 1fr); } }
     @media (prefers-reduced-motion: reduce) {
@@ -1739,6 +1754,61 @@ Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justi
         </div>
         <div id="arq-exec-box"></div>
       </div>
+
+      <div class="panel-block">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Como auditamos os 4 agentes (Observabilidade Reproduzível)</h2>
+            <p class="block-desc">Cada agente possui guardrails determinísticos, telemetria Zero-PII e avaliadores reproduzíveis por comando (documentação completa em <code>docs/auditoria_agentes.md</code>).</p>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Agente</th>
+                <th>O que valida se está certo</th>
+                <th>Guardrails determinísticos</th>
+                <th>Códigos de reserva (<code>motivo_fallback</code>)</th>
+                <th>Comando reproduzível</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Extrator (#17)</strong><br /><code>CurriculumExtractorAgent</code></td>
+                <td>Recall das travas curriculares (&ge; 95% no <code>golden_benchmark.json</code>) e <code>json_valido_direto</code>.</td>
+                <td>Normaliza verbo BNCC ao infinitivo e injeta obrigatoriamente a trava manual do docente.</td>
+                <td><code>provedor_sem_modelo</code>, <code>falha_llm</code></td>
+                <td><code>make extrator-bench</code><br /><code>make extrator-analytics</code></td>
+              </tr>
+              <tr>
+                <td><strong>2. Estrategista (#16)</strong><br /><code>StrategistAgent</code></td>
+                <td>Fidelidade de citação (zero <code>[Tn]</code> inexistente ou fora da característica) e filtro estrito por barreira.</td>
+                <td>Descarta trechos fora do filtro pré-prompt; exige <code>[Tn]</code>, &le; 40 palavras e barra cópia literal (&ge; 12 palavras).</td>
+                <td><code>sem_evidencia</code>, <code>provedor_sem_modelo</code>, <code>nenhuma_intervencao_aprovada</code>, <code>falha_llm</code></td>
+                <td><code>make eval-agentes</code></td>
+              </tr>
+              <tr>
+                <td><strong>3. Adaptador (#18)</strong><br /><code>AdapterAgent</code></td>
+                <td>Aprovação em <code>verificar_escopo()</code> (palavras, LCS, estrutura e conceitos da trava) e taxa real de adaptação.</td>
+                <td><code>comandos_por_regra</code> em comandos múltiplos; <code>conferente_por_regra</code> regenera se houver perda de palavra.</td>
+                <td><code>provedor_sem_modelo</code>, <code>regra_comandos_multiplos</code>, <code>escopo_reprovado</code>, <code>conferente_palavra_perdida</code>, <code>falha_llm</code></td>
+                <td><code>make eval-adaptador</code><br /><code>make eval-ciclo</code></td>
+              </tr>
+              <tr>
+                <td><strong>4. Auditor (#19)</strong><br /><code>AgenteAuditor</code></td>
+                <td><code>TRCC &ge; 0,95</code>, 100% dos termos intocáveis, ausência de gabarito/resolução e auto-correção em até 3 voltas.</td>
+                <td>Sinais determinísticos de cálculo/alternativas + juiz LLM restrito ao diff <code>trechos_novos</code> com citação literal obrigatória.</td>
+                <td>Falha fechada (<code>requer_revisao_humana=True</code> após 2 JSONs inválidos ou ciclo esgotado)</td>
+                <td><code>make eval-juiz</code><br /><code>make qualidade</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="baseline-rule">
+          <strong>Ciclo completo E2E dos 4 agentes:</strong> execute <code>make eval-agentes</code> (usa <code>PROV=eco</code> determinístico sem rede, ou <code>PROV=ollama|anthropic|groq LIMITE=5</code>) para gerar <code>reports/multiagentes_ciclo.json</code> e <code>reports/multiagentes_ciclo.md</code>; execute <code>make qualidade</code> para rodar os 16 verificadores da bancada e os 6 portões (<code>exit code</code>).
+        </p>
+      </div>
     </section>
 
     <!-- ABA 4: FERRAMENTAS DA API -->
@@ -1758,15 +1828,26 @@ Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justi
       <div class="panel-block aval-bloco" id="aval-bloco" hidden>
         <div class="aval-cab">
           <div>
-            <h3 class="aval-tit">Avaliar uma frase, às cegas</h3>
+            <h3 class="aval-tit" id="aval-titulo">Avaliar uma frase, às cegas</h3>
             <p class="aval-ajuda">Você vê a pergunta, uma frase da resposta do RAG e os trechos que essa frase cita. Não vê o voto dos juízes, para ele não puxar o seu. Cada avaliação vai para um arquivo que nenhum script apaga. A concordância de cada juiz com as pessoas aparece a partir de 20 frases avaliadas.</p>
           </div>
           <label class="aval-quem">Seu código de avaliador
             <input type="text" id="aval-codigo" maxlength="40" placeholder="ex.: prof-A" autocomplete="off" />
           </label>
         </div>
-        <div id="aval-frase" aria-live="polite"></div>
-        <div id="aval-resumo"></div>
+        <div class="avad-modo" role="group" aria-label="O que avaliar">
+          <button type="button" class="aval-opcao" id="avad-btn-frases" aria-pressed="true" onclick="avadModo('frases')">Frases das respostas</button>
+          <button type="button" class="aval-opcao" id="avad-btn-adapt" aria-pressed="false" onclick="avadModo('adapt')">Adaptações de questões</button>
+        </div>
+        <div id="aval-modo-frases">
+          <div id="aval-frase" aria-live="polite"></div>
+          <div id="aval-resumo"></div>
+        </div>
+        <div id="aval-modo-adapt" hidden>
+          <p class="aval-ajuda">Você vê a questão original, o que a adaptação pode e não pode fazer, e a adaptação. Responda as mesmas três perguntas que o juiz respondeu. Não aparece quem escreveu a adaptação nem o veredito do juiz.</p>
+          <div id="avad-item" aria-live="polite"></div>
+          <div id="avad-resumo"></div>
+        </div>
       </div>
       <iframe id="bancada-frame" class="bancada-frame" title="Tela das verificações de qualidade" scrolling="no"></iframe>
     </section>
@@ -1902,7 +1983,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       const bloco = document.getElementById('aval-bloco');
       if (bloco) {
         const mostrar = sid === 'q-juiz';
-        if (mostrar && bloco.hidden) avalCarregar();
+        if (mostrar && bloco.hidden) { if (avad.modo === 'adapt') avadCarregar(); else avalCarregar(); }
         bloco.hidden = !mostrar;
       }
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === `b-${sid}`));
@@ -2013,7 +2094,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     async function avalRegistrar(rotulo) {
       if (aval.ocupado || !aval.atual || aval.atual.acabou) return;
       aval.ocupado = true;
-      document.querySelectorAll('.aval-opcao').forEach(b => { b.disabled = true; });
+      document.querySelectorAll('#aval-frase .aval-opcao').forEach(b => { b.disabled = true; });
       try {
         const r = await fetchJson('/api/v1/eval/avaliacao-humana/rotulo', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -2050,9 +2131,113 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       try { el.value = localStorage.getItem('iris-avaliador') || ''; } catch (_) {}
       el.addEventListener('change', () => {
         try { localStorage.setItem('iris-avaliador', avalCodigo()); } catch (_) {}
-        avalCarregar();
+        if (avad.modo === 'adapt') avadCarregar(); else avalCarregar();
       });
     });
+
+    // ---------------- Avaliar uma adaptação, às cegas (issue #108, parte 2b)
+    const avad = { modo: 'frases', atual: null, respostas: {}, ocupado: false };
+
+    function avadModo(modo) {
+      avad.modo = modo;
+      document.getElementById('aval-modo-frases').hidden = modo !== 'frases';
+      document.getElementById('aval-modo-adapt').hidden = modo !== 'adapt';
+      document.getElementById('avad-btn-frases').setAttribute('aria-pressed', String(modo === 'frases'));
+      document.getElementById('avad-btn-adapt').setAttribute('aria-pressed', String(modo === 'adapt'));
+      document.getElementById('aval-titulo').textContent = modo === 'adapt' ? 'Avaliar uma adaptação, às cegas' : 'Avaliar uma frase, às cegas';
+      if (modo === 'adapt') avadCarregar(); else avalCarregar();
+    }
+
+    function avadAviso(msg, tipo) {
+      document.getElementById('avad-item').innerHTML = `<div class="notice notice-${tipo || 'info'}" style="margin-top:0.8rem;">${msg}</div>`;
+    }
+
+    async function avadCarregar() {
+      const codigo = avalCodigo();
+      if (!codigo) {
+        avadAviso('Escreva um código de avaliador para começar (por exemplo, <code>prof-A</code>; evite o nome completo).', 'info');
+        avadResumo();
+        return;
+      }
+      try {
+        avadDesenhar(await fetchJson(`/api/v1/eval/avaliacao-humana/adaptacao/proxima?avaliador=${encodeURIComponent(codigo)}`));
+      } catch (e) {
+        avadAviso(escapeHtml(e.message), 'danger');
+      }
+      avadResumo();
+    }
+
+    function avadDesenhar(r) {
+      avad.atual = r;
+      avad.respostas = {};
+      const pct = r.total ? Math.round(100 * r.feitas / r.total) : 0;
+      const prog = `<div class="aval-progresso">${r.feitas} de ${r.total} adaptações avaliadas por <b>${escapeHtml(r.avaliador)}</b><span class="aval-barra"><i style="width:${pct}%"></i></span></div>`;
+      if (r.acabou) {
+        document.getElementById('avad-item').innerHTML = prog + '<div class="notice notice-ok">Você avaliou todas as adaptações da amostra. Obrigado. Outra pessoa pode continuar com outro código.</div>';
+        return;
+      }
+      const lista = xs => `<ul>${(xs || []).map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ul>`;
+      const perguntas = Object.entries(r.perguntas || {}).map(([k, txt], i) => `
+        <div class="avad-perg" role="group" aria-label="Pergunta ${i + 1}">
+          <p><b>${i + 1}.</b> ${escapeHtml(txt)}</p>
+          <div class="avad-sn">
+            <button type="button" class="aval-opcao" data-k="${k}" data-v="sim" aria-pressed="false" onclick="avadMarcar('${k}', 'sim')">Sim</button>
+            <button type="button" class="aval-opcao" data-k="${k}" data-v="nao" aria-pressed="false" onclick="avadMarcar('${k}', 'nao')">Não</button>
+          </div>
+        </div>`).join('');
+      document.getElementById('avad-item').innerHTML = `${prog}
+        <p class="aval-pergunta"><strong>Dificuldade:</strong> ${escapeHtml(r.caracteristica)} · <strong>Nível ${escapeHtml(r.nivel)}:</strong> ${escapeHtml(r.rotulo)}</p>
+        <div class="avad-regras"><b>A adaptação PODE:</b>${lista(r.acoes)}<b>A adaptação NÃO PODE:</b>${lista(r.restricoes)}</div>
+        <div class="avad-lado">
+          <div><h4>Questão original</h4><div class="aval-cit-texto">${escapeHtml(r.enunciado)}</div></div>
+          <div><h4>Adaptação</h4><div class="aval-cit-texto">${escapeHtml(r.adaptacao)}</div></div>
+        </div>
+        ${perguntas}
+        <textarea id="avad-motivo" rows="2" maxlength="500" placeholder="Motivo (opcional): o que sobra, falta ou mudou?"></textarea>
+        <div class="btn-row" style="margin-top:0.5rem;"><button type="button" class="btn" id="avad-gravar" disabled onclick="avadRegistrar()">Gravar e ir para a próxima</button></div>`;
+    }
+
+    function avadMarcar(k, v) {
+      avad.respostas[k] = v;
+      document.querySelectorAll(`.avad-sn button[data-k="${k}"]`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+      const todas = Object.keys((avad.atual && avad.atual.perguntas) || {}).every(x => avad.respostas[x]);
+      document.getElementById('avad-gravar').disabled = !todas;
+    }
+
+    async function avadRegistrar() {
+      if (avad.ocupado || !avad.atual || avad.atual.acabou) return;
+      avad.ocupado = true;
+      document.getElementById('avad-gravar').disabled = true;
+      try {
+        const r = await fetchJson('/api/v1/eval/avaliacao-humana/adaptacao/rotulo', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ uid: avad.atual.uid, respostas: avad.respostas, avaliador: avalCodigo(), motivo: (document.getElementById('avad-motivo') || {}).value || '' }),
+        });
+        avadDesenhar(r);
+        avadResumo();
+      } catch (e) {
+        avadAviso(`Não gravei esta avaliação: ${escapeHtml(e.message)}`, 'danger');
+      } finally {
+        avad.ocupado = false;
+      }
+    }
+
+    async function avadResumo() {
+      const box = document.getElementById('avad-resumo');
+      try {
+        const s = await fetchJson('/api/v1/eval/avaliacao-humana/adaptacao/resumo');
+        if (s.faltam) {
+          box.innerHTML = `<p class="aval-progresso">Concordância com o juiz: aparece com ${s.minimo} adaptações avaliadas; hoje são ${s.avaliadas}, de ${s.pessoas} pessoa(s). Faltam ${s.faltam}.</p>`;
+          return;
+        }
+        const nomes = { boa: 'Adaptação boa (as três juntas)', aplicou: '1. Fez o que pode', fora: '2. Acrescentou o que não pode', conteudo: '3. Conteúdo igual' };
+        const linhas = Object.entries(s.medidas).map(([k, m]) => `<tr><td>${nomes[k] || k}</td><td>${m.iguais} de ${m.itens}</td><td>${m.kappa === null ? '—' : String(m.kappa).replace('.', ',')}</td><td>${m.matriz.ambos_sim} · ${m.matriz.so_pessoa_sim} · ${m.matriz.so_juiz_sim} · ${m.matriz.ambos_nao}</td></tr>`).join('');
+        box.innerHTML = `<div class="aval-resumo-tab table-scroll"><table class="table-compact"><thead><tr><th>O que se compara</th><th>Juiz igual à pessoa</th><th>Kappa</th><th>Ambos sim · só pessoa · só juiz · ambos não</th></tr></thead><tbody>${linhas}</tbody></table>
+          <p class="aval-progresso">Técnica: contagem e kappa de Cohen (fórmula). Juiz: Codex, em lotes de 8, esforço medium, modelo não registrado (16/11). O juiz aprovou ${s.erro_caro.juiz_aprovou} das ${s.erro_caro.pessoa_reprovou} adaptações que a pessoa reprovou. ${s.avaliadas} adaptações, ${s.pessoas} pessoa(s), ${s.duas_pessoas_ou_mais} com duas ou mais. A amostra exagera as adaptações ruins de propósito; o peso de cada estrato está no arquivo da amostra.</p></div>`;
+      } catch (e) {
+        box.innerHTML = '';
+      }
+    }
 
     // O grupo Verificações de qualidade só aparece para quem abre o painel no próprio computador (o servidor recusa os outros).
     async function verificarBancadaLocal() {

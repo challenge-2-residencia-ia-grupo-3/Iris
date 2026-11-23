@@ -107,7 +107,7 @@ def main(argv: list[str] | None = None) -> None:
     def mostrar(k: int, n: int, cid: str, seg: float) -> None:
         print(f"[{k}/{n}] {cid} ({seg:.1f}s)", file=sys.stderr, flush=True)
 
-    cliente = get_llm_client(provider=args.provider, model=args.model)
+    cliente = get_llm_client(provider=args.provider, model=args.model, agente="auditor")
     print("Avaliando... (cada minuta chama o modelo; no Ollama local pode levar minutos)", file=sys.stderr, flush=True)
     rel = avaliar_juiz(carregar_casos(args.caminho), AgenteAuditor(cliente), progresso=mostrar)
     erros = rel.pop("erros")

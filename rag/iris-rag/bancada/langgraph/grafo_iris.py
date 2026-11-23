@@ -49,21 +49,53 @@ NIVEL_PADRAO = 2
 MAX_QUESTOES = 3
 
 
-# ---------------------------------------------------------------- código do grupo (montado) e arnês
-def _montagem() -> dict:
-    """Garante a cópia montada (dev + PRs) e devolve o MONTAGEM.json com os shas usados."""
+# ---------------------------------------------------------------- código do grupo e arnês
+def _grupo_local() -> Path:
+    sp = importlib.util.spec_from_file_location("bancada_onde", AQUI.parent / "onde.py")
+    mod = importlib.util.module_from_spec(sp)  # type: ignore[arg-type]
+    sp.loader.exec_module(mod)  # type: ignore[union-attr]
+    return mod.grupo()
+
+
+def _todos_agentes_na_branch(grupo: Path) -> bool:
+    return all(
+        (grupo / rel).is_file()
+        for rel in (
+            "backend/src/iris/agents/curriculum_extractor.py",
+            "backend/src/iris/agents/strategist_agent.py",
+            "backend/src/iris/agents/adapter_agent.py",
+            "backend/src/iris/agents/auditor.py",
+        )
+    )
+
+
+def _montagem() -> tuple[dict, Path]:
+    """Usa o repositório do grupo diretamente quando os 4 agentes já existem na branch; caso contrário monta a cópia."""
+    grupo = _grupo_local()
+    if not os.environ.get("IRIS_MONTADO") and _todos_agentes_na_branch(grupo):
+        import subprocess
+
+        try:
+            sha = subprocess.run(
+                ["git", "-C", str(grupo), "rev-parse", "--short=7", "HEAD"],
+                capture_output=True, text=True, check=True, timeout=20,
+            ).stdout.strip() or "dev"
+        except (OSError, subprocess.SubprocessError):
+            sha = "dev"
+        return {"dev": sha, "sobreposto": [], "limitacoes": [], "deixados_de_fora": []}, grupo
+
     arq = MONTADO / "MONTAGEM.json"
     if not arq.exists():
         spec = importlib.util.spec_from_file_location("bancada_montar_codigo", AQUI / "montar_codigo.py")
         mod = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
         spec.loader.exec_module(mod)  # type: ignore[union-attr]
         mod.montar(MONTADO)
-    return json.loads(arq.read_text(encoding="utf-8"))
+    return json.loads(arq.read_text(encoding="utf-8")), MONTADO
 
 
-MONTAGEM = _montagem()
-# o arnês (trace.py) põe no sys.path o código que estiver em IRIS_GRUPO: aqui, a cópia montada
-os.environ["IRIS_GRUPO"] = str(MONTADO)
+MONTAGEM, RAIZ_GRUPO = _montagem()
+# o arnês (trace.py) põe no sys.path o código que estiver em IRIS_GRUPO
+os.environ["IRIS_GRUPO"] = str(RAIZ_GRUPO)
 
 
 def _carregar(nome: str, caminho: Path):
@@ -397,7 +429,11 @@ def no_adaptador(estado: EstadoIris, ctx: Contexto) -> dict:
         ctx.falhar_adaptador_uma_vez = False
         raise RuntimeError("falha simulada do Adaptador (ex.: o Ollama caiu)")
     tentativa = estado.get("tentativa", 0) + 1
-    res = AdapterAgent(llm_client=ctx.cliente, comandos_por_regra=False).adapt(_pedido_adaptacao(estado), tentativa=tentativa)  # type: ignore[arg-type]
+    res = AdapterAgent(
+        llm_client=ctx.cliente,
+        comandos_por_regra=False,
+        conferente_por_regra=False,
+    ).adapt(_pedido_adaptacao(estado), tentativa=tentativa)  # type: ignore[arg-type]
     return {"tentativa": tentativa, "minuta": res.texto_adaptado, "escopo_aprovado": res.escopo.aprovado}
 
 

@@ -26,6 +26,7 @@ from iris.schemas.materials import (
     validate_file_size_limit,
     validate_material_content,
 )
+from iris.security.operational_logger import sentinel_context
 from iris.security.pii_scrubber import sanitize_pii
 
 
@@ -44,11 +45,12 @@ def process_material_text_service(raw_text: str) -> MaterialResponse:
             field="text",
         )
 
-    # 1. Sanitizar PII (irreversível, sem dicionário de retenção)
-    sanitized_text, pii_count = sanitize_pii(raw_text)
+    with sentinel_context(raw_text):
+        # 1. Sanitizar PII (irreversível, sem dicionário de retenção)
+        sanitized_text, pii_count = sanitize_pii(raw_text)
 
-    # 2. Validar limites de tamanho e janela de contexto
-    char_count, word_count = validate_material_content(sanitized_text)
+        # 2. Validar limites de tamanho e janela de contexto
+        char_count, word_count = validate_material_content(sanitized_text)
 
     # 3. Retornar resposta
     return MaterialResponse(
@@ -81,17 +83,19 @@ def process_material_file_service(filename: str, content: bytes) -> MaterialResp
             code="MISSING_FILENAME",
         )
 
-    # 1. Validar limite de tamanho binário do arquivo
-    validate_file_size_limit(content)
+    with sentinel_context(filename):
+        # 1. Validar limite de tamanho binário do arquivo
+        validate_file_size_limit(content)
 
-    # 2. Extração em memória
-    extracted_text, detected_format = extract_text_from_file(filename, content)
+        # 2. Extração em memória
+        extracted_text, detected_format = extract_text_from_file(filename, content)
 
-    # 2. Sanitizar PII
-    sanitized_text, pii_count = sanitize_pii(extracted_text)
+        with sentinel_context(extracted_text):
+            # 2. Sanitizar PII
+            sanitized_text, pii_count = sanitize_pii(extracted_text)
 
-    # 3. Validar limites de negócio
-    char_count, word_count = validate_material_content(sanitized_text)
+            # 3. Validar limites de negócio
+            char_count, word_count = validate_material_content(sanitized_text)
 
     # 4. Retornar resposta
     return MaterialResponse(
@@ -123,11 +127,12 @@ def decompose_material_service(raw_text: str) -> MaterialStructure:
             field="text",
         )
 
-    # Garante sanitização de PII antes de decompor
-    sanitized, _ = sanitize_pii(raw_text)
-    # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
-    validate_material_content(sanitized)
-    return decompose_material(sanitized)
+    with sentinel_context(raw_text):
+        # Garante sanitização de PII antes de decompor
+        sanitized, _ = sanitize_pii(raw_text)
+        # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
+        validate_material_content(sanitized)
+        return decompose_material(sanitized)
 
 
 def organize_prose_service(raw_text: str) -> ProseStructure:
@@ -144,10 +149,11 @@ def organize_prose_service(raw_text: str) -> ProseStructure:
             field="text",
         )
 
-    sanitized, _ = sanitize_pii(raw_text)
-    # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
-    validate_material_content(sanitized)
-    return organize_prose_structure(sanitized)
+    with sentinel_context(raw_text):
+        sanitized, _ = sanitize_pii(raw_text)
+        # Mesmos limites de tamanho da entrada de texto (História 1.1.1)
+        validate_material_content(sanitized)
+        return organize_prose_structure(sanitized)
 
 
 # Roteamento FastAPI (quando FastAPI estiver disponível)
@@ -175,7 +181,7 @@ try:
         except Exception as err:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail={"detail": f"Erro interno ao processar texto: {err}", "code": "INTERNAL_ERROR"},
+                detail={"detail": f"Erro interno ao processar texto ({type(err).__name__}).", "code": "INTERNAL_ERROR"},
             ) from err
 
     @router.post(
@@ -209,7 +215,7 @@ try:
         except Exception as err:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail={"detail": f"Erro interno ao processar arquivo: {err}", "code": "INTERNAL_ERROR"},
+                detail={"detail": f"Erro interno ao processar arquivo ({type(err).__name__}).", "code": "INTERNAL_ERROR"},
             ) from err
 
     @router.post(
@@ -231,7 +237,7 @@ try:
         except Exception as err:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail={"detail": f"Erro interno ao decompor material: {err}", "code": "INTERNAL_ERROR"},
+                detail={"detail": f"Erro interno ao decompor material ({type(err).__name__}).", "code": "INTERNAL_ERROR"},
             ) from err
 
     @router.post(
@@ -253,7 +259,7 @@ try:
         except Exception as err:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail={"detail": f"Erro interno ao organizar texto corrido: {err}", "code": "INTERNAL_ERROR"},
+                detail={"detail": f"Erro interno ao organizar texto corrido ({type(err).__name__}).", "code": "INTERNAL_ERROR"},
             ) from err
 
 

@@ -143,6 +143,20 @@ def _ranking_bm25(pergunta: str, n: int, filtro: dict | None) -> list[tuple[str,
     return out
 
 
+class IndiceDessincronizado(RuntimeError):
+    """O banco de vetores foi montado com outra base de trechos: falha de infraestrutura, não de código. Quem chama
+    pode recuar para o bm25 (com aviso); reconstruir o índice com a base atual resolve."""
+
+
+class MetodoDesconhecido(ValueError):
+    """Método de busca fora de METODOS: erro de quem chamou, não falha de infraestrutura."""
+
+
+def validar_metodo(metodo: str) -> None:
+    if metodo not in METODOS:
+        raise MetodoDesconhecido(f"método desconhecido: {metodo} (use {METODOS})")
+
+
 def _ranking_denso(pergunta: str, apelido: str, n: int, filtro: dict | None) -> list[tuple[str, float]]:
     v = _modelo(apelido).vetor_pergunta(pergunta)
     bp, con = _pg()
@@ -152,7 +166,7 @@ def _ranking_denso(pergunta: str, apelido: str, n: int, filtro: dict | None) -> 
     _, por_id, _ = _base()
     faltam = [cid for cid, _ in resultado if cid not in por_id]
     if faltam:
-        raise RuntimeError(
+        raise IndiceDessincronizado(
             f"o índice do banco tem trechos que o chunks.jsonl não tem (ex.: {faltam[0]}): o banco foi montado com "
             "outra base de trechos; reconstrua o índice com a base atual ou use bm25"
         )

@@ -9,23 +9,16 @@ Este guia permite testar **de ponta a ponta** tudo o que já foi implementado no
 ```mermaid
 flowchart LR
     subgraph Pronto["Já Implementado e Testável Agora"]
-        E1["Etapa 1 Web (Next.js :3000)<br/>#4 Upload (.pdf/.docx/.txt) + Texto"]
+        E1["Etapas 1–5 Web (Next.js :3000)<br/>Upload, Seleção, Calibração, Agentes e Revisão"]
         PII["Gateway PII (#34)<br/>Descarte Zero-Retention"]
+        DEC["Decompositor Estrutural (#5, #53)"]
         CAT["Catálogo TDAH (#39)<br/>10 Características + Schema"]
-        RAG["Motor RAG & 12 Métricas (#16 / #42 / #43)<br/>Playground Web (:8000) + make rag"]
-        EVAL["Golden Benchmark & TRCC (#40 / #45 / #52)<br/>30 Questões + Flesch PT-BR"]
-        EXT["Agente Extrator Curricular (#17)<br/>make extrator + Analytics"]
+        RAG["Motor RAG & Playground (:8000)<br/>LangGraph + 16 Verificações de Qualidade"]
+        AGENTS["Sistema Multiagentes (#15–#19)<br/>Extrator, Estrategista, Adaptador & Auditor"]
+        EVAL["Avaliação Reproduzível<br/>make eval-agentes + make qualidade"]
     end
 
-    subgraph Proximas["Em Desenvolvimento / Próximas Issues"]
-        DEC["Decompositor (#5, #53)"]
-        E2["Etapa 2 e 3 Web (#8, #9, #12, #13)"]
-        ADAPT["Agentes Adaptador (#18) e Auditor (#19)"]
-    end
-
-    E1 --> PII --> CAT
-    CAT --> RAG
-    EVAL --> EXT
+    E1 --> PII --> DEC --> CAT --> RAG --> AGENTS --> EVAL
 ```
 
 ---
@@ -148,11 +141,16 @@ make extrator
 
 > **Atalhos diretos sem abrir menu:** `make extrator-bench` e `make extrator-analytics`.
 
-### 5.3. Demonstração do Sistema Multiagentes Completo (`make multiagentes`) — Semana 4 (`#15` a `#19`)
+### 5.3. Demonstração e Auditoria Reproduzível do Sistema Multiagentes (`#15` a `#19`)
 ```bash
 make multiagentes
+make eval-agentes
+make qualidade
 ```
-* **O que executa:** Roda os 4 agentes colaborando em sequência (`Extrator` $\rightarrow$ `Estrategista RAG` $\rightarrow$ `Adaptador` $\leftrightarrow$ `Auditor`) em dois cenários: aprovação direta na 1ª tentativa e ciclo de auto-correção com feedback do Auditor para o Adaptador.
+* **O que executa:**
+  * `make multiagentes`: roda os 4 agentes colaborando em sequência (`Extrator` $\rightarrow$ `Estrategista RAG` $\rightarrow$ `Adaptador` $\leftrightarrow$ `Auditor`) em dois cenários (aprovação direta e ciclo de auto-correção).
+  * `make eval-agentes`: avalia os 4 agentes em lote no `golden_benchmark.json` (aceita `PROV=eco|ollama|anthropic|groq LIMITE=N`) e gera `reports/multiagentes_ciclo.{json,md}`.
+  * `make qualidade` / `make qualidade-painel`: executa as 16 verificações da bancada com os 6 portões automáticos (`http://127.0.0.1:8777`). Consulte os detalhes em [Como Auditamos os Agentes](auditoria_agentes.md).
 * **Na interface Web:** Após percorrer as Etapas 1, 2 e 3 em `http://localhost:3000`, avance para `/etapa-4` para acionar `POST /api/v1/agents/adapt` e visualizar os 4 agentes na tela antes da revisão na `/etapa-5`.
 
 ### 5.4. Portal de Documentação MkDocs (`make docs`) — Issues `#41`, `#47`, `#51`
