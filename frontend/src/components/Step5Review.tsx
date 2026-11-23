@@ -87,10 +87,10 @@ export function Step5Review({ entrada, demo = false, teacherEmail = "marina.alve
             </button>
             <button
               type="button"
-              onClick={() => router.push("/etapa-2")}
+              onClick={() => router.push("/etapa-4")}
               className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-[#335C67] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#2A4D56]"
             >
-              <ArrowLeft className="h-4 w-4" aria-hidden /> Etapa 2
+              <ArrowLeft className="h-4 w-4" aria-hidden /> Etapa 4
             </button>
           </div>
         </div>
