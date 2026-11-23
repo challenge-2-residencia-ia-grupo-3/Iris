@@ -340,6 +340,60 @@ class PerfilInvalidoError(ValueError):
                 "violacoes": [v.to_dict(incluir_trecho) for v in self.violacoes]}
 
 
+_ROTULO_CAMPO = {
+    "versao_schema": "versão do formato (versao_schema)",
+    "codigo_anonimo": "código anônimo (codigo_anonimo)",
+    "criado_em": "data de criação (criado_em)",
+    "caracteristicas_selecionadas": "características selecionadas",
+    "barreiras_observadas": "barreiras observadas",
+    "historico_estrategias": "histórico de estratégias",
+    "historico_intervencoes": "histórico de intervenções",
+    "anotacoes_pedagogicas": "anotações pedagógicas",
+    "eficacia": "eficácia",
+    "estrategia": "estratégia",
+    "id_caracteristica": "identificador da característica",
+    "observacao": "observação",
+    "registrado_em": "data do registro (registrado_em)",
+    "resultado": "resultado",
+}
+
+
+def _rotulo_local(loc: tuple[Any, ...]) -> str:
+    partes: list[str] = []
+    for x in loc:
+        if isinstance(x, int):
+            partes.append(f"item {x + 1}")
+        else:
+            partes.append(_ROTULO_CAMPO.get(str(x), str(x)))
+    return " > ".join(partes) or "perfil"
+
+
+def _mensagem_pt(e: Any) -> str:
+    """Mensagem em português simples para um erro de validação (sem repetir o valor digitado)."""
+    tipo, ctx, local = e["type"], e.get("ctx") or {}, _rotulo_local(tuple(e["loc"]))
+    if tipo == "missing":
+        return f"Falta o campo obrigatório: {local}."
+    if tipo == "string_pattern_mismatch":
+        if e["loc"] and e["loc"][-1] == "codigo_anonimo":
+            return "O código anônimo deve ter o formato 'aluno-' seguido de 8 a 32 caracteres de 0 a 9 e a a f (ex.: aluno-3f9a1c2b)."
+        return f"O campo {local} está em formato inválido: use o identificador de característica da plataforma (ex.: atencao_sustentada)."
+    if tipo == "literal_error":
+        esperados = str(ctx.get("expected", "")).replace("'", "")
+        if e["loc"] and e["loc"][-1] == "versao_schema":
+            return "Este arquivo foi criado em outra versão do formato. Só a versão 1.0 do perfil pode ser importada."
+        return f"Valor não aceito em {local}. Valores permitidos: {esperados}."
+    if tipo in ("string_too_short", "string_too_long", "too_long", "too_short"):
+        limite = ctx.get("max_length") or ctx.get("min_length")
+        return f"O campo {local} {'passou do limite' if 'long' in tipo else 'ficou abaixo do mínimo'} de {limite} {'caracteres' if tipo.startswith('string') else 'itens'}."
+    if tipo.endswith("_type") or tipo in ("model_attributes_type", "dict_type"):
+        return f"O campo {local} tem o tipo errado (esperado: {'lista' if tipo == 'list_type' else 'texto' if tipo == 'string_type' else 'objeto'})."
+    if tipo.startswith("datetime") or tipo in ("timezone_aware", "date_from_datetime_parsing"):
+        return f"A data em {local} não é válida; use o formato ISO 8601 com fuso horário (ex.: 2026-03-01T10:00:00+00:00)."
+    if tipo == "value_error":
+        return str(e["msg"]).removeprefix("Value error, ")
+    return f"O campo {local} tem um valor inválido."
+
+
 def _traduzir(exc: ValidationError) -> PerfilInvalidoError:
     msgs, violacoes = [], []
     for e in exc.errors():
@@ -351,7 +405,7 @@ def _traduzir(exc: ValidationError) -> PerfilInvalidoError:
         elif e["type"] == "extra_forbidden":
             msgs.append(f"O campo '{local}' não faz parte do Perfil Pedagógico Portátil e foi rejeitado.")
         else:
-            msgs.append(f"Campo '{local}': {e['msg']}")
+            msgs.append(_mensagem_pt(e))
     msgs = list(dict.fromkeys(msgs))
     return PerfilInvalidoError(CODIGO_BLOQUEIO if violacoes else CODIGO_ESTRUTURA, msgs, tuple(violacoes))
 
@@ -361,7 +415,8 @@ def validar_perfil(dados: Mapping[str, Any] | str | bytes) -> PerfilPedagogico:
     if isinstance(dados, (str, bytes)):
         try:
             dados = json.loads(dados)
-        except json.JSONDecodeError as exc:
+        except (json.JSONDecodeError, RecursionError, ValueError, UnicodeError) as exc:
+            # JSON malformado, aninhado demais, inteiro gigante ou Unicode inválido: tudo é "arquivo ilegível".
             raise PerfilInvalidoError(CODIGO_JSON, ["O arquivo do perfil não é um JSON válido."]) from exc
     if not isinstance(dados, Mapping):
         raise PerfilInvalidoError(CODIGO_ESTRUTURA, ["O perfil deve ser um objeto JSON."])
@@ -369,6 +424,8 @@ def validar_perfil(dados: Mapping[str, Any] | str | bytes) -> PerfilPedagogico:
         return PerfilPedagogico.model_validate(dados)
     except ValidationError as exc:
         raise _traduzir(exc) from exc
+    except RecursionError as exc:
+        raise PerfilInvalidoError(CODIGO_JSON, ["O arquivo do perfil é complexo demais para ser lido."]) from exc
 
 
 def criar_perfil(

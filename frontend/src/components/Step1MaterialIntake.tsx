@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { IrisLogoBanner } from "./IrisLogoBanner";
 import { IrisSidebar } from "./IrisSidebar";
+import { PerfilImport } from "./PerfilImport";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
   ALLOWED_EXTENSIONS,
@@ -497,6 +498,9 @@ export function Step1MaterialIntake({
             )}
           </div>
         </section>
+
+          {/* Importação opcional do Perfil Pedagógico Portátil (História 3.2.2) */}
+          <PerfilImport />
 
         {/* Toast / Alerta Flutuante no Canto Superior Direito (ARIA Live) */}
         <div

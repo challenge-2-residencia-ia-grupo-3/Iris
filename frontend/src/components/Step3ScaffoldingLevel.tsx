@@ -50,6 +50,7 @@ import {
   validateCurriculumLocksSession,
 } from "@/services/scaffoldingApi";
 import { IrisApiError } from "@/services/materialsApi";
+import { carregarRestauracaoDaSessao, ROTULO_NIVEL_ANDAIME } from "@/services/portableProfileImport";
 
 interface Step3ScaffoldingLevelProps {
   teacherEmail?: string;
@@ -68,6 +69,8 @@ export function Step3ScaffoldingLevel({
   const { darkMode, toggleDarkMode } = useTheme();
 
   const [selectedLevel, setSelectedLevel] = useState<ScaffoldingLevel>(initialLevel);
+  // Nível sugerido pelo perfil pedagógico portátil importado na Etapa 1 (História 3.2.2)
+  const [nivelDoPerfil, setNivelDoPerfil] = useState<{ nivel: ScaffoldingLevel; motivo: string; codigo: string } | null>(null);
   const [selectedCharacteristics, setSelectedCharacteristics] = useState<CharacteristicItem[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isLoadingSession, setIsLoadingSession] = useState(true);
@@ -132,6 +135,12 @@ export function Step3ScaffoldingLevel({
       if (savedCalibration && [1, 2, 3].includes(savedCalibration.nivel)) {
         setSelectedLevel(savedCalibration.nivel);
         setCalibrationResult(savedCalibration);
+      } else {
+        const importado = carregarRestauracaoDaSessao();
+        if (importado?.nivel_andaime) {
+          setSelectedLevel(importado.nivel_andaime);
+          setNivelDoPerfil({ nivel: importado.nivel_andaime, motivo: importado.motivo_nivel, codigo: importado.codigo_anonimo });
+        }
       }
 
       if (hasSavedLock && savedLock) {
@@ -529,6 +538,16 @@ export function Step3ScaffoldingLevel({
               <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
                 Calibre o grau de mediação aplicado às características selecionadas, preservando o objetivo avaliativo da questão.
               </p>
+              {nivelDoPerfil && (
+                <p
+                  role="status"
+                  data-testid="nivel-sugerido-perfil"
+                  className="text-xs sm:text-sm font-semibold text-[#14532D] dark:text-[#C8F0D4] max-w-2xl"
+                >
+                  Nível {ROTULO_NIVEL_ANDAIME[nivelDoPerfil.nivel]} pré-selecionado pelo perfil {nivelDoPerfil.codigo}.{" "}
+                  {nivelDoPerfil.motivo} Você pode escolher outro nível.
+                </p>
+              )}
             </div>
 
             {/* Grid dos 3 Cards de Seleção de Nível */}
