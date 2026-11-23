@@ -86,7 +86,7 @@ export function Step1MaterialIntake({
   const [confirmedForStep2, setConfirmedForStep2] = useState<boolean>(false);
   const [showUploadZone, setShowUploadZone] = useState<boolean>(true);
 
-  // Restaura o material e arquivo enviados anteriormente na sessão ao voltar da Etapa 2
+  // Restaura o material e arquivo enviados anteriormente na sessão ao voltar de outras etapas
   useEffect(() => {
     const saved = loadStep1StateFromSession();
     if (saved && saved.textContent) {
@@ -94,7 +94,7 @@ export function Step1MaterialIntake({
       setServerMetadata(saved.metadata);
       setSelectedFile(saved.selectedFile);
       setConfirmedForStep2(saved.confirmedForStep2);
-      setShowUploadZone(saved.confirmedForStep2 || saved.selectedFile?.status !== "accepted");
+      setShowUploadZone(saved.selectedFile?.status !== "accepted");
     }
   }, []);
 
@@ -265,7 +265,6 @@ export function Step1MaterialIntake({
    */
   const handleValidateAndAdvance = async () => {
     if (confirmedForStep2) {
-      setShowUploadZone(true);
       saveStep1StateToSession({
         textContent,
         metadata: serverMetadata,
@@ -311,7 +310,6 @@ export function Step1MaterialIntake({
       setTextContent(response.raw_text);
       setServerMetadata(response.metadata);
       setConfirmedForStep2(true);
-      setShowUploadZone(true);
 
       saveStep1StateToSession({
         textContent: response.raw_text,
