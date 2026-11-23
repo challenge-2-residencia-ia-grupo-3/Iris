@@ -14,6 +14,13 @@ Cada questão tem um cartão com:
 
 Se a característica não estiver no catálogo, o cartão avisa e não cita fundamento. Se nenhuma adaptação foi aplicada, avisa que o texto da direita é o original.
 
+## "Como o aluno verá"
+
+Abaixo da caixa de edição de cada questão há uma prévia do texto adaptado **sem a marcação**: `**negrito**` aparece em
+negrito e `[ ]` / `[x]` viram caixas desenhadas (com nome para leitor de tela: "caixa para marcar" / "caixa marcada").
+A prévia acompanha o que o professor digita; a caixa de edição continua sendo a fonte de verdade e guarda o texto com a
+marcação. Se a versão adaptada for apagada, a prévia avisa que está vazia.
+
 ## Indicadores de andaime
 
 Chips com texto e ícone, derivados do **texto adaptado** (se o professor apagar o andaime, o indicador some): verbos de comando em destaque, etapas em lista de verificação, passos com espaço de resposta, caixas de conferência e lembrete de conferência final.
