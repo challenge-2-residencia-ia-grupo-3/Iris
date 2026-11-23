@@ -28,6 +28,7 @@ import { IrisSidebar } from "./IrisSidebar";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
   AgentProviderOption,
+  fontesCitadas,
   loadStep4ResultFromSession,
   MultiAgentMaterialResponse,
   QuestionMultiAgentTrace,
@@ -550,11 +551,11 @@ function QuestionCollaborationCard({
           ) : (
             <p className="text-xs italic opacity-75">Nenhuma evidência recuperada para o filtro.</p>
           )}
-          {est.fontes.length > 0 && (
-            <div className="pt-1 space-y-1">
+          {fontesCitadas(est).length > 0 && (
+            <div className="pt-1 space-y-1" data-testid="fontes-citadas">
               <p className="text-[11px] font-bold opacity-80">Fontes científicas citadas:</p>
               <ul className="space-y-1 text-[11px] opacity-85">
-                {est.fontes.slice(0, 3).map((f) => (
+                {fontesCitadas(est).map((f) => (
                   <li key={`${f.rotulo}-${f.chunk_id}`} className="truncate">
                     <span className="font-mono font-bold">[{f.rotulo}]</span> {f.referencia}
                   </li>

@@ -7,6 +7,7 @@ import { ThemeProvider } from "../src/contexts/ThemeContext";
 import { Step4AgentAdaptation } from "../src/components/Step4AgentAdaptation";
 import {
   clearStep4ResultFromSession,
+  fontesCitadas,
   loadStep4ResultFromSession,
   MultiAgentMaterialResponse,
   runMultiAgentAdaptation,
@@ -188,6 +189,50 @@ describe("agentsApi e persistência em sessão", () => {
     expect(String(fetchMock.mock.calls[0][0])).toContain("/api/v1/agents/adapt");
     expect(fetchMock.mock.calls[0][1].method).toBe("POST");
     expect(loadStep4ResultFromSession()?.status).toBe("success");
+  });
+});
+
+describe("fontes citadas na Etapa 4", () => {
+  const est = MOCK_RESPONSE.questoes_trace[0].estrategista;
+  const fonte = (rotulo: string) => ({ ...est.fontes[0], rotulo, chunk_id: `c-${rotulo}`, referencia: `Fonte ${rotulo}` });
+
+  it("lista só as fontes que a diretiva cita, mesmo que a busca tenha devolvido mais", () => {
+    const comCinco = {
+      ...est,
+      fontes: ["T1", "T2", "T3", "T4", "T5"].map(fonte),
+      intervencoes: [
+        { ...est.intervencoes[0], citacoes: ["T4"] },
+        { ...est.intervencoes[0], citacoes: ["T1", "T4"] },
+      ],
+    };
+    expect(fontesCitadas(comCinco).map((f) => f.rotulo)).toEqual(["T1", "T4"]);
+  });
+
+  it("sem citação na diretiva, não há fonte citada", () => {
+    expect(fontesCitadas({ ...est, fontes: ["T1", "T2"].map(fonte), intervencoes: [] })).toEqual([]);
+  });
+
+  it("a tela mostra a fonte citada e esconde a que só veio da busca", async () => {
+    const resposta: MultiAgentMaterialResponse = {
+      ...MOCK_RESPONSE,
+      questoes_trace: [
+        {
+          ...MOCK_RESPONSE.questoes_trace[0],
+          estrategista: { ...est, fontes: [fonte("T1"), fonte("T2")] },
+        },
+      ],
+    };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => resposta }));
+    render(
+      <ThemeProvider>
+        <Step4AgentAdaptation />
+      </ThemeProvider>
+    );
+    fireEvent.click(screen.getByRole("button", { name: /Executar Sistema Multiagentes/i }));
+    await waitFor(() => expect(screen.getByTestId("fontes-citadas")).toBeTruthy());
+    const bloco = screen.getByTestId("fontes-citadas").textContent ?? "";
+    expect(bloco).toContain("Fonte T1");
+    expect(bloco).not.toContain("Fonte T2");
   });
 });
 
