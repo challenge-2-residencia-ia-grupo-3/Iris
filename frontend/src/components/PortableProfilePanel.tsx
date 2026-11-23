@@ -125,9 +125,11 @@ export function PortableProfilePanel({ selectedIds, validIds, nomesCaracteristic
         </button>
       </div>
 
-      <p className="flex items-center gap-1.5 text-xs text-[#0D0221]/75 dark:text-white/75">
-        <Lock className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
-        <span>Salvo apenas neste dispositivo, sem nome, laudo ou CID do estudante.</span>
+      <p className="flex items-start gap-1.5 text-xs text-[#0D0221]/75 dark:text-white/75">
+        <Lock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" aria-hidden="true" />
+        <span>
+          Salvo apenas neste dispositivo com código anônimo (nada fica guardado no servidor); não inclua nome, laudo ou CID.
+        </span>
       </p>
 
       <div aria-live="polite" className="space-y-3">
@@ -180,6 +182,9 @@ export function PortableProfilePanel({ selectedIds, validIds, nomesCaracteristic
                 {gerandoPdf ? "Gerando PDF..." : "Baixar PDF (PDI)"}
               </button>
             </div>
+            <p className="text-[11px] text-[#0D0221]/65 dark:text-white/65">
+              Para o PDF, o perfil é enviado ao servidor só para montar o relatório e não é guardado.
+            </p>
           </div>
         )}
 

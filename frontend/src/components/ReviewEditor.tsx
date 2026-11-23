@@ -70,21 +70,28 @@ export function ReviewEditor({ sessao, extras }: Props) {
   }, [pendente, sincronizar]);
 
   const temQuestaoVazia = estado.questoes.some((q) => !q.adaptado.trim());
-  const podeConfirmarDireto = estado.questoes.length > 0 && !temQuestaoVazia && !salvando && !estado.homologada;
+  const todasAprovadas = estado.questoes.length > 0 && estado.questoes.every((q) => q.aprovada);
+
+  const aprovarTodas = () => {
+    if (temQuestaoVazia || todasAprovadas) return;
+    setEstado((e) => e.questoes.reduce((acc, q) => definirAprovacao(acc, q.id, true), e));
+  };
 
   const homologarAgora = async () => {
-    if (!podeConfirmarDireto) return;
+    if (!podeHomologar(estado) || salvando || estado.homologada) return;
     setErro(null);
     setSalvando(true);
     try {
-      const questoesParaAprovar = estado.questoes.map((q) => ({ ...q, aprovada: true }));
-      const envio = diferencas(questoesParaAprovar, confirmado);
+      const envio = diferencas(estado.questoes, confirmado);
       const resp = await salvarRevisao(sessao.id, {
         ...(envio.length > 0 ? { questoes: envio } : {}),
         homologar: true,
       });
       setConfirmado(resp.questoes);
-      setEstado({ questoes: resp.questoes, homologada: resp.homologada });
+      setEstado((e) => ({
+        ...e,
+        homologada: resp.homologada && podeHomologar(e) && diferencas(e.questoes, resp.questoes).length === 0,
+      }));
     } catch (e) {
       setErro(e instanceof SessaoRevisaoError ? e.message : "Não foi possível confirmar a revisão.");
     } finally {
@@ -154,10 +161,21 @@ export function ReviewEditor({ sessao, extras }: Props) {
         <span className="text-sm" aria-live="polite">
           {aprovadas} de {total} questões aprovadas · {salvando ? "salvando…" : pendente ? "alterações por salvar" : "tudo salvo"}
         </span>
+        {!todasAprovadas && total > 1 && (
+          <button
+            type="button"
+            onClick={aprovarTodas}
+            disabled={temQuestaoVazia}
+            className="inline-flex min-h-[44px] items-center gap-1 rounded-md border border-slate-400 bg-white px-3 py-1.5 text-sm text-slate-900 disabled:opacity-60 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
+          >
+            <CheckCircle2 className="h-4 w-4" aria-hidden />
+            Aprovar todas
+          </button>
+        )}
         <button
           type="button"
           onClick={homologarAgora}
-          disabled={!podeConfirmarDireto}
+          disabled={!podeHomologar(estado) || salvando || estado.homologada}
           className="inline-flex min-h-[44px] items-center gap-1 rounded-md bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-60 dark:bg-slate-100 dark:text-slate-900"
         >
           <ShieldCheck className="h-4 w-4" aria-hidden />

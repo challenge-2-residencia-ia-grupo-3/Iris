@@ -15,6 +15,7 @@ export interface Step1SelectedFileInfo {
   sizeBytes: number;
   extension: string;
   status: "accepted" | "rejected" | "uploading";
+  errorMessage?: string;
 }
 
 export interface Step1SessionState {

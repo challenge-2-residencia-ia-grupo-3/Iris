@@ -545,7 +545,7 @@ export function Step2FunctionalProfile({
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
                 <div className="space-y-1.5">
-                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E35336]">
+                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
                     <span>{STEP_TITLES[2]}</span>
                   </div>
                   <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
@@ -813,7 +813,7 @@ export function Step2FunctionalProfile({
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
               <div className="space-y-1.5">
-                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E35336]">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
                   <span>{STEP_TITLES[2]}</span>
                 </div>
                 <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
@@ -1031,7 +1031,7 @@ export function Step2FunctionalProfile({
             className="flex-1 flex flex-col gap-5 bg-white dark:bg-[#160A30] border-2 border-[#335C67]/30 dark:border-white/15 rounded-2xl p-5 sm:p-6 shadow-md"
           >
             <div className="space-y-1.5 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E35336]">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
                 <span>{STEP_TITLES[2]}</span>
               </div>
               <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">

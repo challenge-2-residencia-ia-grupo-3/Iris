@@ -110,10 +110,10 @@ describe("Etapa 5: acessibilidade (WCAG 2.1 AA)", () => {
     expect(screen.getAllByRole("button", { name: /Questão aprovada/ })[0].getAttribute("aria-pressed")).toBe("true");
   });
 
-  it("a exportação segue bloqueada na tela até a homologação e permite confirmar revisão final em 1 clique", () => {
+  it("a exportação segue bloqueada na tela até a homologação", () => {
     render(tela());
     for (const b of screen.getAllByRole("button", { name: /Exportar/ })) expect((b as HTMLButtonElement).disabled).toBe(true);
-    expect((screen.getByRole("button", { name: /Confirmar revisão final/ }) as HTMLButtonElement).disabled).toBe(false);
+    expect((screen.getByRole("button", { name: /Confirmar revisão final/ }) as HTMLButtonElement).disabled).toBe(true);
   });
 });
 

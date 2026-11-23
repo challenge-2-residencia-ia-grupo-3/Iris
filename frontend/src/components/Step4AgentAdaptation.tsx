@@ -201,7 +201,7 @@ export function Step4AgentAdaptation({
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="space-y-1.5">
-                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E35336]">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
                   <span>{STEP_TITLES[4]}</span>
                 </div>
                 <h1

@@ -118,20 +118,22 @@ export function Step1MaterialIntake({
     // 1. Validação instantânea no cliente (extensão, vazio, tamanho binário)
     const validation = validateClientFileFormat(file);
     if (!validation.valid) {
+      const errorMsg =
+        validation.errorMessage ||
+        "Formato não suportado. Envie apenas um arquivo nos formatos .pdf, .docx ou .txt.";
       setSelectedFile({
         name: file.name,
         sizeBytes: file.size,
         extension: validation.extension,
         status: "rejected",
+        errorMessage: errorMsg,
       });
       setServerMetadata(null);
       setShowUploadZone(true);
       setFeedbackBanner({
         type: "error",
         title: "Arquivo rejeitado na validação",
-        message:
-          validation.errorMessage ||
-          "Formato não suportado. Envie apenas um arquivo nos formatos .pdf, .docx ou .txt.",
+        message: errorMsg,
         code: validation.errorCode,
       });
       return;
@@ -172,11 +174,13 @@ export function Step1MaterialIntake({
         title: "Confira o texto abaixo antes de prosseguir.",
       });
     } catch (err) {
+      const serverReason = err instanceof IrisApiError ? err.message : undefined;
       setSelectedFile({
         name: file.name,
         sizeBytes: file.size,
         extension: validation.extension,
         status: "rejected",
+        errorMessage: serverReason,
       });
       setServerMetadata(null);
       setShowUploadZone(true);
@@ -185,6 +189,8 @@ export function Step1MaterialIntake({
         setFeedbackBanner({
           type: "error",
           title: "Não foi possível extrair esse material.",
+          message: err.message,
+          code: err.code,
         });
       } else {
         setFeedbackBanner({
@@ -454,7 +460,7 @@ export function Step1MaterialIntake({
         <main id="conteudo-principal" className="flex-1 min-w-0 space-y-5">
           {/* Cabeçalho da Etapa 1 */}
         <section aria-labelledby="titulo-etapa-1" className="space-y-2">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E35336]">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
             <span>{STEP_TITLES[1]}</span>
           </div>
           <h1
@@ -563,7 +569,8 @@ export function Step1MaterialIntake({
                       </p>
                       <p className="text-[11px] opacity-80">
                         {selectedFile.status === "rejected" &&
-                          `Formato ou arquivo rejeitado (${selectedFile.extension}) — Tente novamente`}
+                          (selectedFile.errorMessage ||
+                            `Formato ou arquivo rejeitado (${selectedFile.extension}) — Tente novamente`)}
                         {selectedFile.status === "uploading" && "Extraindo e sanitizando em memória..."}
                       </p>
                     </div>

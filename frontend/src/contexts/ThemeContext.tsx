@@ -3,29 +3,38 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 const THEME_STORAGE_KEY = "iris.theme.dark_mode";
+const HIGH_CONTRAST_STORAGE_KEY = "iris.theme.high_contrast";
 
 interface ThemeContextValue {
   darkMode: boolean;
   setDarkMode: (value: boolean) => void;
   toggleDarkMode: () => void;
+  highContrast: boolean;
+  setHighContrast: (value: boolean) => void;
+  toggleHighContrast: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 /**
- * Provider global de tema (Modo Claro / Escuro) compartilhado via `app/layout.tsx`
+ * Provider global de tema (Modo Claro / Escuro e Alto Contraste WCAG 2.1 AA) compartilhado via `app/layout.tsx`
  * entre todas as rotas (`/`, `/etapa-1`, `/etapa-2`, ...).
  * Persiste apenas a preferência visual na `sessionStorage` do navegador (Zero-Database).
  */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkModeState] = useState<boolean>(false);
+  const [highContrast, setHighContrastState] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState<boolean>(false);
 
   useEffect(() => {
     try {
-      const saved = window.sessionStorage.getItem(THEME_STORAGE_KEY);
-      if (saved === "true") {
+      const savedDark = window.sessionStorage.getItem(THEME_STORAGE_KEY);
+      if (savedDark === "true") {
         setDarkModeState(true);
+      }
+      const savedHc = window.sessionStorage.getItem(HIGH_CONTRAST_STORAGE_KEY);
+      if (savedHc === "true") {
+        setHighContrastState(true);
       }
     } catch {
       // Ignora caso sessionStorage esteja indisponível no navegador
@@ -35,7 +44,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (darkMode) {
+    if (darkMode || highContrast) {
       root.classList.add("dark");
     } else {
       root.classList.remove("dark");
@@ -47,7 +56,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // Ignora caso sessionStorage esteja indisponível no navegador
     }
-  }, [darkMode, hydrated]);
+  }, [darkMode, highContrast, hydrated]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (highContrast) {
+      root.classList.add("high-contrast");
+    } else {
+      root.classList.remove("high-contrast");
+    }
+
+    if (!hydrated) return;
+    try {
+      window.sessionStorage.setItem(HIGH_CONTRAST_STORAGE_KEY, highContrast ? "true" : "false");
+    } catch {
+      // Ignora caso sessionStorage esteja indisponível no navegador
+    }
+  }, [highContrast, hydrated]);
 
   const setDarkMode = useCallback((value: boolean) => {
     setDarkModeState(value);
@@ -57,8 +82,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setDarkModeState((prev) => !prev);
   }, []);
 
+  const setHighContrast = useCallback((value: boolean) => {
+    setHighContrastState(value);
+  }, []);
+
+  const toggleHighContrast = useCallback(() => {
+    setHighContrastState((prev) => !prev);
+  }, []);
+
   return (
-    <ThemeContext.Provider value={{ darkMode, setDarkMode, toggleDarkMode }}>
+    <ThemeContext.Provider
+      value={{
+        darkMode,
+        setDarkMode,
+        toggleDarkMode,
+        highContrast,
+        setHighContrast,
+        toggleHighContrast,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Moon, Sun } from "lucide-react";
+import { Contrast, Moon, Sun } from "lucide-react";
 import { IrisLogoBanner } from "./IrisLogoBanner";
 import { IrisMacroStep } from "./IrisSidebar";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -19,23 +19,34 @@ interface IrisHeaderProps {
   teacherEmail?: string;
   darkMode?: boolean;
   onToggleDarkMode?: () => void;
+  highContrast?: boolean;
+  onToggleHighContrast?: () => void;
 }
 
 /**
  * Barra superior institucional padronizada da Plataforma Íris para todas as etapas (1 a 5).
- * Inclui o banner compacto da marca, identificador da etapa atual, e-mail docente
- * e alternador de Modo Claro / Escuro.
+ * Inclui o banner compacto da marca, identificador da etapa atual, e-mail docente,
+ * botão de Alto Contraste (RNF-09) e alternador de Modo Claro / Escuro.
  */
 export function IrisHeader({
   currentStep,
   teacherEmail = "marina.alves@escola.edu.br",
   darkMode,
   onToggleDarkMode,
+  highContrast,
+  onToggleHighContrast,
 }: IrisHeaderProps) {
-  const { darkMode: contextDarkMode, toggleDarkMode: contextToggleDarkMode } = useTheme();
+  const {
+    darkMode: contextDarkMode,
+    toggleDarkMode: contextToggleDarkMode,
+    highContrast: contextHighContrast,
+    toggleHighContrast: contextToggleHighContrast,
+  } = useTheme();
 
   const isDarkMode = darkMode ?? contextDarkMode;
   const handleToggleDarkMode = onToggleDarkMode ?? contextToggleDarkMode;
+  const isHighContrast = highContrast ?? contextHighContrast;
+  const handleToggleHighContrast = onToggleHighContrast ?? contextToggleHighContrast;
 
   return (
     <header className="w-full bg-[#0D0221] text-white border-b border-white/10 px-4 sm:px-8 py-3.5">
@@ -44,7 +55,7 @@ export function IrisHeader({
           <IrisLogoBanner compact />
           <div className="hidden md:block h-7 w-px bg-white/15" aria-hidden="true" />
           <div className="hidden md:block">
-            <p className="text-xs font-semibold text-[#E35336] uppercase tracking-wider">
+            <p className="text-xs font-semibold text-[#FF8A70] uppercase tracking-wider">
               {STEP_TITLES[currentStep]}
             </p>
             <p className="text-xs text-white/75">
@@ -53,16 +64,35 @@ export function IrisHeader({
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleToggleHighContrast}
+            aria-pressed={isHighContrast}
+            aria-label="Alternar modo de alto contraste"
+            title="Alternar modo de alto contraste (WCAG 2.1 AA)"
+            className={`inline-flex h-9 items-center justify-center gap-1.5 px-3 rounded-lg text-xs font-semibold border transition-colors ${
+              isHighContrast
+                ? "bg-white text-[#0D0221] border-white"
+                : "bg-white/10 hover:bg-white/20 text-white border-white/15"
+            }`}
+          >
+            <Contrast
+              className={`w-4 h-4 ${isHighContrast ? "text-[#0D0221]" : "text-[#FF8A70]"}`}
+              aria-hidden="true"
+            />
+            <span className="hidden sm:inline leading-none">Alto Contraste</span>
+          </button>
+
           <button
             type="button"
             onClick={handleToggleDarkMode}
             aria-label={isDarkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors"
             title={isDarkMode ? "Modo claro" : "Modo escuro"}
           >
             {isDarkMode ? (
-              <Sun className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+              <Sun className="w-4 h-4 text-[#FF8A70]" aria-hidden="true" />
             ) : (
               <Moon className="w-4 h-4" aria-hidden="true" />
             )}

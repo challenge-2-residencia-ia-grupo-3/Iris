@@ -436,8 +436,8 @@ export function Step3ScaffoldingLevel({
             aria-labelledby="titulo-calibragem-andaime"
             className="flex-1 flex flex-col gap-6 p-5 sm:p-7 rounded-2xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 shadow-sm"
           >
-            <div className="space-y-1.5 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E35336]">
+            <div className="space-y-2.5 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
                 <span>{STEP_TITLES[3]}</span>
               </div>
               <h1
@@ -449,6 +449,39 @@ export function Step3ScaffoldingLevel({
               <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
                 Calibre o grau de mediação aplicado às características selecionadas, preservando o objetivo avaliativo da questão.
               </p>
+
+              {/* Faixa inline minimalista de características ativadas (Issue #12) */}
+              <div className="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="font-semibold text-[#0D0221]/75 dark:text-white/75">
+                    Características ativadas ({selectedIds.length}):
+                  </span>
+                  {selectedCharacteristics.length > 0 ? (
+                    selectedCharacteristics.map((item) => (
+                      <span
+                        key={item.id_caracteristica}
+                        className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-medium bg-[#F5EDF0] dark:bg-white/10 text-[#0D0221] dark:text-white border border-[#335C67]/15 dark:border-white/10"
+                      >
+                        <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+                        <span>{item.nome}</span>
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-amber-800 dark:text-amber-300 italic">
+                      Nenhuma característica identificada na sessão. O sistema utilizará o conjunto padrão para calibração.
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleBackToStep2}
+                  className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors"
+                >
+                  <RotateCcw className="w-3 h-3" aria-hidden="true" />
+                  <span>Modificar escopo</span>
+                </button>
+              </div>
             </div>
 
             {/* Grid dos 3 Cards de Seleção de Nível */}
