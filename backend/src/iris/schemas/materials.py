@@ -25,6 +25,7 @@ class MaterialSourceType(str, Enum):
     TXT = "txt"
     PDF = "pdf"
     DOCX = "docx"
+    IMAGE = "image"  # prova digitalizada lida por OCR (História 1.1.3)
 
 
 class MaterialValidationError(ValueError):

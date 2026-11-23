@@ -22,15 +22,19 @@ import {
 } from "lucide-react";
 import { IrisLogoBanner } from "./IrisLogoBanner";
 import { IrisSidebar } from "./IrisSidebar";
+import { ScanPreview } from "./ScanPreview";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
-  ALLOWED_EXTENSIONS,
+  FILE_INPUT_ACCEPT,
   IrisApiError,
   MaterialMetadata,
   MIN_MATERIAL_CHARS,
+  OcrMaterialResponse,
   computeTextMetrics,
+  isImageFile,
   submitMaterialText,
   uploadMaterialFile,
+  uploadMaterialImage,
   validateClientFileFormat,
 } from "@/services/materialsApi";
 import {
@@ -95,6 +99,36 @@ export function Step1MaterialIntake({
 
   const [confirmedForStep2, setConfirmedForStep2] = useState<boolean>(false);
 
+  // Foto ou digitalização da prova (História 1.1.3): a pré-visualização vive só na memória desta tela e nunca é
+  // salva na sessão do navegador; ao trocar de imagem, limpar ou sair, o endereço local (blob:) é liberado.
+  const [scan, setScan] = useState<{ previewUrl: string; fileName: string; resultado: OcrMaterialResponse } | null>(null);
+  const scanUrlRef = useRef<string | null>(null);
+
+  const limparScan = useCallback(() => {
+    if (scanUrlRef.current) {
+      URL.revokeObjectURL(scanUrlRef.current);
+      scanUrlRef.current = null;
+    }
+    setScan(null);
+  }, []);
+
+  const mostrarScan = useCallback(
+    (file: File, resultado: OcrMaterialResponse) => {
+      limparScan();
+      const previewUrl = URL.createObjectURL(file);
+      scanUrlRef.current = previewUrl;
+      setScan({ previewUrl, fileName: file.name, resultado });
+    },
+    [limparScan]
+  );
+
+  useEffect(
+    () => () => {
+      if (scanUrlRef.current) URL.revokeObjectURL(scanUrlRef.current);
+    },
+    []
+  );
+
   // Restaura o material e arquivo enviados anteriormente na sessão ao voltar da Etapa 2
   useEffect(() => {
     const saved = loadStep1StateFromSession();
@@ -153,7 +187,7 @@ export function Step1MaterialIntake({
         title: "Arquivo rejeitado na validação",
         message:
           validation.errorMessage ||
-          "Formato não suportado. Envie apenas um arquivo nos formatos .pdf, .docx ou .txt.",
+          "Formato não suportado. Envie apenas um arquivo nos formatos .pdf, .docx, .txt, .png ou .jpg.",
         code: validation.errorCode,
       });
       return;
@@ -168,8 +202,11 @@ export function Step1MaterialIntake({
     setIsProcessing(true);
     setFeedbackBanner(null);
 
+    const ehImagem = isImageFile(file);
     try {
-      const response = await uploadMaterialFile(file);
+      const response = ehImagem ? await uploadMaterialImage(file) : await uploadMaterialFile(file);
+      if (ehImagem) mostrarScan(file, response as OcrMaterialResponse);
+      else limparScan();
       const acceptedFileInfo: Step1SelectedFileInfo = {
         name: file.name,
         sizeBytes: file.size,
@@ -195,7 +232,7 @@ export function Step1MaterialIntake({
 
       setFeedbackBanner({
         type: "success",
-        title: "Conteúdo extraído em memória para conferência imediata",
+        title: ehImagem ? "Texto lido da imagem: confira com a prova na mão" : "Conteúdo extraído em memória para conferência imediata",
         message: `Confira o texto abaixo antes de prosseguir.`,
       });
     } catch (err) {
@@ -206,11 +243,12 @@ export function Step1MaterialIntake({
         status: "rejected",
       });
       setServerMetadata(null);
+      limparScan();
 
       if (err instanceof IrisApiError) {
         setFeedbackBanner({
           type: "error",
-          title: "Não foi possível extrair o documento",
+          title: ehImagem ? "Não foi possível ler a imagem" : "Não foi possível extrair o documento",
           message: err.message,
           code: err.code,
         });
@@ -219,14 +257,14 @@ export function Step1MaterialIntake({
           type: "error",
           title: "Erro de conexão com o servidor",
           message:
-            "Não foi possível conectar ao endpoint POST /api/v1/materials/upload. Verifique se o backend FastAPI está ativo na porta 8000.",
+            `Não foi possível conectar ao endpoint POST /api/v1/materials/${ehImagem ? "ocr" : "upload"}. Verifique se o backend FastAPI está ativo na porta 8000.`,
           code: "NETWORK_ERROR",
         });
       }
     } finally {
       setIsProcessing(false);
     }
-  }, []);
+  }, [limparScan, mostrarScan]);
 
   /**
    * Evento de soltar arquivo na área de Drag-and-Drop (garante apenas 1 arquivo por envio).
@@ -251,7 +289,7 @@ export function Step1MaterialIntake({
           type: "error",
           title: "Apenas um arquivo permitido por envio",
           message:
-            "Por favor, envie apenas um arquivo (.pdf, .docx ou .txt) por vez para garantir a integridade da atividade pedagógica.",
+            "Por favor, envie apenas um arquivo (.pdf, .docx, .txt, .png ou .jpg) por vez para garantir a integridade da atividade pedagógica.",
           code: "SINGLE_FILE_ONLY",
         });
         return;
@@ -274,7 +312,7 @@ export function Step1MaterialIntake({
         setFeedbackBanner({
           type: "error",
           title: "Apenas um arquivo permitido por envio",
-          message: "Selecione somente um arquivo (.pdf, .docx ou .txt) por envio.",
+          message: "Selecione somente um arquivo (.pdf, .docx, .txt, .png ou .jpg) por envio.",
           code: "SINGLE_FILE_ONLY",
         });
         e.target.value = "";
@@ -385,6 +423,7 @@ export function Step1MaterialIntake({
     setServerMetadata(null);
     setFeedbackBanner(null);
     setConfirmedForStep2(false);
+    limparScan();
     clearStep1StateFromSession();
   };
 
@@ -573,7 +612,7 @@ export function Step1MaterialIntake({
             <div
               role="button"
               tabIndex={0}
-              aria-label="Área de envio de arquivo. Arraste e solte um arquivo .pdf, .docx ou .txt aqui ou pressione Enter para selecionar do dispositivo."
+              aria-label="Área de envio de arquivo. Arraste e solte um arquivo .pdf, .docx, .txt, .png ou .jpg (foto da prova) aqui ou pressione Enter para selecionar do dispositivo."
               aria-describedby="formatos-suportados-hint"
               onDragOver={(e) => {
                 e.preventDefault();
@@ -607,7 +646,7 @@ export function Step1MaterialIntake({
                 ref={fileInputRef}
                 id={fileInputId}
                 type="file"
-                accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+                accept={FILE_INPUT_ACCEPT}
                 onChange={handleFileInputChange}
                 className="sr-only"
               />
@@ -627,6 +666,9 @@ export function Step1MaterialIntake({
               </p>
               <p className="text-xs text-[#0D0221]/70 dark:text-white/70 mt-1">
                 ou <span className="text-[#E35336] font-bold underline">clique para selecionar do dispositivo</span>
+              </p>
+              <p id="formatos-suportados-hint" className="mt-2 text-[11px] text-[#0D0221]/70 dark:text-white/70">
+                Aceitos: .pdf, .docx, .txt e foto ou digitalização da prova (.png, .jpg).
               </p>
             </div>
 
@@ -675,6 +717,8 @@ export function Step1MaterialIntake({
                 </button>
               </div>
             )}
+
+            {scan && <ScanPreview previewUrl={scan.previewUrl} fileName={scan.fileName} resultado={scan.resultado} />}
           </section>
 
           {/* COLUNA 2: Área Acessível de Colagem Direta e Conferência Imediata (`textarea`) */}

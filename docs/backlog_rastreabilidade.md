@@ -226,11 +226,11 @@ Como professor, quero enviar fotos ou digitalizações de atividades impressas (
 * **E** o sistema deve rejeitar imagens ilegíveis ou com resolução insuficiente informando claramente o motivo ao docente.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Backend]** Endpoint `POST /api/v1/materials/ocr` para upload de imagens de provas (`.png`, `.jpg`).
-- [ ] **[RAG / IA]** Integração com pipeline OCR / modelo de visão computacional (VLM) para transcrição fidedigna.
-- [ ] **[RAG / IA]** Módulo de análise heurística de poluição visual (densidade de bordas e contraste da imagem).
-- [ ] **[Frontend]** Exibição de preview da imagem digitalizada com indicador de densidade visual na tela do docente.
-- [ ] **[Testes]** Testes de acurácia de OCR sobre amostra de provas escaneadas em diferentes resoluções.
+- [x] **[Backend]** Endpoint `POST /api/v1/materials/ocr` para upload de imagens de provas (`.png`, `.jpg`).
+- [x] **[RAG / IA]** Integração com pipeline OCR / modelo de visão computacional (VLM) para transcrição fidedigna.
+- [x] **[RAG / IA]** Módulo de análise heurística de poluição visual (densidade de bordas e contraste da imagem).
+- [x] **[Frontend]** Exibição de preview da imagem digitalizada com indicador de densidade visual na tela do docente.
+- [x] **[Testes]** Testes de acurácia de OCR sobre amostra de provas escaneadas em diferentes resoluções.
 
 ##### História 1.1.4: Organização estrutural de textos corridos
 **História de Usuário**

@@ -913,6 +913,12 @@ def create_app() -> Any:
     if audio_router is not None:
         app.include_router(audio_router, prefix="/api/v1")
 
+    # Registra o OCR de provas digitalizadas (História 1.1.3 - Issue #6)
+    from iris.api.routes.ocr import router as ocr_router
+
+    if ocr_router is not None:
+        app.include_router(ocr_router, prefix="/api/v1")
+
     @app.post("/api/v1/rag/build", tags=["rag"])
     def rag_build() -> dict[str, Any]:
         return _handle_rag_build()

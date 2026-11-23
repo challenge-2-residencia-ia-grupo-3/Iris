@@ -4,9 +4,10 @@
  * Endpoints consumidos (História 1.1.1 — Issue #4):
  * - POST /api/v1/materials/text
  * - POST /api/v1/materials/upload
+ * - POST /api/v1/materials/ocr (História 1.1.3: foto ou digitalização de prova)
  */
 
-export type MaterialSourceType = "text" | "txt" | "pdf" | "docx";
+export type MaterialSourceType = "text" | "txt" | "pdf" | "docx" | "image";
 
 export interface MaterialMetadata {
   source_type: MaterialSourceType;
@@ -51,6 +52,11 @@ const API_BASE_URL =
     : "http://127.0.0.1:8000";
 
 export const ALLOWED_EXTENSIONS = [".pdf", ".docx", ".txt"] as const;
+export const IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg"] as const;
+export const ACCEPTED_EXTENSIONS = [...ALLOWED_EXTENSIONS, ...IMAGE_EXTENSIONS] as const;
+/** Atributo `accept` do seletor de arquivos: documentos e imagens de prova. */
+export const FILE_INPUT_ACCEPT =
+  ".pdf,.docx,.txt,.png,.jpg,.jpeg,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,image/png,image/jpeg";
 export const MIN_MATERIAL_CHARS = 50;
 export const MAX_SAFE_CONTEXT_CHARS = 100_000;
 export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
@@ -79,8 +85,19 @@ export function computeTextMetrics(text: string): {
   };
 }
 
+/** Extensão do arquivo em minúsculas, com o ponto ("" se não houver). */
+export function fileExtension(name: string): string {
+  const dotIndex = (name || "").lastIndexOf(".");
+  return dotIndex >= 0 ? name.slice(dotIndex).toLowerCase() : "";
+}
+
+/** True para foto ou digitalização de prova (.png, .jpg, .jpeg), que segue pelo OCR em vez da extração de documento. */
+export function isImageFile(file: File): boolean {
+  return (IMAGE_EXTENSIONS as readonly string[]).includes(fileExtension(file.name));
+}
+
 /**
- * Valida se o arquivo selecionado tem extensão suportada (.pdf, .docx, .txt).
+ * Valida se o arquivo selecionado tem extensão suportada (.pdf, .docx, .txt, .png, .jpg).
  */
 export function validateClientFileFormat(file: File): {
   valid: boolean;
@@ -92,12 +109,12 @@ export function validateClientFileFormat(file: File): {
   const dotIndex = name.lastIndexOf(".");
   const extension = dotIndex >= 0 ? name.slice(dotIndex).toLowerCase() : "";
 
-  if (!ALLOWED_EXTENSIONS.includes(extension as (typeof ALLOWED_EXTENSIONS)[number])) {
+  if (!(ACCEPTED_EXTENSIONS as readonly string[]).includes(extension)) {
     return {
       valid: false,
       extension: extension || "(sem extensão)",
       errorCode: "UNSUPPORTED_FORMAT",
-      errorMessage: `Formato de arquivo '${extension || "desconhecido"}' não suportado. Os formatos aceitos pela plataforma são: .docx, .pdf, .txt.`,
+      errorMessage: `Formato de arquivo '${extension || "desconhecido"}' não suportado. Os formatos aceitos pela plataforma são: .docx, .pdf, .txt, .png, .jpg.`,
     };
   }
 
@@ -168,6 +185,59 @@ export async function uploadMaterialFile(file: File): Promise<MaterialResponse> 
   }
 
   return (await response.json()) as MaterialResponse;
+}
+
+export type NivelPoluicaoVisual = "baixa" | "media" | "alta";
+
+/** Indicador de densidade visual da imagem (heurística; o backend a calibra, a tela só mostra). */
+export interface AnaliseVisual {
+  nivel: NivelPoluicaoVisual;
+  indicador_poluicao: boolean;
+  escore: number;
+  densidade_bordas: number;
+  proporcao_colorida: number;
+  cobertura_blocos: number;
+  contraste: number;
+  motivos: string[];
+  mensagem: string | null;
+}
+
+export interface OcrAviso {
+  code: string;
+  detail: string;
+}
+
+export interface OcrInfo {
+  confianca_media: number;
+  palavras_reconhecidas: number;
+  avisos: OcrAviso[];
+}
+
+/** Resposta do OCR: o mesmo envelope do upload de documentos, mais a confiança da leitura e a análise visual. */
+export interface OcrMaterialResponse extends MaterialResponse {
+  ocr: OcrInfo;
+  analise_visual: AnaliseVisual;
+  imagem: { formato: string; largura: number; altura: number };
+}
+
+/**
+ * Envia a foto ou digitalização de uma prova (.png, .jpg) para `POST /api/v1/materials/ocr`.
+ * O backend lê o texto em memória (sem guardar a imagem) e mede a poluição visual.
+ */
+export async function uploadMaterialImage(file: File): Promise<OcrMaterialResponse> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch(`${API_BASE_URL}/api/v1/materials/ocr`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw await parseErrorResponse(response);
+  }
+
+  return (await response.json()) as OcrMaterialResponse;
 }
 
 /**
