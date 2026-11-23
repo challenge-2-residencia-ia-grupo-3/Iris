@@ -326,21 +326,25 @@ export function Step1MaterialIntake({
       });
 
       const piiCount = response.metadata.pii_removed_count || 0;
-      const piiInfo =
-        response.metadata.sanitized && piiCount > 0
-          ? ` ${piiCount === 1 ? "Foi removido preventivamente 1 identificador pessoal (PII)" : `Foram removidos preventivamente ${piiCount} identificadores pessoais (PIIs)`} para conformidade com a LGPD.`
-          : "";
+      const hadPiiSanitized = Boolean(response.metadata.sanitized && piiCount > 0);
+      const piiInfo = hadPiiSanitized
+        ? ` ${piiCount === 1 ? "Foi removido preventivamente 1 identificador pessoal (PII)" : `Foram removidos preventivamente ${piiCount} identificadores pessoais (PIIs)`} para conformidade com a LGPD. Confira o texto anonimizado abaixo e clique em Avançar para Etapa 2.`
+        : "";
 
       setFeedbackBanner({
         type: "success",
-        title: "Material validado e pronto para a Etapa 2!",
+        title: hadPiiSanitized
+          ? "Dados pessoais removidos — confira o texto antes de avançar"
+          : "Material validado e pronto para a Etapa 2!",
         message: `${response.message}${piiInfo}`,
       });
 
-      if (onAdvanceToStep2) {
-        onAdvanceToStep2(response.raw_text, response.metadata);
-      } else {
-        router.push("/etapa-2");
+      if (!hadPiiSanitized) {
+        if (onAdvanceToStep2) {
+          onAdvanceToStep2(response.raw_text, response.metadata);
+        } else {
+          router.push("/etapa-2");
+        }
       }
     } catch (err) {
       if (err instanceof IrisApiError) {

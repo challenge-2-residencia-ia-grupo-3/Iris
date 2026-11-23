@@ -78,15 +78,10 @@ export function ReviewEditor({ sessao, extras }: Props) {
   };
 
   const homologarAgora = async () => {
-    if (!podeHomologar(estado) || salvando || estado.homologada) return;
+    if (!podeHomologar(estado) || !salvo) return;
     setErro(null);
-    setSalvando(true);
     try {
-      const envio = diferencas(estado.questoes, confirmado);
-      const resp = await salvarRevisao(sessao.id, {
-        ...(envio.length > 0 ? { questoes: envio } : {}),
-        homologar: true,
-      });
+      const resp = await salvarRevisao(sessao.id, { homologar: true });
       setConfirmado(resp.questoes);
       setEstado((e) => ({
         ...e,
@@ -94,8 +89,6 @@ export function ReviewEditor({ sessao, extras }: Props) {
       }));
     } catch (e) {
       setErro(e instanceof SessaoRevisaoError ? e.message : "Não foi possível confirmar a revisão.");
-    } finally {
-      setSalvando(false);
     }
   };
 
@@ -175,7 +168,7 @@ export function ReviewEditor({ sessao, extras }: Props) {
         <button
           type="button"
           onClick={homologarAgora}
-          disabled={!podeHomologar(estado) || salvando || estado.homologada}
+          disabled={!podeHomologar(estado) || !salvo || estado.homologada}
           className="inline-flex min-h-[44px] items-center gap-1 rounded-md bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-60 dark:bg-slate-100 dark:text-slate-900"
         >
           <ShieldCheck className="h-4 w-4" aria-hidden />

@@ -160,7 +160,7 @@ export function Step4AgentAdaptation({
         simular_autocorrecao: simularAutocorrecao,
       });
       setResult(res);
-      if (advanceAfter) {
+      if (advanceAfter && res.requerem_revisao_humana === 0) {
         saveStep5AdaptationToSession(res.etapa5_entrada);
         router.push("/etapa-5");
       }
