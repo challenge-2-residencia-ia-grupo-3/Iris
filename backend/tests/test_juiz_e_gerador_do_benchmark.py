@@ -105,3 +105,34 @@ class TestGeradorDoBenchmarkNaoEOJuiz(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestRegistroDoJuiz(unittest.TestCase):
+    """Issue #108, parte 1: todo julgamento registra modelo, esforço, temperatura, limite e respostas por chamada."""
+
+    def _julgar(self, modelo: str, n_juizes: int = 1) -> dict:
+        from iris.eval.sonnet_judge import julgar_resposta_sonnet
+
+        def falso(mod, sistema, prompt, temp):
+            texto = '{"responde": "sim", "motivo_responde": "ok", "frases": []}'
+            return texto, {"modelo": mod + "-respondeu", "input_tokens": 10, "output_tokens": 5}
+
+        return julgar_resposta_sonnet("Pergunta?", [{"texto": "trecho", "titulo": "Doc"}], "Resposta curta.",
+                                      modelo=modelo, n_juizes=n_juizes, usar_cache=False, chamar_api_fn=falso)
+
+    def test_registro_completo_em_modelo_que_pensa(self) -> None:
+        r = self._julgar("claude-sonnet-5-5")["registro_juiz"]
+        self.assertEqual(r["modelo_pedido"], "claude-sonnet-5-5")
+        self.assertEqual(r["modelo_efetivo"], "claude-sonnet-5-5-respondeu")
+        self.assertEqual(r["respostas_por_chamada"], 1)
+        self.assertEqual(r["temperatura"], {"A": None})
+        self.assertGreater(r["max_tokens"], 2048)
+        self.assertIn("esforco", r)
+        self.assertEqual(r["regra"], "regra_juiz_respostas_v2.md")
+        self.assertTrue(r["regra_sha256"])
+
+    def test_dois_juizes_com_temperaturas_diferentes_em_modelo_que_nao_pensa(self) -> None:
+        r = self._julgar("claude-sonnet-4-6", n_juizes=2)["registro_juiz"]
+        self.assertEqual(r["temperatura"], {"A": 0.0, "B": 0.15})
+        self.assertEqual(r["max_tokens"], 2048)
+        self.assertEqual(r["chamadas"], 2)
