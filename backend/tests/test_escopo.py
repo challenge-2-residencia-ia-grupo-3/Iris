@@ -178,6 +178,22 @@ class TestNumerosENegacoesEmTodaCaracteristica(unittest.TestCase):
             self.assertFalse(laudo.aprovado, c)
             self.assertIn("300", laudo.numeros_perdidos, c)
 
+    def test_acusa_numero_trocado_que_tambem_esta_numa_alternativa(self) -> None:
+        original = self.ORIGINAL.replace("R$ 250", "R$ 12")
+        for c in self.CARACTERISTICAS:
+            laudo = verificar_escopo(original, original.replace("12 camisetas", "10 camisetas"), c, 2, self.TRAVA)
+            self.assertFalse(laudo.aprovado, c)
+            self.assertEqual(laudo.numeros_perdidos, ["12"], c)
+
+    def test_marcador_de_item_nao_repoe_numero_perdido(self) -> None:
+        adaptado = "12. " + self.ORIGINAL.replace("12 camisetas", "camisetas")
+        laudo = self._laudo(adaptado, "impulsividade_leitura_superficial_negacoes")
+        self.assertEqual(laudo.numeros_perdidos, ["12"])
+
+    def test_numero_com_ponto_de_milhar_no_comeco_da_linha_nao_e_marcador(self) -> None:
+        original = "Uma cidade recebeu\n1.500 turistas. Qual o valor total?"
+        self.assertEqual(verificar_escopo(original, original, "atencao_sustentada_textos_longos", 2, self.TRAVA).numeros_perdidos, [])
+
     def test_destaque_e_numeracao_nao_contam_como_perda(self) -> None:
         adaptado = ("Uma loja vende **12** camisetas por R$ 25 cada.\n\n1. Qual das alternativas **NÃO** apresenta o "
                     "**valor total** correto?\n\nA) R$ 300\nB) R$ 250\nC) R$ 200")

@@ -36,6 +36,8 @@ VERBOS_IMPERATIVOS = frozenset(v for v in COMMAND_VERBS if not v.endswith("r"))
 _DETERMINANTES = frozenset("a o as os um uma da do das dos na no nas nos de sua seu suas seus".split())
 
 _RE_PALAVRA = re.compile(r"[A-Za-zÀ-ÿ]+")
+# Limite assumido: dado que comece a linha como "12. " é lido como marcador e sai dos dois lados da conta.
+_RE_MARCADOR_DE_ITEM = re.compile(r"^[ \t]*(?:\*\*)?\d{1,2}[.)](?=[\s*])", re.MULTILINE)
 _RE_NUMERO = re.compile(r"\d+(?:[.,]\d+)*")
 # Negações que invertem o que a questão pede ("Qual NÃO...", "EXCETO"). Sem elas, a adaptação troca a resposta certa.
 _RE_NEGACAO = re.compile(r"\b(n[ãa]o|nunca|nenhum|nenhuma|exceto|incorret[ao]s?|fals[ao]s?)\b", re.IGNORECASE)
@@ -132,7 +134,11 @@ def verificar_escopo(
 
     # Números e negações do original valem em toda característica. Sem esta conferência, tirar o "NÃO" ou trocar
     # "12" por "10" passava em 9 das 10 características, porque as palavras comparadas acima são só letras.
-    numeros_perdidos = sorted(set(_RE_NUMERO.findall(original)) - set(_RE_NUMERO.findall(adaptado)))
+    # Conta ocorrências: com conjuntos, trocar o "12" do enunciado passava se outro "12" ficasse numa alternativa. O
+    # marcador de item ("1." no começo da linha) sai dos dois lados, para a numeração não repor um número perdido.
+    num_a = Counter(_RE_NUMERO.findall(_RE_MARCADOR_DE_ITEM.sub("", original)))
+    num_b = Counter(_RE_NUMERO.findall(_RE_MARCADOR_DE_ITEM.sub("", adaptado)))
+    numeros_perdidos = sorted((num_a - num_b).elements())
     neg_a = Counter(m.lower() for m in _RE_NEGACAO.findall(original))
     neg_b = Counter(m.lower() for m in _RE_NEGACAO.findall(adaptado))
     negacoes_perdidas = sorted((neg_a - neg_b).elements())
