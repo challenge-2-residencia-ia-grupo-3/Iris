@@ -586,6 +586,12 @@ function QuestionCollaborationCard({
               ))}
             </ul>
           )}
+          {trace.recomendacao_docente && (
+            <p className="text-[11px] p-2 rounded-lg border border-[#335C67]/30 dark:border-white/20" data-testid="recomendacao-docente">
+              <span className="font-bold">Para o docente (não vai para a prova): </span>
+              {trace.recomendacao_docente}
+            </p>
+          )}
         </div>
 
         {/* Agente 4: Auditor de Integridade & Auto-correção */}

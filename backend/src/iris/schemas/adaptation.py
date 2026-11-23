@@ -86,6 +86,10 @@ class AdaptationResult(BaseModel):
 
     texto_adaptado: str
     justificativas: list[str] = Field(default_factory=list)
+    # O que é dito ao docente (tempo flexível, aplicação em etapas): texto fixo do nível, não escrito pelo modelo.
+    # Nunca faz parte de `texto_adaptado`, que é o que o aluno lê e o que a exportação imprime. None quando o nível
+    # não tem ação dirigida ao docente.
+    recomendacao_docente: Optional[str] = None
     # False quando o texto devolvido é o original (nenhuma ação do nível se aplicava ou pôde ser garantida).
     adaptacao_aplicada: bool
     escopo: ScopeReport

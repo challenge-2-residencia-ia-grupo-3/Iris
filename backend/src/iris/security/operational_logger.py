@@ -54,6 +54,7 @@ SENSITIVE_PAYLOAD_KEYS = frozenset(
         "feedback_auditor",
         "feedback_gerado",
         "justificativas",
+        "recomendacao_docente",
         "conceitos_obrigatorios",
         "conceitos_retidos",
         "conceitos_ausentes",
