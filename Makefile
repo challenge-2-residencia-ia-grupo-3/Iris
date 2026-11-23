@@ -12,7 +12,7 @@ PYTHONPATH := $(CURDIR)/backend/src:$(CURDIR)/rag/iris-rag/pacote
 VENV_PY := $(CURDIR)/.venv/bin/python3
 
 # Resolve o binário Python em tempo de execução (após ensure-env criar o .venv se necessário)
-PYTHON_RUN = PYTHONPATH="$(PYTHONPATH)" $$(if [ -x "$(VENV_PY)" ]; then echo "$(VENV_PY)"; else echo "python3"; fi)
+PYTHON_RUN = PYTHONPATH="$(PYTHONPATH)" "$$(if [ -x "$(VENV_PY)" ]; then echo "$(VENV_PY)"; else echo "python3"; fi)"
 
 help:
 	@echo "=========================================================================================="
@@ -135,9 +135,9 @@ db-down:
 # Servidor Backend individual
 backend: ensure-env
 	@if $(PYTHON_RUN) -c "import uvicorn, fastapi" >/dev/null 2>&1; then \
-		$(PYTHON_RUN) -m uvicorn iris.main:app --app-dir $(CURDIR)/backend/src --host $(HOST) --port $(PORT) --reload; \
+		$(PYTHON_RUN) -m uvicorn iris.main:app --app-dir "$(CURDIR)/backend/src" --host $(HOST) --port $(PORT) --reload; \
 	elif command -v uv >/dev/null 2>&1 && uv run python -c "import uvicorn, fastapi" >/dev/null 2>&1; then \
-		PYTHONPATH=$(PYTHONPATH) uv run uvicorn iris.main:app --app-dir $(CURDIR)/backend/src --host $(HOST) --port $(PORT) --reload; \
+		PYTHONPATH="$(PYTHONPATH)" uv run uvicorn iris.main:app --app-dir "$(CURDIR)/backend/src" --host $(HOST) --port $(PORT) --reload; \
 	else \
 		IRIS_HOST=$(HOST) IRIS_PORT=$(PORT) $(PYTHON_RUN) -m iris.main; \
 	fi

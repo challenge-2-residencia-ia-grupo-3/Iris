@@ -20,19 +20,22 @@ if command -v ollama >/dev/null 2>&1; then
 fi
 MODEL="${LLM_MODEL:-${IRIS_LLM_MODEL:-${RAG_LLM_MODELO:-${DETECTED_MODEL:-llama3:latest}}}}"
 
+# Exporta PYTHONPATH com caminhos citados corretamente
+export PYTHONPATH="${SRC_DIR}:${PACOTE_DIR}:${PYTHONPATH:-}"
+
 # Detecta o executor Python
 if [ -x "${REPO_ROOT}/.venv/bin/python3" ]; then
-    PY_CMD="PYTHONPATH=${SRC_DIR}:${PACOTE_DIR} ${REPO_ROOT}/.venv/bin/python3"
+    PY_CMD=("${REPO_ROOT}/.venv/bin/python3")
 elif command -v uv >/dev/null 2>&1 && uv run python -c "import sys" >/dev/null 2>&1; then
-    PY_CMD="PYTHONPATH=${SRC_DIR}:${PACOTE_DIR} uv run python"
+    PY_CMD=(uv run python)
 else
-    PY_CMD="PYTHONPATH=${SRC_DIR}:${PACOTE_DIR} python3"
+    PY_CMD=(python3)
 fi
 
 garantir_chunks_silencioso() {
     if [ ! -f "${PACOTE_DIR}/chunks.jsonl" ]; then
         cd "${PACOTE_DIR}"
-        eval "${PY_CMD} ingestao.py >/dev/null"
+        "${PY_CMD[@]}" ingestao.py >/dev/null
     fi
 }
 
@@ -42,7 +45,7 @@ criar_chunks() {
     echo "  [CRIAR BASE DE CHUNKS] Segmentando documentos da base em chunks.jsonl..."
     echo "================================================================================"
     cd "${PACOTE_DIR}"
-    eval "${PY_CMD} ingestao.py"
+    "${PY_CMD[@]}" ingestao.py
     TOTAL_CHUNKS=$(wc -l < "${PACOTE_DIR}/chunks.jsonl" | tr -d ' ')
     echo "  -> Concluído: ${TOTAL_CHUNKS} trechos prontos em chunks.jsonl."
 }
@@ -57,7 +60,7 @@ indexar_pgvector() {
         docker compose up -d pgvector
         sleep 2
         cd "${PACOTE_DIR}"
-        eval "${PY_CMD} banco_pg.py"
+        "${PY_CMD[@]}" banco_pg.py
     else
         echo "  [AVISO] Docker não está ativo no momento."
         echo "          O RAG opera normalmente usando o índice local BM25 (1.385 trechos)."
@@ -68,7 +71,7 @@ mostrar_tabela_metricas() {
     GERADOR="${1:-haiku}"
     echo ""
     cd "${REPO_ROOT}"
-    eval "${PY_CMD} -m iris.eval.rag_metrics --gerador ${GERADOR}"
+    "${PY_CMD[@]}" -m iris.eval.rag_metrics --gerador "${GERADOR}"
 }
 
 mostrar_metricas_e_textos_gravados() {
@@ -76,7 +79,7 @@ mostrar_metricas_e_textos_gravados() {
     GERADOR="${2:-haiku}"
     echo ""
     cd "${REPO_ROOT}"
-    eval "${PY_CMD} -m iris.eval.rag_metrics --gerador ${GERADOR} --ver-textos --limite ${LIMITE}"
+    "${PY_CMD[@]}" -m iris.eval.rag_metrics --gerador "${GERADOR}" --ver-textos --limite "${LIMITE}"
 }
 
 rodar_rag_ao_vivo() {
@@ -89,7 +92,7 @@ rodar_rag_ao_vivo() {
     echo "================================================================================"
     cd "${REPO_ROOT}"
     RAG_LLM="${RAG_LLM:-ollama}" RAG_LLM_MODELO="${MODEL}" \
-        eval "${PY_CMD} -m iris.eval.rag_metrics --ao-vivo --ver-textos --metodo ${METODO} --limite ${LIMITE}"
+        "${PY_CMD[@]}" -m iris.eval.rag_metrics --ao-vivo --ver-textos --metodo "${METODO}" --limite "${LIMITE}"
 }
 
 responder_pergunta_livre_ao_vivo() {
@@ -105,30 +108,31 @@ responder_pergunta_livre_ao_vivo() {
     echo "  Pergunta: \"${PERGUNTA}\""
     echo "================================================================================"
     cd "${REPO_ROOT}"
-    RAG_LLM=ollama RAG_LLM_MODELO="${MODEL}" eval "${PY_CMD} -c '
+    RAG_LLM=ollama RAG_LLM_MODELO="${MODEL}" "${PY_CMD[@]}" -c '
+import sys
 from iris.rag.bridge import responder_fundamentado
 import json
 
-pergunta = \"\"\"${PERGUNTA}\"\"\"
-res = responder_fundamentado(pergunta, metodo=\"bm25\", k=5)
-fontes = res.get(\"fontes\", [])
-conf = res.get(\"conferencia\", {})
-citados = conf.get(\"trechos_citados\", [])
+pergunta = sys.argv[1]
+res = responder_fundamentado(pergunta, metodo="bm25", k=5)
+fontes = res.get("fontes", [])
+conf = res.get("conferencia", {})
+citados = conf.get("trechos_citados", [])
 
-print(f\"\n[RESPOSTA GERADA PELO LLAMA 3 ({res.get(\"llm\", \"local\")} - {res.get(\"segundos_total\", 0):.2f}s)]:\")
-print(res[\"resposta\"])
-print(\"\n[AUDITORIA DE CITAÇÕES E FONTES]:\")
-print(f\"  • Trechos citados no texto : {citados}\")
-print(f\"  • Citações inválidas       : {len(conf.get(\"citacoes_invalidas\", []))}\")
-print(f\"  • Frases sem citação       : {len(conf.get(\"frases_sem_citacao\", []))}\")
-print(\"\n[TRECHOS CIENTÍFICOS/NORMATIVOS RECUPERADOS (TOP-5)]:\")
+print(f"\n[RESPOSTA GERADA PELO LLAMA 3 ({res.get(\"llm\", \"local\")} - {res.get(\"segundos_total\", 0):.2f}s)]:")
+print(res["resposta"])
+print("\n[AUDITORIA DE CITAÇÕES E FONTES]:")
+print(f"  • Trechos citados no texto : {citados}")
+print(f"  • Citações inválidas       : {len(conf.get(\"citacoes_invalidas\", []))}")
+print(f"  • Frases sem citação       : {len(conf.get(\"frases_sem_citacao\", []))}")
+print("\n[TRECHOS CIENTÍFICOS/NORMATIVOS RECUPERADOS (TOP-5)]:")
 for i, t in enumerate(fontes, 1):
-    pag = f\", p. {t[\"pagina\"]}\" if t.get(\"pagina\") else \"\"
-    marca = \" [CITADO PELO LLAMA 3]\" if i in citados else \"\"
-    print(f\"  • [T{i}] {t.get(\"chunk_id\")} | {t.get(\"titulo\", \"\")[:75]}{pag}{marca}\")
-    txt = \" \".join(t.get(\"trecho\", \"\").split())
-    print(f\"    {txt[:260]}...\")
-'"
+    pag = f", p. {t[\"pagina\"]}" if t.get("pagina") else ""
+    marca = " [CITADO PELO LLAMA 3]" if i in citados else ""
+    print(f"  • [T{i}] {t.get(\"chunk_id\")} | {t.get(\"titulo\", \"\")[:75]}{pag}{marca}")
+    txt = " ".join(t.get("trecho", "").split())
+    print(f"    {txt[:260]}...")
+' "${PERGUNTA}"
 }
 
 menu_interativo() {
