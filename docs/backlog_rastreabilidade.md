@@ -586,10 +586,10 @@ Como professor regente iniciando um novo bimestre, quero fazer o upload do arqui
 * **E** caso o arquivo `.json` esteja corrompido ou fora do padrão, o sistema deve exibir erro amigável sem interromper o funcionamento da aplicação.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Frontend]** Componente de upload e parsing do arquivo `.json` do Perfil Pedagógico Portátil no início do fluxo.
-- [ ] **[Frontend]** Pré-seleção automática das características funcionais e do nível de andaime recomendados no arquivo.
-- [ ] **[Backend]** Validação de schema no upload com tratamento de arquivos corrompidos ou com formato inválido.
-- [ ] **[Testes]** Teste ponta a ponta de restauração de parâmetros da sessão a partir de arquivo JSON válido.
+- [x] **[Frontend]** Componente de upload e parsing do arquivo `.json` do Perfil Pedagógico Portátil no início do fluxo.
+- [x] **[Frontend]** Pré-seleção automática das características funcionais e do nível de andaime recomendados no arquivo.
+- [x] **[Backend]** Validação de schema no upload com tratamento de arquivos corrompidos ou com formato inválido.
+- [x] **[Testes]** Teste ponta a ponta de restauração de parâmetros da sessão a partir de arquivo JSON válido.
 
 ---
 

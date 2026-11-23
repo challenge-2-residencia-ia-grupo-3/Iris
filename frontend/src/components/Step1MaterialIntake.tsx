@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { IrisHeader, STEP_TITLES } from "./IrisHeader";
 import { IrisSidebar } from "./IrisSidebar";
+import { PerfilImport } from "./PerfilImport";
 import {
   ALLOWED_EXTENSIONS,
   IrisApiError,
@@ -471,28 +472,31 @@ export function Step1MaterialIntake({
           </h1>
         </section>
 
-        {/* Card Único Integrado: Upload Drag-and-Drop (colapsa ao anexar) + Colagem Direta e Conferência */}
-        <section
-          aria-labelledby="heading-textarea-conferencia"
-          onDragOver={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsDragging(true);
-          }}
-          onDragLeave={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-              setIsDragging(false);
-            }
-          }}
-          onDrop={handleDrop}
-          className={`relative bg-white dark:bg-[#160A30] border rounded-2xl px-6 pt-5 pb-6 shadow-sm flex flex-col gap-5 hc-surface transition-colors ${
-            isDragging
-              ? "border-[#E35336] ring-2 ring-[#E35336]/30"
-              : "border-[#335C67]/20 dark:border-white/15"
-          }`}
-        >
+          {/* Importação opcional do Perfil Pedagógico Portátil (História 3.2.2) */}
+          <PerfilImport />
+
+          {/* Card Único Integrado: Upload Drag-and-Drop (colapsa ao anexar) + Colagem Direta e Conferência */}
+          <section
+            aria-labelledby="heading-textarea-conferencia"
+            onDragOver={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsDragging(true);
+            }}
+            onDragLeave={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                setIsDragging(false);
+              }
+            }}
+            onDrop={handleDrop}
+            className={`relative bg-white dark:bg-[#160A30] border rounded-2xl px-6 pt-5 pb-6 shadow-sm flex flex-col gap-5 hc-surface transition-colors ${
+              isDragging
+                ? "border-[#E35336] ring-2 ring-[#E35336]/30"
+                : "border-[#335C67]/20 dark:border-white/15"
+            }`}
+          >
           {/* Estado 1: Dropzone visível antes do upload ou ao retornar para a Etapa 1 */}
           {showUploadZone && (
             <div className="space-y-4">

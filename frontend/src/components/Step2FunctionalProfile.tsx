@@ -69,6 +69,7 @@ import {
   submitSurgicalCharacteristicSelection,
 } from "@/services/catalogsApi";
 import { IrisApiError } from "@/services/materialsApi";
+import { carregarRestauracaoDaSessao } from "@/services/portableProfileImport";
 
 interface Step2FunctionalProfileProps {
   teacherEmail?: string;
@@ -129,6 +130,8 @@ export function Step2FunctionalProfile({
     title: string;
     message: string;
     code?: string;
+    /** Não some sozinho: avisos de perfil importado só saem quando o docente age ou fecha. */
+    persistente?: boolean;
   } | null>(null);
 
   // Carrega catálogos oficiais da Etapa 2 e restaura seleção/engajamento da sessão
@@ -149,6 +152,7 @@ export function Step2FunctionalProfile({
       setLoadedFromApi(fromServer);
       setIsLoadingCatalog(false);
 
+      let restauradoDaSessao = false;
       const saved = loadSurgicalSelectionFromSession();
       if (
         saved &&
@@ -161,6 +165,33 @@ export function Step2FunctionalProfile({
         if (restored.length > 0) {
           setSelectedIds(restored);
           setConfirmedSelection(saved);
+          restauradoDaSessao = true;
+        }
+      }
+
+      // Perfil pedagógico portátil importado na Etapa 1 (História 3.2.2): só pré-marca; o docente confere e confirma.
+      const importado = restauradoDaSessao ? null : carregarRestauracaoDaSessao();
+      if (importado) {
+        const validSet = new Set(fetchedCatalog.caracteristicas.map((c) => c.id_caracteristica));
+        const aplicadas = importado.caracteristicas.filter((id) => validSet.has(id));
+        const ignoradas = importado.caracteristicas.length - aplicadas.length;
+        if (aplicadas.length > 0) {
+          setSelectedIds(aplicadas);
+          setFeedbackBanner({
+            type: "info",
+            title: `Perfil ${importado.codigo_anonimo} aplicado`,
+            message: `${aplicadas.length} característica(s) pré-marcada(s) a partir do arquivo importado${
+              ignoradas > 0 ? `; ${ignoradas} não consta(m) no catálogo ativo e foi(ram) ignorada(s)` : ""
+            }. Confira a seleção e confirme para seguir.`,
+            persistente: true,
+          });
+        } else {
+          setFeedbackBanner({
+            type: "warning",
+            title: "Perfil importado incompatível com o catálogo atual",
+            message: `Nenhuma característica do perfil ${importado.codigo_anonimo} consta no catálogo ativo. Selecione as características manualmente.`,
+            persistente: true,
+          });
         }
       }
 
@@ -193,7 +224,7 @@ export function Step2FunctionalProfile({
   }, [currentEngagementProfile]);
 
   useEffect(() => {
-    if (!feedbackBanner) return;
+    if (!feedbackBanner || feedbackBanner.persistente) return;
     const timer = window.setTimeout(() => {
       setFeedbackBanner(null);
     }, 4000);
