@@ -2,7 +2,13 @@
 
 import React, { useEffect, useId, useRef, useState } from "react";
 import { CheckCircle2, FileJson, Loader2, TriangleAlert, Undo2, Upload } from "lucide-react";
-import { clearSurgicalSelectionFromSession, loadSurgicalSelectionFromSession } from "@/services/catalogsApi";
+import {
+  clearSurgicalSelectionFromSession,
+  ENGAGEMENT_PROFILE_STORAGE_KEY,
+  loadSurgicalSelectionFromSession,
+} from "@/services/catalogsApi";
+import { STEP5_ADAPTACAO_STORAGE_KEY } from "@/services/comparisonCards";
+import { STEP4_RESULT_STORAGE_KEY } from "@/services/agentsApi";
 import { PerfilPortatilError } from "@/services/portableProfile";
 import {
   carregarRestauracaoDaSessao,
@@ -32,7 +38,28 @@ export function PerfilImport() {
     setAplicado(carregarRestauracaoDaSessao()?.codigo_anonimo ?? null);
   }, []);
 
-  const jaTemSelecao = () => loadSurgicalSelectionFromSession() !== null || loadScaffoldingFromSession() !== null;
+  const temNaSessao = (chave: string) => {
+    try {
+      return window.sessionStorage.getItem(chave) !== null;
+    } catch {
+      return false;
+    }
+  };
+  const apagarDaSessao = (...chaves: string[]) => {
+    try {
+      chaves.forEach((c) => window.sessionStorage.removeItem(c));
+    } catch {
+      // sessionStorage indisponível: nada a limpar
+    }
+  };
+
+  /** Interesses e resultado das Etapas 4 e 5 de outro estudante não podem sobreviver à troca de perfil. */
+  const jaTemSelecao = () =>
+    loadSurgicalSelectionFromSession() !== null ||
+    loadScaffoldingFromSession() !== null ||
+    temNaSessao(ENGAGEMENT_PROFILE_STORAGE_KEY) ||
+    temNaSessao(STEP4_RESULT_STORAGE_KEY) ||
+    temNaSessao(STEP5_ADAPTACAO_STORAGE_KEY);
 
   const aoEscolher = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const arquivo = e.target.files?.[0];
@@ -56,16 +83,27 @@ export function PerfilImport() {
 
   const aplicar = () => {
     if (!pendente) return;
-    // O docente escolheu o perfil: ele substitui a seleção e a calibração que já existiam nesta sessão.
+    // O docente escolheu o perfil: ele substitui tudo o que já existia nesta sessão (seleção, calibração,
+    // interesses e o resultado das Etapas 4 e 5, que podem ser de outro estudante).
     clearSurgicalSelectionFromSession();
     clearScaffoldingFromSession();
+    apagarDaSessao(ENGAGEMENT_PROFILE_STORAGE_KEY, STEP4_RESULT_STORAGE_KEY, STEP5_ADAPTACAO_STORAGE_KEY);
     salvarRestauracaoNaSessao(pendente.restaurado);
     setAplicado(pendente.restaurado.codigo_anonimo);
     setPendente(null);
   };
 
-  const descartar = () => {
+  /** "Cancelar" só descarta a prévia: o perfil que já estava aplicado continua valendo. */
+  const cancelarPrevia = () => {
+    setPendente(null);
+    setErro(null);
+  };
+
+  /** Desfaz o perfil aplicado e o que veio dele: a seleção da Etapa 2 e o nível da Etapa 3. */
+  const removerAplicado = () => {
     limparRestauracaoDaSessao();
+    clearSurgicalSelectionFromSession();
+    clearScaffoldingFromSession();
     setAplicado(null);
     setPendente(null);
     setErro(null);
@@ -158,7 +196,7 @@ export function PerfilImport() {
             {jaTemSelecao() && (
               <p className="flex items-start gap-1.5 text-xs font-semibold text-[#7A3E00] dark:text-[#FFD9A8]">
                 <TriangleAlert className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" aria-hidden="true" />
-                Aplicar este perfil substitui a seleção de características e a calibração já feitas nesta sessão.
+                Aplicar este perfil substitui o que já está na sessão: a seleção de características, a calibração do nível, os interesses e o resultado das Etapas 4 e 5.
               </p>
             )}
             <div className="flex flex-wrap gap-2 pt-1">
@@ -172,7 +210,7 @@ export function PerfilImport() {
               </button>
               <button
                 type="button"
-                onClick={descartar}
+                onClick={cancelarPrevia}
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#335C67]/40 hover:bg-[#335C67]/10 transition-colors"
               >
                 Cancelar
@@ -190,11 +228,11 @@ export function PerfilImport() {
             <p className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
               Perfil <span className="font-mono">{aplicado}</span> aplicado. As características serão pré-marcadas na
-              Etapa 2 e você poderá alterá-las.
+              Etapa 2 e você poderá alterá-las. Remover o perfil também desfaz a seleção e o nível que vieram dele.
             </p>
             <button
               type="button"
-              onClick={descartar}
+              onClick={removerAplicado}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-emerald-700/40 hover:bg-emerald-700/10 transition-colors"
             >
               <Undo2 className="w-3.5 h-3.5" aria-hidden="true" />

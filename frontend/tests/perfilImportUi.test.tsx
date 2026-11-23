@@ -7,7 +7,9 @@ import { PerfilImport } from "../src/components/PerfilImport";
 import { Step2FunctionalProfile } from "../src/components/Step2FunctionalProfile";
 import { Step3ScaffoldingLevel } from "../src/components/Step3ScaffoldingLevel";
 import { ThemeProvider } from "../src/contexts/ThemeContext";
-import { SURGICAL_VECTOR_STORAGE_KEY } from "../src/services/catalogsApi";
+import { ENGAGEMENT_PROFILE_STORAGE_KEY, SURGICAL_VECTOR_STORAGE_KEY } from "../src/services/catalogsApi";
+import { STEP4_RESULT_STORAGE_KEY } from "../src/services/agentsApi";
+import { STEP5_ADAPTACAO_STORAGE_KEY } from "../src/services/comparisonCards";
 import { criarPerfilPortatil, perfilParaJson } from "../src/services/portableProfile";
 import { PERFIL_IMPORTADO_STORAGE_KEY } from "../src/services/portableProfileImport";
 import { SCAFFOLDING_STORAGE_KEY } from "../src/services/scaffoldingApi";
@@ -114,9 +116,61 @@ describe("Importação do perfil no início do fluxo (História 3.2.2)", () => {
     const { container } = render(<PerfilImport />);
     escolher(container, perfilParaJson(perfilValido()));
     const previa = await screen.findByTestId("previa-importacao");
-    expect(previa.textContent).toContain("substitui a seleção de características e a calibração já feitas");
+    expect(previa.textContent).toMatch(/substitui o que já está na sessão.*interesses.*Etapas 4 e 5/);
     fireEvent.click(screen.getByRole("button", { name: /Aplicar ao fluxo/ }));
     expect(window.sessionStorage.getItem(SURGICAL_VECTOR_STORAGE_KEY)).toBeNull();
+  });
+
+  it("aplicar também limpa interesses e o resultado das Etapas 4 e 5, e o aviso cita isso", async () => {
+    for (const k of [ENGAGEMENT_PROFILE_STORAGE_KEY, STEP4_RESULT_STORAGE_KEY, STEP5_ADAPTACAO_STORAGE_KEY]) {
+      window.sessionStorage.setItem(k, "{}");
+    }
+    const { container } = render(<PerfilImport />);
+    escolher(container, perfilParaJson(perfilValido()));
+    expect((await screen.findByTestId("previa-importacao")).textContent).toContain("Etapas 4 e 5");
+    fireEvent.click(screen.getByRole("button", { name: /Aplicar ao fluxo/ }));
+    for (const k of [ENGAGEMENT_PROFILE_STORAGE_KEY, STEP4_RESULT_STORAGE_KEY, STEP5_ADAPTACAO_STORAGE_KEY]) {
+      expect(window.sessionStorage.getItem(k)).toBeNull();
+    }
+  });
+
+  it("'Cancelar' na prévia de outro arquivo NÃO remove o perfil já aplicado", async () => {
+    const { container } = render(<PerfilImport />);
+    escolher(container, perfilParaJson(perfilValido()));
+    await screen.findByTestId("previa-importacao");
+    fireEvent.click(screen.getByRole("button", { name: /Aplicar ao fluxo/ }));
+
+    escolher(container, perfilParaJson(perfilValido()));
+    await screen.findByTestId("previa-importacao");
+    fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
+
+    expect(window.sessionStorage.getItem(PERFIL_IMPORTADO_STORAGE_KEY)).not.toBeNull();
+    expect(screen.getByTestId("perfil-aplicado")).toBeTruthy();
+    expect(screen.queryByTestId("previa-importacao")).toBeNull();
+  });
+
+  it("'Remover perfil importado' desfaz também a seleção e a calibração vindas do perfil", async () => {
+    const { container } = render(<PerfilImport />);
+    escolher(container, perfilParaJson(perfilValido()));
+    await screen.findByTestId("previa-importacao");
+    fireEvent.click(screen.getByRole("button", { name: /Aplicar ao fluxo/ }));
+    // O docente confirmou a Etapa 2 e a 3 com o que o perfil trouxe.
+    window.sessionStorage.setItem(SURGICAL_VECTOR_STORAGE_KEY, JSON.stringify({ id_catalogo: "x", selected_ids: [ID_A] }));
+    window.sessionStorage.setItem(SCAFFOLDING_STORAGE_KEY, JSON.stringify({ nivel: 3 }));
+
+    fireEvent.click(screen.getByRole("button", { name: /Remover perfil importado/ }));
+
+    expect(window.sessionStorage.getItem(PERFIL_IMPORTADO_STORAGE_KEY)).toBeNull();
+    expect(window.sessionStorage.getItem(SURGICAL_VECTOR_STORAGE_KEY)).toBeNull();
+    expect(window.sessionStorage.getItem(SCAFFOLDING_STORAGE_KEY)).toBeNull();
+  });
+
+  it("perfil sem característica mostra mensagem própria (validação local)", async () => {
+    const { container } = render(<PerfilImport />);
+    escolher(container, JSON.stringify({ ...criarPerfilPortatil([ID_A]), caracteristicas_selecionadas: [] }));
+    const alerta = await screen.findByRole("alert");
+    expect(alerta.textContent).toContain("nenhuma característica funcional selecionada");
+    expect(alerta.textContent).not.toContain("não pôde ser lida");
   });
 
   it("não usa localStorage nem IndexedDB para o material importado", async () => {
@@ -194,5 +248,9 @@ describe("Restauração nas etapas seguintes", () => {
     expect(aviso).toBeTruthy();
     expect(await screen.findByText(/2 característica\(s\) pré-marcada\(s\)/)).toBeTruthy();
     expect(screen.getByText(/1 não consta\(m\) no catálogo ativo/)).toBeTruthy();
-  });
+
+    // O aviso do perfil importado não some sozinho (os outros avisos da Etapa 2 somem em 4 s).
+    await new Promise((r) => setTimeout(r, 4300));
+    expect(screen.getByText(/Perfil aluno-8f7a2c1b aplicado/)).toBeTruthy();
+  }, 10000);
 });

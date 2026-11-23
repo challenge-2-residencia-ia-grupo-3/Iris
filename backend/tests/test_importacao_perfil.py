@@ -185,3 +185,75 @@ def test_modulo_da_rota_nao_escreve_em_disco():
     fonte = inspect.getsource(rota_perfil.importar_perfil_service)
     for proibido in ("open(", "write_text", "write_bytes", "tempfile", "sqlite", "pickle"):
         assert proibido not in fonte
+
+
+# ------------------------------------------------------------------ revisão do #138
+def _erro(conteudo: str) -> PerfilInvalidoError:
+    with pytest.raises(PerfilInvalidoError) as e:
+        importar(conteudo)
+    return e.value
+
+
+@pytest.mark.parametrize(
+    "campo, valor, trecho",
+    [
+        ("codigo_anonimo", "aluno-xyz", "código anônimo"),
+        ("versao_schema", "2.0", "versão 1.0"),
+        ("criado_em", "ontem", "ISO 8601"),
+        ("caracteristicas_selecionadas", ["ID Inválido!"], "formato inválido"),
+    ],
+)
+def test_erros_de_estrutura_saem_em_portugues_sem_mensagem_do_pydantic(campo, valor, trecho):
+    err = _erro(texto({**PERFIL, campo: valor}))
+    assert err.codigo == "INVALID_STRUCTURE"
+    msg = str(err)
+    assert trecho in msg
+    for ingles in ("String should", "Input should", "Field required", "Value error", "valid"):
+        assert ingles not in msg
+
+
+def test_eficacia_invalida_na_intervencao_diz_os_valores_permitidos():
+    item = {**COM_HISTORICO["historico_intervencoes"][0], "eficacia": "ótima"}
+    msg = str(_erro(texto({**COM_HISTORICO, "historico_intervencoes": [item]})))
+    assert "eficácia" in msg and "alta" in msg and "Input should" not in msg
+
+
+def test_campo_obrigatorio_ausente_em_portugues():
+    sem = {k: v for k, v in PERFIL.items() if k != "codigo_anonimo"}
+    assert "Falta o campo obrigatório" in str(_erro(texto(sem)))
+
+
+def test_perfil_sem_caracteristica_tem_mensagem_propria():
+    err = _erro(texto({**PERFIL, "caracteristicas_selecionadas": []}))
+    assert err.codigo == "EMPTY_PROFILE"
+    assert "nenhuma característica" in str(err)
+
+
+@pytest.mark.parametrize(
+    "conteudo",
+    [
+        "[" * 200000 + "]" * 200000,
+        '{"a": ' * 50000 + "1" + "}" * 50000,
+        '{"codigo_anonimo": ' + "9" * 20000 + "}",
+        '{"codigo_anonimo": "\\ud800"}',
+    ],
+)
+def test_arquivo_hostil_vira_invalid_json_e_nao_derruba_o_servico(conteudo):
+    assert _erro(conteudo).codigo in {"INVALID_JSON", "INVALID_STRUCTURE"}
+
+
+def test_surrogate_isolado_no_texto_nao_levanta_unicode_error():
+    err = _erro("\ud800")
+    assert err.codigo == "INVALID_JSON"
+
+
+def test_rota_nao_responde_500_para_arquivos_hostis(cliente):
+    corpos = [
+        json.dumps({"arquivo": "[" * 200000}),
+        json.dumps({"arquivo": '{"a": ' + "9" * 20000 + "}"}),
+        '{"arquivo": "\\ud800"}',  # surrogate isolado, escapado como o navegador pode enviar
+    ]
+    for corpo in corpos:
+        r = cliente.post("/api/v1/perfil/importar", content=corpo, headers={"Content-Type": "application/json"})
+        assert r.status_code == 422, corpo[:30]
+        assert r.json()["detail"]["code"] == "INVALID_JSON"

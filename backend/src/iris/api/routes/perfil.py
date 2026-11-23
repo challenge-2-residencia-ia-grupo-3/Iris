@@ -38,13 +38,24 @@ def importar_perfil_service(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or set(payload) != {"arquivo"} or not isinstance(payload["arquivo"], str):
         raise PerfilInvalidoError(CODIGO_ESTRUTURA, ["Envie o conteúdo do arquivo .json no campo 'arquivo'."])
     texto = payload["arquivo"]
-    if len(texto.encode("utf-8")) > MAX_BYTES_ARQUIVO:
+    # errors="replace": caractere Unicode inválido (surrogate isolado) não pode derrubar a rota.
+    if len(texto.encode("utf-8", errors="replace")) > MAX_BYTES_ARQUIVO:
         raise PerfilInvalidoError(
             "FILE_TOO_LARGE", ["O arquivo é grande demais para ser um Perfil Pedagógico Portátil (máximo 1 MB)."]
         )
     if not texto.strip():
         raise PerfilInvalidoError("EMPTY_FILE", ["O arquivo está vazio."])
-    perfil = validar_perfil(texto.lstrip("\ufeff"))
+    try:
+        perfil = validar_perfil(texto.lstrip("\ufeff"))
+    except (RecursionError, ValueError, UnicodeError) as err:
+        if isinstance(err, PerfilInvalidoError):
+            raise
+        raise PerfilInvalidoError("INVALID_JSON", ["O arquivo do perfil não é um JSON válido."]) from err
+    if not perfil.caracteristicas_selecionadas:
+        raise PerfilInvalidoError(
+            "EMPTY_PROFILE",
+            ["O perfil não tem nenhuma característica funcional selecionada; não há o que restaurar."],
+        )
     return {"perfil": perfil.para_json(), "resumo_eficacia": resumo_eficacia(perfil)}
 
 

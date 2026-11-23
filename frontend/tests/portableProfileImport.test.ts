@@ -61,12 +61,26 @@ describe("regra de pré-seleção do perfil importado", () => {
 
   it.each([
     ["Fragmentação com andaime nível 2", 2],
-    ["Nível 3: comandos um de cada vez", 3],
-    ["nível leve com exemplos", 1],
+    ["Nível de suporte 3: comandos um de cada vez", 3],
+    ["suporte leve com exemplos", 1],
     ["Andaime moderado nas questões abertas", 2],
     ["Nivel de andaime intensivo", 3],
+    ["Nível 2 de andaime, com checklist", 2],
   ])("reconhece a menção explícita ao nível em %j", (texto, nivel) => {
     expect(nivelCitadoNaEstrategia(texto)).toBe(nivel);
+  });
+
+  it.each([
+    "Texto de nível 3 de dificuldade",
+    "Evitar nível 2",
+    "Questões do nível 1 da OBMEP",
+    "Evitar andaime nível 2",
+    "Sem suporte intensivo nas provas",
+    "Não usar andaime leve",
+    "Suporte 2 vezes por semana",
+    "Nível 3: comandos um de cada vez",
+  ])("não trata como recomendação a frase que só cita um número ou nega o suporte: %j", (texto) => {
+    expect(nivelCitadoNaEstrategia(texto)).toBeNull();
   });
 
   it.each(["Checklist de etapas", "Texto leve e curto", "Questão de nível médio do ENEM", "Nível 4", ""])(
@@ -151,6 +165,29 @@ describe("importação", () => {
       message: "O arquivo do perfil não é um JSON válido.",
     });
     expect(f).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([500, 502, 503, 404, 405])("resposta %i (infraestrutura) é tratada como servidor indisponível: valida localmente", async (status) => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status, json: async () => ({ detail: "Internal Server Error" }) }));
+    const perfil = perfilComHistorico([{ estrategia: "Andaime nível 2", eficacia: "alta" }]);
+    const r = await importarPerfilDeTexto(perfilParaJson(perfil));
+    expect(r.origem).toBe("local");
+  });
+
+  it.each([413, 422])("resposta %i continua sendo a palavra oficial do servidor", async (status) => {
+    const corpo = { detail: { code: "EMPTY_PROFILE", detail: "Mensagem do servidor." } };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status, json: async () => corpo }));
+    await expect(importarPerfilDeTexto(perfilParaJson(criarPerfilPortatil([ID_A])))).rejects.toThrow("Mensagem do servidor.");
+  });
+
+  it("perfil sem característica: mensagem própria, com ou sem servidor", async () => {
+    const vazio = JSON.stringify({ ...criarPerfilPortatil([ID_A]), caracteristicas_selecionadas: [] });
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("offline")));
+    await expect(importarPerfilDeTexto(vazio)).rejects.toMatchObject({ code: "EMPTY_PROFILE" });
+    // Servidor antigo que aceitasse o arquivo: a tela não pode cair em "resposta não pôde ser lida".
+    const perfil = JSON.parse(vazio);
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({ perfil, resumo_eficacia: {} }) }));
+    await expect(importarPerfilDeTexto(vazio)).rejects.toMatchObject({ code: "EMPTY_PROFILE" });
   });
 
   it("servidor fora do ar: valida localmente o mesmo schema", async () => {

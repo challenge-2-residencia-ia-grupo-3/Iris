@@ -95,13 +95,33 @@ function semAcento(texto: string): string {
   return texto.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 }
 
-/** "nível 2", "nível leve", "andaime moderado"… Só reconhece menção explícita ao nível de andaime. */
+/** Palavras que viram a frase do avesso: "evitar andaime nível 2" não recomenda o nível 2. */
+const NEGACAO = /\b(evit\w*|sem|nao|nunca|jamais|exceto|menos|dispens\w*|desnecessari\w*|nenhum\w*|deixar\s+de|parar\s+de)\b/;
+
+/**
+ * "andaime nível 2", "nível de suporte 3", "suporte intensivo"… Só vale quando a frase fala de andaime ou de
+ * suporte e traz o nível logo ao lado; "texto de nível 3 de dificuldade" ou "questões do nível 1 da OBMEP" não
+ * recomendam nível nenhum. Frase negada ("evitar andaime nível 2", "sem suporte intensivo") também não conta.
+ */
 export function nivelCitadoNaEstrategia(estrategia: string): NivelAndaime | null {
   const t = semAcento(estrategia);
-  const m =
-    /\bnivel\s*(?:de\s+andaime\s*)?[:\-]?\s*(1|2|3|leve|moderado|intensivo)\b/.exec(t) ??
-    /\bandaime\s+(?:de\s+nivel\s+)?(leve|moderado|intensivo)\b/.exec(t);
-  return m ? NIVEL_POR_PALAVRA[m[1]] : null;
+  const NIVEL = "(1|2|3|leve|moderado|intensivo)(?!\\s*(?:vezes|x|min|minutos|itens|passos|\\d))";
+  const padroes = [
+    // andaime/suporte (+ "de nível") + nível: "andaime nível 2", "andaime de nível leve", "suporte intensivo"
+    new RegExp(`\\b(?:andaime|suporte)s?\\s*(?:de\\s+)?(?:nivel\\s*)?[:\\-]?\\s*${NIVEL}\\b`),
+    // nível + de andaime/suporte + nível: "nível de suporte 3", "nível de andaime: leve"
+    new RegExp(`\\bnivel\\s+de\\s+(?:andaime|suporte)\\s*[:\\-]?\\s*${NIVEL}\\b`),
+    // nível N de andaime/suporte: "nível 2 de andaime"
+    new RegExp(`\\bnivel\\s*(1|2|3)\\s+de\\s+(?:andaime|suporte)\\b`),
+  ];
+  for (const frase of t.split(/[.;!?\n]+/)) {
+    if (NEGACAO.test(frase)) continue;
+    for (const re of padroes) {
+      const m = re.exec(frase);
+      if (m) return NIVEL_POR_PALAVRA[m[1]];
+    }
+  }
+  return null;
 }
 
 /**
@@ -156,6 +176,20 @@ function erroDoServidor(corpo: unknown, padrao: string): PerfilPortatilError {
   return new PerfilPortatilError(padrao, "PROFILE_REJECTED");
 }
 
+function perfilSemCaracteristica(): PerfilPortatilError {
+  return new PerfilPortatilError(
+    "O perfil não tem nenhuma característica funcional selecionada; não há o que restaurar.",
+    "EMPTY_PROFILE"
+  );
+}
+
+/** Arquivo estruturado, mas com a lista de características vazia: não há o que restaurar. */
+function semCaracteristica(bruto: unknown): boolean {
+  if (!bruto || typeof bruto !== "object") return false;
+  const lista = (bruto as { caracteristicas_selecionadas?: unknown }).caracteristicas_selecionadas;
+  return Array.isArray(lista) && !lista.some((i) => typeof i === "string" && i.trim() !== "");
+}
+
 function validarLocalmente(texto: string): PerfilPedagogicoPortatil {
   let bruto: unknown;
   try {
@@ -163,6 +197,7 @@ function validarLocalmente(texto: string): PerfilPedagogicoPortatil {
   } catch {
     throw new PerfilPortatilError("O arquivo do perfil não é um JSON válido.", "INVALID_JSON");
   }
+  if (semCaracteristica(bruto)) throw perfilSemCaracteristica();
   try {
     return sanitizarPerfilParaLocalStorage(bruto);
   } catch (e) {
@@ -190,7 +225,10 @@ export async function importarPerfilDeTexto(texto: string): Promise<ResultadoImp
     resposta = null; // servidor fora do ar: cai na validação local do mesmo schema
   }
 
-  if (resposta === null) {
+  // Sem resposta, ou resposta de infraestrutura (5xx, 404/405 de rota ausente, proxy): o servidor não está
+  // disponível para validar; 413 e 422 continuam sendo a palavra oficial dele.
+  const indisponivel = resposta !== null && (resposta.status >= 500 || resposta.status === 404 || resposta.status === 405);
+  if (resposta === null || indisponivel) {
     const perfil = validarLocalmente(texto);
     return { perfil, restaurado: recomendarDoPerfil(perfil), origem: "local" };
   }
@@ -201,10 +239,11 @@ export async function importarPerfilDeTexto(texto: string): Promise<ResultadoImp
   }
 
   const corpo = (await resposta.json().catch(() => null)) as { perfil?: unknown } | null;
+  if (semCaracteristica(corpo?.perfil)) throw perfilSemCaracteristica();
   let perfil: PerfilPedagogicoPortatil;
   try {
     perfil = sanitizarPerfilParaLocalStorage(corpo?.perfil);
-  } catch {
+  } catch (e) {
     throw new PerfilPortatilError("A resposta do servidor não pôde ser lida. Tente importar de novo.", "INVALID_SERVER_RESPONSE");
   }
   return { perfil, restaurado: recomendarDoPerfil(perfil), origem: "servidor" };
