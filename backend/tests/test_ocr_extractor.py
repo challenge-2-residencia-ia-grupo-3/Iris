@@ -18,8 +18,11 @@ import sys
 from types import MappingProxyType
 from unittest import TestCase, mock
 
-if "pydantic" not in sys.modules:
-    sys.modules["pydantic"] = mock.MagicMock()
+try:
+    import pydantic
+except ImportError:
+    if "pydantic" not in sys.modules:
+        sys.modules["pydantic"] = mock.MagicMock()
 
 import pytesseract
 from PIL import Image
@@ -528,12 +531,53 @@ class TestSubprocessAndEngineErrorHandling(TestCase):
             "TimeoutException",
             TimeoutError,
         )
-        mock_to_data.side_effect = timeout_exc("Timeout expired")
+        orig_exc = timeout_exc("Timeout expired")
+        mock_to_data.side_effect = orig_exc
 
         img = Image.new("RGB", (200, 200), color="white")
         with self.assertRaises(OcrTimeoutError) as ctx:
             extract_text_from_page_image(img, page_number=1)
         self.assertEqual(ctx.exception.code, "OCR_TIMEOUT")
+        self.assertIs(ctx.exception.__cause__, orig_exc)
+
+    @mock.patch("pytesseract.image_to_data")
+    def test_pytesseract_runtime_error_timeout_mapped(self, mock_to_data: mock.MagicMock) -> None:
+        """Comprova que RuntimeError('Tesseract process timeout') do pytesseract 0.3.13 é mapeado para OcrTimeoutError."""
+        orig_exc = RuntimeError("Tesseract process timeout")
+        mock_to_data.side_effect = orig_exc
+
+        img = Image.new("RGB", (200, 200), color="white")
+        with self.assertRaises(OcrTimeoutError) as ctx:
+            extract_text_from_page_image(img, page_number=1)
+        self.assertEqual(ctx.exception.code, "OCR_TIMEOUT")
+        self.assertIs(ctx.exception.__cause__, orig_exc)
+
+    @mock.patch("pytesseract.image_to_data")
+    def test_timeout_case_insensitive_mapped(self, mock_to_data: mock.MagicMock) -> None:
+        """Comprova que mensagens de timeout com caixa alta são mapeadas corretamente."""
+        orig_exc = RuntimeError("TESSERACT PROCESS TIMEOUT DETECTED")
+        mock_to_data.side_effect = orig_exc
+
+        img = Image.new("RGB", (200, 200), color="white")
+        with self.assertRaises(OcrTimeoutError) as ctx:
+            extract_text_from_page_image(img, page_number=1)
+        self.assertEqual(ctx.exception.code, "OCR_TIMEOUT")
+        self.assertIs(ctx.exception.__cause__, orig_exc)
+
+    @mock.patch("pytesseract.image_to_data")
+    def test_runtime_error_without_timeout_mapped_to_generic_ocr_error(
+        self, mock_to_data: mock.MagicMock
+    ) -> None:
+        """Garante que RuntimeError sem menção a timeout NÃO seja classificado como timeout indiscriminadamente."""
+        orig_exc = RuntimeError("Memory allocation failure in native layer")
+        mock_to_data.side_effect = orig_exc
+
+        img = Image.new("RGB", (200, 200), color="white")
+        with self.assertRaises(OcrError) as ctx:
+            extract_text_from_page_image(img, page_number=1)
+        self.assertNotIsInstance(ctx.exception, OcrTimeoutError)
+        self.assertEqual(ctx.exception.code, "OCR_ERROR")
+        self.assertIs(ctx.exception.__cause__, orig_exc)
 
     @mock.patch("pytesseract.image_to_data")
     def test_language_traineddata_missing_mapped(self, mock_to_data: mock.MagicMock) -> None:

@@ -370,7 +370,12 @@ def extract_text_from_page_image(
             raise OcrError(f"Tesseract execution failed: {err_msg}", code="OCR_EXECUTION_ERROR") from exc
         except Exception as exc:
             exc_name = type(exc).__name__
-            if "Timeout" in exc_name or isinstance(exc, TimeoutError):
+            err_msg_lower = str(exc).lower()
+            if (
+                "timeout" in exc_name.lower()
+                or isinstance(exc, TimeoutError)
+                or "timeout" in err_msg_lower
+            ):
                 raise OcrTimeoutError(
                     f"OCR process timed out after {cfg.timeout_seconds}s.",
                     code="OCR_TIMEOUT",
