@@ -154,6 +154,15 @@ export interface MultiAgentMaterialResponse {
   questoes_trace: QuestionMultiAgentTrace[];
 }
 
+/**
+ * Fontes que a diretiva do Estrategista cita de fato, na ordem dos rótulos (T1, T2, ...).
+ * A busca devolve mais trechos do que a diretiva usa; só os citados sustentam o que foi escrito.
+ */
+export function fontesCitadas(est: StrategistTrace): StrategistTrace["fontes"] {
+  const citados = new Set(est.intervencoes.flatMap((i) => i.citacoes));
+  return est.fontes.filter((f) => citados.has(f.rotulo));
+}
+
 export function saveStep5AdaptationToSession(entrada: Step5Entrada): void {
   if (typeof window === "undefined") return;
   try {
