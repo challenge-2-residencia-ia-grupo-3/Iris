@@ -8,10 +8,36 @@ import { ThemeProvider } from "../src/contexts/ThemeContext";
 
 const mockPush = vi.fn();
 
+let mockOverlayHandlers: {
+  onExitStart?: () => void;
+  onFinished?: () => void;
+} | null = null;
+
+let autoFinishIntro = true;
+
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
     push: mockPush,
   }),
+}));
+
+vi.mock("@/components/iris-intro/IrisIntroOverlay", () => ({
+  IrisIntroOverlay: ({
+    onExitStart,
+    onFinished,
+  }: {
+    onExitStart?: () => void;
+    onFinished: () => void;
+  }) => {
+    mockOverlayHandlers = { onExitStart, onFinished };
+    React.useEffect(() => {
+      if (autoFinishIntro) {
+        onExitStart?.();
+        onFinished();
+      }
+    }, [onExitStart, onFinished]);
+    return <div data-testid="iris-intro-overlay" role="presentation" />;
+  },
 }));
 
 async function checkAxeViolations(container: HTMLElement) {
@@ -30,6 +56,8 @@ async function checkAxeViolations(container: HTMLElement) {
 }
 
 beforeEach(() => {
+  autoFinishIntro = true;
+  mockOverlayHandlers = null;
   mockPush.mockClear();
   window.sessionStorage.clear();
   document.documentElement.classList.remove("dark");
@@ -39,6 +67,8 @@ afterEach(() => {
   cleanup();
   window.sessionStorage.clear();
   vi.clearAllMocks();
+  autoFinishIntro = true;
+  mockOverlayHandlers = null;
 });
 
 describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Acessibilidade)", () => {
@@ -265,6 +295,36 @@ describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Ace
     fireEvent.click(themeSwitch);
     expect(themeSwitch.getAttribute("aria-checked")).toBe("false");
     expect(document.documentElement.classList.contains("dark")).toBe(false);
+  });
+
+  it("integra a abertura IrisIntroOverlay com transição suave e acessibilidade (aria-hidden)", async () => {
+    autoFinishIntro = false;
+    const { container } = render(
+      <ThemeProvider>
+        <HomePage />
+      </ThemeProvider>
+    );
+
+    // Inicialmente a overlay está ativa e a tela de login oculta para tecnologias assistivas
+    expect(screen.getByTestId("iris-intro-overlay")).toBeTruthy();
+    const loginWrapper = container.querySelector(".min-h-screen");
+    expect(loginWrapper?.getAttribute("aria-hidden")).toBe("true");
+
+    const formSection = container.querySelector(".max-w-\\[420px\\]");
+    expect(formSection?.className).toContain("opacity-0");
+
+    // Dispara transição onExitStart
+    mockOverlayHandlers?.onExitStart?.();
+    await waitFor(() => {
+      expect(formSection?.className).toContain("opacity-100");
+    });
+
+    // Dispara finalização onFinished
+    mockOverlayHandlers?.onFinished?.();
+    await waitFor(() => {
+      expect(screen.queryByTestId("iris-intro-overlay")).toBeNull();
+      expect(loginWrapper?.getAttribute("aria-hidden")).toBe("false");
+    });
   });
 
   it("não possui violações de acessibilidade no axe-core (WCAG 2.1 AA)", async () => {
