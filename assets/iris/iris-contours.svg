@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="100%" height="100%">
+  <defs>
+    <!-- 1. Orbit Ring Gradient (Delicate thin muted teal-slate -> warm terracotta) -->
+    <linearGradient id="orbit-grad" x1="15%" y1="15%" x2="88%" y2="75%">
+      <stop offset="0%" stop-color="#224552" />
+      <stop offset="35%" stop-color="#3B4954" />
+      <stop offset="65%" stop-color="#8B483C" />
+      <stop offset="100%" stop-color="#BD452F" />
+    </linearGradient>
+
+    <!-- 2. Teal Shape (Muted sophisticated petrol-teal, ZERO neon cyan) -->
+    <linearGradient id="teal-outer-grad" x1="32%" y1="5%" x2="48%" y2="95%">
+      <stop offset="0%" stop-color="#399CAD" />
+      <stop offset="22%" stop-color="#247387" />
+      <stop offset="52%" stop-color="#134C5E" />
+      <stop offset="82%" stop-color="#092C3C" />
+      <stop offset="100%" stop-color="#051C2B" />
+    </linearGradient>
+
+    <linearGradient id="teal-inner-grad" x1="25%" y1="8%" x2="72%" y2="92%">
+      <stop offset="0%" stop-color="#144454" />
+      <stop offset="38%" stop-color="#0D3140" />
+      <stop offset="72%" stop-color="#082332" />
+      <stop offset="100%" stop-color="#041522" />
+    </linearGradient>
+
+    <!-- Restrained soft petrol-turquoise luminance near the white crescent -->
+    <radialGradient id="teal-soft-luminance" cx="76%" cy="54%" r="36%" fx="80%" fy="54%">
+      <stop offset="0%" stop-color="#35A8B8" stop-opacity="0.72" />
+      <stop offset="45%" stop-color="#1A6A7C" stop-opacity="0.32" />
+      <stop offset="100%" stop-color="#092938" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Smooth muted taupe-terracotta bridge where Teal meets Orange at top -->
+    <linearGradient id="top-bridge-grad" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#1A4F5F" stop-opacity="0" />
+      <stop offset="28%" stop-color="#5A6C72" stop-opacity="0.72" />
+      <stop offset="56%" stop-color="#BF846E" stop-opacity="0.90" />
+      <stop offset="82%" stop-color="#E47A4C" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#F68240" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- 3. Orange Shape (Warm coral-orange -> terracotta -> pale peach bottom tail, ZERO neon yellow) -->
+    <linearGradient id="orange-outer-grad" x1="25%" y1="10%" x2="78%" y2="85%">
+      <stop offset="0%" stop-color="#F68B46" />
+      <stop offset="35%" stop-color="#F77B35" />
+      <stop offset="72%" stop-color="#F16626" />
+      <stop offset="100%" stop-color="#E4521E" />
+    </linearGradient>
+
+    <!-- Bottom Swooping Tail (fades naturally into delicate pale peach & terracotta tip) -->
+    <linearGradient id="orange-tail-grad" x1="78%" y1="18%" x2="18%" y2="94%">
+      <stop offset="0%" stop-color="#F06424" />
+      <stop offset="36%" stop-color="#F48244" />
+      <stop offset="68%" stop-color="#FCCEB2" />
+      <stop offset="86%" stop-color="#F7A77C" />
+      <stop offset="100%" stop-color="#DC5326" />
+    </linearGradient>
+
+    <!-- Inner subtle warm terracotta shadow hugging right side of core -->
+    <linearGradient id="orange-recess-grad" x1="15%" y1="15%" x2="82%" y2="85%">
+      <stop offset="0%" stop-color="#B83B18" stop-opacity="0.92" />
+      <stop offset="52%" stop-color="#DC4B1D" stop-opacity="0.88" />
+      <stop offset="100%" stop-color="#F26C2C" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- 4. Inner Core (Clean dark midnight purple-black, NO artificial lens flares) -->
+    <radialGradient id="core-base-grad" cx="50%" cy="50%" r="52%">
+      <stop offset="0%" stop-color="#170726" />
+      <stop offset="62%" stop-color="#12041E" />
+      <stop offset="100%" stop-color="#0B0115" />
+    </radialGradient>
+
+    <!-- Barely perceptible ambient edge warmth matching original raster -->
+    <radialGradient id="core-subtle-teal-edge" cx="24%" cy="76%" r="32%">
+      <stop offset="0%" stop-color="#228B9C" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#12041E" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="core-subtle-warm-edge" cx="76%" cy="28%" r="34%">
+      <stop offset="0%" stop-color="#C4532E" stop-opacity="0.24" />
+      <stop offset="100%" stop-color="#12041E" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 5. Secondary Bottom-Left Hairline Curve Gradient -->
+    <linearGradient id="secondary-curve-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C86A54" stop-opacity="0.15" />
+      <stop offset="45%" stop-color="#CC5536" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#DC5224" stop-opacity="0.95" />
+    </linearGradient>
+  </defs>
+
+  <!-- 5. EYE CONTOURS (Characteristic crisp white crescent framing the dark purple core) -->
+  <g id="eye-contours">
+    <path id="white-crescent"
+      d="M 594 278
+         C 542 252, 466 260, 414 306
+         C 374 342, 363 384, 363 415
+         C 363 488, 412 548, 486 572
+         C 538 588, 598 568, 642 522
+         C 594 554, 534 560, 484 534
+         C 436 508, 408 464, 408 412
+         C 408 348, 448 294, 508 276
+         C 536 268, 566 270, 594 278 Z"
+      fill="#FFFFFF" />
+  </g>
+
+  <!-- 8. SECONDARY CURVES (Delicate hairline terracotta curve under the left wing) -->
+  <g id="secondary-curves">
+    <path id="secondary-lower-left-arc"
+      d="M 142 522 C 204 606, 294 658, 396 668"
+      fill="none" stroke="url(#secondary-curve-grad)" stroke-width="2.6" stroke-linecap="round" />
+    <path id="secondary-crescent-tail-line"
+      d="M 486 572 C 540 588, 600 568, 644 520"
+      fill="none" stroke="#1E4B5A" stroke-width="1.6" stroke-opacity="0.55" stroke-linecap="round" />
+  </g>
+</svg>

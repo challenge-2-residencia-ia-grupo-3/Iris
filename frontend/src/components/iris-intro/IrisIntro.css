@@ -1,0 +1,147 @@
+/* ==========================================================================
+   ÍRIS — Abertura Cinematográfica (Etapa 05: Evolução Criativa)
+   Duas forças luminosas amplas que nascem invertidas, cruzam-se em onda
+   orgânica e se transformam no símbolo oficial (sem texto final).
+   ========================================================================== */
+
+.iris-intro-root {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  background-color: #0d0221;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  user-select: none;
+}
+
+/* Camada atmosférica ampla (Q01 -> Q06) */
+.iris-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.iris-atm-field {
+  position: absolute;
+  opacity: 0;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+/* Campo volumétrico amplo Laranja/Coral (caixa 160vw com falloff 100% antes das bordas) */
+.iris-atm-orange {
+  width: 160vw;
+  height: 150vh;
+  left: -68vw;
+  top: -26vh;
+  background:
+    radial-gradient(
+      closest-side at 48% 48%,
+      rgba(241, 102, 38, 0.34) 0%,
+      rgba(221, 65, 25, 0.20) 36%,
+      rgba(128, 34, 28, 0.08) 68%,
+      rgba(13, 2, 33, 0) 100%
+    );
+}
+
+/* Véu volumétrico coral-âmbar (mistura cromática suave no encontro central) */
+.iris-atm-coral {
+  width: 150vw;
+  height: 140vh;
+  left: -52vw;
+  top: -18vh;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    closest-side at 50% 50%,
+    rgba(246, 139, 70, 0.20) 0%,
+    rgba(198, 72, 42, 0.09) 48%,
+    rgba(13, 2, 33, 0) 100%
+  );
+}
+
+/* Campo volumétrico amplo Azul-Petróleo/Ciano (caixa 160vw com falloff 100% antes das bordas) */
+.iris-atm-teal {
+  width: 160vw;
+  height: 150vh;
+  right: -68vw;
+  top: -22vh;
+  background:
+    radial-gradient(
+      closest-side at 52% 52%,
+      rgba(57, 156, 173, 0.36) 0%,
+      rgba(28, 102, 122, 0.22) 36%,
+      rgba(14, 52, 70, 0.09) 68%,
+      rgba(13, 2, 33, 0) 100%
+    );
+}
+
+/* Véu volumétrico ciano-turquesa (mistura cromática suave no encontro central) */
+.iris-atm-cyan {
+  width: 150vw;
+  height: 140vh;
+  right: -52vw;
+  top: -20vh;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    closest-side at 50% 50%,
+    rgba(72, 184, 202, 0.22) 0%,
+    rgba(24, 96, 116, 0.09) 48%,
+    rgba(13, 2, 33, 0) 100%
+  );
+}
+
+/* Palco central exclusivo do símbolo (sem texto abaixo) */
+.iris-stage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+}
+
+.iris-symbol-wrap {
+  position: relative;
+  width: clamp(240px, 50vw, 520px);
+  aspect-ratio: 1000 / 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.iris-master-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* Estado estático limpo para prefers-reduced-motion */
+.iris-intro-root.is-reduced-motion .iris-atm-field {
+  opacity: 0 !important;
+}
+
+@media (max-width: 640px) {
+  .iris-stage {
+    padding: 1.25rem;
+  }
+
+  .iris-symbol-wrap {
+    width: clamp(220px, 78vw, 320px);
+  }
+
+  .iris-atm-teal,
+  .iris-atm-orange {
+    width: 120vw;
+    height: 88vh;
+  }
+}
