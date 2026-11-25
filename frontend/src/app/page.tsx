@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Eye, EyeOff, Lock, Mail, Moon, Sun } from "lucide-react";
 import { IrisLogoBanner } from "@/components/IrisLogoBanner";
+import { IrisIntroOverlay } from "@/components/iris-intro/IrisIntroOverlay";
 import { useTheme } from "@/contexts/ThemeContext";
 
 /**
@@ -13,6 +14,8 @@ import { useTheme } from "@/contexts/ThemeContext";
 export default function HomePage() {
   const router = useRouter();
   const { darkMode, toggleDarkMode } = useTheme();
+  const [showIntro, setShowIntro] = useState(true);
+  const [loginRevealed, setLoginRevealed] = useState(false);
   const [email, setEmail] = useState("marina.alves@escola.edu.br");
   const [password, setPassword] = useState("••••••••");
   const [showPassword, setShowPassword] = useState(false);
@@ -23,47 +26,72 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0]">
-      <aside className="relative flex flex-col justify-between bg-[#0D0221] text-white p-8 sm:p-14 overflow-hidden min-h-[420px] lg:min-h-screen">
-        {/* Topo: Card da Marca Íris */}
-        <div className="relative z-10 pt-6 sm:pt-10">
-          <IrisLogoBanner />
-        </div>
-
-        {/* Rodapé Hero Institucional */}
-        <div className="relative z-10 max-w-lg space-y-4 my-auto lg:my-0 pt-12 mb-28 sm:mb-28">
-          <p className="text-xs font-bold tracking-[0.14em] uppercase text-[#E35336]">
-            Plataforma Gratuita para Professores
-          </p>
-          <h1 className="text-3xl sm:text-5xl font-bold leading-[1.15] tracking-tight text-white">
-            Adapte materiais. Amplie as formas de aprender.
-          </h1>
-          
-        </div>
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-28 -right-24 w-[380px] h-[380px] rounded-full border border-[#E35336]/45 bg-gradient-to-tr from-[#0D0221] via-[#162736]/80 to-[#335C67]/35 shadow-2xl"
+    <>
+      {showIntro && (
+        <IrisIntroOverlay
+          onExitStart={() => setLoginRevealed(true)}
+          onFinished={() => {
+            setLoginRevealed(true);
+            setShowIntro(false);
+          }}
         />
-      </aside>
-
-      <main
-        id="conteudo-principal"
-        className="relative flex flex-col justify-center items-center p-8 sm:p-14 bg-[#F5EDF0] dark:bg-[#14072E]"
+      )}
+      <div
+        aria-hidden={showIntro}
+        className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0]"
       >
-        {/* Botão de Tema (Lua / Sol) no canto superior direito */}
-        <div className="absolute top-6 right-6 flex items-center">
-          <button
-            type="button"
-            onClick={toggleDarkMode}
-            aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-            className="p-2.5 rounded-full text-[#0D0221] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+        <aside className="relative flex flex-col justify-between bg-[#0D0221] text-white p-8 sm:p-14 overflow-hidden min-h-[420px] lg:min-h-screen">
+          {/* Topo: Card da Marca Íris */}
+          <div
+            className={`relative z-10 pt-6 sm:pt-10 transition-opacity duration-500 ease-out delay-100 motion-reduce:transition-none ${
+              loginRevealed ? "opacity-100" : "opacity-0"
+            }`}
           >
-            {darkMode ? <Sun className="w-5 h-5 text-[#E35336]" /> : <Moon className="w-5 h-5" />}
-          </button>
-        </div>
+            <IrisLogoBanner />
+          </div>
 
-        <div className="w-full max-w-[420px] space-y-7">
+          {/* Rodapé Hero Institucional */}
+          <div
+            className={`relative z-10 max-w-lg space-y-4 my-auto lg:my-0 pt-12 mb-28 sm:mb-28 transition-opacity duration-500 ease-out delay-150 motion-reduce:transition-none ${
+              loginRevealed ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <p className="text-xs font-bold tracking-[0.14em] uppercase text-[#E35336]">
+              Plataforma Gratuita para Professores
+            </p>
+            <h1 className="text-3xl sm:text-5xl font-bold leading-[1.15] tracking-tight text-white">
+              Adapte materiais. Amplie as formas de aprender.
+            </h1>
+            
+          </div>
+
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-28 -right-24 w-[380px] h-[380px] rounded-full border border-[#E35336]/45 bg-gradient-to-tr from-[#0D0221] via-[#162736]/80 to-[#335C67]/35 shadow-2xl"
+          />
+        </aside>
+
+        <main
+          id="conteudo-principal"
+          className="relative flex flex-col justify-center items-center p-8 sm:p-14 bg-[#F5EDF0] dark:bg-[#14072E]"
+        >
+          {/* Botão de Tema (Lua / Sol) no canto superior direito */}
+          <div className="absolute top-6 right-6 flex items-center">
+            <button
+              type="button"
+              onClick={toggleDarkMode}
+              aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+              className="p-2.5 rounded-full text-[#0D0221] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            >
+              {darkMode ? <Sun className="w-5 h-5 text-[#E35336]" /> : <Moon className="w-5 h-5" />}
+            </button>
+          </div>
+
+          <div
+            className={`w-full max-w-[420px] space-y-7 transition-opacity duration-500 ease-out delay-[220ms] motion-reduce:transition-none ${
+              loginRevealed ? "opacity-100" : "opacity-0"
+            }`}
+          >
           <div className="space-y-2">
             <h2 className="text-3xl font-extrabold tracking-tight text-[#0D0221] dark:text-white">
               Acesse sua conta
@@ -158,6 +186,7 @@ export default function HomePage() {
           </p>
         </div>
       </main>
-    </div>
+      </div>
+    </>
   );
 }

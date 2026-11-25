@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="100%" height="100%">
+  <!-- 1. CENTRAL STAR (Compact, crisp pure white 4-pointed star matching original proportions) -->
+  <g id="central-star">
+    <path id="star-shape"
+      d="M 554 352
+         C 558 394, 574 409, 614 413
+         C 574 417, 558 432, 554 474
+         C 550 432, 534 417, 494 413
+         C 534 409, 550 394, 554 352 Z"
+      fill="#FFFFFF" />
+  </g>
+</svg>
