@@ -77,6 +77,8 @@ class QuestionMultiAgentTrace(BaseModel):
     original: str
     adaptado: str
     justificativas: list[str] = Field(default_factory=list)
+    # Orientação ao docente para o nível escolhido; fica fora de `adaptado`, que é o que o aluno lê.
+    recomendacao_docente: Optional[str] = None
     id_caracteristica: str
     caracteristicas_selecionadas: list[str] = Field(default_factory=list)
     nivel: int
@@ -519,6 +521,8 @@ class MultiAgentOrchestrator:
 
                 ultimo_adap = ciclo.resultados[-1]
                 adaptacao_aplicada = relatorio.texto_final.strip() != enunciado_q.strip()
+                # Texto fixo do nível escolhido (orientação de aplicação): vale mesmo quando o original é mantido.
+                recomendacao_docente = ultimo_adap.recomendacao_docente
 
                 traces.append(
                     QuestionMultiAgentTrace(
@@ -527,6 +531,7 @@ class MultiAgentOrchestrator:
                         original=enunciado_q,
                         adaptado=relatorio.texto_final,
                         justificativas=list(ultimo_adap.justificativas),
+                        recomendacao_docente=recomendacao_docente,
                         id_caracteristica=id_carac_principal,
                         caracteristicas_selecionadas=list(req.selected_ids),
                         nivel=req.nivel,
@@ -545,6 +550,7 @@ class MultiAgentOrchestrator:
                         "original": enunciado_q,
                         "adaptado": relatorio.texto_final,
                         "justificativas": list(ultimo_adap.justificativas),
+                        "recomendacao_docente": recomendacao_docente,
                         "id_caracteristica": id_carac_principal,
                         "nivel": req.nivel,
                         "adaptacao_aplicada": adaptacao_aplicada,

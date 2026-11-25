@@ -118,8 +118,17 @@ def denso_do_hibrido() -> str:
     return "qwen3" if "qwen3" in modelos_prontos() else "mpnet"
 
 
+def buscavel(c: dict) -> bool:
+    """Trecho de documento restrito ausente na máquina (`ingestao._placeholders_restritos`) tem só o aviso de licença:
+    fica no chunks.jsonl para as citações antigas acharem título e endereço, mas não entra na busca, senão ocupa a vaga
+    de um trecho com texto (na base da dev, 13 dos 20 trechos entregues à organização da escrita eram esse aviso)."""
+    return bool(c.get("n_palavras"))
+
+
 def _passa_filtro(c: dict, filtro: dict | None) -> bool:
-    """filtro = {'barreira': 'memoria_trabalho'} e/ou {'parte': 'C'}."""
+    """filtro = {'barreira': 'memoria_trabalho'} e/ou {'parte': 'C'}. Trecho sem texto nunca passa (ver `buscavel`)."""
+    if not buscavel(c):
+        return False
     if not filtro:
         return True
     if filtro.get("barreira") and filtro["barreira"] not in c["barreiras"]:

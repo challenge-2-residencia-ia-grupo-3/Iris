@@ -1137,6 +1137,37 @@ def create_app() -> Any:
     def avaliacao_adaptacao_resumo() -> dict[str, Any]:
         return _handle_avaliacao_adaptacao_resumo()
 
+    @app.get("/api/v1/eval/avaliacao-humana/exemplo/proxima", tags=["eval"])
+    def avaliacao_exemplo_proxima(avaliador: str = "") -> dict[str, Any]:
+        from fastapi import HTTPException
+
+        from iris.eval.avaliacao_humana import proxima_exemplo
+
+        try:
+            return proxima_exemplo(avaliador)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/avaliacao-humana/exemplo/rotulo", tags=["eval"])
+    def avaliacao_exemplo_rotulo(body: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        from iris.eval.avaliacao_humana import registrar_exemplo
+
+        try:
+            return registrar_exemplo(str(body.get("uid", "")), body.get("respostas"), str(body.get("avaliador", "")),
+                                     str(body.get("motivo", "")))
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v1/eval/avaliacao-humana/exemplo/resumo", tags=["eval"])
+    def avaliacao_exemplo_resumo() -> dict[str, Any]:
+        from iris.eval.avaliacao_humana import resumo_exemplos
+
+        return resumo_exemplos()
+
     @app.get("/api/v1/eval/verificacoes-qualidade", tags=["eval"])
     def verificacoes() -> dict[str, Any]:
         return _handle_verificacoes()

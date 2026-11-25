@@ -135,3 +135,54 @@ observação pedagógica. O registro é anexado ao `historico_intervencoes`.
 {"perfil": {"...": "..."}, "intervencao": {"estrategia": "Fragmentação em checklist",
  "id_caracteristica": "atencao_sustentada_textos_longos", "eficacia": "alta", "observacao": "Terminou a prova."}}
 ```
+
+## Importação e restauração da sessão (História 3.2.2, Issue #31)
+
+No início do fluxo (Etapa 1), o professor importa o `.json` recebido da coordenação ou do AEE. A plataforma valida o
+arquivo e pré-marca as características e o nível de suporte nas Etapas 2 e 3. O docente confere, pode alterar tudo e
+só então confirma: a importação nunca avança o fluxo sozinha.
+
+**Como funciona**
+1. O navegador lê o arquivo (só `.json`, até 1 MB) e envia o **texto** a `POST /api/v1/perfil/importar`, no corpo
+   `{"arquivo": "<texto>"}`. O servidor valida pelo schema oficial (`validar_perfil`, o mesmo da exportação) e devolve
+   `{perfil, resumo_eficacia}`. Não guarda nada e responde com `Cache-Control: no-store`.
+2. Se o servidor estiver fora do ar, o navegador valida localmente o mesmo schema (chaves, versão, código anônimo,
+   formato dos identificadores e chaves pessoais ou clínicas). Nesse caminho não há varredura do texto livre das
+   observações; ela só existe na validação do servidor.
+3. A prévia mostra o que será restaurado. Só ao clicar em **Aplicar ao fluxo** a sessão da aba recebe o resultado.
+   Aplicar **substitui** o que já estava na sessão: seleção de características, calibração do nível, interesses
+   (Etapa 4) e o resultado das Etapas 4 e 5, que podem ser de outro estudante. Se havia algo disso, a tela avisa antes.
+   **Cancelar** só descarta a prévia: um perfil já aplicado continua valendo.
+4. A Etapa 2 abre com as características pré-marcadas (as que não constam no catálogo ativo são ignoradas, com aviso)
+   e a Etapa 3 abre com o nível sugerido, quando houver. **Remover perfil importado** desfaz a restauração, inclusive a seleção da Etapa 2 e a calibração da Etapa 3
+   (mesmo já confirmadas); os interesses e o resultado das Etapas 4 e 5 já foram limpos ao aplicar. O aviso da Etapa 2
+   permanece na tela até o docente agir ou fechá-lo.
+5. Se o servidor não responder, ou responder erro de infraestrutura (5xx, 404, 405), a validação passa a ser a local;
+   422 e 413 continuam valendo como resposta oficial.
+
+**Erros (HTTP 422, ou 413 para arquivo acima de 1 MB)**
+
+| `code` | Quando |
+|---|---|
+| `INVALID_JSON` | arquivo truncado, que não é JSON, aninhado demais, com número gigante ou com caractere Unicode inválido |
+| `INVALID_STRUCTURE` | JSON fora do schema (campo extra, versão, código anônimo, característica repetida…) |
+| `CLINICAL_DATA_BLOCKED` | laudo, CID, diagnóstico ou medicação no perfil (a resposta não repete o trecho) |
+| `EMPTY_FILE` | arquivo vazio |
+| `EMPTY_PROFILE` | perfil sem nenhuma característica funcional selecionada (não há o que restaurar) |
+| `FILE_TOO_LARGE` | mais de 1 MB |
+
+A mensagem de cada erro aparece em português simples, uma por campo (nada de mensagens da biblioteca de validação em inglês), e a aplicação continua utilizável: o professor pode seguir sem importar.
+
+**Regra do nível de andaime.** O perfil não guarda um campo de nível; guarda o histórico de eficácia das estratégias.
+Por isso a sugestão é derivada dele, de forma conservadora:
+- só contam registros com eficácia **alta**;
+- o nível só é reconhecido quando a frase fala de **andaime** ou **suporte** e traz o nível ao lado
+  (`andaime nível 2`, `nível de suporte 3`, `suporte intensivo`, `nível 2 de andaime`); "texto de nível 3 de
+  dificuldade" ou "questões do nível 1 da OBMEP" não recomendam nível;
+- frase com negação (`evitar`, `sem`, `não`, `nunca`, `exceto`…) é ignorada: "evitar andaime nível 2" não sugere o 2;
+- sugere-se o nível mais citado; havendo **empate**, ou nenhuma menção, não se sugere nenhum e a Etapa 3 segue no padrão;
+- a tela diz por que o nível foi sugerido, e o docente pode trocá-lo.
+
+**O que fica na sessão da aba** (`sessionStorage`, chave `iris_session_perfil_importado_v1`): código anônimo,
+identificadores das características, as que têm eficácia alta, o nível sugerido e a frase de justificativa. Nunca o
+arquivo, as estratégias nem as observações. Não se usa `localStorage` nem IndexedDB para a importação.

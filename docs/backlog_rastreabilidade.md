@@ -450,10 +450,10 @@ Como professor, quero visualizar na tela a questão original ao lado da questão
 * **E** cada questão adaptada deve apresentar um cartão explicativo citando qual característica funcional foi tratada e qual diretriz do DUA/MEC fundamentou a alteração.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Frontend]** Componente da Etapa 5 com layout comparativo sincronizado lado a lado (Original vs. Adaptado).
-- [ ] **[Frontend]** Cartões retráteis de justificativas pedagógicas com referências ao DUA e ao catálogo funcional.
-- [ ] **[Frontend]** Indicadores visuais acessíveis destacando os andaimes cognitivos aplicados em cada questão.
-- [ ] **[Testes]** Teste de responsividade e acessibilidade (WCAG 2.1 AA) em diferentes tamanhos de tela.
+- [x] **[Frontend]** Componente da Etapa 5 com layout comparativo sincronizado lado a lado (Original vs. Adaptado).
+- [x] **[Frontend]** Cartões retráteis de justificativas pedagógicas com referências ao DUA e ao catálogo funcional.
+- [x] **[Frontend]** Indicadores visuais acessíveis destacando os andaimes cognitivos aplicados em cada questão.
+- [x] **[Testes]** Teste de responsividade e acessibilidade (WCAG 2.1 AA) em diferentes tamanhos de tela.
 
 ##### História 2.2.2: Edição livre docente em tempo real e aprovação Human-in-the-Loop
 **História de Usuário**
@@ -586,10 +586,10 @@ Como professor regente iniciando um novo bimestre, quero fazer o upload do arqui
 * **E** caso o arquivo `.json` esteja corrompido ou fora do padrão, o sistema deve exibir erro amigável sem interromper o funcionamento da aplicação.
 
 ### Tarefas de Implementação Técnica (INVEST)
-- [ ] **[Frontend]** Componente de upload e parsing do arquivo `.json` do Perfil Pedagógico Portátil no início do fluxo.
-- [ ] **[Frontend]** Pré-seleção automática das características funcionais e do nível de andaime recomendados no arquivo.
-- [ ] **[Backend]** Validação de schema no upload com tratamento de arquivos corrompidos ou com formato inválido.
-- [ ] **[Testes]** Teste ponta a ponta de restauração de parâmetros da sessão a partir de arquivo JSON válido.
+- [x] **[Frontend]** Componente de upload e parsing do arquivo `.json` do Perfil Pedagógico Portátil no início do fluxo.
+- [x] **[Frontend]** Pré-seleção automática das características funcionais e do nível de andaime recomendados no arquivo.
+- [x] **[Backend]** Validação de schema no upload com tratamento de arquivos corrompidos ou com formato inválido.
+- [x] **[Testes]** Teste ponta a ponta de restauração de parâmetros da sessão a partir de arquivo JSON válido.
 
 ---
 

@@ -25,7 +25,7 @@ from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
-from iris.config import BENCHMARKS_DIR, JUIZ_MODELO_PADRAO, RAG_PACOTE_DIR, REPO_ROOT, get_settings
+from iris.config import BENCHMARKS_DIR, RAG_PACOTE_DIR, REPO_ROOT, get_settings
 from iris.eval.rag_metrics import (
     calcular_similaridade_semantica,
     verificar_sustentacao_frase_no_trecho,
@@ -451,7 +451,13 @@ def _executar_geracao_segura(
         if api_sonnet and old_rag_llm not in {"extractive", "mock", "offline"}:
             os.environ["ANTHROPIC_API_KEY"] = api_sonnet
             os.environ["RAG_LLM"] = "anthropic"
-            os.environ["RAG_LLM_MODELO"] = settings.judge_model or JUIZ_MODELO_PADRAO
+            # Quem escreve não é quem julga: o gerador só recebe um modelo quando IRIS_GENERATOR_MODEL está
+            # definida; sem ela vale o padrão do gerador (gerar.py), o mesmo do produto. Antes o gerador
+            # recebia o modelo do juiz, e a bateria não media o gerador que o produto usa.
+            if (settings.generator_model or "").strip():
+                os.environ["RAG_LLM_MODELO"] = settings.generator_model.strip()
+            else:
+                os.environ.pop("RAG_LLM_MODELO", None)
             try:
                 res = rag_bridge.responder_fundamentado(
                     pergunta=pergunta,
