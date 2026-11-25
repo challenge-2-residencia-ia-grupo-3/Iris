@@ -17,6 +17,7 @@ regiões visuais para a futura orquestração multimodal.
 from __future__ import annotations
 
 import io
+import math
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Generator, Optional
@@ -53,6 +54,20 @@ from iris.schemas.materials import (
 # Resolução de renderização padrão em DPI (Dot Per Inch)
 # 150 DPI fornece excelente fidelidade para OCR e análise visual sem consumo desmedido de memória
 DEFAULT_RENDER_DPI = 150
+
+# Quantidade máxima de pixels suportada na renderização de página inteira ou região (25 Megapixels)
+# Proteção estrita contra esgotamento de memória por documentos com dimensões físicas extremas.
+# Nota sobre memória: Este teto limita o raster puro de pixels descompactados (~75 MB para RGB a 24 bits
+# ou ~100 MB para RGBA a 32 bits). Buffers transitórios de codificação (PNG/JPEG), objetos na heap
+# Python (Pillow/BytesIO) e páginas retidas nas arenas do alocador C (malloc/mmap) atuam em conjunto,
+# de modo que o consumo de memória do processo deve considerar todas as etapas do ciclo de vida.
+MAX_RENDER_PIXELS = 25_000_000
+
+# Limite superior de DPI admissível para operações de renderização (10.000 DPI)
+MAX_RENDER_DPI = 10_000
+
+# Teto máximo admissível para parametrização de limites de pixels (1 Gigapixel)
+MAX_SAFETY_CEILING_PIXELS = 1_000_000_000
 
 # Mínimo de caracteres de texto nativo para considerar que uma página possui conteúdo textual útil
 MIN_TEXT_CHARS_THRESHOLD = 50
@@ -123,6 +138,28 @@ class PdfRenderError(PdfProcessingError):
     """Lançado quando ocorre uma falha na rasterização de uma página ou região do PDF."""
 
     def __init__(self, message: str, code: str = "PDF_RENDER_ERROR") -> None:
+        super().__init__(message, code=code)
+
+
+class PdfRenderPixelLimitError(PdfRenderError):
+    """Lançado quando a dimensão projetada para renderização excede o limite máximo de pixels permitido."""
+
+    def __init__(
+        self,
+        message: str = "A dimensão projetada para renderização excede o limite máximo de pixels permitido.",
+        code: str = "PIXEL_LIMIT_EXCEEDED",
+    ) -> None:
+        super().__init__(message, code=code)
+
+
+class PdfInvalidBBoxError(PdfRenderError):
+    """Lançado quando as coordenadas da região (bbox) são inválidas, degeneradas ou extrapolam a página."""
+
+    def __init__(
+        self,
+        message: str = "As coordenadas da região (bbox) são inválidas ou extrapolam os limites da página.",
+        code: str = "INVALID_BBOX",
+    ) -> None:
         super().__init__(message, code=code)
 
 
@@ -197,26 +234,32 @@ def _classify_page(
     images_area_ratio: float,
     has_relevant_images: bool,
 ) -> PdfPageType:
-    """Classifica uma página individual com base em múltiplos sinais objetivos.
+    """Classifica uma página individual com base na presença de texto nativo e conteúdo visual.
 
-    Critérios Heurísticos:
-    1. SCANNED: Pouquíssimo ou nenhum texto nativo (< 50 caracteres) E cobertura de imagem expressiva (>= 60%).
-    2. MIXED: Texto nativo relevante (>= 50 caracteres) E presença de imagens expressivas (cobertura >= 10% ou imagem relevante).
-    3. TEXTUAL: Texto nativo suficiente e ausência de imagens de grande porte que sugiram questões digitalizadas anexas.
-       Pequenos ícones, logos de cabeçalho ou separadores gráficos (< 5% de área) não tornam a página mista.
+    Critérios Heurísticos (História 1.1.3 - Etapa 4.B1):
+    1. TEXTUAL: Página com texto nativo e sem imagens que demandem OCR (pequenos ícones/logos
+       decorativos abaixo do limiar de relevância não alteram a classificação). Páginas em branco
+       (sem texto e sem imagem) também permanecem TEXTUAL.
+    2. MIXED: Página que contenha texto nativo (curto ou longo) E imagem relevante que demande OCR
+       (has_relevant_images=True ou cobertura >= MIXED_COVERAGE_THRESHOLD). Garante que o texto nativo
+       nunca seja descartado ou suprimido quando houver imagens associadas.
+    3. SCANNED: Página sem nenhum texto nativo (char_count == 0) mas com presença de imagens que
+       demandem OCR (cobertura expressiva ou imagem relevante).
     """
-    has_sufficient_text = char_count >= MIN_TEXT_CHARS_THRESHOLD
+    has_any_text = char_count > 0
+    demands_visual_processing = has_relevant_images or images_area_ratio >= MIXED_COVERAGE_THRESHOLD
 
-    if not has_sufficient_text and images_area_ratio >= SCANNED_COVERAGE_THRESHOLD:
-        return PdfPageType.SCANNED
+    # 1. Página sem texto nativo algum
+    if not has_any_text:
+        if demands_visual_processing:
+            return PdfPageType.SCANNED
+        return PdfPageType.TEXTUAL
 
-    if has_sufficient_text and (images_area_ratio >= MIXED_COVERAGE_THRESHOLD or has_relevant_images):
+    # 2. Página que contém texto nativo (curto ou longo) e imagem que demanda OCR
+    if demands_visual_processing:
         return PdfPageType.MIXED
 
-    # Caso em que há pouco texto e pouca imagem (ex: página de rosto esparsa ou em branco)
-    if not has_sufficient_text and images_area_ratio > 0.20:
-        return PdfPageType.SCANNED
-
+    # 3. Página textual sem imagens ou apenas com ícones decorativos irrelevantes
     return PdfPageType.TEXTUAL
 
 
@@ -432,6 +475,167 @@ def inspect_and_classify_pdf(
 
 
 # ==============================================================================
+# Funções de Validação de Memória e Bounding Box (Etapa 4.B2)
+# ==============================================================================
+
+def validate_and_calculate_render_dimensions(
+    rect: fitz.Rect,
+    dpi: int,
+    *,
+    max_pixels: int = MAX_RENDER_PIXELS,
+) -> tuple[int, int, int]:
+    """Calcula e valida a dimensão projetada em pixels antes de rasterizar via PyMuPDF.
+
+    Utiliza a escala real do PyMuPDF (fitz.Matrix(dpi / 72.0, dpi / 72.0)) e o arredondamento
+    de coordenadas inteiras utilizado por get_pixmap(), garantindo que renderizações excessivamente
+    grandes sejam rejeitadas antes de qualquer alocação na heap nativa C++.
+
+    Diferenciação de memória:
+    - O limite max_pixels (padrão 25.000.000 px) restringe o tamanho do raster descompactado
+      (~75 MB em RGB a 24 bits ou ~100 MB em RGBA a 32 bits).
+    - Não representa um teto rígido absoluto de RSS do processo, uma vez que buffers transitórios
+      de codificação PNG/JPEG, estruturas em heap gerenciada (Pillow/BytesIO) e páginas retidas nas
+      arenas de alocação C (malloc do sistema) coexistem durante o ciclo de processamento.
+
+    Retorna:
+        tuple[int, int, int]: (largura_px, altura_px, total_pixels)
+
+    Lança:
+        PdfRenderError: Se o DPI for inválido (<= 0, NaN, infinito, não numérico ou > MAX_RENDER_DPI)
+            ou se max_pixels for inválido (<= 0, NaN, infinito, não numérico ou > MAX_SAFETY_CEILING_PIXELS).
+        PdfRenderPixelLimitError: Se a quantidade de pixels projetada ultrapassar max_pixels.
+    """
+    if not isinstance(dpi, (int, float)) or isinstance(dpi, bool):
+        raise PdfRenderError(f"Valor de DPI inválido para renderização: {dpi}", code="INVALID_DPI")
+
+    try:
+        if dpi <= 0 or dpi > MAX_RENDER_DPI:
+            raise PdfRenderError(
+                f"Valor de DPI fora dos limites seguros (1..{MAX_RENDER_DPI}): {dpi}",
+                code="INVALID_DPI",
+            )
+        if math.isnan(dpi) or math.isinf(dpi):
+            raise PdfRenderError(f"Valor de DPI inválido para renderização: {dpi}", code="INVALID_DPI")
+    except OverflowError:
+        raise PdfRenderError(f"Valor de DPI excessivamente grande (overflow): {dpi}", code="INVALID_DPI")
+
+    if not isinstance(max_pixels, (int, float)) or isinstance(max_pixels, bool):
+        raise PdfRenderError(
+            f"Valor de max_pixels inválido para renderização: {max_pixels}",
+            code="INVALID_MAX_PIXELS",
+        )
+
+    try:
+        if max_pixels <= 0 or max_pixels > MAX_SAFETY_CEILING_PIXELS:
+            raise PdfRenderError(
+                f"Valor de max_pixels fora dos limites aceitáveis (1..{MAX_SAFETY_CEILING_PIXELS}): {max_pixels}",
+                code="INVALID_MAX_PIXELS",
+            )
+        if math.isnan(max_pixels) or math.isinf(max_pixels):
+            raise PdfRenderError(
+                f"Valor de max_pixels inválido para renderização: {max_pixels}",
+                code="INVALID_MAX_PIXELS",
+            )
+    except OverflowError:
+        raise PdfRenderError(
+            f"Valor de max_pixels excessivamente grande (overflow): {max_pixels}",
+            code="INVALID_MAX_PIXELS",
+        )
+
+    zoom = float(dpi) / 72.0
+    mat = fitz.Matrix(zoom, zoom)
+    transformed_rect = (rect * mat).round()
+    width_px = int(transformed_rect.width)
+    height_px = int(transformed_rect.height)
+    total_pixels = width_px * height_px
+
+    if total_pixels > max_pixels:
+        raise PdfRenderPixelLimitError(
+            f"A renderização projetada ({width_px}x{height_px} = {total_pixels:,} pixels a {dpi} DPI) "
+            f"excede o limite de segurança de {max_pixels:,} pixels (MAX_RENDER_PIXELS).",
+            code="PIXEL_LIMIT_EXCEEDED",
+        )
+
+    return width_px, height_px, total_pixels
+
+
+def validate_pdf_region_bbox(
+    bbox: Any,
+    page_rect: fitz.Rect,
+) -> fitz.Rect:
+    """Valida rigorosamente as coordenadas de um bounding box antes da rasterização regional.
+
+    Garantias de segurança e validação geométrica:
+    - Bbox deve ser sequência de exatamente 4 coordenadas numéricas (x0, y0, x1, y1);
+    - Todas as coordenadas devem ser finitas (rejeita NaN e inf);
+    - x0 < x1 e y0 < y1 (largura e altura estritamente positivas);
+    - Retângulo deve estar contido dentro dos limites físicos de page_rect;
+    - Não aplica clamp silencioso nem normalização arbitrária: regiões que extrapolam os limites
+      físicos são rejeitadas com exceção explícita (INVALID_BBOX);
+    - Tolerância geométrica (tol = 1e-4 pt ≈ 35 nm): necessária exclusivamente para absorver
+      resíduos de precisão de ponto flutuante IEEE-754 originados das transformações de matriz
+      (CTM) do PyMuPDF ao extrair image_rects de figuras que tocam as bordas da página
+      (ex.: 595.0000000000001 pt). A tolerância de 1e-4 pontos corresponde a ~0.0002 pixels a
+      150 DPI, sendo fisicamente incapaz de aceitar regiões reais fora da página e completamente
+      absorvida pelo arredondamento da grade inteira de pixels.
+
+    Retorna:
+        fitz.Rect: Retângulo validado.
+
+    Lança:
+        PdfInvalidBBoxError: Em caso de coordenadas inválidas, degeneradas ou fora da página.
+    """
+    if not isinstance(bbox, (tuple, list)) or len(bbox) != 4:
+        raise PdfInvalidBBoxError(
+            f"O parâmetro bbox deve ser uma sequência de 4 coordenadas (x0, y0, x1, y1), recebido: {type(bbox).__name__}.",
+            code="INVALID_BBOX",
+        )
+
+    for i, val in enumerate(bbox):
+        if isinstance(val, bool) or not isinstance(val, (int, float)):
+            raise PdfInvalidBBoxError(
+                f"Coordenada bbox[{i}] inválida: esperado valor numérico finito, recebido {type(val).__name__}.",
+                code="INVALID_BBOX",
+            )
+        if math.isnan(val) or math.isinf(val):
+            raise PdfInvalidBBoxError(
+                f"Coordenada bbox[{i}] inválida: valor não pode ser NaN ou infinito.",
+                code="INVALID_BBOX",
+            )
+
+    x0, y0, x1, y1 = float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3])
+
+    if x0 >= x1:
+        raise PdfInvalidBBoxError(
+            f"Bounding box inválida: x0 ({x0}) deve ser estritamente menor que x1 ({x1}) com largura > 0.",
+            code="INVALID_BBOX",
+        )
+    if y0 >= y1:
+        raise PdfInvalidBBoxError(
+            f"Bounding box inválida: y0 ({y0}) deve ser estritamente menor que y1 ({y1}) com altura > 0.",
+            code="INVALID_BBOX",
+        )
+
+    # Verifica se está integralmente dentro dos limites da página.
+    # A tolerância de 1e-4 pt (~35 nm) é adotada estritamente para absorver resíduos
+    # de arredondamento de matriz CTM em float IEEE-754 (ex.: 595.0000000000001).
+    tol = 1e-4
+    if (
+        x0 < (page_rect.x0 - tol)
+        or y0 < (page_rect.y0 - tol)
+        or x1 > (page_rect.x1 + tol)
+        or y1 > (page_rect.y1 + tol)
+    ):
+        raise PdfInvalidBBoxError(
+            f"Bounding box ({x0:.1f}, {y0:.1f}, {x1:.1f}, {y1:.1f}) extrapola os limites físicos da página "
+            f"({page_rect.x0:.1f}, {page_rect.y0:.1f}, {page_rect.x1:.1f}, {page_rect.y1:.1f}).",
+            code="INVALID_BBOX",
+        )
+
+    return fitz.Rect(x0, y0, x1, y1)
+
+
+# ==============================================================================
 # Funções de Renderização Sequencial em Memória
 # ==============================================================================
 
@@ -444,10 +648,16 @@ def render_pdf_page_image(
 ) -> Any:
     """Renderiza uma página inteira de PDF em imagem de alta fidelidade em memória.
 
-    Garantias de segurança e memória:
+    Garantias de segurança e ciclo de vida de memória:
     - O documento PyMuPDF é aberto e fechado estritamente no escopo da chamada (try...finally).
-    - O pixmap intermediário do C/C++ é convertido diretamente para bytes PNG ou PIL.Image.Image.
-    - O pixmap é explicitamente desalocado logo após a extração dos bytes.
+    - Validação prévia contra MAX_RENDER_PIXELS antes de qualquer invocação a get_pixmap().
+    - Diferenciação de memória:
+      1. Raster puro: O limite de 25M pixels restringe o bitmap nativo C a ~75 MB (RGB) ou ~100 MB (RGBA);
+      2. Buffers transitórios: A codificação para PNG aloca temporariamente buffer comprimido intermediário;
+      3. Heap Python: O retorno como PIL.Image.Image retém buffer em heap gerenciada pelo runtime;
+      4. Arena nativa C: O pixmap C++ é desalocado imediatamente após tobytes(), liberando a memória
+         para a arena de alocação do processo (malloc/mmap), cuja devolução física ao sistema operacional
+         segue as heurísticas do gerenciador de memória do SO.
 
     Parâmetros:
         pdf_bytes: Bytes do documento PDF.
@@ -460,6 +670,7 @@ def render_pdf_page_image(
 
     Lança:
         PdfInvalidPageError: Se page_number < 1 ou maior que o total de páginas.
+        PdfRenderPixelLimitError: Se a resolução projetada ultrapassar MAX_RENDER_PIXELS.
         PdfRenderError: Se ocorrer erro na rasterização.
     """
     if not pdf_bytes:
@@ -486,8 +697,11 @@ def render_pdf_page_image(
 
         try:
             page = doc[page_number - 1]
+            validate_and_calculate_render_dimensions(page.rect, dpi)
             pixmap = page.get_pixmap(dpi=dpi)
             png_bytes = pixmap.tobytes("png")
+        except PdfProcessingError:
+            raise
         except Exception as exc:
             raise PdfRenderError(f"Falha ao rasterizar página {page_number}: {exc}") from exc
 
@@ -517,6 +731,10 @@ def render_pdf_region_image(
 
     Essencial para PDFs mistos: renderiza apenas a área de uma imagem/questão digitalizada,
     impedindo que o OCR retranscreva todo o texto nativo já existente na página.
+
+    Garantias de segurança (Etapa 4.B2):
+    - Validação geométrica estrita do bbox antes da chamada nativa (sem clamp silencioso);
+    - Validação prévia de pixels contra MAX_RENDER_PIXELS antes de get_pixmap().
 
     Parâmetros:
         pdf_bytes: Bytes do PDF.
@@ -549,9 +767,12 @@ def render_pdf_region_image(
 
         try:
             page = doc[page_number - 1]
-            clip_rect = fitz.Rect(*bbox)
+            clip_rect = validate_pdf_region_bbox(bbox, page.rect)
+            validate_and_calculate_render_dimensions(clip_rect, dpi)
             pixmap = page.get_pixmap(dpi=dpi, clip=clip_rect)
             png_bytes = pixmap.tobytes("png")
+        except PdfProcessingError:
+            raise
         except Exception as exc:
             raise PdfRenderError(f"Falha ao rasterizar região {bbox} na página {page_number}: {exc}") from exc
 
@@ -579,6 +800,9 @@ def iter_render_pdf_pages(
 
     Garante que nunca haja mais de uma página rasterizada simultaneamente em memória:
     cada imagem é liberada assim que o consumidor conclui sua iteração.
+
+    Garantia de segurança (Etapa 4.B2):
+    - Validação de pixels por página contra MAX_RENDER_PIXELS antes de invocar get_pixmap().
     """
     if not pdf_bytes:
         raise PdfEmptyFileError()
@@ -596,6 +820,7 @@ def iter_render_pdf_pages(
         for page_idx in range(total):
             page_num = page_idx + 1
             page = doc[page_idx]
+            validate_and_calculate_render_dimensions(page.rect, dpi)
             pixmap = page.get_pixmap(dpi=dpi)
             png_bytes = pixmap.tobytes("png")
             pixmap = None  # Libera imediatamente a memória nativa C++

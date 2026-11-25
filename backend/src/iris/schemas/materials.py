@@ -12,7 +12,9 @@ from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 from enum import Enum
 from types import MappingProxyType
-from typing import Any, Optional
+from typing import Annotated, Any, Optional
+
+from pydantic import Field, PlainSerializer
 
 MIN_MATERIAL_CHARS = 50
 # Ausência de limite funcional fixo de palavras na interface (Issue 1.1.1).
@@ -189,6 +191,15 @@ class MaterialResponse:
 # Sentinela privada para prevenção de instanciação acidental direta de RawContent
 _RAW_CONTENT_INTERNAL_GUARD = object()
 
+# Tipo anotado para serialização transparente de MappingProxyType via Pydantic/FastAPI
+SafeMetadataMapping = Annotated[
+    Mapping[str, Any],
+    PlainSerializer(
+        lambda v: dict(v) if isinstance(v, (MappingProxyType, dict)) else (v if v is not None else {}),
+        return_type=dict[str, Any],
+    ),
+]
+
 
 @dataclass(frozen=True)
 class RawContent:
@@ -211,9 +222,9 @@ class RawContent:
 
     text: str  # Conteúdo textual sanitizado (destinado ao pipeline pedagógico e IA)
     source_type: MaterialSourceType  # Formato/origem validado estritamente
-    metadata: Mapping[str, Any]  # Metadados imutáveis com cópia defensiva
+    metadata: SafeMetadataMapping  # Metadados imutáveis com cópia defensiva e serialização segura
     pii_sanitized: bool  # Confirmação de que a rotina de sanitização foi executada
-    _guard: object = None  # Sentinela interna para prevenção de uso acidental direto
+    _guard: object = Field(default=None, exclude=True)  # Sentinela interna excluída da serialização pública da API
 
     def __post_init__(self) -> None:
         # 1. Prevenção de uso acidental direto fora do fluxo oficial da fábrica

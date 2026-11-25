@@ -330,90 +330,113 @@ def analyze_page_image(
         raise ImageDependencyError()
 
     # 3. Abertura segura da imagem
-    if isinstance(image_input, bytes):
-        try:
-            img = Image.open(io.BytesIO(image_input))
-        except Exception as err:
-            raise CorruptedImageError(f"Arquivo de imagem corrompido ou formato ilegível: {err}") from err
+    opened_internally = False
+    proc_img = None
+    gray_img = None
 
-        # Validação estrita dos formatos oficiais da História 1.1.3 (PNG, JPG, JPEG)
-        fmt = (img.format or "").upper()
-        if fmt and fmt not in OFFICIAL_SUPPORTED_IMAGE_FORMATS:
-            raise UnsupportedImageFormatError(
-                f"Formato de imagem '{img.format}' não suportado. "
-                f"Formatos oficiais aceitos: {', '.join(sorted(OFFICIAL_SUPPORTED_IMAGE_FORMATS))}."
+    try:
+        if isinstance(image_input, bytes):
+            try:
+                img = Image.open(io.BytesIO(image_input))
+                opened_internally = True
+            except Exception as err:
+                raise CorruptedImageError(f"Arquivo de imagem corrompido ou formato ilegível: {err}") from err
+
+            # Validação estrita dos formatos oficiais da História 1.1.3 (PNG, JPG, JPEG)
+            fmt = (img.format or "").upper()
+            if fmt and fmt not in OFFICIAL_SUPPORTED_IMAGE_FORMATS:
+                raise UnsupportedImageFormatError(
+                    f"Formato de imagem '{img.format}' não suportado. "
+                    f"Formatos oficiais aceitos: {', '.join(sorted(OFFICIAL_SUPPORTED_IMAGE_FORMATS))}."
+                )
+        else:
+            # Caller forneceu instância compatível com PIL.Image
+            img = image_input
+            fmt = getattr(img, "format", None)
+            if fmt and fmt.upper() not in OFFICIAL_SUPPORTED_IMAGE_FORMATS:
+                raise UnsupportedImageFormatError(
+                    f"Formato de imagem '{fmt}' não suportado. "
+                    f"Formatos oficiais aceitos: {', '.join(sorted(OFFICIAL_SUPPORTED_IMAGE_FORMATS))}."
+                )
+
+        # 4. Validação de dimensões e total de pixels
+        orig_width = int(img.width)
+        orig_height = int(img.height)
+
+        if orig_width <= 0 or orig_height <= 0:
+            raise InvalidImageDimensionsError(
+                f"Dimensões da imagem inválidas: {orig_width}x{orig_height} pixels."
             )
-    else:
-        # Caller forneceu instância compatível com PIL.Image
-        img = image_input
-        fmt = getattr(img, "format", None)
-        if fmt and fmt.upper() not in OFFICIAL_SUPPORTED_IMAGE_FORMATS:
-            raise UnsupportedImageFormatError(
-                f"Formato de imagem '{fmt}' não suportado. "
-                f"Formatos oficiais aceitos: {', '.join(sorted(OFFICIAL_SUPPORTED_IMAGE_FORMATS))}."
+
+        if orig_width > cfg.max_dimension_px or orig_height > cfg.max_dimension_px:
+            raise ImageTooLargeError(
+                f"Dimensão da imagem ({max(orig_width, orig_height)} px) excede o limite máximo "
+                f"permitido ({cfg.max_dimension_px} px)."
             )
 
-    # 4. Validação de dimensões e total de pixels
-    orig_width = int(img.width)
-    orig_height = int(img.height)
+        total_pixels = orig_width * orig_height
+        if total_pixels > cfg.max_total_pixels:
+            raise ImageTooLargeError(
+                f"Total de pixels da imagem ({total_pixels}) excede o limite defensivo "
+                f"de segurança ({cfg.max_total_pixels})."
+            )
 
-    if orig_width <= 0 or orig_height <= 0:
-        raise InvalidImageDimensionsError(
-            f"Dimensões da imagem inválidas: {orig_width}x{orig_height} pixels."
+        # 5. Redimensionamento defensivo em cópia de processamento (preservando dimensões originais)
+        if orig_width > cfg.downscale_max_dimension or orig_height > cfg.downscale_max_dimension:
+            scale = min(
+                cfg.downscale_max_dimension / orig_width,
+                cfg.downscale_max_dimension / orig_height,
+            )
+            target_w = max(1, int(orig_width * scale))
+            target_h = max(1, int(orig_height * scale))
+            resample_filter = getattr(Image, "Resampling", Image).BILINEAR
+            proc_img = img.resize((target_w, target_h), resample_filter)
+        else:
+            proc_img = img
+
+        # 6. Conversão para escala de cinza e cálculo das métricas
+        gray_img = proc_img.convert("L")
+        edge_density = calculate_edge_density(gray_img, cfg)
+        whitespace_ratio = calculate_whitespace_ratio(gray_img, cfg)
+        contrast_ratio = calculate_contrast_ratio(gray_img)
+
+        # 7. Classificação preliminar e status de legibilidade
+        clutter_level, possible_clutter = classify_clutter(edge_density, whitespace_ratio, cfg)
+        legibility_status, rejection_reason = determine_legibility_status(
+            orig_width, orig_height, contrast_ratio, cfg
         )
 
-    if orig_width > cfg.max_dimension_px or orig_height > cfg.max_dimension_px:
-        raise ImageTooLargeError(
-            f"Dimensão da imagem ({max(orig_width, orig_height)} px) excede o limite máximo "
-            f"permitido ({cfg.max_dimension_px} px)."
+        # 8. Emissão do contrato estruturado com dimensões originais preservadas
+        return PageVisualAnalysis(
+            page_number=page_number,
+            page_type=page_type,
+            width=orig_width,
+            height=orig_height,
+            edge_density=edge_density,
+            whitespace_ratio=whitespace_ratio,
+            contrast_ratio=contrast_ratio,
+            clutter_level=clutter_level,
+            possible_visual_clutter=possible_clutter,
+            legibility_status=legibility_status,
+            rejection_reason=rejection_reason,
         )
-
-    total_pixels = orig_width * orig_height
-    if total_pixels > cfg.max_total_pixels:
-        raise ImageTooLargeError(
-            f"Total de pixels da imagem ({total_pixels}) excede o limite defensivo "
-            f"de segurança ({cfg.max_total_pixels})."
-        )
-
-    # 5. Redimensionamento defensivo em cópia de processamento (preservando dimensões originais)
-    if orig_width > cfg.downscale_max_dimension or orig_height > cfg.downscale_max_dimension:
-        scale = min(
-            cfg.downscale_max_dimension / orig_width,
-            cfg.downscale_max_dimension / orig_height,
-        )
-        target_w = max(1, int(orig_width * scale))
-        target_h = max(1, int(orig_height * scale))
-        resample_filter = getattr(Image, "Resampling", Image).BILINEAR
-        proc_img = img.resize((target_w, target_h), resample_filter)
-    else:
-        proc_img = img
-
-    # 6. Conversão para escala de cinza e cálculo das métricas
-    gray_img = proc_img.convert("L")
-    edge_density = calculate_edge_density(gray_img, cfg)
-    whitespace_ratio = calculate_whitespace_ratio(gray_img, cfg)
-    contrast_ratio = calculate_contrast_ratio(gray_img)
-
-    # 7. Classificação preliminar e status de legibilidade
-    clutter_level, possible_clutter = classify_clutter(edge_density, whitespace_ratio, cfg)
-    legibility_status, rejection_reason = determine_legibility_status(
-        orig_width, orig_height, contrast_ratio, cfg
-    )
-
-    # 8. Emissão do contrato estruturado com dimensões originais preservadas
-    return PageVisualAnalysis(
-        page_number=page_number,
-        page_type=page_type,
-        width=orig_width,
-        height=orig_height,
-        edge_density=edge_density,
-        whitespace_ratio=whitespace_ratio,
-        contrast_ratio=contrast_ratio,
-        clutter_level=clutter_level,
-        possible_visual_clutter=possible_clutter,
-        legibility_status=legibility_status,
-        rejection_reason=rejection_reason,
-    )
+    finally:
+        # Limpeza e fechamento explícito de imagens criadas internamente
+        if gray_img is not None:
+            try:
+                gray_img.close()
+            except Exception:
+                pass
+        if proc_img is not None and proc_img is not img:
+            try:
+                proc_img.close()
+            except Exception:
+                pass
+        if opened_internally and img is not None:
+            try:
+                img.close()
+            except Exception:
+                pass
 
 
 def consolidate_visual_report(
