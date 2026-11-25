@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   AlertCircle,
@@ -13,23 +13,18 @@ import {
   ChevronUp,
   Loader2,
   Lock,
-  Moon,
   Plus,
   RotateCcw,
   Shield,
   ShieldAlert,
   ShieldCheck,
   Sliders,
-  Sparkles,
-  Sun,
   X,
 } from "lucide-react";
 
-import { IrisLogoBanner } from "./IrisLogoBanner";
+import { IrisHeader, STEP_TITLES } from "./IrisHeader";
 import { IrisSidebar } from "./IrisSidebar";
-import { useTheme } from "@/contexts/ThemeContext";
 import {
-  BARREIRA_LABELS,
   CharacteristicItem,
   FALLBACK_OFFICIAL_CATALOG,
   STEP1_MATERIAL_STORAGE_KEY,
@@ -66,14 +61,12 @@ export function Step3ScaffoldingLevel({
   onAdvanceToNext,
 }: Step3ScaffoldingLevelProps) {
   const router = useRouter();
-  const { darkMode, toggleDarkMode } = useTheme();
 
   const [selectedLevel, setSelectedLevel] = useState<ScaffoldingLevel>(initialLevel);
   // Nível sugerido pelo perfil pedagógico portátil importado na Etapa 1 (História 3.2.2)
   const [nivelDoPerfil, setNivelDoPerfil] = useState<{ nivel: ScaffoldingLevel; motivo: string; codigo: string } | null>(null);
   const [selectedCharacteristics, setSelectedCharacteristics] = useState<CharacteristicItem[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [isLoadingSession, setIsLoadingSession] = useState(true);
   const [isCalibrating, setIsCalibrating] = useState(false);
   const [calibrationResult, setCalibrationResult] = useState<ScaffoldingCalibrationResult | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -155,8 +148,6 @@ export function Step3ScaffoldingLevel({
       }
     } catch {
       // Ignora erro de parsing em sessionStorage
-    } finally {
-      setIsLoadingSession(false);
     }
   }, []);
 
@@ -396,38 +387,47 @@ export function Step3ScaffoldingLevel({
     }
   };
 
-  const radioGroupId = useId();
-
   return (
     <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors">
       {/* Cabeçalho Institucional da Plataforma Íris */}
-      <header className="w-full bg-[#0D0221] text-white border-b border-white/10 px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <IrisLogoBanner compact />
-            <div className="hidden md:block h-7 w-px bg-white/15" aria-hidden="true" />
-            <div className="hidden md:block">
-              <p className="text-xs font-semibold text-[#E35336] uppercase tracking-wider">
-                Etapa 3 de 5 • Calibragem de Nível de Andaime e Travas
-              </p>
-              <p className="text-xs text-white/75">
-                Docente: <span className="font-mono text-white">{teacherEmail}</span>
-              </p>
-            </div>
-          </div>
+      <IrisHeader currentStep={3} teacherEmail={teacherEmail} />
 
-          <div className="flex items-center gap-3">
+      {/* Toast / Alerta Flutuante no Canto Superior Direito */}
+      {feedbackBanner && (
+        <div className="fixed top-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md pointer-events-none">
+          <div
+            role="alert"
+            aria-live="polite"
+            className={`pointer-events-auto p-4 rounded-2xl border border-l-4 text-xs sm:text-sm flex items-start gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
+              feedbackBanner.type === "success"
+                ? "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
+                : feedbackBanner.type === "error"
+                ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
+                : "bg-white/95 dark:bg-[#160A30]/95 border-[#335C67]/25 dark:border-white/15 border-l-[#E35336] text-[#0D0221] dark:text-white"
+            }`}
+          >
+            {feedbackBanner.type === "success" ? (
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
+            ) : feedbackBanner.type === "error" ? (
+              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            ) : (
+              <ShieldCheck className="w-5 h-5 text-[#E35336] flex-shrink-0 mt-0.5" />
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="font-bold leading-snug">{feedbackBanner.title}</p>
+              <p className="text-xs opacity-85 mt-1 leading-relaxed">{feedbackBanner.message}</p>
+            </div>
             <button
               type="button"
-              onClick={toggleDarkMode}
-              aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-              className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+              onClick={() => setFeedbackBanner(null)}
+              aria-label="Fechar aviso"
+              className="text-xs font-bold opacity-60 hover:opacity-100 px-1.5 py-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-opacity flex-shrink-0"
             >
-              {darkMode ? <Sun className="w-4 h-4 text-[#E35336]" /> : <Moon className="w-4 h-4" />}
+              ✕
             </button>
           </div>
         </div>
-      </header>
+      )}
 
       {/* Conteúdo Principal com Sidebar Lateral */}
       <div className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
@@ -439,101 +439,21 @@ export function Step3ScaffoldingLevel({
         />
 
         {/* Painel Central */}
-        <main id="conteudo-principal" className="flex-1 min-w-0 space-y-5">
-          {/* Toast / Alerta Flutuante no Canto Superior Direito */}
-          {feedbackBanner && (
-            <div className="fixed top-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md pointer-events-none">
-              <div
-                role="alert"
-                aria-live="polite"
-                className={`pointer-events-auto p-4 rounded-xl border border-l-4 text-xs sm:text-sm flex items-start gap-3 shadow-lg backdrop-blur-md transition-all ${
-                  feedbackBanner.type === "success"
-                    ? "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
-                    : feedbackBanner.type === "error"
-                    ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
-                    : "bg-white/95 dark:bg-[#160A30]/95 border-[#335C67]/25 dark:border-white/15 border-l-[#E35336] text-[#0D0221] dark:text-white"
-                }`}
-              >
-                {feedbackBanner.type === "success" ? (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
-                ) : feedbackBanner.type === "error" ? (
-                  <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-                ) : (
-                  <ShieldCheck className="w-5 h-5 text-[#E35336] flex-shrink-0 mt-0.5" />
-                )}
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold leading-snug">{feedbackBanner.title}</p>
-                  <p className="text-xs opacity-85 mt-1 leading-relaxed">{feedbackBanner.message}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setFeedbackBanner(null)}
-                  aria-label="Fechar aviso"
-                  className="text-xs font-semibold opacity-60 hover:opacity-100 px-1.5 py-0.5 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-opacity flex-shrink-0"
-                >
-                  ✕
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Seção 1: Resumo do Escopo Cirúrgico Ativado na Etapa 2 */}
-          <section
-            aria-labelledby="titulo-escopo-cirurgico"
-            className="p-5 rounded-xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 space-y-3"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <h2
-                id="titulo-escopo-cirurgico"
-                className="text-sm font-bold text-[#0D0221] dark:text-white"
-              >
-                Características funcionais ativadas ({selectedIds.length})
-              </h2>
-
-              <button
-                type="button"
-                onClick={handleBackToStep2}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors self-start sm:self-auto border border-[#335C67]/25"
-              >
-                <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Modificar escopo</span>
-              </button>
-            </div>
-
-            {/* Badges de Características Ativadas */}
-            <div className="flex flex-wrap gap-2 pt-0.5">
-              {selectedCharacteristics.length > 0 ? (
-                selectedCharacteristics.map((item) => (
-                  <span
-                    key={item.id_caracteristica}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-[#FAF7F8] dark:bg-white/10 text-[#0D0221] dark:text-white border border-[#335C67]/15 dark:border-white/10"
-                  >
-                    <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span className="font-semibold">{item.nome}</span>
-                    <span className="text-[11px] opacity-65">
-                      — {BARREIRA_LABELS[item.barreira_rag_associada] || item.barreira_rag_associada}
-                    </span>
-                  </span>
-                ))
-              ) : (
-                <span className="text-xs text-amber-700 dark:text-amber-300 italic">
-                  Nenhuma característica identificada na sessão. O sistema utilizará o conjunto padrão para calibração.
-                </span>
-              )}
-            </div>
-          </section>
-
-          {/* Seção 2: Seletor dos 3 Níveis de Andaime Cognitivo (RF-07) */}
+        <main id="conteudo-principal" className="flex-1 min-w-0 flex flex-col">
+          {/* Seletor dos 3 Níveis de Andaime Cognitivo (RF-07) */}
           <section
             aria-labelledby="titulo-calibragem-andaime"
-            className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 space-y-6"
+            className="flex-1 flex flex-col gap-6 p-5 sm:p-7 rounded-2xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 shadow-sm"
           >
-            <div className="space-y-1 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
+            <div className="space-y-2.5 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
+                <span>{STEP_TITLES[3]}</span>
+              </div>
               <h1
                 id="titulo-calibragem-andaime"
-                className="font-display text-xl sm:text-2xl font-semibold text-[#0D0221] dark:text-white tracking-tight"
+                className="text-xl sm:text-2xl font-black text-[#0D0221] dark:text-white tracking-tight"
               >
-                Escolha a intensidade do suporte pedagógico
+                Escolha a Intensidade do Suporte Pedagógico
               </h1>
               <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
                 Calibre o grau de mediação aplicado às características selecionadas, preservando o objetivo avaliativo da questão.
@@ -548,6 +468,39 @@ export function Step3ScaffoldingLevel({
                   {nivelDoPerfil.motivo} Você pode escolher outro nível.
                 </p>
               )}
+
+              {/* Faixa inline minimalista de características ativadas (Issue #12) */}
+              <div className="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="font-semibold text-[#0D0221]/75 dark:text-white/75">
+                    Características ativadas ({selectedIds.length}):
+                  </span>
+                  {selectedCharacteristics.length > 0 ? (
+                    selectedCharacteristics.map((item) => (
+                      <span
+                        key={item.id_caracteristica}
+                        className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-medium bg-[#F5EDF0] dark:bg-white/10 text-[#0D0221] dark:text-white border border-[#335C67]/15 dark:border-white/10"
+                      >
+                        <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+                        <span>{item.nome}</span>
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-amber-800 dark:text-amber-300 italic">
+                      Nenhuma característica identificada na sessão. O sistema utilizará o conjunto padrão para calibração.
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleBackToStep2}
+                  className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors"
+                >
+                  <RotateCcw className="w-3 h-3" aria-hidden="true" />
+                  <span>Modificar escopo</span>
+                </button>
+              </div>
             </div>
 
             {/* Grid dos 3 Cards de Seleção de Nível */}
@@ -778,27 +731,26 @@ export function Step3ScaffoldingLevel({
             {/* Seção 3: Definição de Travas Curriculares Inegociáveis e Alerta Preventivo Anti-Muleta (História 1.3.2 — RF-08, RF-09) */}
             <div
               aria-labelledby="titulo-trava-curricular"
-              className="pt-6 border-t border-[#335C67]/15 dark:border-white/10 space-y-4"
+              className="pt-6 border-t border-[#335C67]/12 dark:border-white/10 space-y-5"
             >
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2.5">
                     <h2
                       id="titulo-trava-curricular"
-                      className="font-display text-lg sm:text-xl font-semibold text-[#0D0221] dark:text-white flex items-center gap-2"
+                      className="text-base sm:text-lg font-bold text-[#0D0221] dark:text-white flex items-center gap-2"
                     >
                       <Lock className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
                       <span>Travas Curriculares Inegociáveis</span>
                     </h2>
                     {extractedFromStep1 && (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/25">
-                        <Sparkles className="w-3 h-3" aria-hidden="true" />
-                        <span>Extraído automaticamente do material (Etapa 1)</span>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
+                        Extraído automaticamente do material
                       </span>
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm text-[#0D0221]/70 dark:text-white/70 max-w-2xl">
-                    Os conceitos abaixo foram extraídos do seu material e marcados como <strong>invariantes obrigatórios para o Agente Auditor</strong>. Você pode remover ou adicionar termos conforme o foco da avaliação.
+                  <p className="text-xs sm:text-sm text-[#0D0221]/65 dark:text-white/65">
+                    Termos e objetivos do material que devem ser preservados na adaptação.
                   </p>
                 </div>
 
@@ -806,7 +758,7 @@ export function Step3ScaffoldingLevel({
                   <button
                     type="button"
                     onClick={handleReextractFromStep1}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 border border-[#335C67]/25 transition-colors self-start flex-shrink-0"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors self-start flex-shrink-0"
                   >
                     <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>Reextrair do material</span>
@@ -814,34 +766,33 @@ export function Step3ScaffoldingLevel({
                 )}
               </div>
 
-              {/* Bloco Único Enxuto: 1) Conceitos Obrigatórios + 2) Objetivo Avaliativo */}
-              <div className="p-4 sm:p-5 rounded-xl bg-[#FAF7F8] dark:bg-white/[0.03] border border-[#335C67]/20 dark:border-white/15 space-y-4">
+              {/* Campos minimalistas sem caixa dupla */}
+              <div className="space-y-4">
                 {/* Campo 1: Conceitos e termos obrigatórios */}
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   <label
                     htmlFor="input-conceito-trava"
-                    className="block text-xs sm:text-sm font-bold text-[#0D0221] dark:text-white"
+                    className="block text-xs sm:text-sm font-semibold text-[#0D0221] dark:text-white"
                   >
-                    1. Conceitos e termos obrigatórios (Invariantes do Auditor)
+                    Conceitos e termos obrigatórios
                   </label>
 
                   {conceitosObrigatorios.length > 0 ? (
                     <div
-                      aria-label="Conceitos marcados como invariantes obrigatórios"
-                      className="flex flex-wrap gap-2 py-1"
+                      aria-label="Conceitos marcados como obrigatórios"
+                      className="flex flex-wrap gap-1.5"
                     >
                       {conceitosObrigatorios.map((termo) => (
                         <span
                           key={termo}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-[#160A30] text-[#0D0221] dark:text-white border border-[#335C67]/30 dark:border-white/20 shadow-sm"
+                          className="inline-flex items-center gap-1.5 pl-3 pr-2 py-1 rounded-full text-xs font-medium bg-[#F5EDF0]/90 dark:bg-white/10 text-[#0D0221] dark:text-white border border-[#335C67]/15 dark:border-white/15"
                         >
-                          <Lock className="w-3 h-3 text-[#E35336]" aria-hidden="true" />
                           <span>{termo}</span>
                           <button
                             type="button"
                             onClick={() => handleRemoveConceito(termo)}
                             aria-label={`Remover conceito ${termo}`}
-                            className="ml-1 p-0.5 rounded hover:bg-red-500/15 text-[#0D0221]/60 dark:text-white/60 hover:text-red-600 dark:hover:text-red-300 transition-colors"
+                            className="p-0.5 rounded-full text-[#0D0221]/45 dark:text-white/50 hover:text-red-600 dark:hover:text-red-300 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                           >
                             <X className="w-3 h-3" aria-hidden="true" />
                           </button>
@@ -849,8 +800,8 @@ export function Step3ScaffoldingLevel({
                       ))}
                     </div>
                   ) : (
-                    <p className="text-xs text-[#0D0221]/55 dark:text-white/55 italic">
-                      Nenhum conceito listado ainda. Adicione abaixo os termos que não podem ser omitidos.
+                    <p className="text-xs text-[#0D0221]/50 dark:text-white/50">
+                      Nenhum termo adicionado.
                     </p>
                   )}
 
@@ -866,57 +817,55 @@ export function Step3ScaffoldingLevel({
                           handleAddConceito();
                         }
                       }}
-                      placeholder="Adicionar outro conceito ou termo intocável (pressione Enter)..."
-                      className="flex-1 rounded-lg bg-white dark:bg-[#0D0221] border border-[#335C67]/30 dark:border-white/20 px-3.5 py-2 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:outline-none focus:border-[#E35336]"
+                      placeholder="Adicionar conceito (pressione Enter)..."
+                      className="flex-1 rounded-lg bg-[#FAFAFC] dark:bg-[#0D0221]/80 border border-[#335C67]/20 dark:border-white/15 px-3.5 py-2 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:outline-none focus:border-[#E35336] transition-colors"
                     />
                     <button
                       type="button"
                       onClick={handleAddConceito}
-                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-[#335C67] hover:bg-[#26464f] text-white transition-colors flex-shrink-0"
+                      className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#335C67] hover:bg-[#26464f] text-white transition-colors flex-shrink-0"
                     >
-                      <Plus className="w-4 h-4" aria-hidden="true" />
+                      <Plus className="w-3.5 h-3.5" aria-hidden="true" />
                       <span>Adicionar</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Campo 2: Objetivo avaliativo / Habilidade da BNCC */}
-                <div className="space-y-1.5 pt-2 border-t border-[#335C67]/15 dark:border-white/10">
+                <div className="space-y-1.5">
                   <label
                     htmlFor="input-objetivo-avaliativo"
-                    className="block text-xs sm:text-sm font-bold text-[#0D0221] dark:text-white"
+                    className="block text-xs sm:text-sm font-semibold text-[#0D0221] dark:text-white"
                   >
-                    2. Objetivo avaliativo ou habilidade da BNCC
+                    Objetivo avaliativo ou habilidade da BNCC
                   </label>
                   <textarea
                     id="input-objetivo-avaliativo"
                     rows={2}
                     value={objetivoAvaliativo}
                     onChange={(e) => setObjetivoAvaliativo(e.target.value)}
-                    placeholder="Ex.: Avaliar interpretação de texto e inferência de sentido implícito (EF67LP08)..."
-                    className="w-full rounded-lg bg-white dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/20 p-3 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:outline-none focus:border-[#E35336] resize-none"
+                    placeholder="Ex.: Avaliar interpretação de texto e inferência (EF67LP08)..."
+                    className="w-full rounded-lg bg-[#FAFAFC] dark:bg-[#0D0221]/80 border border-[#335C67]/20 dark:border-white/15 px-3.5 py-2.5 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:outline-none focus:border-[#E35336] transition-colors resize-none"
                   />
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-                  <span className="text-[11px] text-[#0D0221]/65 dark:text-white/65">
-                    Retenção mínima exigida pelo Agente Auditor:{" "}
-                    <strong>
-                      TRCC ≥{" "}
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <span className="text-[11px] text-[#0D0221]/55 dark:text-white/55">
+                    Preservação mínima do conteúdo:{" "}
+                    <strong className="font-semibold text-[#0D0221]/80 dark:text-white/80">
                       {Math.round(
                         (calibrationResult?.invariantes_auditor?.trcc_minimo_exigido || 0.95) * 100
                       )}
                       %
                     </strong>
-                    .
                   </span>
 
                   <button
                     type="button"
                     onClick={handleValidateLocksExplicitly}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-white dark:bg-white/10 hover:bg-[#335C67]/15 text-[#335C67] dark:text-[#9fd0de] border border-[#335C67]/30 dark:border-white/20 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 border border-[#335C67]/20 dark:border-white/15 transition-colors"
                   >
-                    <ShieldCheck className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#E35336]" aria-hidden="true" />
                     <span>Validar Trava Curricular</span>
                   </button>
                 </div>
@@ -986,7 +935,7 @@ export function Step3ScaffoldingLevel({
             </div>
 
             {/* Rodapé da Etapa 3 */}
-            <div className="pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="mt-auto pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={handleBackToStep2}
