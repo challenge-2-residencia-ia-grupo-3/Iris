@@ -17,8 +17,11 @@ Valida os 12 cenários obrigatórios de integração:
 """
 from __future__ import annotations
 
+import asyncio
 import io
 import sys
+import threading
+import time
 import unittest
 from pathlib import Path
 from types import MappingProxyType
@@ -35,6 +38,7 @@ import fitz
 from PIL import Image, ImageDraw
 
 from iris.api.routes.materials import (
+    OcrServiceUnavailableError,
     _is_text_redundant,
     decompose_material_service,
     process_material_file_service,
@@ -45,7 +49,9 @@ from iris.parsers.document_extractor import (
 )
 from iris.parsers.ocr_extractor import (
     OcrConfig,
+    OcrEngineNotFoundError,
     OcrError,
+    OcrLanguageError,
     OcrPageResult,
     OcrTimeoutError,
     check_ocr_environment,
@@ -350,12 +356,12 @@ class TestMaterialsOcrIntegration(unittest.TestCase):
         self.assertIn(texto_ocr_recorte, response.raw_text)
 
     # ==========================================================================
-    # 8. Sanitização de PII e separação entre raw_text e raw_content
+    # 8. Sanitização de PII (Zero-PII em raw_text e raw_content)
     # ==========================================================================
 
     @mock.patch("iris.api.routes.materials.extract_text_from_page_image")
     def test_08_sanitizacao_pii_local_e_separacao_raw_text(self, mock_ocr: mock.MagicMock) -> None:
-        """Cenário 8: Garante separação estrita entre raw_text (para revisão do professor) e raw_content.text (higienizado para IA)."""
+        """Cenário 8: Tanto raw_text quanto raw_content.text devem ser devolvidos sanitizados (Zero-PII / RNF-02)."""
         nome_aluno = "Beatriz Ferreira Lima"
         cpf_aluno = "123.456.789-00"
         texto_com_pii = (
@@ -376,18 +382,17 @@ class TestMaterialsOcrIntegration(unittest.TestCase):
         png_bytes = self._create_synthetic_image("PNG")
         response = process_material_file_service("prova_com_dados_pessoais.png", png_bytes)
 
-        # 1. raw_text preserva os dados originais para conferência visual docente (HITL)
-        self.assertIn(nome_aluno, response.raw_text)
-        self.assertIn(cpf_aluno, response.raw_text)
+        # 1. raw_text devolvido pela API NÃO pode expor PII original (proteção do sessionStorage no frontend)
+        self.assertNotIn(nome_aluno, response.raw_text)
+        self.assertNotIn(cpf_aluno, response.raw_text)
+        self.assertIn("[ESTUDANTE]", response.raw_text)
+        self.assertIn("[CPF]", response.raw_text)
 
-        # 2. raw_content.text substitui estritamente os dados por identificadores semânticos
-        self.assertNotIn(nome_aluno, response.raw_content.text)
-        self.assertNotIn(cpf_aluno, response.raw_content.text)
-        self.assertIn("[ESTUDANTE]", response.raw_content.text)
-        self.assertIn("[CPF]", response.raw_content.text)
+        # 2. raw_content.text mantém o mesmo conteúdo sanitizado e metadados precisos
+        self.assertEqual(response.raw_text, response.raw_content.text)
         self.assertTrue(response.raw_content.pii_sanitized)
         self.assertTrue(response.metadata.sanitized)
-        self.assertGreaterEqual(response.metadata.pii_removed_count, 1)
+        self.assertGreaterEqual(response.metadata.pii_removed_count, 2)
 
         # 3. Transição segura para o StructuralDecomposer
         estrutura = decompose_material_service(response.sanitized_text)
@@ -532,6 +537,217 @@ class TestMaterialsOcrIntegration(unittest.TestCase):
             "PORTUGUESA" in response.raw_text.upper() or "ACENTUAÇÃO" in response.raw_text.upper(),
             f"Texto reconhecido no teste real divergente: {response.raw_text}",
         )
+
+    # ==========================================================================
+    # 14–18. Correções da Revisão Técnica (PR #142)
+    # ==========================================================================
+
+    @mock.patch("iris.api.routes.materials.extract_text_from_page_image")
+    def test_14_zero_pii_no_raw_text_e_flag_sanitized_coerente(self, mock_ocr: mock.MagicMock) -> None:
+        """Correção 1: PDFs escaneados, mistos e imagens nunca devolvem PII em raw_text; flag sanitized só é True quando houve remoção."""
+        nome = "Mariana Duarte Costa"
+        cpf = "987.654.321-10"
+        email = "mariana@escola.edu.br"
+
+        # 14.a PDF escaneado com PII
+        mock_ocr.return_value = OcrPageResult(
+            page_number=1,
+            raw_text=f"Estudante: {nome}\nCPF: {cpf}\nE-mail: {email}\nProva de Biologia sobre genética básica.",
+            confidence=90.0,
+            word_count=15,
+            valid_confidence_count=15,
+            low_confidence_word_count=0,
+            has_text=True,
+        )
+        pdf_scanned = self._create_synthetic_pdf([("", True)])
+        resp_scanned = process_material_file_service("escaneado_pii.pdf", pdf_scanned)
+        self.assertNotIn(nome, resp_scanned.raw_text)
+        self.assertNotIn(cpf, resp_scanned.raw_text)
+        self.assertNotIn(email, resp_scanned.raw_text)
+        self.assertTrue(resp_scanned.metadata.sanitized)
+        self.assertGreaterEqual(resp_scanned.metadata.pii_removed_count, 3)
+
+        # 14.b PDF misto com PII tanto no texto nativo quanto na imagem
+        nativo_pii = f"Aluno: {nome}. Leia o enunciado da questão 1 de Química Orgânica."
+        mock_ocr.return_value = OcrPageResult(
+            page_number=1,
+            raw_text=f"Figura complementar com CPF {cpf}.",
+            confidence=89.0,
+            word_count=6,
+            valid_confidence_count=6,
+            low_confidence_word_count=0,
+            has_text=True,
+        )
+        pdf_mixed = self._create_synthetic_pdf([(nativo_pii, True)])
+        resp_mixed = process_material_file_service("misto_pii.pdf", pdf_mixed)
+        self.assertNotIn(nome, resp_mixed.raw_text)
+        self.assertNotIn(cpf, resp_mixed.raw_text)
+        self.assertTrue(resp_mixed.metadata.sanitized)
+        self.assertGreaterEqual(resp_mixed.metadata.pii_removed_count, 2)
+
+        # 14.c Material sem PII -> metadata.sanitized deve ser False e pii_removed_count == 0
+        mock_ocr.return_value = OcrPageResult(
+            page_number=1,
+            raw_text="Questão 1: Explique a diferença entre mitose e meiose em células eucarióticas.",
+            confidence=94.0,
+            word_count=12,
+            valid_confidence_count=12,
+            low_confidence_word_count=0,
+            has_text=True,
+        )
+        png_clean = self._create_synthetic_image("PNG")
+        resp_clean = process_material_file_service("sem_pii.png", png_clean)
+        self.assertEqual(resp_clean.metadata.pii_removed_count, 0)
+        self.assertFalse(resp_clean.metadata.sanitized)
+        self.assertTrue(resp_clean.raw_content.pii_sanitized)
+
+    @mock.patch("iris.api.routes.materials.extract_text_from_page_image")
+    def test_15_pdf_misto_sem_tesseract_degrada_e_escaneado_falha_503(
+        self, mock_ocr: mock.MagicMock
+    ) -> None:
+        """Correção 2: PDF misto sem Tesseract preserva texto nativo com aviso; PDF escaneado levanta OcrServiceUnavailableError."""
+        texto_nativo = (
+            "Prova de Geografia Geral.\n"
+            "Questão 1: Analise a distribuição das bacias hidrográficas brasileiras segundo o mapa."
+        )
+        pdf_misto = self._create_synthetic_pdf([(texto_nativo, True)])
+        pdf_escaneado = self._create_synthetic_pdf([("", True)])
+
+        for exc in (
+            OcrEngineNotFoundError("O executável do Tesseract OCR não está instalado."),
+            OcrLanguageError("O modelo de idioma 'por' não está instalado."),
+        ):
+            with self.subTest(exc=type(exc).__name__):
+                mock_ocr.side_effect = exc
+
+                # Misto deve suceder preservando o texto nativo e avisando claramente sobre OCR das imagens
+                resp = process_material_file_service("misto_sem_ocr.pdf", pdf_misto)
+                self.assertIsInstance(resp, OcrMaterialResponse)
+                self.assertIn("bacias hidrográficas brasileiras", resp.raw_text)
+                self.assertIsNotNone(resp.visual_analysis.notes)
+                self.assertIn("OCR", resp.visual_analysis.notes or "")
+                self.assertIn("parcialmente", resp.message.lower())
+                self.assertEqual(resp.raw_content.metadata["ocr_unavailable_pages"], [1])
+
+                # Puramente escaneado sem OCR não pode simular sucesso
+                with self.assertRaises(OcrServiceUnavailableError):
+                    process_material_file_service("escaneado_sem_ocr.pdf", pdf_escaneado)
+
+    @mock.patch("iris.api.routes.materials.extract_text_from_page_image")
+    def test_16_pdf_misto_com_imagem_sangrada_fora_da_borda_aceito(
+        self, mock_ocr: mock.MagicMock
+    ) -> None:
+        """Correção 3: PDF diagramado com figura sangrada além da borda não falha com INVALID_BBOX."""
+        doc = fitz.open()
+        page = doc.new_page(width=595, height=842)
+        page.insert_text(
+            (50, 72),
+            "Avaliação de Artes Visuais: observe a composição gráfica estendida na margem da página.",
+            fontsize=12,
+        )
+        img_bytes = self._create_synthetic_image("PNG", size=(400, 300), text="Ilustração Sangrada")
+        page.insert_image(fitz.Rect(-30, -20, 620, 380), stream=img_bytes, keep_proportion=False)
+        pdf_bleed = doc.tobytes()
+        doc.close()
+
+        mock_ocr.return_value = OcrPageResult(
+            page_number=1,
+            raw_text="Legenda da figura sangrada",
+            confidence=91.0,
+            word_count=4,
+            valid_confidence_count=4,
+            low_confidence_word_count=0,
+            has_text=True,
+        )
+
+        resp = process_material_file_service("prova_sangrada.pdf", pdf_bleed)
+        self.assertIsInstance(resp, OcrMaterialResponse)
+        self.assertIn("Artes Visuais", resp.raw_text)
+        self.assertIn("Legenda da figura sangrada", resp.raw_text)
+
+    def test_17_falhas_parciais_por_pagina_preservam_demais_e_identificam_afetadas(self) -> None:
+        """Correção 5: falha em página individual não derruba páginas válidas e identifica páginas afetadas."""
+        pdf_3_pags = self._create_synthetic_pdf(
+            [
+                ("Página 1 válida: Explique o funcionamento do sistema circulatório humano.", False),
+                ("", True),
+                ("Página 3 válida: Quais são os principais componentes do sangue arterial?", False),
+            ]
+        )
+
+        # 17.a Timeout de OCR na página 2 preserva páginas 1 e 3 e informa página 2
+        with mock.patch("iris.api.routes.materials.extract_text_from_page_image") as mock_ocr:
+            mock_ocr.side_effect = OcrTimeoutError("Tempo limite excedido (30s)")
+            resp_timeout = process_material_file_service("parcial_timeout.pdf", pdf_3_pags)
+        self.assertIn("sistema circulatório", resp_timeout.raw_text)
+        self.assertIn("sangue arterial", resp_timeout.raw_text)
+        self.assertEqual(resp_timeout.raw_content.metadata["failed_pages"], [2])
+        self.assertIn("Página 2", resp_timeout.visual_analysis.notes or "")
+        self.assertIn("2", resp_timeout.message)
+
+        # 17.b Página 2 escaneada sem texto legível (has_text=False) aparece registrada (nunca notes=None silencioso)
+        with mock.patch("iris.api.routes.materials.extract_text_from_page_image") as mock_ocr:
+            mock_ocr.return_value = OcrPageResult(
+                page_number=2,
+                raw_text="",
+                confidence=None,
+                word_count=0,
+                valid_confidence_count=0,
+                low_confidence_word_count=0,
+                has_text=False,
+            )
+            resp_empty_page = process_material_file_service("parcial_sem_texto.pdf", pdf_3_pags)
+        self.assertEqual(resp_empty_page.raw_content.metadata["unreadable_pages"], [2])
+        self.assertIsNotNone(resp_empty_page.visual_analysis.notes)
+        self.assertIn("Página 2", resp_empty_page.visual_analysis.notes or "")
+
+        # 17.c Página 2 marcada como is_valid=False na inspeção
+        with mock.patch("iris.api.routes.materials.inspect_and_classify_pdf") as mock_inspect:
+            from iris.parsers.pdf_processor import PdfInspectionResult
+
+            mock_inspect.return_value = PdfInspectionResult(
+                doc_type=MaterialSourceType.MIXED_PDF,
+                total_pages=3,
+                textual_pages_count=2,
+                scanned_pages_count=1,
+                mixed_pages_count=0,
+                pages=(
+                    PdfPageInfo(1, PdfPageType.TEXTUAL, "Página 1 válida de Química sobre ligações iônicas.", 50, 8, 0, 0.0, (), 595.0, 842.0, True, None),
+                    PdfPageInfo(2, PdfPageType.SCANNED, "", 0, 0, 0, 0.0, (), 0.0, 0.0, False, "Objeto de página corrompido"),
+                    PdfPageInfo(3, PdfPageType.TEXTUAL, "Página 3 válida sobre propriedades periódicas.", 46, 6, 0, 0.0, (), 595.0, 842.0, True, None),
+                ),
+                total_bytes=1024,
+                has_mixed_content=True,
+                requires_visual_processing=True,
+                consolidated_native_text="Página 1 válida de Química sobre ligações iônicas.\n\nPágina 3 válida sobre propriedades periódicas.",
+            )
+            with mock.patch(
+                "iris.api.routes.materials.render_pdf_page_image",
+                side_effect=lambda *args, **kwargs: Image.new("RGB", (300, 300), color="white"),
+            ):
+                resp_invalid = process_material_file_service("parcial_invalida.pdf", pdf_3_pags)
+        self.assertIn("ligações iônicas", resp_invalid.raw_text)
+        self.assertIn("propriedades periódicas", resp_invalid.raw_text)
+        self.assertEqual(resp_invalid.raw_content.metadata["failed_pages"], [2])
+        self.assertIn("Página 2", resp_invalid.visual_analysis.notes or "")
+
+    def test_18_pdf_criptografado_mensagem_clara_ptbr(self) -> None:
+        """PDF protegido por senha retorna código ENCRYPTED_PDF com mensagem clara em português."""
+        doc = fitz.open()
+        page = doc.new_page(width=595, height=842)
+        page.insert_text((50, 72), "Atividade com senha para validação de erro claro.", fontsize=12)
+        encrypted_pdf = doc.tobytes(
+            encryption=fitz.PDF_ENCRYPT_AES_256,
+            user_pw="1234",
+            owner_pw="admin1234",
+        )
+        doc.close()
+
+        with self.assertRaises(DocumentParsingError) as ctx:
+            process_material_file_service("protegido.pdf", encrypted_pdf)
+        self.assertEqual(ctx.exception.code, "ENCRYPTED_PDF")
+        self.assertIn("senha", ctx.exception.message.lower())
+        self.assertNotIn("document closed or encrypted", ctx.exception.message.lower())
 
 
 class TestTextRedundancyHeuristic(unittest.TestCase):
@@ -828,6 +1044,127 @@ class TestMaterialsOcrHttpEndpoints(unittest.TestCase):
         self.assertIn("MaterialResponse", schemas)
         self.assertIn("RawContent", schemas)
         self.assertIn("VisualAnalysisReport", schemas)
+
+    @mock.patch("iris.api.routes.materials.extract_text_from_page_image")
+    def test_http_10_zero_pii_payload_http_sem_dados_originais(self, mock_ocr: mock.MagicMock) -> None:
+        """HTTP 10 (Correção 1): JSON devolvido por /materials/upload não expõe CPF nem nome de estudante."""
+        nome = "Lucas Andrade Pereira"
+        cpf = "111.222.333-44"
+        mock_ocr.return_value = OcrPageResult(
+            page_number=1,
+            raw_text=(
+                f"Aluno: {nome} | CPF: {cpf}\n"
+                "Questão 1: Descreva as transformações de estado físico da matéria."
+            ),
+            confidence=93.0,
+            word_count=16,
+            valid_confidence_count=16,
+            low_confidence_word_count=0,
+            has_text=True,
+        )
+        png_bytes = self._create_synthetic_image("PNG")
+        res = self.client.post(
+            "/api/v1/materials/upload",
+            files={"file": ("prova_pii.png", png_bytes, "image/png")},
+        )
+        self.assertEqual(res.status_code, 200)
+        body_text = res.text
+        self.assertNotIn(nome, body_text)
+        self.assertNotIn(cpf, body_text)
+        data = res.json()
+        self.assertTrue(data["metadata"]["sanitized"])
+        self.assertGreaterEqual(data["metadata"]["pii_removed_count"], 2)
+
+    @mock.patch("iris.api.routes.materials.extract_text_from_page_image")
+    def test_http_11_pdf_misto_sem_tesseract_200_e_escaneado_503(self, mock_ocr: mock.MagicMock) -> None:
+        """HTTP 11 (Correção 2): PDF misto sem Tesseract retorna 200 com aviso; escaneado/imagem retornam 503 em PT-BR."""
+        mock_ocr.side_effect = OcrEngineNotFoundError(
+            "O executável do Tesseract OCR não está instalado ou não foi localizado no PATH do ambiente."
+        )
+
+        pdf_misto = self._create_synthetic_pdf(
+            [("Avaliação de Física: calcule a velocidade média a partir do gráfico abaixo.", True)]
+        )
+        res_mixed = self.client.post(
+            "/api/v1/materials/upload",
+            files={"file": ("fisica_mista.pdf", pdf_misto, "application/pdf")},
+        )
+        self.assertEqual(res_mixed.status_code, 200)
+        mixed_json = res_mixed.json()
+        self.assertIn("velocidade média", mixed_json["raw_text"])
+        self.assertIn("OCR", mixed_json["visual_analysis"]["notes"])
+
+        pdf_scanned = self._create_synthetic_pdf([("", True)])
+        res_scanned = self.client.post(
+            "/api/v1/materials/upload",
+            files={"file": ("fisica_escaneada.pdf", pdf_scanned, "application/pdf")},
+        )
+        self.assertEqual(res_scanned.status_code, 503)
+        detail = res_scanned.json()["detail"]["detail"]
+        self.assertNotIn("See README", detail)
+        self.assertIn("Tesseract", detail)
+
+    def test_http_12_event_loop_nao_bloqueado_e_concorrencia_ocr_limitada(self) -> None:
+        """HTTP 12 (Correção 4): upload pesado de OCR não bloqueia o event loop e respeita limite de concorrência."""
+        import httpx
+
+        lock = threading.Lock()
+        state = {"active": 0, "max_active": 0}
+
+        def slow_ocr(*args, **kwargs):
+            with lock:
+                state["active"] += 1
+                if state["active"] > state["max_active"]:
+                    state["max_active"] = state["active"]
+            time.sleep(0.25)
+            with lock:
+                state["active"] -= 1
+            return OcrPageResult(
+                page_number=1,
+                raw_text="Atividade de História sobre o Brasil Império e suas transformações econômicas.",
+                confidence=90.0,
+                word_count=11,
+                valid_confidence_count=11,
+                low_confidence_word_count=0,
+                has_text=True,
+            )
+
+        png_bytes = self._create_synthetic_image("PNG")
+
+        async def run_concurrent() -> tuple[list[int], float]:
+            transport = httpx.ASGITransport(app=self.client.app)
+            async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as async_client:
+                uploads = [
+                    async_client.post(
+                        "/api/v1/materials/upload",
+                        files={"file": (f"prova_{i}.png", png_bytes, "image/png")},
+                    )
+                    for i in range(4)
+                ]
+
+                async def measure_catalog_after_short_delay() -> tuple[int, float]:
+                    await asyncio.sleep(0.05)
+                    t0 = time.perf_counter()
+                    r = await async_client.get("/api/v1/catalog")
+                    return r.status_code, time.perf_counter() - t0
+
+                results = await asyncio.gather(*uploads, measure_catalog_after_short_delay())
+                upload_statuses = [r.status_code for r in results[:-1]]
+                cat_status, cat_elapsed = results[-1]
+                self.assertEqual(cat_status, 200)
+                return upload_statuses, cat_elapsed
+
+        with (
+            mock.patch.dict("os.environ", {"IRIS_MAX_CONCURRENT_OCR": "2"}),
+            mock.patch("iris.api.routes.materials.extract_text_from_page_image", side_effect=slow_ocr),
+        ):
+            statuses, catalog_latency = asyncio.run(run_concurrent())
+
+        self.assertEqual(statuses, [200, 200, 200, 200])
+        self.assertLessEqual(state["max_active"], 2)
+        self.assertGreaterEqual(state["max_active"], 1)
+        # Se o event loop estivesse bloqueado por 4 * 0.25s = 1.0s, essa chamada demoraria > 0.25s
+        self.assertLess(catalog_latency, 0.20)
 
 
 if __name__ == "__main__":

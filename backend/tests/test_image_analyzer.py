@@ -451,6 +451,19 @@ class TestImageAnalyzer(unittest.TestCase):
         self.assertIn("possible_visual_clutter", dump)
         self.assertIn("legibility_status", dump)
 
+    @unittest.skipUnless(HAS_PILLOW, "Requer a biblioteca Pillow (PIL) instalada no ambiente")
+    def test_exif_transpose_preserva_dimensoes_reais(self) -> None:
+        """Fotos verticais com tag EXIF Orientation=6 devem ter width/height ajustados na análise visual."""
+        img = Image.new("RGB", (600, 300), color=(255, 255, 255))
+        exif = img.getexif()
+        exif[274] = 6  # Rotacionar 90 graus CW
+        buf = io.BytesIO()
+        img.save(buf, format="JPEG", exif=exif.tobytes())
+
+        analysis = analyze_page_image(buf.getvalue(), page_number=1, page_type="image")
+        self.assertEqual(analysis.width, 300)
+        self.assertEqual(analysis.height, 600)
+
 
 if __name__ == "__main__":
     unittest.main()

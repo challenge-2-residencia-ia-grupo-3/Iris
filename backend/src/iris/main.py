@@ -1479,7 +1479,7 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
             from email.parser import BytesParser
             from email.policy import HTTP
 
-            from iris.api.routes.materials import process_material_file_service
+            from iris.api.routes.materials import OcrServiceUnavailableError, process_material_file_service
             from iris.parsers.document_extractor import DocumentParsingError, UnsupportedFileFormatError
             from iris.schemas.materials import MaterialValidationError
 
@@ -1513,6 +1513,8 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json(resp.model_dump())
             except UnsupportedFileFormatError as err:
                 self._send_json({"detail": {"detail": err.message, "code": err.code, "field": "file"}}, status=400)
+            except OcrServiceUnavailableError as err:
+                self._send_json({"detail": {"detail": err.message, "code": err.code, "field": "file"}}, status=503)
             except DocumentParsingError as err:
                 self._send_json({"detail": {"detail": err.message, "code": err.code, "field": "file"}}, status=422)
             except MaterialValidationError as err:

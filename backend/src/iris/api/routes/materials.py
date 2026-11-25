@@ -6,8 +6,17 @@ Endpoints:
 """
 from __future__ import annotations
 
+import asyncio
+import os
+import weakref
 from pathlib import Path
 from typing import Any, Final
+
+try:
+    from starlette.concurrency import run_in_threadpool as _run_in_threadpool
+except ImportError:  # pragma: no cover
+    async def _run_in_threadpool(func: Any, *args: Any, **kwargs: Any) -> Any:
+        return await asyncio.to_thread(func, *args, **kwargs)
 
 from iris.parsers.document_extractor import (
     DocumentParsingError,
@@ -22,6 +31,7 @@ from iris.parsers.image_analyzer import (
     InvalidImageDimensionsError,
     UnsupportedImageFormatError,
     analyze_page_image,
+    consolidate_visual_report,
 )
 from iris.parsers.ocr_extractor import (
     OcrDependencyError,
@@ -76,6 +86,37 @@ SUPPORTED_UPLOAD_EXTENSIONS: Final[set[str]] = {
     ".jpeg",
 }
 IMAGE_EXTENSIONS: Final[set[str]] = {".png", ".jpg", ".jpeg"}
+DEFAULT_MAX_CONCURRENT_OCR: Final[int] = 2
+_OCR_SEMAPHORES: weakref.WeakKeyDictionary[asyncio.AbstractEventLoop, asyncio.Semaphore] = (
+    weakref.WeakKeyDictionary()
+)
+
+
+class OcrServiceUnavailableError(DocumentParsingError):
+    """Lançado quando o serviço local de OCR (Tesseract/idioma) está indisponível (HTTP 503)."""
+
+
+def _get_max_concurrent_ocr() -> int:
+    """Obtém o limite seguro de execuções simultâneas de OCR por worker via ambiente."""
+    raw = os.environ.get("IRIS_MAX_CONCURRENT_OCR", "").strip()
+    if raw:
+        try:
+            parsed = int(raw)
+            if parsed >= 1:
+                return parsed
+        except ValueError:
+            pass
+    return DEFAULT_MAX_CONCURRENT_OCR
+
+
+def _get_ocr_semaphore() -> asyncio.Semaphore:
+    """Retorna o semáforo assíncrono vinculado ao event loop ativo do worker atual."""
+    loop = asyncio.get_running_loop()
+    sem = _OCR_SEMAPHORES.get(loop)
+    if sem is None:
+        sem = asyncio.Semaphore(_get_max_concurrent_ocr())
+        _OCR_SEMAPHORES[loop] = sem
+    return sem
 
 
 
@@ -180,7 +221,10 @@ def _process_image_upload(filename: str, content: bytes, suffix: str) -> OcrMate
     except OcrTimeoutError as err:
         raise DocumentParsingError(f"Tempo limite excedido durante o processamento OCR: {err.message}", code="OCR_TIMEOUT") from err
     except (OcrDependencyError, OcrEngineNotFoundError, OcrLanguageError) as err:
-        raise DocumentParsingError(f"Falha de infraestrutura de OCR: {err.message}", code=err.code) from err
+        raise OcrServiceUnavailableError(
+            f"Serviço de OCR indisponível neste ambiente: {err.message}",
+            code=err.code,
+        ) from err
     except OcrError as err:
         raise DocumentParsingError(f"Falha no mecanismo de OCR: {err.message}", code=err.code) from err
     except Exception as err:
@@ -196,7 +240,7 @@ def _process_image_upload(filename: str, content: bytes, suffix: str) -> OcrMate
 
     with sentinel_context(raw_extracted_text):
         # 5 e 6. Sanitização preventiva de PII e construção do contrato canônico RawContent
-        raw_text_original, raw_content = create_sanitized_raw_content(
+        _, raw_content = create_sanitized_raw_content(
             raw_text=raw_extracted_text,
             source_type=source_type,
             metadata={
@@ -209,32 +253,26 @@ def _process_image_upload(filename: str, content: bytes, suffix: str) -> OcrMate
         # 7. Validar limites de negócio (mínimo 50 caracteres e janela de contexto da IA)
         char_count, word_count = validate_material_content(raw_content.text)
 
-    # 8. Construir relatório consolidado de análise visual
-    has_high = page_analysis.clutter_level == "alta"
-    flagged = [1] if page_analysis.possible_visual_clutter else []
-    notes = page_analysis.rejection_reason
+    pii_removed_count = int(raw_content.metadata.get("pii_removed_count", 0))
 
-    visual_report = VisualAnalysisReport(
-        overall_clutter_level=page_analysis.clutter_level,
-        has_high_clutter=has_high,
-        total_pages_analyzed=1,
-        flagged_pages=flagged,
-        pages=[page_analysis],
-        notes=notes,
+    # 8. Construir relatório consolidado de análise visual
+    visual_report = consolidate_visual_report(
+        [page_analysis],
+        notes=page_analysis.rejection_reason,
     )
 
-    # 9. Retornar resposta multimodal padronizada
+    # 9. Retornar resposta multimodal sanitizada (RNF-02 / Zero-PII)
     return OcrMaterialResponse(
         status="success",
         message=f"Arquivo '{filename}' processado via OCR e sanitizado com sucesso.",
-        raw_text=raw_text_original,
+        raw_text=raw_content.text,
         raw_content=raw_content,
         metadata=MaterialMetadata(
             source_type=source_type.value,
             char_count=char_count,
             word_count=word_count,
-            sanitized=raw_content.pii_sanitized,
-            pii_removed_count=raw_content.metadata.get("pii_removed_count", 0),
+            sanitized=pii_removed_count > 0,
+            pii_removed_count=pii_removed_count,
             filename=filename,
         ),
         visual_analysis=visual_report,
@@ -299,9 +337,11 @@ def _process_pdf_upload(filename: str, content: bytes) -> MaterialResponse | Ocr
     except PdfFileSizeError as err:
         raise MaterialValidationError(err.message, code=err.code, field="file") from err
     except PdfCorruptedError as err:
+        if err.code == "ENCRYPTED_PDF":
+            raise DocumentParsingError(err.message, code="ENCRYPTED_PDF") from err
         raise DocumentParsingError(
             f"O arquivo PDF enviado está corrompido ou possui formato inválido: {err.message}",
-            code="CORRUPTED_PDF",
+            code=err.code,
         ) from err
     except PdfNoPagesError as err:
         raise DocumentParsingError("O documento PDF não contém páginas.", code="NO_PAGES") from err
@@ -339,13 +379,31 @@ def _process_pdf_upload(filename: str, content: bytes) -> MaterialResponse | Ocr
             ),
         )
 
-    # 4. Ramo B e C: PDF ESCANEADO ou MISTO
+    # 4. Ramo B e C: PDF ESCANEADO ou MISTO (com tolerância a falhas parciais e degradação graciosa)
     pages_analysis: list[PageVisualAnalysis] = []
     page_texts: list[str] = []
+    failed_pages: list[int] = []
+    unreadable_pages: list[int] = []
+    ocr_unavailable_pages: list[int] = []
+    processing_warnings: list[str] = []
+    ocr_infra_error: OcrError | None = None
+    first_timeout_error: tuple[int, str] | None = None
+    first_page_error: tuple[str, str] | None = None
 
     for page_info in inspection.pages:
         page_num = page_info.page_number
+        if not page_info.is_valid:
+            failed_pages.append(page_num)
+            msg = page_info.error_message or f"Não foi possível inspecionar a página {page_num}."
+            processing_warnings.append(f"Página {page_num}: falha na leitura ({msg}).")
+            if first_page_error is None:
+                first_page_error = ("PDF_PROCESSING_ERROR", msg)
+            continue
+
         page_img = None
+        page_parts: list[str] = []
+        if page_info.native_text and page_info.native_text.strip():
+            page_parts.append(page_info.native_text.strip())
 
         try:
             # 4.1 Renderização da página completa para análise visual
@@ -363,57 +421,73 @@ def _process_pdf_upload(filename: str, content: bytes) -> MaterialResponse | Ocr
                 )
                 pages_analysis.append(analysis)
             except PdfRenderPixelLimitError as err:
-                raise DocumentParsingError(
-                    f"Falha ao processar página {page_num} do documento: {err.message}",
-                    code="PIXEL_LIMIT_EXCEEDED",
-                ) from err
+                failed_pages.append(page_num)
+                msg = f"Falha ao processar página {page_num} do documento: {err.message}"
+                processing_warnings.append(f"Página {page_num}: não foi possível renderizar (limite de pixels excedido).")
+                if first_page_error is None:
+                    first_page_error = ("PIXEL_LIMIT_EXCEEDED", msg)
+                if page_parts:
+                    page_texts.append("\n\n".join(page_parts))
+                continue
             except PdfRenderError as err:
-                raise DocumentParsingError(
-                    f"Falha ao renderizar página {page_num} do documento: {err.message}",
-                    code="PDF_RENDER_ERROR",
-                ) from err
-            except Exception as err:
-                raise DocumentParsingError(
-                    f"Falha ao processar página {page_num} do documento: {err}",
-                    code="IMAGE_ANALYSIS_ERROR",
-                ) from err
+                failed_pages.append(page_num)
+                msg = f"Falha ao renderizar página {page_num} do documento: {err.message}"
+                processing_warnings.append(f"Página {page_num}: falha ao renderizar página para análise visual/OCR.")
+                if first_page_error is None:
+                    first_page_error = ("PDF_RENDER_ERROR", msg)
+                if page_parts:
+                    page_texts.append("\n\n".join(page_parts))
+                continue
+            except (ImageAnalysisError, Exception) as err:
+                failed_pages.append(page_num)
+                msg = f"Falha ao processar página {page_num} do documento: {err}"
+                processing_warnings.append(f"Página {page_num}: falha na análise visual ({err}).")
+                if first_page_error is None:
+                    first_page_error = ("IMAGE_ANALYSIS_ERROR", msg)
+                if page_parts:
+                    page_texts.append("\n\n".join(page_parts))
+                continue
 
-            # 4.2 Extração de texto por página preservando texto nativo e evitando duplicações
-            page_parts: list[str] = []
-
-            # Preserva texto nativo existente na página
-            if page_info.native_text and page_info.native_text.strip():
-                page_parts.append(page_info.native_text.strip())
-
-            # Executa OCR conforme a classificação específica da página
+            # 4.2 Extração de texto via OCR conforme a classificação específica da página
             if page_info.page_type == PdfPageType.SCANNED:
-                # Página sem texto nativo: OCR sobre a imagem da página inteira
                 try:
                     ocr_res = extract_text_from_page_image(page_img, page_number=page_num)
                     if ocr_res.has_text and ocr_res.raw_text.strip():
                         cand_text = ocr_res.raw_text.strip()
                         if not _is_text_redundant(cand_text, page_parts):
                             page_parts.append(cand_text)
+                    else:
+                        unreadable_pages.append(page_num)
+                        processing_warnings.append(
+                            f"Página {page_num}: nenhum texto legível foi reconhecido pelo OCR nesta página digitalizada."
+                        )
+                except (OcrDependencyError, OcrEngineNotFoundError, OcrLanguageError) as err:
+                    ocr_infra_error = ocr_infra_error or err
+                    ocr_unavailable_pages.append(page_num)
+                    processing_warnings.append(
+                        f"Página {page_num}: extração OCR não realizada porque o serviço de OCR não está disponível ({err.message})."
+                    )
                 except OcrTimeoutError as err:
-                    raise DocumentParsingError(
-                        f"Tempo limite de OCR excedido na página {page_num}: {err.message}",
-                        code="OCR_TIMEOUT",
-                    ) from err
+                    failed_pages.append(page_num)
+                    if first_timeout_error is None:
+                        first_timeout_error = (page_num, err.message)
+                    processing_warnings.append(
+                        f"Página {page_num}: tempo limite de OCR excedido ({err.message})."
+                    )
                 except OcrError as err:
-                    raise DocumentParsingError(
-                        f"Falha de OCR na página {page_num}: {err.message}",
-                        code=err.code,
-                    ) from err
+                    failed_pages.append(page_num)
+                    if first_page_error is None:
+                        first_page_error = (err.code, f"Falha de OCR na página {page_num}: {err.message}")
+                    processing_warnings.append(f"Página {page_num}: falha de OCR ({err.message}).")
                 except Exception as err:
-                    raise DocumentParsingError(
-                        f"Erro inesperado no OCR da página {page_num}: {err}",
-                        code="OCR_ERROR",
-                    ) from err
+                    failed_pages.append(page_num)
+                    if first_page_error is None:
+                        first_page_error = ("OCR_ERROR", f"Erro inesperado no OCR da página {page_num}: {err}")
+                    processing_warnings.append(f"Página {page_num}: erro inesperado no OCR ({err}).")
 
             elif page_info.page_type == PdfPageType.MIXED:
-                # Página mista: OCR estritamente nas regiões de imagem delimitadas (clip)
-                # com checagem anti-duplicação caso o recorte sobreponha texto nativo ou outra região
-                for region in page_info.image_regions:
+                # Página mista: preserva sempre o texto nativo e aplica OCR nas regiões de imagem
+                for idx, region in enumerate(page_info.image_regions, start=1):
                     region_img = None
                     try:
                         region_img = render_pdf_region_image(
@@ -423,21 +497,19 @@ def _process_pdf_upload(filename: str, content: bytes) -> MaterialResponse | Ocr
                             dpi=DEFAULT_RENDER_DPI,
                             as_pil=True,
                         )
-                    except PdfRenderPixelLimitError as err:
-                        raise DocumentParsingError(
-                            f"Falha de limite de pixels ao recortar região na página {page_num}: {err.message}",
-                            code="PIXEL_LIMIT_EXCEEDED",
-                        ) from err
-                    except (PdfRenderError, PdfInvalidBBoxError) as err:
-                        raise DocumentParsingError(
-                            f"Falha ao renderizar região de imagem na página {page_num}: {err.message}",
-                            code=err.code,
-                        ) from err
-                    except Exception as err:
-                        raise DocumentParsingError(
-                            f"Erro ao rasterizar região visual na página {page_num}: {err}",
-                            code="PDF_RENDER_ERROR",
-                        ) from err
+                    except (PdfRenderPixelLimitError, PdfRenderError, PdfInvalidBBoxError, Exception) as err:
+                        if page_num not in failed_pages:
+                            failed_pages.append(page_num)
+                        err_code = getattr(err, "code", "PDF_RENDER_ERROR")
+                        if first_page_error is None:
+                            first_page_error = (
+                                err_code,
+                                f"Falha ao renderizar região visual {idx} na página {page_num}: {err}",
+                            )
+                        processing_warnings.append(
+                            f"Página {page_num}: falha ao recortar região visual {idx} ({err}); texto nativo preservado."
+                        )
+                        continue
 
                     try:
                         reg_ocr = extract_text_from_page_image(region_img, page_number=page_num)
@@ -445,21 +517,35 @@ def _process_pdf_upload(filename: str, content: bytes) -> MaterialResponse | Ocr
                             cand_text = reg_ocr.raw_text.strip()
                             if not _is_text_redundant(cand_text, page_parts):
                                 page_parts.append(cand_text)
+                    except (OcrDependencyError, OcrEngineNotFoundError, OcrLanguageError) as err:
+                        ocr_infra_error = ocr_infra_error or err
+                        if page_num not in ocr_unavailable_pages:
+                            ocr_unavailable_pages.append(page_num)
+                        processing_warnings.append(
+                            f"Página {page_num}: texto nativo extraído, mas a extração de texto das imagens (OCR) "
+                            "não foi realizada porque o serviço de OCR não está disponível neste ambiente."
+                        )
+                        break
                     except OcrTimeoutError as err:
-                        raise DocumentParsingError(
-                            f"Tempo limite de OCR excedido na região da página {page_num}: {err.message}",
-                            code="OCR_TIMEOUT",
-                        ) from err
-                    except OcrError as err:
-                        raise DocumentParsingError(
-                            f"Falha de OCR na região da página {page_num}: {err.message}",
-                            code=err.code,
-                        ) from err
-                    except Exception as err:
-                        raise DocumentParsingError(
-                            f"Erro inesperado no OCR da região na página {page_num}: {err}",
-                            code="OCR_ERROR",
-                        ) from err
+                        if page_num not in failed_pages:
+                            failed_pages.append(page_num)
+                        if first_timeout_error is None:
+                            first_timeout_error = (page_num, err.message)
+                        processing_warnings.append(
+                            f"Página {page_num}: tempo limite de OCR excedido na imagem {idx}; texto nativo preservado."
+                        )
+                    except (OcrError, Exception) as err:
+                        if page_num not in failed_pages:
+                            failed_pages.append(page_num)
+                        err_code = getattr(err, "code", "OCR_ERROR")
+                        if first_page_error is None:
+                            first_page_error = (
+                                err_code,
+                                f"Falha no OCR da região {idx} na página {page_num}: {err}",
+                            )
+                        processing_warnings.append(
+                            f"Página {page_num}: falha no OCR da imagem {idx} ({err}); texto nativo preservado."
+                        )
                     finally:
                         if region_img is not None:
                             try:
@@ -481,15 +567,34 @@ def _process_pdf_upload(filename: str, content: bytes) -> MaterialResponse | Ocr
     # 4.3 Consolidação mantendo estritamente a ordem das páginas (1..N)
     full_raw_text = "\n\n".join(page_texts).strip()
     if not full_raw_text:
+        if ocr_infra_error is not None:
+            raise OcrServiceUnavailableError(
+                f"Serviço de OCR indisponível neste ambiente: {ocr_infra_error.message}",
+                code=ocr_infra_error.code,
+            )
+        if first_timeout_error is not None:
+            pg, msg = first_timeout_error
+            raise DocumentParsingError(
+                f"Tempo limite de OCR excedido na página {pg}: {msg}",
+                code="OCR_TIMEOUT",
+            )
+        if first_page_error is not None:
+            err_code, msg = first_page_error
+            raise DocumentParsingError(msg, code=err_code)
         doc_label = "digitalizado" if inspection.doc_type == MaterialSourceType.SCANNED_PDF else "misto"
         raise DocumentParsingError(
             f"O documento PDF {doc_label} não contém texto legível reconhecido pelo OCR.",
             code="NO_READABLE_TEXT",
         )
 
+    failed_pages = list(dict.fromkeys(failed_pages))
+    unreadable_pages = list(dict.fromkeys(unreadable_pages))
+    ocr_unavailable_pages = list(dict.fromkeys(ocr_unavailable_pages))
+    affected_pages = sorted(set(failed_pages + unreadable_pages + ocr_unavailable_pages))
+
     with sentinel_context(full_raw_text):
         # 4.4 Sanitização preventiva de PII e construção do contrato unificado RawContent
-        raw_text_original, raw_content = create_sanitized_raw_content(
+        _, raw_content = create_sanitized_raw_content(
             raw_text=full_raw_text,
             source_type=inspection.doc_type,
             metadata={
@@ -498,40 +603,45 @@ def _process_pdf_upload(filename: str, content: bytes) -> MaterialResponse | Ocr
                 "scanned_pages": inspection.scanned_pages_count,
                 "mixed_pages": inspection.mixed_pages_count,
                 "textual_pages": inspection.textual_pages_count,
+                "partial_extraction": bool(affected_pages),
+                "failed_pages": failed_pages,
+                "unreadable_pages": unreadable_pages,
+                "ocr_unavailable_pages": ocr_unavailable_pages,
             },
         )
 
         # 4.5 Validação dos limites de negócio
         char_count, word_count = validate_material_content(raw_content.text)
 
-    # 4.6 Construção do relatório consolidado de análise visual
-    has_high = any(p.clutter_level == "alta" for p in pages_analysis)
-    has_mod = any(p.clutter_level == "moderada" for p in pages_analysis)
-    overall = "alta" if has_high else ("moderada" if has_mod else "baixa")
-    flagged = [p.page_number for p in pages_analysis if p.possible_visual_clutter]
-    notes_parts = [p.rejection_reason for p in pages_analysis if p.rejection_reason]
+    pii_removed_count = int(raw_content.metadata.get("pii_removed_count", 0))
 
-    visual_report = VisualAnalysisReport(
-        overall_clutter_level=overall,
-        has_high_clutter=has_high,
-        total_pages_analyzed=len(pages_analysis),
-        flagged_pages=flagged,
-        pages=pages_analysis,
-        notes="; ".join(notes_parts) if notes_parts else None,
-    )
+    # 4.6 Construção do relatório consolidado de análise visual + avisos de páginas afetadas
+    rejection_notes = [p.rejection_reason for p in pages_analysis if p.rejection_reason]
+    combined_notes = list(dict.fromkeys([*rejection_notes, *processing_warnings]))
+    notes_str = "; ".join(combined_notes) if combined_notes else None
+    visual_report = consolidate_visual_report(pages_analysis, notes=notes_str)
 
-    # 4.7 Retorno do contrato multimodal
+    if affected_pages:
+        pages_label = ", ".join(str(p) for p in affected_pages)
+        response_message = (
+            f"Arquivo '{filename}' processado parcialmente com avisos nas páginas {pages_label}. "
+            "Confira as observações de análise visual antes de avançar."
+        )
+    else:
+        response_message = f"Arquivo '{filename}' processado via OCR e sanitizado com sucesso."
+
+    # 4.7 Retorno do contrato multimodal sanitizado (RNF-02 / Zero-PII)
     return OcrMaterialResponse(
         status="success",
-        message=f"Arquivo '{filename}' processado via OCR e sanitizado com sucesso.",
-        raw_text=raw_text_original,
+        message=response_message,
+        raw_text=raw_content.text,
         raw_content=raw_content,
         metadata=MaterialMetadata(
             source_type=inspection.doc_type.value,
             char_count=char_count,
             word_count=word_count,
-            sanitized=raw_content.pii_sanitized,
-            pii_removed_count=raw_content.metadata.get("pii_removed_count", 0),
+            sanitized=pii_removed_count > 0,
+            pii_removed_count=pii_removed_count,
             filename=filename,
         ),
         visual_analysis=visual_report,
@@ -539,12 +649,12 @@ def _process_pdf_upload(filename: str, content: bytes) -> MaterialResponse | Ocr
 
 
 def process_material_file_service(filename: str, content: bytes) -> MaterialResponse | OcrMaterialResponse:
-    """Executa o pipeline completo em memória para upload de documentos e imagens (Histórias 1.1.1 e 1.1.3):
+    """Executa o pipeline completo para upload de documentos e imagens (Histórias 1.1.1 e 1.1.3):
 
     Suporta:
     - Textuais (.txt, .docx, .pdf textual): limite de 10 MB, extração direta, sanitização preventiva de PII.
     - Multimodais (.png, .jpg, .jpeg, .pdf escaneado ou misto): limite de 25 MB, análise visual, OCR,
-      preservação do texto original para revisão docente (HITL) e emissão do contrato seguro RawContent.
+      sanitização preventiva de PII em `raw_text` e `raw_content.text` (Zero-PII) e tolerância a falhas parciais.
     """
     if not filename:
         raise UnsupportedFileFormatError(
@@ -663,6 +773,9 @@ try:
             422: {
                 "description": "Erro de validação de negócio, arquivo corrompido, limite de tamanho ou falha no processamento visual/OCR.",
             },
+            503: {
+                "description": "Serviço de OCR (Tesseract/idioma português) indisponível neste ambiente.",
+            },
             500: {
                 "description": "Erro interno não tratado durante o processamento.",
             },
@@ -670,13 +783,22 @@ try:
     )
     async def upload_material_file(file: UploadFile = File(...)) -> OcrMaterialResponse | MaterialResponse:
         filename = file.filename or "desconhecido"
+        suffix = Path(filename).suffix.lower()
         try:
-            # Leitura direta em memória (Zero-Database)
+            # Leitura direta em memória (Zero-Database) e execução em threadpool fora do event loop
             content = await file.read()
-            return process_material_file_service(filename, content)
+            if suffix in IMAGE_EXTENSIONS or suffix == ".pdf":
+                async with _get_ocr_semaphore():
+                    return await _run_in_threadpool(process_material_file_service, filename, content)
+            return await _run_in_threadpool(process_material_file_service, filename, content)
         except UnsupportedFileFormatError as err:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
+                detail={"detail": err.message, "code": err.code, "field": "file"},
+            ) from err
+        except OcrServiceUnavailableError as err:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail={"detail": err.message, "code": err.code, "field": "file"},
             ) from err
         except DocumentParsingError as err:

@@ -220,7 +220,7 @@ class RawContent:
        da fábrica oficial `create_sanitized_raw_content(...)` ou `RawContent.from_raw_text(...)`.
     """
 
-    text: str  # Conteúdo textual sanitizado (destinado ao pipeline pedagógico e IA)
+    text: str  # Conteúdo textual sanitizado (destinado à resposta da API, interface e pipeline pedagógico)
     source_type: MaterialSourceType  # Formato/origem validado estritamente
     metadata: SafeMetadataMapping  # Metadados imutáveis com cópia defensiva e serialização segura
     pii_sanitized: bool  # Confirmação de que a rotina de sanitização foi executada
@@ -392,21 +392,21 @@ class VisualAnalysisReport:
 class OcrMaterialResponse:
     """Resposta estruturada do processamento multimodal e OCR para a interface docente (Etapa 1).
 
-    Responsabilidades estritas de cada campo:
+    Responsabilidades estritas de cada campo na API HTTP (RNF-02 / Zero-PII):
     1. `status` / `message`: Metadados operacionais do protocolo HTTP da API.
-    2. `raw_text`: Texto original fidedigno transcrito pelo OCR. Preservado exclusivamente
-       na sessão volátil em memória (React Context) do professor para conferência visual lado a lado
-       e edição corretiva humana (HITL). NUNCA deve ser transmitido a modelos de linguagem ou serviços externos.
+    2. `raw_text`: Texto extraído e já sanitizado (`raw_content.text`) entregue à interface docente
+       para conferência e revisão humana (HITL), garantindo que nenhum dado pessoal original seja
+       persistido em `sessionStorage` ou devolvido pela API.
     3. `raw_content`: Entidade canônica de ingestão segura contendo o texto sanitizado (`raw_content.text`,
        livre de PII identificável), metadados e `pii_sanitized=True`. É esta estrutura canônica
        que transita para o `StructuralDecomposer`, motor RAG e serviços de IA.
-    4. `metadata`: Métricas quantitativas do texto (contagem de caracteres, palavras, tokens estimados e nome do arquivo).
-    5. `visual_analysis`: Relatório com métricas de qualidade de imagem, resolução e indicadores de densidade visual por página.
+    4. `metadata`: Métricas quantitativas do texto e indicação fiel de remoção de PII (`sanitized = pii_removed_count > 0`).
+    5. `visual_analysis`: Relatório com métricas de qualidade de imagem, resolução, avisos parciais e densidade visual.
     """
 
     status: str
     message: str
-    raw_text: str  # Original para revisão docente em tela (HITL, estritamente em memória volátil)
+    raw_text: str  # Texto sanitizado retornado pela API para conferência segura em tela (RNF-02)
     raw_content: RawContent  # Contrato unificado seguro com texto sanitizado para processamento e IA
     metadata: MaterialMetadata  # Metadados quantitativos de volume e formato
     visual_analysis: VisualAnalysisReport  # Indicadores de análise visual por página

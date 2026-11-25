@@ -2,7 +2,8 @@
 
 Atende:
 - RF-03: Extração multimodal de provas digitalizadas via OCR local e análise visual.
-- RNF-01: Processamento estritamente em memória volátil (Zero-Database).
+- RNF-01: Operação Zero-Database sem persistência de dados de alunos; arquivos temporários transitórios
+  criados internamente pelo wrapper do Tesseract são removidos automaticamente ao final de cada chamada.
 - Apoio à revisão docente (HITL): a transcrição gerada pelo OCR é heurística e probabilística,
   devendo ser apresentada ao professor para validação e edição antes de qualquer geração de andaimes.
   A pontuação de confiança ('conf') do Tesseract é uma estimativa heurística interna e NÃO uma
@@ -11,7 +12,9 @@ Atende:
 from __future__ import annotations
 
 import io
-from collections.abc import Mapping
+import threading
+from collections.abc import Iterator, Mapping
+from contextlib import contextmanager
 from dataclasses import dataclass
 from types import MappingProxyType
 from typing import Any, Final, Optional
@@ -20,6 +23,8 @@ from iris.schemas.materials import MAX_OCR_FILE_SIZE_BYTES
 
 # Formatos de imagem estritamente aceitos pela História 1.1.3 (RF-03)
 OFFICIAL_SUPPORTED_IMAGE_FORMATS: Final[set[str]] = {"PNG", "JPEG", "JPG"}
+# Alguns smartphones (iOS/Android) salvam fotos JPEG como MPO (Multi-Picture Object)
+_COMPATIBLE_IMAGE_FORMATS: Final[set[str]] = OFFICIAL_SUPPORTED_IMAGE_FORMATS | {"MPO"}
 
 # Limite defensivo para mitigar DoS / Decompression Bomb ao processar imagens
 # Alinhado rigorosamente a VisualClutterConfig.max_total_pixels de image_analyzer.py (25 MPixels)
@@ -27,10 +32,11 @@ MAX_IMAGE_PIXELS: Final[int] = 25_000_000
 
 # Importação defensiva do Pillow
 try:
-    from PIL import Image
+    from PIL import Image, ImageOps
     _HAS_PIL = True
 except ImportError:  # pragma: no cover
     Image = None  # type: ignore[assignment]
+    ImageOps = None  # type: ignore[assignment]
     _HAS_PIL = False
 
 # Importação defensiva do pytesseract
@@ -180,8 +186,80 @@ class OcrPageResult:
 
 
 # ==============================================================================
+# Controle Thread-Safe para Configuração Global do pytesseract
+# ==============================================================================
+
+
+class _ReadWriteLock:
+    """Lock leitor/escritor com preferência para escritores, seguro contra condições de corrida.
+
+    Permite múltiplas chamadas OCR simultâneas com o executável padrão em threadpool,
+    enquanto alterações explícitas de `pytesseract.pytesseract.tesseract_cmd` são
+    serializadas de forma exclusiva sem risco de afetar outras requisições em andamento.
+    """
+
+    def __init__(self) -> None:
+        self._cond = threading.Condition()
+        self._readers = 0
+        self._writers_waiting = 0
+        self._writer_active = False
+
+    def acquire_read(self) -> None:
+        with self._cond:
+            while self._writer_active or self._writers_waiting > 0:
+                self._cond.wait()
+            self._readers += 1
+
+    def release_read(self) -> None:
+        with self._cond:
+            self._readers -= 1
+            if self._readers == 0:
+                self._cond.notify_all()
+
+    def acquire_write(self) -> None:
+        with self._cond:
+            self._writers_waiting += 1
+            try:
+                while self._writer_active or self._readers > 0:
+                    self._cond.wait()
+                self._writer_active = True
+            finally:
+                self._writers_waiting -= 1
+
+    def release_write(self) -> None:
+        with self._cond:
+            self._writer_active = False
+            self._cond.notify_all()
+
+
+_TESSERACT_CMD_RWLOCK = _ReadWriteLock()
+
+
+@contextmanager
+def _tesseract_cmd_scope(custom_cmd: str | None) -> Iterator[None]:
+    """Escopo thread-safe para uso/sobrescrita temporária de `pytesseract.pytesseract.tesseract_cmd`."""
+    if not custom_cmd:
+        _TESSERACT_CMD_RWLOCK.acquire_read()
+        try:
+            yield
+        finally:
+            _TESSERACT_CMD_RWLOCK.release_read()
+        return
+
+    _TESSERACT_CMD_RWLOCK.acquire_write()
+    original_cmd = pytesseract.pytesseract.tesseract_cmd
+    pytesseract.pytesseract.tesseract_cmd = custom_cmd
+    try:
+        yield
+    finally:
+        pytesseract.pytesseract.tesseract_cmd = original_cmd
+        _TESSERACT_CMD_RWLOCK.release_write()
+
+
+# ==============================================================================
 # Funções Principais de OCR
 # ==============================================================================
+
 
 def check_ocr_environment(config: OcrConfig | None = None) -> OcrEnvironmentStatus:
     """Verifica a disponibilidade do ambiente de execução do Tesseract OCR local.
@@ -206,11 +284,7 @@ def check_ocr_environment(config: OcrConfig | None = None) -> OcrEnvironmentStat
             issues=("A biblioteca Python 'pytesseract' não está instalada no ambiente.",),
         )
 
-    original_cmd = pytesseract.pytesseract.tesseract_cmd
-    if cfg.tesseract_cmd:
-        pytesseract.pytesseract.tesseract_cmd = cfg.tesseract_cmd
-
-    try:
+    with _tesseract_cmd_scope(cfg.tesseract_cmd):
         try:
             version_str = str(pytesseract.get_tesseract_version())
         except Exception as exc:
@@ -242,9 +316,6 @@ def check_ocr_environment(config: OcrConfig | None = None) -> OcrEnvironmentStat
             has_portuguese=has_por,
             issues=tuple(issues),
         )
-    finally:
-        if cfg.tesseract_cmd:
-            pytesseract.pytesseract.tesseract_cmd = original_cmd
 
 
 def extract_text_from_page_image(
@@ -296,7 +367,7 @@ def extract_text_from_page_image(
             stream = io.BytesIO(image_input)
             pil_img = Image.open(stream)
             raw_format = (pil_img.format or "").upper()
-            if raw_format not in OFFICIAL_SUPPORTED_IMAGE_FORMATS:
+            if raw_format not in _COMPATIBLE_IMAGE_FORMATS:
                 pil_img.close()
                 raise OcrImageError(
                     f"Formato de imagem '{raw_format}' não suportado. Formatos aceitos: {sorted(OFFICIAL_SUPPORTED_IMAGE_FORMATS)}",
@@ -314,6 +385,21 @@ def extract_text_from_page_image(
                     code="OCR_IMAGE_TOO_LARGE",
                 )
             pil_img.load()
+            if ImageOps is not None and isinstance(pil_img, Image.Image):
+                transposed_img = ImageOps.exif_transpose(pil_img)
+                if transposed_img is not None and transposed_img is not pil_img:
+                    try:
+                        pil_img.close()
+                    except Exception:
+                        pass
+                    pil_img = transposed_img
+                    width, height = pil_img.size
+                    if width <= 0 or height <= 0:
+                        pil_img.close()
+                        raise OcrImageError(
+                            "Dimensões inválidas da imagem (largura e altura devem ser > 0).",
+                            code="OCR_INVALID_DIMENSIONS",
+                        )
         except OcrImageError:
             raise
         except Exception as exc:
@@ -342,48 +428,43 @@ def extract_text_from_page_image(
     if cfg.tessdata_dir:
         tess_custom_args += f' --tessdata-dir "{cfg.tessdata_dir}"'
 
-    original_cmd = pytesseract.pytesseract.tesseract_cmd
-    if cfg.tesseract_cmd:
-        pytesseract.pytesseract.tesseract_cmd = cfg.tesseract_cmd
-
     try:
-        try:
-            ocr_data = pytesseract.image_to_data(
-                gray_img,
-                lang=cfg.lang,
-                config=tess_custom_args,
-                timeout=cfg.timeout_seconds,
-                output_type=pytesseract.Output.DICT,
-            )
-        except pytesseract.TesseractNotFoundError as exc:
-            raise OcrEngineNotFoundError(
-                f"Tesseract OCR binary not found or not executable: {exc}",
-                code="OCR_ENGINE_NOT_FOUND",
-            ) from exc
-        except pytesseract.TesseractError as exc:
-            err_msg = str(exc)
-            if "traineddata" in err_msg or "opening data file" in err_msg or "Failed loading language" in err_msg:
-                raise OcrLanguageError(
-                    f"Tesseract language model '{cfg.lang}' error: {err_msg}",
-                    code="OCR_LANGUAGE_NOT_FOUND",
+        with _tesseract_cmd_scope(cfg.tesseract_cmd):
+            try:
+                ocr_data = pytesseract.image_to_data(
+                    gray_img,
+                    lang=cfg.lang,
+                    config=tess_custom_args,
+                    timeout=cfg.timeout_seconds,
+                    output_type=pytesseract.Output.DICT,
+                )
+            except pytesseract.TesseractNotFoundError as exc:
+                raise OcrEngineNotFoundError(
+                    "O executável do Tesseract OCR não está instalado ou não foi localizado no PATH do ambiente.",
+                    code="OCR_ENGINE_NOT_FOUND",
                 ) from exc
-            raise OcrError(f"Tesseract execution failed: {err_msg}", code="OCR_EXECUTION_ERROR") from exc
-        except Exception as exc:
-            exc_name = type(exc).__name__
-            err_msg_lower = str(exc).lower()
-            if (
-                "timeout" in exc_name.lower()
-                or isinstance(exc, TimeoutError)
-                or "timeout" in err_msg_lower
-            ):
-                raise OcrTimeoutError(
-                    f"OCR process timed out after {cfg.timeout_seconds}s.",
-                    code="OCR_TIMEOUT",
-                ) from exc
-            raise OcrError(f"Erro inesperado durante processamento de OCR: {exc}", code="OCR_ERROR") from exc
+            except pytesseract.TesseractError as exc:
+                err_msg = str(exc)
+                if "traineddata" in err_msg or "opening data file" in err_msg or "Failed loading language" in err_msg:
+                    raise OcrLanguageError(
+                        f"O modelo de idioma '{cfg.lang}' não está instalado nos dados do Tesseract (tessdata).",
+                        code="OCR_LANGUAGE_NOT_FOUND",
+                    ) from exc
+                raise OcrError(f"Falha ao executar o mecanismo Tesseract OCR: {err_msg}", code="OCR_EXECUTION_ERROR") from exc
+            except Exception as exc:
+                exc_name = type(exc).__name__
+                err_msg_lower = str(exc).lower()
+                if (
+                    "timeout" in exc_name.lower()
+                    or isinstance(exc, TimeoutError)
+                    or "timeout" in err_msg_lower
+                ):
+                    raise OcrTimeoutError(
+                        f"O tempo limite do processamento OCR ({cfg.timeout_seconds:.0f}s) foi excedido.",
+                        code="OCR_TIMEOUT",
+                    ) from exc
+                raise OcrError(f"Erro inesperado durante processamento de OCR: {exc}", code="OCR_ERROR") from exc
     finally:
-        if cfg.tesseract_cmd:
-            pytesseract.pytesseract.tesseract_cmd = original_cmd
         if gray_img is not pil_img:
             try:
                 gray_img.close()

@@ -229,6 +229,29 @@ class PdfInspectionResult:
 # Funções de Classificação e Inspeção
 # ==============================================================================
 
+def clip_bbox_to_page(rect: fitz.Rect, page_rect: fitz.Rect) -> Optional[fitz.Rect]:
+    """Recorta um retângulo de imagem aos limites físicos visíveis da página.
+
+    Útil durante a inspeção de PDFs reais diagramados com imagens com sangria (bleed),
+    em que `page.get_image_rects(xref)` retorna coordenadas que ultrapassam a borda da página.
+
+    Retorna None caso a região esteja totalmente fora da página ou possua dimensões degeneradas.
+    """
+    coords = (rect.x0, rect.y0, rect.x1, rect.y1, page_rect.x0, page_rect.y0, page_rect.x1, page_rect.y1)
+    if any(math.isnan(float(v)) or math.isinf(float(v)) for v in coords):
+        return None
+
+    x0 = max(float(rect.x0), float(page_rect.x0))
+    y0 = max(float(rect.y0), float(page_rect.y0))
+    x1 = min(float(rect.x1), float(page_rect.x1))
+    y1 = min(float(rect.y1), float(page_rect.y1))
+
+    if x0 >= x1 or y0 >= y1:
+        return None
+
+    return fitz.Rect(x0, y0, x1, y1)
+
+
 def _classify_page(
     char_count: int,
     images_area_ratio: float,
@@ -315,12 +338,22 @@ def inspect_and_classify_pdf(
     try:
         doc = fitz.open(stream=pdf_bytes, filetype="pdf")
     except Exception as exc:
+        if "encrypted" in str(exc).lower() or "password" in str(exc).lower():
+            raise PdfCorruptedError(
+                "O arquivo PDF está protegido por senha ou criptografado e não pode ser processado.",
+                code="ENCRYPTED_PDF",
+            ) from exc
         raise PdfCorruptedError(
             f"Não foi possível abrir o documento PDF em memória: {exc}",
             code="CORRUPTED_PDF",
         ) from exc
 
     try:
+        if getattr(doc, "is_encrypted", False):
+            raise PdfCorruptedError(
+                "O arquivo PDF está protegido por senha ou criptografado e não pode ser processado.",
+                code="ENCRYPTED_PDF",
+            )
         total_pages = len(doc)
         if total_pages == 0:
             raise PdfNoPagesError()
@@ -346,7 +379,7 @@ def inspect_and_classify_pdf(
                 if normalized_text:
                     full_text_parts.append(normalized_text)
 
-                # 2. Mapeamento de imagens e cálculo de área
+                # 2. Mapeamento de imagens com clipping seguro aos limites da página
                 image_regions_list: list[ImageRegion] = []
                 total_image_area = 0.0
                 has_relevant_individual_image = False
@@ -360,8 +393,12 @@ def inspect_and_classify_pdf(
                     # Uma imagem com mesmo xref pode ser referenciada em múltiplos pontos da página
                     rects = page.get_image_rects(xref)
                     for r in rects:
-                        w = float(r.width)
-                        h = float(r.height)
+                        clipped = clip_bbox_to_page(r, page_rect)
+                        if clipped is None:
+                            continue
+
+                        w = float(clipped.width)
+                        h = float(clipped.height)
                         img_area = w * h
                         area_ratio = min(1.0, max(0.0, img_area / page_area))
                         total_image_area += img_area
@@ -371,7 +408,12 @@ def inspect_and_classify_pdf(
 
                         image_regions_list.append(
                             ImageRegion(
-                                bbox=(float(r.x0), float(r.y0), float(r.x1), float(r.y1)),
+                                bbox=(
+                                    float(clipped.x0),
+                                    float(clipped.y0),
+                                    float(clipped.x1),
+                                    float(clipped.y1),
+                                ),
                                 width=w,
                                 height=h,
                                 area_ratio=round(area_ratio, 4),
@@ -381,6 +423,7 @@ def inspect_and_classify_pdf(
                         )
                         img_idx_counter += 1
 
+                image_regions_list.sort(key=lambda reg: (reg.bbox[1], reg.bbox[0]))
                 total_coverage_ratio = min(1.0, max(0.0, total_image_area / page_area))
 
                 # 3. Classificação heurística da página

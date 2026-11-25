@@ -511,6 +511,82 @@ class TestHierarchicalReconstructionAndMetrics(TestCase):
         self.assertEqual(result.confidence, 95.0)
         self.assertEqual(result.page_number, 3)
 
+    @mock.patch("pytesseract.image_to_data")
+    def test_exif_transpose_applied_and_mpo_accepted(self, mock_to_data: mock.MagicMock) -> None:
+        """Fotos verticais de celular com orientação EXIF são rotacionadas e formato MPO é aceito."""
+        mock_to_data.return_value = {
+            "block_num": [1],
+            "par_num": [1],
+            "line_num": [1],
+            "text": ["Vertical"],
+            "conf": ["90.0"],
+        }
+        # Imagem 400x200 com tag EXIF Orientation=6 (90 graus CW) -> após transpose fica 200x400
+        img = Image.new("RGB", (400, 200), color="white")
+        exif = img.getexif()
+        exif[274] = 6
+        buf = io.BytesIO()
+        img.save(buf, format="JPEG", exif=exif.tobytes())
+
+        res_exif = extract_text_from_page_image(buf.getvalue(), page_number=1)
+        self.assertEqual(res_exif.metadata["width"], 200)
+        self.assertEqual(res_exif.metadata["height"], 400)
+
+        # Formato MPO (JPEG multipicture de smartphones) deve ser aceito sem erro
+        mpo_img = Image.new("RGB", (300, 300), color="white")
+        mpo_img.format = "MPO"
+        with mock.patch("PIL.Image.open", return_value=mpo_img):
+            res_mpo = extract_text_from_page_image(b"fake-mpo-bytes", page_number=1)
+        self.assertEqual(res_mpo.raw_text, "Vertical")
+
+    def test_tesseract_cmd_concurrent_calls_thread_safe(self) -> None:
+        """Correção 4: chamadas concorrentes com custom tesseract_cmd não corrompem o estado global."""
+        import threading
+        import time
+
+        observed: list[tuple[str, str]] = []
+        errors: list[Exception] = []
+        original_default = pytesseract.pytesseract.tesseract_cmd
+
+        def fake_image_to_data(image, **kwargs):
+            time.sleep(0.02)
+            cmd_seen = pytesseract.pytesseract.tesseract_cmd
+            observed.append((threading.current_thread().name, cmd_seen))
+            return {
+                "block_num": [1],
+                "par_num": [1],
+                "line_num": [1],
+                "text": ["Texto"],
+                "conf": ["95.0"],
+            }
+
+        def worker(idx: int, cmd: str | None) -> None:
+            try:
+                im = Image.new("L", (200, 200), color=255)
+                extract_text_from_page_image(im, page_number=1, config=OcrConfig(tesseract_cmd=cmd))
+            except Exception as exc:  # pragma: no cover
+                errors.append(exc)
+
+        with mock.patch("pytesseract.image_to_data", side_effect=fake_image_to_data):
+            threads = [
+                threading.Thread(target=worker, args=(0, "/custom/tesseract-a"), name="custom-a"),
+                threading.Thread(target=worker, args=(1, None), name="default-1"),
+                threading.Thread(target=worker, args=(2, None), name="default-2"),
+                threading.Thread(target=worker, args=(3, "/custom/tesseract-b"), name="custom-b"),
+            ]
+            for t in threads:
+                t.start()
+            for t in threads:
+                t.join()
+
+        self.assertEqual(errors, [])
+        self.assertEqual(pytesseract.pytesseract.tesseract_cmd, original_default)
+        obs_dict = dict(observed)
+        self.assertEqual(obs_dict["custom-a"], "/custom/tesseract-a")
+        self.assertEqual(obs_dict["custom-b"], "/custom/tesseract-b")
+        self.assertEqual(obs_dict["default-1"], original_default)
+        self.assertEqual(obs_dict["default-2"], original_default)
+
 
 class TestSubprocessAndEngineErrorHandling(TestCase):
     """Testa mapeamento defensivo de falhas de subprocesso e Tesseract."""

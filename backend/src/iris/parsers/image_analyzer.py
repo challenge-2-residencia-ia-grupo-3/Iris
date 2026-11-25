@@ -42,14 +42,17 @@ from iris.schemas.materials import PageVisualAnalysis, VisualAnalysisReport
 
 # Formatos de imagem estritamente aceitos pela História 1.1.3 (RF-03)
 OFFICIAL_SUPPORTED_IMAGE_FORMATS: Final[set[str]] = {"PNG", "JPEG", "JPG"}
+# Fotos JPEG de dispositivos móveis (câmeras iOS/Android) podem usar container MPO compatível com JPEG
+_COMPATIBLE_IMAGE_FORMATS: Final[set[str]] = OFFICIAL_SUPPORTED_IMAGE_FORMATS | {"MPO"}
 
 # Importação defensiva do Pillow para ambientes com ou sem a biblioteca instalada
 try:
-    from PIL import Image, ImageFilter
+    from PIL import Image, ImageFilter, ImageOps
     _HAS_PILLOW = True
 except ImportError:  # pragma: no cover
     Image = None  # type: ignore[assignment]
     ImageFilter = None  # type: ignore[assignment]
+    ImageOps = None  # type: ignore[assignment]
     _HAS_PILLOW = False
 
 
@@ -331,6 +334,7 @@ def analyze_page_image(
 
     # 3. Abertura segura da imagem
     opened_internally = False
+    raw_opened_img = None
     proc_img = None
     gray_img = None
 
@@ -339,12 +343,13 @@ def analyze_page_image(
             try:
                 img = Image.open(io.BytesIO(image_input))
                 opened_internally = True
+                raw_opened_img = img
             except Exception as err:
                 raise CorruptedImageError(f"Arquivo de imagem corrompido ou formato ilegível: {err}") from err
 
-            # Validação estrita dos formatos oficiais da História 1.1.3 (PNG, JPG, JPEG)
+            # Validação estrita dos formatos oficiais da História 1.1.3 (PNG, JPG, JPEG e MPO compatível)
             fmt = (img.format or "").upper()
-            if fmt and fmt not in OFFICIAL_SUPPORTED_IMAGE_FORMATS:
+            if fmt and fmt not in _COMPATIBLE_IMAGE_FORMATS:
                 raise UnsupportedImageFormatError(
                     f"Formato de imagem '{img.format}' não suportado. "
                     f"Formatos oficiais aceitos: {', '.join(sorted(OFFICIAL_SUPPORTED_IMAGE_FORMATS))}."
@@ -353,13 +358,13 @@ def analyze_page_image(
             # Caller forneceu instância compatível com PIL.Image
             img = image_input
             fmt = getattr(img, "format", None)
-            if fmt and fmt.upper() not in OFFICIAL_SUPPORTED_IMAGE_FORMATS:
+            if fmt and fmt.upper() not in _COMPATIBLE_IMAGE_FORMATS:
                 raise UnsupportedImageFormatError(
                     f"Formato de imagem '{fmt}' não suportado. "
                     f"Formatos oficiais aceitos: {', '.join(sorted(OFFICIAL_SUPPORTED_IMAGE_FORMATS))}."
                 )
 
-        # 4. Validação de dimensões e total de pixels
+        # 4. Validação de dimensões e total de pixels antes de qualquer decodificação/rotação EXIF
         orig_width = int(img.width)
         orig_height = int(img.height)
 
@@ -380,6 +385,20 @@ def analyze_page_image(
                 f"Total de pixels da imagem ({total_pixels}) excede o limite defensivo "
                 f"de segurança ({cfg.max_total_pixels})."
             )
+
+        # Normaliza orientação EXIF de fotos de celular após validar limites de pixels
+        if opened_internally and ImageOps is not None and isinstance(img, Image.Image):
+            transposed_candidate = ImageOps.exif_transpose(img)
+            if transposed_candidate is not None and transposed_candidate is not img:
+                img = transposed_candidate
+                orig_width = int(img.width)
+                orig_height = int(img.height)
+                if raw_opened_img is not None:
+                    try:
+                        raw_opened_img.close()
+                    except Exception:
+                        pass
+                    raw_opened_img = None
 
         # 5. Redimensionamento defensivo em cópia de processamento (preservando dimensões originais)
         if orig_width > cfg.downscale_max_dimension or orig_height > cfg.downscale_max_dimension:
@@ -435,6 +454,11 @@ def analyze_page_image(
         if opened_internally and img is not None:
             try:
                 img.close()
+            except Exception:
+                pass
+        if raw_opened_img is not None and raw_opened_img is not img:
+            try:
+                raw_opened_img.close()
             except Exception:
                 pass
 

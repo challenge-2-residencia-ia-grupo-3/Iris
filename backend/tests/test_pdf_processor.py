@@ -247,6 +247,63 @@ class TestPdfProcessorClassification(unittest.TestCase):
         self.assertAlmostEqual(reg.height, 300.0, places=1)
         self.assertGreater(reg.area_ratio, 0.15)
 
+    def test_7b_imagens_com_sangria_sao_recortadas_e_fora_da_pagina_ignoradas(self) -> None:
+        """Correção 3: Imagens ultrapassando as bordas da página sofrem clipping seguro sem INVALID_BBOX."""
+        from iris.parsers.pdf_processor import clip_bbox_to_page
+
+        page_rect = fitz.Rect(0, 0, 595, 842)
+        self.assertIsNone(clip_bbox_to_page(fitz.Rect(-100, -100, -10, -10), page_rect))
+        self.assertIsNone(clip_bbox_to_page(fitz.Rect(600, 10, 700, 100), page_rect))
+        self.assertIsNone(clip_bbox_to_page(fitz.Rect(10, float("nan"), 100, 100), page_rect))
+
+        clipped = clip_bbox_to_page(fitz.Rect(-25.0, -10.0, 620.0, 860.0), page_rect)
+        self.assertIsNotNone(clipped)
+        self.assertEqual((clipped.x0, clipped.y0, clipped.x1, clipped.y1), (0.0, 0.0, 595.0, 842.0))
+
+        # PDF com imagem com sangria nos quatro lados
+        doc = fitz.open()
+        p = doc.new_page(width=595, height=842)
+        p.insert_text(
+            (50, 80),
+            "Prova de História com diagrama sangrado até as bordas da folha impressa.",
+            fontsize=12,
+        )
+        pix = fitz.Pixmap(fitz.csRGB, fitz.IRect(0, 0, 400, 300), False)
+        pix.clear_with(210)
+        p.insert_image(fitz.Rect(-20, -15, 615, 420), pixmap=pix, keep_proportion=False)
+        pdf_bytes = doc.tobytes()
+        doc.close()
+
+        result = inspect_and_classify_pdf(pdf_bytes)
+        self.assertEqual(result.doc_type, MaterialSourceType.MIXED_PDF)
+        reg = result.pages[0].image_regions[0]
+        self.assertGreaterEqual(reg.bbox[0], 0.0)
+        self.assertGreaterEqual(reg.bbox[1], 0.0)
+        self.assertLessEqual(reg.bbox[2], 595.0)
+        self.assertLessEqual(reg.bbox[3], 842.0)
+
+        # Garante que a renderização da região recortada funciona sem PdfInvalidBBoxError
+        region_img = render_pdf_region_image(pdf_bytes, page_number=1, bbox=reg.bbox, dpi=72)
+        self.assertIsNotNone(region_img)
+        region_img.close()
+
+    def test_10b_pdf_criptografado_mensagem_clara(self) -> None:
+        """PDF protegido por senha retorna code='ENCRYPTED_PDF' com mensagem clara em português."""
+        doc = fitz.open()
+        p = doc.new_page(width=595, height=842)
+        p.insert_text((50, 72), "Conteúdo protegido por senha escolar para o teste.", fontsize=12)
+        encrypted_bytes = doc.tobytes(
+            encryption=fitz.PDF_ENCRYPT_AES_256,
+            user_pw="segredo123",
+            owner_pw="dono123",
+        )
+        doc.close()
+
+        with self.assertRaises(PdfCorruptedError) as ctx:
+            inspect_and_classify_pdf(encrypted_bytes)
+        self.assertEqual(ctx.exception.code, "ENCRYPTED_PDF")
+        self.assertIn("senha", ctx.exception.message.lower())
+
 
 class TestPdfProcessorRenderingAndMemory(unittest.TestCase):
     """Testa renderização sequencial de páginas inteiras e recortes (clips) em memória."""
