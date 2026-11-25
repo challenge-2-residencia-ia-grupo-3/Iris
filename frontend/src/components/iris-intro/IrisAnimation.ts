@@ -26,7 +26,7 @@ export interface IrisIntroOptions {
 }
 
 function prepStrokeDraw(path: SVGPathElement | null): number {
-  if (!path) return 0;
+  if (!path || typeof path.getTotalLength !== "function") return 0;
   const len = path.getTotalLength();
   gsap.set(path, {
     strokeDasharray: len,
@@ -41,7 +41,13 @@ function findPointDistanceOnPath(
   targetX: number,
   targetY: number
 ): number {
-  if (!path) return 0;
+  if (
+    !path ||
+    typeof path.getTotalLength !== "function" ||
+    typeof path.getPointAtLength !== "function"
+  ) {
+    return 0;
+  }
   const total = path.getTotalLength();
   let bestDist = total * 0.45;
   let bestErr = Infinity;
