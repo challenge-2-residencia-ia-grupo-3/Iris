@@ -230,7 +230,7 @@ class TestFrontendEngagementContract(unittest.TestCase):
             self.assertIn(f'"{interest_id}"', api_code)
 
         # Campo de potencialidades, canais preferenciais e vínculo ao Princípio I do DUA
-        self.assertIn("Potencialidades, Interesses e Canais de Engajamento", step2_code)
+        self.assertIn("Escolha temas, canais preferenciais e facilidades do estudante", step2_code)
         self.assertIn("Princípio I do DUA", step2_code)
         self.assertIn("potencialidades", step2_code)
         self.assertIn("canais_engajamento_preferenciais", step2_code)
