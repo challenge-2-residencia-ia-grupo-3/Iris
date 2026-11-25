@@ -189,7 +189,10 @@ export function createIrisIntroTimeline(
     gsap.set(orbitHaloPath, { opacity: 0 });
 
     const orbitDotEl = q("#orbital-accent-dot") as SVGCircleElement | null;
-    const orbitStartPt = orbitPath ? orbitPath.getPointAtLength(0) : { x: 302, y: 216 };
+    const orbitStartPt =
+      orbitPath && typeof orbitPath.getPointAtLength === "function"
+        ? orbitPath.getPointAtLength(0)
+        : { x: 302, y: 216 };
     const orbitDotFinalDist = findPointDistanceOnPath(orbitPath, 876.5, 274);
 
     gsap.set(orbitalAccent, {
