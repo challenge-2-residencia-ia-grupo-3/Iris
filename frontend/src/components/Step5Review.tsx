@@ -71,7 +71,11 @@ export function Step5Review({ entrada, demo = false, teacherEmail = "marina.alve
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F5EDF0] text-[#0D0221] dark:bg-[#0D0221] dark:text-[#F5EDF0]">
-      <IrisHeader currentStep={5} teacherEmail={teacherEmail} />
+      <IrisHeader
+        currentStep={5}
+        teacherEmail={teacherEmail}
+        backButton={{ label: "Etapa 4", onClick: () => router.push("/etapa-4") }}
+      />
 
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-start gap-6 px-4 py-6 sm:px-8 lg:flex-row">
         <IrisSidebar currentStep={5} enabledSteps={[1, 2, 3, 4, 5]} onNavigateStep={(s) => router.push(`/etapa-${s}`)} />
@@ -121,7 +125,7 @@ export function Step5Review({ entrada, demo = false, teacherEmail = "marina.alve
                 onClick={() => router.push("/etapa-4")}
                 className="self-start sm:self-center shrink-0 rounded-lg border border-[#5C2A00]/30 dark:border-[#FFE2B8]/30 px-3 py-1.5 text-xs font-semibold hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
               >
-                Ver detalhes na Etapa 4
+                Ver parecer do Auditor
               </button>
             </div>
           )}

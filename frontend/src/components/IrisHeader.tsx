@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Contrast, Moon, Sun } from "lucide-react";
+import { ArrowLeft, Contrast, Moon, Sun } from "lucide-react";
 import { IrisLogoBanner } from "./IrisLogoBanner";
 import { IrisMacroStep } from "./IrisSidebar";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -21,6 +21,10 @@ interface IrisHeaderProps {
   onToggleDarkMode?: () => void;
   highContrast?: boolean;
   onToggleHighContrast?: () => void;
+  backButton?: {
+    label: string;
+    onClick: () => void;
+  };
 }
 
 /**
@@ -35,6 +39,7 @@ export function IrisHeader({
   onToggleDarkMode,
   highContrast,
   onToggleHighContrast,
+  backButton,
 }: IrisHeaderProps) {
   const {
     darkMode: contextDarkMode,
@@ -97,6 +102,16 @@ export function IrisHeader({
               <Moon className="w-4 h-4" aria-hidden="true" />
             )}
           </button>
+
+          {backButton && (
+            <button
+              type="button"
+              onClick={backButton.onClick}
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-[#335C67] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#2A4D56] transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {backButton.label}
+            </button>
+          )}
         </div>
       </div>
     </header>

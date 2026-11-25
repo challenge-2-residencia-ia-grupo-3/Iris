@@ -57,6 +57,17 @@ describe("montarCartao: característica funcional e fundamento DUA/MEC", () => {
   it("justificativas vazias são descartadas", () => {
     expect(montarCartao(q({ justificativas: ["  ", "Ok."] }), CATALOGO).justificativas).toEqual(["Ok."]);
   });
+
+  it("a recomendação ao docente vai no cartão, fora do texto adaptado", () => {
+    const c = montarCartao(q({ recomendacao_docente: "Ofereça tempo flexível." }), CATALOGO);
+    expect(c.recomendacaoDocente).toBe("Ofereça tempo flexível.");
+    expect(montarCartao(q(), CATALOGO).recomendacaoDocente ?? null).toBeNull();
+  });
+
+  it("a recomendação ao docente vale mesmo quando a questão ficou igual", () => {
+    const igual = q({ adaptado: "Leia o texto e explique a evaporação.", recomendacao_docente: "Ofereça tempo flexível." });
+    expect(montarCartao(igual, CATALOGO).recomendacaoDocente).toBe("Ofereça tempo flexível.");
+  });
 });
 
 describe("marcarMudancas", () => {

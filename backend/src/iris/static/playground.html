@@ -1838,13 +1838,14 @@ Questão 2: Observe a tabela de temperaturas, calcule a média da semana e justi
         <div class="avad-modo" role="group" aria-label="O que avaliar">
           <button type="button" class="aval-opcao" id="avad-btn-frases" aria-pressed="true" onclick="avadModo('frases')">Frases das respostas</button>
           <button type="button" class="aval-opcao" id="avad-btn-adapt" aria-pressed="false" onclick="avadModo('adapt')">Adaptações de questões</button>
+          <button type="button" class="aval-opcao" id="avad-btn-exemplos" aria-pressed="false" onclick="avadModo('exemplos')">Exemplos do banco</button>
         </div>
         <div id="aval-modo-frases">
           <div id="aval-frase" aria-live="polite"></div>
           <div id="aval-resumo"></div>
         </div>
         <div id="aval-modo-adapt" hidden>
-          <p class="aval-ajuda">Você vê a questão original, o que a adaptação pode e não pode fazer, e a adaptação. Responda as mesmas três perguntas que o juiz respondeu. Não aparece quem escreveu a adaptação nem o veredito do juiz.</p>
+          <p class="aval-ajuda" id="avad-ajuda">Você vê a questão original, o que a adaptação pode e não pode fazer, e a adaptação. Responda as mesmas três perguntas que o juiz respondeu. Não aparece quem escreveu a adaptação nem o veredito do juiz.</p>
           <div id="avad-item" aria-live="polite"></div>
           <div id="avad-resumo"></div>
         </div>
@@ -2138,14 +2139,33 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
     // ---------------- Avaliar uma adaptação, às cegas (issue #108, parte 2b)
     const avad = { modo: 'frases', atual: null, respostas: {}, ocupado: false };
 
+    // Duas filas usam a mesma tela: as adaptações da amostra (comparadas com o juiz) e os exemplos do banco (#108, #133).
+    const AVAD_FILAS = {
+      adapt: { base: '/api/v1/eval/avaliacao-humana/adaptacao', titulo: 'Avaliar uma adaptação, às cegas', feitas: 'adaptações avaliadas', fim: 'todas as adaptações da amostra',
+               ajuda: 'Você vê a questão original, o que a adaptação pode e não pode fazer, e a adaptação. Responda as mesmas três perguntas que o juiz respondeu. Não aparece quem escreveu a adaptação nem o veredito do juiz.' },
+      exemplos: { base: '/api/v1/eval/avaliacao-humana/exemplo', titulo: 'Aprovar um exemplo do banco', feitas: 'exemplos avaliados', fim: 'todos os exemplos do banco',
+               ajuda: 'Estes exemplos vão servir de modelo para o Adaptador. Responda as três perguntas sobre a adaptação e diga se ela serve de modelo. Não aparece quem escreveu. Um exemplo vai para o banco quando duas pessoas o aprovam e nenhuma o reprova.' },
+    };
+
     function avadModo(modo) {
       avad.modo = modo;
+      const fila = AVAD_FILAS[modo];
       document.getElementById('aval-modo-frases').hidden = modo !== 'frases';
-      document.getElementById('aval-modo-adapt').hidden = modo !== 'adapt';
+      document.getElementById('aval-modo-adapt').hidden = !fila;
       document.getElementById('avad-btn-frases').setAttribute('aria-pressed', String(modo === 'frases'));
       document.getElementById('avad-btn-adapt').setAttribute('aria-pressed', String(modo === 'adapt'));
-      document.getElementById('aval-titulo').textContent = modo === 'adapt' ? 'Avaliar uma adaptação, às cegas' : 'Avaliar uma frase, às cegas';
-      if (modo === 'adapt') avadCarregar(); else avalCarregar();
+      document.getElementById('avad-btn-exemplos').setAttribute('aria-pressed', String(modo === 'exemplos'));
+      document.getElementById('aval-titulo').textContent = fila ? fila.titulo : 'Avaliar uma frase, às cegas';
+      if (fila) {
+        document.getElementById('avad-ajuda').textContent = fila.ajuda;
+        avadCarregar();
+      } else {
+        avalCarregar();
+      }
+    }
+
+    function avadFila() {
+      return AVAD_FILAS[avad.modo] || AVAD_FILAS.adapt;
     }
 
     function avadAviso(msg, tipo) {
@@ -2160,7 +2180,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         return;
       }
       try {
-        avadDesenhar(await fetchJson(`/api/v1/eval/avaliacao-humana/adaptacao/proxima?avaliador=${encodeURIComponent(codigo)}`));
+        avadDesenhar(await fetchJson(`${avadFila().base}/proxima?avaliador=${encodeURIComponent(codigo)}`));
       } catch (e) {
         avadAviso(escapeHtml(e.message), 'danger');
       }
@@ -2171,9 +2191,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       avad.atual = r;
       avad.respostas = {};
       const pct = r.total ? Math.round(100 * r.feitas / r.total) : 0;
-      const prog = `<div class="aval-progresso">${r.feitas} de ${r.total} adaptações avaliadas por <b>${escapeHtml(r.avaliador)}</b><span class="aval-barra"><i style="width:${pct}%"></i></span></div>`;
+      const prog = `<div class="aval-progresso">${r.feitas} de ${r.total} ${avadFila().feitas} por <b>${escapeHtml(r.avaliador)}</b><span class="aval-barra"><i style="width:${pct}%"></i></span></div>`;
       if (r.acabou) {
-        document.getElementById('avad-item').innerHTML = prog + '<div class="notice notice-ok">Você avaliou todas as adaptações da amostra. Obrigado. Outra pessoa pode continuar com outro código.</div>';
+        document.getElementById('avad-item').innerHTML = prog + `<div class="notice notice-ok">Você avaliou ${avadFila().fim}. Obrigado. Outra pessoa pode continuar com outro código.</div>`;
         return;
       }
       const lista = xs => `<ul>${(xs || []).map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ul>`;
@@ -2209,7 +2229,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       avad.ocupado = true;
       document.getElementById('avad-gravar').disabled = true;
       try {
-        const r = await fetchJson('/api/v1/eval/avaliacao-humana/adaptacao/rotulo', {
+        const r = await fetchJson(`${avadFila().base}/rotulo`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ uid: avad.atual.uid, respostas: avad.respostas, avaliador: avalCodigo(), motivo: (document.getElementById('avad-motivo') || {}).value || '' }),
         });
@@ -2224,8 +2244,19 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
     async function avadResumo() {
       const box = document.getElementById('avad-resumo');
+      if (avad.modo === 'exemplos') {
+        try {
+          const s = await fetchJson(`${AVAD_FILAS.exemplos.base}/resumo`);
+          const linhas = Object.entries(s.por_caracteristica).map(([c, v]) => `<tr><td>${escapeHtml(c)}</td><td>${v.total}</td><td>${v.ouro}</td><td>${v.reprovados}</td></tr>`).join('');
+          box.innerHTML = `<div class="aval-resumo-tab table-scroll"><table class="table-compact"><thead><tr><th>Dificuldade</th><th>Exemplos</th><th>Aprovados (banco)</th><th>Reprovados</th></tr></thead><tbody>${linhas}</tbody></table>
+            <p class="aval-progresso">Técnica: contagem. Um exemplo entra no banco com ${s.aprovacoes_para_ouro} aprovações e nenhuma reprovação. ${s.avaliados} de ${s.total} exemplos avaliados, ${s.pessoas} pessoa(s); ${s.ouro} aprovados, ${s.reprovados} reprovados.</p></div>`;
+        } catch (e) {
+          box.innerHTML = '';
+        }
+        return;
+      }
       try {
-        const s = await fetchJson('/api/v1/eval/avaliacao-humana/adaptacao/resumo');
+        const s = await fetchJson(`${AVAD_FILAS.adapt.base}/resumo`);
         if (s.faltam) {
           box.innerHTML = `<p class="aval-progresso">Concordância com o juiz: aparece com ${s.minimo} adaptações avaliadas; hoje são ${s.avaliadas}, de ${s.pessoas} pessoa(s). Faltam ${s.faltam}.</p>`;
           return;

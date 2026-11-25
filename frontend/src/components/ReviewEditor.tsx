@@ -19,6 +19,7 @@ import {
   resumo,
 } from "@/services/reviewState";
 import type { FormatoMaterial } from "@/services/materialExport";
+import { PreviaAdaptada } from "./TextoAdaptado";
 
 interface Props {
   /** Sessão já criada no servidor (POST /api/v1/sessions) com as questões original/adaptada. */
@@ -132,6 +133,7 @@ export function ReviewEditor({ sessao, extras }: Props) {
                 rows={Math.max(3, q.adaptado.split("\n").length + 1)}
                 className="w-full rounded-md border border-slate-400 bg-white p-2 text-sm text-slate-900 dark:border-slate-500 dark:bg-slate-900 dark:text-slate-100"
               />
+              <PreviaAdaptada texto={q.adaptado} numero={i + 1} />
               <button
                 type="button"
                 onClick={() => setEstado((e) => definirAprovacao(e, q.id, !q.aprovada))}

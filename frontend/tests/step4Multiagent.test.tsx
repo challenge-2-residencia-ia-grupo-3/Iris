@@ -7,6 +7,7 @@ import { ThemeProvider } from "../src/contexts/ThemeContext";
 import { Step4AgentAdaptation } from "../src/components/Step4AgentAdaptation";
 import {
   clearStep4ResultFromSession,
+  fontesCitadas,
   loadStep4ResultFromSession,
   MultiAgentMaterialResponse,
   runMultiAgentAdaptation,
@@ -191,6 +192,50 @@ describe("agentsApi e persistência em sessão", () => {
   });
 });
 
+describe("fontes citadas na Etapa 4", () => {
+  const est = MOCK_RESPONSE.questoes_trace[0].estrategista;
+  const fonte = (rotulo: string) => ({ ...est.fontes[0], rotulo, chunk_id: `c-${rotulo}`, referencia: `Fonte ${rotulo}` });
+
+  it("lista só as fontes que a diretiva cita, mesmo que a busca tenha devolvido mais", () => {
+    const comCinco = {
+      ...est,
+      fontes: ["T1", "T2", "T3", "T4", "T5"].map(fonte),
+      intervencoes: [
+        { ...est.intervencoes[0], citacoes: ["T4"] },
+        { ...est.intervencoes[0], citacoes: ["T1", "T4"] },
+      ],
+    };
+    expect(fontesCitadas(comCinco).map((f) => f.rotulo)).toEqual(["T1", "T4"]);
+  });
+
+  it("sem citação na diretiva, não há fonte citada", () => {
+    expect(fontesCitadas({ ...est, fontes: ["T1", "T2"].map(fonte), intervencoes: [] })).toEqual([]);
+  });
+
+  it("a tela mostra a fonte citada e esconde a que só veio da busca", async () => {
+    const resposta: MultiAgentMaterialResponse = {
+      ...MOCK_RESPONSE,
+      questoes_trace: [
+        {
+          ...MOCK_RESPONSE.questoes_trace[0],
+          estrategista: { ...est, fontes: [fonte("T1"), fonte("T2")] },
+        },
+      ],
+    };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => resposta }));
+    render(
+      <ThemeProvider>
+        <Step4AgentAdaptation />
+      </ThemeProvider>
+    );
+    fireEvent.click(screen.getByRole("button", { name: /Executar Sistema Multiagentes/i }));
+    await waitFor(() => expect(screen.getByTestId("fontes-citadas")).toBeTruthy());
+    const bloco = screen.getByTestId("fontes-citadas").textContent ?? "";
+    expect(bloco).toContain("Fonte T1");
+    expect(bloco).not.toContain("Fonte T2");
+  });
+});
+
 describe("Step4AgentAdaptation: renderização e acessibilidade (WCAG 2.1 AA)", () => {
   const renderStep4 = () =>
     render(
@@ -228,5 +273,28 @@ describe("Step4AgentAdaptation: renderização e acessibilidade (WCAG 2.1 AA)", 
 
     fireEvent.click(screen.getByRole("button", { name: /Avançar para Etapa 5/i }));
     expect(pushMock).toHaveBeenCalledWith("/etapa-5");
+  });
+
+  it("mostra a recomendação ao docente fora do texto da questão, e só quando ela existe", async () => {
+    const comRecado: MultiAgentMaterialResponse = {
+      ...MOCK_RESPONSE,
+      questoes_trace: [{ ...MOCK_RESPONSE.questoes_trace[0], recomendacao_docente: "Ofereça tempo flexível." }],
+    };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => comRecado }));
+    renderStep4();
+    fireEvent.click(screen.getByRole("button", { name: /Executar Sistema Multiagentes/i }));
+    await waitFor(() => expect(screen.getByText(/3\. Agente Adaptador/i)).toBeTruthy());
+    const bloco = screen.getByTestId("recomendacao-docente");
+    expect(bloco.textContent).toContain("Ofereça tempo flexível.");
+    expect(bloco.textContent).toContain("não vai para a prova");
+    expect(bloco.closest("pre")).toBeNull();
+
+    cleanup();
+    window.sessionStorage.clear();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => MOCK_RESPONSE }));
+    renderStep4();
+    fireEvent.click(screen.getByRole("button", { name: /Executar Sistema Multiagentes/i }));
+    await waitFor(() => expect(screen.getByText(/3\. Agente Adaptador/i)).toBeTruthy());
+    expect(screen.queryByTestId("recomendacao-docente")).toBeNull();
   });
 });

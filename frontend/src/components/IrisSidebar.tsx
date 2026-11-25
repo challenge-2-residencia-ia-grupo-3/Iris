@@ -84,7 +84,7 @@ export function IrisSidebar({
             <button
               type="button"
               onClick={onNavigateHome}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors text-left"
+              className="w-full min-h-[44px] flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors text-left"
             >
               <Home className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
               <span>Início</span>
@@ -92,7 +92,7 @@ export function IrisSidebar({
           ) : (
             <Link
               href="/"
-              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors"
+              className="min-h-[44px] flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors"
             >
               <Home className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
               <span>Início</span>
@@ -145,7 +145,7 @@ export function IrisSidebar({
                           type="button"
                           disabled={sub.disabled}
                           onClick={() => step2SubSteps.onSelectSubStep(sub.id)}
-                          className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-[11px] font-semibold text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
+                          className={`w-full min-h-[44px] flex items-center gap-2 px-2 py-1.5 rounded-lg text-[11px] font-semibold text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
                             activeSub
                               ? "bg-[#C9411F] text-white shadow-sm"
                               : sub.disabled
@@ -176,7 +176,7 @@ export function IrisSidebar({
                 <div
                   key={step.id}
                   aria-current="page"
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-extrabold bg-[#C9411F] text-white shadow-sm"
+                  className="min-h-[44px] flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-extrabold bg-[#C9411F] text-white shadow-sm"
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                   <span className="truncate">{step.label}</span>
@@ -190,7 +190,7 @@ export function IrisSidebar({
                   key={step.id}
                   type="button"
                   onClick={() => handleStepClick(step.id, step.href)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors text-left"
+                  className="w-full min-h-[44px] flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0D0221]/80 dark:text-white/80 hover:bg-[#335C67]/10 transition-colors text-left"
                 >
                   <Icon className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
                   <span className="truncate">{step.label}</span>
@@ -202,7 +202,7 @@ export function IrisSidebar({
               <div
                 key={step.id}
                 aria-disabled="true"
-                className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs font-medium text-[#0D0221]/45 dark:text-white/40 cursor-not-allowed"
+                className="min-h-[44px] flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs font-medium text-[#0D0221]/45 dark:text-white/40 cursor-not-allowed"
                 title="Etapa disponível nas próximas entregas do fluxo"
               >
                 <span className="flex items-center gap-2.5 min-w-0">
