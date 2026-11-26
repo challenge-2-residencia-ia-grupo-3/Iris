@@ -573,7 +573,7 @@ export function createIrisIntroTimeline(
     // Bolinha percorre continuamente o próprio path da órbita de (302, 216) até (876.5, 274)
     // Usa keyframes declarativos de `attr` (nativo do GSAP) para funcionar tanto em
     // reprodução contínua quanto em pause/scrub (`tl.pause(t)`), sem depender de onUpdate.
-    if (orbitPath && orbitDotEl) {
+    if (orbitPath && orbitDotEl && typeof orbitPath.getPointAtLength === "function") {
       const dotTargets = dotHalo ? [orbitDotEl, dotHalo] : [orbitDotEl];
       const steps = 24;
       const stepDuration = 0.72 / steps;
