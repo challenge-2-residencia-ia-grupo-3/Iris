@@ -87,6 +87,7 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | `#152` | Integração de Textos Corridos (`ProseStructure`) no Fluxo Web (Etapas 1–5) | **RF-02**, `#53` | `priority: should` | `scope: front-web`, `scope: api` | `OPEN` | *A definir* |
 | `#153` | Refinamento do OCR e Análise Visual (Itens Adiados do PR `#142`) | **RF-03**, `#6` | `priority: should` | `scope: api`, `scope: agents` | `OPEN` | *A definir* |
 | `#154` | Validação de Usabilidade Docente (`< 3 min`), Cobertura E2E Multimodal e Higiene de Rotas | **RNF-10**, `#6`, `#10`, `#30`, `#31` | `priority: could` | `scope: front-web`, `scope: infra-eval` | `OPEN` | *A definir* |
+| `#156` | Observabilidade Acionável do RAG (Funil 4 Gavetas, Clareza RAGAS, Trace Zero-PII) e Calibragem (Tags + Gate de Recusa) | **RF-10**, **RNF-01**, **RNF-02**, **RNF-06**, `#86`, `#108` | `priority: should` | `scope: rag`, `scope: infra-eval`, `scope: agents` | `OPEN` | `iancostag` |
 
 ---
 
