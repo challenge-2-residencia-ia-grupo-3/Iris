@@ -106,7 +106,7 @@ class PostgresConnectionManager:
             return psycopg.connect(self.dsn, connect_timeout=self._connect_timeout)
         except Exception as exc:
             raise DatabaseUnavailableError(
-                f"Não foi possível conectar ao PostgreSQL do histórico docente: {exc}"
+                "Não foi possível conectar ao PostgreSQL do histórico docente."
             ) from exc
 
     def ensure_schema(self, *, force: bool = False) -> None:

@@ -18,7 +18,7 @@ import { JustificativaCard } from "./JustificativaCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { loadStep4ResultFromSession, QuestionMultiAgentTrace } from "@/services/agentsApi";
 import { FALLBACK_OFFICIAL_CATALOG } from "@/services/catalogsApi";
-import { criarSessao, SessaoRevisao, SessaoRevisaoError } from "@/services/sessionReview";
+import { criarSessao, salvarRevisao, SessaoRevisao, SessaoRevisaoError } from "@/services/sessionReview";
 import { indicadoresAndaime, montarCartao, QuestaoEtapa5, Step5Entrada } from "@/services/comparisonCards";
 import type { EstadoRevisao } from "@/services/reviewState";
 import {
@@ -110,20 +110,40 @@ export function Step5Review({ entrada, demo = false, teacherEmail, historyItem =
       entrada.questoes.map((q) => ({ id: q.id, original: q.original, adaptado: q.adaptado })),
       historyItem?.titulo ?? entrada.titulo
     )
+      .then(async (s) => {
+        if (historyItem && historyItem.questoes.length > 0) {
+          const aprovadasPorId = new Map(historyItem.questoes.map((q) => [q.id, Boolean(q.aprovada)]));
+          const edicoes = s.questoes
+            .filter((q) => aprovadasPorId.get(q.id) === true)
+            .map((q) => ({ id: q.id, aprovada: true }));
+          const deveHomologar =
+            historyItem.status === "homologada" &&
+            s.questoes.length > 0 &&
+            s.questoes.every((q) => aprovadasPorId.get(q.id) === true);
+          if (edicoes.length > 0 || deveHomologar) {
+            return await salvarRevisao(s.id, {
+              questoes: edicoes,
+              ...(deveHomologar ? { homologar: true } : {}),
+            });
+          }
+        }
+        return s;
+      })
       .then((s) => {
         setSessao(s);
         setLiveEstado({ questoes: s.questoes, homologada: s.homologada });
       })
       .catch((e) => setErro(e instanceof SessaoRevisaoError ? e.message : "Não foi possível abrir a revisão."))
       .finally(() => setCarregando(false));
-  }, [entrada, tentativa, historyItem?.titulo]);
+  }, [entrada, tentativa, historyItem]);
 
   const salvarNoHistorico = async (autoSanitizar = false) => {
     if (!sessao || !entrada) return;
     const estadoAtual = liveEstado ?? { questoes: sessao.questoes, homologada: sessao.homologada };
-    const caracteristicasUnicas = Array.from(
-      new Set(entrada.questoes.map((q) => q.id_caracteristica).filter(Boolean))
-    );
+    const caracteristicasUnicas =
+      historyItem?.caracteristicas_ids && historyItem.caracteristicas_ids.length > 0
+        ? historyItem.caracteristicas_ids
+        : Array.from(new Set(entrada.questoes.map((q) => q.id_caracteristica).filter(Boolean)));
     const nivelPrincipal = (historyItem?.nivel_andaime ?? entrada.questoes[0]?.nivel ?? 2) as 1 | 2 | 3;
 
     const payload: SaveHistoryPayload = {

@@ -43,32 +43,47 @@ export default function HistoricoPage() {
   const [feedback, setFeedback] = useState<string | null>(null);
 
   const [busca, setBusca] = useState("");
+  const [buscaDebounced, setBuscaDebounced] = useState("");
   const [filtroNivel, setFiltroNivel] = useState<string>("");
   const [filtroStatus, setFiltroStatus] = useState<ActivityStatus | "">("");
+
+  useEffect(() => {
+    if (busca === "") {
+      setBuscaDebounced("");
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setBuscaDebounced(busca);
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [busca]);
 
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
 
-  const carregar = useCallback(async () => {
-    if (!isAuthenticated) return;
-    setLoading(true);
-    setErro(null);
-    try {
-      const res = await listHistoryActivities({
-        q: busca,
-        nivel_andaime: filtroNivel ? Number(filtroNivel) : null,
-        status: filtroStatus,
-        limit: 50,
-      });
-      setItems(res.items);
-      setTotal(res.total);
-    } catch (e) {
-      setErro(e instanceof HistoryApiError ? e.message : "Não foi possível carregar seu histórico.");
-    } finally {
-      setLoading(false);
-    }
-  }, [isAuthenticated, busca, filtroNivel, filtroStatus]);
+  const carregar = useCallback(
+    async (termoOverride?: string) => {
+      if (!isAuthenticated) return;
+      setLoading(true);
+      setErro(null);
+      try {
+        const res = await listHistoryActivities({
+          q: termoOverride !== undefined ? termoOverride : buscaDebounced,
+          nivel_andaime: filtroNivel ? Number(filtroNivel) : null,
+          status: filtroStatus,
+          limit: 50,
+        });
+        setItems(res.items);
+        setTotal(res.total);
+      } catch (e) {
+        setErro(e instanceof HistoryApiError ? e.message : "Não foi possível carregar seu histórico.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [isAuthenticated, buscaDebounced, filtroNivel, filtroStatus]
+  );
 
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -229,7 +244,8 @@ export default function HistoricoPage() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  carregar();
+                  setBuscaDebounced(busca);
+                  void carregar(busca);
                 }}
                 className="grid grid-cols-1 gap-3 rounded-2xl border border-[#335C67]/20 bg-white dark:bg-[#160A30] p-4 sm:grid-cols-4 shadow-sm"
               >

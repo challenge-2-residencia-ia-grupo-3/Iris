@@ -189,6 +189,50 @@ class TestActivityPrivacyGate(unittest.TestCase):
             validate_and_prepare_activity(bad_clinico, auto_sanitizar=True)
         self.assertEqual(ctx_clin.exception.code, "CLINICAL_DATA_BLOCKED")
 
+    def test_auto_sanitizar_preserves_multiline_checklists_and_alternatives(self) -> None:
+        payload = _payload_valido()
+        payload["questoes"][0]["adaptado"] = (
+            "Para o aluno Gabriel Silva (CPF 123.456.789-00):\r\n\r\n"
+            "[ ] Passo 1: Leia o texto com atenção.\r\n"
+            "[ ] Passo 2: Marque a alternativa correta.\r\n\r\n"
+            "A) Evaporação\r\n"
+            "B) Condensação\r\n"
+            "C) Precipitação"
+        )
+        clean = validate_and_prepare_activity(payload, auto_sanitizar=True)
+        adaptado = clean.questoes[0]["adaptado"]
+        self.assertNotIn("Gabriel Silva", adaptado)
+        self.assertNotIn("123.456.789-00", adaptado)
+        self.assertIn("[ESTUDANTE]", adaptado)
+        self.assertIn("[CPF]", adaptado)
+        self.assertIn("\n\n[ ] Passo 1: Leia o texto com atenção.\n[ ] Passo 2:", adaptado)
+        self.assertIn("\n\nA) Evaporação\nB) Condensação\nC) Precipitação", adaptado)
+
+    def test_rejects_invalid_caracteristicas_ids(self) -> None:
+        for invalido in ("CID F90", "Aluno João", "barreira com espaço"):
+            payload = _payload_valido()
+            payload["caracteristicas_ids"] = [invalido]
+            with self.assertRaises(ActivityPrivacyViolationError) as ctx:
+                validate_and_prepare_activity(payload, auto_sanitizar=True)
+            self.assertEqual(ctx.exception.code, "INVALID_ACTIVITY_PAYLOAD")
+
+    def test_rejects_clinical_keys_in_nested_maps(self) -> None:
+        payload_metricas = _payload_valido()
+        payload_metricas["metricas"] = {"laudo_tdah": "ok"}
+        with self.assertRaises(ActivityPrivacyViolationError) as ctx_m:
+            validate_and_prepare_activity(payload_metricas, auto_sanitizar=True)
+        self.assertEqual(ctx_m.exception.code, "CLINICAL_DATA_BLOCKED")
+
+        payload_travas = _payload_valido()
+        payload_travas["travas_curriculares"] = {"cid_10": "F90"}
+        with self.assertRaises(ActivityPrivacyViolationError) as ctx_t:
+            validate_and_prepare_activity(payload_travas, auto_sanitizar=True)
+        self.assertEqual(ctx_t.exception.code, "CLINICAL_DATA_BLOCKED")
+
+
+PROF_1_ID = "11111111-1111-4111-8111-111111111111"
+PROF_2_ID = "22222222-2222-4222-8222-222222222222"
+
 
 class TestDocenteRepositoriesWithMockedPostgres(unittest.TestCase):
     def test_history_repository_never_runs_sql_when_privacy_gate_blocks(self) -> None:
@@ -198,7 +242,20 @@ class TestDocenteRepositoriesWithMockedPostgres(unittest.TestCase):
         bad = _payload_valido()
         bad["questoes"][0]["adaptado"] = "Email do aluno: joao@escola.edu.br"
         with self.assertRaises(ActivityPrivacyViolationError):
-            repo.create_activity(professor_id="prof-1", payload=bad, auto_sanitizar=False)
+            repo.create_activity(professor_id=PROF_1_ID, payload=bad, auto_sanitizar=False)
+
+        self.assertEqual(len(db.calls), 0)
+
+    def test_invalid_uuid_raises_not_found_without_hitting_database(self) -> None:
+        db = _FakeDbManager(lambda sql, params: ([], 0))
+        repo = ActivityHistoryRepository(db)  # type: ignore[arg-type]
+
+        with self.assertRaises(StorageNotFoundError):
+            repo.get_activity(professor_id=PROF_1_ID, activity_id="id-invalido")
+        with self.assertRaises(StorageNotFoundError):
+            repo.update_activity(professor_id=PROF_1_ID, activity_id="id-invalido", payload=_payload_valido())
+        with self.assertRaises(StorageNotFoundError):
+            repo.delete_activity(professor_id=PROF_1_ID, activity_id="id-invalido")
 
         self.assertEqual(len(db.calls), 0)
 
@@ -237,13 +294,13 @@ class TestDocenteRepositoriesWithMockedPostgres(unittest.TestCase):
 
         payload = _payload_valido()
         payload["questoes"][0]["adaptado"] = "Atividade para o aluno Gabriel Silva explicar a evaporação."
-        created = repo.create_activity(professor_id="prof-1", payload=payload, auto_sanitizar=True)
-        self.assertEqual(created.professor_id, "prof-1")
+        created = repo.create_activity(professor_id=PROF_1_ID, payload=payload, auto_sanitizar=True)
+        self.assertEqual(created.professor_id, PROF_1_ID)
         self.assertNotIn("Gabriel Silva", created.questoes[0]["adaptado"])
         self.assertIn("[ESTUDANTE]", created.questoes[0]["adaptado"])
 
         with self.assertRaises(StorageNotFoundError):
-            repo.get_activity(professor_id="prof-2", activity_id=created.id)
+            repo.get_activity(professor_id=PROF_2_ID, activity_id=created.id)
 
     def test_oauth_teacher_rejects_unverified_email_link_and_links_verified(self) -> None:
         now = datetime.now(timezone.utc)
@@ -252,7 +309,7 @@ class TestDocenteRepositoriesWithMockedPostgres(unittest.TestCase):
             if "FROM docente.identidades_oauth" in sql:
                 return ([], 0)
             if "FROM docente.professores" in sql and "WHERE email = %s" in sql:
-                return ([("prof-1", "ana@escola.br", False, "Ana", "hash", True, now, now)], 1)
+                return ([(PROF_1_ID, "ana@escola.br", False, "Ana", "hash", True, now, now)], 1)
             return ([], 0)
 
         repo_unverified = TeacherRepository(_FakeDbManager(unverified_handler))  # type: ignore[arg-type]
@@ -272,12 +329,12 @@ class TestDocenteRepositoriesWithMockedPostgres(unittest.TestCase):
             if "FROM docente.identidades_oauth" in sql:
                 return ([], 0)
             if "FROM docente.professores" in sql and "WHERE email = %s" in sql:
-                return ([("prof-1", "ana@escola.br", False, "Ana", "hash", True, now, now)], 1)
+                return ([(PROF_1_ID, "ana@escola.br", False, "Ana", "hash", True, now, now)], 1)
             if "INSERT INTO docente.identidades_oauth" in sql:
                 inserted_oauth.append(params)
                 return ([], 1)
             if "WHERE id = %s" in sql:
-                return ([("prof-1", "ana@escola.br", True, "Ana", "hash", True, now, now)], 1)
+                return ([(PROF_1_ID, "ana@escola.br", True, "Ana", "hash", True, now, now)], 1)
             return ([], 0)
 
         repo_verified = TeacherRepository(_FakeDbManager(verified_handler))  # type: ignore[arg-type]
@@ -288,7 +345,7 @@ class TestDocenteRepositoriesWithMockedPostgres(unittest.TestCase):
             email_verified=True,
             nome_exibicao="Ana",
         )
-        self.assertEqual(teacher.id, "prof-1")
+        self.assertEqual(teacher.id, PROF_1_ID)
         self.assertTrue(teacher.email_verificado)
         self.assertEqual(len(inserted_oauth), 1)
         self.assertEqual(inserted_oauth[0][2], "google")

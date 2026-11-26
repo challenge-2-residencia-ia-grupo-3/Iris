@@ -77,7 +77,11 @@ try:
             )
         return HTTPException(
             status_code=500,
-            detail={"status": "error", "code": "INTERNAL_AUTH_ERROR", "detail": str(exc)},
+            detail={
+                "status": "error",
+                "code": "INTERNAL_AUTH_ERROR",
+                "detail": "Erro interno ao processar a solicitação de autenticação.",
+            },
         )
 
     def require_authenticated_teacher(

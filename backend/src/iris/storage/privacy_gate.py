@@ -9,13 +9,16 @@ Nenhuma atividade é gravada no PostgreSQL sem antes passar por este módulo:
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any, Mapping
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
 from iris.schemas.portable_profile import detectar_conteudo_clinico
-from iris.security.pii_scrubber import sanitize_pedagogical_note
+from iris.security.pii_scrubber import RE_ALUNO_PROSA, sanitize_pii
+
+_ID_CARACTERISTICA_RE = re.compile(r"^[a-z][a-z0-9_]{2,80}$")
 
 FORBIDDEN_STUDENT_OR_CLINICAL_KEYS = frozenset(
     {
@@ -105,6 +108,21 @@ class ActivitySavePayload(BaseModel):
             raise ValueError("Status deve ser 'rascunho' ou 'homologada'.")
         return norm
 
+    @field_validator("caracteristicas_ids")
+    @classmethod
+    def _validate_caracteristicas_ids(cls, value: list[str]) -> list[str]:
+        cleaned: list[str] = []
+        for item in value:
+            norm = str(item).strip()
+            if not norm:
+                continue
+            if not _ID_CARACTERISTICA_RE.fullmatch(norm):
+                raise ValueError(
+                    f"Identificador de característica inválido: '{norm}'. Use apenas IDs do catálogo oficial."
+                )
+            cleaned.append(norm)
+        return cleaned
+
 
 @dataclass(frozen=True)
 class SanitizedActivityData:
@@ -140,6 +158,27 @@ def _scan_forbidden_keys(obj: Any, prefix: str = "body") -> None:
             _scan_forbidden_keys(item, f"{prefix}[{idx}]")
 
 
+def _sanitize_preserving_layout(text: str) -> tuple[str, int]:
+    """Anonimiza PII preservando quebras de parágrafo, checklists e alternativas (Trava Curricular)."""
+    if not text:
+        return text, 0
+
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    sanitized, total = sanitize_pii(normalized)
+
+    def _replace_prosa(match: re.Match[str]) -> str:
+        prefixo = match.group(1)
+        return f"{prefixo} [ESTUDANTE]"
+
+    sanitized, inline_count = RE_ALUNO_PROSA.subn(_replace_prosa, sanitized)
+    total += inline_count
+    if total == 0:
+        return text, 0
+
+    lines = [re.sub(r"[ \t]{2,}", " ", line).rstrip() for line in sanitized.split("\n")]
+    return "\n".join(lines).strip(), total
+
+
 def _process_text(
     text: str,
     field_path: str,
@@ -160,7 +199,7 @@ def _process_text(
             }
         )
 
-    sanitized, count = sanitize_pedagogical_note(text)
+    sanitized, count = _sanitize_preserving_layout(text)
     if count > 0:
         if not allow_pii_sanitization or not auto_sanitizar:
             issues.append(
@@ -203,8 +242,20 @@ def _process_nested(
         out_dict: dict[str, Any] = {}
         total = 0
         for k, v in value.items():
-            clean_v, c = _process_nested(v, f"{field_path}.{k}", auto_sanitizar=auto_sanitizar, issues=issues)
-            out_dict[str(k)] = clean_v
+            key_str = str(k)
+            key_path = f"{field_path}.{key_str}"
+            clinicos = detectar_conteudo_clinico(key_str, key_path, eh_chave=True)
+            if clinicos:
+                categorias = sorted({v_clin.categoria for v_clin in clinicos})
+                issues.append(
+                    {
+                        "field": key_path,
+                        "type": "clinical",
+                        "detail": f"Chave com referência clínica detectada ({', '.join(categorias)}). Remova laudos, CIDs ou medicações antes de salvar.",
+                    }
+                )
+            clean_v, c = _process_nested(v, key_path, auto_sanitizar=auto_sanitizar, issues=issues)
+            out_dict[key_str] = clean_v
             total += c
         return out_dict, total
     return value, 0

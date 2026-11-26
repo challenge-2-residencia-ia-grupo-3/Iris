@@ -71,7 +71,11 @@ try:
             return HTTPException(status_code=422, detail=exc.to_dict())
         return HTTPException(
             status_code=500,
-            detail={"status": "error", "code": "HISTORY_ERROR", "detail": str(exc)},
+            detail={
+                "status": "error",
+                "code": "HISTORY_ERROR",
+                "detail": "Erro interno ao processar a solicitação do histórico.",
+            },
         )
 
     @router.get("", summary="Lista atividades salvas no histórico da conta docente")

@@ -231,7 +231,7 @@ class TestDocenteAuthHistoryRealPostgres(unittest.TestCase):
 
         headers_a = {"Authorization": f"Bearer {access_a}"}
 
-        # 5. Privacy Gate estrito impede gravação no Postgres quando há PII
+        # 5. Privacy Gate estrito impede gravação no Postgres quando há PII, ID inválido ou chave clínica
         payload_pii = {
             "titulo": "Prova de Ciências",
             "disciplina": "Ciências",
@@ -242,7 +242,12 @@ class TestDocenteAuthHistoryRealPostgres(unittest.TestCase):
                 {
                     "id": "q1",
                     "original": "Leia e responda sobre o ciclo da água.",
-                    "adaptado": "Para o aluno Gabriel Silva (CPF 123.456.789-00): explique a evaporação.",
+                    "adaptado": (
+                        "Para o aluno Gabriel Silva (CPF 123.456.789-00):\n\n"
+                        "[ ] Passo 1: Explique a evaporação.\n\n"
+                        "A) Líquido para gasoso\n"
+                        "B) Sólido para líquido"
+                    ),
                     "editada": False,
                     "aprovada": False,
                     "justificativas": ["Divisão em etapas."],
@@ -255,17 +260,41 @@ class TestDocenteAuthHistoryRealPostgres(unittest.TestCase):
         self.assertEqual(blocked.status_code, 422, blocked.text)
         self.assertEqual(blocked.json()["detail"]["code"], "PII_DETECTED")
 
-        # 6. Com auto_sanitizar=true, grava sanitizado e preserva recomendacao_docente
+        bad_carac = self.client.post(
+            "/api/v1/history",
+            json={**payload_pii, "caracteristicas_ids": ["CID F90"]},
+            headers=headers_a,
+        )
+        self.assertEqual(bad_carac.status_code, 422, bad_carac.text)
+
+        bad_meta_key = self.client.post(
+            "/api/v1/history",
+            json={
+                **payload_pii,
+                "questoes": [{**payload_pii["questoes"][0], "adaptado": "Explique a evaporação."}],
+                "metricas": {"laudo_tdah": "ok"},
+            },
+            headers=headers_a,
+        )
+        self.assertEqual(bad_meta_key.status_code, 422, bad_meta_key.text)
+
+        # 6. Com auto_sanitizar=true, grava sanitizado preservando quebras de linha, checklists e alternativas
         saved = self.client.post("/api/v1/history?auto_sanitizar=true", json=payload_pii, headers=headers_a)
         self.assertEqual(saved.status_code, 201, saved.text)
         item = saved.json()
         activity_id = item["id"]
-        self.assertNotIn("Gabriel Silva", item["questoes"][0]["adaptado"])
-        self.assertNotIn("123.456.789-00", item["questoes"][0]["adaptado"])
+        adaptado_salvo = item["questoes"][0]["adaptado"]
+        self.assertNotIn("Gabriel Silva", adaptado_salvo)
+        self.assertNotIn("123.456.789-00", adaptado_salvo)
+        self.assertIn("\n\n[ ] Passo 1: Explique a evaporação.\n\nA) Líquido para gasoso\nB) Sólido para líquido", adaptado_salvo)
         self.assertEqual(
             item["questoes"][0]["recomendacao_docente"],
             "Oferecer tempo extra sem penalizar rascunhos.",
         )
+
+        # 6b. UUID inválido em rotas de histórico deve retornar 404 (nunca 500 InvalidTextRepresentation)
+        invalid_uuid = self.client.get("/api/v1/history/id-invalido", headers=headers_a)
+        self.assertEqual(invalid_uuid.status_code, 404, invalid_uuid.text)
 
         # 7. Exportação bloqueada em rascunho (409)
         exp_blocked = self.client.post(f"/api/v1/history/{activity_id}/export?formato=pdf", headers=headers_a)

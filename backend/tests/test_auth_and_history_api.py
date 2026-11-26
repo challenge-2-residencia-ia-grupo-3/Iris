@@ -560,9 +560,11 @@ class TestAuthAndHistoryApiEndToEnd(unittest.TestCase):
         aid = created.json()["id"]
         self.assertIn("[ESTUDANTE]", created.json()["questoes"][0]["adaptado"])
 
-        # Isolamento entre professores
+        # Isolamento entre professores e tratamento limpo de UUID inválido (404, nunca 500)
         self.assertEqual(self.client.get(f"/api/v1/history/{aid}", headers=headers_b).status_code, 404)
         self.assertEqual(self.client.delete(f"/api/v1/history/{aid}", headers=headers_b).status_code, 404)
+        self.assertEqual(self.client.get("/api/v1/history/id-invalido", headers=headers_a).status_code, 404)
+        self.assertEqual(self.client.delete("/api/v1/history/id-invalido", headers=headers_a).status_code, 404)
         self.assertEqual(self.client.get("/api/v1/history", headers=headers_b).json()["total"], 0)
 
         # Exportação bloqueada enquanto rascunho

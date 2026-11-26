@@ -73,6 +73,7 @@ RUNTIME_BACKEND_DIRS = (
     "api",
     "agents",
     "audio",
+    "auth",
     "core",
     "exportacao",
     "parsers",
@@ -80,6 +81,7 @@ RUNTIME_BACKEND_DIRS = (
     "schemas",
     "security",
     "sessao",
+    "storage",
 )
 
 # Termos de tabelas/entidades de cadastro de estudantes proibidos em SQL/DDL

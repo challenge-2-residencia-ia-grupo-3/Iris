@@ -125,6 +125,15 @@ def _norm_email(email: str) -> str:
     return email.strip().lower()
 
 
+def _normalize_uuid(raw_id: str | None) -> str | None:
+    if raw_id is None:
+        return None
+    try:
+        return str(uuid.UUID(str(raw_id).strip()))
+    except (ValueError, TypeError, AttributeError):
+        return None
+
+
 def _parse_json_field(val: Any, default: Any) -> Any:
     if val is None:
         return default
@@ -189,6 +198,9 @@ class TeacherRepository:
                 return _row_to_teacher(row) if row else None
 
     def get_by_id(self, professor_id: str) -> TeacherRecord | None:
+        pid = _normalize_uuid(professor_id)
+        if pid is None:
+            return None
         with self._db.connection() as con:
             with con.cursor() as cur:
                 cur.execute(
@@ -197,17 +209,20 @@ class TeacherRepository:
                     FROM docente.professores
                     WHERE id = %s
                     """,
-                    (str(professor_id),),
+                    (pid,),
                 )
                 row = cur.fetchone()
                 return _row_to_teacher(row) if row else None
 
     def list_oauth_providers(self, professor_id: str) -> list[str]:
+        pid = _normalize_uuid(professor_id)
+        if pid is None:
+            return []
         with self._db.connection() as con:
             with con.cursor() as cur:
                 cur.execute(
                     "SELECT provider FROM docente.identidades_oauth WHERE professor_id = %s ORDER BY provider",
-                    (str(professor_id),),
+                    (pid,),
                 )
                 return [str(r[0]) for r in cur.fetchall()]
 
@@ -223,15 +238,23 @@ class TeacherRepository:
                         "Já existe uma conta cadastrada com este e-mail.",
                         code="EMAIL_ALREADY_REGISTERED",
                     )
-                cur.execute(
-                    """
-                    INSERT INTO docente.professores
-                        (id, email, email_verificado, nome_exibicao, senha_hash, ativo)
-                    VALUES (%s, %s, %s, %s, %s, TRUE)
-                    RETURNING id, email, email_verificado, nome_exibicao, senha_hash, ativo, criado_em, atualizado_em
-                    """,
-                    (new_id, norm, False, nome, senha_hash),
-                )
+                try:
+                    cur.execute(
+                        """
+                        INSERT INTO docente.professores
+                            (id, email, email_verificado, nome_exibicao, senha_hash, ativo)
+                        VALUES (%s, %s, %s, %s, %s, TRUE)
+                        RETURNING id, email, email_verificado, nome_exibicao, senha_hash, ativo, criado_em, atualizado_em
+                        """,
+                        (new_id, norm, False, nome, senha_hash),
+                    )
+                except Exception as exc:
+                    if getattr(exc, "sqlstate", None) == "23505" or "UniqueViolation" in type(exc).__name__:
+                        raise StorageConflictError(
+                            "Já existe uma conta cadastrada com este e-mail.",
+                            code="EMAIL_ALREADY_REGISTERED",
+                        ) from exc
+                    raise
                 row = cur.fetchone()
                 return _row_to_teacher(row)
 
@@ -324,9 +347,12 @@ class TeacherRepository:
                 return _row_to_teacher(teacher_row)
 
     def delete_teacher(self, professor_id: str) -> bool:
+        pid = _normalize_uuid(professor_id)
+        if pid is None:
+            return False
         with self._db.connection() as con:
             with con.cursor() as cur:
-                cur.execute("DELETE FROM docente.professores WHERE id = %s", (str(professor_id),))
+                cur.execute("DELETE FROM docente.professores WHERE id = %s", (pid,))
                 return cur.rowcount > 0
 
 
@@ -385,6 +411,9 @@ class RefreshTokenRepository:
                 return cur.rowcount > 0
 
     def revoke_all_for_teacher(self, professor_id: str) -> int:
+        pid = _normalize_uuid(professor_id)
+        if pid is None:
+            return 0
         with self._db.connection() as con:
             with con.cursor() as cur:
                 cur.execute(
@@ -393,7 +422,7 @@ class RefreshTokenRepository:
                     SET revogado_em = NOW()
                     WHERE professor_id = %s AND revogado_em IS NULL
                     """,
-                    (str(professor_id),),
+                    (pid,),
                 )
                 return int(cur.rowcount or 0)
 
@@ -454,8 +483,11 @@ class ActivityHistoryRepository:
         limit: int = 20,
         offset: int = 0,
     ) -> tuple[list[ActivitySummaryRecord], int]:
+        pid = _normalize_uuid(professor_id)
+        if pid is None:
+            return [], 0
         where = ["professor_id = %s"]
-        params: list[Any] = [str(professor_id)]
+        params: list[Any] = [pid]
 
         if q and q.strip():
             where.append("titulo ILIKE %s")
@@ -513,6 +545,10 @@ class ActivityHistoryRepository:
         return items, total
 
     def get_activity(self, *, professor_id: str, activity_id: str) -> ActivityDetailRecord:
+        pid = _normalize_uuid(professor_id)
+        aid = _normalize_uuid(activity_id)
+        if pid is None or aid is None:
+            raise StorageNotFoundError("Atividade não encontrada no seu histórico.")
         with self._db.connection() as con:
             with con.cursor() as cur:
                 cur.execute(
@@ -523,7 +559,7 @@ class ActivityHistoryRepository:
                     FROM docente.atividades_historico
                     WHERE id = %s AND professor_id = %s
                     """,
-                    (str(activity_id), str(professor_id)),
+                    (aid, pid),
                 )
                 row = cur.fetchone()
                 if row is None:
@@ -538,6 +574,10 @@ class ActivityHistoryRepository:
         payload: Mapping[str, Any] | ActivitySavePayload,
         auto_sanitizar: bool = False,
     ) -> ActivityDetailRecord:
+        pid = _normalize_uuid(professor_id)
+        aid = _normalize_uuid(activity_id)
+        if pid is None or aid is None:
+            raise StorageNotFoundError("Atividade não encontrada no seu histórico.")
         sanitized = validate_and_prepare_activity(payload, auto_sanitizar=auto_sanitizar)
         with self._db.connection() as con:
             with con.cursor() as cur:
@@ -569,8 +609,8 @@ class ActivityHistoryRepository:
                         json.dumps(sanitized.questoes, ensure_ascii=False),
                         json.dumps(sanitized.metricas, ensure_ascii=False),
                         sanitized.status,
-                        str(activity_id),
-                        str(professor_id),
+                        aid,
+                        pid,
                     ),
                 )
                 row = cur.fetchone()
@@ -607,11 +647,15 @@ class ActivityHistoryRepository:
         return self.create_activity(professor_id=professor_id, payload=payload, auto_sanitizar=False)
 
     def delete_activity(self, *, professor_id: str, activity_id: str) -> bool:
+        pid = _normalize_uuid(professor_id)
+        aid = _normalize_uuid(activity_id)
+        if pid is None or aid is None:
+            raise StorageNotFoundError("Atividade não encontrada no seu histórico.")
         with self._db.connection() as con:
             with con.cursor() as cur:
                 cur.execute(
                     "DELETE FROM docente.atividades_historico WHERE id = %s AND professor_id = %s",
-                    (str(activity_id), str(professor_id)),
+                    (aid, pid),
                 )
                 if cur.rowcount == 0:
                     raise StorageNotFoundError("Atividade não encontrada no seu histórico.")
