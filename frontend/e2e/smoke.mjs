@@ -90,7 +90,7 @@ async function main() {
     // 2. Tela inicial (/): preloader sai sozinho + acessibilidade real em Chromium (com color-contrast)
     await page.goto(`${FRONTEND_URL}/`, { waitUntil: "networkidle" });
 
-    const overlay = page.locator('[aria-label="Abertura da marca Íris"]');
+    const overlay = page.locator('div[role="presentation"][aria-label="Abertura da marca Íris"]');
     if ((await overlay.count()) > 0) {
       await overlay.waitFor({ state: "detached", timeout: 10_000 });
     }
