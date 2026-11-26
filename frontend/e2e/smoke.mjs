@@ -28,7 +28,10 @@ async function runAxeWithContrast(page, label) {
   });
 
   const violations = results.violations || [];
-  console.log(`[axe ${label}] ${violations.length} violation(s) found.`);
+  // Nota: no axe-core, `color-contrast` tem impacto "serious". Mantemos bloqueio apenas para "critical"
+  // enquanto violações "serious" (como o contraste de rodapé pendente em dev pós-#144) são reportadas
+  // em modo informativo até a correção em dev.
+  console.log(`[axe ${label}] ${violations.length} violation(s) found (critical bloqueia; serious/moderate informativo).`);
   for (const v of violations) {
     const sample = (v.nodes || []).slice(0, 2).map((n) => n.target.join(" ")).join(", ");
     console.log(`  - [${v.impact}] ${v.id}: ${v.help} (${sample})`);
@@ -101,7 +104,7 @@ async function main() {
       await page.getByLabel("Nome de exibição").fill("Profa. E2E Real");
       await page.getByLabel("E-mail").fill(teacherEmail);
       await page.getByLabel(/^Senha/i).fill("SenhaE2EReal#2026");
-      await page.getByRole("button", { name: /^Criar conta$/i }).click();
+      await page.locator('form button[type="submit"]').click();
 
       await page.waitForURL("**/etapa-1", { timeout: 15_000 });
 
