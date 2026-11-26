@@ -77,6 +77,8 @@ class QuestionMultiAgentTrace(BaseModel):
     original: str
     adaptado: str
     justificativas: list[str] = Field(default_factory=list)
+    # Orientação ao docente para o nível escolhido; fica fora de `adaptado`, que é o que o aluno lê.
+    recomendacao_docente: Optional[str] = None
     id_caracteristica: str
     caracteristicas_selecionadas: list[str] = Field(default_factory=list)
     nivel: int
@@ -103,6 +105,10 @@ class MultiAgentMaterialRequest(BaseModel):
     disciplina: Optional[str] = None
     ano_escolar: Optional[str] = None
     trava_manual_docente: Optional[list[str]] = None
+    invariantes_etapa3: Optional[dict[str, Any]] = Field(
+        default=None,
+        description="Contrato AuditorInvariantsContract validado na Etapa 3 (termos intocáveis, BNCC e alerta anti-muleta).",
+    )
     provider: Optional[str] = Field(
         default=None,
         description="Provedor LLM ('auto', 'anthropic', 'claude', 'sonnet', 'ollama', 'groq', 'extractive').",
@@ -162,6 +168,10 @@ class MultiAgentMaterialResponse(BaseModel):
     titulo: str
     provider: str
     model: str
+    provedores_por_agente: dict[str, str] = Field(
+        default_factory=dict,
+        description="Provedor efetivo de cada agente (extrator, estrategista, adaptador, auditor) nesta execução.",
+    )
     nivel: int
     selected_ids: list[str]
     pii_substituicoes: int
@@ -233,6 +243,48 @@ def _resolver_cliente_llm(
         return get_llm_client(provider="extractive")
 
     return get_llm_client(provider=provider, model=model)
+
+
+AGENTES_DA_CORRENTE = ("extrator", "estrategista", "adaptador", "auditor")
+
+
+def _disponivel(cliente: Any) -> bool:
+    try:
+        primario = getattr(cliente, "_primary", None)
+        if primario is not None and callable(getattr(primario, "is_available", None)):
+            return bool(primario.is_available())
+        return bool(cliente.status().get("primary_available"))
+    except Exception:  # noqa: BLE001 - status indisponível conta como provedor fora do ar
+        return False
+
+
+def _cliente_do_agente(agente: str, model: Optional[str]) -> HybridLLMClient:
+    """Modo automático, por agente: o padrão do agente (`get_llm_client(agente=...)`: Haiku no Adaptador quando há
+    chave da Anthropic, provedor geral nos demais, salvo IRIS_LLM_PROVIDER_<AGENTE>); se ele não estiver disponível,
+    a Anthropic, quando há chave; senão, o modo sem modelo. Assim o servidor que só tem a chave continua funcionando
+    com os quatro agentes, e o que tem Ollama usa cada agente no modelo medido para ele."""
+    for fabrica in (lambda: get_llm_client(agente=agente, model=model),
+                    lambda: get_llm_client(provider="anthropic", model=model)):
+        try:
+            cliente = fabrica()
+        except Exception:  # noqa: BLE001
+            continue
+        if _disponivel(cliente):
+            return cliente
+    return get_llm_client(provider="extractive")
+
+
+def _resolver_clientes_por_agente(
+    provider: Optional[str],
+    model: Optional[str],
+    explicit_client: Optional[HybridLLMClient],
+) -> dict[str, HybridLLMClient]:
+    """Um cliente por agente. Cliente explícito ou provedor pedido valem para os quatro, como antes; no modo
+    automático, cada agente usa o seu padrão (ver `_cliente_do_agente`)."""
+    if explicit_client is not None or (provider is not None and provider != "auto"):
+        unico = _resolver_cliente_llm(provider, model, explicit_client)
+        return {agente: unico for agente in AGENTES_DA_CORRENTE}
+    return {agente: _cliente_do_agente(agente, model) for agente in AGENTES_DA_CORRENTE}
 
 
 def _construir_juiz(llm_client: Any) -> Any:
@@ -315,12 +367,13 @@ class MultiAgentOrchestrator:
         # Valida previamente as características contra o catálogo oficial (SSOT)
         nao_selecionadas = caracteristicas_nao_selecionadas(req.selected_ids)
 
-        llm_client = _resolver_cliente_llm(req.provider, req.model, self._explicit_llm)
-        juiz = self._explicit_juiz if self._explicit_juiz is not None else _construir_juiz(llm_client)
+        clientes = _resolver_clientes_por_agente(req.provider, req.model, self._explicit_llm)
+        llm_client = clientes["adaptador"]           # o agente de maior efeito: é o provedor que a resposta informa
+        juiz = self._explicit_juiz if self._explicit_juiz is not None else _construir_juiz(clientes["auditor"])
 
-        extrator = CurriculumExtractorAgent(llm_client=llm_client)
-        estrategista = StrategistAgent(llm_client=llm_client)
-        adaptador = AdapterAgent(llm_client=llm_client)
+        extrator = CurriculumExtractorAgent(llm_client=clientes["extrator"])
+        estrategista = StrategistAgent(llm_client=clientes["estrategista"])
+        adaptador = AdapterAgent(llm_client=clientes["adaptador"])
         auditor = AgenteAuditor(
             juiz=juiz,
             limiar=0.95,
@@ -365,6 +418,7 @@ class MultiAgentOrchestrator:
             traces: list[QuestionMultiAgentTrace] = []
             etapa5_questoes: list[dict[str, Any]] = []
             modelos_usados: list[str] = []
+            modelos_adaptador: list[str] = []
             total_tokens = 0
             prompt_tokens_total = 0
             completion_tokens_total = 0
@@ -382,6 +436,37 @@ class MultiAgentOrchestrator:
                     trava_manual_docente=req.trava_manual_docente,
                     question_id=qid,
                 )
+
+                if req.invariantes_etapa3 and req.invariantes_etapa3.get("blindagem_ativa"):
+                    inv = extracao.invariants
+                    conceitos_etapa3 = [
+                        str(c).strip()
+                        for c in (req.invariantes_etapa3.get("conceitos_obrigatorios") or [])
+                        if str(c).strip()
+                    ]
+                    if conceitos_etapa3:
+                        inv.conceitos_obrigatorios = list(
+                            dict.fromkeys([*inv.conceitos_obrigatorios, *conceitos_etapa3])
+                        )
+                    intocaveis_etapa3 = [
+                        str(t).strip()
+                        for t in (req.invariantes_etapa3.get("termos_tecnicos_intocaveis") or [])
+                        if str(t).strip()
+                    ]
+                    if intocaveis_etapa3:
+                        inv.termos_tecnicos_intocaveis = list(
+                            dict.fromkeys([*inv.termos_tecnicos_intocaveis, *intocaveis_etapa3])
+                        )
+                    habilidade_etapa3 = str(req.invariantes_etapa3.get("habilidade_bncc") or "").strip()
+                    if habilidade_etapa3 and not inv.habilidade_bncc_sugerida:
+                        inv.habilidade_bncc_sugerida = habilidade_etapa3
+                    alerta_etapa3 = str(req.invariantes_etapa3.get("alerta_anti_muleta_auditor") or "").strip()
+                    if alerta_etapa3:
+                        inv.alerta_anti_muleta = (
+                            f"{inv.alerta_anti_muleta} | {alerta_etapa3}"
+                            if inv.alerta_anti_muleta
+                            else alerta_etapa3
+                        )
 
                 # --- Agente 2: Estrategista RAG (#16) ---
                 estrategia = estrategista.strategize(
@@ -481,9 +566,14 @@ class MultiAgentOrchestrator:
                         modelos_usados.append(tel.model)
                     if getattr(tel, "used_fallback", False) and getattr(tel, "motivo_fallback", None):
                         fallbacks_ocorridos.append(str(tel.motivo_fallback))
+                for tel in ciclo.telemetrias:
+                    if tel.model and tel.model != "deterministic-fallback":
+                        modelos_adaptador.append(tel.model)
 
                 ultimo_adap = ciclo.resultados[-1]
                 adaptacao_aplicada = relatorio.texto_final.strip() != enunciado_q.strip()
+                # Texto fixo do nível escolhido (orientação de aplicação): vale mesmo quando o original é mantido.
+                recomendacao_docente = ultimo_adap.recomendacao_docente
 
                 traces.append(
                     QuestionMultiAgentTrace(
@@ -492,6 +582,7 @@ class MultiAgentOrchestrator:
                         original=enunciado_q,
                         adaptado=relatorio.texto_final,
                         justificativas=list(ultimo_adap.justificativas),
+                        recomendacao_docente=recomendacao_docente,
                         id_caracteristica=id_carac_principal,
                         caracteristicas_selecionadas=list(req.selected_ids),
                         nivel=req.nivel,
@@ -510,6 +601,7 @@ class MultiAgentOrchestrator:
                         "original": enunciado_q,
                         "adaptado": relatorio.texto_final,
                         "justificativas": list(ultimo_adap.justificativas),
+                        "recomendacao_docente": recomendacao_docente,
                         "id_caracteristica": id_carac_principal,
                         "nivel": req.nivel,
                         "adaptacao_aplicada": adaptacao_aplicada,
@@ -520,7 +612,11 @@ class MultiAgentOrchestrator:
             aprovadas = sum(1 for t in traces if t.aprovado_final)
             revisao_humana = sum(1 for t in traces if t.requer_revisao_humana)
             provider_str = str(getattr(llm_client, "provider_name", "custom"))
-            model_str = modelos_usados[0] if modelos_usados else "deterministic-fallback"
+            model_str = (
+                modelos_adaptador[0]
+                if modelos_adaptador
+                else (modelos_usados[0] if modelos_usados else "deterministic-fallback")
+            )
 
             log_agent_operational_event(
                 nivel=req.nivel,
@@ -545,6 +641,7 @@ class MultiAgentOrchestrator:
             titulo=titulo_final,
             provider=provider_str,
             model=model_str,
+            provedores_por_agente={a: str(getattr(c, "provider_name", "custom")) for a, c in clientes.items()},
             nivel=req.nivel,
             selected_ids=list(req.selected_ids),
             pii_substituicoes=pii_substituicoes,

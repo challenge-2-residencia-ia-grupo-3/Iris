@@ -8,22 +8,12 @@ import {
   IndicadorAndaime,
   marcarMudancas,
 } from "@/services/comparisonCards";
+import { Negrito } from "./TextoAdaptado";
 
 // Classes LITERAIS (o Tailwind só gera o que está escrito por extenso). Os hexes espelham `PALETA_ETAPA5`,
 // e um teste confere que são os mesmos e que passam de 4,5:1.
 export const CLASSE_INDICADOR = "bg-[#E6F0F2] text-[#1F4650] dark:bg-[#1E3A44] dark:text-[#CDE8F0]";
 export const CLASSE_AVISO = "bg-[#FFF1DC] text-[#5C2A00] dark:bg-[#4A2A08] dark:text-[#FFE2B8]";
-
-/** Texto com **negrito** do Agente Adaptador, sem mostrar os asteriscos. */
-function Negrito({ texto }: { texto: string }) {
-  return (
-    <>
-      {texto.split(/(\*\*[^*\n]+\*\*)/g).map((parte, i) =>
-        /^\*\*[^*\n]+\*\*$/.test(parte) ? <strong key={i}>{parte.slice(2, -2)}</strong> : <React.Fragment key={i}>{parte}</React.Fragment>
-      )}
-    </>
-  );
-}
 
 interface Props {
   numero: number;
@@ -111,6 +101,13 @@ export function JustificativaCard({ numero, cartao, original, adaptado, indicado
                 <li key={i}>{j}</li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {cartao.recomendacaoDocente && (
+          <div data-testid="recomendacao-docente">
+            <h4 className="text-xs font-bold uppercase text-slate-700 dark:text-slate-300">Para o docente (não vai para a prova)</h4>
+            <p className="mt-1">{cartao.recomendacaoDocente}</p>
           </div>
         )}
 

@@ -167,6 +167,28 @@ class TestActivityPrivacyGate(unittest.TestCase):
             validate_and_prepare_activity(payload_clinico, auto_sanitizar=True)
         self.assertEqual(ctx_clinico.exception.code, "CLINICAL_DATA_BLOCKED")
 
+    def test_validates_and_preserves_recomendacao_docente(self) -> None:
+        payload = _payload_valido()
+        payload["questoes"][0]["recomendacao_docente"] = "Dar tempo extra de 10 minutos sem penalizar rascunhos."
+        clean = validate_and_prepare_activity(payload)
+        self.assertEqual(
+            clean.questoes[0]["recomendacao_docente"],
+            "Dar tempo extra de 10 minutos sem penalizar rascunhos.",
+        )
+
+        # Bloqueia PII e termo clínico em recomendacao_docente
+        bad_pii = _payload_valido()
+        bad_pii["questoes"][0]["recomendacao_docente"] = "Para o aluno Gabriel Silva (CPF 123.456.789-00): dar apoio."
+        with self.assertRaises(ActivityPrivacyViolationError) as ctx_pii:
+            validate_and_prepare_activity(bad_pii, auto_sanitizar=False)
+        self.assertEqual(ctx_pii.exception.code, "PII_DETECTED")
+
+        bad_clinico = _payload_valido()
+        bad_clinico["questoes"][0]["recomendacao_docente"] = "Considerar CID F90 durante a aplicação."
+        with self.assertRaises(ActivityPrivacyViolationError) as ctx_clin:
+            validate_and_prepare_activity(bad_clinico, auto_sanitizar=True)
+        self.assertEqual(ctx_clin.exception.code, "CLINICAL_DATA_BLOCKED")
+
 
 class TestDocenteRepositoriesWithMockedPostgres(unittest.TestCase):
     def test_history_repository_never_runs_sql_when_privacy_gate_blocks(self) -> None:

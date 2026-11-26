@@ -1150,6 +1150,37 @@ def create_app() -> Any:
     def avaliacao_adaptacao_resumo() -> dict[str, Any]:
         return _handle_avaliacao_adaptacao_resumo()
 
+    @app.get("/api/v1/eval/avaliacao-humana/exemplo/proxima", tags=["eval"])
+    def avaliacao_exemplo_proxima(avaliador: str = "") -> dict[str, Any]:
+        from fastapi import HTTPException
+
+        from iris.eval.avaliacao_humana import proxima_exemplo
+
+        try:
+            return proxima_exemplo(avaliador)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/eval/avaliacao-humana/exemplo/rotulo", tags=["eval"])
+    def avaliacao_exemplo_rotulo(body: dict[str, Any] = Body(default={})) -> dict[str, Any]:  # noqa: B008
+        from fastapi import HTTPException
+
+        from iris.eval.avaliacao_humana import registrar_exemplo
+
+        try:
+            return registrar_exemplo(str(body.get("uid", "")), body.get("respostas"), str(body.get("avaliador", "")),
+                                     str(body.get("motivo", "")))
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail=str(exc.args[0])) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v1/eval/avaliacao-humana/exemplo/resumo", tags=["eval"])
+    def avaliacao_exemplo_resumo() -> dict[str, Any]:
+        from iris.eval.avaliacao_humana import resumo_exemplos
+
+        return resumo_exemplos()
+
     @app.get("/api/v1/eval/verificacoes-qualidade", tags=["eval"])
     def verificacoes() -> dict[str, Any]:
         return _handle_verificacoes()
@@ -1651,13 +1682,22 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                         {"detail": {"detail": f"Erro interno ao validar seleção ({type(err).__name__}).", "code": "INTERNAL_ERROR"}},
                         status=500,
                     )
-            elif urlparse(self.path).path == "/api/v1/scaffolding/calibrate":
-                from iris.api.routes.scaffolding import calibrate_scaffolding_session_service
+            elif urlparse(self.path).path in (
+                "/api/v1/scaffolding/calibrate",
+                "/api/v1/scaffolding/curriculum-locks/validate",
+            ):
+                from iris.api.routes.scaffolding import (
+                    calibrate_scaffolding_session_service,
+                    validate_curriculum_locks_session_service,
+                )
                 from iris.schemas.catalog import CatalogValidationError, CharacteristicSelectionError
                 from iris.schemas.scaffolding import ScaffoldingValidationError
 
                 try:
-                    resp = calibrate_scaffolding_session_service(body)
+                    if urlparse(self.path).path == "/api/v1/scaffolding/curriculum-locks/validate":
+                        resp = validate_curriculum_locks_session_service(body)
+                    else:
+                        resp = calibrate_scaffolding_session_service(body)
                     self._send_json(resp.model_dump())
                 except (ScaffoldingValidationError, CharacteristicSelectionError) as err:
                     self._send_json({"detail": err.to_dict()}, status=422)

@@ -30,6 +30,7 @@ export default function Etapa5Page() {
               original: q.original,
               adaptado: q.adaptado,
               justificativas: q.justificativas ?? [],
+              recomendacao_docente: q.recomendacao_docente ?? undefined,
               id_caracteristica: fallbackCarac,
               nivel: item.nivel_andaime,
               adaptacao_aplicada: true,

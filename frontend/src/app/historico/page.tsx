@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  Contrast,
   Copy,
   Download,
   ExternalLink,
@@ -32,7 +33,7 @@ import {
 
 export default function HistoricoPage() {
   const router = useRouter();
-  const { darkMode, toggleDarkMode } = useTheme();
+  const { darkMode, toggleDarkMode, highContrast, toggleHighContrast } = useTheme();
   const { teacher, isAuthenticated, isLoading: authLoading, deleteMyAccount } = useAuth();
 
   const [items, setItems] = useState<HistoryActivitySummary[]>([]);
@@ -138,6 +139,24 @@ export default function HistoricoPage() {
             </p>
           </div>
           <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={toggleHighContrast}
+              aria-pressed={highContrast}
+              aria-label="Alternar modo de alto contraste"
+              title="Alternar modo de alto contraste (WCAG 2.1 AA)"
+              className={`inline-flex min-h-[44px] items-center justify-center gap-1.5 px-3 rounded-lg text-xs font-semibold border transition-colors ${
+                highContrast
+                  ? "bg-white text-[#0D0221] border-white"
+                  : "bg-white/10 hover:bg-white/20 text-white border-white/15"
+              }`}
+            >
+              <Contrast
+                className={`w-4 h-4 ${highContrast ? "text-[#0D0221]" : "text-[#FF8A70]"}`}
+                aria-hidden="true"
+              />
+              <span className="hidden sm:inline leading-none">Alto Contraste</span>
+            </button>
             <button
               type="button"
               onClick={toggleDarkMode}

@@ -13,6 +13,7 @@ export interface HistoryQuestionItem {
   editada: boolean;
   aprovada: boolean;
   justificativas: string[];
+  recomendacao_docente?: string | null;
 }
 
 export interface HistoryActivitySummary {

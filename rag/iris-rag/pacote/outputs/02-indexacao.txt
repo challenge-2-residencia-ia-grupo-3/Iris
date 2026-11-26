@@ -1,11 +1,11 @@
 RELATÓRIO DE INDEXAÇÃO - Íris: base de conhecimento no PostgreSQL com pgvector
-pgvector 0.8.6 | tabela iris_trechos | índice HNSW (cosseno) em cada coluna de vetor
+pgvector 0.8.7 | tabela iris_trechos | índice HNSW (cosseno) em cada coluna de vetor
 
-Trechos em chunks.jsonl: 1881 (ver outputs/01-chunking.txt)
-Linhas na tabela: 1881
+Trechos em chunks.jsonl: 1368 (ver outputs/01-chunking.txt)
+Linhas na tabela: 1368
 
 modelo   coluna          n   dim
-mpnet    vec_mpnet        0   768
-qwen3    vec_qwen3     1881  1024
+mpnet    vec_mpnet     1368   768
+qwen3    vec_qwen3     1368  1024
 
 BM25 (rank_bm25): montado em memória a cada processo; não é gravado no banco.

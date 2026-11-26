@@ -13,6 +13,8 @@ export interface QuestaoEtapa5 {
   adaptado: string;
   /** Uma frase por ação aplicada, como devolvida pelo Agente Adaptador. */
   justificativas: string[];
+  /** Orientação ao docente; fica fora de `adaptado` e não é exportada. */
+  recomendacao_docente?: string | null;
   /** Característica funcional tratada (id do catálogo). */
   id_caracteristica: string;
   nivel: NivelAndaime;
@@ -50,6 +52,7 @@ export function validarEntrada(bruto: unknown): Step5Entrada | null {
       original: r.original,
       adaptado: r.adaptado,
       justificativas: Array.isArray(r.justificativas) ? r.justificativas.filter((j): j is string => typeof j === "string") : [],
+      recomendacao_docente: typeof r.recomendacao_docente === "string" && r.recomendacao_docente.trim() ? r.recomendacao_docente.trim() : null,
       id_caracteristica: r.id_caracteristica,
       nivel,
       adaptacao_aplicada: r.adaptacao_aplicada !== false,
@@ -82,6 +85,8 @@ export interface CartaoPedagogico {
   objetivoAndaime: string;
   acoesDoNivel: string[];
   justificativas: string[];
+  /** Orientação ao docente da adaptação; ausente quando não há. */
+  recomendacaoDocente?: string | null;
   referencias: ReferenciaCartao[];
   semMudanca: boolean;
 }
@@ -93,6 +98,7 @@ export function montarCartao(q: QuestaoEtapa5, catalogo: readonly Characteristic
     caracteristicaId: q.id_caracteristica,
     nivel: q.nivel,
     justificativas: q.justificativas.map((j) => j.trim()).filter(Boolean),
+    recomendacaoDocente: q.recomendacao_docente ?? null,
     semMudanca,
   };
   if (!item) {

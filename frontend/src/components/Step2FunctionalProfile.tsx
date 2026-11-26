@@ -12,29 +12,42 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
+  Check,
   CheckCircle2,
   CheckSquare,
   ChevronDown,
   ChevronUp,
   Compass,
-  Contrast,
-  HeartHandshake,
+  Cpu,
+  FlaskConical,
+  Gamepad2,
+  Home,
   Info,
   Layers,
+  Leaf,
   Loader2,
   Lock,
-  Moon,
+  Music,
   RotateCcw,
   Search,
   Sparkles,
   Square,
-  Sun,
-  Unlock,
+  Trophy,
   Mic,
 } from "lucide-react";
-import { IrisLogoBanner } from "./IrisLogoBanner";
+import { IrisHeader, STEP_TITLES } from "./IrisHeader";
 import { IrisSidebar, Step2SubStep } from "./IrisSidebar";
-import { useTheme } from "@/contexts/ThemeContext";
+
+const INTEREST_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  esportes: Trophy,
+  natureza: Leaf,
+  tecnologia: Cpu,
+  artes_musica: Music,
+  jogos_logica: Gamepad2,
+  ciencias_praticas: FlaskConical,
+  narrativa_historica: BookOpen,
+  cotidiano_pratico: Home,
+};
 import {
   BARREIRA_LABELS,
   CharacteristicItem,
@@ -56,6 +69,7 @@ import {
   submitSurgicalCharacteristicSelection,
 } from "@/services/catalogsApi";
 import { IrisApiError } from "@/services/materialsApi";
+import { carregarRestauracaoDaSessao } from "@/services/portableProfileImport";
 
 interface Step2FunctionalProfileProps {
   teacherEmail?: string;
@@ -73,7 +87,7 @@ interface Step2FunctionalProfileProps {
  * - C) Resumo da adaptação e confirmação para a Etapa 3
  */
 export function Step2FunctionalProfile({
-  teacherEmail = "marina.alves@escola.edu.br",
+  teacherEmail,
   materialPreviewText,
   onBackToStep1,
   onAdvanceToStep3,
@@ -81,15 +95,11 @@ export function Step2FunctionalProfile({
   onToggleDarkMode,
 }: Step2FunctionalProfileProps) {
   const router = useRouter();
-  const { darkMode: contextDarkMode, toggleDarkMode: contextToggleDarkMode } = useTheme();
-  const isDarkMode = darkMode ?? contextDarkMode;
-  const handleToggleDarkMode = onToggleDarkMode ?? contextToggleDarkMode;
 
   const searchInputId = useId();
   const alertRegionId = useId();
   const potencialidadesInputId = useId();
 
-  const [highContrast, setHighContrast] = useState(false);
   const [currentSubStep, setCurrentSubStep] = useState<Step2SubStep>("a");
 
   const [catalog, setCatalog] = useState<CharacteristicsCatalogResponse>(FALLBACK_OFFICIAL_CATALOG);
@@ -120,16 +130,9 @@ export function Step2FunctionalProfile({
     title: string;
     message: string;
     code?: string;
+    /** Não some sozinho: avisos de perfil importado só saem quando o docente age ou fecha. */
+    persistente?: boolean;
   } | null>(null);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (highContrast) {
-      root.classList.add("high-contrast");
-    } else {
-      root.classList.remove("high-contrast");
-    }
-  }, [highContrast]);
 
   // Carrega catálogos oficiais da Etapa 2 e restaura seleção/engajamento da sessão
   useEffect(() => {
@@ -149,6 +152,7 @@ export function Step2FunctionalProfile({
       setLoadedFromApi(fromServer);
       setIsLoadingCatalog(false);
 
+      let restauradoDaSessao = false;
       const saved = loadSurgicalSelectionFromSession();
       if (
         saved &&
@@ -161,6 +165,33 @@ export function Step2FunctionalProfile({
         if (restored.length > 0) {
           setSelectedIds(restored);
           setConfirmedSelection(saved);
+          restauradoDaSessao = true;
+        }
+      }
+
+      // Perfil pedagógico portátil importado na Etapa 1 (História 3.2.2): só pré-marca; o docente confere e confirma.
+      const importado = restauradoDaSessao ? null : carregarRestauracaoDaSessao();
+      if (importado) {
+        const validSet = new Set(fetchedCatalog.caracteristicas.map((c) => c.id_caracteristica));
+        const aplicadas = importado.caracteristicas.filter((id) => validSet.has(id));
+        const ignoradas = importado.caracteristicas.length - aplicadas.length;
+        if (aplicadas.length > 0) {
+          setSelectedIds(aplicadas);
+          setFeedbackBanner({
+            type: "info",
+            title: `Perfil ${importado.codigo_anonimo} aplicado`,
+            message: `${aplicadas.length} característica(s) pré-marcada(s) a partir do arquivo importado${
+              ignoradas > 0 ? `; ${ignoradas} não consta(m) no catálogo ativo e foi(ram) ignorada(s)` : ""
+            }. Confira a seleção e confirme para seguir.`,
+            persistente: true,
+          });
+        } else {
+          setFeedbackBanner({
+            type: "warning",
+            title: "Perfil importado incompatível com o catálogo atual",
+            message: `Nenhuma característica do perfil ${importado.codigo_anonimo} consta no catálogo ativo. Selecione as características manualmente.`,
+            persistente: true,
+          });
         }
       }
 
@@ -193,7 +224,7 @@ export function Step2FunctionalProfile({
   }, [currentEngagementProfile]);
 
   useEffect(() => {
-    if (!feedbackBanner) return;
+    if (!feedbackBanner || feedbackBanner.persistente) return;
     const timer = window.setTimeout(() => {
       setFeedbackBanner(null);
     }, 4000);
@@ -312,8 +343,8 @@ export function Step2FunctionalProfile({
       if (applied.length === 0) {
         setFeedbackBanner({
           type: "warning",
-          title: "Perfil incompatível com o catálogo atual",
-          message: `Nenhuma das características do perfil ${perfil.codigo_anonimo} corresponde ao catálogo ativo.`,
+          title: "Não foi possível aplicar este perfil",
+          message: `As opções salvas no perfil ${perfil.codigo_anonimo} não estão mais disponíveis nesta lista.`,
         });
         return;
       }
@@ -322,9 +353,9 @@ export function Step2FunctionalProfile({
       setAttemptedEmptySubmit(false);
       clearSurgicalSelectionFromSession();
       setFeedbackBanner({
-        type: "info",
-        title: `Perfil ${perfil.codigo_anonimo} aplicado localmente`,
-        message: `${applied.length} característica(s) funcional(is) restaurada(s) do armazenamento local do navegador (sem dados pessoais ou persistência no servidor).`,
+        type: "success",
+        title: `Perfil ${perfil.codigo_anonimo} aplicado`,
+        message: `${applied.length} ${applied.length === 1 ? "característica selecionada" : "características selecionadas"} automaticamente.`,
       });
     },
     [catalog.caracteristicas]
@@ -376,8 +407,12 @@ export function Step2FunctionalProfile({
       return;
     }
 
-    if (confirmedSelection && onAdvanceToStep3) {
-      onAdvanceToStep3(confirmedSelection);
+    if (confirmedSelection) {
+      if (onAdvanceToStep3) {
+        onAdvanceToStep3(confirmedSelection);
+      } else {
+        router.push("/etapa-3");
+      }
       return;
     }
 
@@ -403,6 +438,8 @@ export function Step2FunctionalProfile({
       });
       if (onAdvanceToStep3) {
         onAdvanceToStep3(response);
+      } else {
+        router.push("/etapa-3");
       }
     } catch (err) {
       if (err instanceof IrisApiError) {
@@ -427,48 +464,68 @@ export function Step2FunctionalProfile({
   return (
     <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors">
       {/* Cabeçalho Institucional da Plataforma Íris */}
-      <header className="w-full bg-[#0D0221] text-white border-b border-white/10 px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <IrisLogoBanner compact />
-            <div className="hidden md:block h-7 w-px bg-white/15" aria-hidden="true" />
-            <div className="hidden md:block">
-              <p className="text-xs font-semibold text-[#E35336] uppercase tracking-wider">
-                Etapa 2 de 5 • Mapeamento Funcional Cirúrgico
-              </p>
-              <p className="text-xs text-white/75">
-                Docente: <span className="font-mono text-white">{teacherEmail}</span>
-              </p>
+      <IrisHeader
+        currentStep={2}
+        teacherEmail={teacherEmail}
+        darkMode={darkMode}
+        onToggleDarkMode={onToggleDarkMode}
+      />
+
+      {/* Toast / Alerta Flutuante no Canto Superior Direito (ARIA live) */}
+      <div
+        id={alertRegionId}
+        aria-live="polite"
+        aria-atomic="true"
+        className="fixed top-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md pointer-events-none"
+      >
+        {feedbackBanner && (
+          <div
+            role={feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? "alert" : "status"}
+            className={`pointer-events-auto rounded-2xl p-4 border border-l-4 flex items-start justify-between gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
+              feedbackBanner.type === "error"
+                ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
+                : feedbackBanner.type === "warning"
+                ? "bg-white/95 dark:bg-[#160A30]/95 border-amber-200 dark:border-amber-800/60 border-l-amber-500 text-amber-950 dark:text-amber-100"
+                : feedbackBanner.type === "success"
+                ? "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
+                : "bg-white/95 dark:bg-[#160A30]/95 border-[#335C67]/25 dark:border-white/15 border-l-[#E35336] text-[#0D0221] dark:text-white"
+            }`}
+          >
+            <div className="flex items-start gap-3 min-w-0">
+              <div className="flex-shrink-0 mt-0.5">
+                {feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? (
+                  <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" aria-hidden="true" />
+                ) : (
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+                )}
+              </div>
+              <div className="text-xs sm:text-sm min-w-0">
+                <p className="font-bold leading-snug">{feedbackBanner.title}</p>
+                {feedbackBanner.message && (
+                  <p className="text-xs opacity-85 mt-1 leading-relaxed">{feedbackBanner.message}</p>
+                )}
+                {feedbackBanner.code && (
+                  <span className="mt-1 inline-block px-1.5 py-0.5 text-[10px] font-mono rounded bg-black/10 dark:bg-white/10">
+                    {feedbackBanner.code}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => setHighContrast((prev) => !prev)}
-              aria-pressed={highContrast}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors"
-              title="Alternar Modo de Alto Contraste (WCAG 2.1 AA)"
-            >
-              <Contrast className="w-3.5 h-3.5 text-[#E35336]" aria-hidden="true" />
-              <span>Alto Contraste</span>
-            </button>
 
             <button
               type="button"
-              onClick={handleToggleDarkMode}
-              aria-label={isDarkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-              className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors"
-              title={isDarkMode ? "Modo claro" : "Modo escuro"}
+              onClick={() => setFeedbackBanner(null)}
+              aria-label="Fechar aviso"
+              className="text-xs font-bold opacity-60 hover:opacity-100 flex-shrink-0 px-1.5 py-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-opacity"
             >
-              {isDarkMode ? <Sun className="w-4 h-4 text-[#E35336]" /> : <Moon className="w-4 h-4" />}
+              ✕
             </button>
           </div>
-        </div>
-      </header>
+        )}
+      </div>
 
       {/* Estrutura Principal com Sidebar Lateral + Conteúdo */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 flex flex-col lg:flex-row gap-6 items-start">
+      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 flex flex-col lg:flex-row gap-6">
         {/* Sidebar Lateral Modular (reaproveitada entre as etapas) */}
         <IrisSidebar
           currentStep={2}
@@ -487,9 +544,9 @@ export function Step2FunctionalProfile({
         />
 
         {/* Conteúdo Principal */}
-        <main id="conteudo-principal" className="flex-1 min-w-0 space-y-5">
-          {/* Faixa compacta com material da Etapa 1 */}
-          {effectiveMaterialPreview && (
+        <main id="conteudo-principal" className="flex-1 min-w-0 flex flex-col gap-5">
+          {/* Faixa compacta com material da Etapa 1 (exibida apenas no Passo A) */}
+          {effectiveMaterialPreview && currentSubStep === "a" && (
             <div className="bg-white/85 dark:bg-[#160A30]/90 border border-[#335C67]/20 dark:border-white/15 rounded-2xl px-4 py-3 flex items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2 min-w-0 max-w-xl">
                 <span className="truncate text-[#0D0221]/75 dark:text-white/75">
@@ -509,59 +566,6 @@ export function Step2FunctionalProfile({
             </div>
           )}
 
-          {/* Toast / Alerta Flutuante no Canto Superior Direito (ARIA live) */}
-          <div
-            id={alertRegionId}
-            aria-live="polite"
-            aria-atomic="true"
-            className="fixed top-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md pointer-events-none"
-          >
-            {feedbackBanner && (
-              <div
-                role={feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? "alert" : "status"}
-                className={`pointer-events-auto rounded-2xl p-4 border border-l-4 flex items-start justify-between gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
-                  feedbackBanner.type === "error"
-                    ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
-                    : feedbackBanner.type === "warning"
-                    ? "bg-white/95 dark:bg-[#160A30]/95 border-amber-200 dark:border-amber-800/60 border-l-amber-500 text-amber-950 dark:text-amber-100"
-                    : feedbackBanner.type === "success"
-                    ? "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
-                    : "bg-white/95 dark:bg-[#160A30]/95 border-[#335C67]/25 dark:border-white/15 border-l-[#E35336] text-[#0D0221] dark:text-white"
-                }`}
-              >
-                <div className="flex items-start gap-3 min-w-0">
-                  <div className="flex-shrink-0 mt-0.5">
-                    {feedbackBanner.type === "error" || feedbackBanner.type === "warning" ? (
-                      <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" aria-hidden="true" />
-                    ) : (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
-                    )}
-                  </div>
-                  <div className="text-xs sm:text-sm min-w-0">
-                    <p className="font-bold leading-snug">{feedbackBanner.title}</p>
-                    {feedbackBanner.message && (
-                      <p className="text-xs opacity-85 mt-1 leading-relaxed">{feedbackBanner.message}</p>
-                    )}
-                    {feedbackBanner.code && (
-                      <span className="mt-1 inline-block px-1.5 py-0.5 text-[10px] font-mono rounded bg-black/10 dark:bg-white/10">
-                        {feedbackBanner.code}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setFeedbackBanner(null)}
-                  aria-label="Fechar aviso"
-                  className="text-xs font-bold opacity-60 hover:opacity-100 flex-shrink-0 px-1.5 py-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-opacity"
-                >
-                  ✕
-                </button>
-              </div>
-            )}
-          </div>
-
           {/* ======================================================================== */}
           {/* PASSO A: PERFIL FUNCIONAL (Dimensão Funcional + Características Atômicas) */}
           {/* ======================================================================== */}
@@ -571,7 +575,10 @@ export function Step2FunctionalProfile({
               className="bg-white dark:bg-[#160A30] border border-[#335C67]/25 dark:border-white/15 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5"
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
-                <div className="space-y-1">
+                <div className="space-y-1.5">
+                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
+                    <span>{STEP_TITLES[2]}</span>
+                  </div>
                   <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
                     Quais barreiras funcionais você observa no estudante?
                   </h1>
@@ -660,8 +667,8 @@ export function Step2FunctionalProfile({
                       }`}
                     >
                       <div className="space-y-2.5">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-start gap-3">
+                        <div className="flex items-start justify-between gap-2.5">
+                          <div className="flex items-start gap-3 min-w-0">
                             <div
                               className={`mt-0.5 flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${
                                 isSelected
@@ -688,17 +695,29 @@ export function Step2FunctionalProfile({
                             </div>
                           </div>
 
-                          {isSelected ? (
-                            <span className="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#E35336]/15 text-[#E35336] border border-[#E35336]/30">
-                              <Unlock className="w-3 h-3" aria-hidden="true" />
-                              Adaptar
-                            </span>
-                          ) : (
-                            <span className="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-black/5 dark:bg-white/10 text-[#0D0221]/65 dark:text-white/65">
-                              <Lock className="w-3 h-3" aria-hidden="true" />
-                              Original
-                            </span>
-                          )}
+                          <button
+                            type="button"
+                            aria-expanded={isExpanded}
+                            aria-label={
+                              isExpanded
+                                ? `Ocultar explicação de ${item.nome}`
+                                : `Ver explicação e exemplos de ${item.nome}`
+                            }
+                            title={isExpanded ? "Ocultar explicação" : "Ver explicação e exemplos"}
+                            onClick={(e) => handleToggleDetails(item.id_caracteristica, e)}
+                            onKeyDown={(e) => {
+                              if (e.key === " " || e.key === "Enter") {
+                                e.stopPropagation();
+                              }
+                            }}
+                            className="flex-shrink-0 p-1.5 rounded-lg text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 dark:hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336]"
+                          >
+                            {isExpanded ? (
+                              <ChevronUp className="w-4 h-4" aria-hidden="true" />
+                            ) : (
+                              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+                            )}
+                          </button>
                         </div>
 
                         {isExpanded && (
@@ -740,30 +759,6 @@ export function Step2FunctionalProfile({
                           </div>
                         )}
                       </div>
-
-                      <div className="pt-2 border-t border-[#335C67]/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-[#335C67]/15 text-[#335C67] dark:bg-[#335C67]/30 dark:text-[#9fd0de]">
-                          {BARREIRA_LABELS[item.barreira_rag_associada] || item.barreira_rag_associada}
-                        </span>
-
-                        <button
-                          type="button"
-                          onClick={(e) => handleToggleDetails(item.id_caracteristica, e)}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-[#335C67] dark:text-[#9fd0de] hover:underline"
-                        >
-                          {isExpanded ? (
-                            <>
-                              <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
-                              <span>Ocultar explicação</span>
-                            </>
-                          ) : (
-                            <>
-                              <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
-                              <span>Ver explicação e exemplos</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
                     </div>
                   );
                 })}
@@ -790,38 +785,49 @@ export function Step2FunctionalProfile({
                     <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
                     <span>
                       {attemptedEmptySubmit
-                        ? "Avanço bloqueado: selecione ao menos 1 característica acima."
-                        : "Selecione ao menos 1 característica observada para continuar."}
+                        ? "Selecione ao menos 1 característica para avançar."
+                        : "Selecione ao menos 1 característica."}
                     </span>
                   </div>
                 ) : (
-                  <p className="inline-flex items-center gap-2 text-xs text-[#0D0221]/75 dark:text-white/75">
-                    <Info className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de]" aria-hidden="true" />
-                    <span>
-                      <strong>{selectedCount}</strong> {selectedCount === 1 ? "característica marcada" : "características marcadas"} para adaptação • Você poderá revisar tudo no resumo final.
-                    </span>
-                  </p>
+                  <div className="flex items-start gap-2 text-xs text-[#0D0221]/75 dark:text-white/75">
+                    <Info className="w-4 h-4 text-[#335C67] dark:text-[#9fd0de] flex-shrink-0 mt-0.5" aria-hidden="true" />
+                    <div className="flex flex-col leading-snug">
+                      <span>
+                        <strong>{selectedCount}</strong> {selectedCount === 1 ? "característica marcada" : "características marcadas"} para adaptação
+                      </span>
+                      <span>Você poderá revisar tudo no resumo final.</span>
+                    </div>
+                  </div>
                 )}
               </div>
 
               <div className="flex flex-wrap items-center gap-2.5">
-                {selectedCount > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => navigateToSubStep("c")}
-                    className="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 text-[#0D0221] dark:text-white transition-colors"
-                  >
-                    Ir direto para Resumo
-                  </button>
-                )}
                 <button
                   type="button"
                   disabled={selectedCount === 0}
                   onClick={() => navigateToSubStep("b")}
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 disabled:opacity-45 disabled:cursor-not-allowed text-[#0D0221] dark:text-white transition-colors"
+                >
+                  Adicionar Interesses (Opcional)
+                </button>
+                <button
+                  type="button"
+                  disabled={selectedCount === 0 || isSubmitting}
+                  onClick={handleConfirmAndAdvance}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed shadow-sm transition-all"
                 >
-                  <span>Continuar</span>
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                      <span>Validando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Confirmar e Ir para Etapa 3</span>
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -836,25 +842,21 @@ export function Step2FunctionalProfile({
             aria-label="Passo B: Potencialidades, interesses temáticos e canais de engajamento (Opcional)"
             className="bg-white dark:bg-[#160A30] border border-[#335C67]/25 dark:border-white/15 rounded-2xl p-5 sm:p-6 shadow-sm space-y-6"
           >
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
               <div className="space-y-1.5">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[#335C67]/15 text-[#335C67] dark:bg-[#335C67]/30 dark:text-[#9fd0de]">
-                  <HeartHandshake className="w-3.5 h-3.5" aria-hidden="true" />
-                  Princípio I do DUA — Rede de Engajamento • Opcional
-                </span>
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
+                  <span>{STEP_TITLES[2]}</span>
+                </div>
                 <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
-                  Potencialidades, Interesses e Canais de Engajamento
-                </h1>
-                <p className="text-xs sm:text-sm text-[#0D0221]/75 dark:text-white/75 max-w-3xl">
                   Escolha temas, canais preferenciais e facilidades do estudante
-                </p>
+                </h1>
               </div>
 
               {engagementAnchorCount > 0 && (
                 <button
                   type="button"
                   onClick={handleClearEngagement}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-black/5 dark:bg-white/10 hover:bg-red-500/15 hover:text-red-700 dark:hover:text-red-300 transition-colors self-start flex-shrink-0"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-black/5 dark:bg-white/10 hover:bg-red-500/15 hover:text-red-700 dark:hover:text-red-300 transition-colors self-start sm:self-auto flex-shrink-0"
                 >
                   <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>Limpar Engajamento</span>
@@ -864,18 +866,26 @@ export function Step2FunctionalProfile({
 
             {/* 1. Interesses Temáticos */}
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                <Compass className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
-                <span>1. Interesses Temáticos (Opcional)</span>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
+                  <Compass className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                  <span>1. Interesses Temáticos (Opcional)</span>
+                </div>
+                {selectedInterests.length > 0 && (
+                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#E35336]/15 text-[#E35336]">
+                    {selectedInterests.length} {selectedInterests.length === 1 ? "selecionado" : "selecionados"}
+                  </span>
+                )}
               </div>
 
               <div
-                className="flex flex-wrap gap-2"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5"
                 role="group"
                 aria-label="Seletores de interesses temáticos"
               >
                 {engagementOptions.interesses_tematicos.map((interest) => {
                   const isActive = selectedInterests.includes(interest.id);
+                  const InterestIcon = INTEREST_ICONS[interest.id] || Sparkles;
                   return (
                     <button
                       key={interest.id}
@@ -883,14 +893,32 @@ export function Step2FunctionalProfile({
                       aria-pressed={isActive}
                       title={interest.descricao}
                       onClick={() => handleToggleInterest(interest.id)}
-                      className={`px-3.5 py-2 rounded-full text-xs sm:text-sm font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
+                      className={`px-3.5 py-2.5 rounded-xl text-xs font-bold border-2 transition-all active:scale-[0.98] flex items-center justify-between gap-2.5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
                         isActive
                           ? "bg-[#E35336] text-white border-[#E35336] shadow-sm"
-                          : "bg-[#F5EDF0]/70 dark:bg-white/5 text-[#0D0221] dark:text-white border-[#335C67]/25 dark:border-white/15 hover:border-[#E35336]/60"
+                          : "bg-[#F5EDF0]/65 dark:bg-white/5 text-[#0D0221] dark:text-white border-[#335C67]/20 dark:border-white/15 hover:border-[#E35336]/60 hover:bg-[#E35336]/[0.05]"
                       }`}
                     >
-                      {isActive ? "✓ " : ""}
-                      {interest.rotulo}
+                      <span className="flex items-center gap-2 min-w-0">
+                        <InterestIcon
+                          className={`w-4 h-4 flex-shrink-0 ${
+                            isActive ? "text-white" : "text-[#E35336]"
+                          }`}
+                          aria-hidden="true"
+                        />
+                        <span className="leading-snug">{interest.rotulo}</span>
+                      </span>
+
+                      <span
+                        className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
+                          isActive
+                            ? "bg-white text-[#E35336]"
+                            : "border border-[#335C67]/25 dark:border-white/25 bg-white/70 dark:bg-white/5"
+                        }`}
+                        aria-hidden="true"
+                      >
+                        {isActive && <Check className="w-3 h-3 stroke-[3]" />}
+                      </span>
                     </button>
                   );
                 })}
@@ -899,13 +927,20 @@ export function Step2FunctionalProfile({
 
             {/* 2. Canais Preferenciais de Engajamento */}
             <div className="pt-5 border-t border-[#335C67]/15 dark:border-white/10 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
-                <Layers className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
-                <span>2. Canais Preferenciais de Engajamento (Opcional)</span>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
+                  <Layers className="w-4 h-4 text-[#E35336]" aria-hidden="true" />
+                  <span>2. Canais Preferenciais de Engajamento (Opcional)</span>
+                </div>
+                {selectedChannels.length > 0 && (
+                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#335C67]/15 text-[#335C67] dark:bg-[#335C67]/40 dark:text-[#9fd0de]">
+                    {selectedChannels.length} {selectedChannels.length === 1 ? "selecionado" : "selecionados"}
+                  </span>
+                )}
               </div>
 
               <div
-                className="flex flex-wrap gap-2"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
                 role="group"
                 aria-label="Canais preferenciais de engajamento"
               >
@@ -916,16 +951,31 @@ export function Step2FunctionalProfile({
                       key={canal.id}
                       type="button"
                       aria-pressed={isActive}
-                      title={canal.descricao}
                       onClick={() => handleToggleChannel(canal.id)}
-                      className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
+                      className={`p-3.5 rounded-xl border-2 text-left transition-all active:scale-[0.99] flex flex-col justify-between gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
                         isActive
-                          ? "bg-[#335C67] text-white border-[#335C67] shadow-sm"
-                          : "bg-[#F5EDF0]/70 dark:bg-white/5 text-[#0D0221] dark:text-white border-[#335C67]/25 dark:border-white/15 hover:border-[#335C67]/60"
+                          ? "bg-[#335C67]/[0.08] dark:bg-[#335C67]/30 border-[#335C67] dark:border-[#9fd0de] shadow-sm"
+                          : "bg-[#F5EDF0]/55 dark:bg-white/5 border-[#335C67]/20 dark:border-white/15 hover:border-[#335C67]/60"
                       }`}
                     >
-                      {isActive ? "✓ " : ""}
-                      {canal.rotulo}
+                      <div className="flex items-start justify-between gap-2.5">
+                        <span className="text-xs sm:text-sm font-bold text-[#0D0221] dark:text-white leading-snug">
+                          {canal.rotulo}
+                        </span>
+                        <span
+                          className={`mt-0.5 w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 transition-colors ${
+                            isActive
+                              ? "bg-[#335C67] text-white"
+                              : "border border-[#335C67]/25 dark:border-white/25 bg-white dark:bg-white/10"
+                          }`}
+                          aria-hidden="true"
+                        >
+                          {isActive && <Check className="w-3.5 h-3.5 stroke-[2.5]" />}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-[#0D0221]/70 dark:text-white/75 leading-relaxed">
+                        {canal.descricao}
+                      </p>
                     </button>
                   );
                 })}
@@ -933,7 +983,7 @@ export function Step2FunctionalProfile({
             </div>
 
             {/* 3. Potencialidades e Facilidades Observadas */}
-            <div className="pt-5 border-t border-[#335C67]/15 dark:border-white/10 space-y-2">
+            <div className="pt-5 border-t border-[#335C67]/15 dark:border-white/10 space-y-2.5">
               <div className="flex items-center justify-between gap-2">
                 <label
                   htmlFor={potencialidadesInputId}
@@ -943,6 +993,7 @@ export function Step2FunctionalProfile({
                 </label>
                 <span className="text-[11px] font-mono opacity-70">{potencialidades.length}/500</span>
               </div>
+
               <textarea
                 id={potencialidadesInputId}
                 rows={2}
@@ -971,14 +1022,33 @@ export function Step2FunctionalProfile({
                 <span>Voltar</span>
               </button>
 
-              <button
-                type="button"
-                onClick={() => navigateToSubStep("c")}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#E35336] hover:bg-[#c94429] shadow-sm transition-all"
-              >
-                <span>Continuar para Resumo</span>
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </button>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => navigateToSubStep("c")}
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 text-[#0D0221] dark:text-white transition-colors"
+                >
+                  Ver Resumo
+                </button>
+                <button
+                  type="button"
+                  disabled={selectedCount === 0 || isSubmitting}
+                  onClick={handleConfirmAndAdvance}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed shadow-sm transition-all"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                      <span>Validando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Confirmar e Ir para Etapa 3</span>
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </section>
         )}
@@ -989,13 +1059,15 @@ export function Step2FunctionalProfile({
         {currentSubStep === "c" && (
           <section
             aria-label="Passo C: Resumo do escopo cirúrgico e avanço para Etapa 3"
-            className="bg-white dark:bg-[#160A30] border-2 border-[#335C67]/30 dark:border-white/15 rounded-2xl p-5 sm:p-6 shadow-md space-y-5"
+            className="flex-1 flex flex-col gap-5 bg-white dark:bg-[#160A30] border-2 border-[#335C67]/30 dark:border-white/15 rounded-2xl p-5 sm:p-6 shadow-md"
           >
-            <div className="border-b border-[#335C67]/15 dark:border-white/10 pb-4">
+            <div className="space-y-1.5 border-b border-[#335C67]/15 dark:border-white/10 pb-4">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
+                <span>{STEP_TITLES[2]}</span>
+              </div>
               <h1 className="text-xl sm:text-2xl font-extrabold text-[#0D0221] dark:text-white">
                 Resumo do perfil funcional
               </h1>
-              
             </div>
 
             {/* 3 Cards de Resumo */}
@@ -1122,7 +1194,7 @@ export function Step2FunctionalProfile({
             )}
 
             {/* Rodapé do Passo (C) */}
-            <div className="pt-3 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="mt-auto pt-4 border-t border-[#335C67]/15 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"

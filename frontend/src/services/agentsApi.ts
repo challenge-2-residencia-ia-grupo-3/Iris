@@ -8,7 +8,7 @@
 
 import { STEP5_ADAPTACAO_STORAGE_KEY, Step5Entrada } from "./comparisonCards";
 import { IrisApiError } from "./materialsApi";
-import { ScaffoldingLevel } from "./scaffoldingApi";
+import { AuditorInvariantsContract, ScaffoldingLevel } from "./scaffoldingApi";
 
 const API_BASE_URL =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_API_BASE_URL
@@ -27,6 +27,7 @@ export interface MultiAgentAdaptPayload {
   disciplina?: string;
   ano_escolar?: string;
   trava_manual_docente?: string[];
+  invariantes_etapa3?: AuditorInvariantsContract;
   provider?: AgentProviderOption;
   model?: string;
   metodo_rag?: string;
@@ -114,6 +115,8 @@ export interface QuestionMultiAgentTrace {
   original: string;
   adaptado: string;
   justificativas: string[];
+  /** Orientação ao docente; nunca faz parte de `adaptado`, que é o texto do aluno. */
+  recomendacao_docente?: string | null;
   id_caracteristica: string;
   caracteristicas_selecionadas: string[];
   nivel: ScaffoldingLevel;
@@ -151,6 +154,15 @@ export interface MultiAgentMaterialResponse {
   total_tokens: number;
   etapa5_entrada: Step5Entrada;
   questoes_trace: QuestionMultiAgentTrace[];
+}
+
+/**
+ * Fontes que a diretiva do Estrategista cita de fato, na ordem dos rótulos (T1, T2, ...).
+ * A busca devolve mais trechos do que a diretiva usa; só os citados sustentam o que foi escrito.
+ */
+export function fontesCitadas(est: StrategistTrace): StrategistTrace["fontes"] {
+  const citados = new Set(est.intervencoes.flatMap((i) => i.citacoes));
+  return est.fontes.filter((f) => citados.has(f.rotulo));
 }
 
 export function saveStep5AdaptationToSession(entrada: Step5Entrada): void {

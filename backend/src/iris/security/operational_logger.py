@@ -54,6 +54,7 @@ SENSITIVE_PAYLOAD_KEYS = frozenset(
         "feedback_auditor",
         "feedback_gerado",
         "justificativas",
+        "recomendacao_docente",
         "conceitos_obrigatorios",
         "conceitos_retidos",
         "conceitos_ausentes",
@@ -357,6 +358,10 @@ def categorizar_violacoes_escopo(escopo: Any) -> list[str]:
     cats: list[str] = []
     if getattr(escopo, "conceitos_perdidos", None):
         cats.append("conceito_ausente")
+    if getattr(escopo, "numeros_perdidos", None):
+        cats.append("numero_ausente")
+    if getattr(escopo, "negacoes_perdidas", None):
+        cats.append("negacao_ausente")
     if getattr(escopo, "palavras_perdidas", None):
         cats.append("palavra_ausente")
     if getattr(escopo, "palavras_novas", None):

@@ -51,18 +51,18 @@ export function IrisLogoBanner({ compact = false }: IrisLogoBannerProps) {
 
       <div className="relative z-10 flex items-center gap-4">
         {/* Ícone do olho da Íris */}
-        <div className="relative flex-shrink-0 w-24 h-16 flex items-center justify-center">
+        <div className="relative flex-shrink-0 w-20 h-14 flex items-center justify-center">
           <img
-            src="/logo.jpg"
-            alt="Logotipo Íris"
-            className="w-20 h-20 rounded-full object-cover shadow-md border border-white/15"
+            src="/iris-eye.png"
+            alt=""
+            aria-hidden="true"
+            className="w-[4.5rem] h-12 object-contain filter drop-shadow-md"
           />
         </div>
 
-        <div className="h-12 w-px bg-white/25" aria-hidden="true" />
-
+        {/* Sem o traço vertical anterior entre o símbolo e o nome */}
         <div className="flex items-center gap-3">
-          <span className="text-4xl font-light tracking-tight text-white">Íris</span>
+          <span className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Íris</span>
           <div className="h-8 w-px bg-white/20" aria-hidden="true" />
           <span className="text-xs leading-snug text-white/75 font-normal">
             Aprender

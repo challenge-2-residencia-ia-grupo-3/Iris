@@ -46,17 +46,17 @@ const API_BASE_URL =
     ? process.env.NEXT_PUBLIC_API_BASE_URL
     : "http://127.0.0.1:8000";
 
-function getLocalStorage(): Storage | null {
+function getSessionStorage(): Storage | null {
   if (typeof window === "undefined") return null;
   try {
-    return window.localStorage;
+    return window.sessionStorage;
   } catch {
     return null;
   }
 }
 
 export function loadStoredAuthSession(): AuthSession | null {
-  const storage = getLocalStorage();
+  const storage = getSessionStorage();
   if (!storage) return null;
   try {
     const raw = storage.getItem(TEACHER_AUTH_STORAGE_KEY);
@@ -72,22 +72,22 @@ export function loadStoredAuthSession(): AuthSession | null {
 }
 
 export function saveStoredAuthSession(session: AuthSession): void {
-  const storage = getLocalStorage();
+  const storage = getSessionStorage();
   if (!storage) return;
   try {
     storage.setItem(TEACHER_AUTH_STORAGE_KEY, JSON.stringify(session));
   } catch {
-    // Ignora caso localStorage esteja indisponível
+    // Ignora caso sessionStorage esteja indisponível
   }
 }
 
 export function clearStoredAuthSession(): void {
-  const storage = getLocalStorage();
+  const storage = getSessionStorage();
   if (!storage) return;
   try {
     storage.removeItem(TEACHER_AUTH_STORAGE_KEY);
   } catch {
-    // Ignora caso localStorage esteja indisponível
+    // Ignora caso sessionStorage esteja indisponível
   }
 }
 

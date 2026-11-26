@@ -2,14 +2,20 @@
 import React from "react";
 import axe from "axe-core";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { IrisSidebar } from "../src/components/IrisSidebar";
 import { JustificativaCard } from "../src/components/JustificativaCard";
 import { ReviewEditor } from "../src/components/ReviewEditor";
+import { Step5Review } from "../src/components/Step5Review";
+import { ThemeProvider } from "../src/contexts/ThemeContext";
 import catalogoRaw from "../../rag/catalogs/tdah_caracteristicas_funcionais.json";
 import type { CharacteristicItem } from "../src/services/catalogsApi";
 import { indicadoresAndaime, montarCartao } from "../src/services/comparisonCards";
 import { ETAPA5_DEMO } from "../src/services/etapa5Demo";
 import type { SessaoRevisao } from "../src/services/sessionReview";
+
+const push = vi.fn();
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push }), usePathname: () => "/etapa-5" }));
 
 const CATALOGO = catalogoRaw.caracteristicas as unknown as CharacteristicItem[];
 afterEach(cleanup);
@@ -139,5 +145,72 @@ describe("Etapa 5: responsividade (classes de layout; a medição real fica no e
   it("alvos de toque dos cartões têm pelo menos 44px de altura", () => {
     render(tela());
     for (const b of screen.getAllByRole("button", { name: /Por que mudou/ })) expect(b.className).toContain("min-h-[44px]");
+  });
+});
+
+describe("Etapa 5: a versão adaptada aparece como o aluno verá (sem marcação crua)", () => {
+  const COM_MARCACAO = "1. [ ] **Leia** o texto.\n2. [x] **Explique** a evaporação.";
+  const comTexto = (adaptado: string): SessaoRevisao => ({
+    ...sessao,
+    questoes: [{ id: "q1", original: "Leia o texto e explique.", adaptado, aprovada: false, editada: false }],
+  });
+
+  it("mostra negrito sem asteriscos e caixas desenhadas no lugar de [ ]", () => {
+    render(<ReviewEditor sessao={comTexto(COM_MARCACAO)} />);
+    const previa = screen.getByRole("group", { name: "Como o aluno verá a questão 1" });
+    expect(previa.textContent).not.toContain("**");
+    expect(previa.textContent).not.toContain("[ ]");
+    expect(previa.textContent).not.toContain("[x]");
+    expect(within(previa).getByText("Leia").tagName).toBe("STRONG");
+    expect(within(previa).getByText("Explique").tagName).toBe("STRONG");
+    expect(within(previa).getByRole("img", { name: "caixa para marcar" })).toBeTruthy();
+    expect(within(previa).getByRole("img", { name: "caixa marcada" })).toBeTruthy();
+    expect(previa.textContent).toContain("texto.");
+  });
+
+  it("a caixa de edição continua com o texto original, com a marcação, para o professor editar", () => {
+    render(<ReviewEditor sessao={comTexto(COM_MARCACAO)} />);
+    expect((screen.getByRole("textbox") as HTMLTextAreaElement).value).toBe(COM_MARCACAO);
+  });
+
+  it("acompanha o que o professor digita", () => {
+    render(<ReviewEditor sessao={comTexto("Texto simples.")} />);
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "Agora **com destaque** e [ ] caixa." } });
+    const previa = screen.getByRole("group", { name: /Como o aluno verá/ });
+    expect(within(previa).getByText("com destaque").tagName).toBe("STRONG");
+    expect(previa.textContent).not.toContain("**");
+  });
+
+  it("texto apagado avisa que a versão está vazia", () => {
+    render(<ReviewEditor sessao={comTexto("algo")} />);
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "" } });
+    expect(screen.getByRole("group", { name: /Como o aluno verá/ }).textContent).toContain("A versão adaptada está vazia.");
+  });
+
+  it("não cria violações de acessibilidade", async () => {
+    const { container } = render(<ReviewEditor sessao={comTexto(COM_MARCACAO)} />);
+    expect(await violacoes(container)).toEqual([]);
+  });
+});
+
+describe("Etapa 5: navegação", () => {
+  it("o botão do topo volta para a Etapa 4 (a etapa anterior)", () => {
+    push.mockClear();
+    render(
+      <ThemeProvider>
+        <Step5Review entrada={null} />
+      </ThemeProvider>
+    );
+    const voltar = screen.getByRole("button", { name: /Etapa 4/ });
+    expect(screen.queryByRole("button", { name: /^Etapa 2$/ })).toBeNull();
+    fireEvent.click(voltar);
+    expect(push).toHaveBeenCalledWith("/etapa-4");
+  });
+
+  it("os itens da barra lateral têm alvo de toque de pelo menos 44px", () => {
+    const { container } = render(<IrisSidebar currentStep={5} enabledSteps={[1, 2, 3, 4, 5]} onNavigateStep={() => {}} />);
+    const itens = Array.from(container.querySelectorAll("nav a, nav button, nav [aria-current='page'], nav [aria-disabled='true']"));
+    expect(itens.length).toBeGreaterThanOrEqual(6);
+    for (const el of itens) expect(el.className, el.textContent ?? "").toContain("min-h-[44px]");
   });
 });

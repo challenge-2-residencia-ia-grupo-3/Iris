@@ -38,12 +38,18 @@ SISTEMA_JUIZ_SONNET = (
     "Siga estritamente a regra da mensagem e devolva APENAS o objeto JSON solicitado, sem cercas markdown."
 )
 
+# Ordem de tentativa quando o modelo pedido não existe na conta (404). O claude-sonnet-4-5-20250929 saiu da lista:
+# a Anthropic o tira do ar em 30/11/2026.
 MODELOS_SONNET_FALLBACK = (
-    "claude-sonnet-4-5-20250929",
-    "claude-sonnet-4-6",
-    "claude-sonnet-5",
     "claude-sonnet-5-5",
+    "claude-sonnet-5",
+    "claude-sonnet-4-6",
 )
+
+# Modelos que pensam antes de responder: recusam `temperature` (HTTP 400) e o pensamento conta no max_tokens.
+# Medido com claude-haiku-5-5 e claude-sonnet-5-5 em 17/11/2026; para os outros nomes vale a documentação.
+RE_MODELO_QUE_PENSA = re.compile(r"claude-(haiku|sonnet|opus)-5|claude-(fable|mythos)")
+MAX_TOKENS_JUIZ_QUE_PENSA = 12000
 
 ABREVIACAO_RE = re.compile(r"(?:\bet al|\bart|\barts|\bcf|\bvs|\bDr|\bDra|\bProf|\bn[ºo]?)\.$")
 
@@ -327,15 +333,17 @@ def chamar_claude_sonnet_api(
     ultimo_erro: Exception | None = None
 
     for mod_tentativa in candidatos:
-        corpo = json.dumps(
-            {
-                "model": mod_tentativa,
-                "max_tokens": 2048,
-                "temperature": temperature,
-                "system": sistema,
-                "messages": [{"role": "user", "content": prompt}],
-            }
-        ).encode("utf-8")
+        corpo_dict: dict[str, Any] = {
+            "model": mod_tentativa,
+            "max_tokens": 2048,
+            "temperature": temperature,
+            "system": sistema,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        if RE_MODELO_QUE_PENSA.search(mod_tentativa):
+            corpo_dict["max_tokens"] = MAX_TOKENS_JUIZ_QUE_PENSA
+            corpo_dict.pop("temperature")
+        corpo = json.dumps(corpo_dict).encode("utf-8")
 
         req = urllib.request.Request(
             "https://api.anthropic.com/v1/messages",
@@ -369,6 +377,10 @@ def chamar_claude_sonnet_api(
                 except Exception:
                     pass
                 ultimo_erro = RuntimeError(f"HTTP {exc.code} ao chamar Anthropic ({mod_tentativa}): {detalhe[:300]}")
+                # Modelo fora da lista acima que também recuse `temperature`: repete a chamada sem o campo
+                if exc.code == 400 and "temperature" in detalhe and corpo_dict.pop("temperature", None) is not None:
+                    req.data = json.dumps(corpo_dict).encode("utf-8")
+                    continue
                 # Se o modelo específico não existir na conta (404), tenta o próximo alias Sonnet
                 if exc.code == 404:
                     break
@@ -454,6 +466,27 @@ def _calcular_kappa(pares: list[tuple[str, str]]) -> tuple[float, float]:
     if pe >= 1.0:
         return round(po, 4), 1.0
     return round(po, 4), round((po - pe) / (1.0 - pe), 4)
+
+
+def registro_do_juiz(modelo_pedido: str, modelo_efetivo: str, etiquetas: list[str], chamadas: int) -> dict[str, Any]:
+    """Como este julgamento foi feito (issue #108, parte 1): sem isso, dois julgamentos não são comparáveis.
+
+    Em 16/11/2026 descobrimos que roteiros de avaliação usavam o modelo configurado na máquina, sem gravar o nome.
+    Aqui ficam o modelo pedido e o que respondeu, o esforço, a temperatura de cada juiz, o limite de tokens e quantas
+    respostas do RAG vão em cada chamada (uma: este juiz nunca agrupa respostas em lote).
+    """
+    pensa = bool(RE_MODELO_QUE_PENSA.search(modelo_efetivo or modelo_pedido))
+    return {
+        "modelo_pedido": modelo_pedido,
+        "modelo_efetivo": modelo_efetivo,
+        "esforco": "padrão do modelo (nenhum parâmetro de esforço enviado)",
+        "temperatura": {etq: (None if pensa else (0.0 if i == 0 else 0.15)) for i, etq in enumerate(etiquetas)},
+        "max_tokens": MAX_TOKENS_JUIZ_QUE_PENSA if pensa else 2048,
+        "respostas_por_chamada": 1,
+        "chamadas": chamadas,
+        "regra": REGRA_JUIZ_V2_PATH.name,
+        "regra_sha256": (hashlib.sha256(REGRA_JUIZ_V2_PATH.read_bytes()).hexdigest()[:16] if REGRA_JUIZ_V2_PATH.exists() else None),
+    }
 
 
 def julgar_resposta_sonnet(
@@ -628,6 +661,7 @@ def julgar_resposta_sonnet(
 
     modelo_efetivo = next((u.get("modelo") for u in usos if u.get("modelo")), modelo_alvo)
     resultado = {
+        "registro_juiz": registro_do_juiz(modelo_alvo, modelo_efetivo, etiquetas, len(usos)),
         "disponivel": True,
         "avaliador": "claude_sonnet",
         "modelo": modelo_efetivo,

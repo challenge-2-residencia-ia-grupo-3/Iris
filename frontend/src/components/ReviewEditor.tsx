@@ -19,6 +19,7 @@ import {
   resumo,
 } from "@/services/reviewState";
 import type { FormatoMaterial } from "@/services/materialExport";
+import { PreviaAdaptada } from "./TextoAdaptado";
 
 interface Props {
   /** Sessão já criada no servidor (POST /api/v1/sessions) com as questões original/adaptada. */
@@ -75,13 +76,24 @@ export function ReviewEditor({ sessao, extras, onStateChange }: Props) {
     return () => clearTimeout(t);
   }, [pendente, sincronizar]);
 
+  const temQuestaoVazia = estado.questoes.some((q) => !q.adaptado.trim());
+  const todasAprovadas = estado.questoes.length > 0 && estado.questoes.every((q) => q.aprovada);
+
+  const aprovarTodas = () => {
+    if (temQuestaoVazia || todasAprovadas) return;
+    setEstado((e) => e.questoes.reduce((acc, q) => definirAprovacao(acc, q.id, true), e));
+  };
+
   const homologarAgora = async () => {
     if (!podeHomologar(estado) || !salvo) return;
     setErro(null);
     try {
       const resp = await salvarRevisao(sessao.id, { homologar: true });
       setConfirmado(resp.questoes);
-      setEstado((e) => ({ ...e, homologada: resp.homologada }));
+      setEstado((e) => ({
+        ...e,
+        homologada: resp.homologada && podeHomologar(e) && diferencas(e.questoes, resp.questoes).length === 0,
+      }));
     } catch (e) {
       setErro(e instanceof SessaoRevisaoError ? e.message : "Não foi possível confirmar a revisão.");
     }
@@ -127,6 +139,7 @@ export function ReviewEditor({ sessao, extras, onStateChange }: Props) {
                 rows={Math.max(3, q.adaptado.split("\n").length + 1)}
                 className="w-full rounded-md border border-slate-400 bg-white p-2 text-sm text-slate-900 dark:border-slate-500 dark:bg-slate-900 dark:text-slate-100"
               />
+              <PreviaAdaptada texto={q.adaptado} numero={i + 1} />
               <button
                 type="button"
                 onClick={() => setEstado((e) => definirAprovacao(e, q.id, !q.aprovada))}
@@ -149,6 +162,17 @@ export function ReviewEditor({ sessao, extras, onStateChange }: Props) {
         <span className="text-sm" aria-live="polite">
           {aprovadas} de {total} questões aprovadas · {salvando ? "salvando…" : pendente ? "alterações por salvar" : "tudo salvo"}
         </span>
+        {!todasAprovadas && total > 1 && (
+          <button
+            type="button"
+            onClick={aprovarTodas}
+            disabled={temQuestaoVazia}
+            className="inline-flex min-h-[44px] items-center gap-1 rounded-md border border-slate-400 bg-white px-3 py-1.5 text-sm text-slate-900 disabled:opacity-60 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100"
+          >
+            <CheckCircle2 className="h-4 w-4" aria-hidden />
+            Aprovar todas
+          </button>
+        )}
         <button
           type="button"
           onClick={homologarAgora}

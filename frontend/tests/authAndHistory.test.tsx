@@ -8,6 +8,7 @@ import { ThemeProvider } from "../src/contexts/ThemeContext";
 import { IrisSidebar } from "../src/components/IrisSidebar";
 import HistoricoPage from "../src/app/historico/page";
 import {
+  TEACHER_AUTH_STORAGE_KEY,
   buildGoogleOAuthStartUrl,
   clearStoredAuthSession,
   fetchWithTeacherAuth,
@@ -35,6 +36,7 @@ afterEach(() => {
   cleanup();
   clearStoredAuthSession();
   window.sessionStorage.clear();
+  window.localStorage.clear();
   vi.unstubAllGlobals();
   pushMock.mockReset();
 });
@@ -63,6 +65,8 @@ describe("authApi e historyApi", () => {
 
     saveStoredAuthSession(SAMPLE_SESSION);
     expect(loadStoredAuthSession()?.teacher.email).toBe("marina@escola.edu.br");
+    expect(window.sessionStorage.getItem(TEACHER_AUTH_STORAGE_KEY)).toBeTruthy();
+    expect(window.localStorage.getItem(TEACHER_AUTH_STORAGE_KEY)).toBeNull();
   });
 
   it("renova token automaticamente em 401 via refresh_token", async () => {

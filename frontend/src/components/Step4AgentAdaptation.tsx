@@ -13,21 +13,19 @@ import {
   Cpu,
   FileCheck2,
   Loader2,
-  Moon,
   Play,
   RefreshCw,
   ShieldAlert,
   ShieldCheck,
   Sparkles,
-  Sun,
   Wrench,
 } from "lucide-react";
 
-import { IrisLogoBanner } from "./IrisLogoBanner";
+import { IrisHeader, STEP_TITLES } from "./IrisHeader";
 import { IrisSidebar } from "./IrisSidebar";
-import { useTheme } from "@/contexts/ThemeContext";
 import {
   AgentProviderOption,
+  fontesCitadas,
   loadStep4ResultFromSession,
   MultiAgentMaterialResponse,
   QuestionMultiAgentTrace,
@@ -56,9 +54,14 @@ const PROVIDER_LABELS: Record<AgentProviderOption, string> = {
   extractive: "Modo Rápido Determinístico (sem LLM externo)",
 };
 
-export function Step4AgentAdaptation() {
+interface Step4AgentAdaptationProps {
+  teacherEmail?: string;
+}
+
+export function Step4AgentAdaptation({
+  teacherEmail,
+}: Step4AgentAdaptationProps = {}) {
   const router = useRouter();
-  const { darkMode, toggleDarkMode } = useTheme();
 
   const materialInputId = useId();
   const travaInputId = useId();
@@ -75,6 +78,13 @@ export function Step4AgentAdaptation() {
   ]);
   const [nivel, setNivel] = useState<ScaffoldingLevel>(2);
   const [travaManualTexto, setTravaManualTexto] = useState<string>("");
+  const [invariantesEtapa3, setInvariantesEtapa3] = useState<
+    ReturnType<typeof loadScaffoldingFromSession> extends infer T
+      ? T extends { invariantes_auditor?: infer I }
+        ? I | null
+        : null
+      : null
+  >(null);
   const [disciplina, setDisciplina] = useState<string>("");
   const [anoEscolar, setAnoEscolar] = useState<string>("");
   const [provider, setProvider] = useState<AgentProviderOption>("auto");
@@ -105,6 +115,16 @@ export function Step4AgentAdaptation() {
     const scaffolding = loadScaffoldingFromSession();
     if (scaffolding && [1, 2, 3].includes(scaffolding.nivel)) {
       setNivel(scaffolding.nivel);
+      if (scaffolding.invariantes_auditor) {
+        setInvariantesEtapa3(scaffolding.invariantes_auditor);
+      }
+      const travasEtapa3 =
+        scaffolding.invariantes_auditor?.conceitos_obrigatorios ||
+        scaffolding.trava_curricular?.conceitos_obrigatorios ||
+        [];
+      if (travasEtapa3.length > 0) {
+        setTravaManualTexto(travasEtapa3.join("; "));
+      }
     }
 
     const savedStep4 = loadStep4ResultFromSession();
@@ -117,12 +137,13 @@ export function Step4AgentAdaptation() {
     FALLBACK_OFFICIAL_CATALOG.caracteristicas.map((c) => [c.id_caracteristica, c])
   );
 
-  const handleRunPipeline = async () => {
+  const handleRunPipeline = async (advanceAfter = false) => {
     setErrorMsg(null);
     setIsRunning(true);
     try {
+      const separador = /[;\n]/.test(travaManualTexto) ? /[;\n]+/ : /[;\n,]+/;
       const travas = travaManualTexto
-        .split(/[;\n,]+/)
+        .split(separador)
         .map((s) => s.trim())
         .filter(Boolean);
 
@@ -134,11 +155,16 @@ export function Step4AgentAdaptation() {
         disciplina: disciplina.trim() || undefined,
         ano_escolar: anoEscolar.trim() || undefined,
         trava_manual_docente: travas.length > 0 ? travas : undefined,
+        invariantes_etapa3: invariantesEtapa3 || undefined,
         provider,
         metodo_rag: "bm25",
         simular_autocorrecao: simularAutocorrecao,
       });
       setResult(res);
+      if (advanceAfter && res.requerem_revisao_humana === 0) {
+        saveStep5AdaptationToSession(res.etapa5_entrada);
+        router.push("/etapa-5");
+      }
     } catch (err) {
       if (err instanceof IrisApiError) {
         setErrorMsg(err.message);
@@ -158,31 +184,7 @@ export function Step4AgentAdaptation() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F5EDF0] dark:bg-[#0D0221] text-[#0D0221] dark:text-[#F5EDF0] transition-colors">
-      <header className="w-full bg-[#0D0221] text-white border-b border-white/10 px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <IrisLogoBanner compact />
-            <div className="hidden md:block h-7 w-px bg-white/15" aria-hidden="true" />
-            <div className="hidden md:block">
-              <p className="text-xs font-semibold text-[#FF8A70] uppercase tracking-wider">
-                Etapa 4 de 5 • Orquestração do Sistema Multiagentes
-              </p>
-              <p className="text-xs text-white/75">
-                Extrator Curricular → Estrategista RAG → Adaptador ↔ Auditor de Integridade
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={toggleDarkMode}
-            aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
-            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-          >
-            {darkMode ? <Sun className="w-4 h-4 text-[#E35336]" /> : <Moon className="w-4 h-4" />}
-          </button>
-        </div>
-      </header>
+      <IrisHeader currentStep={4} teacherEmail={teacherEmail} />
 
       <div className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
         <IrisSidebar
@@ -199,14 +201,17 @@ export function Step4AgentAdaptation() {
             className="p-5 sm:p-7 rounded-2xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15 shadow-sm space-y-5"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
+              <div className="space-y-1.5">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#B53319] dark:text-[#FF8A70]">
+                  <span>{STEP_TITLES[4]}</span>
+                </div>
                 <h1
                   id="titulo-etapa-4"
                   className="text-xl sm:text-2xl font-black text-[#0D0221] dark:text-white tracking-tight"
                 >
                   Motor Multiagentes com Isolamento de Escopo
                 </h1>
-                <p className="text-xs sm:text-sm text-[#0D0221]/75 dark:text-white/75 mt-1">
+                <p className="text-xs sm:text-sm text-[#0D0221]/75 dark:text-white/75">
                   Acompanhe os 4 agentes colaborando para extrair travas curriculares, recuperar evidências DUA/MEC, adaptar a apresentação e auditar a retenção (TRCC ≥ 95%).
                 </p>
               </div>
@@ -359,8 +364,8 @@ export function Step4AgentAdaptation() {
                 <button
                   type="button"
                   disabled={isRunning || materialText.trim().length < 15}
-                  onClick={handleRunPipeline}
-                  className="min-h-[44px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-white bg-[#C9411F] hover:bg-[#ad3618] disabled:opacity-45 disabled:cursor-not-allowed shadow-md transition-all"
+                  onClick={() => handleRunPipeline(false)}
+                  className="min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm text-[#0D0221] dark:text-white bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 disabled:opacity-45 disabled:cursor-not-allowed transition-all"
                 >
                   {isRunning ? (
                     <>
@@ -380,16 +385,29 @@ export function Step4AgentAdaptation() {
                   )}
                 </button>
 
-                {result && (
-                  <button
-                    type="button"
-                    onClick={handleAdvanceToStep5}
-                    className="min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm text-white bg-[#335C67] hover:bg-[#274952] shadow-md transition-all"
-                  >
-                    <span>Avançar para Etapa 5 (Revisão)</span>
-                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                  </button>
-                )}
+                <button
+                  type="button"
+                  disabled={isRunning || materialText.trim().length < 15}
+                  onClick={() => (result ? handleAdvanceToStep5() : handleRunPipeline(true))}
+                  className="min-h-[44px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-white bg-[#C9411F] hover:bg-[#ad3618] disabled:opacity-45 disabled:cursor-not-allowed shadow-md transition-all"
+                >
+                  {isRunning ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                      <span>Adaptando e avançando...</span>
+                    </>
+                  ) : result ? (
+                    <>
+                      <span>Avançar para Etapa 5 (Revisão)</span>
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </>
+                  ) : (
+                    <>
+                      <span>Adaptar e Ir para Etapa 5</span>
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </>
+                  )}
+                </button>
               </div>
             </div>
           </section>
@@ -531,11 +549,11 @@ function QuestionCollaborationCard({
           ) : (
             <p className="text-xs italic opacity-75">Nenhuma evidência recuperada para o filtro.</p>
           )}
-          {est.fontes.length > 0 && (
-            <div className="pt-1 space-y-1">
+          {fontesCitadas(est).length > 0 && (
+            <div className="pt-1 space-y-1" data-testid="fontes-citadas">
               <p className="text-[11px] font-bold opacity-80">Fontes científicas citadas:</p>
               <ul className="space-y-1 text-[11px] opacity-85">
-                {est.fontes.slice(0, 3).map((f) => (
+                {fontesCitadas(est).map((f) => (
                   <li key={`${f.rotulo}-${f.chunk_id}`} className="truncate">
                     <span className="font-mono font-bold">[{f.rotulo}]</span> {f.referencia}
                   </li>
@@ -565,6 +583,12 @@ function QuestionCollaborationCard({
                 <li key={idx}>{j}</li>
               ))}
             </ul>
+          )}
+          {trace.recomendacao_docente && (
+            <p className="text-[11px] p-2 rounded-lg border border-[#335C67]/30 dark:border-white/20" data-testid="recomendacao-docente">
+              <span className="font-bold">Para o docente (não vai para a prova): </span>
+              {trace.recomendacao_docente}
+            </p>
           )}
         </div>
 

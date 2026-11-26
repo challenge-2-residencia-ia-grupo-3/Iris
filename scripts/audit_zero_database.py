@@ -72,6 +72,7 @@ FORBIDDEN_WRITE_CALLS = {
 RUNTIME_BACKEND_DIRS = (
     "api",
     "agents",
+    "audio",
     "core",
     "exportacao",
     "parsers",

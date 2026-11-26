@@ -79,6 +79,7 @@ class ActivityQuestionInput(BaseModel):
     editada: bool = False
     aprovada: bool = False
     justificativas: list[str] = Field(default_factory=list)
+    recomendacao_docente: str | None = Field(default=None, max_length=2_000)
 
 
 class ActivitySavePayload(BaseModel):
@@ -302,17 +303,28 @@ def validate_and_prepare_activity(
             auto_sanitizar=auto_sanitizar,
             issues=issues,
         )
-        total_pii += c1 + c2 + c3
-        questoes_limpas.append(
-            {
-                "id": q.id,
-                "original": orig_clean,
-                "adaptado": adap_clean,
-                "editada": q.editada,
-                "aprovada": q.aprovada,
-                "justificativas": just_clean,
-            }
-        )
+        rec_clean: str | None = None
+        c4 = 0
+        if q.recomendacao_docente is not None and q.recomendacao_docente.strip():
+            rec_clean, c4 = _process_text(
+                q.recomendacao_docente.strip(),
+                f"questoes[{idx}].recomendacao_docente",
+                auto_sanitizar=auto_sanitizar,
+                allow_pii_sanitization=True,
+                issues=issues,
+            )
+        total_pii += c1 + c2 + c3 + c4
+        item_limpo: dict[str, Any] = {
+            "id": q.id,
+            "original": orig_clean,
+            "adaptado": adap_clean,
+            "editada": q.editada,
+            "aprovada": q.aprovada,
+            "justificativas": just_clean,
+        }
+        if rec_clean:
+            item_limpo["recomendacao_docente"] = rec_clean
+        questoes_limpas.append(item_limpo)
 
     if issues:
         has_clinical = any(item["type"] == "clinical" for item in issues)
