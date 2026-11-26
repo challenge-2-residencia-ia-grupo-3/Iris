@@ -6,11 +6,11 @@ Este documento estabelece os **Requisitos Não Funcionais** da plataforma Íris,
 
 ## 1. Privacidade, Segurança e Conformidade Regulatória (LGPD)
 
-### RNF-01: Arquitetura Stateless de Dados de Estudantes (*Zero-Database*)
+### RNF-01: Arquitetura *Zero-Database* para Dados de Estudantes e Histórico Docente Sanitizado
 * **Categoria:** Privacidade e Governança de Dados (LGPD).
-* **Descrição:** A arquitetura do sistema deve ser estritamente *stateless* em relação a dados identificáveis de estudantes. É terminantemente vedada a criação de bancos de dados centrais (SQL/NoSQL) em servidores que armazenem nomes, cadastros ou históricos individualizados de menores de idade.
-* **Critério de Aceite:** O banco de dados do sistema (se houver) deve restringir-se a vetores de conhecimento científico (RAG) e tabelas de configuração estática; nenhuma tabela de estudantes deve existir no schema da aplicação.
-* **Validação:** Inspeção de segurança e auditoria de schema de dados nos pipelines de CI/CD.
+* **Descrição:** A arquitetura do sistema deve ser estritamente *stateless* em relação a dados identificáveis de estudantes. É terminantemente vedada a criação de bancos de dados centrais (SQL/NoSQL) em servidores que armazenem nomes, cadastros, laudos ou históricos individualizados de menores de idade. Contas de professores (cadastro local e/ou OAuth 2.0 Google) e o histórico de materiais pedagógicos adaptados podem ser persistidos em schema isolado (`docente`), desde que passem por gate preventivo anti-PII e anti-clínico antes da gravação e sem vínculo com identificadores de alunos.
+* **Critério de Aceite:** O armazenamento persistente no PostgreSQL restringe-se exclusivamente à base vetorial científica do RAG (`iris_trechos`) e ao schema isolado do histórico docente (`docente.*`, sem dados de estudantes). O modo convidado sem login permanece 100% em memória.
+* **Validação:** Inspeção de segurança e auditoria automatizada de schema e AST (`scripts/audit_zero_database.py`) na suíte de testes e CI/CD.
 
 ### RNF-02: Sanitização Preventiva e Descarte Imediato de PII (Zero-Retention Scrubber)
 * **Categoria:** Segurança da Informação e Privacidade.

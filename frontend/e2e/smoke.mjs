@@ -17,7 +17,7 @@ function assert(cond, message) {
   }
 }
 
-async function runAxeWithContrast(page, label) {
+async function runAxeWithContrast(page, label, { strictContrast = false } = {}) {
   const axePath = require.resolve("axe-core/axe.min.js");
   await page.addScriptTag({ path: axePath });
   const results = await page.evaluate(async () => {
@@ -28,19 +28,24 @@ async function runAxeWithContrast(page, label) {
   });
 
   const violations = results.violations || [];
-  // Nota: no axe-core, `color-contrast` tem impacto "serious". Mantemos bloqueio apenas para "critical"
-  // enquanto violações "serious" (como o contraste de rodapé pendente em dev pós-#144) são reportadas
-  // em modo informativo até a correção em dev.
-  console.log(`[axe ${label}] ${violations.length} violation(s) found (critical bloqueia; serious/moderate informativo).`);
+  // Nota: no axe-core, `color-contrast` tem impacto "serious". Quando `strictContrast` está ativo
+  // (ex.: branches com correção de contraste aplicada), `color-contrast` também bloqueia o CI.
+  console.log(
+    `[axe ${label}] ${violations.length} violation(s) found (critical bloqueia; color-contrast ${
+      strictContrast ? "bloqueia" : "informativo"
+    }).`
+  );
   for (const v of violations) {
     const sample = (v.nodes || []).slice(0, 2).map((n) => n.target.join(" ")).join(", ");
     console.log(`  - [${v.impact}] ${v.id}: ${v.help} (${sample})`);
   }
 
-  const critical = violations.filter((v) => v.impact === "critical");
+  const blocking = violations.filter(
+    (v) => v.impact === "critical" || (strictContrast && v.id === "color-contrast")
+  );
   assert(
-    critical.length === 0,
-    `axe (${label}) encontrou ${critical.length} violação(ões) crítica(s): ${critical.map((c) => c.id).join(", ")}`
+    blocking.length === 0,
+    `axe (${label}) encontrou ${blocking.length} violação(ões) bloqueante(s): ${blocking.map((c) => c.id).join(", ")}`
   );
   return violations;
 }
@@ -95,7 +100,7 @@ async function main() {
       await overlay.waitFor({ state: "detached", timeout: 10_000 });
     }
     await page.getByLabel("E-mail").waitFor({ state: "visible", timeout: 10_000 });
-    await runAxeWithContrast(page, "login");
+    await runAxeWithContrast(page, "login", { strictContrast: authEnabled });
     console.log("[2/5] Tela de login & preloader em reduced-motion OK.");
 
     // 3. Autenticação real (se branch incluir /api/v1/auth com Postgres) ou Modo Convidado
@@ -212,14 +217,23 @@ async function main() {
 
       await page.getByRole("link", { name: /Revisar \/ Editar/i }).first().click();
       await page.waitForURL("**/etapa-5?historyId=*", { timeout: 15_000 });
-      await page.getByRole("button", { name: /Exportar PDF/i }).waitFor({ state: "visible", timeout: 15_000 });
+      const btnPdfHist = page.getByRole("button", { name: /Exportar PDF/i });
+      await btnPdfHist.waitFor({ state: "visible", timeout: 15_000 });
+      assert(await btnPdfHist.isEnabled(), "Reabrir atividade homologada do histórico deve manter Exportar PDF habilitado");
 
-      // Volta para /historico e testa exclusão da conta (LGPD)
+      // Atualiza metadado e confirma que a atividade segue homologada no histórico
+      await page.locator("#hist-disciplina").fill("Ciências Naturais");
+      await page.getByRole("button", { name: /Atualizar no Meu Histórico/i }).click();
+      await page.getByText(/Atividade homologada salva no seu histórico/i).waitFor({ state: "visible", timeout: 15_000 });
+      assert(await btnPdfHist.isEnabled(), "Atualizar metadados não pode rebaixar atividade homologada");
+
+      // Volta para /historico, confirma atualização persistida e testa exclusão da conta (LGPD)
       await page.goto(`${FRONTEND_URL}/historico`, { waitUntil: "networkidle" });
+      await page.getByText(/Ciências Naturais/).first().waitFor({ state: "visible", timeout: 10_000 });
       await page.getByRole("button", { name: /Excluir minha conta e histórico/i }).click();
       await page.getByRole("button", { name: /Confirmar exclusão da conta/i }).click();
       await page.waitForURL(`${FRONTEND_URL}/`, { timeout: 15_000 });
-      console.log("[5/5] Histórico no Postgres real + reabertura ?historyId + exclusão LGPD OK.");
+      console.log("[5/5] Histórico no Postgres real + reabertura ?historyId + atualização homologada + exclusão LGPD OK.");
     } else {
       console.log("[5/5] Histórico docente não ativo nesta branch (pulado limpo).");
     }

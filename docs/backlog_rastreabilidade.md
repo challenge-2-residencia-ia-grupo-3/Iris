@@ -68,6 +68,7 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | `#43` | **História 4.2.3** | Camada de abstração híbrida de LLM (Ollama Local + API Externa) e setup do Llama 3 | Épico 4.2 / Tema 4 | **RNF-01**, **RNF-07**, **RNF-08**, **RNF-12** | **História 4.2.4** (`#44`) | `priority: must` | `scope: infra-eval`, `scope: agents`, `scope: rag` | `CLOSED` | `iancostag` |
 | `#44` | **História 4.2.4** | Unificação de dependências no pyproject.toml, estrutura base src/iris e ponte com o módulo RAG | Épico 4.2 / Tema 4 | **RNF-11**, **RNF-12** | *Nenhuma (Fundação de Código)* | `priority: must` | `scope: infra-eval`, `scope: api`, `scope: rag` | `CLOSED` | `iancostag` |
 | `#45` | **História 4.2.5** | Curadoria e estruturação do dataset Golden Benchmark de questões escolares (Fundamental II e Médio) | Épico 4.2 / Tema 4 | **RF-08**, **RF-10**, **RNF-04**, **RNF-05** | **História 4.2.1** (`#39`) | `priority: must` | `scope: infra-eval`, `scope: rag` | `CLOSED` | `iancostag`, `Madu030` |
+| `#126` | **História 4.3.1** | Histórico sanitizado de atividades por conta docente no PostgreSQL (Login local + Google OAuth e Gate Anti-PII) | Épico 4.1 / Tema 4 | **RF-16**, **RNF-01**, **RNF-02**, **RNF-03** | **História 2.2.2** (`#22`), **História 4.1.2** (`#35`) | `priority: should` | `scope: api`, `scope: front-web`, `scope: privacy-lgpd`, `documentation` | `OPEN` | `iancostag` |
 
 ---
 
@@ -90,7 +91,8 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | **RF-13** | Interface de Revisão e Edição Lado a Lado (*Human-in-the-Loop*) | Tema 2 | Épico 2.2 | **História 2.2.1** (`#21`), **História 2.2.2** (`#22`) |
 | **RF-14** | Exportação em Formatos Prontos para Impressão e Uso Digital | Tema 2, Tema 4 | Épico 2.2, Épico 4.1 | **História 2.2.3** (`#23`), **História 4.1.3** (`#36`) |
 | **RF-15** | Exportação e Importação do Perfil Pedagógico Portátil | Tema 3 | Épico 3.1, Épico 3.2 | **História 3.1.1** (`#26`), **História 3.1.2** (`#27`), **História 3.1.3** (`#28`), **História 3.2.1** (`#30`), **História 3.2.2** (`#31`) |
-| **RNF-01** | Arquitetura Stateless de Dados de Estudantes (*Zero-Database*) | Tema 3, Tema 4 | Épico 3.1, Épico 3.2, Épico 4.1 | **História 3.1.1** (`#26`), **História 3.2.1** (`#30`), **História 4.1.2** (`#35`), **História 4.1.4** (`#37`) |
+| **RF-16** | Histórico Sanitizado de Atividades por Conta Docente (ADR-10) | Tema 4 | Épico 4.1 | **História 4.3.1** (`#126`) |
+| **RNF-01** | Arquitetura Stateless de Dados de Estudantes (*Zero-Database*) e Histórico Docente Sanitizado | Tema 3, Tema 4 | Épico 3.1, Épico 3.2, Épico 4.1 | **História 3.1.1** (`#26`), **História 3.2.1** (`#30`), **História 4.1.2** (`#35`), **História 4.1.4** (`#37`), **História 4.3.1** (`#126`) |
 | **RNF-02** | Sanitização Preventiva e Descarte Imediato de PII (Zero-Retention) | Tema 4 | Épico 4.1 | **História 4.1.1** (`#34`), **História 4.1.3** (`#36`), **História 4.1.4** (`#37`) |
 | **RNF-03** | Desacoplamento entre Dados Pedagógicos e Dados Clínicos | Tema 3 | Épico 3.1 | **História 3.1.3** (`#28`) |
 | **RNF-04** | Taxa de Retenção de Conceitos-Chave ($\text{TRCC} \ge 95\%$) | Tema 2, Tema 4 | Épico 2.1, Épico 4.2 | **História 2.1.4** (`#19`), **História 4.2.2** (`#40`) |

@@ -9,7 +9,6 @@ export default function Etapa3Page() {
 
   return (
     <Step3ScaffoldingLevel
-      teacherEmail="marina.alves@escola.edu.br"
       onBackToStep2={() => router.push("/etapa-2")}
       onAdvanceToNext={() => router.push("/etapa-4")}
     />

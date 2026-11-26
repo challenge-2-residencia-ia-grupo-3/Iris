@@ -56,7 +56,7 @@ export function IrisLogoBanner({ compact = false }: IrisLogoBannerProps) {
             src="/iris-eye.png"
             alt=""
             aria-hidden="true"
-            className="w-18 h-12 object-contain filter drop-shadow-md"
+            className="w-[4.5rem] h-12 object-contain filter drop-shadow-md"
           />
         </div>
 
