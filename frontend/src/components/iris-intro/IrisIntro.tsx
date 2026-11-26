@@ -50,7 +50,11 @@ export function IrisIntro({
     const root = rootRef.current;
     if (!root) return;
 
-    if (isReduced) {
+    const systemPrefersReduced =
+      typeof window !== "undefined" &&
+      Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
+
+    if (isReduced || (reducedMotion === undefined && systemPrefersReduced)) {
       onTimelineReady?.(null);
       onTimeUpdate?.(IRIS_TIMELINE_DURATION);
       return;

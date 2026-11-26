@@ -20,33 +20,36 @@ export function IrisIntroOverlay({ onExitStart, onFinished }: IrisIntroOverlayPr
   const [prefersReduced, setPrefersReduced] = useState(false);
   const exitStartedRef = useRef(false);
   const timersRef = useRef<number[]>([]);
+  const onExitStartRef = useRef(onExitStart);
+  const onFinishedRef = useRef(onFinished);
 
-  // Limpa timers pendentes caso o componente seja desmontado antes do fim
+  onExitStartRef.current = onExitStart;
+  onFinishedRef.current = onFinished;
+
+  // Limpa timers pendentes e permite reagendamento em remontagens (ex.: React StrictMode)
   useEffect(() => {
     return () => {
       timersRef.current.forEach((id) => window.clearTimeout(id));
       timersRef.current = [];
+      exitStartedRef.current = false;
     };
   }, []);
 
-  const triggerSmoothExit = useCallback(
-    (holdMs: number, fadeMs: number) => {
-      if (exitStartedRef.current) return;
-      exitStartedRef.current = true;
+  const triggerSmoothExit = useCallback((holdMs: number, fadeMs: number) => {
+    if (exitStartedRef.current) return;
+    exitStartedRef.current = true;
 
-      const tHold = window.setTimeout(() => {
-        setIsExiting(true);
-        onExitStart?.();
-        const tDone = window.setTimeout(() => {
-          onFinished();
-        }, fadeMs);
-        timersRef.current.push(tDone);
-      }, holdMs);
+    const tHold = window.setTimeout(() => {
+      setIsExiting(true);
+      onExitStartRef.current?.();
+      const tDone = window.setTimeout(() => {
+        onFinishedRef.current();
+      }, fadeMs);
+      timersRef.current.push(tDone);
+    }, holdMs);
 
-      timersRef.current.push(tHold);
-    },
-    [onExitStart, onFinished]
-  );
+    timersRef.current.push(tHold);
+  }, []);
 
   // Detecta prefers-reduced-motion para oferecer transição simplificada e respeitosa
   useEffect(() => {
@@ -76,7 +79,7 @@ export function IrisIntroOverlay({ onExitStart, onFinished }: IrisIntroOverlayPr
       className="fixed inset-0 z-50 bg-[#0D0221]"
     >
       <IrisIntro
-        reducedMotion={prefersReduced}
+        reducedMotion={prefersReduced ? true : undefined}
         onComplete={handleIntroComplete}
       />
     </div>

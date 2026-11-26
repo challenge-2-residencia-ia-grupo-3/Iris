@@ -189,7 +189,10 @@ export function createIrisIntroTimeline(
     gsap.set(orbitHaloPath, { opacity: 0 });
 
     const orbitDotEl = q("#orbital-accent-dot") as SVGCircleElement | null;
-    const orbitStartPt = orbitPath ? orbitPath.getPointAtLength(0) : { x: 302, y: 216 };
+    const orbitStartPt =
+      orbitPath && typeof orbitPath.getPointAtLength === "function"
+        ? orbitPath.getPointAtLength(0)
+        : { x: 302, y: 216 };
     const orbitDotFinalDist = findPointDistanceOnPath(orbitPath, 876.5, 274);
 
     gsap.set(orbitalAccent, {
@@ -570,7 +573,7 @@ export function createIrisIntroTimeline(
     // Bolinha percorre continuamente o próprio path da órbita de (302, 216) até (876.5, 274)
     // Usa keyframes declarativos de `attr` (nativo do GSAP) para funcionar tanto em
     // reprodução contínua quanto em pause/scrub (`tl.pause(t)`), sem depender de onUpdate.
-    if (orbitPath && orbitDotEl) {
+    if (orbitPath && orbitDotEl && typeof orbitPath.getPointAtLength === "function") {
       const dotTargets = dotHalo ? [orbitDotEl, dotHalo] : [orbitDotEl];
       const steps = 24;
       const stepDuration = 0.72 / steps;
