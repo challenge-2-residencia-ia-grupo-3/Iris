@@ -87,7 +87,7 @@ interface Step2FunctionalProfileProps {
  * - C) Resumo da adaptação e confirmação para a Etapa 3
  */
 export function Step2FunctionalProfile({
-  teacherEmail = "marina.alves@escola.edu.br",
+  teacherEmail,
   materialPreviewText,
   onBackToStep1,
   onAdvanceToStep3,

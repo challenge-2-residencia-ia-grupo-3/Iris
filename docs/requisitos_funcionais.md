@@ -152,3 +152,12 @@ Este documento especifica os **Requisitos Funcionais** da plataforma Íris. Em e
   3. Parsing e validação de schema na reimportação de arquivo `.json` existente.
 * **Saída:** Arquivo de perfil portátil baixado localmente ou perfil recarregado na sessão.
 
+### RF-16: Histórico Sanitizado de Atividades por Conta Docente (ADR-10)
+* **Descrição:** O sistema deve permitir que professores criem conta (cadastro local no PostgreSQL ou OAuth 2.0 Google) para salvar, consultar, editar, duplicar, re-exportar (PDF/DOCX) e excluir suas próprias atividades pedagógicas adaptadas, mantendo o Modo Convidado sem login 100% *stateless*.
+* **Entradas:** Credenciais locais ou OAuth Google e payload da atividade revisada na Etapa 5 (título, disciplina, ano escolar, nível, características selecionadas, travas e questões).
+* **Processamento:**
+  1. Autenticação híbrida (Argon2id + JWT Bearer / Google OAuth PKCE) sem uso de cookies de sessão HTTP.
+  2. Validação obrigatória pelo Gate Anti-PII e Anti-Clínico (`privacy_gate.py`) antes de gravar no schema isolado `docente`, bloqueando campos de estudantes, dados pessoais e termos clínicos.
+  3. Isolamento estrito por `professor_id`, geração sob demanda de PDF/DOCX apenas para atividades homologadas e exclusão completa em cascata (`DELETE /api/v1/auth/me`).
+* **Saída:** Histórico pessoal acessível via `/historico` e API `/api/v1/history/*`.
+

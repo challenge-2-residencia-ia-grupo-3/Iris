@@ -69,6 +69,8 @@ class TestZeroDatabaseConfigurationAndAudit(unittest.TestCase):
         with self.assertRaises(ValueError):
             IrisSettings(zero_student_database=False)
         with self.assertRaises(ValueError):
+            IrisSettings(stateless_for_students=False)
+        with self.assertRaises(ValueError):
             IrisSettings(stateless_mode=False)
         with self.assertRaises(ValueError):
             IrisSettings(allowed_persistent_stores=("students_db",))
@@ -78,11 +80,45 @@ class TestZeroDatabaseConfigurationAndAudit(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validate_zero_database_configuration()
 
-    def test_health_status_reports_stateless_and_rag_readonly(self) -> None:
+    def test_audit_allows_teacher_storage_but_rejects_student_tables_inside_storage(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            fake_root = Path(tmp)
+            (fake_root / "pyproject.toml").write_text('[project]\nname = "fake"\ndependencies = []\n', encoding="utf-8")
+            storage_dir = fake_root / "backend" / "src" / "iris" / "storage"
+            storage_dir.mkdir(parents=True)
+            (fake_root / "backend" / "src" / "iris" / "config.py").write_text(
+                "zero_student_database: bool = True\nstateless_mode: bool = True\n",
+                encoding="utf-8",
+            )
+            (fake_root / "rag" / "iris-rag" / "pacote").mkdir(parents=True)
+            (fake_root / "rag" / "iris-rag" / "pacote" / "banco_pg.py").write_text(
+                'TABELA = "iris_trechos"\n',
+                encoding="utf-8",
+            )
+            (storage_dir / "schema.py").write_text(
+                'DDL = "CREATE TABLE IF NOT EXISTS docente.atividades_historico (id uuid PRIMARY KEY)"\n',
+                encoding="utf-8",
+            )
+            ok_res = audit_zero_database.run_audit(fake_root)
+            self.assertTrue(ok_res.ok, msg=f"Deveria permitir schema docente: {ok_res.violations}")
+
+            (storage_dir / "bad.py").write_text(
+                'BAD = "CREATE TABLE docente.alunos (id uuid PRIMARY KEY)"\n',
+                encoding="utf-8",
+            )
+            bad_res = audit_zero_database.run_audit(fake_root)
+            self.assertFalse(bad_res.ok)
+            self.assertIn("estudantes", "\n".join(bad_res.violations))
+
+    def test_health_status_reports_stateless_and_allowed_stores(self) -> None:
         health = get_health_status()
         self.assertTrue(health["zero_student_database"])
+        self.assertTrue(health["stateless_for_students"])
         self.assertTrue(health["stateless_mode"])
-        self.assertEqual(health["allowed_persistent_stores"], ["rag_vector_readonly"])
+        self.assertEqual(
+            health["allowed_persistent_stores"],
+            ["rag_vector_readonly", "teacher_activity_history"],
+        )
 
 
 @unittest.skipUnless(FASTAPI_AVAILABLE and HTTPX_AVAILABLE, "FastAPI ou httpx não instalado")

@@ -26,6 +26,8 @@ interface Props {
   sessao: SessaoRevisao;
   /** Conteúdo extra abaixo de cada par de colunas (ex.: cartão de justificativa pedagógica, Etapa 5). */
   extras?: (questao: QuestaoRevisao, indice: number) => React.ReactNode;
+  /** Notifica o componente pai sempre que questões/aprovações/homologação mudam. */
+  onStateChange?: (estado: EstadoRevisao) => void;
 }
 
 const ATRASO_SALVAR_MS = 600;
@@ -35,13 +37,17 @@ const ATRASO_SALVAR_MS = 600;
  * final e exportação só depois da homologação. A trava real está no servidor; aqui o botão só reflete.
  * Usado pela Etapa 5 (História 2.2.1), que acrescenta o cartão de justificativas via `extras`.
  */
-export function ReviewEditor({ sessao, extras }: Props) {
+export function ReviewEditor({ sessao, extras, onStateChange }: Props) {
   const [estado, setEstado] = useState<EstadoRevisao>({ questoes: sessao.questoes, homologada: sessao.homologada });
   const [confirmado, setConfirmado] = useState(sessao.questoes);
   const [salvando, setSalvando] = useState(false);
   const [exportando, setExportando] = useState<FormatoMaterial | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   const emVoo = useRef(false);
+
+  useEffect(() => {
+    onStateChange?.(estado);
+  }, [estado, onStateChange]);
 
   const pendente = diferencas(estado.questoes, confirmado).length > 0;
   const salvo = !pendente && !salvando;

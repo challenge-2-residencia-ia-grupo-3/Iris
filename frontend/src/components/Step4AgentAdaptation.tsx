@@ -59,7 +59,7 @@ interface Step4AgentAdaptationProps {
 }
 
 export function Step4AgentAdaptation({
-  teacherEmail = "marina.alves@escola.edu.br",
+  teacherEmail,
 }: Step4AgentAdaptationProps = {}) {
   const router = useRouter();
 

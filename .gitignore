@@ -46,3 +46,4 @@ reports/sonnet_judge_cache.jsonl
 frontend/node_modules/
 frontend/.next/
 frontend/out/
+frontend/e2e/artifacts/

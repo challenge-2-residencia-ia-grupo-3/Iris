@@ -55,7 +55,7 @@ interface Step1MaterialIntakeProps {
  * - Exibição imediata do conteúdo extraído e sanitizado (Zero-Retention PII Scrubber) para conferência docente.
  */
 export function Step1MaterialIntake({
-  teacherEmail = "marina.alves@escola.edu.br",
+  teacherEmail,
   onBackToLogin,
   onAdvanceToStep2,
   darkMode,

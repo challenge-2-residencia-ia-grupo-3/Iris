@@ -4,9 +4,14 @@ import axe from "axe-core";
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import HomePage from "../src/app/page";
+import { AuthProvider } from "../src/contexts/AuthContext";
 import { ThemeProvider } from "../src/contexts/ThemeContext";
+import { AuthApiError, type AuthSession } from "../src/services/authApi";
 
 const mockPush = vi.fn();
+const mockLoginTeacher = vi.fn();
+const mockRegisterTeacher = vi.fn();
+const mockFetchAuthProviders = vi.fn();
 
 let mockOverlayHandlers: {
   onExitStart?: () => void;
@@ -20,6 +25,24 @@ vi.mock("next/navigation", () => ({
     push: mockPush,
   }),
 }));
+
+vi.mock("next/link", () => ({
+  default: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+}));
+
+vi.mock("@/services/authApi", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../src/services/authApi")>();
+  return {
+    ...actual,
+    fetchAuthProviders: (...args: Parameters<typeof actual.fetchAuthProviders>) => mockFetchAuthProviders(...args),
+    loginTeacher: (...args: Parameters<typeof actual.loginTeacher>) => mockLoginTeacher(...args),
+    registerTeacher: (...args: Parameters<typeof actual.registerTeacher>) => mockRegisterTeacher(...args),
+  };
+});
 
 vi.mock("@/components/iris-intro/IrisIntroOverlay", () => ({
   IrisIntroOverlay: ({
@@ -40,6 +63,32 @@ vi.mock("@/components/iris-intro/IrisIntroOverlay", () => ({
   },
 }));
 
+const SAMPLE_SESSION: AuthSession = {
+  token_type: "bearer",
+  access_token: "jwt-token-test",
+  refresh_token: "refresh-token-test",
+  expires_in: 1800,
+  teacher: {
+    id: "prof-1",
+    email: "docente@escola.edu.br",
+    email_verificado: true,
+    nome_exibicao: "Profa. Marina",
+    possui_senha_local: true,
+    oauth_providers: [],
+    criado_em: "2026-11-26T12:00:00Z",
+  },
+};
+
+function renderHome() {
+  return render(
+    <ThemeProvider>
+      <AuthProvider>
+        <HomePage />
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
+
 async function checkAxeViolations(container: HTMLElement) {
   const result = await axe.run(container, {
     runOnly: {
@@ -59,56 +108,51 @@ beforeEach(() => {
   autoFinishIntro = true;
   mockOverlayHandlers = null;
   mockPush.mockClear();
+  mockLoginTeacher.mockReset().mockResolvedValue(SAMPLE_SESSION);
+  mockRegisterTeacher.mockReset().mockResolvedValue(SAMPLE_SESSION);
+  mockFetchAuthProviders.mockReset().mockResolvedValue({
+    local_enabled: true,
+    google_enabled: false,
+    guest_mode_enabled: true,
+    database_online: true,
+  });
   window.sessionStorage.clear();
+  window.localStorage.clear();
   document.documentElement.classList.remove("dark");
 });
 
 afterEach(() => {
   cleanup();
   window.sessionStorage.clear();
+  window.localStorage.clear();
   vi.clearAllMocks();
   autoFinishIntro = true;
   mockOverlayHandlers = null;
 });
 
-describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Acessibilidade)", () => {
+describe("Tela de Login — Íris (Posicionamento, Validações, Autenticação e Acessibilidade)", () => {
   it("posiciona a marca d'água sem bolinha no lado roxo e a logo oficial no lado claro, sem duplicação", () => {
-    const { container } = render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    const { container } = renderHome();
 
     const asideRoxo = container.querySelector("aside");
     const mainClaro = container.querySelector("main");
     expect(asideRoxo).toBeTruthy();
     expect(mainClaro).toBeTruthy();
 
-    // 1. Marca d'água no lado roxo: discreta, sem bolinha luminosa e sem o nome "Íris"
     const marcaDagua = screen.getByTestId("marca-dagua-lado-roxo");
     expect(asideRoxo?.contains(marcaDagua)).toBe(true);
-    // Não deve conter o nome Íris dentro da marca d'água do lado roxo
     expect(within(asideRoxo as HTMLElement).queryByText("Íris")).toBeNull();
 
-    // 2. Logo oficial no lado claro: posicionada no main, acima do formulário
     const logoClaro = screen.getByTestId("logo-lado-claro");
     expect(mainClaro?.contains(logoClaro)).toBe(true);
     expect(within(logoClaro).getByText("Íris")).toBeTruthy();
 
-    // 3. Ausência de duplicação da logo: apenas 1 elemento com o texto "Íris" na página inteira
-    const irisMatches = screen.getAllByText("Íris");
-    // O texto "Íris" aparece apenas na logo oficial e na menção do parágrafo de apresentação
-    // Na logo propriamente dita, existe apenas uma ocorrência
     const logos = container.querySelectorAll('[data-testid="logo-lado-claro"]');
     expect(logos.length).toBe(1);
   });
 
   it("renderiza os textos institucionais no lado roxo com hierarquia clara", () => {
-    render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    renderHome();
 
     expect(
       screen.getByText("PLATAFORMA INTELIGENTE PARA PROFESSORES")
@@ -123,11 +167,7 @@ describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Ace
   });
 
   it("permite alternar a visualização da senha sem alterações de valor", () => {
-    render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    renderHome();
 
     const passwordInput = screen.getByLabelText("Senha");
     const toggleButton = screen.getByLabelText(/Exibir senha/i);
@@ -143,88 +183,78 @@ describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Ace
     expect(passwordInput.getAttribute("type")).toBe("password");
   });
 
-  it("NÃO rejeita senha curta preenchida (remoção da regra de tamanho mínimo < 6)", async () => {
-    render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+  it("NÃO rejeita senha curta preenchida no modo login (remoção da regra de tamanho mínimo < 6)", async () => {
+    renderHome();
 
     const emailInput = screen.getByLabelText("E-mail");
     const passwordInput = screen.getByLabelText("Senha");
-    const submitButton = screen.getByRole("button", { name: /Entrar/i });
+    const submitButton = screen.getByRole("button", { name: /^Entrar$/i });
 
-    // Preenche com senha curta de apenas 3 caracteres (antes rejeitada por < 6)
     fireEvent.change(emailInput, { target: { value: "docente@escola.edu.br" } });
     fireEvent.change(passwordInput, { target: { value: "123" } });
     fireEvent.click(submitButton);
 
-    // Não deve acusar erro de tamanho mínimo
     await waitFor(() => {
-      expect(screen.queryByText(/A senha deve conter no mínimo 6 caracteres/i)).toBeNull();
+      expect(screen.queryByText(/A senha deve conter no mínimo/i)).toBeNull();
+      expect(mockLoginTeacher).toHaveBeenCalledWith({
+        email: "docente@escola.edu.br",
+        senha: "123",
+      });
       expect(mockPush).toHaveBeenCalledWith("/etapa-1");
     });
   });
 
   it("preserva a senha integralmente sem aplicar trim(), inclusive com espaços", async () => {
-    render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    renderHome();
 
     const emailInput = screen.getByLabelText("E-mail");
     const passwordInput = screen.getByLabelText("Senha") as HTMLInputElement;
-    const submitButton = screen.getByRole("button", { name: /Entrar/i });
+    const submitButton = screen.getByRole("button", { name: /^Entrar$/i });
 
-    // Senha com espaços intencionais no início e no fim
     const senhaComEspacos = "  senha com espacos  ";
     fireEvent.change(emailInput, { target: { value: "docente@escola.edu.br" } });
     fireEvent.change(passwordInput, { target: { value: senhaComEspacos } });
 
-    // Verifica que o valor no input não sofreu trim
     expect(passwordInput.value).toBe(senhaComEspacos);
 
     fireEvent.click(submitButton);
 
     await waitFor(() => {
+      expect(mockLoginTeacher).toHaveBeenCalledWith({
+        email: "docente@escola.edu.br",
+        senha: senhaComEspacos,
+      });
       expect(mockPush).toHaveBeenCalledWith("/etapa-1");
     });
   });
 
   it("normaliza e-mail com trim() aceitando e-mail com espaços ao redor", async () => {
-    render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    renderHome();
 
     const emailInput = screen.getByLabelText("E-mail");
     const passwordInput = screen.getByLabelText("Senha");
-    const submitButton = screen.getByRole("button", { name: /Entrar/i });
+    const submitButton = screen.getByRole("button", { name: /^Entrar$/i });
 
-    // E-mail com espaços em volta é aceito normalmente após trim()
     fireEvent.change(emailInput, { target: { value: "   docente@escola.sp.gov.br   " } });
     fireEvent.change(passwordInput, { target: { value: "senhaValida" } });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
+      expect(mockLoginTeacher).toHaveBeenCalledWith({
+        email: "docente@escola.sp.gov.br",
+        senha: "senhaValida",
+      });
       expect(mockPush).toHaveBeenCalledWith("/etapa-1");
     });
   });
 
   it("rejeita e-mail com formato inválido e exibe alerta de erro", async () => {
-    render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    renderHome();
 
     const emailInput = screen.getByLabelText("E-mail");
     const passwordInput = screen.getByLabelText("Senha");
-    const submitButton = screen.getByRole("button", { name: /Entrar/i });
+    const submitButton = screen.getByRole("button", { name: /^Entrar$/i });
 
-    // E-mail inválido é recusado
     fireEvent.change(emailInput, { target: { value: "email-invalido-sem-arroba" } });
     fireEvent.change(passwordInput, { target: { value: "senhaValida" } });
     fireEvent.click(submitButton);
@@ -234,55 +264,85 @@ describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Ace
         screen.getByText("Formato de e-mail inválido. Exemplo: docente@escola.edu.br")
       ).toBeTruthy();
     });
+    expect(mockLoginTeacher).not.toHaveBeenCalled();
   });
 
-  it("botão Entrar utiliza a cor #D13B1E para conformidade de contraste >= 4,5:1 e inclui motion-reduce no loading", async () => {
-    const { container } = render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
+  it("exibe erro do servidor quando as credenciais são inválidas", async () => {
+    mockLoginTeacher.mockRejectedValueOnce(
+      new AuthApiError("E-mail ou senha inválidos.", "INVALID_CREDENTIALS", 401)
     );
+    renderHome();
 
-    const submitButton = screen.getByRole("button", { name: /Entrar/i });
-    // Verifica que o botão utiliza a nova cor de contraste conforme (#D13B1E)
+    fireEvent.change(screen.getByLabelText("E-mail"), { target: { value: "docente@escola.edu.br" } });
+    fireEvent.change(screen.getByLabelText("Senha"), { target: { value: "errada" } });
+    fireEvent.click(screen.getByRole("button", { name: /^Entrar$/i }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert").textContent).toContain("E-mail ou senha inválidos.");
+    });
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("botão Entrar utiliza #D13B1E, foco ring-2 e motion-reduce no loading", async () => {
+    const { container } = renderHome();
+
+    const submitButton = screen.getByRole("button", { name: /^Entrar$/i });
     expect(submitButton.className).toContain("bg-[#D13B1E]");
     expect(submitButton.className).toContain("text-white");
     expect(submitButton.className).toContain("hover:bg-[#B73318]");
+    expect(submitButton.className).toContain("focus-visible:ring-2");
 
-    // Dispara submissão para inspecionar ícone de carregamento Loader2
-    const emailInput = screen.getByLabelText("E-mail");
-    const passwordInput = screen.getByLabelText("Senha");
-    fireEvent.change(emailInput, { target: { value: "docente@escola.edu.br" } });
-    fireEvent.change(passwordInput, { target: { value: "senha123" } });
-    fireEvent.click(submitButton);
-
-    // O ícone Loader2 deve ter a classe motion-reduce:animate-none
-    const loader = container.querySelector(".motion-reduce\\:animate-none");
-    expect(loader).toBeTruthy();
-  });
-
-  it("redireciona para /etapa-1 ao clicar em 'Esqueci minha senha' ou 'Criar conta'", () => {
-    render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
+    let resolveLogin!: (v: AuthSession) => void;
+    mockLoginTeacher.mockImplementationOnce(
+      () =>
+        new Promise<AuthSession>((resolve) => {
+          resolveLogin = resolve;
+        })
     );
 
-    const forgotPasswordBtn = screen.getByRole("button", { name: "Esqueci minha senha" });
-    fireEvent.click(forgotPasswordBtn);
+    fireEvent.change(screen.getByLabelText("E-mail"), { target: { value: "docente@escola.edu.br" } });
+    fireEvent.change(screen.getByLabelText("Senha"), { target: { value: "senha123" } });
+    fireEvent.click(submitButton);
+
+    const loader = container.querySelector(".motion-reduce\\:animate-none");
+    expect(loader).toBeTruthy();
+
+    resolveLogin(SAMPLE_SESSION);
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith("/etapa-1");
+    });
+  });
+
+  it("alterna para Criar conta, orienta em Esqueci minha senha e permite Modo Convidado", async () => {
+    renderHome();
+
+    fireEvent.click(screen.getByRole("button", { name: /Continuar sem conta/i }));
     expect(mockPush).toHaveBeenCalledWith("/etapa-1");
 
-    const registerBtn = screen.getByRole("button", { name: "Criar conta" });
-    fireEvent.click(registerBtn);
-    expect(mockPush).toHaveBeenCalledWith("/etapa-1");
+    fireEvent.click(screen.getByRole("button", { name: "Esqueci minha senha" }));
+    expect(screen.getByRole("status").textContent).toContain("recuperação automática");
+
+    fireEvent.click(screen.getByRole("button", { name: "Criar conta" }));
+    expect(screen.getByText("Crie sua conta docente")).toBeTruthy();
+    const nameInput = screen.getByLabelText("Nome de exibição");
+    expect(nameInput).toBeTruthy();
+
+    fireEvent.change(nameInput, { target: { value: "Profa. Marina Alves" } });
+    fireEvent.change(screen.getByLabelText("E-mail"), { target: { value: "marina@escola.edu.br" } });
+    fireEvent.change(screen.getByLabelText(/^Senha/i), { target: { value: "SenhaForte123" } });
+    fireEvent.click(screen.getByRole("button", { name: /^Criar conta$/i }));
+
+    await waitFor(() => {
+      expect(mockRegisterTeacher).toHaveBeenCalledWith({
+        email: "marina@escola.edu.br",
+        nome_exibicao: "Profa. Marina Alves",
+        senha: "SenhaForte123",
+      });
+    });
   });
 
   it("alterna entre modo claro e escuro comunicando acessibilidade via role=switch", () => {
-    render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    renderHome();
 
     const themeSwitch = screen.getByRole("switch");
     expect(themeSwitch.getAttribute("aria-checked")).toBe("false");
@@ -299,13 +359,8 @@ describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Ace
 
   it("integra a abertura IrisIntroOverlay com transição suave e acessibilidade (aria-hidden)", async () => {
     autoFinishIntro = false;
-    const { container } = render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    const { container } = renderHome();
 
-    // Inicialmente a overlay está ativa e a tela de login oculta para tecnologias assistivas
     expect(screen.getByTestId("iris-intro-overlay")).toBeTruthy();
     const loginWrapper = container.querySelector(".min-h-screen");
     expect(loginWrapper?.getAttribute("aria-hidden")).toBe("true");
@@ -313,13 +368,11 @@ describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Ace
     const formSection = container.querySelector(".max-w-\\[420px\\]");
     expect(formSection?.className).toContain("opacity-0");
 
-    // Dispara transição onExitStart
     mockOverlayHandlers?.onExitStart?.();
     await waitFor(() => {
       expect(formSection?.className).toContain("opacity-100");
     });
 
-    // Dispara finalização onFinished
     mockOverlayHandlers?.onFinished?.();
     await waitFor(() => {
       expect(screen.queryByTestId("iris-intro-overlay")).toBeNull();
@@ -328,11 +381,7 @@ describe("Tela de Login — Íris (Posicionamento, Validações, Contraste e Ace
   });
 
   it("não possui violações de acessibilidade no axe-core (WCAG 2.1 AA)", async () => {
-    const { container } = render(
-      <ThemeProvider>
-        <HomePage />
-      </ThemeProvider>
-    );
+    const { container } = renderHome();
 
     const violations = await checkAxeViolations(container);
     expect(violations).toEqual([]);

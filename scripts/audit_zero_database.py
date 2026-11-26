@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Auditoria automatizada de conformidade Zero-Database e arquitetura stateless (Issue #35 / RNF-01).
+"""Auditoria automatizada de conformidade Zero-Student-Database (Issue #35 / RNF-01 / ADR-10).
 
 Inspeciona o repositório (dependências, AST Python, SQL/DDL, docker-compose e frontend)
 para certificar que:
-1. Não existem modelos ORM nem tabelas de cadastro de alunos no backend;
-2. As rotas FastAPI, parsers, exportadores e agentes operam 100% em memória (sem sessão/cookie
-   de servidor nem gravação de materiais/perfis em disco);
-3. O único armazenamento persistente no backend é a base vetorial científica do RAG (`iris_trechos`),
-   consultada apenas em modo leitura pela API em tempo de execução.
+1. Não existem modelos ORM nem tabelas de cadastro/perfis de alunos no backend;
+2. As rotas FastAPI, parsers, exportadores e agentes não emitem cookies de sessão HTTP nem
+   gravam arquivos temporários/documentos em disco em tempo de execução;
+3. A persistência SQL no backend restringe-se exclusivamente à base vetorial científica do RAG
+   (`iris_trechos`) e ao módulo isolado de histórico docente sanitizado (`backend/src/iris/storage/`,
+   schema `docente.*`), sem dados de estudantes.
 """
 from __future__ import annotations
 
@@ -71,6 +72,8 @@ FORBIDDEN_WRITE_CALLS = {
 RUNTIME_BACKEND_DIRS = (
     "api",
     "agents",
+    "audio",
+    "auth",
     "core",
     "exportacao",
     "parsers",
@@ -78,6 +81,7 @@ RUNTIME_BACKEND_DIRS = (
     "schemas",
     "security",
     "sessao",
+    "storage",
 )
 
 # Termos de tabelas/entidades de cadastro de estudantes proibidos em SQL/DDL
@@ -243,14 +247,34 @@ def _audit_backend_python_ast(repo_root: Path, result: AuditResult) -> None:
     )
 
 
+def _is_inside_dir(path: Path, parent_dir: Path) -> bool:
+    try:
+        path.resolve().relative_to(parent_dir.resolve())
+        return True
+    except ValueError:
+        return False
+
+
 def _audit_sql_and_vector_store(repo_root: Path, result: AuditResult) -> None:
+    allowed_teacher_storage_dir = (repo_root / "backend" / "src" / "iris" / "storage").resolve()
+
     sql_files = list((repo_root / "backend").rglob("*.sql")) + list((repo_root / "rag").rglob("*.sql"))
     if sql_files:
         for sql_file in sql_files:
             txt = sql_file.read_text(encoding="utf-8")
-            if FORBIDDEN_STUDENT_TABLE_RE.search(txt) or "iris_trechos" not in txt:
+            in_teacher_storage = _is_inside_dir(sql_file, allowed_teacher_storage_dir)
+            if FORBIDDEN_STUDENT_TABLE_RE.search(txt):
                 result.violations.append(
-                    f"Arquivo SQL não autorizado fora do corpus RAG: {sql_file.relative_to(repo_root)}"
+                    f"SQL de tabela de estudantes proibido detectado em {sql_file.relative_to(repo_root)}"
+                )
+            elif in_teacher_storage:
+                if "docente." not in txt:
+                    result.violations.append(
+                        f"Arquivo SQL em storage/ deve operar explicitamente no schema 'docente.': {sql_file.relative_to(repo_root)}"
+                    )
+            elif "iris_trechos" not in txt:
+                result.violations.append(
+                    f"Arquivo SQL não autorizado fora do corpus RAG/storage docente: {sql_file.relative_to(repo_root)}"
                 )
 
     # Verifica todos os .py de backend/ e rag/iris-rag/pacote/ contra DDL de tabelas de alunos
@@ -264,8 +288,14 @@ def _audit_sql_and_vector_store(repo_root: Path, result: AuditResult) -> None:
         rel = py_file.relative_to(repo_root)
         if FORBIDDEN_STUDENT_TABLE_RE.search(text):
             result.violations.append(f"SQL de tabela de estudantes proibido detectado em {rel}")
-        if py_file.resolve() != allowed_ddl_file.resolve() and SQL_WRITE_RE.search(text):
-            result.violations.append(f"Comando SQL de escrita/DDL fora de banco_pg.py detectado em {rel}")
+        in_allowed_sql_location = (
+            py_file.resolve() == allowed_ddl_file.resolve()
+            or _is_inside_dir(py_file, allowed_teacher_storage_dir)
+        )
+        if not in_allowed_sql_location and SQL_WRITE_RE.search(text):
+            result.violations.append(
+                f"Comando SQL de escrita/DDL fora de banco_pg.py ou iris/storage/ detectado em {rel}"
+            )
 
     # Garante que banco_pg.py define apenas a tabela científica `iris_trechos`
     if allowed_ddl_file.exists():
@@ -273,14 +303,16 @@ def _audit_sql_and_vector_store(repo_root: Path, result: AuditResult) -> None:
         if 'TABELA = "iris_trechos"' not in banco_txt:
             result.violations.append("banco_pg.py deve restringir a persistência à tabela 'iris_trechos'.")
 
-    # Garante que docker-compose.yml possui apenas pgvector e ollama
+    # Garante que docker-compose.yml possui apenas pgvector e ollama (sem serviço de banco de alunos)
     compose_path = repo_root / "docker-compose.yml"
     if compose_path.exists():
         compose_txt = compose_path.read_text(encoding="utf-8")
-        if re.search(r"^\s{2}(?:alunos|students|iris_db|app_db)\s*:", compose_txt, re.MULTILINE):
-            result.violations.append("docker-compose.yml contém serviço de banco de aplicação não autorizado.")
+        if re.search(r"^\s{2}(?:alunos|students|students_db)\s*:", compose_txt, re.MULTILINE):
+            result.violations.append("docker-compose.yml contém serviço de banco de estudantes não autorizado.")
 
-    result.checks_passed.append("Persistência SQL restrita exclusivamente à tabela científica RAG 'iris_trechos'")
+    result.checks_passed.append(
+        "Persistência SQL restrita exclusivamente ao corpus RAG ('iris_trechos') e schema docente ('docente.*')"
+    )
 
 
 def _audit_config_and_frontend(repo_root: Path, result: AuditResult) -> None:

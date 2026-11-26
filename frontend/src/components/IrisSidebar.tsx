@@ -7,12 +7,17 @@ import {
   ClipboardCheck,
   Columns,
   FileText,
+  FolderClock,
   Home,
   Lock,
+  LogIn,
+  LogOut,
   ShieldAlert,
   Sliders,
   Sparkles,
+  UserCheck,
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export type Step2SubStep = "a" | "b" | "c";
 export type IrisMacroStep = 1 | 2 | 3 | 4 | 5;
@@ -24,7 +29,9 @@ export interface IrisSidebarStep2Config {
 }
 
 interface IrisSidebarProps {
-  currentStep: IrisMacroStep;
+  currentStep: IrisMacroStep | 0;
+  /** Destaca a rota de histórico fora das etapas 1..5. */
+  currentPage?: "steps" | "historico";
   /** Callback opcional para voltar à tela inicial (/). Se omitido, navega via Next.js Link ("/"). */
   onNavigateHome?: () => void;
   /** Callback opcional ao clicar em uma etapa disponível (1..5). Se omitido, usa router.push(href). */
@@ -55,12 +62,14 @@ const MACRO_STEPS: Array<{
  */
 export function IrisSidebar({
   currentStep,
+  currentPage = "steps",
   onNavigateHome,
   onNavigateStep,
   enabledSteps = [1, 2, 3],
   step2SubSteps,
 }: IrisSidebarProps) {
   const router = useRouter();
+  const { teacher, isAuthenticated, logout } = useAuth();
 
   const handleStepClick = (step: IrisMacroStep, href: string) => {
     if (onNavigateStep) {
@@ -214,16 +223,62 @@ export function IrisSidebar({
             );
           })}
         </nav>
+
+        <div className="mt-5 pt-4 border-t border-[#335C67]/15 dark:border-white/10 space-y-2">
+          <p className="px-2 text-[11px] font-extrabold uppercase tracking-wider text-[#335C67] dark:text-[#9fd0de]">
+            Conta & Histórico
+          </p>
+          <Link
+            href="/historico"
+            aria-current={currentPage === "historico" ? "page" : undefined}
+            className={`min-h-[44px] flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs transition-colors ${
+              currentPage === "historico"
+                ? "font-extrabold bg-[#C9411F] text-white shadow-sm"
+                : "font-semibold text-[#0D0221]/85 dark:text-white/85 hover:bg-[#335C67]/10"
+            }`}
+          >
+            <FolderClock className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+            <span>Minhas Atividades</span>
+          </Link>
+
+          {isAuthenticated && teacher ? (
+            <div className="rounded-xl p-2.5 bg-[#335C67]/8 dark:bg-white/5 border border-[#335C67]/15 dark:border-white/10 space-y-2">
+              <div className="flex items-center gap-2 text-[11px] text-[#0D0221] dark:text-white">
+                <UserCheck className="w-3.5 h-3.5 text-[#335C67] dark:text-[#9fd0de] flex-shrink-0" aria-hidden="true" />
+                <span className="font-bold truncate" title={teacher.email}>
+                  {teacher.nome_exibicao}
+                </span>
+              </div>
+              <p className="text-[10px] text-[#0D0221]/65 dark:text-white/65 truncate">{teacher.email}</p>
+              <button
+                type="button"
+                onClick={() => logout().then(() => router.push("/"))}
+                className="w-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#335C67]/25 dark:border-white/20 text-[11px] font-semibold text-[#0D0221] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>Sair da conta</span>
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/"
+              className="min-h-[44px] flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors"
+            >
+              <LogIn className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+              <span>Entrar / Criar conta</span>
+            </Link>
+          )}
+        </div>
       </div>
 
-      {/* Cartão Zero-Database Ativo */}
+      {/* Cartão Zero-Database de Alunos */}
       <div className="rounded-xl p-3 bg-[#F5EDF0]/80 dark:bg-black/25 border border-[#335C67]/15 dark:border-white/10 text-[11px] text-[#0D0221]/75 dark:text-white/75 space-y-1">
         <p className="font-bold text-[#335C67] dark:text-[#9fd0de] flex items-center gap-1.5">
           <ClipboardCheck className="w-3.5 h-3.5" aria-hidden="true" />
-          Zero-Database Ativo
+          Zero-Database de Alunos
         </p>
         <p className="leading-snug">
-          Nenhum dado de estudante é salvo em servidor. Tudo permanece na sessão atual.
+          Nenhum dado de estudante é salvo em servidor. Seu histórico guarda apenas atividades sanitizadas.
         </p>
       </div>
     </aside>

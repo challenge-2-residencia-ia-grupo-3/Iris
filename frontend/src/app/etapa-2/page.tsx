@@ -22,7 +22,6 @@ export default function Etapa2Page() {
 
   return (
     <Step2FunctionalProfile
-      teacherEmail="marina.alves@escola.edu.br"
       materialPreviewText={materialText}
       onBackToStep1={() => router.push("/etapa-1")}
       onAdvanceToStep3={() => router.push("/etapa-3")}
