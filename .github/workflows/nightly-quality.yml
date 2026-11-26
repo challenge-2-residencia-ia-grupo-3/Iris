@@ -1,0 +1,38 @@
+name: Qualidade Noturna (Warnings e Grafo)
+
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualidade-noturna:
+    name: Testes LangGraph e Auditoria de Warnings
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar o uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Instalar dependências + grupo grafo
+        run: uv sync --frozen --group grafo
+
+      - name: Rodar testes do protótipo LangGraph
+        run: uv run --frozen python -m unittest discover -s rag/iris-rag/bancada/langgraph -p "test_*.py" -v
+
+      - name: Rodar suíte backend medindo durações e warnings
+        run: |
+          echo '### Top 20 testes mais lentos e resumo de warnings' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          uv run --frozen python -m pytest backend/tests -W default --durations=20 -q | tail -n 60 >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+        env:
+          PYTHONPATH: backend/src
