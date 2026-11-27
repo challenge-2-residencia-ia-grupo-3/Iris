@@ -2,13 +2,15 @@
 
 ## 1. Visão Geral da Arquitetura
 
-A plataforma **Íris** adota uma arquitetura modular orientada a serviços *stateless*, fundamentada no princípio de *Privacy by Design* e conformidade com a LGPD. O sistema não persiste cadastros ou dados identificáveis de estudantes em banco de dados centralizado (*Zero-Database*), operando em memória durante a sessão de adaptação e delegando a continuidade histórica ao **Perfil Pedagógico Portátil** mantido localmente pelo professor.
+A plataforma **Íris** adota uma arquitetura modular orientada a serviços, fundamentada no princípio de *Privacy by Design* e conformidade com a LGPD. O sistema **não persiste cadastros, nomes, laudos ou perfis identificáveis de estudantes** em banco de dados centralizado (*Zero-Student-Database*), delegando a continuidade por aluno ao **Perfil Pedagógico Portátil** mantido localmente pelo professor. Para reduzir o retrabalho docente sem violar a LGPD, a plataforma oferece autenticação opcional (cadastro local no PostgreSQL ou Google OAuth 2.0) para salvar o **histórico de atividades pedagógicas sanitizadas** do próprio professor em schema isolado (`docente.*`), preservando o Modo Convidado 100% em memória.
 
 ```mermaid
 flowchart TD
     subgraph Cliente["Camada de Interface Docente (Web)"]
+        AuthUI["Login Local / Google OAuth<br/>(ou Modo Convidado em memória)"]
         UI["Interface Web (WCAG 2.1 AA)<br/>Fluxo Guiado de 5 Etapas"]
         Review["Revisão Lado a Lado<br/>(Human-in-the-Loop)"]
+        HistoryUI["Minhas Atividades (/historico)<br/>CRUD, Duplicação e Re-download"]
         Export["Exportador de Materiais<br/>(PDF Neutro / DOCX Editável)"]
     end
 
@@ -31,8 +33,9 @@ flowchart TD
         CircuitBreaker{"Circuit Breaker<br/>(max_retries = 2)"}
     end
 
-    subgraph RAG_KB["Base de Conhecimento Científica"]
-        PgVector[("PostgreSQL com pgvector<br/>(Sem dados de estudantes)")]
+    subgraph RAG_KB["PostgreSQL 16 (Schemas Isolados)"]
+        PgVector[("Schema public: iris_trechos<br/>pgvector RAG (Somente leitura na API)")]
+        PgDocente[("Schema docente: professores, oauth,<br/>atividades_historico (Zero dados de alunos)")]
         KB_Docs["Manuais MEC • DUA / CAST<br/>Artigos Científicos: Funções Executivas TDAH"]
         EDA_Corpus["Análise Exploratória do Corpus (EDA)<br/>(Balanceamento e Metadados)"]
     end
@@ -41,6 +44,8 @@ flowchart TD
         PortProfile[("Perfil Pedagógico Portátil<br/>.json / .pdf Local e Anônimo")]
     end
 
+    AuthUI --> UI
+    AuthUI --> HistoryUI
     UI --> TextDocIn
     UI --> OCR_VLM
     UI --> STT_Audio
@@ -65,6 +70,10 @@ flowchart TD
     CircuitBreaker -- "Reprovação (Tentativas <= 2)" --> AgAdaptador
     CircuitBreaker -- "Aprovação ou Esgotamento de Tentativas" --> Review
 
+    Review -->|"Gate Anti-PII & Anti-Clínico"| PgDocente
+    PgDocente --> HistoryUI
+    HistoryUI -->|"Reabrir na Etapa 5"| Review
+    HistoryUI --> Export
     Review --> Export
     Review -.-> PortProfile
     PortProfile -.-> UI
@@ -258,6 +267,7 @@ Para atender à diretriz do Challenge 2 de justificar decisões técnicas sem an
 | **ADR-07** | Gerenciamento de ambiente e dependências | Pip/Virtualenv vs. Poetry vs. UV | **Decidido por Requisito do Projeto** | O gestor `uv` foi selecionado em cumprimento ao RNF-11, unificando dependências da API e do RAG no `pyproject.toml` com empacotamento editável de `backend/src/iris`. |
 | **ADR-08** | Mapeamento Taxonômico entre Catálogo de Características e Base RAG | Reindexação vetorial por micro-característica vs. Mapeamento determinístico `id_caracteristica` $\rightarrow$ `barreira_rag_associada` via schema modular | **Implementado (`#39` e `#44`)** | O catálogo `rag/catalogs/tdah_caracteristicas_funcionais.json` define 9 características atômicas observáveis em sala (com diretrizes de Nível 1, 2 e 3) mapeadas para as 9 tags `barreiras` indexadas no RAG, permitindo expansão para TEA/Dislexia sem reindexar vetores nem alterar código. |
 | **ADR-09** | Separação Física e Stack da Interface Web Docente (`frontend/` vs. `backend/`) | Templates monolíticos acoplados ao backend vs. Arquitetura desacoplada **Frontend Next.js (`frontend/`) + Backend Python FastAPI (`backend/`)** | **Implementado (`#4` — História 1.1.1)** | O repositório separa fisicamente o backend Python (`backend/src/iris/` e `backend/tests/`) da aplicação web em **Next.js 14 + TypeScript + Tailwind CSS** (`frontend/`), comunicando-se via REST stateless (`POST /api/v1/materials/upload` e `POST /api/v1/materials/text`) com conformidade WCAG 2.1 AA e fidelidade ao protótipo do Figma. |
+| **ADR-10** | Persistência do Histórico de Atividades por Conta Docente | Modo apenas em memória (`RepositorioSessoes`) vs. **Schema PostgreSQL isolado (`docente.*`) com Autenticação Local + Google OAuth 2.0 e Gate Anti-PII** | **Decidido / Em Implementação (Etapa 1)** | Reaproveita o PostgreSQL já existente no `docker-compose.yml` com schema `docente` segregado de `public.iris_trechos`. Mantém **Zero-Database de Estudantes** (ADR-01/RNF-01): nenhum dado de aluno ou código de perfil portátil é salvo; toda atividade passa por `sanitize_pii` e `detectar_conteudo_clinico` antes da gravação, os tokens de sessão no navegador ficam restritos à `sessionStorage` (encerrados ao fechar a aba, protegendo computadores escolares compartilhados) e o Modo Convidado *stateless* é preservado. |
 
 ---
 
@@ -343,3 +353,20 @@ O dataset contém **30 questões escolares reais** cobrindo Português, Matemát
 * **Separação *Cold Start* vs. Inferência Real:** O `OllamaLLMProvider` captura nativamente `load_duration`, `prompt_eval_duration` e `eval_duration` em milissegundos, permitindo auditar o desempenho real de inferência (RNF-07) sem distorção do carregamento inicial de pesos em GPU/RAM.
 * **Registro Anônimo (Zero-PII):** A execução registra apenas metadados operacionais em `reports/extractor_telemetry.jsonl` (`disciplina`, `faixa_etaria`, `comando_conjugado`, `inference_ms`, `tokens_per_sec`, `trava_recall` Zero-Hint), mantendo conformidade integral com o princípio Zero-Database.
 * **Consultas Dinâmicas:** Disponível via menu interativo (`make extrator`), CLI (`make extrator-analytics`) e endpoint REST `GET /api/v1/eval/extractor-analytics` com filtros por disciplina, faixa etária e tipo de questão.
+
+---
+
+## 8. Persistência Docente Isolada (`schema docente` — ADR-10)
+
+Para que professores autenticados possam manter seu histórico pessoal de atividades sem armazenar nenhum dado de aluno no servidor, a camada `backend/src/iris/storage/` e o módulo `backend/src/iris/auth/` operam em um schema PostgreSQL dedicado (`docente`), separado da base vetorial científica do RAG (`public.iris_trechos`):
+
+* **Tabelas no schema `docente`:**
+  * `docente.professores`: conta docente (`id`, `email`, `email_verificado`, `nome_exibicao`, `senha_hash` Argon2id opcional).
+  * `docente.identidades_oauth`: vínculos externos OAuth 2.0 / OIDC (ex.: `provider = 'google'`, `provider_subject`), exigindo `email_verified = true` para vinculação automática a contas existentes.
+  * `docente.atividades_historico`: atividades pedagógicas sanitizadas (`titulo`, `disciplina`, `ano_escolar`, `nivel_andaime`, `caracteristicas_ids`, `travas_curriculares`, `questoes` em `JSONB`, `metricas`, `status` `rascunho`/`homologada`), isoladas por `professor_id`.
+  * `docente.refresh_tokens`: tokens de renovação armazenados via hash SHA-256 com suporte a rotação e revogação.
+* **Gate Preventivo Anti-PII e Anti-Clínico (`privacy_gate.py`):**
+  * Antes de qualquer `INSERT` ou `UPDATE`, o gate rejeita campos proibidos de estudantes (`codigo_anonimo`, `aluno`, `cpf`, `laudo`, `cid`, etc.) e executa `sanitize_pedagogical_note` + `detectar_conteudo_clinico` em título, metadados e questões.
+* **Autenticação Híbrida sem Cookies (`auth/`):**
+  * Suporta cadastro/login tradicional (Argon2id + JWT HS256 via `Authorization: Bearer`) e Google OAuth 2.0 com PKCE S256 + código único de troca (`/api/v1/auth/oauth/exchange`).
+  * O Modo Convidado permanece 100% *stateless* em memória, e a exclusão de conta (`DELETE /api/v1/auth/me`) remove todos os registros em cascata (`ON DELETE CASCADE`).

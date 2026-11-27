@@ -22,8 +22,8 @@ BENCHMARKS_DIR = REPO_ROOT / "data" / "benchmarks"
 # claude-sonnet-4-5-20250929, que a Anthropic tira do ar em 30/11/2026; outro modelo: variável IRIS_JUDGE_MODEL.
 JUIZ_MODELO_PADRAO = "claude-sonnet-5-5"
 
-# Único armazenamento persistente autorizado no backend (RNF-01)
-ALLOWED_PERSISTENT_STORES: tuple[str, ...] = ("rag_vector_readonly",)
+# Armazenamentos persistentes autorizados no backend (RNF-01 / ADR-10)
+ALLOWED_PERSISTENT_STORES: tuple[str, ...] = ("rag_vector_readonly", "teacher_activity_history")
 FORBIDDEN_STUDENT_DB_ENV_VARS: tuple[str, ...] = (
     "STUDENT_DATABASE_URL",
     "STUDENTS_DATABASE_URL",
@@ -113,8 +113,19 @@ class IrisSettings:
     rag_reranker: str = "mminilm"
     rag_pg_dsn: str = "postgresql://iris:iris@127.0.0.1:5433/iris"
 
+    # Banco de histórico docente (schema isolado `docente` no PostgreSQL — ADR-10)
+    app_pg_dsn: str = "postgresql://iris:iris@127.0.0.1:5433/iris"
+    jwt_secret: str = ""
+    jwt_access_ttl_minutes: int = 30
+    jwt_refresh_ttl_days: int = 14
+    google_client_id: str = ""
+    google_client_secret: str = ""
+    google_redirect_uri: str = "http://127.0.0.1:8000/api/v1/auth/oauth/google/callback"
+    frontend_url: str = "http://localhost:3000"
+
     # Guardrails arquiteturais inegociáveis (Pilar 3 / RNF-01 - Zero-Database de Alunos)
     zero_student_database: bool = True
+    stateless_for_students: bool = True
     stateless_mode: bool = True
     allowed_persistent_stores: tuple[str, ...] = ALLOWED_PERSISTENT_STORES
 
@@ -124,15 +135,15 @@ class IrisSettings:
                 "Violação de RNF-01: a plataforma Íris exige zero_student_database=True "
                 "(sem tabelas ou banco de dados de estudantes)."
             )
-        if not self.stateless_mode:
+        if not self.stateless_for_students or not self.stateless_mode:
             raise ValueError(
-                "Violação de RNF-01: a plataforma Íris exige stateless_mode=True "
-                "(ciclo de vida restrito à sessão em memória)."
+                "Violação de RNF-01: a plataforma Íris exige stateless_for_students=True e stateless_mode=True "
+                "(sem estado persistido de estudantes ou cookies de sessão no servidor)."
             )
         if tuple(self.allowed_persistent_stores) != ALLOWED_PERSISTENT_STORES:
             raise ValueError(
-                "Violação de RNF-01: o único armazenamento persistente permitido no backend "
-                "é a base vetorial somente-leitura de artigos e manuais públicos (RAG)."
+                "Violação de RNF-01 / ADR-10: os únicos armazenamentos persistentes permitidos no backend "
+                "são a base vetorial do RAG e o histórico sanitizado de atividades docentes."
             )
 
 
@@ -147,10 +158,20 @@ def validate_zero_database_configuration(settings: IrisSettings | None = None) -
         )
     return {
         "zero_student_database": cfg.zero_student_database,
+        "stateless_for_students": cfg.stateless_for_students,
         "stateless_mode": cfg.stateless_mode,
         "allowed_persistent_stores": list(cfg.allowed_persistent_stores),
-        "rag_vector_store_only": True,
+        "student_data_persistence_allowed": False,
     }
+
+
+def _get_int_env(key: str, default: int, dotenv_map: dict[str, str] | None = None) -> int:
+    raw = _get_env(key, str(default), dotenv_map)
+    try:
+        val = int(raw)
+        return val if val > 0 else default
+    except ValueError:
+        return default
 
 
 def get_settings() -> IrisSettings:
@@ -158,11 +179,9 @@ def get_settings() -> IrisSettings:
     dotenv_map = load_dotenv_into_environ(override_empty=True)
     llm_prov = _get_env("IRIS_LLM_PROVIDER", _get_env("RAG_LLM", "ollama", dotenv_map), dotenv_map)
     llm_mod = _get_env("IRIS_LLM_MODEL", _get_env("RAG_LLM_MODELO", "llama3.1:8b", dotenv_map), dotenv_map)
-    port_str = _get_env("IRIS_PORT", "8000", dotenv_map)
-    try:
-        port_val = int(port_str)
-    except ValueError:
-        port_val = 8000
+    port_val = _get_int_env("IRIS_PORT", 8000, dotenv_map)
+    rag_dsn = _get_env("RAG_PG_DSN", "postgresql://iris:iris@127.0.0.1:5433/iris", dotenv_map)
+    app_dsn = _get_env("IRIS_APP_PG_DSN", _get_env("APP_PG_DSN", rag_dsn, dotenv_map), dotenv_map)
 
     return IrisSettings(
         env=_get_env("IRIS_ENV", "development", dotenv_map),
@@ -179,6 +198,18 @@ def get_settings() -> IrisSettings:
         rag_banco=_get_env("RAG_BANCO", "pgvector", dotenv_map),
         rag_metodo=_get_env("RAG_METODO", "qwen3+rerank50", dotenv_map),
         rag_reranker=_get_env("RAG_RERANKER", "mminilm", dotenv_map),
-        rag_pg_dsn=_get_env("RAG_PG_DSN", "postgresql://iris:iris@127.0.0.1:5433/iris", dotenv_map),
+        rag_pg_dsn=rag_dsn,
+        app_pg_dsn=app_dsn,
+        jwt_secret=_get_env("IRIS_JWT_SECRET", "", dotenv_map),
+        jwt_access_ttl_minutes=_get_int_env("IRIS_JWT_ACCESS_TTL_MINUTES", 30, dotenv_map),
+        jwt_refresh_ttl_days=_get_int_env("IRIS_JWT_REFRESH_TTL_DAYS", 14, dotenv_map),
+        google_client_id=_get_env("GOOGLE_CLIENT_ID", "", dotenv_map),
+        google_client_secret=_get_env("GOOGLE_CLIENT_SECRET", "", dotenv_map),
+        google_redirect_uri=_get_env(
+            "GOOGLE_REDIRECT_URI",
+            "http://127.0.0.1:8000/api/v1/auth/oauth/google/callback",
+            dotenv_map,
+        ),
+        frontend_url=_get_env("IRIS_FRONTEND_URL", "http://localhost:3000", dotenv_map),
         zero_student_database=True,
     )

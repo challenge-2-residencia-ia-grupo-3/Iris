@@ -55,7 +55,7 @@ interface Step3ScaffoldingLevelProps {
 }
 
 export function Step3ScaffoldingLevel({
-  teacherEmail = "marina.alves@escola.edu.br",
+  teacherEmail,
   initialLevel = 2,
   onBackToStep2,
   onAdvanceToNext,

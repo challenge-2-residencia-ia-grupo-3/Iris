@@ -9,7 +9,6 @@ export default function Etapa1Page() {
 
   return (
     <Step1MaterialIntake
-      teacherEmail="marina.alves@escola.edu.br"
       onBackToLogin={() => router.push("/")}
       onAdvanceToStep2={() => router.push("/etapa-2")}
     />

@@ -4,6 +4,7 @@ import React from "react";
 import { ArrowLeft, Contrast, Moon, Sun } from "lucide-react";
 import { IrisLogoBanner } from "./IrisLogoBanner";
 import { IrisMacroStep } from "./IrisSidebar";
+import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
 
 export const STEP_TITLES: Record<IrisMacroStep, string> = {
@@ -34,19 +35,25 @@ interface IrisHeaderProps {
  */
 export function IrisHeader({
   currentStep,
-  teacherEmail = "marina.alves@escola.edu.br",
+  teacherEmail,
   darkMode,
   onToggleDarkMode,
   highContrast,
   onToggleHighContrast,
   backButton,
 }: IrisHeaderProps) {
+  const { teacher, isAuthenticated } = useAuth();
   const {
     darkMode: contextDarkMode,
     toggleDarkMode: contextToggleDarkMode,
     highContrast: contextHighContrast,
     toggleHighContrast: contextToggleHighContrast,
   } = useTheme();
+
+  const docenteLabel =
+    isAuthenticated && teacher ? teacher.email : teacherEmail ?? "Modo Convidado";
+  const docenteTitle =
+    isAuthenticated && teacher ? teacher.nome_exibicao : undefined;
 
   const isDarkMode = darkMode ?? contextDarkMode;
   const handleToggleDarkMode = onToggleDarkMode ?? contextToggleDarkMode;
@@ -64,7 +71,7 @@ export function IrisHeader({
               {STEP_TITLES[currentStep]}
             </p>
             <p className="text-xs text-white/75">
-              Docente: <span className="font-mono text-white">{teacherEmail}</span>
+              Docente: <span className="font-mono text-white" title={docenteTitle}>{docenteLabel}</span>
             </p>
           </div>
         </div>

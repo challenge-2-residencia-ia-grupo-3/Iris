@@ -18,9 +18,64 @@ concurrency:
 
 jobs:
   testes:
-    name: Backend (pytest)
+    name: Backend (pytest & Zero-DB)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar o uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Verificar trava do uv.lock
+        run: uv lock --check
+
+      - name: Instalar dependências travadas no uv.lock
+        run: uv sync --frozen
+
+      - name: Compilar módulos Python do backend
+        run: uv run --frozen python -m compileall -q backend/src/iris
+
+      - name: Auditoria Zero-Database e Arquitetura Stateless (RNF-01)
+        run: uv run --frozen python scripts/audit_zero_database.py
+
+      # pytest coleta os testes em estilo unittest e os em estilo pytest (funções e parametrize).
+      - name: Rodar a suíte backend
+        run: uv run --frozen --with coverage coverage run --branch --source=backend/src/iris -m pytest backend/tests
+        env:
+          PYTHONPATH: backend/src
+
+      - name: Rodar testes do registrador de produção (bancada)
+        run: uv run --frozen python -m unittest discover -s rag/iris-rag/bancada/producao -p "test_*.py" -v
+
+      - name: Relatório de cobertura (informativo)
+        if: always()
+        run: |
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          uv run --frozen --with coverage coverage report >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+  integracao-pg:
+    name: Integração Real (PostgreSQL 16 + pgvector)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: iris
+          POSTGRES_PASSWORD: iris
+          POSTGRES_DB: iris
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd="pg_isready -U iris -d iris"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
     steps:
       - name: Baixar o código
         uses: actions/checkout@v4
@@ -33,25 +88,19 @@ jobs:
       - name: Instalar dependências travadas no uv.lock
         run: uv sync --frozen
 
-      - name: Auditoria Zero-Database e Arquitetura Stateless (RNF-01)
-        run: uv run --frozen python scripts/audit_zero_database.py
-
-      # pytest coleta os testes em estilo unittest e os em estilo pytest (funções e parametrize).
-      # `unittest discover` só enxerga os primeiros e deixava parte da suíte fora do CI.
-      - name: Rodar a suíte
-        run: uv run --frozen --with coverage coverage run --branch --source=backend/src/iris -m pytest backend/tests
+      - name: Rodar testes de integração contra PostgreSQL real
+        run: >-
+          uv run --frozen --with "psycopg[binary]>=3.1.18" --with "pgvector>=0.2.5"
+          python -m pytest backend/tests/integration/test_postgres_real.py -v
         env:
-          PYTHONPATH: backend/src
-
-      - name: Relatório de cobertura (informativo, sem mínimo exigido)
-        if: always()
-        run: |
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
-          uv run --frozen --with coverage coverage report >> "$GITHUB_STEP_SUMMARY" || true
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          PYTHONPATH: backend/src:rag/iris-rag/pacote
+          IRIS_TEST_REAL_PG: "1"
+          RAG_PG_DSN: postgresql://iris:iris@127.0.0.1:5433/iris
+          IRIS_APP_PG_DSN: postgresql://iris:iris@127.0.0.1:5433/iris
+          IRIS_JWT_SECRET: ci-integration-secret
 
   frontend:
-    name: Frontend (tipos e vitest)
+    name: Frontend (tipos, vitest e build)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
@@ -74,5 +123,108 @@ jobs:
       - name: Checar os tipos
         run: npx tsc --noEmit
 
-      - name: Rodar os testes
+      - name: Rodar os testes unitários
         run: npm test
+
+      - name: Validar build de produção Next.js
+        run: npm run build
+
+  e2e-real:
+    name: E2E Real (Chromium + FastAPI + Next.js + Postgres)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: iris
+          POSTGRES_PASSWORD: iris
+          POSTGRES_DB: iris
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd="pg_isready -U iris -d iris"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar o uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Instalar dependências Python travadas
+        run: uv sync --frozen
+
+      - name: Instalar o Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependências do Frontend e Playwright (Chromium)
+        run: |
+          npm --prefix frontend ci
+          npm --prefix frontend install --no-save playwright@1.49.1
+          npx --prefix frontend playwright install --with-deps chromium
+
+      - name: Build de produção do Frontend
+        run: npm --prefix frontend run build
+        env:
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8000
+
+      - name: Subir Backend + Frontend e rodar Smoke E2E real
+        run: |
+          mkdir -p frontend/e2e/artifacts
+          PYTHONPATH=backend/src:rag/iris-rag/pacote \
+          IRIS_ENV=development \
+          IRIS_LLM_PROVIDER=extractive \
+          RAG_LLM=extractive \
+          RAG_BANCO=bm25 \
+          RAG_PG_DSN=postgresql://iris:iris@127.0.0.1:5433/iris \
+          IRIS_APP_PG_DSN=postgresql://iris:iris@127.0.0.1:5433/iris \
+          IRIS_JWT_SECRET=ci-e2e-secret \
+          IRIS_FRONTEND_URL=http://127.0.0.1:3000 \
+          uv run --frozen --with "psycopg[binary]>=3.1.18" \
+            python -m uvicorn iris.main:app --app-dir backend/src --host 127.0.0.1 --port 8000 \
+            > frontend/e2e/artifacts/backend.log 2>&1 &
+          BACK_PID=$!
+
+          (cd frontend && exec ./node_modules/.bin/next start -H 127.0.0.1 -p 3000) \
+            > frontend/e2e/artifacts/frontend.log 2>&1 &
+          FRONT_PID=$!
+
+          trap 'kill $BACK_PID $FRONT_PID 2>/dev/null || true' EXIT
+
+          for i in $(seq 1 40); do
+            if ! kill -0 "$BACK_PID" 2>/dev/null || ! kill -0 "$FRONT_PID" 2>/dev/null; then
+              echo "Processo encerrou durante a inicialização."
+              echo "--- backend.log ---" && tail -n 50 frontend/e2e/artifacts/backend.log || true
+              echo "--- frontend.log ---" && tail -n 50 frontend/e2e/artifacts/frontend.log || true
+              exit 1
+            fi
+            if curl -fsS http://127.0.0.1:8000/api/v1/health >/dev/null && curl -fsS http://127.0.0.1:3000/ >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          curl -fsS http://127.0.0.1:8000/api/v1/health >/dev/null
+          curl -fsS http://127.0.0.1:3000/ >/dev/null
+
+          FRONTEND_URL=http://127.0.0.1:3000 \
+          BACKEND_URL=http://127.0.0.1:8000 \
+          ARTIFACTS_DIR=frontend/e2e/artifacts \
+          node frontend/e2e/smoke.mjs
+
+      - name: Anexar logs e screenshot em caso de falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts
+          path: frontend/e2e/artifacts/
+          if-no-files-found: ignore

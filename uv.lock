@@ -1773,8 +1773,10 @@ name = "iris"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "argon2-cffi" },
     { name = "datasets" },
     { name = "fastapi" },
+    { name = "httpx" },
     { name = "ipykernel" },
     { name = "jinja2" },
     { name = "jupyter" },
@@ -1784,6 +1786,7 @@ dependencies = [
     { name = "numpy", version = "2.5.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "pandas" },
     { name = "pillow" },
+    { name = "psycopg", extra = ["binary"] },
     { name = "pydantic" },
     { name = "pymupdf" },
     { name = "pyphen" },
@@ -1841,8 +1844,10 @@ voz = [
 
 [package.metadata]
 requires-dist = [
+    { name = "argon2-cffi", specifier = ">=23.1.0" },
     { name = "datasets", specifier = ">=5.1.0" },
     { name = "fastapi", specifier = ">=0.110.0" },
+    { name = "httpx", specifier = ">=0.27.0" },
     { name = "ipykernel", specifier = ">=7.4.0" },
     { name = "jinja2", specifier = ">=3.1.3" },
     { name = "jupyter", specifier = ">=1.1.1" },
@@ -1851,6 +1856,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.4.6" },
     { name = "pandas", specifier = ">=3.1.0" },
     { name = "pillow", specifier = ">=10.0.0" },
+    { name = "psycopg", extras = ["binary"], specifier = ">=3.1.18" },
     { name = "pydantic", specifier = ">=2.6.0" },
     { name = "pymupdf", specifier = ">=1.24.0" },
     { name = "pyphen", specifier = ">=0.18.1" },
