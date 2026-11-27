@@ -27,7 +27,16 @@ from iris.agents.auditor import (
 )
 from iris.agents.curriculum_extractor import CurriculumExtractorAgent
 from iris.agents.strategist_agent import StrategistAgent
-from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client
+from iris.core.llm_client import (
+    PROVEDORES_EXTERNOS,
+    AnthropicLLMProvider,
+    GroqLLMProvider,
+    HybridLLMClient,
+    LLMResponse,
+    OllamaLLMProvider,
+    external_adaptation_allowed,
+    get_llm_client,
+)
 from iris.eval.escopo import ID_COMANDOS_MULTIPLOS, verificar_escopo
 from iris.parsers.structural_decomposer import decompose_material
 from iris.schemas.adaptation import AdaptationRequest, ScopeReport
@@ -47,6 +56,33 @@ PROVEDORES_ACEITOS = frozenset(
     {"auto", "extractive", "mock", "offline", "ollama", "groq", "anthropic", "claude", "sonnet"}
 )
 _CONCEITO_GENERICO = "conteudo_curricular"
+
+AVISO_DOCENTE_EXTERNO = (
+    "Processamento com IA externa (Anthropic Claude): para melhorar a qualidade da adaptação, esta escola "
+    "habilitou o envio apenas do enunciado da questão (após remoção automática de nomes, CPFs, telefones e escolas), "
+    "da característica funcional selecionada e do nível de apoio (1 a 3). Nunca são enviados nome do estudante, "
+    "matrícula, laudo clínico ou código do Perfil Portátil. O Íris não grava prompts nem questões nos logs. "
+    "Não digite nomes de alunos no texto ou nas travas manuais. Para manter 100% local, escolha Modelo Local (Ollama) "
+    "ou Modo Determinístico."
+)
+AVISO_DOCENTE_LOCAL = (
+    "Processamento 100% local (Privacidade por Padrão): nenhum enunciado ou característica funcional sai desta "
+    "máquina. O envio a provedores externos está desativado nas configurações deste servidor."
+)
+DADOS_ENVIADOS_QUANDO_EXTERNO = [
+    "Enunciado da questão após sanitização preventiva de PII (nomes, CPFs, e-mails, telefones, escolas)",
+    "Característica funcional selecionada e diretrizes do catálogo (e, no Auditor, lista das não selecionadas)",
+    "Nível de apoio cognitivo (1, 2 ou 3) e travas curriculares sanitizadas",
+]
+DADOS_NUNCA_ENVIADOS = [
+    "Nome, CPF, matrícula ou endereço do estudante",
+    "Código aleatório (id_anonimo) e histórico do Perfil Pedagógico Portátil",
+    "Laudos médicos, CID ou medicações (vetados pelo RNF-03)",
+]
+
+
+class ExternalLLMDisabledError(ValueError):
+    """Provedor externo solicitado com IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM=false (ADR-11 / #106)."""
 
 
 class AuditAttemptTrace(BaseModel):
@@ -172,6 +208,10 @@ class MultiAgentMaterialResponse(BaseModel):
         default_factory=dict,
         description="Provedor efetivo de cada agente (extrator, estrategista, adaptador, auditor) nesta execução.",
     )
+    usa_provedor_externo: bool = Field(
+        default=False,
+        description="True quando ao menos um agente utilizou provedor de API externa (Anthropic/Groq).",
+    )
     nivel: int
     selected_ids: list[str]
     pii_substituicoes: int
@@ -224,23 +264,41 @@ def _resolver_cliente_llm(
     if explicit_client is not None:
         return explicit_client
 
+    externo_ok = external_adaptation_allowed()
+
     if provider is None or provider == "auto":
-        # Prioriza Anthropic Claude quando ANTHROPIC_API_KEY está configurada no .env
-        try:
-            claude = get_llm_client(provider="anthropic", model=model)
-            if claude.status().get("primary_available"):
-                return claude
-        except Exception:  # noqa: BLE001
-            pass
+        if externo_ok:
+            # Prioriza Anthropic Claude quando opt-in institucional e ANTHROPIC_API_KEY estão ativos
+            try:
+                claude = get_llm_client(provider="anthropic", model=model)
+                if claude.status().get("primary_available"):
+                    return claude
+            except Exception:  # noqa: BLE001
+                pass
 
         candidato = get_llm_client(model=model)
         try:
-            status = candidato.status()
-            if status.get("primary_available"):
-                return candidato
+            if externo_ok or str(getattr(candidato, "provider_name", "")).lower() not in PROVEDORES_EXTERNOS:
+                status = candidato.status()
+                if status.get("primary_available"):
+                    return candidato
         except Exception:  # noqa: BLE001
             pass
+        if not externo_ok:
+            try:
+                local = get_llm_client(provider="ollama", model=model)
+                if _disponivel(local):
+                    return local
+            except Exception:  # noqa: BLE001
+                pass
         return get_llm_client(provider="extractive")
+
+    if provider.strip().lower() in PROVEDORES_EXTERNOS and not externo_ok:
+        raise ExternalLLMDisabledError(
+            "Envio para provedor de IA externo está desativado pela política de privacidade deste servidor "
+            "(IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM=false). Use 'ollama', 'extractive' ou habilite a variável "
+            "com ciência institucional."
+        )
 
     return get_llm_client(provider=provider, model=model)
 
@@ -259,15 +317,23 @@ def _disponivel(cliente: Any) -> bool:
 
 
 def _cliente_do_agente(agente: str, model: Optional[str]) -> HybridLLMClient:
-    """Modo automático, por agente: o padrão do agente (`get_llm_client(agente=...)`: Haiku no Adaptador quando há
-    chave da Anthropic, provedor geral nos demais, salvo IRIS_LLM_PROVIDER_<AGENTE>); se ele não estiver disponível,
-    a Anthropic, quando há chave; senão, o modo sem modelo. Assim o servidor que só tem a chave continua funcionando
-    com os quatro agentes, e o que tem Ollama usa cada agente no modelo medido para ele."""
-    for fabrica in (lambda: get_llm_client(agente=agente, model=model),
-                    lambda: get_llm_client(provider="anthropic", model=model)):
+    """Modo automático, por agente: o padrão do agente (`get_llm_client(agente=...)`: Haiku no Adaptador/Auditor
+    quando `IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM=true` e há chave da Anthropic; provedor geral local nos demais,
+    salvo `IRIS_LLM_PROVIDER_<AGENTE>`). Sem opt-in externo, nunca cai silenciosamente na Anthropic."""
+    externo_ok = external_adaptation_allowed()
+    fabricas: list[Any] = [lambda: get_llm_client(agente=agente, model=model)]
+    if externo_ok:
+        fabricas.append(lambda: get_llm_client(provider="anthropic", model=model))
+    else:
+        fabricas.append(lambda: get_llm_client(provider="ollama", model=model))
+
+    for fabrica in fabricas:
         try:
             cliente = fabrica()
         except Exception:  # noqa: BLE001
+            continue
+        prov = str(getattr(cliente, "provider_name", "")).lower()
+        if not externo_ok and prov in PROVEDORES_EXTERNOS:
             continue
         if _disponivel(cliente):
             return cliente
@@ -285,6 +351,50 @@ def _resolver_clientes_por_agente(
         unico = _resolver_cliente_llm(provider, model, explicit_client)
         return {agente: unico for agente in AGENTES_DA_CORRENTE}
     return {agente: _cliente_do_agente(agente, model) for agente in AGENTES_DA_CORRENTE}
+
+
+def get_agents_privacy_status() -> dict[str, Any]:
+    """Resumo da política de privacidade e roteamento efetivo do modo automático dos agentes (#106 / ADR-11)."""
+    externo_ok = external_adaptation_allowed()
+    ollama_online = OllamaLLMProvider().is_available()
+    anthropic_ok = AnthropicLLMProvider().is_available()
+    groq_ok = GroqLLMProvider().is_available()
+
+    def _prov_disponivel(prov: str) -> bool:
+        p = prov.lower()
+        if p == "ollama":
+            return ollama_online
+        if p in {"anthropic", "claude", "sonnet"}:
+            return externo_ok and anthropic_ok
+        if p == "groq":
+            return externo_ok and groq_ok
+        return True
+
+    default_providers: dict[str, str] = {}
+    for agente in AGENTES_DA_CORRENTE:
+        prov_cfg = str(get_llm_client(agente=agente).provider_name).lower()
+        if _prov_disponivel(prov_cfg):
+            default_providers[agente] = prov_cfg
+        elif externo_ok and anthropic_ok:
+            default_providers[agente] = "anthropic"
+        elif ollama_online:
+            default_providers[agente] = "ollama"
+        else:
+            default_providers[agente] = "extractive"
+
+    auto_uses_external = any(prov in PROVEDORES_EXTERNOS for prov in default_providers.values())
+    return {
+        "external_adaptation_allowed": externo_ok,
+        "anthropic_configured": anthropic_ok,
+        "groq_configured": groq_ok,
+        "ollama_online": ollama_online,
+        "default_providers_by_agent": default_providers,
+        "auto_uses_external_llm": auto_uses_external,
+        "dados_enviados_quando_externo": list(DADOS_ENVIADOS_QUANDO_EXTERNO),
+        "dados_nunca_enviados": list(DADOS_NUNCA_ENVIADOS),
+        "aviso_docente_externo": AVISO_DOCENTE_EXTERNO,
+        "aviso_docente_local": AVISO_DOCENTE_LOCAL,
+    }
 
 
 def _construir_juiz(llm_client: Any) -> Any:
@@ -389,6 +499,47 @@ class MultiAgentOrchestrator:
             if len(texto_limpo) < 15:
                 raise ValueError("Após sanitização, o texto ficou abaixo do mínimo de 15 caracteres.")
 
+            trava_manual_sanitizada: Optional[list[str]] = None
+            if req.trava_manual_docente:
+                trava_manual_sanitizada = []
+                for item in req.trava_manual_docente:
+                    limpo_item, n_sub = sanitize_pii(item)
+                    pii_substituicoes += n_sub
+                    if limpo_item.strip():
+                        trava_manual_sanitizada.append(limpo_item.strip())
+
+            disciplina_sanitizada: Optional[str] = None
+            if req.disciplina:
+                disc_limpa, n_sub = sanitize_pii(req.disciplina)
+                pii_substituicoes += n_sub
+                disciplina_sanitizada = disc_limpa.strip() or None
+
+            ano_escolar_sanitizado: Optional[str] = None
+            if req.ano_escolar:
+                ano_limpo, n_sub = sanitize_pii(req.ano_escolar)
+                pii_substituicoes += n_sub
+                ano_escolar_sanitizado = ano_limpo.strip() or None
+
+            invariantes_etapa3_sanitizadas: Optional[dict[str, Any]] = None
+            if req.invariantes_etapa3:
+                invariantes_etapa3_sanitizadas = dict(req.invariantes_etapa3)
+                for chave_lista in ("conceitos_obrigatorios", "termos_tecnicos_intocaveis"):
+                    valores_orig = req.invariantes_etapa3.get(chave_lista)
+                    if isinstance(valores_orig, list):
+                        lista_limpa: list[str] = []
+                        for val in valores_orig:
+                            v_limpo, n_sub = sanitize_pii(str(val))
+                            pii_substituicoes += n_sub
+                            if v_limpo.strip():
+                                lista_limpa.append(v_limpo.strip())
+                        invariantes_etapa3_sanitizadas[chave_lista] = lista_limpa
+                for chave_str in ("habilidade_bncc", "alerta_anti_muleta_auditor"):
+                    val_str = req.invariantes_etapa3.get(chave_str)
+                    if isinstance(val_str, str) and val_str.strip():
+                        s_limpa, n_sub = sanitize_pii(val_str)
+                        pii_substituicoes += n_sub
+                        invariantes_etapa3_sanitizadas[chave_str] = s_limpa.strip()
+
             # 2. Decomposição estrutural determinística do material em questões e textos de apoio
             estrutura = decompose_material(texto_limpo)
             ctx_por_id = {cb.id: cb for cb in estrutura.context_blocks}
@@ -434,17 +585,17 @@ class MultiAgentOrchestrator:
                 extracao = extrator.extract_with_telemetry(
                     request=enunciado_q,
                     contexto_apoio=ctx_apoio,
-                    disciplina=req.disciplina,
-                    ano_escolar=req.ano_escolar,
-                    trava_manual_docente=req.trava_manual_docente,
+                    disciplina=disciplina_sanitizada,
+                    ano_escolar=ano_escolar_sanitizado,
+                    trava_manual_docente=trava_manual_sanitizada,
                     question_id=qid,
                 )
 
-                if req.invariantes_etapa3 and req.invariantes_etapa3.get("blindagem_ativa"):
+                if invariantes_etapa3_sanitizadas and invariantes_etapa3_sanitizadas.get("blindagem_ativa"):
                     inv = extracao.invariants
                     conceitos_etapa3 = [
                         str(c).strip()
-                        for c in (req.invariantes_etapa3.get("conceitos_obrigatorios") or [])
+                        for c in (invariantes_etapa3_sanitizadas.get("conceitos_obrigatorios") or [])
                         if str(c).strip()
                     ]
                     if conceitos_etapa3:
@@ -453,17 +604,17 @@ class MultiAgentOrchestrator:
                         )
                     intocaveis_etapa3 = [
                         str(t).strip()
-                        for t in (req.invariantes_etapa3.get("termos_tecnicos_intocaveis") or [])
+                        for t in (invariantes_etapa3_sanitizadas.get("termos_tecnicos_intocaveis") or [])
                         if str(t).strip()
                     ]
                     if intocaveis_etapa3:
                         inv.termos_tecnicos_intocaveis = list(
                             dict.fromkeys([*inv.termos_tecnicos_intocaveis, *intocaveis_etapa3])
                         )
-                    habilidade_etapa3 = str(req.invariantes_etapa3.get("habilidade_bncc") or "").strip()
+                    habilidade_etapa3 = str(invariantes_etapa3_sanitizadas.get("habilidade_bncc") or "").strip()
                     if habilidade_etapa3 and not inv.habilidade_bncc_sugerida:
                         inv.habilidade_bncc_sugerida = habilidade_etapa3
-                    alerta_etapa3 = str(req.invariantes_etapa3.get("alerta_anti_muleta_auditor") or "").strip()
+                    alerta_etapa3 = str(invariantes_etapa3_sanitizadas.get("alerta_anti_muleta_auditor") or "").strip()
                     if alerta_etapa3:
                         inv.alerta_anti_muleta = (
                             f"{inv.alerta_anti_muleta} | {alerta_etapa3}"
@@ -635,6 +786,11 @@ class MultiAgentOrchestrator:
                 rag_backend = "pgvector"
             rerank_top1_score = round(max(rag_top1_scores), 4) if rag_top1_scores else None
 
+            provedores_por_agente = {a: str(getattr(c, "provider_name", "custom")) for a, c in clientes.items()}
+            usa_provedor_externo = any(
+                prov.lower() in PROVEDORES_EXTERNOS for prov in provedores_por_agente.values()
+            )
+
             log_agent_operational_event(
                 nivel=req.nivel,
                 selected_ids=req.selected_ids,
@@ -654,6 +810,8 @@ class MultiAgentOrchestrator:
                 rag_backend=rag_backend,
                 rag_metodo_efetivo=rag_metodo_efetivo,
                 rerank_top1_score=rerank_top1_score,
+                external_llm_used=usa_provedor_externo,
+                providers_by_agent=provedores_por_agente,
             )
 
         return MultiAgentMaterialResponse(
@@ -661,7 +819,8 @@ class MultiAgentOrchestrator:
             titulo=titulo_final,
             provider=provider_str,
             model=model_str,
-            provedores_por_agente={a: str(getattr(c, "provider_name", "custom")) for a, c in clientes.items()},
+            provedores_por_agente=provedores_por_agente,
+            usa_provedor_externo=usa_provedor_externo,
             nivel=req.nivel,
             selected_ids=list(req.selected_ids),
             pii_substituicoes=pii_substituicoes,

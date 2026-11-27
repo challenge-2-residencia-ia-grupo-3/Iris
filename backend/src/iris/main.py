@@ -139,6 +139,7 @@ def get_health_status() -> dict[str, Any]:
         "available_search_methods": available_methods,
         "sonnet_judge_ready": sonnet_ready,
         "sonnet_judge_model": settings.judge_model,
+        "external_adaptation_allowed": settings.allow_external_adaptation_llm,
         "total_chunks": _count_local_chunks(),
     }
 
@@ -1396,6 +1397,10 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 from iris.api.routes.scaffolding import get_scaffolding_levels_service
 
                 self._send_json(get_scaffolding_levels_service())
+            elif parsed.path == "/api/v1/agents/privacy-status":
+                from iris.api.routes.agents import get_agents_privacy_status_service
+
+                self._send_json(get_agents_privacy_status_service())
             elif parsed.path == "/api/v1/catalogs/characteristics/select":
                 self._send_json({"detail": "Method Not Allowed"}, status=405)
             elif parsed.path.startswith("/api/v1/catalogs/"):

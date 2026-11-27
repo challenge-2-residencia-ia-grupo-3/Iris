@@ -732,16 +732,36 @@ class HybridLLMClient:
             "ollama_installed_models": ollama_prov.list_installed_models(),
             "groq_configured": groq_prov.is_available(),
             "anthropic_configured": anthropic_prov.is_available(),
+            "external_adaptation_allowed": external_adaptation_allowed(),
         }
 
 
 AGENTES = ("extrator", "estrategista", "adaptador", "auditor")
+PROVEDORES_EXTERNOS = frozenset({"anthropic", "claude", "sonnet", "groq"})
+
+
+def external_adaptation_allowed() -> bool:
+    """Indica se a escola habilitou o envio de enunciados/perfil funcional a LLMs externos (ADR-11 / #106).
+
+    Privacy by Default: permanece `False` mesmo quando `ANTHROPIC_API_KEY` está configurada para o
+    Juiz RAG, exigindo `IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM=true` de forma explícita.
+    """
+    raw = os.environ.get("IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM")
+    if raw is not None and raw.strip() != "":
+        norm = raw.strip().lower()
+        if norm in {"1", "true", "yes", "on", "sim"}:
+            return True
+        if norm in {"0", "false", "no", "off", "nao", "não"}:
+            return False
+    return bool(getattr(get_settings(), "allow_external_adaptation_llm", False))
+
 
 # Padrão por etapa, pelo que foi medido (diário do RAG, 15 e 16/11/2026): o Adaptador com o Haiku faz 0,97 de
 # adaptações boas contra 0,57 do Llama local nas características sem regra (270 pedidos). Extrator e Estrategista
 # ficam no provedor geral (local por padrão): no Extrator o local basta; no Estrategista o Haiku só foi medido em piloto.
-# O padrão só vale quando há chave da Anthropic; sem chave, nada muda.
-# Onde o Haiku entra por padrão quando há chave (cada linha com a medida que a sustenta):
+# O padrão só vale quando `IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM=true` E há chave da Anthropic (ADR-11 / #106);
+# sem opt-in explícito, tudo permanece local.
+# Onde o Haiku entra por padrão quando habilitado pela escola + chave (cada linha com a medida que a sustenta):
 # - adaptador: adaptações boas 0,97 contra 0,57 do Llama em 270 pedidos (16/11/2026);
 # - auditor: acha 8 de 13 adaptações que entregam a resposta ao aluno, contra 0 do Llama, sem alarme falso em 25
 #   adaptações limpas (18/11/2026, decisão do Matheus; o Sonnet achou 10, a dez vezes o preço).
@@ -758,8 +778,10 @@ def get_llm_client(
 
     Com `agente`, cada agente pode ter o seu provedor, o seu modelo e o seu esforço de raciocínio:
     IRIS_LLM_PROVIDER_<AGENTE>, IRIS_LLM_MODEL_<AGENTE> e IRIS_ANTHROPIC_ESFORCO_<AGENTE> (por exemplo
-    IRIS_LLM_PROVIDER_ADAPTADOR=anthropic). Sem essas variáveis, vale o geral, como antes. O esforço padrão é o baixo:
-    medido em 16/11/2026, baixo e médio empataram no gerador do RAG (52 de 63 cada) e no Adaptador (0,97 cada).
+    IRIS_LLM_PROVIDER_ADAPTADOR=ollama). A promoção padrão para Anthropic (`adaptador`, `auditor`) só
+    ocorre quando `IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM=true` e `ANTHROPIC_API_KEY` estão ativos (ADR-11).
+    O esforço padrão é o baixo: medido em 16/11/2026, baixo e médio empataram no gerador do RAG
+    (52 de 63 cada) e no Adaptador (0,97 cada).
     """
     esforco = None
     if agente:
@@ -770,7 +792,12 @@ def get_llm_client(
         model = model or os.environ.get(f"IRIS_LLM_MODEL_{sufixo}") or None
         esforco = os.environ.get(f"IRIS_ANTHROPIC_ESFORCO_{sufixo}") or None
         padrao = PADRAO_POR_AGENTE.get(agente)
-        if provider is None and padrao == "anthropic" and AnthropicLLMProvider().is_available():
+        if (
+            provider is None
+            and padrao == "anthropic"
+            and external_adaptation_allowed()
+            and AnthropicLLMProvider().is_available()
+        ):
             provider = "anthropic"
     return HybridLLMClient(
         provider=provider,

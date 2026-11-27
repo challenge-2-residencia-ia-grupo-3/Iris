@@ -25,6 +25,8 @@ import { IrisHeader, STEP_TITLES } from "./IrisHeader";
 import { IrisSidebar } from "./IrisSidebar";
 import {
   AgentProviderOption,
+  AgentsPrivacyStatus,
+  fetchAgentsPrivacyStatus,
   fontesCitadas,
   loadStep4ResultFromSession,
   MultiAgentMaterialResponse,
@@ -47,12 +49,26 @@ const EXEMPLO_MATERIAL_PADRAO =
   "2. Resolva a equação 2x + 6 = 14 e verifique se o valor encontrado está correto.";
 
 const PROVIDER_LABELS: Record<AgentProviderOption, string> = {
-  auto: "Automático (Claude do .env / Ollama / determinístico)",
-  anthropic: "Claude Sonnet (API do .env)",
+  auto: "Automático (conforme política do servidor)",
+  anthropic: "Anthropic Claude Haiku (API externa)",
   ollama: "Modelo Local (Ollama)",
   groq: "API Externa (Groq)",
   extractive: "Modo Rápido Determinístico (sem LLM externo)",
 };
+
+const EXTERNAL_PROVIDERS = new Set<AgentProviderOption>(["anthropic", "groq"]);
+
+const DEFAULT_AVISO_EXTERNO =
+  "Processamento com IA externa (Anthropic Claude): para melhorar a qualidade da adaptação, esta escola " +
+  "habilitou o envio apenas do enunciado da questão (após remoção automática de nomes, CPFs, telefones e escolas), " +
+  "da característica funcional selecionada e do nível de apoio (1 a 3). Nunca são enviados nome do estudante, " +
+  "matrícula, laudo clínico ou código do Perfil Portátil. O Íris não grava prompts nem questões nos logs. " +
+  "Não digite nomes de alunos no texto ou nas travas manuais. Para manter 100% local, escolha Modelo Local (Ollama) " +
+  "ou Modo Determinístico.";
+
+const DEFAULT_AVISO_LOCAL =
+  "Processamento 100% local (Privacidade por Padrão): nenhum enunciado ou característica funcional sai desta " +
+  "máquina. O envio a provedores externos está desativado nas configurações deste servidor.";
 
 interface Step4AgentAdaptationProps {
   teacherEmail?: string;
@@ -88,6 +104,7 @@ export function Step4AgentAdaptation({
   const [disciplina, setDisciplina] = useState<string>("");
   const [anoEscolar, setAnoEscolar] = useState<string>("");
   const [provider, setProvider] = useState<AgentProviderOption>("auto");
+  const [privacyStatus, setPrivacyStatus] = useState<AgentsPrivacyStatus | null>(null);
   const [simularAutocorrecao, setSimularAutocorrecao] = useState<boolean>(false);
 
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -131,7 +148,26 @@ export function Step4AgentAdaptation({
     if (savedStep4) {
       setResult(savedStep4);
     }
+
+    let active = true;
+    fetchAgentsPrivacyStatus().then((status) => {
+      if (!active || !status) return;
+      setPrivacyStatus(status);
+      if (!status.external_adaptation_allowed) {
+        setProvider((prev) => (EXTERNAL_PROVIDERS.has(prev) ? "auto" : prev));
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, []);
+
+  const externalDisabledByPolicy =
+    privacyStatus !== null && !privacyStatus.external_adaptation_allowed;
+  const willUseExternal =
+    !externalDisabledByPolicy &&
+    (EXTERNAL_PROVIDERS.has(provider) ||
+      (provider === "auto" && Boolean(privacyStatus?.auto_uses_external_llm)));
 
   const catalogMap = new Map<string, CharacteristicItem>(
     FALLBACK_OFFICIAL_CATALOG.caracteristicas.map((c) => [c.id_caracteristica, c])
@@ -300,11 +336,16 @@ export function Step4AgentAdaptation({
                     onChange={(e) => setProvider(e.target.value as AgentProviderOption)}
                     className="w-full min-h-[44px] rounded-xl border border-[#335C67]/30 dark:border-white/20 bg-[#F5EDF0]/40 dark:bg-[#0D0221]/70 px-3 text-xs focus:outline-none focus:ring-2 focus:ring-[#E35336]"
                   >
-                    {(Object.keys(PROVIDER_LABELS) as AgentProviderOption[]).map((opt) => (
-                      <option key={opt} value={opt}>
-                        {PROVIDER_LABELS[opt]}
-                      </option>
-                    ))}
+                    {(Object.keys(PROVIDER_LABELS) as AgentProviderOption[]).map((opt) => {
+                      const isExternalOpt = EXTERNAL_PROVIDERS.has(opt);
+                      const disabled = externalDisabledByPolicy && isExternalOpt;
+                      return (
+                        <option key={opt} value={opt} disabled={disabled}>
+                          {PROVIDER_LABELS[opt]}
+                          {disabled ? " (desativado pela escola)" : ""}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
               </div>
@@ -338,6 +379,31 @@ export function Step4AgentAdaptation({
                   <strong>Demonstrar ciclo de auto-correção (Auditor ↔ Adaptador):</strong> simula uma falha curricular na 1ª tentativa para você visualizar o Agente Auditor reprovando, gerando feedback e o Agente Adaptador corrigindo na 2ª tentativa.
                 </span>
               </label>
+            </div>
+
+            <div
+              role="note"
+              data-testid="aviso-privacidade-llm"
+              className={`flex items-start gap-2.5 p-3.5 rounded-xl border text-xs leading-relaxed ${
+                willUseExternal
+                  ? "bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-700/60 text-amber-950 dark:text-amber-100"
+                  : "bg-emerald-50/80 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-800/60 text-emerald-950 dark:text-emerald-100"
+              }`}
+            >
+              {willUseExternal ? (
+                <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5 text-amber-700 dark:text-amber-300" aria-hidden="true" />
+              ) : (
+                <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
+              )}
+              <span>
+                {willUseExternal
+                  ? privacyStatus?.aviso_docente_externo || DEFAULT_AVISO_EXTERNO
+                  : externalDisabledByPolicy
+                  ? privacyStatus?.aviso_docente_local || DEFAULT_AVISO_LOCAL
+                  : provider === "ollama" || provider === "extractive"
+                  ? "Processamento 100% local selecionado: nenhum enunciado ou característica funcional sai desta máquina."
+                  : privacyStatus?.aviso_docente_local || DEFAULT_AVISO_LOCAL}
+              </span>
             </div>
 
             {errorMsg && (
@@ -428,6 +494,18 @@ export function Step4AgentAdaptation({
                   <p className="text-xs font-mono font-bold mt-1 break-all">
                     {result.provider} / {result.model}
                   </p>
+                  <p className="text-[11px] mt-1 font-semibold text-[#335C67] dark:text-[#9fd0de]">
+                    {(result.usa_provedor_externo ?? (result.provider === "anthropic" || result.provider === "groq"))
+                      ? "API externa (sanitizado)"
+                      : "Processamento 100% local"}
+                  </p>
+                  {result.provedores_por_agente && Object.keys(result.provedores_por_agente).length > 0 && (
+                    <p className="text-[10px] font-mono opacity-75 mt-0.5 break-all">
+                      {Object.entries(result.provedores_por_agente)
+                        .map(([ag, pv]) => `${ag}:${pv}`)
+                        .join(" • ")}
+                    </p>
+                  )}
                 </div>
                 <div className="p-4 rounded-2xl bg-white dark:bg-[#160A30] border border-[#335C67]/20 dark:border-white/15">
                   <p className="text-[11px] font-semibold opacity-70">Latência / Tokens</p>

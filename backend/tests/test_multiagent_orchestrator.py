@@ -21,6 +21,7 @@ if str(SRC_DIR) not in sys.path:
 
 from iris import main
 from iris.agents.orchestrator import (
+    ExternalLLMDisabledError,
     MultiAgentMaterialRequest,
     MultiAgentOrchestrator,
     _resolver_cliente_llm,
@@ -228,10 +229,35 @@ class TestMultiAgentOrchestrator(unittest.TestCase):
     def test_anthropic_provider_e_prioridade_no_modo_auto(self) -> None:
         import os
 
-        limpo = {k: v for k, v in os.environ.items() if not k.startswith("IRIS_LLM_")}
+        limpo = {
+            k: v
+            for k, v in os.environ.items()
+            if not k.startswith(("IRIS_LLM_", "IRIS_ALLOW_EXTERNAL"))
+        }
         with patch.dict(
             os.environ,
-            {**limpo, "ANTHROPIC_API_KEY": "sk-ant-teste", "IRIS_JUDGE_MODEL": "claude-sonnet-4-5-20250929"},
+            {
+                **limpo,
+                "ANTHROPIC_API_KEY": "sk-ant-teste",
+                "IRIS_JUDGE_MODEL": "claude-sonnet-4-5-20250929",
+                "IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM": "false",
+            },
+            clear=True,
+        ):
+            cliente_auto_bloqueado = _resolver_cliente_llm("auto", None, None)
+            self.assertNotEqual(cliente_auto_bloqueado.provider_name, "anthropic")
+            with self.assertRaises(ExternalLLMDisabledError):
+                _resolver_cliente_llm("anthropic", None, None)
+
+        with patch.dict(
+            os.environ,
+            {
+                **limpo,
+                "ANTHROPIC_API_KEY": "sk-ant-teste",
+                "IRIS_LLM_MODEL": "llama3.1:8b",
+                "IRIS_JUDGE_MODEL": "claude-sonnet-4-5-20250929",
+                "IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM": "true",
+            },
             clear=True,
         ):
             cliente_auto = _resolver_cliente_llm("auto", None, None)
@@ -287,6 +313,30 @@ class TestMultiAgentOrchestrator(unittest.TestCase):
             self.assertNotIn("temperature", corpo_haiku)
             self.assertEqual(corpo_haiku["output_config"], {"effort": "low"})
             self.assertGreaterEqual(corpo_haiku["max_tokens"], 4000)
+
+    def test_sanitiza_trava_manual_e_invariantes_etapa3_antes_dos_agentes(self) -> None:
+        mock_llm = _MockMultiAgentLLM()
+        res = MultiAgentOrchestrator(llm_client=mock_llm).run(
+            MultiAgentMaterialRequest(
+                text="Resolva a equação 2x + 6 = 14 e verifique o resultado.",
+                selected_ids=["atencao_sustentada_textos_longos"],
+                nivel=2,
+                disciplina="Escola Municipal Paulo Freire",
+                trava_manual_docente=["CPF 111.222.333-96", "equação"],
+                invariantes_etapa3={
+                    "blindagem_ativa": True,
+                    "conceitos_obrigatorios": ["Aluno: Gabriel Silva"],
+                    "termos_tecnicos_intocaveis": ["2x + 6 = 14"],
+                    "alerta_anti_muleta_auditor": "Professor: Maria Clara - não resolver x = 4",
+                },
+            )
+        )
+        self.assertGreaterEqual(res.pii_substituicoes, 3)
+        prompts = "\n".join(mock_llm.adapter_prompts)
+        self.assertNotIn("111.222.333-96", prompts)
+        self.assertNotIn("Gabriel Silva", prompts)
+        self.assertNotIn("Maria Clara", prompts)
+        self.assertFalse(res.usa_provedor_externo)
 
 
 class TestAgentsServiceAndRoutes(unittest.TestCase):
@@ -355,6 +405,12 @@ class TestAgentsServiceAndRoutes(unittest.TestCase):
             with self.assertRaises(urllib.error.HTTPError) as ctx:
                 urllib.request.urlopen(req_err, timeout=5)
             self.assertEqual(ctx.exception.code, 422)
+
+            with urllib.request.urlopen(base + "/api/v1/agents/privacy-status", timeout=10) as resp_priv:
+                self.assertEqual(resp_priv.status, 200)
+                priv = json.loads(resp_priv.read().decode("utf-8"))
+            self.assertIn("external_adaptation_allowed", priv)
+            self.assertIn("aviso_docente_local", priv)
         finally:
             servidor.shutdown()
             servidor.server_close()
@@ -388,6 +444,44 @@ class TestAgentsFastApiRoute(unittest.TestCase):
         bad = self.client.post("/api/v1/agents/adapt", json={"text": "curto"})
         self.assertEqual(bad.status_code, 422)
         self.assertEqual(bad.json()["detail"]["code"], "INVALID_ADAPTATION_REQUEST")
+
+    def test_bloqueio_externo_e_privacy_status_fastapi(self) -> None:
+        import os
+
+        with patch.dict(os.environ, {"IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM": "false"}):
+            blocked = self.client.post(
+                "/api/v1/agents/adapt",
+                json={
+                    "text": "Leia o texto e explique a fotossíntese nas plantas.",
+                    "selected_ids": [ID_COMANDOS_MULTIPLOS],
+                    "nivel": 2,
+                    "provider": "anthropic",
+                },
+            )
+            self.assertEqual(blocked.status_code, 422)
+            self.assertEqual(blocked.json()["detail"]["code"], "EXTERNAL_LLM_DISABLED_BY_POLICY")
+
+            priv_off = self.client.get("/api/v1/agents/privacy-status")
+            self.assertEqual(priv_off.status_code, 200)
+            priv_off_json = priv_off.json()
+            self.assertFalse(priv_off_json["external_adaptation_allowed"])
+            self.assertFalse(priv_off_json["auto_uses_external_llm"])
+
+        with patch.dict(
+            os.environ,
+            {
+                "IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM": "true",
+                "ANTHROPIC_API_KEY": "sk-ant-teste",
+                "IRIS_LLM_PROVIDER_ADAPTADOR": "",
+                "IRIS_LLM_PROVIDER_AUDITOR": "",
+            },
+        ):
+            priv_on = self.client.get("/api/v1/agents/privacy-status")
+            self.assertEqual(priv_on.status_code, 200)
+            priv_on_json = priv_on.json()
+            self.assertTrue(priv_on_json["external_adaptation_allowed"])
+            self.assertTrue(priv_on_json["auto_uses_external_llm"])
+            self.assertEqual(priv_on_json["default_providers_by_agent"]["adaptador"], "anthropic")
 
 
 if __name__ == "__main__":

@@ -193,6 +193,8 @@ _SAFE_TECHNICAL_IDENTIFIERS = frozenset(
         "requerem_revisao_humana",
         "provider",
         "model",
+        "external_llm_used",
+        "providers_by_agent",
         "fallbacks",
         "violacoes",
         "provedor_sem_modelo",
@@ -544,6 +546,8 @@ def log_agent_operational_event(
     rag_backend: str = "desconhecido",
     rag_metodo_efetivo: str = "desconhecido",
     rerank_top1_score: Optional[float] = None,
+    external_llm_used: bool = False,
+    providers_by_agent: Optional[Mapping[str, str]] = None,
 ) -> dict[str, Any]:
     """Emite evento JSON operacional do pipeline multiagentes sem conteúdo textual."""
     configure_zero_pii_logging()
@@ -582,6 +586,14 @@ def log_agent_operational_event(
         else "desconhecido"
     )
     safe_top1_score = round(float(rerank_top1_score), 4) if rerank_top1_score is not None else None
+    allowed_agents = {"extrator", "estrategista", "adaptador", "auditor"}
+    safe_providers_by_agent: dict[str, str] = {}
+    if providers_by_agent:
+        for ag_nome, prov_nome in providers_by_agent.items():
+            ag_clean = str(ag_nome).strip().lower()
+            prov_clean = str(prov_nome or "unknown").strip().lower()
+            if ag_clean in allowed_agents and re.fullmatch(r"[a-z0-9_\-]{1,32}", prov_clean):
+                safe_providers_by_agent[ag_clean] = prov_clean
 
     payload: dict[str, Any] = {
         "event": "agent_execution",
@@ -603,6 +615,8 @@ def log_agent_operational_event(
         "requerem_revisao_humana": int(requerem_revisao_humana),
         "provider": safe_provider,
         "model": safe_model,
+        "external_llm_used": bool(external_llm_used),
+        "providers_by_agent": safe_providers_by_agent,
         "fallbacks": safe_fallbacks,
         "violacoes": safe_violacoes,
         "rag_backend": safe_rag_backend,

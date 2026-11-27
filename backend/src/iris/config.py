@@ -102,6 +102,8 @@ class IrisSettings:
 
     # Juiz de Auditoria RAG (Claude Sonnet via API Anthropic)
     anthropic_api_key: str = ""
+    # Opt-in explícito da escola para envio de enunciados/perfil funcional a LLM externo nos agentes (#106 / ADR-11)
+    allow_external_adaptation_llm: bool = False
     judge_model: str = JUIZ_MODELO_PADRAO
     # Modelo que escreve as respostas no Benchmark Escolar quando há chave. Vazio: vale o padrão do gerador
     # (rag/iris-rag/pacote/gerar.py), o mesmo do produto; assim quem escreve não é quem julga.
@@ -174,6 +176,15 @@ def _get_int_env(key: str, default: int, dotenv_map: dict[str, str] | None = Non
         return default
 
 
+def _get_bool_env(key: str, default: bool = False, dotenv_map: dict[str, str] | None = None) -> bool:
+    raw = _get_env(key, "", dotenv_map).strip().lower()
+    if raw in {"1", "true", "yes", "on", "sim"}:
+        return True
+    if raw in {"0", "false", "no", "off", "nao", "não"}:
+        return False
+    return default
+
+
 def get_settings() -> IrisSettings:
     """Retorna a configuração atual lida das variáveis de ambiente e do arquivo `.env`."""
     dotenv_map = load_dotenv_into_environ(override_empty=True)
@@ -193,6 +204,7 @@ def get_settings() -> IrisSettings:
         ollama_url=_get_env("OLLAMA_URL", "http://127.0.0.1:11434", dotenv_map),
         groq_api_key=_get_env("GROQ_API_KEY", "", dotenv_map),
         anthropic_api_key=_get_env("ANTHROPIC_API_KEY", "", dotenv_map),
+        allow_external_adaptation_llm=_get_bool_env("IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM", False, dotenv_map),
         judge_model=_get_env("IRIS_JUDGE_MODEL", JUIZ_MODELO_PADRAO, dotenv_map),
         generator_model=_get_env("IRIS_GENERATOR_MODEL", "", dotenv_map),
         rag_banco=_get_env("RAG_BANCO", "pgvector", dotenv_map),

@@ -75,7 +75,7 @@ Este documento consolida a hierarquia completa do backlog do projeto **Íris** (
 | Issue GitHub | Título / Foco | Requisitos / Referências | Prioridade | Escopo Técnico | Status (GitHub) | Responsável |
 | :---: | :--- | :--- | :--- | :--- | :---: | :--- |
 | `#86` | Qualidade do RAG: pontos fracos medidos e plano de melhoria | **RF-10**, **RNF-06**, `#16`, `#18` | `priority: should` | `scope: rag`, `scope: infra-eval` | `OPEN` | `matheushpr94` |
-| `#106` | Adaptador com modelo por API: envio do perfil do aluno e decisão LGPD | **RNF-01**, **RNF-02**, `#18`, `#37` | `priority: must` | `scope: agents`, `scope: privacy-lgpd` | `OPEN` | `iancostag` |
+| `#106` | Adaptador com modelo por API: envio do perfil do aluno e decisão LGPD (**ADR-11**) | **RNF-01**, **RNF-02**, `#18`, `#37`, `ADR-11` | `priority: must` | `scope: agents`, `scope: privacy-lgpd` | `OPEN` | `iancostag` |
 | `#108` | Avaliação: conferência humana das medidas de qualidade ("Juízes x pessoas") | **RNF-06**, `#40`, `#86` | `priority: should` | `scope: infra-eval` | `OPEN` | `matheushpr94`, `Madu030` |
 | `#111` | Catálogo: três características com mesma forma de adaptação no Auditor | **RF-04**, **RF-12**, `#18`, `#19`, `#39` | `priority: should` | `scope: agents` | `OPEN` | `Madu030` |
 | `#116` | Orquestração dos agentes em LangGraph: decisão arquitetural | **RF-11**, **RNF-01**, `#15`, `#18` | `priority: could` | `scope: agents` | `OPEN` | `iancostag` |

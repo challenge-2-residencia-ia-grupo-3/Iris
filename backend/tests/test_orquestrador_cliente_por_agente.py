@@ -31,25 +31,37 @@ PADROES = {"extrator": "ollama", "estrategista": "ollama", "adaptador": "anthrop
 
 
 class TestClientePorAgente(unittest.TestCase):
-    def _resolver(self, provider="auto", **kw):
-        with mock.patch.object(O, "get_llm_client", _fabrica(PADROES, **kw)):
-            return {a: c.provider_name for a, c in O._resolver_clientes_por_agente(provider, None, None).items()}
+    def _resolver(self, provider="auto", externo_ok=True, **kw):
+        with mock.patch.object(O, "external_adaptation_allowed", return_value=externo_ok):
+            with mock.patch.object(O, "get_llm_client", _fabrica(PADROES, **kw)):
+                return {a: c.provider_name for a, c in O._resolver_clientes_por_agente(provider, None, None).items()}
 
     def test_cada_agente_no_seu_padrao(self):
-        self.assertEqual(self._resolver(), PADROES)
+        self.assertEqual(self._resolver(externo_ok=True), PADROES)
+
+    def test_sem_opt_in_nao_cai_para_anthropic_mesmo_com_ollama_offline(self):
+        r = self._resolver(externo_ok=False, fora_do_ar={"ollama"}, tem_chave=True)
+        self.assertEqual(set(r.values()), {"extractive"})
 
     def test_sem_ollama_e_com_chave_os_locais_vao_para_a_anthropic(self):
-        r = self._resolver(fora_do_ar={"ollama"})
+        r = self._resolver(externo_ok=True, fora_do_ar={"ollama"})
         self.assertEqual(r, {"extrator": "anthropic", "estrategista": "anthropic", "adaptador": "anthropic", "auditor": "anthropic"})
 
     def test_sem_ollama_e_sem_chave_cai_no_modo_sem_modelo(self):
-        r = self._resolver(fora_do_ar={"ollama"}, tem_chave=False)
+        r = self._resolver(externo_ok=True, fora_do_ar={"ollama"}, tem_chave=False)
         self.assertEqual(set(r.values()), {"extractive"})
 
     def test_provedor_pedido_vale_para_os_quatro(self):
         with mock.patch.object(O, "_resolver_cliente_llm", return_value=_Cliente("groq", True)):
             r = {a: c.provider_name for a, c in O._resolver_clientes_por_agente("groq", None, None).items()}
         self.assertEqual(set(r.values()), {"groq"})
+
+    def test_provedor_externo_explicito_bloqueado_sem_opt_in(self):
+        with mock.patch.object(O, "external_adaptation_allowed", return_value=False):
+            with self.assertRaises(O.ExternalLLMDisabledError):
+                O._resolver_clientes_por_agente("anthropic", None, None)
+            with self.assertRaises(O.ExternalLLMDisabledError):
+                O._resolver_clientes_por_agente("groq", None, None)
 
     def test_cliente_explicito_vale_para_os_quatro(self):
         explicito = _Cliente("mock", True)
