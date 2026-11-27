@@ -16,6 +16,7 @@ export interface Step1SelectedFileInfo {
   extension: string;
   status: "accepted" | "rejected" | "uploading";
   errorMessage?: string;
+  partialExtraction?: boolean;
 }
 
 export interface Step1SessionState {

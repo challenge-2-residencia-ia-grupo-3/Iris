@@ -111,25 +111,31 @@ responder_pergunta_livre_ao_vivo() {
     RAG_LLM=ollama RAG_LLM_MODELO="${MODEL}" "${PY_CMD[@]}" -c '
 import sys
 from iris.rag.bridge import responder_fundamentado
-import json
 
 pergunta = sys.argv[1]
 res = responder_fundamentado(pergunta, metodo="bm25", k=5)
 fontes = res.get("fontes", [])
 conf = res.get("conferencia", {})
 citados = conf.get("trechos_citados", [])
+llm_nome = res.get("llm", "local")
+segundos = res.get("segundos_total", 0)
+invalidas = len(conf.get("citacoes_invalidas", []))
+sem_citacao = len(conf.get("frases_sem_citacao", []))
 
-print(f"\n[RESPOSTA GERADA PELO LLAMA 3 ({res.get(\"llm\", \"local\")} - {res.get(\"segundos_total\", 0):.2f}s)]:")
+print(f"\n[RESPOSTA GERADA PELO LLAMA 3 ({llm_nome} - {segundos:.2f}s)]:")
 print(res["resposta"])
 print("\n[AUDITORIA DE CITAÇÕES E FONTES]:")
 print(f"  • Trechos citados no texto : {citados}")
-print(f"  • Citações inválidas       : {len(conf.get(\"citacoes_invalidas\", []))}")
-print(f"  • Frases sem citação       : {len(conf.get(\"frases_sem_citacao\", []))}")
+print(f"  • Citações inválidas       : {invalidas}")
+print(f"  • Frases sem citação       : {sem_citacao}")
 print("\n[TRECHOS CIENTÍFICOS/NORMATIVOS RECUPERADOS (TOP-5)]:")
 for i, t in enumerate(fontes, 1):
-    pag = f", p. {t[\"pagina\"]}" if t.get("pagina") else ""
+    pagina = t.get("pagina")
+    pag = f", p. {pagina}" if pagina else ""
     marca = " [CITADO PELO LLAMA 3]" if i in citados else ""
-    print(f"  • [T{i}] {t.get(\"chunk_id\")} | {t.get(\"titulo\", \"\")[:75]}{pag}{marca}")
+    chunk_id = t.get("chunk_id")
+    titulo = t.get("titulo", "")[:75]
+    print(f"  • [T{i}] {chunk_id} | {titulo}{pag}{marca}")
     txt = " ".join(t.get("trecho", "").split())
     print(f"    {txt[:260]}...")
 ' "${PERGUNTA}"

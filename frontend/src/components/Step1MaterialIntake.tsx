@@ -24,6 +24,7 @@ import {
   MaterialMetadata,
   MIN_MATERIAL_CHARS,
   computeTextMetrics,
+  extractPartialProcessingNotice,
   submitMaterialText,
   uploadMaterialFile,
   validateClientFileFormat,
@@ -78,9 +79,10 @@ export function Step1MaterialIntake({
   // Resultado processado pelo Backend FastAPI (`POST /api/v1/materials/upload` ou `POST /api/v1/materials/text`)
   const [serverMetadata, setServerMetadata] = useState<MaterialMetadata | null>(null);
   const [feedbackBanner, setFeedbackBanner] = useState<{
-    type: "success" | "error";
+    type: "success" | "warning" | "error";
     title: string;
     message?: string;
+    details?: string[];
     code?: string;
   } | null>(null);
 
@@ -100,7 +102,7 @@ export function Step1MaterialIntake({
   }, []);
 
   useEffect(() => {
-    if (!feedbackBanner) return;
+    if (!feedbackBanner || feedbackBanner.type === "warning") return;
     const timer = window.setTimeout(() => {
       setFeedbackBanner(null);
     }, 4000);
@@ -152,11 +154,13 @@ export function Step1MaterialIntake({
 
     try {
       const response = await uploadMaterialFile(file);
+      const partialNotice = extractPartialProcessingNotice(response);
       const acceptedFileInfo: Step1SelectedFileInfo = {
         name: file.name,
         sizeBytes: file.size,
         extension: validation.extension,
         status: "accepted",
+        partialExtraction: Boolean(partialNotice),
       };
       setTextContent(response.raw_text);
       setServerMetadata(response.metadata);
@@ -170,10 +174,19 @@ export function Step1MaterialIntake({
         confirmedForStep2: false,
       });
 
-      setFeedbackBanner({
-        type: "success",
-        title: "Confira o texto abaixo antes de prosseguir.",
-      });
+      if (partialNotice) {
+        setFeedbackBanner({
+          type: "warning",
+          title: partialNotice.title,
+          message: partialNotice.message,
+          details: partialNotice.notes,
+        });
+      } else {
+        setFeedbackBanner({
+          type: "success",
+          title: "Confira o texto abaixo antes de prosseguir.",
+        });
+      }
     } catch (err) {
       const serverReason = err instanceof IrisApiError ? err.message : undefined;
       setSelectedFile({
@@ -397,15 +410,24 @@ export function Step1MaterialIntake({
       >
         {feedbackBanner && (
           <div
+            data-testid="step1-feedback-banner"
+            data-banner-type={feedbackBanner.type}
             role={feedbackBanner.type === "error" ? "alert" : "status"}
             className={`pointer-events-auto rounded-2xl p-4 border border-l-4 flex items-start gap-3 shadow-[0_12px_32px_-8px_rgba(13,2,33,0.28)] backdrop-blur-md transition-all animate-in fade-in slide-in-from-top-2 duration-200 ${
               feedbackBanner.type === "error"
                 ? "bg-white/95 dark:bg-[#160A30]/95 border-red-200 dark:border-red-800/60 border-l-red-600 text-red-950 dark:text-red-100"
+                : feedbackBanner.type === "warning"
+                ? "bg-amber-50/95 dark:bg-[#23180B]/95 border-amber-300 dark:border-amber-700/70 border-l-amber-500 text-amber-950 dark:text-amber-100"
                 : "bg-white/95 dark:bg-[#160A30]/95 border-emerald-200 dark:border-emerald-800/60 border-l-emerald-600 text-emerald-950 dark:text-emerald-100"
             }`}
           >
             {feedbackBanner.type === "error" ? (
               <XCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
+            ) : feedbackBanner.type === "warning" ? (
+              <AlertCircle
+                className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5"
+                aria-hidden="true"
+              />
             ) : (
               <CheckCircle2
                 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5"
@@ -424,6 +446,13 @@ export function Step1MaterialIntake({
               </div>
               {feedbackBanner.message && (
                 <p className="text-xs mt-1 leading-relaxed opacity-85">{feedbackBanner.message}</p>
+              )}
+              {feedbackBanner.details && feedbackBanner.details.length > 0 && (
+                <ul className="mt-2 space-y-1 text-xs leading-relaxed opacity-90 list-disc pl-4">
+                  {feedbackBanner.details.map((detail, idx) => (
+                    <li key={idx}>{detail}</li>
+                  ))}
+                </ul>
               )}
             </div>
 
@@ -698,24 +727,39 @@ export function Step1MaterialIntake({
             </div>
           </div>
 
-          {/* Card verde de arquivo anexado embaixo da conferência do material */}
+          {/* Card de arquivo anexado embaixo da conferência do material */}
           {selectedFile?.status === "accepted" && (
             <div
               aria-live="polite"
-              className="rounded-xl px-3.5 py-2 border bg-emerald-500/10 border-emerald-600/35 text-emerald-950 dark:text-emerald-100 flex items-center justify-between gap-3"
+              className={`rounded-xl px-3.5 py-2 border flex items-center justify-between gap-3 ${
+                selectedFile.partialExtraction
+                  ? "bg-amber-500/10 border-amber-500/40 text-amber-950 dark:text-amber-100"
+                  : "bg-emerald-500/10 border-emerald-600/35 text-emerald-950 dark:text-emerald-100"
+              }`}
             >
               <div className="flex items-center gap-2.5 flex-1 min-w-0">
-                <FileCheck2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" aria-hidden="true" />
+                {selectedFile.partialExtraction ? (
+                  <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
+                ) : (
+                  <FileCheck2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" aria-hidden="true" />
+                )}
                 <p className="text-xs sm:text-sm font-bold truncate" title={serverMetadata?.filename || selectedFile.name}>
                   Extraído de: {serverMetadata?.filename || selectedFile.name}
                 </p>
+                {selectedFile.partialExtraction && (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/20 text-amber-900 dark:text-amber-200 flex-shrink-0">
+                    Processamento parcial
+                  </span>
+                )}
               </div>
 
               <button
                 type="button"
                 disabled={isProcessing}
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/90 dark:bg-white/10 hover:bg-white dark:hover:bg-white/20 text-[#0D0221] dark:text-white border border-emerald-600/25 transition-colors flex-shrink-0"
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/90 dark:bg-white/10 hover:bg-white dark:hover:bg-white/20 text-[#0D0221] dark:text-white border transition-colors flex-shrink-0 ${
+                  selectedFile.partialExtraction ? "border-amber-600/30" : "border-emerald-600/25"
+                }`}
               >
                 {isProcessing ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
