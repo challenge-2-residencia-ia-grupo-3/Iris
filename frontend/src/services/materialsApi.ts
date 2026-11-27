@@ -6,7 +6,16 @@
  * - POST /api/v1/materials/upload
  */
 
-export type MaterialSourceType = "text" | "txt" | "pdf" | "docx";
+export type MaterialSourceType =
+  | "text"
+  | "txt"
+  | "pdf"
+  | "docx"
+  | "png"
+  | "jpg"
+  | "jpeg"
+  | "scanned_pdf"
+  | "mixed_pdf";
 
 export interface MaterialMetadata {
   source_type: MaterialSourceType;
@@ -18,11 +27,135 @@ export interface MaterialMetadata {
   estimated_tokens?: number;
 }
 
+export interface RawContentMetadata {
+  filename?: string | null;
+  total_pages?: number;
+  scanned_pages?: number;
+  mixed_pages?: number;
+  textual_pages?: number;
+  partial_extraction?: boolean;
+  failed_pages?: number[];
+  unreadable_pages?: number[];
+  ocr_unavailable_pages?: number[];
+  [key: string]: unknown;
+}
+
+export interface RawContentContract {
+  text: string;
+  source_type: MaterialSourceType;
+  metadata?: RawContentMetadata | null;
+  pii_sanitized?: boolean;
+}
+
+export interface PageVisualAnalysis {
+  page_number: number;
+  page_type: string;
+  width: number;
+  height: number;
+  edge_density: number;
+  whitespace_ratio: number;
+  contrast_ratio: number;
+  clutter_level: string;
+  possible_visual_clutter: boolean;
+  legibility_status?: string;
+  rejection_reason?: string | null;
+}
+
+export interface VisualAnalysisReport {
+  overall_clutter_level?: string;
+  has_high_clutter?: boolean;
+  total_pages_analyzed?: number;
+  flagged_pages?: number[];
+  pages?: PageVisualAnalysis[];
+  notes?: string | null;
+}
+
 export interface MaterialResponse {
   status: string;
   message: string;
   raw_text: string;
   metadata: MaterialMetadata;
+  raw_content?: RawContentContract | null;
+  visual_analysis?: VisualAnalysisReport | null;
+}
+
+export interface PartialProcessingNotice {
+  title: string;
+  message: string;
+  notes: string[];
+  affectedPages: number[];
+}
+
+function collectValidPages(...lists: Array<unknown>): number[] {
+  const pages = new Set<number>();
+  for (const list of lists) {
+    if (!Array.isArray(list)) continue;
+    for (const item of list) {
+      if (typeof item === "number" && Number.isInteger(item) && item > 0) {
+        pages.add(item);
+      }
+    }
+  }
+  return Array.from(pages).sort((a, b) => a - b);
+}
+
+/**
+ * Identifica se a resposta de upload indica processamento parcial (ex.: página digitalizada
+ * que falhou no OCR ou não teve texto legível, enquanto o restante do documento foi aceito)
+ * e monta o aviso estruturado sem duplicar mensagens.
+ */
+export function extractPartialProcessingNotice(
+  response: MaterialResponse | null | undefined
+): PartialProcessingNotice | null {
+  if (!response || typeof response !== "object") return null;
+
+  const rawMeta = response.raw_content?.metadata;
+  const affectedPages = collectValidPages(
+    rawMeta?.failed_pages,
+    rawMeta?.unreadable_pages,
+    rawMeta?.ocr_unavailable_pages
+  );
+  const backendMessage = typeof response.message === "string" ? response.message.trim() : "";
+
+  const isPartial =
+    rawMeta?.partial_extraction === true ||
+    affectedPages.length > 0 ||
+    /processado parcialmente/i.test(backendMessage);
+
+  if (!isPartial) return null;
+
+  const fallbackMessage =
+    affectedPages.length === 1
+      ? `A página ${affectedPages[0]} não pôde ser processada integralmente. Confira o texto extraído antes de prosseguir.`
+      : affectedPages.length > 1
+      ? `As páginas ${affectedPages.join(", ")} não puderam ser processadas integralmente. Confira o texto extraído antes de prosseguir.`
+      : "Uma ou mais páginas não puderam ser processadas integralmente. Confira o texto extraído antes de prosseguir.";
+
+  const primaryMessage = backendMessage || fallbackMessage;
+  const normalizedPrimary = primaryMessage.toLowerCase();
+
+  const rawNotes =
+    typeof response.visual_analysis?.notes === "string" ? response.visual_analysis.notes.trim() : "";
+  const seen = new Set<string>();
+  const notes: string[] = [];
+
+  if (rawNotes) {
+    for (const part of rawNotes.split(";")) {
+      const cleaned = part.trim();
+      if (!cleaned) continue;
+      const key = cleaned.toLowerCase();
+      if (seen.has(key) || normalizedPrimary.includes(key)) continue;
+      seen.add(key);
+      notes.push(cleaned);
+    }
+  }
+
+  return {
+    title: "Processamento parcial — confira o texto antes de prosseguir.",
+    message: primaryMessage,
+    notes,
+    affectedPages,
+  };
 }
 
 export interface ApiErrorDetail {

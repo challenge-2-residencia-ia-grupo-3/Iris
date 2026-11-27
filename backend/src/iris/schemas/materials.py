@@ -7,14 +7,20 @@ Atende:
 """
 from __future__ import annotations
 
+import copy
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Optional
+from types import MappingProxyType
+from typing import Annotated, Any, Optional
+
+from pydantic import Field, PlainSerializer
 
 MIN_MATERIAL_CHARS = 50
 # Ausência de limite funcional fixo de palavras na interface (Issue 1.1.1).
 # Limites técnicos de segurança para processamento em memória e janela de contexto da IA:
-MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024  # 10 MB para upload em memória
+MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024  # 10 MB para upload em memória (fluxo textual padrão)
+MAX_OCR_FILE_SIZE_BYTES = 25 * 1024 * 1024  # 25 MB para upload de imagens e PDFs para OCR (História 1.1.3)
 MAX_SAFE_CONTEXT_CHARS = 100_000  # ~25.000 tokens (capacidade segura da janela de contexto da IA)
 
 
@@ -25,6 +31,12 @@ class MaterialSourceType(str, Enum):
     TXT = "txt"
     PDF = "pdf"
     DOCX = "docx"
+    # Formatos multimodais e digitalizados (História 1.1.3 - RF-03)
+    PNG = "png"
+    JPG = "jpg"
+    JPEG = "jpeg"
+    SCANNED_PDF = "scanned_pdf"
+    MIXED_PDF = "mixed_pdf"
 
 
 class MaterialValidationError(ValueError):
@@ -51,6 +63,26 @@ def validate_file_size_limit(content: bytes, max_bytes: int = MAX_FILE_SIZE_BYTE
                 f"processamento em memória ({max_mb:.0f} MB). Reduza o tamanho do arquivo ou divida o documento."
             ),
             code="FILE_TOO_LARGE",
+            field="file",
+        )
+    return size
+
+
+def validate_ocr_file_size_limit(content: bytes, max_bytes: int = MAX_OCR_FILE_SIZE_BYTES) -> int:
+    """Valida se o tamanho binário do arquivo para OCR respeita o limite técnico de 25 MB.
+
+    Aplica-se exclusivamente a imagens (.png, .jpg, .jpeg) e PDFs digitalizados ou mistos
+    que necessitam de processamento visual/OCR (História 1.1.3).
+    """
+    size = len(content) if content else 0
+    if size > max_bytes:
+        max_mb = max_bytes / (1024 * 1024)
+        raise MaterialValidationError(
+            message=(
+                f"O arquivo enviado para OCR ({size / (1024 * 1024):.1f} MB) excede o limite seguro de "
+                f"processamento ({max_mb:.0f} MB). Reduza a resolução ou divida o documento."
+            ),
+            code="OCR_FILE_TOO_LARGE",
             field="file",
         )
     return size
@@ -130,7 +162,7 @@ class MaterialMetadata:
         return self.model_dump()
 
 
-# Modelo de Resposta
+# Modelo de Resposta (Fluxo Textual Tradicional)
 @dataclass
 class MaterialResponse:
     """Resposta estruturada para a conferência imediata docente do material."""
@@ -146,6 +178,253 @@ class MaterialResponse:
             "message": self.message,
             "raw_text": self.raw_text,
             "metadata": self.metadata.model_dump(),
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+# ==============================================================================
+# Contratos Unificados e Modelos de OCR e Análise Visual (História 1.1.3 - RF-03)
+# ==============================================================================
+
+# Sentinela privada para prevenção de instanciação acidental direta de RawContent
+_RAW_CONTENT_INTERNAL_GUARD = object()
+
+# Tipo anotado para serialização transparente de MappingProxyType via Pydantic/FastAPI
+SafeMetadataMapping = Annotated[
+    Mapping[str, Any],
+    PlainSerializer(
+        lambda v: dict(v) if isinstance(v, (MappingProxyType, dict)) else (v if v is not None else {}),
+        return_type=dict[str, Any],
+    ),
+]
+
+
+@dataclass(frozen=True)
+class RawContent:
+    """Contrato unificado e imutável de ingestão de materiais didáticos (docs/arquitetura.md).
+
+    Ponto de convergência canônico tanto para o fluxo textual tradicional quanto
+    para extração multimodal via OCR (História 1.1.3 / DEP-OC-01).
+
+    Garantia arquitetural de integridade e segurança (RNF-02):
+    1. O campo `text` contém o conteúdo textual submetido ao sanitizador local (`sanitize_pii`),
+       respeitando os limites das regras de detecção.
+    2. Imutabilidade (@dataclass(frozen=True)): impede modificações posteriores em `text`,
+       `source_type`, `metadata` e `pii_sanitized` após a construção.
+    3. Proteção defensiva de metadados: cópia defensiva na construção e empacotamento em
+       `MappingProxyType`, impedindo tanto mutações no dicionário de origem quanto alterações
+       posteriores diretamente no objeto.
+    4. Prevenção de uso acidental: sentinela interna que desestimula instanciações diretas fora
+       da fábrica oficial `create_sanitized_raw_content(...)` ou `RawContent.from_raw_text(...)`.
+    """
+
+    text: str  # Conteúdo textual sanitizado (destinado à resposta da API, interface e pipeline pedagógico)
+    source_type: MaterialSourceType  # Formato/origem validado estritamente
+    metadata: SafeMetadataMapping  # Metadados imutáveis com cópia defensiva e serialização segura
+    pii_sanitized: bool  # Confirmação de que a rotina de sanitização foi executada
+    _guard: object = Field(default=None, exclude=True)  # Sentinela interna excluída da serialização pública da API
+
+    def __post_init__(self) -> None:
+        # 1. Prevenção de uso acidental direto fora do fluxo oficial da fábrica
+        if self._guard is not _RAW_CONTENT_INTERNAL_GUARD:
+            raise PermissionError(
+                "Instanciação direta de RawContent é proibida por governança de segurança (RNF-02). "
+                "Utilize a função oficial `create_sanitized_raw_content(...)` "
+                "ou a fábrica `RawContent.from_raw_text(...)` para assegurar que a sanitização "
+                "preventiva de PII seja executada antes da emissão do contrato."
+            )
+
+        # 2. Validação e normalização estrita de source_type em instância congelada
+        if isinstance(self.source_type, str):
+            try:
+                norm_type = MaterialSourceType(self.source_type)
+                object.__setattr__(self, "source_type", norm_type)
+            except ValueError as err:
+                valid_types = ", ".join(t.value for t in MaterialSourceType)
+                raise ValueError(
+                    f"Tipo de fonte inválido '{self.source_type}'. "
+                    f"Os formatos aceitos pela plataforma são: {valid_types}."
+                ) from err
+        elif not isinstance(self.source_type, MaterialSourceType):
+            raise ValueError(
+                f"O campo 'source_type' deve ser uma instância de MaterialSourceType ou string correspondente. "
+                f"Recebido: {type(self.source_type).__name__}."
+            )
+
+        # 3. Validação do sinalizador de sanitização
+        if not isinstance(self.pii_sanitized, bool):
+            raise ValueError("O campo 'pii_sanitized' deve ser explicitamente booleano.")
+
+        # 4. Cópia defensiva e blindagem imutável de metadados
+        if not isinstance(self.metadata, MappingProxyType):
+            safe_meta = copy.deepcopy(self.metadata) if self.metadata else {}
+            object.__setattr__(self, "metadata", MappingProxyType(safe_meta))
+
+    @classmethod
+    def from_raw_text(
+        cls,
+        raw_text: str,
+        source_type: MaterialSourceType | str,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> RawContent:
+        """Fábrica oficial que executa efetivamente sanitize_pii antes de instanciar RawContent.
+
+        Garante que o chamador não possa ignorar a sanitização: o texto original
+        é submetido ao sanitizador local e somente o resultado higienizado compõe o contrato.
+        """
+        _, raw_content = create_sanitized_raw_content(
+            raw_text=raw_text,
+            source_type=source_type,
+            metadata=metadata,
+        )
+        return raw_content
+
+    def model_dump(self) -> dict[str, Any]:
+        st_val = self.source_type.value if isinstance(self.source_type, MaterialSourceType) else str(self.source_type)
+        return {
+            "text": self.text,
+            "source_type": st_val,
+            "metadata": dict(self.metadata) if self.metadata else {},
+            "pii_sanitized": self.pii_sanitized,
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+def create_sanitized_raw_content(
+    raw_text: str,
+    source_type: MaterialSourceType | str,
+    metadata: Optional[dict[str, Any]] = None,
+) -> tuple[str, RawContent]:
+    """Fluxo oficial e centralizado de construção segura do contrato canônico RawContent (RNF-02).
+
+    Executa o fluxo de segurança em 5 passos:
+    1. Recebe o texto original não-sanitizado (`raw_text`).
+    2. Executa a sanitização preventiva local (`sanitize_pii`), substituindo dados pessoais identificados por tags semânticas.
+    3. Registra explicitamente nos metadados que a rotina de sanitização foi executada (`sanitization_executed=True`)
+       e a contagem de substituições realizadas (`pii_removed_count`), realizando cópia defensiva.
+    4. Constrói o contrato canônico imutável `RawContent` (frozen=True, protegido por MappingProxyType).
+    5. Preserva o texto original separado, destinado exclusivamente à revisão docente em tela (HITL, em memória volátil).
+
+    Retorna:
+        tuple[str, RawContent]: (raw_text_original_para_revisao, raw_content_sanitizado)
+    """
+    from iris.security.pii_scrubber import sanitize_pii
+
+    # 1 e 2. Executa efetivamente o sanitizador sobre o texto original
+    sanitized_text, pii_count = sanitize_pii(raw_text)
+
+    # 3. Cópia defensiva dos metadados com semântica precisa
+    meta = copy.deepcopy(metadata) if metadata else {}
+    meta["sanitization_executed"] = True
+    meta["pii_removed_count"] = pii_count
+
+    # 4. Constrói RawContent imutável com a sentinela interna autorizada
+    raw_content = RawContent(
+        text=sanitized_text,
+        source_type=source_type,  # type: ignore[arg-type]
+        metadata=MappingProxyType(meta),
+        pii_sanitized=True,
+        _guard=_RAW_CONTENT_INTERNAL_GUARD,
+    )
+    return raw_text, raw_content
+
+
+@dataclass
+class PageVisualAnalysis:
+    """Indicadores de análise visual de uma página ou imagem individual (História 1.1.3).
+
+    Representa métricas mensuráveis da página completa (área, respiro, complexidade óptica e contraste).
+    Não realiza segmentação por questão individual nem diagnóstico semântico de distratores.
+    """
+
+    page_number: int  # Índice da página (1 para imagem avulsa, 1..N para páginas de PDF)
+    page_type: str  # "image", "scanned", "mixed", "textual"
+    width: int  # Largura em pixels
+    height: int  # Altura em pixels
+    edge_density: float  # Densidade de transições de gradiente (Pillow FIND_EDGES)
+    whitespace_ratio: float  # Proporção de espaço de respiro/fundo claro
+    contrast_ratio: float  # Faixa dinâmica de luminância
+    clutter_level: str  # Nível de densidade visual: "baixa", "moderada" ou "alta"
+    possible_visual_clutter: bool  # Indicador orientativo de possível poluição visual
+    legibility_status: str = "ok"  # "ok", "low_resolution", "unreadable"
+    rejection_reason: Optional[str] = None  # Mensagem explicativa caso a imagem seja ilegível
+
+    def model_dump(self) -> dict[str, Any]:
+        return asdict(self)
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+@dataclass
+class VisualAnalysisReport:
+    """Relatório consolidado de análise visual do material submetido (História 1.1.3).
+
+    Agrega as análises por página e emite indicadores orientativos para apoio docente.
+    """
+
+    overall_clutter_level: str  # "baixa", "moderada" ou "alta"
+    has_high_clutter: bool  # True se alguma página apresentar nível alto de densidade visual
+    total_pages_analyzed: int  # Total de páginas/imagens analisadas visualmente
+    flagged_pages: list[int]  # Lista com o número das páginas com possível poluição visual
+    pages: list[PageVisualAnalysis]  # Detalhamento por página
+    notes: Optional[str] = None  # Observações orientativas para o docente
+
+    def model_dump(self) -> dict[str, Any]:
+        return {
+            "overall_clutter_level": self.overall_clutter_level,
+            "has_high_clutter": self.has_high_clutter,
+            "total_pages_analyzed": self.total_pages_analyzed,
+            "flagged_pages": list(self.flagged_pages),
+            "pages": [p.model_dump() if hasattr(p, "model_dump") else p for p in self.pages],
+            "notes": self.notes,
+        }
+
+    def dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+@dataclass
+class OcrMaterialResponse:
+    """Resposta estruturada do processamento multimodal e OCR para a interface docente (Etapa 1).
+
+    Responsabilidades estritas de cada campo na API HTTP (RNF-02 / Zero-PII):
+    1. `status` / `message`: Metadados operacionais do protocolo HTTP da API.
+    2. `raw_text`: Texto extraído e já sanitizado (`raw_content.text`) entregue à interface docente
+       para conferência e revisão humana (HITL), garantindo que nenhum dado pessoal original seja
+       persistido em `sessionStorage` ou devolvido pela API.
+    3. `raw_content`: Entidade canônica de ingestão segura contendo o texto sanitizado (`raw_content.text`,
+       livre de PII identificável), metadados e `pii_sanitized=True`. É esta estrutura canônica
+       que transita para o `StructuralDecomposer`, motor RAG e serviços de IA.
+    4. `metadata`: Métricas quantitativas do texto e indicação fiel de remoção de PII (`sanitized = pii_removed_count > 0`).
+    5. `visual_analysis`: Relatório com métricas de qualidade de imagem, resolução, avisos parciais e densidade visual.
+    """
+
+    status: str
+    message: str
+    raw_text: str  # Texto sanitizado retornado pela API para conferência segura em tela (RNF-02)
+    raw_content: RawContent  # Contrato unificado seguro com texto sanitizado para processamento e IA
+    metadata: MaterialMetadata  # Metadados quantitativos de volume e formato
+    visual_analysis: VisualAnalysisReport  # Indicadores de análise visual por página
+
+    @property
+    def sanitized_text(self) -> str:
+        """Propriedade conveniente que referencia diretamente o texto seguro de `raw_content.text`,
+        evitando duplicação redundante de strings em memória e prevenindo divergência de estado."""
+        return self.raw_content.text
+
+    def model_dump(self) -> dict[str, Any]:
+        return {
+            "status": self.status,
+            "message": self.message,
+            "raw_text": self.raw_text,
+            "raw_content": self.raw_content.model_dump(),
+            "metadata": self.metadata.model_dump(),
+            "visual_analysis": self.visual_analysis.model_dump(),
         }
 
     def dict(self) -> dict[str, Any]:
