@@ -265,7 +265,13 @@
     "adaptacao_avaliacao",
     "curriculo"
    ],
-   "barreiras": [],
+   "barreiras": [
+    "memoria_trabalho",
+    "controle_inibitorio",
+    "leitura_texto_longo",
+    "organizacao_sequencial",
+    "sobrecarga_visual"
+   ],
    "tipo_evidencia": null,
    "publico": "pesquisa",
    "vigencia": null,
@@ -759,7 +765,12 @@
     "acomodacao_avaliacao",
     "adaptacao_atividade"
    ],
-   "barreiras": [],
+   "barreiras": [
+    "velocidade_processamento",
+    "sobrecarga_visual",
+    "organizacao_sequencial",
+    "atencao_sustentada"
+   ],
    "tipo_evidencia": "revisao_narrativa",
    "publico": "professor",
    "vigencia": null,
@@ -1213,7 +1224,11 @@
     "dislexia",
     "tdah"
    ],
-   "barreiras": [],
+   "barreiras": [
+    "organizacao_sequencial",
+    "leitura_texto_longo",
+    "velocidade_processamento"
+   ],
    "tipo_evidencia": null,
    "publico": "professor",
    "vigencia": "vigente",
@@ -1296,7 +1311,12 @@
     "mastery learning",
     "ensino médio"
    ],
-   "barreiras": [],
+   "barreiras": [
+    "organizacao_sequencial",
+    "iniciacao_tarefa",
+    "flexibilidade_cognitiva",
+    "atencao_sustentada"
+   ],
    "tipo_evidencia": "revisao_sistematica",
    "publico": null,
    "vigencia": null,
@@ -1339,7 +1359,11 @@
     "Brasil",
     "Instituto Federal"
    ],
-   "barreiras": [],
+   "barreiras": [
+    "leitura_texto_longo",
+    "organizacao_sequencial",
+    "memoria_trabalho"
+   ],
    "tipo_evidencia": "survey",
    "publico": null,
    "vigencia": null,

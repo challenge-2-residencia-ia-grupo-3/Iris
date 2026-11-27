@@ -838,6 +838,68 @@ def escrever_relatorio(chunks: list[dict], resumo: dict, caminho: Path = SAIDA_R
     caminho.write_text("\n".join(L) + "\n", encoding="utf-8")
 
 
+def sincronizar_barreiras_chunks(
+    chunks_path: Path | None = None,
+    fontes_path: Path | None = None,
+) -> dict[str, int]:
+    """Atualiza apenas o campo `barreiras` em `chunks.jsonl` a partir de `fontes.json`.
+
+    Preserva integralmente os textos já extraídos localmente (inclusive de documentos sob licença restrita).
+    """
+    alvo_chunks = chunks_path or SAIDA_CHUNKS
+    alvo_fontes = fontes_path or (BASE / "fontes.json")
+
+    catalogo = json.loads(alvo_fontes.read_text(encoding="utf-8"))
+    barreiras_por_doc: dict[str, list[str]] = {
+        str(d["id"]): list(d.get("barreiras") or [])
+        for d in catalogo.get("documentos", [])
+        if d.get("id")
+    }
+
+    if not alvo_chunks.exists():
+        return {
+            "total_chunks": 0,
+            "chunks_atualizados": 0,
+            "chunks_com_barreira": 0,
+            "chunks_sem_barreira": 0,
+        }
+
+    linhas_novas: list[str] = []
+    total = 0
+    atualizados = 0
+    com_barreira = 0
+    sem_barreira = 0
+
+    for raw_line in alvo_chunks.read_text(encoding="utf-8").splitlines():
+        if not raw_line.strip():
+            continue
+        item = json.loads(raw_line)
+        total += 1
+        doc_id = str(item.get("doc_id") or "")
+        if doc_id in barreiras_por_doc:
+            novas_barreiras = barreiras_por_doc[doc_id]
+            if list(item.get("barreiras") or []) != novas_barreiras:
+                item["barreiras"] = novas_barreiras
+                atualizados += 1
+        if item.get("n_palavras"):
+            if item.get("barreiras"):
+                com_barreira += 1
+            else:
+                sem_barreira += 1
+        linhas_novas.append(json.dumps(item, ensure_ascii=False))
+
+    tmp_path = alvo_chunks.with_suffix(".jsonl.tmp")
+    tmp_path.write_text("\n".join(linhas_novas) + ("\n" if linhas_novas else ""), encoding="utf-8")
+    tmp_path.replace(alvo_chunks)
+
+    return {
+        "total_chunks": total,
+        "chunks_atualizados": atualizados,
+        "chunks_com_barreira": com_barreira,
+        "chunks_sem_barreira": sem_barreira,
+    }
+
+
 if __name__ == "__main__":
     rodar()
     print(SAIDA_RELATORIO.read_text(encoding="utf-8")[:6000])
