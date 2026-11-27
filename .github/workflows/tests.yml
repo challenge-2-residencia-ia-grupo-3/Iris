@@ -221,8 +221,20 @@ jobs:
           ARTIFACTS_DIR=frontend/e2e/artifacts \
           node frontend/e2e/smoke.mjs
 
-      - name: Anexar logs e screenshot em caso de falha
-        if: failure()
+          FRONTEND_URL=http://127.0.0.1:3000 \
+          BACKEND_URL=http://127.0.0.1:8000 \
+          ARTIFACTS_DIR=frontend/e2e/artifacts \
+          node frontend/e2e/wcag-audit.mjs
+
+      - name: Publicar resumo da auditoria WCAG 2.1 AA no Job Summary
+        if: always()
+        run: |
+          if [ -f frontend/e2e/artifacts/wcag-audit-report.md ]; then
+            cat frontend/e2e/artifacts/wcag-audit-report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Anexar relatório de acessibilidade e artefatos E2E
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: e2e-artifacts

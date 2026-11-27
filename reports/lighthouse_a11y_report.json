@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-11-27T18:53:02.765Z",
+  "frontendUrl": "http://127.0.0.1:3000",
+  "threshold": 95,
+  "passed": true,
+  "minScore": 100,
+  "averageScore": 100,
+  "routes": [
+    {
+      "id": "login",
+      "path": "/",
+      "label": "Tela de Acesso (/)",
+      "score": 100,
+      "passed": true,
+      "failedAudits": []
+    },
+    {
+      "id": "etapa-1",
+      "path": "/etapa-1",
+      "label": "Etapa 1 (/etapa-1)",
+      "score": 100,
+      "passed": true,
+      "failedAudits": []
+    },
+    {
+      "id": "etapa-2",
+      "path": "/etapa-2",
+      "label": "Etapa 2 (/etapa-2)",
+      "score": 100,
+      "passed": true,
+      "failedAudits": []
+    },
+    {
+      "id": "etapa-3",
+      "path": "/etapa-3",
+      "label": "Etapa 3 (/etapa-3)",
+      "score": 100,
+      "passed": true,
+      "failedAudits": []
+    },
+    {
+      "id": "etapa-4",
+      "path": "/etapa-4",
+      "label": "Etapa 4 (/etapa-4)",
+      "score": 100,
+      "passed": true,
+      "failedAudits": []
+    },
+    {
+      "id": "etapa-5",
+      "path": "/etapa-5?demo=1",
+      "label": "Etapa 5 (/etapa-5?demo=1)",
+      "score": 100,
+      "passed": true,
+      "failedAudits": []
+    },
+    {
+      "id": "historico",
+      "path": "/historico",
+      "label": "Histórico (/historico)",
+      "score": 100,
+      "passed": true,
+      "failedAudits": []
+    }
+  ]
+}
