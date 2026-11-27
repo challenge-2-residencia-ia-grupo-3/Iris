@@ -425,6 +425,9 @@ class MultiAgentOrchestrator:
             trcc_scores: list[float] = []
             fallbacks_ocorridos: list[str] = []
             violacoes_ocorridas: list[str] = []
+            rag_metodos_efetivos: list[str] = []
+            rag_fallbacks_busca: list[bool] = []
+            rag_top1_scores: list[float] = []
 
             for qid, num_orig, enunciado_q, ctx_apoio in itens_questoes:
                 # --- Agente 1: Extrator Curricular (#17) ---
@@ -479,6 +482,11 @@ class MultiAgentOrchestrator:
                         question_id=qid,
                     )
                 )
+                if estrategia.telemetry.metodo_efetivo:
+                    rag_metodos_efetivos.append(estrategia.telemetry.metodo_efetivo)
+                rag_fallbacks_busca.append(bool(estrategia.telemetry.fallback_busca))
+                if estrategia.telemetry.top1_score is not None:
+                    rag_top1_scores.append(float(estrategia.telemetry.top1_score))
 
                 # --- Agente 3 (Adaptador #18) <-> Agente 4 (Auditor #19) ---
                 pedido_adapt = AdaptationRequest(
@@ -618,6 +626,15 @@ class MultiAgentOrchestrator:
                 else (modelos_usados[0] if modelos_usados else "deterministic-fallback")
             )
 
+            rag_metodo_efetivo = rag_metodos_efetivos[0] if rag_metodos_efetivos else req.metodo_rag
+            if any(rag_fallbacks_busca):
+                rag_backend = "fallback_bm25"
+            elif rag_metodo_efetivo == "bm25":
+                rag_backend = "bm25"
+            else:
+                rag_backend = "pgvector"
+            rerank_top1_score = round(max(rag_top1_scores), 4) if rag_top1_scores else None
+
             log_agent_operational_event(
                 nivel=req.nivel,
                 selected_ids=req.selected_ids,
@@ -634,6 +651,9 @@ class MultiAgentOrchestrator:
                 model=model_str,
                 fallbacks=fallbacks_ocorridos,
                 violacoes=violacoes_ocorridas,
+                rag_backend=rag_backend,
+                rag_metodo_efetivo=rag_metodo_efetivo,
+                rerank_top1_score=rerank_top1_score,
             )
 
         return MultiAgentMaterialResponse(

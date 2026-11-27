@@ -24,7 +24,12 @@ from urllib.parse import urlparse
 
 from iris import __version__
 from iris.config import RAG_PACOTE_DIR, get_settings, validate_zero_database_configuration
-from iris.security.operational_logger import configure_zero_pii_logging, log_http_operational_event
+from iris.security.operational_logger import (
+    configure_zero_pii_logging,
+    log_http_operational_event,
+    summarize_operational_metrics,
+    trace_context,
+)
 
 PLAYGROUND_HTML_PATH = Path(__file__).resolve().parent / "static" / "playground.html"
 # Símbolo da Íris, o mesmo do front (frontend/public/favicon.png): ícone da aba do navegador e marca do menu do painel
@@ -124,6 +129,7 @@ def get_health_status() -> dict[str, Any]:
         "google_oauth_enabled": bool(settings.google_client_id.strip() and settings.google_client_secret.strip()),
         "llm_provider": settings.llm_provider,
         "llm_model": active_model,
+        "llm_primary_available": bool(llm_info.get("primary_available", False)),
         "ollama_online": llm_info.get("ollama_online", False),
         "ollama_models": llm_info.get("ollama_installed_models", []),
         "rag_backend": settings.rag_banco,
@@ -299,7 +305,9 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
 
     avaliador_solicitado = str(body.get("avaliador_geracao") or "auto").strip().lower()
     sonnet_ready = sonnet_judge_status()["ready"]
-    usar_sonnet = avaliador_solicitado == "sonnet" or (avaliador_solicitado == "auto" and sonnet_ready)
+    usar_sonnet = (
+        avaliador_solicitado == "sonnet" or (avaliador_solicitado == "auto" and sonnet_ready)
+    ) and not res.get("motivo_abstencao")
     juiz_sonnet_detalhe: dict[str, Any] | None = None
     juiz_sonnet_erro: str | None = None
     fidelidade_sonnet: float | None = None
@@ -353,6 +361,9 @@ def _handle_rag_answer(body: dict[str, Any]) -> dict[str, Any]:
         "citacoes_invalidas": citacoes_inv,
         "frases_sem_citacao": frases_sem_cit,
         "absteve": bool(conf.get("absteve", False)),
+        "rerank_top1_score": res.get("rerank_top1_score"),
+        "limiar_recusa_rerank": res.get("limiar_recusa_rerank"),
+        "motivo_abstencao": res.get("motivo_abstencao"),
         "citou_trecho_com_aviso": conf.get("citou_trecho_com_aviso", []),
     }
 
@@ -763,6 +774,16 @@ def _handle_rag_escolar_analytics(
     )
 
 
+def _handle_rag_funnel(metodo: str = "auto", refresh: bool = False) -> dict[str, Any]:
+    from iris.eval.rag_funnel import executar_funil_rag
+
+    return executar_funil_rag(metodo=metodo, incluir_fora_da_base=False, usar_cache=not refresh)
+
+
+def _handle_ops_summary() -> dict[str, Any]:
+    return summarize_operational_metrics()
+
+
 def avisar_saude_da_busca() -> dict[str, Any]:
     """Confere, ao ligar o servidor, se a busca por vetores está disponível e avisa no log se não estiver. Sem isso a
     busca cai na reserva por palavras em toda consulta, sem ninguém saber (aconteceu em 15/11/2026)."""
@@ -807,22 +828,25 @@ def create_app() -> Any:
         t0 = time.perf_counter()
         status_code = 500
         response: Any = None
-        try:
-            response = await call_next(request)
-            status_code = int(getattr(response, "status_code", 200))
-        finally:
-            if request.url.path.startswith("/api/v1/"):
-                if response is not None:
-                    if "cache-control" not in response.headers:
-                        response.headers["Cache-Control"] = "no-store"
-                    response.headers.setdefault("Pragma", "no-cache")
-                log_http_operational_event(
-                    method=request.method,
-                    path=request.url.path,
-                    status_code=status_code,
-                    latency_s=time.perf_counter() - t0,
-                    error_code="INTERNAL_ERROR" if status_code >= 500 else None,
-                )
+        incoming_tid = request.headers.get("x-trace-id")
+        with trace_context(incoming_tid) as trace_id:
+            try:
+                response = await call_next(request)
+                status_code = int(getattr(response, "status_code", 200))
+            finally:
+                if request.url.path.startswith("/api/v1/"):
+                    if response is not None:
+                        if "cache-control" not in response.headers:
+                            response.headers["Cache-Control"] = "no-store"
+                        response.headers.setdefault("Pragma", "no-cache")
+                        response.headers["X-Trace-Id"] = trace_id
+                    log_http_operational_event(
+                        method=request.method,
+                        path=request.url.path,
+                        status_code=status_code,
+                        latency_s=time.perf_counter() - t0,
+                        error_code="INTERNAL_ERROR" if status_code >= 500 else None,
+                    )
         return response
 
     app.add_middleware(
@@ -958,6 +982,24 @@ def create_app() -> Any:
         barreira: str | None = Query(None),
     ) -> dict[str, Any]:
         return _handle_eval_metrics(gerador=gerador, limite=limite, tipo=tipo, barreira=barreira)
+
+    @app.get("/api/v1/eval/rag-funnel", tags=["eval"])
+    def eval_rag_funnel(
+        metodo: str = Query("auto"),
+        refresh: bool = Query(False),
+    ) -> dict[str, Any]:
+        from fastapi import HTTPException
+
+        try:
+            return _handle_rag_funnel(metodo=metodo, refresh=refresh)
+        except ValueError as exc:
+            if type(exc).__name__ != "MetodoDesconhecido":
+                raise
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v1/eval/ops-summary", tags=["eval"])
+    def eval_ops_summary() -> dict[str, Any]:
+        return _handle_ops_summary()
 
     @app.get("/api/v1/eval/extractor-analytics", tags=["eval"])
     def eval_extractor_analytics(
@@ -1374,6 +1416,19 @@ def run_stdlib_server(host: str = "127.0.0.1", port: int = 8000) -> None:
                 self._send_json(
                     _handle_eval_metrics(gerador=gerador, limite=limite, tipo=tipo, barreira=barreira)
                 )
+            elif parsed.path == "/api/v1/eval/rag-funnel":
+                qs = parse_qs(parsed.query)
+                metodo = (qs.get("metodo") or ["auto"])[0]
+                refresh_raw = str((qs.get("refresh") or ["false"])[0]).strip().lower()
+                refresh = refresh_raw in {"1", "true", "yes"}
+                try:
+                    self._send_json(_handle_rag_funnel(metodo=metodo, refresh=refresh))
+                except ValueError as exc:
+                    if type(exc).__name__ != "MetodoDesconhecido":
+                        raise
+                    self._send_json({"detail": str(exc)}, status=422)
+            elif parsed.path == "/api/v1/eval/ops-summary":
+                self._send_json(_handle_ops_summary())
             elif parsed.path.startswith("/api/v1/eval/extractor-analytics"):
                 qs = parse_qs(parsed.query)
                 cmd_raw = qs.get("comando_conjugado", [None])[0]

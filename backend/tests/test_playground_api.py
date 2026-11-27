@@ -85,6 +85,8 @@ class TestPlaygroundDataContracts(unittest.TestCase):
         self.assertEqual(h["status"], "ok")
         self.assertTrue(h["zero_student_database"])
         self.assertGreater(h["total_chunks"], 1000)
+        self.assertIn("llm_primary_available", h)
+        self.assertIn("llm_primary_available", _load_playground_html())
         self.assertIsInstance(h["vector_db_online"], bool)
         self.assertIn("bm25", h["available_search_methods"])
 
