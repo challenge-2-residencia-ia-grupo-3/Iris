@@ -82,6 +82,26 @@ def gravar_vetores(con, chunks: list[dict], apelido: str, modelo: emb.ModeloDens
             "veio_do_cache": modelo.veio_do_cache, "segundos_pg": time.time() - t0}
 
 
+def sincronizar_barreiras_pg(con, chunks: list[dict]) -> int:
+    """Atualiza a coluna `barreiras` em `iris_trechos` sem apagar vetores existentes."""
+    atuais = {
+        r[0]: list(r[1] or [])
+        for r in con.execute(f"SELECT chunk_id, barreiras FROM {TABELA}").fetchall()
+    }
+    pares_update: list[tuple[list[str], str]] = []
+    for c in chunks:
+        cid = c["chunk_id"]
+        if cid not in atuais:
+            continue
+        novas = list(c.get("barreiras") or [])
+        if atuais[cid] != novas:
+            pares_update.append((novas, cid))
+    if pares_update:
+        with con.cursor() as cur:
+            cur.executemany(f"UPDATE {TABELA} SET barreiras = %s WHERE chunk_id = %s", pares_update)
+    return len(pares_update)
+
+
 def colunas_prontas(con) -> list[str]:
     """Modelos que têm vetor gravado em todos os trechos."""
     prontos = []
@@ -126,7 +146,7 @@ def tamanho_tabela(con) -> str:
     return con.execute(f"SELECT pg_size_pretty(pg_total_relation_size('{TABELA}'))").fetchone()[0]
 
 
-def rodar(apelidos: list[str] | None = None) -> None:
+def rodar(apelidos: list[str] | None = None, apenas_barreiras: bool = False) -> None:
     chunks = ingestao.carregar_chunks()
     con = conectar()
     criar_tabela(con)
@@ -137,7 +157,14 @@ def rodar(apelidos: list[str] | None = None) -> None:
         print(f"{len(chunks)} trechos gravados em {TABELA}")
     else:
         # mesmos trechos: não apaga nada (rodar só 'qwen3' não pode zerar os vetores do mpnet)
-        print(f"{len(chunks)} trechos já estavam em {TABELA}; só os vetores pedidos são (re)gravados")
+        atualizados = sincronizar_barreiras_pg(con, chunks)
+        print(
+            f"{len(chunks)} trechos já estavam em {TABELA}; "
+            f"barreiras sincronizadas em {atualizados} trechos"
+        )
+    if apenas_barreiras:
+        print("prontos:", colunas_prontas(con), "| tamanho da tabela com índices:", tamanho_tabela(con))
+        return
     for a in apelidos or list(DIM):
         try:
             r = gravar_vetores(con, chunks, a)
@@ -168,4 +195,7 @@ def gravar_relatorio(con, n_chunks: int) -> None:
 
 
 if __name__ == "__main__":
-    rodar(sys.argv[1:] or None)
+    args = sys.argv[1:]
+    apenas_bar = "--apenas-barreiras" in args
+    apelidos_cli = [a for a in args if a != "--apenas-barreiras"]
+    rodar(apelidos_cli or None, apenas_barreiras=apenas_bar)

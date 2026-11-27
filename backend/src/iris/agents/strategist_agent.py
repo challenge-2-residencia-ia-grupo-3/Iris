@@ -146,6 +146,15 @@ class StrategistAgent:
         total_ms = round((time.perf_counter() - t0) * 1000, 2)
         prompt_tokens = resposta_llm.prompt_tokens if resposta_llm else 0
         completion_tokens = resposta_llm.completion_tokens if resposta_llm else 0
+        top1_score = max(
+            (
+                round(float(t["score"]), 4)
+                for b in com_evidencia
+                for t in b["trechos_rag"]
+                if t.get("score") is not None
+            ),
+            default=None,
+        )
         telemetria = StrategyTelemetry(
             question_id=request.question_id,
             caracteristicas=list(request.caracteristicas),
@@ -166,6 +175,7 @@ class StrategistAgent:
             completion_tokens=completion_tokens,
             total_tokens=prompt_tokens + completion_tokens,
             n_trechos=len(fontes),
+            top1_score=top1_score,
             n_intervencoes_propostas=n_propostas,
             n_intervencoes_aprovadas=sum(1 for i in intervencoes if i.origem == "modelo"),
             timestamp_utc=datetime.now(timezone.utc).isoformat(),

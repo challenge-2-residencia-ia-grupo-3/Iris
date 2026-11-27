@@ -80,6 +80,7 @@ class StrategyTelemetry(BaseModel):
     completion_tokens: int = 0
     total_tokens: int = 0
     n_trechos: int = 0
+    top1_score: Optional[float] = None
     n_intervencoes_propostas: int = 0
     n_intervencoes_aprovadas: int = 0
     timestamp_utc: str = ""

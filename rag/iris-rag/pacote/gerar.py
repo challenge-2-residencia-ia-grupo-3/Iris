@@ -314,6 +314,17 @@ def conferir(resposta: str, trechos: list[dict]) -> dict:
             "citou_trecho_com_aviso": [trechos[n - 1]["doc"] for n in aviso_citado]}
 
 
+def limiar_recusa_rerank() -> float | None:
+    """Limiar opcional `RAG_RERANK_MIN_SCORE` para abstenção determinística antes do LLM.
+
+    Desligado por padrão (None) até calibragem explícita com `iris.eval.calibrar_recusa`.
+    """
+    raw = os.environ.get("RAG_RERANK_MIN_SCORE", "").strip()
+    if not raw:
+        return None
+    return float(raw)
+
+
 def responder(
     pergunta: str,
     metodo: str = consultar.METODO_PADRAO,
@@ -337,14 +348,25 @@ def responder(
         trechos = consultar.buscar(pergunta, "bm25", k=k, filtro_barreira=filtro_barreira)
         metodo_efetivo = "bm25"
     t_busca = time.time() - t0
-    prompt = montar_prompt(pergunta, trechos)
-    resposta, uso = gerar(prompt)
+    scores_validos = [float(t["score"]) for t in trechos if t.get("score") is not None]
+    rerank_top1_score = round(max(scores_validos), 4) if scores_validos else None
+    limiar = limiar_recusa_rerank()
+    motivo_abstencao: str | None = None
+    if "rerank" in metodo_efetivo and limiar is not None and (rerank_top1_score is None or rerank_top1_score < limiar):
+        resposta = FRASE_SEM_RESPOSTA
+        uso = {"prompt_tokens": 0, "completion_tokens": 0}
+        motivo_abstencao = "rerank_abaixo_do_limiar"
+    else:
+        prompt = montar_prompt(pergunta, trechos)
+        resposta, uso = gerar(prompt)
     provedor_atual = os.environ.get("RAG_LLM", LLM)
     modelo_atual = os.environ.get("RAG_LLM_MODELO", MODELO if provedor_atual == LLM else "llama3.1:8b")
     if provedor_atual.lower() in {"anthropic", "claude", "sonnet"}:
         modelo_atual = (uso or {}).get("modelo") or _modelo_anthropic()   # o modelo que de fato respondeu
     return {"pergunta": pergunta, "metodo": metodo_efetivo, "metodo_solicitado": metodo,
             "fallback_motivo": fallback_motivo, "llm": f"{provedor_atual}:{modelo_atual}", "resposta": resposta,
+            "rerank_top1_score": rerank_top1_score, "limiar_recusa_rerank": limiar,
+            "motivo_abstencao": motivo_abstencao,
             "trechos_entregues": trechos,
             "fontes": [{"ref": f"T{i}", "doc": t["doc"], "titulo": t["titulo"], "pagina": t["pagina"],
                         "secao": t["secao"], "url": t["url"], "idioma": t["idioma"], "chunk_id": t["chunk_id"]}

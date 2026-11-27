@@ -1428,6 +1428,28 @@
         <div id="compare-panel" style="display:none; margin-top: 1.25rem;"></div>
       </div>
 
+      <div class="panel-block" id="rag-funnel-panel">
+        <div class="block-head">
+          <div>
+            <h2 class="block-title">Funil de Causa Raiz do RAG (4 Gavetas — Commit Atual)</h2>
+            <p class="block-desc">Diagnostica em tempo real contra o código e índice atuais onde ocorrem as falhas (Corpus/Tags → Top-50 → Top-5 → Geração/Gate) e consolida a telemetria Zero-PII em memória.</p>
+          </div>
+          <div class="btn-row">
+            <select id="funnel-metodo" style="width:auto; min-width:190px;">
+              <option value="bm25" selected>BM25 local (sem banco)</option>
+              <option value="auto">Automático (pgvector + rerank se ativo)</option>
+              <option value="qwen3+rerank50">Qwen3 + Rerank Top-50 (pgvector)</option>
+            </select>
+            <button type="button" id="btn-run-funnel" class="btn btn-secondary" onclick="carregarFunilRAG()">Executar diagnóstico (sem LLM)</button>
+            <button type="button" id="btn-ops-summary" class="btn btn-secondary" onclick="carregarResumoOperacional()">Resumo operacional (Zero-PII)</button>
+          </div>
+        </div>
+        <div id="rag-funnel-content" style="font-size:0.86rem; color:var(--muted);">
+          Clique em <strong>Executar diagnóstico (sem LLM)</strong> para medir as 4 gavetas contra o commit e o <code>chunks.jsonl</code> atuais.
+        </div>
+        <div id="ops-summary-content" style="margin-top:0.9rem;"></div>
+      </div>
+
       <div class="panel-block">
         <div class="block-head">
           <div>
@@ -2523,7 +2545,10 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
     function renderStatusStrip(h) {
       const strip = document.getElementById('status-strip');
-      const ollamaItem = `<span class="status-item"><span class="dot ${h.ollama_online ? 'dot-ok' : 'dot-warn'}"></span>${h.ollama_online ? `Ollama ativo (${escapeHtml(h.llm_model)})` : 'LLM em fallback extrativo'}</span>`;
+      const llmAtivo = Boolean(h.llm_primary_available || h.ollama_online);
+      const provKey = String(h.llm_provider || '').toLowerCase();
+      const provNome = provKey === 'anthropic' ? 'Anthropic' : (provKey === 'groq' ? 'Groq' : (provKey === 'ollama' || h.ollama_online ? 'Ollama' : (h.llm_provider || 'LLM')));
+      const ollamaItem = `<span class="status-item"><span class="dot ${llmAtivo ? 'dot-ok' : 'dot-warn'}"></span>${llmAtivo ? `${escapeHtml(provNome)} ativo (${escapeHtml(h.llm_model)})` : 'LLM em fallback extrativo'}</span>`;
       const denseReady = Boolean(h.vector_db_online) && (h.vector_deps_ready !== false);
       const vecLabel = denseReady
         ? 'pgvector ativo'
@@ -2578,11 +2603,13 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       const ir = m.metricas_relatorio_iris;
       const mk = m.metricas_mercado_ragas;
       const n10 = m.notas_0_a_10;
+      const origens = m.metadados_origem || {};
+      const frescorTexto = m.frescor === 'execucao_ao_vivo' ? 'Execução ao vivo' : 'Snapshot gravado';
 
       document.getElementById('bench-contexto').textContent =
-        `Gerador ${ir.gerador.toUpperCase()} com busca ${ir.metodo_busca} sobre ${ir.n_consultas_com_resposta} perguntas com resposta e ${ir.n_consultas_sem_resposta} testes de abstenção.`;
+        `Gerador ${ir.gerador.toUpperCase()} com busca ${ir.metodo_busca} sobre ${ir.n_consultas_com_resposta} perguntas com resposta e ${ir.n_consultas_sem_resposta} testes de abstenção (${frescorTexto}).`;
       document.getElementById('badge-amostra-iris').textContent =
-        `${ir.gerador.toUpperCase()} / ${ir.metodo_busca}`;
+        `${ir.gerador.toUpperCase()} / ${ir.metodo_busca} · ${frescorTexto}`;
 
       document.getElementById('exec-summary').innerHTML = `
         <div class="verdict-pair">
@@ -2631,25 +2658,26 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
       `;
 
       const ragasRows = [
-        ['1. Fidelidade', n10['1_fidelidade'], 'Ancoragem estrita nos trechos entregues'],
-        ['2. Relevância da resposta', n10['2_relevancia_respostas'], 'Utilidade direta para a dúvida do docente'],
-        ['3. Recuperação de contexto', n10['3_recuperacao_contexto'], 'Cobertura das evidências previstas no gabarito'],
-        ['4. Precisão de contexto', n10['4_precisao_contexto'], 'Posicionamento dos trechos úteis no topo (AP@5)'],
-        ['5. Relevância de contexto', n10['5_relevancia_contexto'], 'Equilíbrio entre amplitude e especificidade'],
-        ['6. Similaridade semântica', n10['6_similaridade_semantica'], 'Proximidade com a justificativa de referência'],
-        ['7. Correção geral', n10['7_correcao_respostas'], 'Síntese ponderada (60% fidelidade + 40% similaridade)']
+        ['1. Fidelidade', n10['1_fidelidade'], 'Ancoragem estrita nos trechos entregues', origens.fidelidade?.rotulo || 'Juiz Snapshot'],
+        ['2. Relevância da resposta', n10['2_relevancia_respostas'], 'Utilidade direta para a dúvida do docente', origens.relevancia_respostas?.rotulo || 'Juiz Snapshot'],
+        ['3. Recuperação de contexto', n10['3_recuperacao_contexto'], 'Cobertura das evidências previstas no gabarito', origens.recuperacao_contexto?.rotulo || 'Determinístico'],
+        ['4. Precisão de contexto', n10['4_precisao_contexto'], 'Posicionamento dos trechos úteis no topo (AP@5)', origens.precisao_contexto?.rotulo || 'Fórmula RAGAS'],
+        ['5. Relevância de contexto', n10['5_relevancia_contexto'], 'Equilíbrio entre amplitude e especificidade', origens.relevancia_contexto?.rotulo || 'Derivada'],
+        ['6. Similaridade semântica', n10['6_similaridade_semantica'], 'Proximidade com a justificativa de referência', origens.similaridade_semantica?.rotulo || 'Heurística léxica'],
+        ['7. Correção geral', n10['7_correcao_respostas'], 'Síntese ponderada (60% fidelidade + 40% similaridade)', origens.correcao_respostas?.rotulo || 'Composta']
       ];
       document.getElementById('metrics-ragas').innerHTML = `
         <div class="table-scroll"><table>
-          <thead><tr><th>Métrica RAGAS</th><th>Critério</th><th>Proporção</th><th class="num">Nota</th></tr></thead>
+          <thead><tr><th>Métrica RAGAS / Estilo</th><th>Origem</th><th>Critério</th><th>Proporção</th><th class="num">Nota</th></tr></thead>
           <tbody>
-            ${ragasRows.map(([nome, nota, desc]) => {
+            ${ragasRows.map(([nome, nota, desc, rotuloOrigem]) => {
               const ratio = Number(nota) / 10;
               const st = classeCor(ratio);
               const pct = Math.max(4, Math.min(100, Math.round(ratio * 100)));
               return `
                 <tr>
                   <td><strong>${escapeHtml(nome)}</strong></td>
+                  <td><span class="tag">${escapeHtml(rotuloOrigem)}</span></td>
                   <td style="color:var(--muted); font-size:0.8rem;">${escapeHtml(desc)}</td>
                   <td><span class="bar-track"><span class="bar-fill" style="width:${pct}%; background:${st.fill};"></span></span></td>
                   <td class="num ${st.cls}">${Number(nota).toFixed(1)}</td>
@@ -2662,6 +2690,83 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
 
       if (m.comparativo_geradores) {
         renderTabelaComparativa(m.comparativo_geradores);
+      }
+    }
+
+    async function carregarFunilRAG() {
+      const box = document.getElementById('rag-funnel-content');
+      const sel = document.getElementById('funnel-metodo');
+      const metodo = sel ? sel.value : 'bm25';
+      box.innerHTML = `<div class="notice">Executando diagnóstico determinístico em 4 gavetas (método: ${escapeHtml(metodo)}). A reordenação local pode levar alguns segundos...</div>`;
+      try {
+        const f = await fetchJson(`/api/v1/eval/rag-funnel?metodo=${encodeURIComponent(metodo)}`);
+        const meta = f.metadados || {};
+        const g1 = f.gavetas['1_corpus_e_filtros'];
+        const g2 = f.gavetas['2_busca_top50'];
+        const g3 = f.gavetas['3_reranker_top5'];
+        const g4 = f.gavetas['4_geracao_e_abstencao'];
+        const avisoModo = meta.modo_reduzido && meta.aviso_modo
+          ? `<div class="notice" style="margin-bottom:0.75rem;">${escapeHtml(meta.aviso_modo)}</div>`
+          : '';
+        const diag = (f.diagnostico_prioritario || []).map(item => `
+          <li><strong>[${escapeHtml((item.severidade || '').toUpperCase())}]</strong> ${escapeHtml(item.achado)} <span style="color:var(--muted);">(${escapeHtml(item.acao)})</span></li>
+        `).join('');
+        box.innerHTML = `
+          <div class="tag-row" style="margin-bottom:0.75rem;">
+            <span class="tag">Commit atual: ${escapeHtml(meta.git_commit || '-')}</span>
+            <span class="tag">Chunks SHA256: ${escapeHtml(meta.chunks_sha256 || '-')}</span>
+            <span class="tag">Método: ${escapeHtml(meta.metodo_efetivo || '-')}</span>
+            ${meta.modo_reduzido ? '<span class="tag">Modo reduzido (BM25)</span>' : ''}
+            ${meta.origem_cache ? '<span class="tag">Cache do commit atual</span>' : ''}
+          </div>
+          ${avisoModo}
+          <div class="table-scroll"><table>
+            <thead><tr><th>Gaveta do Funil</th><th>Origem</th><th>Resultado Medido</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Corpus &amp; Barreiras</strong></td>
+                <td><span class="tag">${escapeHtml(g1.origem_metrica)}</span></td>
+                <td>${g1.docs_com_barreira}/${g1.docs_aceitos} docs com barreira · ${g1.chunks_com_barreira} trechos com tag · <strong>${g1.chunks_sem_barreira}</strong> sem tag</td>
+              </tr>
+              <tr>
+                <td><strong>2. Busca 1ª Etapa (Top-${g2.top_candidatos})</strong></td>
+                <td><span class="tag">${escapeHtml(g2.origem_metrica)}</span></td>
+                <td>Recall@${g2.top_candidatos}: <strong>${g2.recall_at_50}</strong> · ${g2.consultas_com_relevante_top50_pct}% das consultas com relevante no Top-${g2.top_candidatos}</td>
+              </tr>
+              <tr>
+                <td><strong>3. Reordenação (Top-${g3.k})</strong></td>
+                <td><span class="tag">${escapeHtml(g3.origem_metrica)}</span></td>
+                <td>Recall@${g3.k}: <strong>${g3.recall_at_5}</strong> · MRR: ${g3.mrr} · RAGAS ID: ${g3.precisao_ragas_id ?? 'N/D'} · Perdidos do Top-${g2.top_candidatos}: ${g3.perdidos_no_rerank}/${g3.relevantes_no_top50}</td>
+              </tr>
+              <tr>
+                <td><strong>4. Geração &amp; Gate de Recusa</strong></td>
+                <td><span class="tag">${escapeHtml(g4.origem_metrica)}</span></td>
+                <td>Gate recusa: <strong>${g4.gate_recusa_ativo ? `ativo (limiar=${escapeHtml(String(g4.rag_rerank_min_score))})` : `desligado${g4.calibracao_disponivel ? ` (calibrado: ${escapeHtml(String(g4.calibracao_disponivel.limiar_recomendado))})` : ''}`}</strong> · Sustentadas (snapshot): ${g4.frases_sustentadas_pct ?? '-'}%</td>
+              </tr>
+            </tbody>
+          </table></div>
+          ${diag ? `<ul style="margin:0.75rem 0 0; padding-left:1.2rem; line-height:1.55;">${diag}</ul>` : ''}
+        `;
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">Falha ao carregar funil (${escapeHtml(err.message)}).</div>`;
+      }
+    }
+
+    async function carregarResumoOperacional() {
+      const box = document.getElementById('ops-summary-content');
+      box.innerHTML = '<div class="notice">Carregando resumo operacional Zero-PII...</div>';
+      try {
+        const s = await fetchJson('/api/v1/eval/ops-summary');
+        const backends = Object.entries(s.rag_backends || {}).map(([k, v]) => `${k}: ${v}`).join(', ') || 'nenhuma execução ainda';
+        const fallbacks = Object.entries(s.fallbacks_by_category || {}).map(([k, v]) => `${k}: ${v}`).join(', ') || 'nenhum';
+        box.innerHTML = `
+          <div class="gate-banner gate-neutro" style="margin-bottom:0;">
+            <span class="gate-word">Runtime Zero-PII</span>
+            <span>Execuções na janela: <strong>${s.total_executions}</strong> · Taxa de fallback: <strong>${(Number(s.fallback_rate || 0) * 100).toFixed(1)}%</strong> (${escapeHtml(fallbacks)}) · Backends RAG: <strong>${escapeHtml(backends)}</strong> · Latência p50/p95: <strong>${s.latency_p50_s ?? '-'}s / ${s.latency_p95_s ?? '-'}s</strong></span>
+          </div>
+        `;
+      } catch (err) {
+        box.innerHTML = `<div class="notice notice-danger">Falha ao carregar resumo operacional (${escapeHtml(err.message)}).</div>`;
       }
     }
 
@@ -3013,6 +3118,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         const llmFallbackBanner = tel.llm_fallback_aplicado
           ? `<div class="notice notice-warn">O modelo configurado não respondeu (${escapeHtml(tel.llm_erro || 'indisponível')}); resposta gerada em modo extrativo local.</div>`
           : '';
+        const gateBanner = tel.motivo_abstencao === 'rerank_abaixo_do_limiar'
+          ? `<div class="notice notice-warn">Gate determinístico de recusa acionado antes do LLM: Top-1 score (${escapeHtml(tel.rerank_top1_score)}) abaixo do limiar RAG_RERANK_MIN_SCORE (${escapeHtml(tel.limiar_recusa_rerank)}) — 0 tokens gastos.</div>`
+          : '';
         const avisoCitadoBanner = (tel.citou_trecho_com_aviso && tel.citou_trecho_com_aviso.length)
           ? `<div class="notice notice-warn">A resposta citou fonte com aviso de uso: <strong>${escapeHtml(tel.citou_trecho_com_aviso.join(', '))}</strong>.</div>`
           : '';
@@ -3021,6 +3129,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
         const ehSonnetLive = tel.avaliador_fidelidade === 'claude_sonnet';
         const tags = [
           `<span class="tag tag-teal">Método: ${escapeHtml(tel.metodo_efetivo || res.metodo)}</span>`,
+          tel.rerank_top1_score !== null && tel.rerank_top1_score !== undefined
+            ? `<span class="tag">Top-1 score: ${escapeHtml(tel.rerank_top1_score)}</span>`
+            : '',
           `<span class="tag">LLM: ${escapeHtml(tel.llm || res.llm)}</span>`,
           `<span class="tag">Tempo: ${escapeHtml(tel.segundos_total ?? res.segundos_total)}s</span>`,
           ehSonnetLive
@@ -3028,7 +3139,9 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
             : `<span class="tag ${Number(tel.fidelidade_lexica) >= 0.7 ? 'tag-ok' : 'tag-warn'}">Fidelidade léxica: ${escapeHtml(tel.fidelidade_lexica ?? '-')}</span>`,
           `<span class="tag">Relevância: ${escapeHtml(tel.relevancia_efetiva ?? tel.relevancia_lexica ?? '-')}</span>`,
           `<span class="tag ${(tel.citacoes_invalidas || 0) === 0 ? 'tag-ok' : 'tag-danger'}">Citações inválidas: ${escapeHtml(tel.citacoes_invalidas ?? 0)}</span>`,
-          tel.absteve ? `<span class="tag tag-warn">Absteve por falta de evidência</span>` : ''
+          tel.motivo_abstencao === 'rerank_abaixo_do_limiar'
+            ? `<span class="tag tag-warn">Gate recusa (0 tokens)</span>`
+            : (tel.absteve ? `<span class="tag tag-warn">Absteve por falta de evidência</span>` : '')
         ].filter(Boolean).join('');
 
         const trechos = res.trechos_recuperados || [];
@@ -3036,6 +3149,7 @@ Questão 2: Qual é a diferença entre condensação e precipitação?</textarea
           <div class="panel-block">
             ${fallbackBanner}
             ${llmFallbackBanner}
+            ${gateBanner}
             ${avisoCitadoBanner}
             <div class="workbench">
               <div class="workbench-left">

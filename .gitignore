@@ -41,6 +41,8 @@ reports/rag_escolar_baseline.json
 reports/rag_escolar_recusa.json
 reports/ataque_pii.json
 reports/sonnet_judge_cache.jsonl
+reports/rag_funnel_cache.json
+reports/rag_semantic_sim_cache.json
 
 # Frontend Next.js
 frontend/node_modules/

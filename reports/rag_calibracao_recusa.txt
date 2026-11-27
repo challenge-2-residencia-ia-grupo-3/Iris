@@ -1,0 +1,8 @@
+CALIBRAGEM DO LIMIAR DE RECUSA DO RAG (RAG_RERANK_MIN_SCORE)
+Método: qwen3+rerank50
+Limiar recomendado: 0.7281 (critério: meta_recusa_e_cobertura)
+Treino (60%): recusa_fora=0.9583 (23/24) | falsa_recusa=0.0 (0/23)
+Validação (40%): recusa_fora=0.9375 (15/16) | falsa_recusa=0.1333 (2/15)
+
+Sugestão de uso (método qwen3+rerank50):
+  RAG_RERANK_MIN_SCORE=0.7281

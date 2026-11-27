@@ -22,6 +22,7 @@ from iris.security.operational_logger import (
     ZeroPiiLogFormatter,
     _ACTIVE_SENTINEL,
     capture_operational_logs,
+    reset_operational_metrics,
     sentinel_context,
 )
 
@@ -211,6 +212,44 @@ class TestAuditoriaLogsZeroPii(unittest.TestCase):
         self.assertIn("[DADO_CLINICO_SUPRIMIDO]", saida)
         for proibido in ("Gabriel", "123.456.789-09", "metilfenidato"):
             self.assertNotIn(proibido, saida)
+
+    def test_trace_id_rag_backend_e_ops_summary_zero_pii(self) -> None:
+        reset_operational_metrics()
+        with capture_operational_logs() as cap:
+            r_adapt = self.client.post(
+                "/api/v1/agents/adapt",
+                json={
+                    "text": PROVA_COM_PII,
+                    "selected_ids": ["sobrecarga_memoria_trabalho_comandos_multiplos"],
+                    "nivel": 2,
+                    "provider": "extractive",
+                    "metodo_rag": "bm25",
+                },
+            )
+            self.assertEqual(r_adapt.status_code, 200)
+            trace_id = r_adapt.headers.get("X-Trace-Id")
+            self.assertTrue(trace_id)
+
+        eventos = cap.events
+        http_ev = [e for e in eventos if e.get("event") == "http_request" and e.get("path") == "/api/v1/agents/adapt"][-1]
+        agent_ev = [e for e in eventos if e.get("event") == "agent_execution"][-1]
+
+        self.assertEqual(http_ev["trace_id"], trace_id)
+        self.assertEqual(agent_ev["trace_id"], trace_id)
+        self.assertEqual(agent_ev["rag_backend"], "bm25")
+        self.assertEqual(agent_ev["rag_metodo_efetivo"], "bm25")
+        self.assertIn("rerank_top1_score", agent_ev)
+
+        r_ops = self.client.get("/api/v1/eval/ops-summary")
+        self.assertEqual(r_ops.status_code, 200)
+        summary = r_ops.json()
+        self.assertEqual(summary["total_executions"], 1)
+        self.assertEqual(summary["rag_backends"], {"bm25": 1})
+        self.assertIn(trace_id, summary["recent_trace_ids"])
+
+        ops_lower = r_ops.text.casefold()
+        for termo in TERMOS_PROIBIDOS:
+            self.assertNotIn(termo, ops_lower)
 
 
 if __name__ == "__main__":

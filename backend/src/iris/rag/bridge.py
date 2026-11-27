@@ -67,6 +67,21 @@ def garantir_chunks_locais(verbose: bool = False) -> Path:
     return saida
 
 
+def sincronizar_barreiras_chunks(
+    chunks_path: Path | None = None,
+    fontes_path: Path | None = None,
+) -> dict[str, int]:
+    """Delega a sincronização de `barreiras` em `chunks.jsonl` ao módulo offline `ingestao`."""
+    ingestao, consultar, _ = carregar_modulos_rag()
+    stats: dict[str, int] = ingestao.sincronizar_barreiras_chunks(
+        chunks_path=chunks_path,
+        fontes_path=fontes_path,
+    )
+    if hasattr(consultar, "_base") and hasattr(consultar._base, "cache_clear"):
+        consultar._base.cache_clear()
+    return stats
+
+
 def obter_trechos_base() -> list[dict[str, Any]]:
     """Retorna a lista de todos os trechos (`chunks.jsonl`) carregados na base."""
     ingestao, _, _ = carregar_modulos_rag()

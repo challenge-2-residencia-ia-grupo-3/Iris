@@ -15,7 +15,10 @@ import io
 import json
 import logging
 import re
+import threading
 import unicodedata
+import uuid
+from collections import deque
 from dataclasses import dataclass, field
 from typing import Any, Iterator, Mapping, Optional, Sequence
 
@@ -165,6 +168,14 @@ _SAFE_TECHNICAL_IDENTIFIERS = frozenset(
         "method",
         "path",
         "status_code",
+        "trace_id",
+        "rag_backend",
+        "rag_metodo_efetivo",
+        "rerank_top1_score",
+        "pgvector",
+        "bm25",
+        "fallback_bm25",
+        "desconhecido",
         "latency_s",
         "latency_ms",
         "error_code",
@@ -224,6 +235,37 @@ _ACTIVE_SENTINEL: contextvars.ContextVar[frozenset[str]] = contextvars.ContextVa
     "iris_operational_log_sentinel",
     default=frozenset(),
 )
+_TRACE_ID_CTX: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
+    "iris_trace_id",
+    default=None,
+)
+_RECENT_AGENT_EVENTS: deque[dict[str, Any]] = deque(maxlen=200)
+_OPS_LOCK = threading.Lock()
+
+
+def generate_trace_id() -> str:
+    """Gera identificador anônimo curto de correlação por requisição."""
+    return uuid.uuid4().hex[:12]
+
+
+def current_trace_id() -> Optional[str]:
+    """Retorna o `trace_id` ativo no contexto da requisição atual, se houver."""
+    return _TRACE_ID_CTX.get()
+
+
+@contextlib.contextmanager
+def trace_context(trace_id: Optional[str] = None) -> Iterator[str]:
+    """Associa um `trace_id` anônimo ao contexto atual durante a requisição em memória."""
+    tid = (
+        str(trace_id).strip()[:32]
+        if trace_id and re.fullmatch(r"[A-Za-z0-9_\-]{4,32}", str(trace_id).strip())
+        else generate_trace_id()
+    )
+    token = _TRACE_ID_CTX.set(tid)
+    try:
+        yield tid
+    finally:
+        _TRACE_ID_CTX.reset(token)
 
 
 def _normalizar(texto: str) -> str:
@@ -470,6 +512,7 @@ def log_http_operational_event(
     )
     payload: dict[str, Any] = {
         "event": "http_request",
+        "trace_id": current_trace_id(),
         "method": clean_method,
         "path": clean_path,
         "status_code": int(status_code),
@@ -498,6 +541,9 @@ def log_agent_operational_event(
     model: str,
     fallbacks: Sequence[str] = (),
     violacoes: Sequence[str] = (),
+    rag_backend: str = "desconhecido",
+    rag_metodo_efetivo: str = "desconhecido",
+    rerank_top1_score: Optional[float] = None,
 ) -> dict[str, Any]:
     """Emite evento JSON operacional do pipeline multiagentes sem conteúdo textual."""
     configure_zero_pii_logging()
@@ -523,9 +569,23 @@ def log_agent_operational_event(
         "texto_alterado_alem_destaque",
         "outra",
     }))
+    backend_norm = str(rag_backend or "desconhecido").strip().lower()
+    safe_rag_backend = (
+        backend_norm
+        if backend_norm in {"pgvector", "bm25", "fallback_bm25", "desconhecido"}
+        else "desconhecido"
+    )
+    metodo_norm = str(rag_metodo_efetivo or "desconhecido").strip()
+    safe_rag_metodo = (
+        metodo_norm
+        if re.fullmatch(r"[A-Za-z0-9_+:\-]{1,40}", metodo_norm)
+        else "desconhecido"
+    )
+    safe_top1_score = round(float(rerank_top1_score), 4) if rerank_top1_score is not None else None
 
     payload: dict[str, Any] = {
         "event": "agent_execution",
+        "trace_id": current_trace_id(),
         "status_code": 200,
         "nivel": int(nivel),
         "selected_ids": safe_selected,
@@ -545,9 +605,99 @@ def log_agent_operational_event(
         "model": safe_model,
         "fallbacks": safe_fallbacks,
         "violacoes": safe_violacoes,
+        "rag_backend": safe_rag_backend,
+        "rag_metodo_efetivo": safe_rag_metodo,
+        "rerank_top1_score": safe_top1_score,
     }
+    with _OPS_LOCK:
+        _RECENT_AGENT_EVENTS.append(dict(payload))
     logging.getLogger(OPERATIONAL_LOGGER_NAME).info(json.dumps(payload, ensure_ascii=False))
     return payload
+
+
+def reset_operational_metrics() -> None:
+    """Limpa o buffer circular em memória de telemetria operacional (uso em testes)."""
+    with _OPS_LOCK:
+        _RECENT_AGENT_EVENTS.clear()
+
+
+def _percentile(sorted_vals: list[float], pct: float) -> Optional[float]:
+    if not sorted_vals:
+        return None
+    if len(sorted_vals) == 1:
+        return round(sorted_vals[0], 4)
+    idx = min(len(sorted_vals) - 1, max(0, int(round((len(sorted_vals) - 1) * pct))))
+    return round(sorted_vals[idx], 4)
+
+
+def summarize_operational_metrics() -> dict[str, Any]:
+    """Consolida métricas operacionais recentes em memória (100% Zero-PII e Zero-Database)."""
+    with _OPS_LOCK:
+        eventos = list(_RECENT_AGENT_EVENTS)
+
+    total = len(eventos)
+    if total == 0:
+        return {
+            "window_capacity": _RECENT_AGENT_EVENTS.maxlen,
+            "total_executions": 0,
+            "fallback_executions": 0,
+            "fallback_rate": 0.0,
+            "fallbacks_by_category": {},
+            "human_review_questions": 0,
+            "total_questions": 0,
+            "human_review_rate": 0.0,
+            "latency_p50_s": None,
+            "latency_p95_s": None,
+            "trcc_mean": None,
+            "trcc_min": None,
+            "rag_backends": {},
+            "recent_trace_ids": [],
+        }
+
+    fallbacks_by_cat: dict[str, int] = {}
+    rag_backends: dict[str, int] = {}
+    fallback_execs = 0
+    total_questions = 0
+    human_review_questions = 0
+    latencies: list[float] = []
+    all_trcc: list[float] = []
+    trace_ids: list[str] = []
+
+    for ev in eventos:
+        fbs = [str(f) for f in (ev.get("fallbacks") or []) if f]
+        if fbs:
+            fallback_execs += 1
+            for cat in fbs:
+                fallbacks_by_cat[cat] = fallbacks_by_cat.get(cat, 0) + 1
+        bk = str(ev.get("rag_backend") or "desconhecido")
+        rag_backends[bk] = rag_backends.get(bk, 0) + 1
+        total_questions += int(ev.get("total_questoes") or 0)
+        human_review_questions += int(ev.get("requerem_revisao_humana") or 0)
+        latencies.append(float(ev.get("latency_s") or 0.0))
+        for s in ev.get("trcc_scores") or []:
+            if s is not None:
+                all_trcc.append(float(s))
+        tid = ev.get("trace_id")
+        if tid:
+            trace_ids.append(str(tid))
+
+    latencies.sort()
+    return {
+        "window_capacity": _RECENT_AGENT_EVENTS.maxlen,
+        "total_executions": total,
+        "fallback_executions": fallback_execs,
+        "fallback_rate": round(fallback_execs / total, 4),
+        "fallbacks_by_category": fallbacks_by_cat,
+        "human_review_questions": human_review_questions,
+        "total_questions": total_questions,
+        "human_review_rate": round(human_review_questions / max(total_questions, 1), 4),
+        "latency_p50_s": _percentile(latencies, 0.50),
+        "latency_p95_s": _percentile(latencies, 0.95),
+        "trcc_mean": round(sum(all_trcc) / len(all_trcc), 4) if all_trcc else None,
+        "trcc_min": round(min(all_trcc), 4) if all_trcc else None,
+        "rag_backends": rag_backends,
+        "recent_trace_ids": trace_ids[-10:],
+    }
 
 
 @dataclass

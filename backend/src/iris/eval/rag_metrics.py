@@ -14,15 +14,18 @@ Uso via CLI:
 from __future__ import annotations
 
 import argparse
+import functools
+import hashlib
 import json
 import math
+import os
 import re
 from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from iris.config import RAG_BASE_DIR, RAG_PACOTE_DIR
+from iris.config import RAG_BASE_DIR, RAG_PACOTE_DIR, REPO_ROOT
 from iris.rag.bridge import (
     buscar_evidencias,
     carregar_modulos_rag,
@@ -196,6 +199,144 @@ def calcular_similaridade_semantica(texto_a: str, texto_b: str) -> float:
     return round(min(1.0, num / den), 4)
 
 
+SEMANTIC_SIM_CACHE_PATH = REPO_ROOT / "reports" / "rag_semantic_sim_cache.json"
+_MPNET_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+_RE_CIT_TAG = re.compile(r"\[T\d+\]")
+_RE_CHUNK_CODE = re.compile(r"\b[A-Z0-9][A-Z0-9_-]*#\d+\b")
+
+
+def _limpar_texto_referencia_semantica(texto: str) -> str:
+    """Remove marcadores `[Tn]` e códigos de trecho (`RBEE#0043`) antes da comparação semântica."""
+    limpo = _RE_CIT_TAG.sub(" ", texto or "")
+    limpo = _RE_CHUNK_CODE.sub(" ", limpo)
+    limpo = re.sub(r"\s+([,;:.!?])", r"\1", limpo)
+    return re.sub(r"\s+", " ", limpo).strip()
+
+
+def _ler_cache_similaridade() -> dict[str, float]:
+    if not SEMANTIC_SIM_CACHE_PATH.exists():
+        return {}
+    try:
+        dados = json.loads(SEMANTIC_SIM_CACHE_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    entradas = dados.get("pares") if isinstance(dados, dict) else None
+    if not isinstance(entradas, dict):
+        return {}
+    return {str(k): float(v) for k, v in entradas.items() if isinstance(v, (int, float))}
+
+
+def _gravar_cache_similaridade(entradas: dict[str, float]) -> None:
+    try:
+        SEMANTIC_SIM_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        SEMANTIC_SIM_CACHE_PATH.write_text(
+            json.dumps({"modelo": _MPNET_MODEL_NAME, "pares": entradas}, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    except OSError:
+        return
+
+
+@functools.lru_cache(maxsize=1)
+def _carregar_modelo_mpnet():
+    import torch
+    from sentence_transformers import SentenceTransformer
+
+    if torch.cuda.is_available():
+        disp = "cuda"
+    elif getattr(torch.backends, "mps", None) and torch.backends.mps.is_available():
+        disp = "mps"
+    else:
+        disp = "cpu"
+    dtype = torch.float16 if disp == "cuda" else torch.float32
+    modelo = SentenceTransformer(_MPNET_MODEL_NAME, device=disp, model_kwargs={"dtype": dtype})
+    modelo.max_seq_length = 512
+    return modelo
+
+
+def calcular_similaridades_semanticas_em_lote(pares: list[tuple[str, str]]) -> tuple[list[float], str]:
+    """Calcula similaridade semântica em lote usando MPNet local, com cache e fallback léxico."""
+    pares_limpos = [
+        (_limpar_texto_referencia_semantica(a), _limpar_texto_referencia_semantica(b))
+        for a, b in pares
+    ]
+    if not pares_limpos:
+        return [], "heuristica_lexica"
+
+    backend_pref = os.environ.get("IRIS_SEMANTIC_SIM_BACKEND", "auto").strip().lower()
+    if backend_pref not in {"lexical", "lexica", "heuristica"}:
+        try:
+            cache = _ler_cache_similaridade()
+            chaves: list[str] = []
+            textos_faltantes: list[str] = []
+            indices_faltantes: list[int] = []
+            resultados: list[float] = [0.0] * len(pares_limpos)
+
+            for idx, (a, b) in enumerate(pares_limpos):
+                if not a or not b:
+                    chaves.append("")
+                    continue
+                chave = hashlib.sha256(f"mpnet|{a}\x00{b}".encode("utf-8")).hexdigest()[:24]
+                chaves.append(chave)
+                if chave in cache:
+                    resultados[idx] = cache[chave]
+                else:
+                    indices_faltantes.append(idx)
+                    textos_faltantes.extend((a, b))
+
+            if indices_faltantes:
+                modelo = _carregar_modelo_mpnet()
+                unicos = list(dict.fromkeys(textos_faltantes))
+                vetores = modelo.encode(
+                    unicos,
+                    batch_size=32,
+                    normalize_embeddings=True,
+                    show_progress_bar=False,
+                    convert_to_numpy=True,
+                )
+                mapa_vec = dict(zip(unicos, vetores))
+                for idx in indices_faltantes:
+                    a, b = pares_limpos[idx]
+                    cosseno = float(sum(float(x) * float(y) for x, y in zip(mapa_vec[a], mapa_vec[b])))
+                    score = round(max(0.0, min(1.0, cosseno)), 4)
+                    resultados[idx] = score
+                    cache[chaves[idx]] = score
+                _gravar_cache_similaridade(cache)
+
+            return resultados, "embeddings_mpnet"
+        except (ImportError, OSError, RuntimeError):
+            if backend_pref == "mpnet":
+                raise
+
+    return [calcular_similaridade_semantica(a, b) for a, b in pares_limpos], "heuristica_lexica"
+
+
+def _metadados_origem_similaridade_e_correcao(sim_backend: str) -> tuple[dict[str, Any], dict[str, Any]]:
+    if sim_backend == "embeddings_mpnet":
+        meta_sim = {
+            "origem": "embeddings_mpnet",
+            "rotulo": "Embeddings (MPNet)",
+            "oficial_ragas": True,
+            "descricao": "Cosseno de embeddings densos locais (paraphrase-multilingual-mpnet-base-v2) com limpeza de códigos de trecho.",
+        }
+        desc_corr = "Média ponderada (60% fidelidade + 40% embeddings MPNet)."
+    else:
+        meta_sim = {
+            "origem": "heuristica_sobreposicao_tokens",
+            "rotulo": "Heurística léxica",
+            "oficial_ragas": False,
+            "descricao": "Fallback léxico (n-gramas de palavras e caracteres) quando MPNet local não está disponível.",
+        }
+        desc_corr = "Média ponderada (60% fidelidade + 40% similaridade léxica)."
+    meta_corr = {
+        "origem": "composta_fidelidade_similaridade",
+        "rotulo": "Composta",
+        "oficial_ragas": False,
+        "descricao": desc_corr,
+    }
+    return meta_sim, meta_corr
+
+
 def verificar_sustentacao_frase_no_trecho(frase: str, trechos_citados_texto: list[str]) -> str:
     """Avaliador intrínseco determinístico (usado no modo `--ao-vivo` sem juiz externo).
 
@@ -257,7 +398,7 @@ def avaliar_pipeline_registrado(gerador: str = "haiku") -> dict[str, Any]:
     mrrs: list[float] = []
     aps_5: list[float] = []
     relevancias_resposta: list[float] = []
-    similaridades_semanticas: list[float] = []
+    pares_sim_por_consulta: list[list[tuple[str, str]]] = []
 
     total_frases_conteudo = 0
     frases_apoiadas_comum = 0
@@ -330,10 +471,13 @@ def avaliar_pipeline_registrado(gerador: str = "haiku") -> dict[str, Any]:
         textos_chunks = " ".join(
             chunks_map[cid]["texto"][:400] for cid in fontes_ids[:3] if cid in chunks_map
         )
-        sim_just = calcular_similaridade_semantica(resposta_texto, ref_justificativa) if ref_justificativa else 0.0
-        sim_outro = calcular_similaridade_semantica(resposta_texto, ref_outro_modelo) if ref_outro_modelo else 0.0
-        sim_ctx = calcular_similaridade_semantica(resposta_texto, textos_chunks) if textos_chunks else 0.0
-        similaridades_semanticas.append(max(sim_just, sim_outro, sim_ctx))
+        pares_q = [
+            (resposta_texto, ref)
+            for ref in (ref_justificativa, ref_outro_modelo, textos_chunks)
+            if ref
+        ]
+        if pares_q:
+            pares_sim_por_consulta.append(pares_q)
 
     p_o, kappa = calcular_kappa_cohen(pares_juizes)
 
@@ -371,6 +515,14 @@ def avaliar_pipeline_registrado(gerador: str = "haiku") -> dict[str, Any]:
         )
     else:
         relevancia_contexto = 0.0
+    pares_planos = [par for grupo in pares_sim_por_consulta for par in grupo]
+    scores_planos, sim_backend = calcular_similaridades_semanticas_em_lote(pares_planos)
+    cursor_sim = 0
+    similaridades_semanticas: list[float] = []
+    for grupo in pares_sim_por_consulta:
+        n_g = len(grupo)
+        similaridades_semanticas.append(max(scores_planos[cursor_sim : cursor_sim + n_g], default=0.0))
+        cursor_sim += n_g
     sim_media = sum(similaridades_semanticas) / max(len(similaridades_semanticas), 1)
     correcao = 0.6 * fidelidade + 0.4 * sim_media
 
@@ -384,11 +536,49 @@ def avaliar_pipeline_registrado(gerador: str = "haiku") -> dict[str, Any]:
         correcao_respostas=round(correcao, 4),
     )
 
+    meta_sim, meta_corr = _metadados_origem_similaridade_e_correcao(sim_backend)
+    METADADOS_ORIGEM_GRAVADO: dict[str, dict[str, Any]] = {
+        "fidelidade": {
+            "origem": "juiz_llm_snapshot",
+            "rotulo": "Juiz Snapshot",
+            "oficial_ragas": False,
+            "descricao": "Fidelidade frase a frase a partir dos vereditos versionados (respostas_vereditos_v2.json).",
+        },
+        "relevancia_respostas": {
+            "origem": "juiz_llm_snapshot",
+            "rotulo": "Juiz Snapshot",
+            "oficial_ragas": False,
+            "descricao": "Classificação de utilidade pelos juízes A e B gravados no snapshot.",
+        },
+        "recuperacao_contexto": {
+            "origem": "deterministico_gabarito",
+            "rotulo": "Determinístico",
+            "oficial_ragas": False,
+            "descricao": "Combinação determinística de hit@5 e recall expandido contra o gabarito.",
+        },
+        "precisao_contexto": {
+            "origem": "formula_ragas_ap5",
+            "rotulo": "Fórmula RAGAS",
+            "oficial_ragas": True,
+            "descricao": "Average Precision@5 (fórmula Context Precision@K do RAGAS sobre o gabarito).",
+        },
+        "relevancia_contexto": {
+            "origem": "f1_derivado",
+            "rotulo": "Derivada",
+            "oficial_ragas": False,
+            "descricao": "Média harmônica F1 entre recuperação e precisão de contexto.",
+        },
+        "similaridade_semantica": meta_sim,
+        "correcao_respostas": meta_corr,
+    }
+
     return {
         "modo": "gravado",
+        "frescor": "snapshot_gravado",
         "metricas_relatorio_iris": asdict(relatorio_iris),
         "metricas_mercado_ragas": asdict(metricas_mercado),
         "notas_0_a_10": metricas_mercado.to_scores_10(),
+        "metadados_origem": METADADOS_ORIGEM_GRAVADO,
     }
 
 
@@ -425,7 +615,7 @@ def avaliar_pipeline_ao_vivo(
     aps_5: list[float] = []
     fidelidades: list[float] = []
     relevancias: list[float] = []
-    similaridades: list[float] = []
+    pares_sim_ao_vivo: list[tuple[str, str]] = []
     total_invalidas = 0
     total_sem_cit = 0
     detalhes_consultas: list[dict[str, Any]] = []
@@ -508,8 +698,7 @@ def avaliar_pipeline_ao_vivo(
         relevancias.append(rel_q_final)
 
         just = gab.get("justificativa", "") or " ".join(t["trecho"][:200] for t in trechos_entregues[:2])
-        sim_q = calcular_similaridade_semantica(resposta_texto, just)
-        similaridades.append(sim_q)
+        pares_sim_ao_vivo.append((resposta_texto, just))
 
         trechos_detalhados: list[dict[str, Any]] = []
         for idx, t_item in enumerate(trechos_entregues, start=1):
@@ -558,6 +747,7 @@ def avaliar_pipeline_ao_vivo(
     m_hit = sum(atendidas) / max(len(atendidas), 1)
     m_mrr = sum(mrrs) / max(len(mrrs), 1)
     m_ap = sum(aps_5) / max(len(aps_5), 1)
+    similaridades, sim_backend = calcular_similaridades_semanticas_em_lote(pares_sim_ao_vivo)
     m_fid = sum(fidelidades) / max(len(fidelidades), 1)
     m_rel = sum(relevancias) / max(len(relevancias), 1)
     m_sim = sum(similaridades) / max(len(similaridades), 1)
@@ -575,8 +765,46 @@ def avaliar_pipeline_ao_vivo(
         correcao_respostas=round(corr, 4),
     )
 
+    eh_sonnet = avaliador_efetivo == "claude_sonnet"
+    meta_sim_ao_vivo, meta_corr_ao_vivo = _metadados_origem_similaridade_e_correcao(sim_backend)
+    metadados_origem_ao_vivo: dict[str, dict[str, Any]] = {
+        "fidelidade": {
+            "origem": "juiz_sonnet" if eh_sonnet else "heuristica_lexica",
+            "rotulo": "Juiz LLM (Sonnet)" if eh_sonnet else "Heurística léxica",
+            "oficial_ragas": False,
+            "descricao": "Avaliação ao vivo frase a frase contra os trechos citados.",
+        },
+        "relevancia_respostas": {
+            "origem": "juiz_sonnet" if eh_sonnet else "heuristica_lexica",
+            "rotulo": "Juiz LLM (Sonnet)" if eh_sonnet else "Heurística léxica",
+            "oficial_ragas": False,
+            "descricao": "Aderência da resposta à pergunta na execução ao vivo.",
+        },
+        "recuperacao_contexto": {
+            "origem": "deterministico_gabarito",
+            "rotulo": "Determinístico",
+            "oficial_ragas": False,
+            "descricao": "Hit@5 e recall@5 contra os trechos relevantes do gabarito.",
+        },
+        "precisao_contexto": {
+            "origem": "formula_ragas_ap5",
+            "rotulo": "Fórmula RAGAS",
+            "oficial_ragas": True,
+            "descricao": "Average Precision@5 (fórmula Context Precision@K do RAGAS).",
+        },
+        "relevancia_contexto": {
+            "origem": "f1_derivado",
+            "rotulo": "Derivada",
+            "oficial_ragas": False,
+            "descricao": "Média harmônica F1 entre recuperação e precisão de contexto.",
+        },
+        "similaridade_semantica": meta_sim_ao_vivo,
+        "correcao_respostas": meta_corr_ao_vivo,
+    }
+
     return {
         "modo": "ao_vivo",
+        "frescor": "execucao_ao_vivo",
         "avaliador_fidelidade": avaliador_efetivo,
         "sonnet_judge": sonnet_status,
         "n_consultas_avaliadas": len(itens_avaliar),
@@ -590,6 +818,7 @@ def avaliar_pipeline_ao_vivo(
         },
         "metricas_mercado_ragas": asdict(mercado),
         "notas_0_a_10": mercado.to_scores_10(),
+        "metadados_origem": metadados_origem_ao_vivo,
         "detalhes_consultas": detalhes_consultas,
     }
 

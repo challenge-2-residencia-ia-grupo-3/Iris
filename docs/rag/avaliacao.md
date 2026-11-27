@@ -288,3 +288,47 @@ Os comandos são executados a partir de `rag/iris-rag/pacote/`, com o banco em e
 | Experimentos adicionais | `python medir_hyde.py`; `python medir_sem_abda.py` | `../../outputs/28` a `35` | Não verificada |
 
 As saídas completas dos avaliadores não são distribuídas por conterem passagens de documentos de licença restrita. As respostas, as classificações e as passagens verificadas utilizadas neste documento estão registradas em `respostas_medidas.json`, `respostas_vereditos_v2.json`, `respostas_passagens_v2.json` e `respostas_vereditos_cruzado.json`.
+
+## 9. Métricas do Painel (0 a 10), Funil Vivo em 4 Gavetas e Calibragem de Recusa (#156)
+
+A Aba 1 do playground (`backend/src/iris/static/playground.html`, servida por `backend/src/iris/eval/rag_metrics.py`) apresenta os seis indicadores oficiais da seção 3 seguidos por uma tabela de sete métricas na escala de `0,0` a `10,0`, cada uma acompanhada pelo carimbo `metadados_origem` e pelo indicador de frescor (`snapshot_gravado` vs. `commit_atual`).
+
+### 9.1 Como interpretar os tetos e a tabela de 7 métricas (0 a 10)
+
+- **Teto do `Recall@5` (`0,4206` no snapshot do Haiku):** como o gabarito reúne `167` trechos relevantes em `38` consultas (~`4,4` por pergunta, com várias consultas acima de 5 trechos), é matematicamente impossível atingir `1,0` entregando apenas `k=5`. O acaso puro seria `0,004` (`100x` abaixo); o gargalo acionável concentra-se nas consultas de prática docente/estratégia.
+- **Interpretação do `MRR` (`0,593`):** equivale a encontrar o primeiro trecho relevante, em média, entre a **1ª e a 2ª posição** (`1/1 = 1,0`, `1/2 = 0,5`).
+
+| # | Métrica no painel | Origem | Fórmula implementada (`rag_metrics.py`) | Como interpretar |
+|---|---|---|---|---|
+| 1 | **Fidelidade** | `Juiz Snapshot` | `pct_apoiadas + 0,5 * pct_parciais` sobre os vereditos gravados dos juízes A e B (`respostas_vereditos_v2.json`) | Mede ancoragem real nos trechos (`9,0/10` com zero frases não sustentadas em consenso) |
+| 2 | **Relevância da resposta** | `Juiz Snapshot` | Média da nota dos juízes A e B (`sim=1,0`, `em_parte=0,65`, `nao=0,0`; `1,0` em recusa correta) | Mede utilidade direta para a consulta docente (`9,3/10`) |
+| 3 | **Recuperação de contexto** | `Determinístico` | `0,5 * consultas_atendidas + 0,5 * recall_expandido@5` contra o gabarito | Combina acerto de ao menos 1 trecho (`86,8%`) com o `Recall@5` (limitado pelo teto de `k=5`) |
+| 4 | **Precisão de contexto** | `Fórmula RAGAS` | Average Precision@5 (`Context Precision@K`) ponderada pela posição no Top-5 | Puxada para baixo pelas 5 consultas que não trouxeram relevante no Top-5 (`score = 0`); nas 33 atendidas a ordenação no topo é alta |
+| 5 | **Relevância de contexto** | `Derivada` | Média harmônica `F1` entre as métricas 3 e 4 (`2*rec*prec / (rec+prec)`) | Não é uma métrica independente; acompanha matematicamente as notas 3 e 4 |
+| 6 | **Similaridade semântica** | `Embeddings (MPNet)` (ou `Heurística léxica` em fallback) | Cosseno de embeddings densos locais (`paraphrase-multilingual-mpnet-base-v2`, com limpeza de códigos de trecho e cache em disco) contra justificativa/referência/trechos; cai para n-gramas léxicos se `sentence-transformers` não estiver disponível | Mede semelhança de significado sem custo de API; com o fallback léxico puro, paráfrases boas tendem a ficar entre `6,0` e `7,0` |
+| 7 | **Correção geral** | `Composta` | `0,6 * Fidelidade + 0,4 * Similaridade semântica` | Síntese ponderada combinando ancoragem (`Fidelidade`) e proximidade de significado (`Similaridade semântica`) |
+
+### 9.2 Funil Vivo de Causa Raiz em 4 Gavetas e Tracing Zero-PII
+
+Diferente das métricas de snapshot acima (que medem a fotografia versionada do artigo), o módulo `backend/src/iris/eval/rag_funnel.py` (exposto em `GET /api/v1/eval/rag-funnel` e exibido no card **Funil de Causa Raiz do RAG** da Aba 1, com cache por conteúdo indexado por commit, SHA-256 de `chunks.jsonl`, método e limiar do gate) mede ao vivo contra o índice atual onde cada falha acontece:
+
+1. **Corpus & Barreiras:** cobertura de `barreiras` por documento aceito e por trecho buscável em `chunks.jsonl` (rebaixando documentos normativos da Parte C e textos transversais/neuromitos para aviso informativo).
+2. **Busca 1ª Etapa (Top-50):** `Recall@50` e percentual de consultas atendidas, estratificados por tipo.
+3. **Reordenação (Top-5):** `Recall@5`, `MRR`, `AP@5`, `IDBasedContextPrecision` oficial do RAGAS e perda do Top-50 para o Top-5.
+4. **Geração & Gate de Recusa:** status de `RAG_RERANK_MIN_SCORE`, calibragem disponível e resumo da geração.
+
+Em runtime, cada requisição `/api/v1/` recebe um identificador único `X-Trace-Id` via `ContextVar` (`backend/src/iris/security/operational_logger.py`) e alimenta um resumo operacional em memória **Zero-PII** (`GET /api/v1/eval/ops-summary`) com contagem de execuções, backends efetivos, taxa de fallback e latências p50/p95.
+
+### 9.3 Calibragem de barreiras e gate determinístico de recusa (`#156`)
+
+- **Marcação de barreiras no catálogo e índice:** a classificação criteriosa dos 5 documentos pedagógicos que estavam sem etiqueta em `rag/iris-rag/fontes.json` (`ZERBATO-MENDES-2018-DUA-INCLUSAO-ESCOLAR`, `NCEO-BRIEF33-ACOMODACAO-MODIFICACAO-2024`, `DIOGO-2022-ADAPTACAO-CURRICULAR-RBEE`, `SMALEJACOBSE-2019-DIFERENCIACAO-RS`, `INEP-CARTILHA-REDACAO-ENEM-2026-DISLEXIA`), sincronizada via `ingestao.sincronizar_barreiras_chunks()` e `banco_pg.py --apenas-barreiras`, elevou a cobertura de **`1.355` → `1.522` trechos buscáveis** com barreira (`1.397` → `1.564` linhas em `iris_trechos`), mantendo os 12 documentos normativos/neuromitos sem etiqueta específica (`test_filtro_caracteristica.py` verde).
+- **Impacto da busca densa + cross-encoder no Funil de 4 Gavetas (índice local atual com `pgvector`):**
+
+| Método | Recall@50 | Consultas atendidas (Top-50) | Recall@5 | MRR | RAGAS ID |
+|---|---|---|---|---|---|
+| `bm25` (léxico local) | `0,324` | `52,6%` | `0,1605` | `0,264` | `—` |
+| `qwen3+rerank50` (`pgvector` + cross-encoder) | **`0,5727`** | **`81,6%`** | **`0,3434`** | **`0,525`** | **`0,2842`** |
+
+- **Gate determinístico de recusa (`RAG_RERANK_MIN_SCORE`):** implementado em `rag/iris-rag/pacote/gerar.py` (desligado por padrão; bloqueia antes de chamar o LLM com `motivo_abstencao='rerank_abaixo_do_limiar'` e `0` tokens gastos). A calibragem determinística em `backend/src/iris/eval/calibrar_recusa.py` (divisão 60% treino / 40% validação entre `gabarito_rascunho_v0.json` e `data/benchmarks/perguntas_fora_da_base_v1.json`, salva em `reports/rag_calibracao_recusa.{json,txt}`) obteve **`RAG_RERANK_MIN_SCORE = 0.7281`** (`meta_recusa_e_cobertura`):
+  - **Treino (60%):** recusa fora da base = `95,83%` (`23/24`) | falsa recusa dentro da base = `0,0%` (`0/23`);
+  - **Validação reservada (40%):** recusa fora da base = `93,75%` (`15/16`) | falsa recusa dentro da base = `13,33%` (`2/15`).
