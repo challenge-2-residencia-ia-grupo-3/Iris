@@ -27,7 +27,8 @@ body {
    Opera sobre a base escura (.dark) com fundo preto puro (#000000), cards #0a0a0a
    e bordas finas de 1px, mantendo todos os títulos brancos visíveis. */
 html.high-contrast body,
-html.high-contrast .dark\:bg-\[\#0D0221\] {
+html.high-contrast .dark\:bg-\[\#0D0221\],
+html.high-contrast .dark\:bg-\[\#14072E\] {
   background-color: #000000 !important;
   color: #ffffff !important;
 }

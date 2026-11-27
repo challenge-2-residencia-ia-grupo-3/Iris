@@ -495,7 +495,7 @@ export function Step3ScaffoldingLevel({
                 <button
                   type="button"
                   onClick={handleBackToStep2}
-                  className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors"
+                  className="inline-flex min-h-[44px] items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors"
                 >
                   <RotateCcw className="w-3 h-3" aria-hidden="true" />
                   <span>Modificar escopo</span>
@@ -568,7 +568,7 @@ export function Step3ScaffoldingLevel({
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-[#D97706] text-white">
+                      <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-[#9A4E00] text-white">
                         Nível 2 — Moderado
                       </span>
                       <div className="flex items-center gap-1" aria-hidden="true">
@@ -612,7 +612,7 @@ export function Step3ScaffoldingLevel({
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-[#E35336] text-white">
+                      <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-[#B73318] text-white">
                         Nível 3 — Intensivo
                       </span>
                       <div className="flex items-center gap-1" aria-hidden="true">
@@ -701,8 +701,8 @@ export function Step3ScaffoldingLevel({
                               </ul>
                             </div>
                             <div className="space-y-1.5">
-                              <span className="font-semibold text-[#E35336] flex items-center gap-1.5">
-                                <Shield className="w-3.5 h-3.5 text-[#E35336]" />
+                              <span className="font-semibold text-[#B53319] dark:text-[#FF9E88] flex items-center gap-1.5">
+                                <Shield className="w-3.5 h-3.5 text-[#B53319] dark:text-[#FF9E88]" />
                                 <span>Restrições de escopo</span>
                               </span>
                               <ul className="list-disc list-inside text-[#0D0221]/75 dark:text-white/75 space-y-1 pl-1">
@@ -758,7 +758,7 @@ export function Step3ScaffoldingLevel({
                   <button
                     type="button"
                     onClick={handleReextractFromStep1}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors self-start flex-shrink-0"
+                    className="inline-flex min-h-[44px] items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 transition-colors self-start flex-shrink-0"
                   >
                     <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>Reextrair do material</span>
@@ -785,22 +785,22 @@ export function Step3ScaffoldingLevel({
                       {conceitosObrigatorios.map((termo) => (
                         <span
                           key={termo}
-                          className="inline-flex items-center gap-1.5 pl-3 pr-2 py-1 rounded-full text-xs font-medium bg-[#F5EDF0]/90 dark:bg-white/10 text-[#0D0221] dark:text-white border border-[#335C67]/15 dark:border-white/15"
+                          className="inline-flex min-h-[44px] items-center gap-1.5 pl-3 pr-1 rounded-full text-xs font-medium bg-[#F5EDF0]/90 dark:bg-white/10 text-[#0D0221] dark:text-white border border-[#335C67]/15 dark:border-white/15"
                         >
                           <span>{termo}</span>
                           <button
                             type="button"
                             onClick={() => handleRemoveConceito(termo)}
                             aria-label={`Remover conceito ${termo}`}
-                            className="p-0.5 rounded-full text-[#0D0221]/45 dark:text-white/50 hover:text-red-600 dark:hover:text-red-300 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-full text-[#0D0221]/65 dark:text-white/70 hover:text-red-700 dark:hover:text-red-300 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                           >
-                            <X className="w-3 h-3" aria-hidden="true" />
+                            <X className="w-3.5 h-3.5" aria-hidden="true" />
                           </button>
                         </span>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-xs text-[#0D0221]/50 dark:text-white/50">
+                    <p className="text-xs text-[#0D0221]/70 dark:text-white/75">
                       Nenhum termo adicionado.
                     </p>
                   )}
@@ -818,12 +818,12 @@ export function Step3ScaffoldingLevel({
                         }
                       }}
                       placeholder="Adicionar conceito (pressione Enter)..."
-                      className="flex-1 rounded-lg bg-[#FAFAFC] dark:bg-[#0D0221]/80 border border-[#335C67]/20 dark:border-white/15 px-3.5 py-2 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:outline-none focus:border-[#E35336] transition-colors"
+                      className="flex-1 min-h-[44px] rounded-lg bg-[#FAFAFC] dark:bg-[#0D0221]/80 border border-[#335C67]/20 dark:border-white/15 px-3.5 py-2 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/55 dark:placeholder:text-white/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] focus:border-[#E35336] transition-colors"
                     />
                     <button
                       type="button"
                       onClick={handleAddConceito}
-                      className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#335C67] hover:bg-[#26464f] text-white transition-colors flex-shrink-0"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#335C67] hover:bg-[#26464f] text-white transition-colors flex-shrink-0"
                     >
                       <Plus className="w-3.5 h-3.5" aria-hidden="true" />
                       <span>Adicionar</span>
@@ -845,14 +845,14 @@ export function Step3ScaffoldingLevel({
                     value={objetivoAvaliativo}
                     onChange={(e) => setObjetivoAvaliativo(e.target.value)}
                     placeholder="Ex.: Avaliar interpretação de texto e inferência (EF67LP08)..."
-                    className="w-full rounded-lg bg-[#FAFAFC] dark:bg-[#0D0221]/80 border border-[#335C67]/20 dark:border-white/15 px-3.5 py-2.5 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/40 dark:placeholder:text-white/40 focus:outline-none focus:border-[#E35336] transition-colors resize-none"
+                    className="w-full min-h-[44px] rounded-lg bg-[#FAFAFC] dark:bg-[#0D0221]/80 border border-[#335C67]/20 dark:border-white/15 px-3.5 py-2.5 text-xs sm:text-sm text-[#0D0221] dark:text-white placeholder:text-[#0D0221]/55 dark:placeholder:text-white/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] focus:border-[#E35336] transition-colors resize-none"
                   />
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="text-[11px] text-[#0D0221]/55 dark:text-white/55">
+                  <span className="text-[11px] text-[#0D0221]/70 dark:text-white/75">
                     Preservação mínima do conteúdo:{" "}
-                    <strong className="font-semibold text-[#0D0221]/80 dark:text-white/80">
+                    <strong className="font-semibold text-[#0D0221] dark:text-white">
                       {Math.round(
                         (calibrationResult?.invariantes_auditor?.trcc_minimo_exigido || 0.95) * 100
                       )}
@@ -863,7 +863,7 @@ export function Step3ScaffoldingLevel({
                   <button
                     type="button"
                     onClick={handleValidateLocksExplicitly}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 border border-[#335C67]/20 dark:border-white/15 transition-colors"
+                    className="inline-flex min-h-[44px] items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 border border-[#335C67]/20 dark:border-white/15 transition-colors"
                   >
                     <ShieldCheck className="w-3.5 h-3.5 text-[#E35336]" aria-hidden="true" />
                     <span>Validar Trava Curricular</span>
@@ -920,7 +920,7 @@ export function Step3ScaffoldingLevel({
                                 .nivel_sugerido as ScaffoldingLevel
                             )
                           }
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#335C67] text-white hover:bg-[#26464f] transition-colors"
+                          className="inline-flex min-h-[44px] items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-[#335C67] text-white hover:bg-[#26464f] transition-colors"
                         >
                           <Sliders className="w-3.5 h-3.5" aria-hidden="true" />
                           <span>
@@ -939,7 +939,7 @@ export function Step3ScaffoldingLevel({
               <button
                 type="button"
                 onClick={handleBackToStep2}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#FAF7F8] dark:bg-white/10 border border-[#335C67]/20 dark:border-white/15 hover:bg-[#335C67]/10 text-[#0D0221] dark:text-white transition-colors"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#FAF7F8] dark:bg-white/10 border border-[#335C67]/20 dark:border-white/15 hover:bg-[#335C67]/10 text-[#0D0221] dark:text-white transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" aria-hidden="true" />
                 <span>Voltar para Etapa 2</span>
@@ -949,7 +949,7 @@ export function Step3ScaffoldingLevel({
                 type="button"
                 disabled={isCalibrating || !calibrationResult || Boolean(validationError)}
                 onClick={handleConfirmAndAdvance}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm text-white bg-[#C9411F] hover:bg-[#b03618] disabled:opacity-45 disabled:cursor-not-allowed transition-colors"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm text-white bg-[#C9411F] hover:bg-[#b03618] disabled:opacity-45 disabled:cursor-not-allowed transition-colors"
               >
                 {isCalibrating ? (
                   <>

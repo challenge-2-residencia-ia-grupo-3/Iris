@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   AlertCircle,
   ArrowRight,
+  Contrast,
   Eye,
   EyeOff,
   FolderClock,
@@ -39,7 +40,7 @@ interface FormErrors {
  */
 export default function HomePage() {
   const router = useRouter();
-  const { darkMode, toggleDarkMode } = useTheme();
+  const { darkMode, toggleDarkMode, highContrast, toggleHighContrast } = useTheme();
   const { teacher, isAuthenticated, isLoading: authLoading, providers, login, register, logout } = useAuth();
 
   const [showIntro, setShowIntro] = useState(true);
@@ -319,12 +320,31 @@ export default function HomePage() {
           id="conteudo-principal"
           className="relative flex flex-col justify-between p-6 sm:p-12 lg:p-16 bg-[#FAF7F9] dark:bg-[#14072E] min-h-[540px] lg:min-h-screen transition-colors duration-200"
         >
-          {/* Canto superior direito: Botão acessível de alternância de tema */}
+          {/* Canto superior direito: Botões acessíveis de Alto Contraste e alternância de tema */}
           <div
-            className={`w-full flex justify-end transition-opacity duration-500 ease-out delay-100 motion-reduce:transition-none ${
+            className={`w-full flex items-center justify-end gap-2 transition-opacity duration-500 ease-out delay-100 motion-reduce:transition-none ${
               loginRevealed ? "opacity-100" : "opacity-0"
             }`}
           >
+            <button
+              type="button"
+              onClick={toggleHighContrast}
+              aria-pressed={highContrast}
+              aria-label="Alternar modo de alto contraste"
+              title="Alternar modo de alto contraste (WCAG 2.1 AA)"
+              className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 px-3 rounded-full text-xs font-semibold border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] cursor-pointer ${
+                highContrast
+                  ? "bg-white text-[#0D0221] border-white"
+                  : "bg-white/90 dark:bg-[#0D0221]/90 text-[#0D0221] dark:text-white border-black/15 dark:border-white/20 hover:border-[#E35336]"
+              }`}
+            >
+              <Contrast
+                className={`w-4 h-4 ${highContrast ? "text-[#0D0221]" : "text-[#B53319] dark:text-[#FF8A70]"}`}
+                aria-hidden="true"
+              />
+              <span className="hidden sm:inline leading-none">Alto Contraste</span>
+            </button>
+
             <button
               type="button"
               role="switch"
@@ -335,7 +355,7 @@ export default function HomePage() {
                   : "Modo claro ativado. Pressione Enter ou Espaço para mudar para o modo escuro."
               }
               onClick={toggleDarkMode}
-              className="inline-flex items-center gap-1.5 p-1 rounded-full border border-black/15 dark:border-white/20 bg-white/90 dark:bg-[#0D0221]/90 shadow-sm hover:border-[#E35336] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] transition-all cursor-pointer"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center gap-1.5 px-2 py-1.5 rounded-full border border-black/15 dark:border-white/20 bg-white/90 dark:bg-[#0D0221]/90 shadow-sm hover:border-[#E35336] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] transition-all cursor-pointer"
             >
               <span
                 className={`p-1.5 rounded-full transition-all flex items-center justify-center ${
@@ -614,7 +634,7 @@ export default function HomePage() {
                         aria-label={showPassword ? "Ocultar senha" : "Exibir senha em texto claro"}
                         aria-pressed={showPassword}
                         disabled={isLoading}
-                        className="absolute right-3.5 p-1.5 rounded-lg text-[#4A4358] dark:text-white/60 hover:text-[#0D0221] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] transition-colors"
+                        className="absolute right-1 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-lg text-[#4A4358] dark:text-white/60 hover:text-[#0D0221] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] transition-colors"
                       >
                         {showPassword ? (
                           <EyeOff className="w-4 h-4" aria-hidden="true" />
@@ -645,7 +665,7 @@ export default function HomePage() {
                             "A recuperação automática por e-mail ainda não está configurada. Você pode entrar com Google ou continuar no Modo Convidado."
                           )
                         }
-                        className="text-xs sm:text-sm font-bold text-[#335C67] dark:text-[#8CB6C2] hover:text-[#25434B] dark:hover:text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] rounded-sm transition-colors cursor-pointer"
+                        className="min-h-[44px] inline-flex items-center px-2 text-xs sm:text-sm font-bold text-[#335C67] dark:text-[#8CB6C2] hover:text-[#25434B] dark:hover:text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] rounded-sm transition-colors cursor-pointer"
                       >
                         Esqueci minha senha
                       </button>
@@ -737,7 +757,7 @@ export default function HomePage() {
                       <button
                         type="button"
                         onClick={() => handleSwitchMode("register")}
-                        className="font-bold text-[#335C67] dark:text-[#8CB6C2] hover:text-[#25434B] dark:hover:text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] rounded-sm transition-colors cursor-pointer"
+                        className="min-h-[44px] inline-flex items-center px-2 font-bold text-[#335C67] dark:text-[#8CB6C2] hover:text-[#25434B] dark:hover:text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] rounded-sm transition-colors cursor-pointer"
                       >
                         Criar conta
                       </button>
@@ -748,7 +768,7 @@ export default function HomePage() {
                       <button
                         type="button"
                         onClick={() => handleSwitchMode("login")}
-                        className="font-bold text-[#335C67] dark:text-[#8CB6C2] hover:text-[#25434B] dark:hover:text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] rounded-sm transition-colors cursor-pointer"
+                        className="min-h-[44px] inline-flex items-center px-2 font-bold text-[#335C67] dark:text-[#8CB6C2] hover:text-[#25434B] dark:hover:text-white underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] rounded-sm transition-colors cursor-pointer"
                       >
                         Entrar
                       </button>

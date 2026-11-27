@@ -83,7 +83,7 @@ export function IrisHeader({
             aria-pressed={isHighContrast}
             aria-label="Alternar modo de alto contraste"
             title="Alternar modo de alto contraste (WCAG 2.1 AA)"
-            className={`inline-flex min-h-[44px] items-center justify-center gap-1.5 px-3 rounded-lg text-xs font-semibold border transition-colors ${
+            className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 px-3 rounded-lg text-xs font-semibold border transition-colors ${
               isHighContrast
                 ? "bg-white text-[#0D0221] border-white"
                 : "bg-white/10 hover:bg-white/20 text-white border-white/15"

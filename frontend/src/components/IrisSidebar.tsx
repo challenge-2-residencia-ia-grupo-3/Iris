@@ -140,7 +140,7 @@ export function IrisSidebar({
                   key={step.id}
                   className="rounded-xl bg-[#E35336]/10 dark:bg-[#E35336]/15 border border-[#E35336]/30 p-2.5 space-y-2"
                 >
-                  <div className="flex items-center gap-2 text-xs font-extrabold text-[#E35336]">
+                  <div className="flex items-center gap-2 text-xs font-extrabold text-[#A93118] dark:text-[#FF9E88]">
                     <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                     <span>{step.label}</span>
                   </div>

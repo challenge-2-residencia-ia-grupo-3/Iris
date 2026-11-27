@@ -557,7 +557,7 @@ export function Step2FunctionalProfile({
                   <button
                     type="button"
                     onClick={onBackToStep1}
-                    className="font-bold text-[#335C67] dark:text-[#9fd0de] underline flex-shrink-0"
+                    className="min-h-[44px] inline-flex items-center px-2 font-bold text-[#335C67] dark:text-[#9fd0de] underline flex-shrink-0"
                   >
                     Revisar Material
                   </button>
@@ -592,7 +592,7 @@ export function Step2FunctionalProfile({
                   type="button"
                   onClick={handleClearSelection}
                   disabled={selectedIds.length === 0}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-black/5 dark:bg-white/10 hover:bg-red-500/15 hover:text-red-700 dark:hover:text-red-300 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                  className="inline-flex min-h-[44px] items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-black/5 dark:bg-white/10 hover:bg-red-500/15 hover:text-red-700 dark:hover:text-red-300 disabled:opacity-40 disabled:pointer-events-none transition-colors"
                 >
                   <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>Limpar</span>
@@ -617,7 +617,7 @@ export function Step2FunctionalProfile({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar ex.: múltiplos comandos, memória, atenção..."
-                className="w-full pl-9 pr-3 py-2.5 rounded-xl text-xs sm:text-sm bg-[#F5EDF0]/70 dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/15 text-[#0D0221] dark:text-white focus:border-[#E35336]"
+                className="w-full min-h-[44px] pl-9 pr-3 py-2.5 rounded-xl text-xs sm:text-sm bg-[#F5EDF0]/70 dark:bg-[#0D0221] border border-[#335C67]/25 dark:border-white/15 text-[#0D0221] dark:text-white focus:border-[#E35336]"
               />
             </div>
 
@@ -635,7 +635,7 @@ export function Step2FunctionalProfile({
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
-                  className="text-xs font-bold text-[#E35336] underline"
+                  className="min-h-[44px] inline-flex items-center px-3 text-xs font-bold text-[#B53319] dark:text-[#FF9E88] underline"
                 >
                   Limpar busca e mostrar todas as {totalCount} características
                 </button>
@@ -650,29 +650,31 @@ export function Step2FunctionalProfile({
                   return (
                     <div
                       key={item.id_caracteristica}
-                      role="checkbox"
-                      aria-checked={isSelected}
-                      tabIndex={0}
-                      onClick={() => handleToggleCharacteristic(item.id_caracteristica)}
-                      onKeyDown={(e) => {
-                        if (e.key === " " || e.key === "Enter") {
-                          e.preventDefault();
-                          handleToggleCharacteristic(item.id_caracteristica);
-                        }
-                      }}
-                      className={`group cursor-pointer rounded-2xl p-4 border-2 transition-all flex flex-col justify-between gap-3 text-left select-none focus:outline-none focus:ring-2 focus:ring-[#E35336] ${
+                      className={`group rounded-2xl p-3 sm:p-4 border-2 transition-all flex flex-col justify-between gap-3 text-left ${
                         isSelected
                           ? "bg-[#E35336]/[0.04] dark:bg-[#1E0E40] border-[#E35336] shadow-sm"
                           : "bg-[#F5EDF0]/40 dark:bg-[#160A30]/80 border-[#335C67]/20 dark:border-white/10 hover:border-[#335C67]/50"
                       }`}
                     >
                       <div className="space-y-2.5">
-                        <div className="flex items-start justify-between gap-2.5">
-                          <div className="flex items-start gap-3 min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <div
+                            role="checkbox"
+                            aria-checked={isSelected}
+                            tabIndex={0}
+                            onClick={() => handleToggleCharacteristic(item.id_caracteristica)}
+                            onKeyDown={(e) => {
+                              if (e.key === " " || e.key === "Enter") {
+                                e.preventDefault();
+                                handleToggleCharacteristic(item.id_caracteristica);
+                              }
+                            }}
+                            className="flex-1 min-w-0 min-h-[44px] flex items-start gap-3 p-1 rounded-xl cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336]"
+                          >
                             <div
                               className={`mt-0.5 flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${
                                 isSelected
-                                  ? "bg-[#E35336] text-white"
+                                  ? "bg-[#C9411F] text-white"
                                   : "bg-white dark:bg-white/10 border border-[#335C67]/25 text-[#335C67] dark:text-white/60"
                               }`}
                             >
@@ -705,12 +707,7 @@ export function Step2FunctionalProfile({
                             }
                             title={isExpanded ? "Ocultar explicação" : "Ver explicação e exemplos"}
                             onClick={(e) => handleToggleDetails(item.id_caracteristica, e)}
-                            onKeyDown={(e) => {
-                              if (e.key === " " || e.key === "Enter") {
-                                e.stopPropagation();
-                              }
-                            }}
-                            className="flex-shrink-0 p-1.5 rounded-lg text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 dark:hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336]"
+                            className="flex-shrink-0 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-lg text-[#335C67] dark:text-[#9fd0de] hover:bg-[#335C67]/10 dark:hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336]"
                           >
                             {isExpanded ? (
                               <ChevronUp className="w-4 h-4" aria-hidden="true" />
@@ -807,7 +804,7 @@ export function Step2FunctionalProfile({
                   type="button"
                   disabled={selectedCount === 0}
                   onClick={() => navigateToSubStep("b")}
-                  className="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 disabled:opacity-45 disabled:cursor-not-allowed text-[#0D0221] dark:text-white transition-colors"
+                  className="min-h-[44px] px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F5EDF0] dark:bg-white/10 hover:bg-[#335C67]/20 disabled:opacity-45 disabled:cursor-not-allowed text-[#0D0221] dark:text-white transition-colors"
                 >
                   Adicionar Interesses (Opcional)
                 </button>
@@ -815,7 +812,7 @@ export function Step2FunctionalProfile({
                   type="button"
                   disabled={selectedCount === 0 || isSubmitting}
                   onClick={handleConfirmAndAdvance}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#E35336] hover:bg-[#c94429] disabled:opacity-45 disabled:cursor-not-allowed shadow-sm transition-all"
+                  className="inline-flex min-h-[44px] items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-[#C9411F] hover:bg-[#b03618] disabled:opacity-45 disabled:cursor-not-allowed shadow-sm transition-all"
                 >
                   {isSubmitting ? (
                     <>
@@ -872,7 +869,7 @@ export function Step2FunctionalProfile({
                   <span>1. Interesses Temáticos (Opcional)</span>
                 </div>
                 {selectedInterests.length > 0 && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#E35336]/15 text-[#E35336]">
+                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#E35336]/15 text-[#A93118] dark:text-[#FF9E88]">
                     {selectedInterests.length} {selectedInterests.length === 1 ? "selecionado" : "selecionados"}
                   </span>
                 )}
@@ -893,9 +890,9 @@ export function Step2FunctionalProfile({
                       aria-pressed={isActive}
                       title={interest.descricao}
                       onClick={() => handleToggleInterest(interest.id)}
-                      className={`px-3.5 py-2.5 rounded-xl text-xs font-bold border-2 transition-all active:scale-[0.98] flex items-center justify-between gap-2.5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
+                      className={`min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-bold border-2 transition-all active:scale-[0.98] flex items-center justify-between gap-2.5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E35336] ${
                         isActive
-                          ? "bg-[#E35336] text-white border-[#E35336] shadow-sm"
+                          ? "bg-[#C9411F] text-white border-[#C9411F] shadow-sm"
                           : "bg-[#F5EDF0]/65 dark:bg-white/5 text-[#0D0221] dark:text-white border-[#335C67]/20 dark:border-white/15 hover:border-[#E35336]/60 hover:bg-[#E35336]/[0.05]"
                       }`}
                     >

@@ -143,7 +143,7 @@ export function PerfilImport() {
             onClick={() => inputRef.current?.click()}
             disabled={carregando}
             aria-describedby={`${inputId}-ajuda`}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#335C67] hover:bg-[#274851] text-white disabled:opacity-60 transition-colors"
+            className="inline-flex min-h-[44px] items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#335C67] hover:bg-[#274851] text-white disabled:opacity-60 transition-colors"
           >
             {carregando ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
@@ -203,7 +203,7 @@ export function PerfilImport() {
               <button
                 type="button"
                 onClick={aplicar}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#E35336] hover:bg-[#C8432A] text-white transition-colors"
+                className="inline-flex min-h-[44px] items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#C9411F] hover:bg-[#b03618] text-white transition-colors"
               >
                 <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
                 Aplicar ao fluxo
@@ -211,7 +211,7 @@ export function PerfilImport() {
               <button
                 type="button"
                 onClick={cancelarPrevia}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#335C67]/40 hover:bg-[#335C67]/10 transition-colors"
+                className="inline-flex min-h-[44px] items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#335C67]/40 hover:bg-[#335C67]/10 transition-colors"
               >
                 Cancelar
               </button>
@@ -233,7 +233,7 @@ export function PerfilImport() {
             <button
               type="button"
               onClick={removerAplicado}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-emerald-700/40 hover:bg-emerald-700/10 transition-colors"
+              className="inline-flex min-h-[44px] items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-emerald-700/40 hover:bg-emerald-700/10 transition-colors"
             >
               <Undo2 className="w-3.5 h-3.5" aria-hidden="true" />
               Remover perfil importado

@@ -444,6 +444,9 @@ export function Step1MaterialIntake({
         id={fileInputId}
         type="file"
         accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+        hidden
+        tabIndex={-1}
+        aria-label="Selecionar arquivo de material didático (.pdf, .docx ou .txt)"
         onChange={handleFileInputChange}
         className="hidden"
       />
@@ -517,7 +520,6 @@ export function Step1MaterialIntake({
               <div
                 role="button"
                 tabIndex={0}
-                aria-label="Área de envio de arquivo. Arraste e solte um arquivo .pdf, .docx ou .txt aqui ou pressione Enter para selecionar do dispositivo."
                 aria-describedby="formatos-suportados-hint"
                 onClick={() => fileInputRef.current?.click()}
                 onKeyDown={(e) => {
@@ -534,7 +536,7 @@ export function Step1MaterialIntake({
                     : "border-[#335C67]/30 dark:border-white/20 hover:border-[#E35336] bg-[#F5EDF0]/45 dark:bg-white/5"
                 }`}
               >
-                <div className="w-11 h-11 rounded-xl bg-[#E35336]/15 text-[#E35336] flex items-center justify-center flex-shrink-0">
+                <div className="w-11 h-11 rounded-xl bg-[#E35336]/15 text-[#B53319] dark:text-[#FF9E88] flex items-center justify-center flex-shrink-0">
                   {isProcessing ? (
                     <Loader2 className="w-6 h-6 animate-spin" aria-hidden="true" />
                   ) : (
@@ -548,8 +550,8 @@ export function Step1MaterialIntake({
                       ? "Solte o arquivo aqui para extrair o texto"
                       : "Arraste e solte sua atividade aqui"}
                   </p>
-                  <p className="text-xs text-[#0D0221]/70 dark:text-white/70">
-                    ou <span className="text-[#E35336] font-bold underline">clique para selecionar do dispositivo</span>
+                  <p className="text-xs text-[#0D0221]/75 dark:text-white/75">
+                    ou <span className="text-[#B53319] dark:text-[#FF9E88] font-bold underline">clique para selecionar do dispositivo</span>
                   </p>
                 </div>
               </div>
@@ -600,7 +602,7 @@ export function Step1MaterialIntake({
               {/* Divisor discreto entre upload e colagem */}
               <div className="relative flex items-center py-0.5" aria-hidden="true">
                 <div className="flex-grow border-t border-[#335C67]/15 dark:border-white/15" />
-                <span className="flex-shrink mx-3 text-[11px] font-semibold uppercase tracking-wider text-[#0D0221]/50 dark:text-white/50">
+                <span className="flex-shrink mx-3 text-[11px] font-semibold uppercase tracking-wider text-[#0D0221]/70 dark:text-white/75">
                   ou cole o material abaixo
                 </span>
                 <div className="flex-grow border-t border-[#335C67]/15 dark:border-white/15" />
