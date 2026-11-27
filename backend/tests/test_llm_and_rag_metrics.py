@@ -4,6 +4,8 @@ from __future__ import annotations
 import os
 import unittest
 
+from unittest import mock
+
 from iris.core.llm_client import (
     ExtractiveFallbackLLMProvider,
     HybridLLMClient,
@@ -11,6 +13,7 @@ from iris.core.llm_client import (
     strip_thinking_tags,
 )
 from iris.eval.rag_metrics import (
+    _limpar_texto_referencia_semantica,
     avaliar_pipeline_ao_vivo,
     avaliar_pipeline_registrado,
     calcular_average_precision_at_k,
@@ -18,6 +21,7 @@ from iris.eval.rag_metrics import (
     calcular_mrr,
     calcular_recall_at_k,
     calcular_similaridade_semantica,
+    calcular_similaridades_semanticas_em_lote,
 )
 
 
@@ -96,6 +100,34 @@ class TestHybridLLMAndRAGMetrics(unittest.TestCase):
                 os.environ.pop("RAG_LLM", None)
             else:
                 os.environ["RAG_LLM"] = old_llm
+
+    def test_limpeza_referencia_e_lote_similaridade_semantica(self) -> None:
+        limpo = _limpar_texto_referencia_semantica(
+            "RBEE#0043 e CAST-DUA-3-0-TEXTO-COMPLETO-PTBR-2024#0063: dividir em etapas [T1]."
+        )
+        self.assertNotIn("RBEE#0043", limpo)
+        self.assertNotIn("CAST-DUA", limpo)
+        self.assertNotIn("[T1]", limpo)
+        self.assertIn("dividir em etapas", limpo)
+
+        par_parafrase = (
+            "Dividir instruções complexas em passos curtos reduz a sobrecarga cognitiva.",
+            "Fragmentar tarefas longas em etapas menores ajuda a memória de trabalho.",
+        )
+        with mock.patch.dict(os.environ, {"IRIS_SEMANTIC_SIM_BACKEND": "lexical"}, clear=False):
+            scores_lex, backend_lex = calcular_similaridades_semanticas_em_lote([par_parafrase])
+            self.assertEqual(backend_lex, "heuristica_lexica")
+            self.assertEqual(len(scores_lex), 1)
+            self.assertGreaterEqual(scores_lex[0], 0.0)
+
+        try:
+            import sentence_transformers  # noqa: F401
+        except ImportError:
+            return
+        with mock.patch.dict(os.environ, {"IRIS_SEMANTIC_SIM_BACKEND": "mpnet"}, clear=False):
+            scores_mpnet, backend_mpnet = calcular_similaridades_semanticas_em_lote([par_parafrase])
+            self.assertEqual(backend_mpnet, "embeddings_mpnet")
+            self.assertGreater(scores_mpnet[0], scores_lex[0])
 
 
 if __name__ == "__main__":
