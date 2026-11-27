@@ -94,7 +94,12 @@ class TestAnthropicProvider(unittest.TestCase):
 
 class TestModeloPorAgente(unittest.TestCase):
     def setUp(self):
-        limpo = {k: v for k, v in os.environ.items() if not k.startswith(("IRIS_LLM", "RAG_LLM"))}
+        limpo = {
+            k: v
+            for k, v in os.environ.items()
+            if not k.startswith(("IRIS_LLM", "IRIS_ANTHROPIC", "IRIS_ALLOW_EXTERNAL", "RAG_LLM"))
+        }
+        limpo["IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM"] = "false"
         self._env = mock.patch.dict(os.environ, limpo, clear=True)
         self._env.start()
         self.addCleanup(self._env.stop)
@@ -113,26 +118,38 @@ class TestModeloPorAgente(unittest.TestCase):
         c = L.get_llm_client(agente="extrator")
         self.assertEqual(c.provider_name, "ollama")
 
-    def test_adaptador_vai_para_o_haiku_quando_ha_chave(self):
+    def test_sem_opt_in_adaptador_e_auditor_ficam_locais_mesmo_com_chave(self):
         os.environ["IRIS_LLM_PROVIDER"] = "ollama"
         os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        os.environ["IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM"] = "false"
+        self.assertEqual(L.get_llm_client(agente="adaptador").provider_name, "ollama")
+        self.assertEqual(L.get_llm_client(agente="auditor").provider_name, "ollama")
+
+    def test_adaptador_vai_para_o_haiku_quando_ha_chave_e_opt_in(self):
+        os.environ["IRIS_LLM_PROVIDER"] = "ollama"
+        os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        os.environ["IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM"] = "true"
         self.assertEqual(L.get_llm_client(agente="adaptador").provider_name, "anthropic")
         self.assertEqual(L.get_llm_client(agente="extrator").provider_name, "ollama")
 
     def test_sem_chave_o_adaptador_fica_no_geral(self):
         os.environ["IRIS_LLM_PROVIDER"] = "ollama"
         os.environ["ANTHROPIC_API_KEY"] = ""
+        os.environ["IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM"] = "true"
         with mock.patch.object(L, "get_settings", return_value=mock.Mock(anthropic_api_key="", llm_provider="ollama",
-                                                                          ollama_url="http://127.0.0.1:11434", groq_api_key="")):
+                                                                          ollama_url="http://127.0.0.1:11434", groq_api_key="",
+                                                                          allow_external_adaptation_llm=True)):
             self.assertEqual(L.get_llm_client(agente="adaptador").provider_name, "ollama")
 
     def test_variavel_do_agente_vence_o_padrao(self):
         os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        os.environ["IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM"] = "true"
         os.environ["IRIS_LLM_PROVIDER_ADAPTADOR"] = "ollama"
         self.assertEqual(L.get_llm_client(agente="adaptador").provider_name, "ollama")
 
     def test_esforco_por_agente(self):
         os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        os.environ["IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM"] = "true"
         os.environ["IRIS_ANTHROPIC_ESFORCO_ESTRATEGISTA"] = "medium"
         os.environ["IRIS_LLM_PROVIDER_ESTRATEGISTA"] = "anthropic"
         self.assertEqual(L.get_llm_client(agente="estrategista")._primary.esforco, "medium")
@@ -142,9 +159,10 @@ class TestModeloPorAgente(unittest.TestCase):
         with self.assertRaises(ValueError):
             L.get_llm_client(agente="revisor")
 
-    def test_auditor_vai_para_o_haiku_quando_ha_chave(self):
+    def test_auditor_vai_para_o_haiku_quando_ha_chave_e_opt_in(self):
         os.environ["IRIS_LLM_PROVIDER"] = "ollama"
         os.environ["ANTHROPIC_API_KEY"] = "chave-de-teste"
+        os.environ["IRIS_ALLOW_EXTERNAL_ADAPTATION_LLM"] = "true"
         c = L.get_llm_client(agente="auditor")
         self.assertEqual(c.provider_name, "anthropic")
         self.assertEqual(c._primary.esforco, "low")

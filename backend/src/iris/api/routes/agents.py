@@ -11,9 +11,11 @@ from typing import Any
 from pydantic import ValidationError
 
 from iris.agents.orchestrator import (
+    ExternalLLMDisabledError,
     MultiAgentMaterialRequest,
     MultiAgentMaterialResponse,
     MultiAgentOrchestrator,
+    get_agents_privacy_status,
 )
 
 logger = logging.getLogger(__name__)
@@ -65,6 +67,12 @@ def adapt_material_multiagent_service(
             code="INVALID_ADAPTATION_REQUEST",
             field="selected_ids",
         ) from err
+    except ExternalLLMDisabledError as err:
+        raise AgentOrchestrationValidationError(
+            detail=str(err),
+            code="EXTERNAL_LLM_DISABLED_BY_POLICY",
+            field="provider",
+        ) from err
     except ValueError as err:
         raise AgentOrchestrationValidationError(
             detail=str(err),
@@ -73,10 +81,22 @@ def adapt_material_multiagent_service(
         ) from err
 
 
+def get_agents_privacy_status_service() -> dict[str, Any]:
+    """Retorna a política de privacidade e o roteamento efetivo dos agentes (#106 / ADR-11)."""
+    return get_agents_privacy_status()
+
+
 try:
     from fastapi import APIRouter, Body, HTTPException, status
 
     router = APIRouter(prefix="/agents", tags=["agents"])
+
+    @router.get(
+        "/privacy-status",
+        summary="Política de privacidade e roteamento externo dos agentes (LGPD / #106)",
+    )
+    async def agents_privacy_status_endpoint() -> dict[str, Any]:
+        return get_agents_privacy_status_service()
 
     @router.post(
         "/adapt",

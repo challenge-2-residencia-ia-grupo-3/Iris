@@ -251,6 +251,42 @@ class TestAuditoriaLogsZeroPii(unittest.TestCase):
         for termo in TERMOS_PROIBIDOS:
             self.assertNotIn(termo, ops_lower)
 
+    def test_log_operacional_registra_chamada_externa_sem_vazar_payload(self) -> None:
+        from iris.agents.orchestrator import MultiAgentOrchestrator
+
+        class _MockAnthropic:
+            provider_name = "anthropic"
+
+            def generate(self, prompt: str, temperature: float = 0.0, max_tokens: int = 900,
+                         system_prompt: str | None = None, json_mode: bool = False) -> LLMResponse:
+                sys_txt = system_prompt or ""
+                if "Agente Extrator Curricular" in sys_txt:
+                    txt = '{"conceitos_obrigatorios":["fotossíntese","cloroplastos","glicose"],"termos_tecnicos_intocaveis":["cloroplastos"],"verbo_comando_bncc":"explicar","operacao_cognitiva":"explicar","habilidade_bncc_sugerida":"EF06CI05","alerta_anti_muleta":"não resolver","justificativa_preservacao":"ok"}'
+                elif "Agente Estrategista" in sys_txt:
+                    txt = '{"intervencoes":[]}'
+                elif "Agente Adaptador Pedagógico" in sys_txt:
+                    txt = '{"texto_adaptado":"1. [ ] **Leia** o texto sobre fotossíntese.\\n2. [ ] **Explique** como os cloroplastos produzem glicose e oxigênio nas folhas.","justificativas":["Checklist aplicado."]}'
+                else:
+                    txt = '{"resolveu_questao":false,"evidencia_resolucao":"","modificacoes_intrusivas":[]}'
+                return LLMResponse(text=txt, provider="anthropic", model="claude-haiku-5-5", prompt_tokens=20, completion_tokens=15)
+
+        with capture_operational_logs() as cap:
+            res = MultiAgentOrchestrator(llm_client=_MockAnthropic()).run(
+                {
+                    "text": PROVA_COM_PII,
+                    "selected_ids": ["sobrecarga_memoria_trabalho_comandos_multiplos"],
+                    "nivel": 2,
+                }
+            )
+
+        self.assertTrue(res.usa_provedor_externo)
+        agent_ev = [e for e in cap.events if e.get("event") == "agent_execution"][-1]
+        self.assertTrue(agent_ev["external_llm_used"])
+        self.assertEqual(agent_ev["providers_by_agent"]["adaptador"], "anthropic")
+        log_lower = cap.text.casefold()
+        for termo in TERMOS_PROIBIDOS:
+            self.assertNotIn(termo, log_lower, f"Termo sensível vazou em chamada externa: {termo!r}")
+
 
 if __name__ == "__main__":
     unittest.main()

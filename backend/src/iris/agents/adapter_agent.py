@@ -21,7 +21,14 @@ import time
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Iterable, Optional
 
-from iris.core.llm_client import HybridLLMClient, LLMResponse, get_llm_client, motivo_de_falha, strip_thinking_tags
+from iris.core.llm_client import (
+    PROVEDORES_EXTERNOS,
+    HybridLLMClient,
+    LLMResponse,
+    get_llm_client,
+    motivo_de_falha,
+    strip_thinking_tags,
+)
 from iris.eval.escopo import ID_COMANDOS_MULTIPLOS, localizar_comandos, verificar_escopo
 from iris.schemas.adaptation import (
     LIMITE_LATENCIA_MS,
@@ -33,6 +40,7 @@ from iris.schemas.adaptation import (
 from iris.schemas.catalog import get_characteristic_by_id
 from iris.schemas.curriculum import CurriculumInvariants
 from iris.security.operational_logger import categorizar_violacoes_escopo
+from iris.security.pii_scrubber import sanitize_pii
 
 if TYPE_CHECKING:
     from iris.eval.benchmark import GoldenQuestion
@@ -322,8 +330,38 @@ class AdapterAgent:
         self.comandos_por_regra = comandos_por_regra
         self.conferente_por_regra = conferente_por_regra
 
+    @staticmethod
+    def _sanitizar_para_externo(request: AdaptationRequest) -> AdaptationRequest:
+        """Defesa em profundidade: garante remoção de PII mesmo quando chamado fora do Orquestrador."""
+        enunciado_limpo, _ = sanitize_pii(request.enunciado)
+        inv = request.invariantes
+        conceitos = [sanitize_pii(c)[0] for c in inv.conceitos_obrigatorios]
+        intocaveis = [sanitize_pii(t)[0] for t in inv.termos_tecnicos_intocaveis]
+        alerta = sanitize_pii(inv.alerta_anti_muleta)[0] if inv.alerta_anti_muleta else inv.alerta_anti_muleta
+        inv_limpo = inv.model_copy(
+            update={
+                "conceitos_obrigatorios": conceitos,
+                "termos_tecnicos_intocaveis": intocaveis,
+                "alerta_anti_muleta": alerta,
+            }
+        )
+        feedback = sanitize_pii(request.feedback_auditor)[0] if request.feedback_auditor else request.feedback_auditor
+        minuta_ant = sanitize_pii(request.minuta_anterior)[0] if request.minuta_anterior else request.minuta_anterior
+        return request.model_copy(
+            update={
+                "enunciado": enunciado_limpo,
+                "invariantes": inv_limpo,
+                "feedback_auditor": feedback,
+                "minuta_anterior": minuta_ant,
+            }
+        )
+
     def adapt(self, request: AdaptationRequest, tentativa: int = 1) -> AdaptationResult:
         """Adapta o enunciado e devolve minuta, laudo de escopo e telemetria."""
+        provider_configurado = getattr(self.llm_client, "provider_name", "custom")
+        if str(provider_configurado).lower() in PROVEDORES_EXTERNOS:
+            request = self._sanitizar_para_externo(request)
+
         trava = [*request.invariantes.conceitos_obrigatorios, *request.invariantes.termos_tecnicos_intocaveis]
 
         t0 = time.perf_counter()
@@ -334,7 +372,6 @@ class AdapterAgent:
         justificativas: list[str] = []
         escopo: Optional[ScopeReport] = None
 
-        provider_configurado = getattr(self.llm_client, "provider_name", "custom")
         if provider_configurado in PROVEDORES_SEM_MODELO:
             motivo_fallback = "provedor_sem_modelo"
         elif self.comandos_por_regra and request.id_caracteristica == ID_COMANDOS_MULTIPLOS:

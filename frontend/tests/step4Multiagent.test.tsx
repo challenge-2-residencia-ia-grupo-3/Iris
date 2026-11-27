@@ -297,4 +297,85 @@ describe("Step4AgentAdaptation: renderização e acessibilidade (WCAG 2.1 AA)", 
     await waitFor(() => expect(screen.getByText(/3\. Agente Adaptador/i)).toBeTruthy());
     expect(screen.queryByTestId("recomendacao-docente")).toBeNull();
   });
+
+  it("exibe aviso local e desabilita provedores externos quando política proíbe envio externo", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          external_adaptation_allowed: false,
+          anthropic_configured: true,
+          groq_configured: false,
+          ollama_online: true,
+          default_providers_by_agent: {
+            extrator: "ollama",
+            estrategista: "ollama",
+            adaptador: "ollama",
+            auditor: "ollama",
+          },
+          auto_uses_external_llm: false,
+          dados_enviados_quando_externo: [],
+          dados_nunca_enviados: [],
+          aviso_docente_externo: "Aviso externo",
+          aviso_docente_local:
+            "Processamento 100% local (Privacidade por Padrão): nenhum enunciado ou característica funcional sai desta máquina.",
+        }),
+      })
+    );
+
+    const { container } = renderStep4();
+    await waitFor(() =>
+      expect(screen.getByTestId("aviso-privacidade-llm").textContent).toContain("Processamento 100% local")
+    );
+    const anthropicOpt = screen.getByRole("option", { name: /Anthropic Claude Haiku/i }) as HTMLOptionElement;
+    expect(anthropicOpt.disabled).toBe(true);
+    expect(anthropicOpt.textContent).toContain("desativado pela escola");
+
+    const results = await axe.run(container, {
+      runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"] },
+      rules: { "color-contrast": { enabled: false }, region: { enabled: false } },
+    });
+    expect(results.violations).toEqual([]);
+  });
+
+  it("exibe aviso explícito de transparência quando opt-in externo está ativo", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          external_adaptation_allowed: true,
+          anthropic_configured: true,
+          groq_configured: false,
+          ollama_online: true,
+          default_providers_by_agent: {
+            extrator: "ollama",
+            estrategista: "ollama",
+            adaptador: "anthropic",
+            auditor: "anthropic",
+          },
+          auto_uses_external_llm: true,
+          dados_enviados_quando_externo: [],
+          dados_nunca_enviados: [],
+          aviso_docente_externo:
+            "Processamento com IA externa (Anthropic Claude): envio apenas do enunciado sanitizado, característica funcional e nível de apoio. Nunca são enviados nome do estudante ou Perfil Portátil.",
+          aviso_docente_local: "Processamento 100% local",
+        }),
+      })
+    );
+
+    const { container } = renderStep4();
+    await waitFor(() =>
+      expect(screen.getByTestId("aviso-privacidade-llm").textContent).toContain("Processamento com IA externa")
+    );
+    const anthropicOpt = screen.getByRole("option", { name: /Anthropic Claude Haiku/i }) as HTMLOptionElement;
+    expect(anthropicOpt.disabled).toBe(false);
+
+    const results = await axe.run(container, {
+      runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"] },
+      rules: { "color-contrast": { enabled: false }, region: { enabled: false } },
+    });
+    expect(results.violations).toEqual([]);
+  });
 });

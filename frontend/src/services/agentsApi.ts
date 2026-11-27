@@ -144,6 +144,8 @@ export interface MultiAgentMaterialResponse {
   titulo: string;
   provider: string;
   model: string;
+  provedores_por_agente?: Record<string, string>;
+  usa_provedor_externo?: boolean;
   nivel: ScaffoldingLevel;
   selected_ids: string[];
   pii_substituicoes: number;
@@ -154,6 +156,37 @@ export interface MultiAgentMaterialResponse {
   total_tokens: number;
   etapa5_entrada: Step5Entrada;
   questoes_trace: QuestionMultiAgentTrace[];
+}
+
+export interface AgentsPrivacyStatus {
+  external_adaptation_allowed: boolean;
+  anthropic_configured: boolean;
+  groq_configured: boolean;
+  ollama_online: boolean;
+  default_providers_by_agent: Record<string, string>;
+  auto_uses_external_llm: boolean;
+  dados_enviados_quando_externo: string[];
+  dados_nunca_enviados: string[];
+  aviso_docente_externo: string;
+  aviso_docente_local: string;
+}
+
+export async function fetchAgentsPrivacyStatus(): Promise<AgentsPrivacyStatus | null> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/v1/agents/privacy-status`, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    });
+    if (!response.ok) return null;
+    const data = (await response.json().catch(() => null)) as Partial<AgentsPrivacyStatus> | null;
+    if (!data || typeof data.external_adaptation_allowed !== "boolean") {
+      return null;
+    }
+    return data as AgentsPrivacyStatus;
+  } catch {
+    return null;
+  }
 }
 
 /**
