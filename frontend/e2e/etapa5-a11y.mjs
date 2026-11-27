@@ -8,6 +8,7 @@
  */
 import { createRequire } from "node:module";
 import { mkdirSync } from "node:fs";
+import { resolveChromeExecutable } from "./wcag-audit.mjs";
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
 const axeSource = require("fs").readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
@@ -20,7 +21,11 @@ const TEMAS = ["claro", "escuro", "alto-contraste"];
 let falhas = 0;
 const falha = (msg) => { falhas++; console.log("  ✗", msg); };
 
-const browser = await chromium.launch();
+const executablePath = resolveChromeExecutable();
+const browser = await chromium.launch({
+  headless: true,
+  ...(executablePath ? { executablePath } : {}),
+});
 for (const tema of TEMAS) {
   for (const largura of LARGURAS) {
     const ctx = await browser.newContext({ viewport: { width: largura, height: 900 }, deviceScaleFactor: 1 });
@@ -28,7 +33,7 @@ for (const tema of TEMAS) {
     await page.goto(`${BASE}/etapa-5?demo=1`);
     await page.waitForSelector("textarea");
     if (tema === "escuro") await page.getByRole("button", { name: "Ativar modo escuro" }).click();
-    if (tema === "alto-contraste") await page.getByRole("button", { name: "Alto Contraste" }).click();
+    if (tema === "alto-contraste") await page.getByRole("button", { name: /Alternar modo de alto contraste/i }).click();
     for (const b of await page.getByRole("button", { name: /Por que mudou/ }).all()) await b.click();
     console.log(`\n[${tema}] ${largura}px`);
 
@@ -46,7 +51,7 @@ for (const tema of TEMAS) {
     if (largura >= 768 && !m.ladoALado) falha("original e adaptada deveriam estar lado a lado");
     if (largura < 768 && !m.empilhado) falha("em tela estreita as colunas deveriam empilhar");
     console.log(`  layout: ${m.ladoALado ? "lado a lado" : "empilhado"}, sem rolagem horizontal: ${!m.estouro}`);
-    if (m.menor44.length) console.log("  aviso: botões com menos de 44px:", m.menor44.join(", "));
+    if (m.menor44.length) falha("botões com menos de 44px: " + m.menor44.join(", "));
 
     await page.evaluate(axeSource);
     const r = await page.evaluate(() => axe.run(document, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"] } }));

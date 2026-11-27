@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { chromium } from "playwright";
+import { resolveChromeExecutable } from "./wcag-audit.mjs";
 
 const require = createRequire(import.meta.url);
 
@@ -17,7 +18,7 @@ function assert(cond, message) {
   }
 }
 
-async function runAxeWithContrast(page, label, { strictContrast = false } = {}) {
+async function runAxeWithContrast(page, label, { strictContrast = true } = {}) {
   const axePath = require.resolve("axe-core/axe.min.js");
   await page.addScriptTag({ path: axePath });
   const results = await page.evaluate(async () => {
@@ -28,12 +29,14 @@ async function runAxeWithContrast(page, label, { strictContrast = false } = {}) 
   });
 
   const violations = results.violations || [];
-  // Nota: no axe-core, `color-contrast` tem impacto "serious". Quando `strictContrast` está ativo
-  // (ex.: branches com correção de contraste aplicada), `color-contrast` também bloqueia o CI.
+  const passes = results.passes || [];
+  const totalRules = passes.length + violations.length;
+  const score = totalRules > 0 ? Math.round((passes.length / totalRules) * 100) : 100;
+
   console.log(
-    `[axe ${label}] ${violations.length} violation(s) found (critical bloqueia; color-contrast ${
-      strictContrast ? "bloqueia" : "informativo"
-    }).`
+    `[axe ${label}] score ${score}/100 — ${violations.length} violation(s), ${passes.length} pass(es) (WCAG 2.1 AA${
+      strictContrast ? " + color-contrast" : ""
+    } bloqueia).`
   );
   for (const v of violations) {
     const sample = (v.nodes || []).slice(0, 2).map((n) => n.target.join(" ")).join(", ");
@@ -41,12 +44,16 @@ async function runAxeWithContrast(page, label, { strictContrast = false } = {}) 
   }
 
   const blocking = violations.filter(
-    (v) => v.impact === "critical" || (strictContrast && v.id === "color-contrast")
+    (v) =>
+      v.impact === "critical" ||
+      v.impact === "serious" ||
+      (strictContrast && v.id === "color-contrast")
   );
   assert(
     blocking.length === 0,
     `axe (${label}) encontrou ${blocking.length} violação(ões) bloqueante(s): ${blocking.map((c) => c.id).join(", ")}`
   );
+  assert(score >= 95, `axe (${label}) score ${score}/100 abaixo do mínimo 95/100`);
   return violations;
 }
 
@@ -75,7 +82,11 @@ async function main() {
     authEnabled = false;
   }
 
-  const browser = await chromium.launch({ headless: true });
+  const executablePath = resolveChromeExecutable();
+  const browser = await chromium.launch({
+    headless: true,
+    ...(executablePath ? { executablePath } : {}),
+  });
   // reducedMotion: "reduce" garante regressão contínua contra travamento do preloader (PR #143/#145)
   const context = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 1280, height: 800 } });
   const page = await context.newPage();
@@ -100,7 +111,7 @@ async function main() {
       await overlay.waitFor({ state: "detached", timeout: 10_000 });
     }
     await page.getByLabel("E-mail").waitFor({ state: "visible", timeout: 10_000 });
-    await runAxeWithContrast(page, "login", { strictContrast: authEnabled });
+    await runAxeWithContrast(page, "login", { strictContrast: true });
     console.log("[2/5] Tela de login & preloader em reduced-motion OK.");
 
     // 3. Autenticação real (se branch incluir /api/v1/auth com Postgres) ou Modo Convidado
@@ -128,10 +139,11 @@ async function main() {
       console.log("[3/5] Fluxo convidado na Etapa 1 iniciado.");
     }
 
-    // 4. Fluxo completo Etapas 1 -> 2 -> 3 -> 4 -> 5 com backend real
+    // 4. Fluxo completo Etapas 1 -> 2 -> 3 -> 4 -> 5 com backend real + auditoria WCAG 2.1 AA em cada rota
     // Etapa 1: texto com PII real e 2 questões
     const textarea1 = page.locator("#conteudo-principal textarea").first();
     await textarea1.waitFor({ state: "visible", timeout: 10_000 });
+    await runAxeWithContrast(page, "etapa-1", { strictContrast: true });
     await textarea1.fill(
       "Escola Municipal Cecília Meireles\n" +
         "Aluno: Gabriel Silva de Oliveira\n" +
@@ -163,6 +175,7 @@ async function main() {
     // Etapa 2: selecionar a primeira característica funcional e avançar
     const firstCheckbox = page.locator('[role="checkbox"]').first();
     await firstCheckbox.waitFor({ state: "visible", timeout: 10_000 });
+    await runAxeWithContrast(page, "etapa-2", { strictContrast: true });
     await firstCheckbox.click();
     await page.getByRole("button", { name: /Confirmar e Ir para Etapa 3/i }).first().click();
     await page.waitForURL("**/etapa-3", { timeout: 15_000 });
@@ -170,12 +183,14 @@ async function main() {
     // Etapa 3: calibrar andaime e avançar
     const btnEtapa3 = page.getByRole("button", { name: /Confirmar nível e travas/i });
     await btnEtapa3.waitFor({ state: "visible", timeout: 10_000 });
+    await runAxeWithContrast(page, "etapa-3", { strictContrast: true });
     await btnEtapa3.click();
     await page.waitForURL("**/etapa-4", { timeout: 15_000 });
 
     // Etapa 4: executar multiagentes em modo extractive (determinístico) e avançar
     const btnExecutar = page.getByRole("button", { name: /Executar Sistema Multiagentes/i });
     await btnExecutar.waitFor({ state: "visible", timeout: 10_000 });
+    await runAxeWithContrast(page, "etapa-4", { strictContrast: true });
     await btnExecutar.click();
 
     const btnParaEtapa5 = page.getByRole("button", { name: /Avançar para Etapa 5/i });
@@ -183,9 +198,10 @@ async function main() {
     await btnParaEtapa5.click();
     await page.waitForURL("**/etapa-5", { timeout: 15_000 });
 
-    // Etapa 5: verificar trava HITL real antes e depois da homologação
+    // Etapa 5: verificar trava HITL real antes e depois da homologação + auditoria WCAG 2.1 AA
     const btnExportarPdf = page.getByRole("button", { name: /Exportar PDF/i });
     await btnExportarPdf.waitFor({ state: "visible", timeout: 15_000 });
+    await runAxeWithContrast(page, "etapa-5", { strictContrast: true });
     assert(await btnExportarPdf.isDisabled(), "Exportar PDF deve ficar desabilitado antes da homologação (HITL)");
 
     const btnAprovarTodas = page.getByRole("button", { name: /Aprovar todas/i });
@@ -206,7 +222,7 @@ async function main() {
     assert(await btnExportarPdf.isEnabled(), "Exportar PDF deve habilitar após confirmar revisão final");
     console.log("[4/5] Etapas 2 -> 3 -> 4 -> 5 (HITL real) OK.");
 
-    // 5. Persistência real no Histórico + Exclusão LGPD (quando authEnabled)
+    // 5. Persistência real no Histórico + Exclusão LGPD (quando authEnabled) + auditoria WCAG em /historico
     if (authEnabled) {
       const btnSalvarHist = page.getByRole("button", { name: /Salvar no Meu Histórico/i });
       await btnSalvarHist.click();
@@ -214,6 +230,7 @@ async function main() {
 
       await page.goto(`${FRONTEND_URL}/historico`, { waitUntil: "networkidle" });
       await page.getByText(/1 atividade\(s\) encontrada\(s\)/i).waitFor({ state: "visible", timeout: 10_000 });
+      await runAxeWithContrast(page, "historico-autenticado", { strictContrast: true });
 
       await page.getByRole("link", { name: /Revisar \/ Editar/i }).first().click();
       await page.waitForURL("**/etapa-5?historyId=*", { timeout: 15_000 });
@@ -235,7 +252,10 @@ async function main() {
       await page.waitForURL(`${FRONTEND_URL}/`, { timeout: 15_000 });
       console.log("[5/5] Histórico no Postgres real + reabertura ?historyId + atualização homologada + exclusão LGPD OK.");
     } else {
-      console.log("[5/5] Histórico docente não ativo nesta branch (pulado limpo).");
+      await page.goto(`${FRONTEND_URL}/historico`, { waitUntil: "networkidle" });
+      await page.locator("#conteudo-principal h1").waitFor({ state: "visible", timeout: 10_000 });
+      await runAxeWithContrast(page, "historico-convidado", { strictContrast: true });
+      console.log("[5/5] Histórico docente em modo convidado auditado com WCAG 2.1 AA.");
     }
 
     assert(pageErrors.length === 0, `Erros de runtime no navegador: ${pageErrors.join(" | ")}`);

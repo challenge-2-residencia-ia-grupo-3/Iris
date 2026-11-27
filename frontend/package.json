@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "next lint",
-    "test": "vitest run --environment node"
+    "test": "vitest run --environment node",
+    "a11y:audit": "node e2e/wcag-audit.mjs",
+    "a11y:lighthouse": "node e2e/lighthouse-a11y.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.1",
